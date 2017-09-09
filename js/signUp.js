@@ -12,6 +12,11 @@ var signUp = (function () {
      var $holdpassportP = $signUpForm.find('.holdpassportP');
      var $getPForm = $signUpForm.find('#getPForm');
      var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
+     var $isDistribution = $signUpForm.find('.isDistribution');
+     var $showDistribution = $signUpForm.find('#showDistribution');
+     var $hasBeenTaiwan = $signUpForm.find('.hasBeenTaiwan');
+     var $showHasBeenTaiwan = $signUpForm.find('#showHasBeenTaiwan');
+     
 
     /**
 	 * init
@@ -26,6 +31,8 @@ var signUp = (function () {
     $checkId.on("click", _switchCheckIdAlert);
     $holdpassport.on("click", _switchHoldpassportPForm);
     $holdpassportP.on("click", _switchPassportForm);
+    $isDistribution.on("click", _switchShowDistribution);
+    $hasBeenTaiwan.on("click", _switchShowHasBeenTaiwan);
 
 
     function init() {
@@ -63,6 +70,24 @@ var signUp = (function () {
         } else {
             $holdOtherPassportForm.fadeIn();
             $getPForm.fadeOut();
+        }
+    }
+
+    function _switchShowDistribution() {
+        var status = $(this).data('isdistribution');
+        if (status) {
+            $showDistribution.fadeIn();
+        } else {
+            $showDistribution.fadeOut();
+        }
+    }
+
+    function _switchShowHasBeenTaiwan() {
+        var status = $(this).data('hasbeentaiwan');
+        if (status) {
+            $showHasBeenTaiwan.fadeIn();
+        } else {
+            $showHasBeenTaiwan.fadeOut();
         }
     }
 
