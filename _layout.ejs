@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>簡章調查系統</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="overseas">
+    <meta name="author" content="overseas">
+    <!-- <script src="../js/browser.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://rawgit.com/CarlosBonetti/jquery-loading/master/dist/jquery.loading.min.css">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/<%= current.source %>.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/CarlosBonetti/jquery-loading/master/dist/jquery.loading.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <!-- <script src="../env.js"></script>
+    <script src="./js/user.js"></script>
+    <script src="./js/school.js"></script> -->
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="row">
+            <header class="header clearfix">
+                <nav class="navbar navbar-light">
+                    <span class="navbar-brand" href="#">
+                    <img
+                    src="/img/logo.png"
+                    height="30"
+                    class="d-inline-block align-top">
+                     海外聯合招生委員會 - 學士班申請資料填報系統
+                </span>
+                </nav>
+            </header>
+        </div>
+        <hr>
+        
+        <%- yield %>
+    </div>
+
+    <script src="js/<%= current.source %>.js"></script>
+    <footer>
+        <div class="row">
+            <div class="col-12 text-center">
+                <small>台灣 54561 南投縣埔里鎮大學路一號</small><br>
+                <small>E-mail：overseas@ncnu.edu.tw 電話：(049)2910960#2267 傳真：(049)2911182</small>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
