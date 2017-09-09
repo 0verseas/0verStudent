@@ -5,3 +5,8 @@
 .hide {
 	display: none;
 }
+
+footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
+	position: relative;
+	z-index: -1;
+}
