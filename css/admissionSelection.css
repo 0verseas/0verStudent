@@ -1,0 +1,24 @@
+.title {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.quota-button {
+    margin-bottom: 15px;
+}
+
+.card-bottom {
+    margin-bottom: 30px;
+}
+
+.table > tbody > tr > td {
+     vertical-align: middle;
+}
+
+.btn-cancel {
+    margin-right: 15px;
+}
+
+.btn-bottom {
+    margin: 0px 15px;
+}
