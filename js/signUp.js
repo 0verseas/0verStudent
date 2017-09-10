@@ -22,8 +22,6 @@ var signUp = (function () {
 	 * init
 	 */
 
-     init();
-
     /**
 	 * bind event
 	 */
@@ -33,13 +31,6 @@ var signUp = (function () {
     $holdpassportP.on("click", _switchPassportForm);
     $isDistribution.on("click", _switchShowDistribution);
     $hasBeenTaiwan.on("click", _switchShowHasBeenTaiwan);
-
-
-    function init() {
-        $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-    }
 
     function _switchCheckIdAlert() {
         var status = $(this).data('checkid');
