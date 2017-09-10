@@ -9,15 +9,8 @@ var personalInfo = (function () {
 	 * init
 	 */
 
-    init();
-
     /**
 	 * bind event
 	 */
 
-    function init() {
-        $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-    }
 })();

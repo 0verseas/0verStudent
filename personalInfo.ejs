@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css">
-
 <div class="row">
     <div class="col-12">
         <table class="table text-center">
@@ -81,7 +79,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="text-danger" for="">生日</label>
-                    <input type="text" class="form-control datepicker" id="">
+                    <input class="form-control" type="date" value="">
                 </div>
             </div>
         </div>
@@ -90,7 +88,7 @@
                 <div class="form-group">
                     <label class="text-danger" for="">出生地、國別</label>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <select class="form-control">
                                 <option value="00">State</option>
                                 <option value="亞洲">亞洲</option>
@@ -100,12 +98,12 @@
                                 <option value="大洋洲">大洋洲</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <select class="form-control">
                                 <option value="">Country</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
+                                <option value="">one</option>
+                                <option value="">two</option>
+                                <option value="">three</option>
                             </select>
                         </div>
                     </div>
@@ -134,8 +132,423 @@
 
 <hr>
 
+<dl class="row">
+    <dt class="col-md-3">
+        僑居地資料
+    </dt>
+    <dd class="col-md-9">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-danger" for="">國別</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="00">State</option>
+                                <option value="亞洲">亞洲</option>
+                                <option value="歐洲">歐洲</option>
+                                <option value="美洲">美洲</option>
+                                <option value="非洲">非洲</option>
+                                <option value="大洋洲">大洋洲</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="">Country</option>
+                                <option value="">one</option>
+                                <option value="">two</option>
+                                <option value="">three</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-danger" for="">身分證號碼（ID no.）</label>
+                    <input type="text" class="form-control" id="" placeholder="ID no.">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">護照號碼</label>
+                    <input type="text" class="form-control" id="" placeholder="Passport no.">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="text-danger" for="">電話</label>
+                    <div class="row">
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="" maxlength="5" placeholder="國碼">
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="" placeholder="電話號碼">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="text-danger" for="">手機</label>
+                    <div class="row">
+                        <div class="col-3">
+                            <input type="text" class="form-control" id="" maxlength="5" placeholder="國碼">
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="" placeholder="手機電話號碼">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="text-danger" for="">地址</label>
+                    <input type="text" class="form-control" id="" placeholder="地址">
+                    <small class="form-text text-danger">請以「中文」填寫</small>
+                </div>
+            </div>
+        </div>
+    </dd>
+</dl>
+
+<hr>
+
+<dl class="row">
+    <dt class="col-md-3">
+        在台資料<span class="text-danger">（無者免填）</span>
+    </dt>
+    <dd class="col-md-9">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">證件類型</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option>請選擇</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="" placeholder="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="">護照號碼</label>
+                    <input type="text" class="form-control" id="" placeholder="Passport no.">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="">電話</label>
+                    <input type="text" class="form-control" id="" placeholder="電話">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="">地址</label>
+                    <input type="text" class="form-control" id="" placeholder="地址">
+                </div>
+            </div>
+        </div>
+    </dd>
+</dl>
+
+<hr>
+
+<dl class="row">
+    <dt class="col-md-3">
+        學歷
+    </dt>
+    <dd class="col-md-9">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="text-danger" for="">學制描述</label>
+                    <input type="text" class="form-control" id="" placeholder="xx小學6年、xx中學3年、xx高中3年">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-danger" for="">學校所在地</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="00">State</option>
+                                <option value="亞洲">亞洲</option>
+                                <option value="歐洲">歐洲</option>
+                                <option value="美洲">美洲</option>
+                                <option value="非洲">非洲</option>
+                                <option value="大洋洲">大洋洲</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="">Country</option>
+                                <option value="">one</option>
+                                <option value="">two</option>
+                                <option value="">three</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-danger" for="">學校所在地</label>
+                    <select class="form-control">
+                        <option>澳門半島</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-danger" for="">學校名稱</label>
+                    <select class="form-control">
+                        <option>培正中學</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-danger" for="">入學時間</label>
+                    <input class="form-control" type="date" value="">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-danger" for="">畢業時間</label>
+                    <input class="form-control" type="date" value="">
+                </div>
+            </div>
+        </div>
+    </dd>
+</dl>
+
+<hr>
+
+<dl class="row">
+    <dt class="col-md-3">
+        家長資料
+    </dt>
+    <dd class="col-md-9">
+        <div class="row">
+            <div class="col-md-10 col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        父親
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">存歿</label><br>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="father" id="" value="option1" checked> 存
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="father" id="" value="option2"> 歿
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="father" id="" value="option3"> 不詳
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">姓名（中）</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">姓名（英）</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">生日</label>
+                                    <input type="date" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">籍貫</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">職業</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        母親
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">存歿</label><br>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="mother" id="" value="option1" checked> 存
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="mother" id="" value="option2"> 歿
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="mother" id="" value="option3"> 不詳
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">姓名（中）</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">姓名（英）</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">生日</label>
+                                    <input type="date" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">籍貫</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-danger" for="">職業</label>
+                                    <input type="text" class="form-control" id="" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+    </dd>
+</dl>
+
+<hr>
+
+<dl class="row">
+    <dt class="col-md-3">
+        在台聯絡人
+    </dt>
+    <dd class="col-md-9">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">姓名</label>
+                    <input type="text" class="form-control" id="" placeholder="">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">關係</label>
+                    <input type="text" class="form-control" id="" placeholder="">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="">地址</label>
+                    <input type="text" class="form-control" id="" placeholder="">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">服務機關</label>
+                    <input type="text" class="form-control" id="" placeholder="">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">服務機關電話</label>
+                    <input type="text" class="form-control" id="" placeholder="">
+                </div>
+            </div>
+        </div>
+    </dd>
+</dl>
+
+<hr>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <a class="btn btn-primary btn-next" href="#" role="button">下一步</a>
+    </div>
+</div>
+
 
 <a class="btn btn-primary btn-save" href="#" role="button">儲存</a>
 <a class="btn btn-warning btn-logout" href="#" role="button">登出</a>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
