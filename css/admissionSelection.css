@@ -19,6 +19,20 @@
     margin-right: 15px;
 }
 
-.btn-bottom {
-    margin: 0px 15px;
+.btn-save {
+    position: fixed;
+    bottom: 75px;
+    right: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btn-logout {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.btn-step {
+    margin: 15px 20px;
 }
