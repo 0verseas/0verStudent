@@ -16,6 +16,7 @@ var signUp = (function () {
 	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
 	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
 	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
+	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
 	var $checkId = $signUpForm.find('.checkId');
 	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
 	var $holdpassport = $signUpForm.find('.holdpassport');
@@ -23,8 +24,6 @@ var signUp = (function () {
 	var $holdpassportP = $signUpForm.find('.holdpassportP');
 	var $getPForm = $signUpForm.find('#getPForm');
 	var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
-	var $showDistribution = $signUpForm.find('#showDistribution');
-	var $showHasBeenTaiwan = $signUpForm.find('#showHasBeenTaiwan');
 
 	/**
 	 * init
@@ -40,6 +39,7 @@ var signUp = (function () {
 	$distributionMoreQuestion.on('change', _checkDistributionValidation);
 	$stayLimitRadio.on('change', _checkStayLimitValidation)
 	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
+	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
 	$checkId.on('click', _switchCheckIdAlert);
 	$holdpassport.on('click', _switchHoldpassportPForm);
 	$holdpassportP.on('click', _switchPassportForm);
@@ -81,11 +81,9 @@ var signUp = (function () {
 		const validOption = [1, 2, 7];
 		$signUpForm.find('.distributionMoreAlert').hide();
 		if (validOption.includes(option)) {
-			$this.parents('.questionRow').attr('data-validation', 1);
 			$signUpForm.find('.distributionMoreAlert.valid').fadeIn();
 		} else {
-			$this.parents('.questionRow').attr('data-validation', 0);
-			$signUpForm.find('.distributionMoreAlert.invlid').fadeIn();
+			$signUpForm.find('.distributionMoreAlert.invalid').fadeIn();
 		}
 	}
 
@@ -96,17 +94,26 @@ var signUp = (function () {
 		$signUpForm.find('.stayLimitAlert').hide();
 		switch (option) {
 			case 1:
-				$this.parents('.questionRow').attr('data-validation', 0);
 				$signUpForm.find('.stayLimitAlert.invalid').fadeIn();
 				break;
 			case 2:
 			case 4:
-				$this.parents('.questionRow').attr('data-validation', 1);
 				$signUpForm.find('.stayLimitAlert.valid').fadeIn();
 				break;
 			default:
-				$this.parents('.questionRow').attr('data-validation', 1);
 				break;
+		}
+	}
+
+	// 為何在台超過一百二十天
+	function _checkWhyHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$('.whyHasBeenTaiwanAlert').hide();
+		if (option === 8) {
+			$('.whyHasBeenTaiwanAlert.invalid').fadeIn();
+		} else {
+			$('.whyHasBeenTaiwanAlert.valid').fadeIn();
 		}
 	}
 
@@ -146,13 +153,13 @@ var signUp = (function () {
 		const $this = $(this);
 		const isDistribution =  +$this.val();
 		!!isDistribution && $signUpForm.find('#distributionMore').fadeIn();
-		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut() && $this.parents('.questionRow').attr('data-validation', 1);
+		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut();
 	}
 
 	function _checkHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const option = +$this.val();
 		!!option && $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeIn();
-		!!option || $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeOut() && $this.parents('.questionRow').attr('data-validation', 1);
+		!!option || $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeOut();
 	}
 })();
