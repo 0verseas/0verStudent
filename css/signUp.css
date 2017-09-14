@@ -2,3 +2,7 @@
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+.invalidInput {
+	border-color: #d9534f !important;
+}

@@ -4,7 +4,10 @@ var signUp = (function () {
 	 * cache DOM
 	 */
 
-	 var $signUpForm = $('#form-signUp');
+	 const $signUpForm = $('#form-signUp');
+	 const $email = $('#email');
+	 const $password = $('#password');
+	 const $passwordConfirm = $('#passwordConfirm');
 	 var $checkId = $signUpForm.find('.checkId');
 	 var $checkIdAlert = $signUpForm.find('#checkIdAlert');
 	 var $holdpassport = $signUpForm.find('.holdpassport');
@@ -24,12 +27,23 @@ var signUp = (function () {
 	/**
 	 * bind event
 	 */
-
+	$passwordConfirm.on('blur', _handleValidatePassword);
 	$checkId.on("click", _switchCheckIdAlert);
 	$holdpassport.on("click", _switchHoldpassportPForm);
 	$holdpassportP.on("click", _switchPassportForm);
 	$isDistribution.on("click", _switchShowDistribution);
 	$hasBeenTaiwan.on("click", _switchShowHasBeenTaiwan);
+	
+	function _handleValidatePassword() {
+		const $this = $(this);
+		const oriPass = $password.val();
+		const currentPass = $this.val();
+		if (oriPass !== currentPass) {
+			$this.addClass('invalidInput');
+		} else {
+			$this.removeClass('invalidInput');
+		}
+	}
 
 	function _switchCheckIdAlert() {
 		var status = $(this).data('checkid');
