@@ -8,10 +8,10 @@ var signUp = (function () {
 	 * cache DOM
 	 */
 	const $signUpForm = $('#form-signUp');
-	const $email = $('#email');
-	const $password = $('#password');
-	const $passwordConfirm = $('#passwordConfirm');
-	const $identityRadio = $('.radio-identity');
+	const $email = $signUpForm.find('#email');
+	const $password = $signUpForm.find('#password');
+	const $passwordConfirm = $signUpForm.find('#passwordConfirm');
+	const $identityRadio = $signUpForm.find('.radio-identity');
 	var $checkId = $signUpForm.find('.checkId');
 	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
 	var $holdpassport = $signUpForm.find('.holdpassport');
@@ -23,6 +23,11 @@ var signUp = (function () {
 	var $showDistribution = $signUpForm.find('#showDistribution');
 	var $hasBeenTaiwan = $signUpForm.find('.hasBeenTaiwan');
 	var $showHasBeenTaiwan = $signUpForm.find('#showHasBeenTaiwan');
+
+	/**
+	 * init
+	 */
+	$signUpForm.find('.question.kangAo').removeClass('hide');
 
 	/**
 	 * bind event
@@ -51,14 +56,16 @@ var signUp = (function () {
 	// 1: 港澳 2: 海外 3: 港澳具外國
 	function _handleChangeIdentity () {
 		_currentIdentity = $(this).val();
+		$signUpForm.find('.question').addClass('hide');
 		switch(_currentIdentity) {
-			case 1:
+			case '1':
+				$signUpForm.find('.question.kangAo').fadeIn();
 				break;
-			case 2:
+			case '2':
+				$signUpForm.find('.question.overseas').fadeIn();
 				break;
-			case 3:
-				break;
-			default:
+			case '3':
+				$signUpForm.find('.question.kangAoSpecial').fadeIn();
 				break;
 		}
 	}
