@@ -12,6 +12,8 @@ var signUp = (function () {
 	const $password = $signUpForm.find('#password');
 	const $passwordConfirm = $signUpForm.find('#passwordConfirm');
 	const $identityRadio = $signUpForm.find('.radio-identity');
+	const $isDistribution = $signUpForm.find('.isDistribution');
+	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
 	var $checkId = $signUpForm.find('.checkId');
 	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
 	var $holdpassport = $signUpForm.find('.holdpassport');
@@ -19,7 +21,6 @@ var signUp = (function () {
 	var $holdpassportP = $signUpForm.find('.holdpassportP');
 	var $getPForm = $signUpForm.find('#getPForm');
 	var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
-	var $isDistribution = $signUpForm.find('.isDistribution');
 	var $showDistribution = $signUpForm.find('#showDistribution');
 	var $hasBeenTaiwan = $signUpForm.find('.hasBeenTaiwan');
 	var $showHasBeenTaiwan = $signUpForm.find('#showHasBeenTaiwan');
@@ -34,10 +35,11 @@ var signUp = (function () {
 	 */
 	$passwordConfirm.on('blur', _handleValidatePassword);
 	$identityRadio.on('change', _handleChangeIdentity);
+	$isDistribution.on('change', _switchShowDistribution);
+	$distributionMoreQuestion.on('change', _checkDistributionValid);
 	$checkId.on('click', _switchCheckIdAlert);
 	$holdpassport.on('click', _switchHoldpassportPForm);
 	$holdpassportP.on('click', _switchPassportForm);
-	$isDistribution.on('change', _switchShowDistribution);
 	$hasBeenTaiwan.on('click', _switchShowHasBeenTaiwan);
 
 	// 確認兩次密碼輸入相同
@@ -67,6 +69,20 @@ var signUp = (function () {
 			case '3':
 				$signUpForm.find('.question.kangAoSpecial').fadeIn();
 				break;
+		}
+	}
+
+	// 判斷是否分發來台就學的一推選項是否符合資格
+	function _checkDistributionValid() {
+		const $this = $(this);
+		const option = +$this.val();
+		const validOption = [1, 2, 7];
+		if (validOption.includes(option)) {
+			$this.parents('.question').attr('data-validation', 1);
+			$signUpForm.find('.distributionMoreAlert').hide().parent().find('.valid').fadeIn();
+		} else {
+			$this.parents('.question').attr('data-validation', 0);
+			$signUpForm.find('.distributionMoreAlert').hide().parent().find('.invalid').fadeIn();
 		}
 	}
 
@@ -103,9 +119,10 @@ var signUp = (function () {
 	}
 
 	function _switchShowDistribution() {
-		const isDistribution =  $(this).val();
-		+isDistribution && $signUpForm.find('#distributionMore').fadeIn();
-		+isDistribution || $signUpForm.find('#distributionMore').fadeOut();
+		const $this = $(this);
+		const isDistribution =  +$this.val();
+		!!isDistribution && $signUpForm.find('#distributionMore').fadeIn();
+		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut() && $this.parents('.question').attr('data-validation', 1);;
 	}
 
 	function _switchShowHasBeenTaiwan() {
@@ -116,5 +133,4 @@ var signUp = (function () {
 			$showHasBeenTaiwan.fadeOut();
 		}
 	}
-
 })();
