@@ -1,26 +1,35 @@
 var admissionSelection = (function () {
 
 	/**
-	 * cache DOM
-	 */
+	*	cache DOM
+	*/
 
-	var $grid = $('.grid');
+	var $upArrow = $('.up-arrow');
+	var $downArrow = $('.down-arrow');
 
 	/**
-	 * init
-	 */
+	*	init
+	*/
 
 	_init();
 
 	/**
-	 * bind event
-	 */
+	*	bind event
+	*/
+
+	$upArrow.on("click", prevWish);
+	$downArrow.on("click", nextWish);
 
 	function _init() {
-		Sortable.create(sortTrue, {
-			group: "sorting",
-			sort: true
-		});
+
+	}
+
+	function prevWish() {
+		$(this).closest('tr').insertBefore($(this).closest('tr').prev());
+	}
+
+	function nextWish() {
+		$(this).closest('tr').insertAfter($(this).closest('tr').next());
 	}
 
 })();
