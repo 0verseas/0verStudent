@@ -15,6 +15,7 @@ var signUp = (function () {
 	const $isDistribution = $signUpForm.find('.isDistribution');
 	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
 	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
+	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
 	var $checkId = $signUpForm.find('.checkId');
 	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
 	var $holdpassport = $signUpForm.find('.holdpassport');
@@ -23,7 +24,6 @@ var signUp = (function () {
 	var $getPForm = $signUpForm.find('#getPForm');
 	var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
 	var $showDistribution = $signUpForm.find('#showDistribution');
-	var $hasBeenTaiwan = $signUpForm.find('.hasBeenTaiwan');
 	var $showHasBeenTaiwan = $signUpForm.find('#showHasBeenTaiwan');
 
 	/**
@@ -39,10 +39,10 @@ var signUp = (function () {
 	$isDistribution.on('change', _switchShowDistribution);
 	$distributionMoreQuestion.on('change', _checkDistributionValidation);
 	$stayLimitRadio.on('change', _checkStayLimitValidation)
+	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
 	$checkId.on('click', _switchCheckIdAlert);
 	$holdpassport.on('click', _switchHoldpassportPForm);
 	$holdpassportP.on('click', _switchPassportForm);
-	$hasBeenTaiwan.on('click', _switchShowHasBeenTaiwan);
 
 	// 確認兩次密碼輸入相同
 	function _handleValidatePassword() {
@@ -146,15 +146,13 @@ var signUp = (function () {
 		const $this = $(this);
 		const isDistribution =  +$this.val();
 		!!isDistribution && $signUpForm.find('#distributionMore').fadeIn();
-		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut() && $this.parents('.questionRow').attr('data-validation', 1);;
+		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut() && $this.parents('.questionRow').attr('data-validation', 1);
 	}
 
-	function _switchShowHasBeenTaiwan() {
-		var status = $(this).data('hasbeentaiwan');
-		if (status) {
-			$showHasBeenTaiwan.fadeIn();
-		} else {
-			$showHasBeenTaiwan.fadeOut();
-		}
+	function _checkHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		!!option && $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeIn();
+		!!option || $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeOut() && $this.parents('.questionRow').attr('data-validation', 1);
 	}
 })();

@@ -271,7 +271,7 @@
 				</div>
 			</dd>
 		</dl>
-		<hr>
+		<hr />
 		<dl class="row questionRow" data-validation="0">
 			<dt class="col-md-3">
 				海外居留年限
@@ -338,84 +338,61 @@
 				</div>
 			</dd>
 		</dl>
-		<hr>
+		<hr />
+		<dl class="row questionRow">
+			<dt class="col-md-3">
+				在台停留日期
+			</dt>
+			<dd class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<fieldset class="form-group">
+							<label>報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？</label><br>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input radio-hasBeenTaiwan" type="radio" name="hasBeenTaiwan" value="1"> 是
+								</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input radio-hasBeenTaiwan" type="radio" name="hasBeenTaiwan" value="0" checked> 否
+								</label>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="hide hasBeenTaiwanQuestion">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">請就下列選項，擇一勾選，並檢附證明文件。</label>
+								<select class="form-control" id="">
+									<option>請選擇</option>
+									<option>1.就讀僑務委員會舉辦之海外青年技術訓練班或中央主管教育行政機關認定之技術訓練專班。</option>
+									<option>2.就讀僑務委員會舉辦之研習班或函介之國語文研習課程，或參加經僑務委員會認定屬政府機關舉辦之活動，其研習或活動期間合計未滿二年</option>
+									<option>3.交換學生，其交換期間合計未滿二年</option>
+									<option>4.經中央目的事業主管機關許可來臺實習，實習期間合計未滿2年。</option>
+									<option>5.回國接受兵役徵召及服役</option>
+									<option>6.因戰亂、天災或大規模傳染病，致無法返回僑居地，且在國內停留未滿一年。</option>
+									<option>7.因其他不可歸責於僑生之事由，致無法返回僑居地，有證明文件，且在國內停留未滿一年，並以一次為限。</option>
+									<option>8.曾經分發註冊入學，惟分發在臺期間因故自願退學且在台停留未滿一年，並返回僑居地。</option>
+									<option>9.未符合前述1至8項條件</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="alert alert-danger" role="alert">
+								<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+							</div>
+						</div>
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<hr />
 	</div>
-
-	<dl class="row">
-		<dt class="col-md-3">
-			曾否來臺
-		</dt>
-		<dd class="col-md-9">
-			<div class="row">
-				<div class="col-md-12">
-					<fieldset class="form-group">
-						<label>報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？</label><br>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input hasBeenTaiwan" type="radio" name="hasBeenTaiwan" id="hasBeenTaiwanYes" value="option1" data-hasBeenTaiwan="true"> 是
-							</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input hasBeenTaiwan" type="radio" name="hasBeenTaiwan" id="hasBeenTaiwanNo" value="option2" data-hasBeenTaiwan="false" checked> 否
-							</label>
-						</div>
-					</fieldset>
-				</div>
-			</div>
-			<div class="hide" id="showHasBeenTaiwan">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="">請就下列選項，擇一勾選，並檢附證明文件。</label>
-							<select class="form-control" id="">
-								<option>請選擇</option>
-								<option>1.就讀僑務委員會舉辦之海外青年技術訓練班或中央主管教育行政機關認定之技術訓練專班。</option>
-								<option>2.就讀僑務委員會舉辦之研習班或函介之國語文研習課程，或參加經僑務委員會認定屬政府機關舉辦之活動，其研習或活動期間合計未滿二年</option>
-								<option>3.交換學生，其交換期間合計未滿二年</option>
-								<option>4.經中央目的事業主管機關許可來臺實習，實習期間合計未滿2年。</option>
-								<option>5.回國接受兵役徵召及服役</option>
-								<option>6.因戰亂、天災或大規模傳染病，致無法返回僑居地，且在國內停留未滿一年。</option>
-								<option>7.因其他不可歸責於僑生之事由，致無法返回僑居地，有證明文件，且在國內停留未滿一年，並以一次為限。</option>
-								<option>8.曾經分發註冊入學，惟分發在臺期間因故自願退學且在台停留未滿一年，並返回僑居地。</option>
-								<option>9.未符合前述1至8項條件</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label for="">請就下列選項，擇一勾選，並檢附證明文件。</label>
-							<select class="form-control" id="">
-								<option>請選擇</option>
-								<option>1.在臺灣地區接受兵役徵召服役</option>
-								<option>2.交換學生，其交換期間合計未滿2年</option>
-								<option>3.參加臺灣地區大專校院附設華語文教學機構之研習課程，其研習期間合計未滿2年</option>
-								<option>4.懷胎7個月以上或生產、流產後未滿2個月</option>
-								<option>5.罹患疾病而強制其出境有生命危險之虞</option>
-								<option>6.在臺灣地區設有戶籍之配偶、直系血親、三親等內之旁系血親、二親等內之姻親在臺灣地區患重病或受重傷而住院或死亡</option>
-								<option>7.遭遇天災或其他不可避免之事變</option>
-								<option>8.就讀僑務主管機關舉辦之海外青年技術訓練班或中央主管教育行政機關認定之技術訓練專班，其訓練期間合計未滿二年</option>
-								<option>9.經中央目的事業主管機關許可來臺實習，實習期間合計未滿二年</option>
-								<option>10.曾經分發註冊入學，惟分發在臺期間因故自願退學且在台停留未滿一年，並返回僑居地。</option>
-								<option>11.未符合前述1至10項條件</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="alert alert-danger" role="alert">
-							<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
-						</div>
-					</div>
-				</div>
-			</div>
-		</dd>
-	</dl>
-
-	<hr>
 
 	<dl class="row">
 		<dt class="col-md-3">
