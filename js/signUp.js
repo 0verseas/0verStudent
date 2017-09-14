@@ -34,11 +34,11 @@ var signUp = (function () {
 	 */
 	$passwordConfirm.on('blur', _handleValidatePassword);
 	$identityRadio.on('change', _handleChangeIdentity);
-	$checkId.on("click", _switchCheckIdAlert);
-	$holdpassport.on("click", _switchHoldpassportPForm);
-	$holdpassportP.on("click", _switchPassportForm);
-	$isDistribution.on("click", _switchShowDistribution);
-	$hasBeenTaiwan.on("click", _switchShowHasBeenTaiwan);
+	$checkId.on('click', _switchCheckIdAlert);
+	$holdpassport.on('click', _switchHoldpassportPForm);
+	$holdpassportP.on('click', _switchPassportForm);
+	$isDistribution.on('change', _switchShowDistribution);
+	$hasBeenTaiwan.on('click', _switchShowHasBeenTaiwan);
 
 	// 確認兩次密碼輸入相同
 	function _handleValidatePassword() {
@@ -103,12 +103,9 @@ var signUp = (function () {
 	}
 
 	function _switchShowDistribution() {
-		var status = $(this).data('isdistribution');
-		if (status) {
-			$showDistribution.fadeIn();
-		} else {
-			$showDistribution.fadeOut();
-		}
+		const isDistribution =  $(this).val();
+		+isDistribution && $signUpForm.find('#distributionMore').fadeIn();
+		+isDistribution || $signUpForm.find('#distributionMore').fadeOut();
 	}
 
 	function _switchShowHasBeenTaiwan() {
