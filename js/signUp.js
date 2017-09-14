@@ -1,39 +1,41 @@
 var signUp = (function () {
+	/**
+	 * private variable
+	 */
+	let _currentIdentity = 1;
 
 	/**
 	 * cache DOM
 	 */
-
-	 const $signUpForm = $('#form-signUp');
-	 const $email = $('#email');
-	 const $password = $('#password');
-	 const $passwordConfirm = $('#passwordConfirm');
-	 var $checkId = $signUpForm.find('.checkId');
-	 var $checkIdAlert = $signUpForm.find('#checkIdAlert');
-	 var $holdpassport = $signUpForm.find('.holdpassport');
-	 var $holdpassportPForm = $signUpForm.find('#holdpassportPForm');
-	 var $holdpassportP = $signUpForm.find('.holdpassportP');
-	 var $getPForm = $signUpForm.find('#getPForm');
-	 var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
-	 var $isDistribution = $signUpForm.find('.isDistribution');
-	 var $showDistribution = $signUpForm.find('#showDistribution');
-	 var $hasBeenTaiwan = $signUpForm.find('.hasBeenTaiwan');
-	 var $showHasBeenTaiwan = $signUpForm.find('#showHasBeenTaiwan');
-
-	/**
-	 * init
-	 */
+	const $signUpForm = $('#form-signUp');
+	const $email = $('#email');
+	const $password = $('#password');
+	const $passwordConfirm = $('#passwordConfirm');
+	const $identityRadio = $('.radio-identity');
+	var $checkId = $signUpForm.find('.checkId');
+	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
+	var $holdpassport = $signUpForm.find('.holdpassport');
+	var $holdpassportPForm = $signUpForm.find('#holdpassportPForm');
+	var $holdpassportP = $signUpForm.find('.holdpassportP');
+	var $getPForm = $signUpForm.find('#getPForm');
+	var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
+	var $isDistribution = $signUpForm.find('.isDistribution');
+	var $showDistribution = $signUpForm.find('#showDistribution');
+	var $hasBeenTaiwan = $signUpForm.find('.hasBeenTaiwan');
+	var $showHasBeenTaiwan = $signUpForm.find('#showHasBeenTaiwan');
 
 	/**
 	 * bind event
 	 */
 	$passwordConfirm.on('blur', _handleValidatePassword);
+	$identityRadio.on('change', _handleChangeIdentity);
 	$checkId.on("click", _switchCheckIdAlert);
 	$holdpassport.on("click", _switchHoldpassportPForm);
 	$holdpassportP.on("click", _switchPassportForm);
 	$isDistribution.on("click", _switchShowDistribution);
 	$hasBeenTaiwan.on("click", _switchShowHasBeenTaiwan);
-	
+
+	// 確認兩次密碼輸入相同
 	function _handleValidatePassword() {
 		const $this = $(this);
 		const oriPass = $password.val();
@@ -42,6 +44,22 @@ var signUp = (function () {
 			$this.addClass('invalidInput');
 		} else {
 			$this.removeClass('invalidInput');
+		}
+	}
+
+	// 選擇身份別
+	// 1: 港澳 2: 海外 3: 港澳具外國
+	function _handleChangeIdentity () {
+		_currentIdentity = $(this).val();
+		switch(_currentIdentity) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			default:
+				break;
 		}
 	}
 

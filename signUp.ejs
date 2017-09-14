@@ -31,7 +31,7 @@
 		</dd>
 	</dl>
 
-	<hr>
+<!-- 	<hr>
 
 	<dl class="row">
 		<dt class="col-md-3">
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 		</dd>
-	</dl>
+	</dl> -->
 
 	<hr>
 
@@ -72,23 +72,35 @@
 				<div class="col-md-12">
 					<div class="alert alert-info" role="alert">
 						<strong>身分別說明：</strong><br>
-						<span class="text-danger">港澳生：</span>最近連續居留港澳或海外(不含大陸及臺灣)6年以上，並持有香港或澳門永久性居民身分證者。<br>
-						<span class="text-danger">海外僑生：</span>最近連續居留海外(不含大陸、港澳及臺灣)6年以上，並取得僑居地永久或長期居留證件之華裔學生。
+						<span class="text-danger">港澳生：</span>最近連續居留境外(指臺灣地區以外之國家或地區)6年以上，並持有香港或澳門永久性居民身分證者。<br />
+						<span class="text-danger">海外僑生：</span>最近連續居留海外(不含大陸、港澳及臺灣)6年以上，並取得僑居地永久或長期居留證件之華裔學生。<br />
+						<span class="text-danger">港澳具外國國籍之華裔學生：</span>具外國國籍，兼具香港或澳門永久居留資格，未曾在臺設有戶籍，且最近連續居留香港、澳門或海外6年以上之華裔學生。
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<div class="form-group">
-						<label for="">申請身分別</label>
-						<select class="form-control" id="">
-							<option>港澳生</option>
-							<option>海外僑生</option>
-						</select>
-					</div>
+					<fieldset class="form-group">
+						<label>申請身份別</label><br>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="1" checked> 港澳生
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="2"> 海外僑生
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="3"> 港澳具外國國籍之華裔學生
+							</label>
+						</div>
+					</fieldset>
 				</div>
 			</div>
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-md-12">
 					<fieldset class="form-group">
 						<label>是否擁有香港或澳門永久性居民身分證？</label><br>
@@ -181,8 +193,7 @@
 						</div>
 					</div>
 				</div>
-
-			</div>
+			</div> -->
 		</dd>
 	</dl>
 
