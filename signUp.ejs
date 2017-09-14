@@ -199,7 +199,7 @@
 
 	<hr>
 	<div class="question overseas hide">
-		<dl class="row">
+		<dl class="row questionRow">
 			<dt class="col-md-3">
 				曾分發來臺
 			</dt>
@@ -266,6 +266,73 @@
 						</div>
 						<div class="alert alert-warning distributionMoreAlert valid" role="alert">
 							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 需在報名表件註記
+						</div>
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<hr>
+		<dl class="row questionRow" data-validation="0">
+			<dt class="col-md-3">
+				海外居留年限
+			</dt>
+			<dd class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-info" role="alert">
+							<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 報名截止日可至 
+							<a href="http://www.overseas.ncnu.edu.tw/countrylist.aspx" target="_blank">官網</a> 查詢
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-warning" role="alert">
+							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 醫、牙及中醫學系需連續居留僑居地8年以上才可申請
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<fieldset class="form-group">
+							<label>請問自報名截止日往前推算，已在僑居地連續居留多少年？</label><br>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="1" checked> 報名時未滿六年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="2"> 報名時未滿六年，但至入學當年度8月31日前滿六年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="3"> 報名時已滿六年，但未滿八年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="4"> 報名時未滿八年，但至入學當年度8月31日前滿八年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="5"> 報名時已滿八年
+								</label>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-danger stayLimitAlert invalid" role="alert">
+							<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="alert alert-warning stayLimitAlert valid hide" role="alert">
+							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 需填寫切結書
 						</div>
 					</div>
 				</div>
@@ -342,45 +409,6 @@
 						<div class="alert alert-danger" role="alert">
 							<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
 						</div>
-					</div>
-				</div>
-			</div>
-		</dd>
-	</dl>
-
-	<hr>
-
-	<dl class="row">
-		<dt class="col-md-3">
-			海外居留年限
-		</dt>
-		<dd class="col-md-9">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="">請問自報名截止日往前推算，已在僑居地連續居留多少年？</label>
-						<select class="form-control" id="">
-							<option value="00">請選擇</option>
-							<option value="5">報名時未滿六年</option>
-							<option value="4">報名時未滿六年，但至入學當年度8月31日前滿六年</option>
-							<option value="3">報名時已滿六年，但未滿八年</option>
-							<option value="2">報名時未滿八年，但至入學當年度8月31日前滿八年</option>
-							<option value="1">報名時已滿八年</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="alert alert-danger" role="alert">
-						<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="alert alert-warning" role="alert">
-						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 醫、牙及中醫學系需連續居留僑居地8年以上才可申請
 					</div>
 				</div>
 			</div>

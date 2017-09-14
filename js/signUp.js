@@ -14,6 +14,7 @@ var signUp = (function () {
 	const $identityRadio = $signUpForm.find('.radio-identity');
 	const $isDistribution = $signUpForm.find('.isDistribution');
 	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
+	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
 	var $checkId = $signUpForm.find('.checkId');
 	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
 	var $holdpassport = $signUpForm.find('.holdpassport');
@@ -36,7 +37,8 @@ var signUp = (function () {
 	$passwordConfirm.on('blur', _handleValidatePassword);
 	$identityRadio.on('change', _handleChangeIdentity);
 	$isDistribution.on('change', _switchShowDistribution);
-	$distributionMoreQuestion.on('change', _checkDistributionValid);
+	$distributionMoreQuestion.on('change', _checkDistributionValidation);
+	$stayLimitRadio.on('change', _checkStayLimitValidation)
 	$checkId.on('click', _switchCheckIdAlert);
 	$holdpassport.on('click', _switchHoldpassportPForm);
 	$holdpassportP.on('click', _switchPassportForm);
@@ -58,7 +60,7 @@ var signUp = (function () {
 	// 1: 港澳 2: 海外 3: 港澳具外國
 	function _handleChangeIdentity () {
 		_currentIdentity = $(this).val();
-		$signUpForm.find('.question').addClass('hide');
+		$signUpForm.find('.question').hide();
 		switch(_currentIdentity) {
 			case '1':
 				$signUpForm.find('.question.kangAo').fadeIn();
@@ -73,16 +75,38 @@ var signUp = (function () {
 	}
 
 	// 判斷是否分發來台就學的一推選項是否符合資格
-	function _checkDistributionValid() {
+	function _checkDistributionValidation() {
 		const $this = $(this);
 		const option = +$this.val();
 		const validOption = [1, 2, 7];
+		$signUpForm.find('.distributionMoreAlert').hide();
 		if (validOption.includes(option)) {
-			$this.parents('.question').attr('data-validation', 1);
-			$signUpForm.find('.distributionMoreAlert').hide().parent().find('.valid').fadeIn();
+			$this.parents('.questionRow').attr('data-validation', 1);
+			$signUpForm.find('.distributionMoreAlert.valid').fadeIn();
 		} else {
-			$this.parents('.question').attr('data-validation', 0);
-			$signUpForm.find('.distributionMoreAlert').hide().parent().find('.invalid').fadeIn();
+			$this.parents('.questionRow').attr('data-validation', 0);
+			$signUpForm.find('.distributionMoreAlert.invlid').fadeIn();
+		}
+	}
+
+	// 海外居留年限判斷
+	function _checkStayLimitValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.stayLimitAlert').hide();
+		switch (option) {
+			case 1:
+				$this.parents('.questionRow').attr('data-validation', 0);
+				$signUpForm.find('.stayLimitAlert.invalid').fadeIn();
+				break;
+			case 2:
+			case 4:
+				$this.parents('.questionRow').attr('data-validation', 1);
+				$signUpForm.find('.stayLimitAlert.valid').fadeIn();
+				break;
+			default:
+				$this.parents('.questionRow').attr('data-validation', 1);
+				break;
 		}
 	}
 
@@ -122,7 +146,7 @@ var signUp = (function () {
 		const $this = $(this);
 		const isDistribution =  +$this.val();
 		!!isDistribution && $signUpForm.find('#distributionMore').fadeIn();
-		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut() && $this.parents('.question').attr('data-validation', 1);;
+		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut() && $this.parents('.questionRow').attr('data-validation', 1);;
 	}
 
 	function _switchShowHasBeenTaiwan() {
