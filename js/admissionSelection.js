@@ -6,6 +6,7 @@ var admissionSelection = (function () {
 
 	var $upArrow = $('.up-arrow');
 	var $downArrow = $('.down-arrow');
+	var $removeWish = $('.remove-wish');
 
 	/**
 	*	init
@@ -19,6 +20,7 @@ var admissionSelection = (function () {
 
 	$upArrow.on("click", prevWish);
 	$downArrow.on("click", nextWish);
+	$removeWish.on("click", removeWish);
 
 	function _init() {
 
@@ -32,4 +34,9 @@ var admissionSelection = (function () {
 		$(this).closest('tr').insertAfter($(this).closest('tr').next());
 	}
 
+	function removeWish() {
+		$(this).closest('tr').remove();
+		// 接上 API 後，需要將移除的志願，還原到招生校系清單的陣列中。
+	}
+	
 })();
