@@ -16,6 +16,6 @@
 	 */
 	function _handleSubmit() {
 		const system = $system.val();
-		console.log(system);
+		location.href = `./signUp${system}.html`;
 	}
 })();

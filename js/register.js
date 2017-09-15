@@ -29,7 +29,7 @@
 		const oriPass = $password.val();
 		const passConfirm = $passwordConfirm.val();
 		if (!!email && (oriPass === passConfirm)) {
-
+			location.href="./systemChoose.html";
 		} else {
 			alert('輸入有誤');
 		}
