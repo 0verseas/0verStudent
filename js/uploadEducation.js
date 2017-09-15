@@ -17,7 +17,7 @@ var uploadEducation = (function () {
 	function _init() {
 		$(":file").filestyle({
 			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-			btnClass: "btn-primary",
+			btnClass: "btn-secondary",
 			text: " 瀏覽"
 		});
 	}
