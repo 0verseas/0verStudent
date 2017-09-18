@@ -12,10 +12,10 @@
 	$nextBtn.on('click', _handleSubmit);
 
 	/**
-	 * private method
+	 * event handler
 	 */
 	function _handleSubmit() {
 		const system = $system.val();
-		location.href = `./signUp${system}.html`;
+		location.href = `./qualify${system}.html`;
 	}
 })();

@@ -1,68 +1,4 @@
 <div id="form-signUp">
-
-	<dl class="row">
-		<dt class="col-md-3">
-			申請帳號
-		</dt>
-		<dd class="col-md-9">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="form-group">
-						<label for="email">帳號(E-Mail)</label>
-						<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-						<small id="emailHelp" class="form-text text-muted">建議使用 Gmail 或 Yahoo 信箱註冊，註冊後請至 E-Mail 閱讀帳號開通信。</small>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="password">密碼</label>
-						<input type="password" class="form-control" id="password" placeholder="Password">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="passwordConfirm">確認密碼</label>
-						<input type="password" class="form-control" id="passwordConfirm" placeholder="Password">
-					</div>
-				</div>
-			</div>
-		</dd>
-	</dl>
-
-<!-- 	<hr>
-
-	<dl class="row">
-		<dt class="col-md-3">
-			申請層級
-		</dt>
-		<dd class="col-md-9">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="alert alert-info" role="alert">
-						<strong>申請層級說明：</strong><br>
-						<span class="text-danger">學士班：</span>申請就讀學士班(亦可選填僑先部志願)。<br>
-						<span class="text-danger">僑先部：</span>申請就讀僑先部春季班(限馬來西亞)。
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="">申請身分別</label>
-						<select class="form-control" id="">
-							<option>學士班</option>
-							<option>僑先部</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</dd>
-	</dl> -->
-
-	<hr>
-
 	<dl class="row">
 		<dt class="col-md-3">
 			身分別
@@ -100,100 +36,6 @@
 					</fieldset>
 				</div>
 			</div>
-			<!-- <div class="row">
-				<div class="col-md-12">
-					<fieldset class="form-group">
-						<label>是否擁有香港或澳門永久性居民身分證？</label><br>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input checkId" data-checkid="true" type="radio" name="checkId" id="checkIdYes" value="option1" checked> 是
-							</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input checkId" data-checkid="false" type="radio" name="checkId" id="checkIdNo" value="option2"> 否
-							</label>
-						</div>
-					</fieldset>
-				</div>
-			</div>
-			<div class="row hide" id="checkIdAlert">
-				<div class="col-md-12">
-					<div class="alert alert-danger" role="alert">
-						<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
-					</div>
-				</div>
-			</div>
-			<div class="row" id="holdpassportForm">
-				<div class="col-md-12">
-					<fieldset class="form-group">
-						<label>是否持有英國國民(海外)護照或香港護照以外之旅行證照，或持有澳門護照以外之旅行證照？(含葡萄牙護照)</label><br>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input holdpassport" type="radio" name="holdpassport" id="" value="option1"
-								data-holdpassport="true"> 是
-							</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input holdpassport" type="radio" name="holdpassport" id="" value="option2" data-holdpassport="false" checked> 否
-							</label>
-						</div>
-					</fieldset>
-				</div>
-			</div>
-			<div class="row hide" id="holdpassportPForm">
-				<div class="col-md-12">
-					<fieldset class="form-group">
-						<label>您是否持有葡萄牙護照？</label><br>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input holdpassportP" type="radio" name="holdpassportP" id="" data-holdpassportp="true" value="option1"> 是
-							</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<label class="form-check-label">
-								<input class="form-check-input holdpassportP" type="radio" name="holdpassportP" id="" value="option2" data-holdpassportp="false" checked> 否
-							</label>
-						</div>
-					</fieldset>
-				</div>
-			</div>
-			<div class="row hide" id="getPForm">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label for="">您<span class="text-danger">首次</span>取得葡萄牙護照的時間</label>
-						<input type="date" class="form-control datepicker" id="">
-					</div>
-				</div>
-			</div>
-			<div class="row hide" id="holdOtherPassportForm">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="">您持有哪一個國家的護照？</label>
-						<div class="row">
-							<div class="col-md-6">
-								<select class="form-control">
-									<option value="00">State</option>
-									<option value="亞洲">亞洲</option>
-									<option value="歐洲">歐洲</option>
-									<option value="美洲">美洲</option>
-									<option value="非洲">非洲</option>
-									<option value="大洋洲">大洋洲</option>
-								</select>
-							</div>
-							<div class="col-md-6">
-								<select class="form-control">
-									<option value="">Country</option>
-									<option value="">one</option>
-									<option value="">two</option>
-									<option value="">three</option>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
 		</dd>
 	</dl>
 
@@ -429,48 +271,105 @@
 		<hr />
 	</div>
 
-	<dl class="row">
-		<dt class="col-md-3">
-			聯合分發類組別
-		</dt>
-		<dd class="col-md-9">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="alert alert-info" role="alert">
-						<strong>聯合分發類組別說明：</strong><br>
-						聯合分發制招生校系區分為第一、二、三類組，除第二、三類組得互相跨類組選填志願外，餘皆不得跨類組選填志願，至多可選70個聯合分發志願。
+	<div class="question kangAo hide">
+		<div class="row questionRow">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label><strong>請問您是否擁有香港或澳門永久性居民身分證？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-idCard" type="radio" name="idCard" value="1" checked> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-idCard" type="radio" name="idCard" value="0"> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="col-md-12 idCardAlert invalid hide">
+				<div class="alert alert-danger" role="alert">
+					<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+				</div>
+			</div>
+		</div>
+		<hr />
+		<div class="row" id="holdpassportForm">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label>是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？</label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input holdpassport" type="radio" name="holdpassport" id="" value="option1"
+							data-holdpassport="true"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input holdpassport" type="radio" name="holdpassport" id="" value="option2" data-holdpassport="false" checked> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<div class="row hide" id="holdpassportPForm">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label>是否持有葡萄牙護照？</label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input holdpassportP" type="radio" name="holdpassportP" id="" data-holdpassportp="true" value="option1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input holdpassportP" type="radio" name="holdpassportP" id="" value="option2" data-holdpassportp="false" checked> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<div class="row hide" id="getPForm">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label for="">您<span class="text-danger">首次</span>取得葡萄牙護照的時間</label>
+					<input type="date" class="form-control datepicker" id="">
+				</div>
+			</div>
+		</div>
+		<div class="row hide" id="holdOtherPassportForm">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="">您持有哪一個國家之護照？</label>
+					<div class="row">
+						<div class="col-md-6">
+							<select class="form-control">
+								<option value="00">State</option>
+								<option value="亞洲">亞洲</option>
+								<option value="歐洲">歐洲</option>
+								<option value="美洲">美洲</option>
+								<option value="非洲">非洲</option>
+								<option value="大洋洲">大洋洲</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control">
+								<option value="">Country</option>
+								<option value="">one</option>
+								<option value="">two</option>
+								<option value="">three</option>
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<a class="btn btn-success" href="http://www.overseas.ncnu.edu.tw/College1.aspx" target="_blank"><i class="fa fa-link" aria-hidden="true"></i> 學群介紹網頁</a>
-					<a class="btn btn-success" href="http://overseas.ncnu.edu.tw/amount/" target="_blank"><i class="fa fa-link" aria-hidden="true"></i> 各類組名額查詢系統</a>
-
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label for="">請選擇您所屬類組（2、3類組可跨類組填志願）</label>
-						<select class="form-control" id="">
-							<option value="00">請選擇</option>
-							<option value="1">第一類組：文、法、商、管理及藝術相關學系</option>
-							<option value="2">第二類組：理、工學系</option>
-							<option value="3">第三類組：醫事(醫、牙及中醫學系需連續居留僑居地8年以上才可申請)、農、生技、生活應用相關學系</option>
-						</select>
-						<small class="form-text text-danger">系統依報名類組別提供所屬類別志願供選填，請依自身興趣審慎思考。</small>
-					</div>
-				</div>
-			</div>
-		</dd>
-	</dl>
-
-	<hr>
+		</div>
+	</div>
 
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<a href="./index.html" class="btn btn-primary">送出</a>
+			<a href="./personalInfo.html" class="btn btn-primary">下一步</a>
 		</div>
 	</div>
 

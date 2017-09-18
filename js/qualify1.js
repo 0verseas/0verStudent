@@ -1,4 +1,4 @@
-var signUp = (function () {
+(() => {
 	/**
 	 * private variable
 	 */
@@ -17,7 +17,7 @@ var signUp = (function () {
 	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
 	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
 	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
-	var $checkId = $signUpForm.find('.checkId');
+	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
 	var $holdpassport = $signUpForm.find('.holdpassport');
 	var $holdpassportPForm = $signUpForm.find('#holdpassportPForm');
@@ -40,7 +40,7 @@ var signUp = (function () {
 	$stayLimitRadio.on('change', _checkStayLimitValidation)
 	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
 	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
-	$checkId.on('click', _switchCheckIdAlert);
+	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassport.on('click', _switchHoldpassportPForm);
 	$holdpassportP.on('click', _switchPassportForm);
 
@@ -117,13 +117,12 @@ var signUp = (function () {
 		}
 	}
 
-	function _switchCheckIdAlert() {
-		var status = $(this).data('checkid');
-		if (!status) {
-			$checkIdAlert.fadeIn();
-		} else {
-			$checkIdAlert.fadeOut();
-		}
+	// 是否擁有香港或澳門永久性居民身分證
+	function _cehckIdCardValidation() {
+		const $this = $(this);
+		const idCard = +$this.val();
+		!!idCard && $signUpForm.find('.idCardAlert.invalid').fadeOut();
+		!!idCard || $signUpForm.find('.idCardAlert.invalid').fadeIn();
 	}
 
 	function _switchHoldpassportPForm() { // 是否持有英國國民(海外)護照或香港護照以外之旅行證照，或持有澳門護照以外之旅行證照？(含葡萄牙護照)
