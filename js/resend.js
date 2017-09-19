@@ -1,15 +1,15 @@
-var resend = (function () {
+(() => {
 
 	/**
-	 * cache DOM
-	 */
+	*	cache DOM
+	*/
+	
+	/**
+	*	init
+	*/
 
 	/**
-	 * init
-	 */
-
-	/**
-	 * bind event
-	 */
+	*	bind event
+	*/
 
 })();

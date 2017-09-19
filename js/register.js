@@ -1,13 +1,13 @@
 (() => {
 	/**
-	 * private variable
-	 */
+	*	private variable
+	*/
 	let _emailValid = false;
 	let _passValid = false;
 
 	/**
-	 *  cache DOM
-	 */
+	*	cache DOM
+	*/
 	const $Register = $('.Register');
 	const $email = $Register.find('#Register__inputEmail');
 	const $password = $Register.find('#Register__inputPassword');
@@ -15,15 +15,15 @@
 	const $registerBtn = $Register.find('.Register__btnRegister');
 
 	/**
-	 * bind event
-	 */
+	*	bind event
+	*/
 	$email.on('blur', _checkEmail);
 	$passwordConfirm.on('blur', _checkPassword);
 	$registerBtn.on('click', _handleSubmit);
 	
 	/**
-	 * private method
-	 */
+	*	private method
+	*/
 	function _checkEmail() {
 		const email = $email.val();
 		if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {

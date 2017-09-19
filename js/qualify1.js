@@ -1,12 +1,12 @@
 (() => {
 	/**
-	 * private variable
-	 */
+	*	private variable
+	*/
 	let _currentIdentity = 1;
 
 	/**
-	 * cache DOM
-	 */
+	*	cache DOM
+	*/
 	const $signUpForm = $('#form-signUp');
 	const $email = $signUpForm.find('#email');
 	const $password = $signUpForm.find('#password');
@@ -26,13 +26,13 @@
 	var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
 
 	/**
-	 * init
-	 */
+	*	init
+	*/
 	$signUpForm.find('.question.kangAo').removeClass('hide');
 
 	/**
-	 * bind event
-	 */
+	*	bind event
+	*/
 	$passwordConfirm.on('blur', _handleValidatePassword);
 	$identityRadio.on('change', _handleChangeIdentity);
 	$isDistribution.on('change', _switchShowDistribution);

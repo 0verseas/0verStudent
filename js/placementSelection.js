@@ -1,4 +1,8 @@
-var placementSelection = (function () {
+(() => {
+
+	/**
+	*	private variable
+	*/
 
 	let _wishList = [
 	{school: "國立暨南國際大學", dept: "自動化工程系"},

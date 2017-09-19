@@ -1,19 +1,19 @@
 (() => {
 	/**
-	 * cache DOM
-	 */
+	*	cache DOM
+	*/
 	const $email = $('#email');
 	const $pass = $('#password');
 	const $loginBtn = $('#btn-login');
 	
 	/**
-	 * bind event
-	 */
+	*	bind event
+	*/
 	$loginBtn.on('click', _handleLogin);
 
 	/**
-	 * event handlet
-	 */
+	*	event handlet
+	*/
 	function _handleLogin() {
 		const email = $email.val();
 		const pass = $pass.val();

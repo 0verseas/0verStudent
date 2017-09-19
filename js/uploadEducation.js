@@ -1,18 +1,18 @@
-var uploadEducation = (function () {
+(() => {
 
 	/**
-	 * cache DOM
-	 */
-
+	*	cache DOM
+	*/
+	
 	/**
-	 * init
-	 */
+	*	init
+	*/
 
 	_init();
 
 	/**
-	 * bind event
-	 */
+	*	bind event
+	*/
 
 	function _init() {
 		$(":file").filestyle({

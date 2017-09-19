@@ -1,4 +1,4 @@
-var personalInfo = (function () {
+(() => {
 
 	/**
 	*	private variable
