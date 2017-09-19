@@ -295,76 +295,39 @@
 			</div>
 		</div>
 		<hr />
-		<div class="row" id="holdpassportForm">
+		<div class="row questionRow">
 			<div class="col-md-12">
 				<fieldset class="form-group">
-					<label>是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？</label><br>
+					<label><strong>是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？</strong></label><br>
 					<div class="form-check form-check-inline">
 						<label class="form-check-label">
-							<input class="form-check-input holdpassport" type="radio" name="holdpassport" id="" value="option1"
-							data-holdpassport="true"> 是
+							<input class="form-check-input radio-holdpassport" type="radio" name="holdpassport" value="1"> 是
 						</label>
 					</div>
 					<div class="form-check form-check-inline">
 						<label class="form-check-label">
-							<input class="form-check-input holdpassport" type="radio" name="holdpassport" id="" value="option2" data-holdpassport="false" checked> 否
+							<input class="form-check-input radio-holdpassport" type="radio" name="holdpassport" value="0" checked> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="col-md-12 isTaiwanHousehold hide">
+				<fieldset class="form-group">
+					<label><strong>是否曾在臺設有戶籍？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-taiwanHousehold" type="radio" name="taiwanHousehold" value="1" > 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-taiwanHousehold" type="radio" name="taiwanHousehold" value="0" checked> 否
 						</label>
 					</div>
 				</fieldset>
 			</div>
 		</div>
-		<div class="row hide" id="holdpassportPForm">
-			<div class="col-md-12">
-				<fieldset class="form-group">
-					<label>是否持有葡萄牙護照？</label><br>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label">
-							<input class="form-check-input holdpassportP" type="radio" name="holdpassportP" id="" data-holdpassportp="true" value="option1"> 是
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label">
-							<input class="form-check-input holdpassportP" type="radio" name="holdpassportP" id="" value="option2" data-holdpassportp="false" checked> 否
-						</label>
-					</div>
-				</fieldset>
-			</div>
-		</div>
-		<div class="row hide" id="getPForm">
-			<div class="col-md-4">
-				<div class="form-group">
-					<label for="">您<span class="text-danger">首次</span>取得葡萄牙護照的時間</label>
-					<input type="date" class="form-control datepicker" id="">
-				</div>
-			</div>
-		</div>
-		<div class="row hide" id="holdOtherPassportForm">
-			<div class="col-md-12">
-				<div class="form-group">
-					<label for="">您持有哪一個國家之護照？</label>
-					<div class="row">
-						<div class="col-md-6">
-							<select class="form-control">
-								<option value="00">State</option>
-								<option value="亞洲">亞洲</option>
-								<option value="歐洲">歐洲</option>
-								<option value="美洲">美洲</option>
-								<option value="非洲">非洲</option>
-								<option value="大洋洲">大洋洲</option>
-							</select>
-						</div>
-						<div class="col-md-6">
-							<select class="form-control">
-								<option value="">Country</option>
-								<option value="">one</option>
-								<option value="">two</option>
-								<option value="">three</option>
-							</select>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<hr />
 	</div>
 
 	<div class="row">

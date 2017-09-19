@@ -3,6 +3,7 @@
 	*	private variable
 	*/
 	let _currentIdentity = 1;
+	let _typeOfKangAo = null;
 
 	/**
 	*	cache DOM
@@ -18,12 +19,7 @@
 	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
 	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
-	var $checkIdAlert = $signUpForm.find('#checkIdAlert');
-	var $holdpassport = $signUpForm.find('.holdpassport');
-	var $holdpassportPForm = $signUpForm.find('#holdpassportPForm');
-	var $holdpassportP = $signUpForm.find('.holdpassportP');
-	var $getPForm = $signUpForm.find('#getPForm');
-	var $holdOtherPassportForm = $signUpForm.find('#holdOtherPassportForm');
+	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
 
 	/**
 	*	init
@@ -41,8 +37,7 @@
 	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
 	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
 	$idCardRadio.on('change', _cehckIdCardValidation);
-	$holdpassport.on('click', _switchHoldpassportPForm);
-	$holdpassportP.on('click', _switchPassportForm);
+	$holdpassportRadio.on('change', _checkHoldpassport);
 
 	// 確認兩次密碼輸入相同
 	function _handleValidatePassword() {
@@ -125,27 +120,12 @@
 		!!idCard || $signUpForm.find('.idCardAlert.invalid').fadeIn();
 	}
 
-	function _switchHoldpassportPForm() { // 是否持有英國國民(海外)護照或香港護照以外之旅行證照，或持有澳門護照以外之旅行證照？(含葡萄牙護照)
-		var status = $(this).data('holdpassport');
-		if (status) {
-			$holdpassportPForm.fadeIn();
-			_switchPassportForm();
-		} else {
-			$holdpassportPForm.fadeOut();
-			$getPForm.fadeOut();
-			$holdOtherPassportForm.fadeOut();
-		}
-	}
-
-	function _switchPassportForm() { // 您是否持有葡萄牙護照？
-		var status = $(this).data('holdpassportp');
-		if (status) {
-			$getPForm.fadeIn();
-			$holdOtherPassportForm.fadeOut();
-		} else {
-			$holdOtherPassportForm.fadeIn();
-			$getPForm.fadeOut();
-		}
+	// 是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照
+	function _checkHoldpassport() {
+		const $this = $(this);
+		const holdpassport = +$this.val();
+		!!holdpassport && $signUpForm.find('.isTaiwanHousehold').fadeIn() && (_typeOfKangAo = null);
+		!!holdpassport || $signUpForm.find('.isTaiwanHousehold').fadeOut() && (_typeOfKangAo = 1);
 	}
 
 	function _switchShowDistribution() {
