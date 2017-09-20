@@ -35,6 +35,7 @@
 	
 
 	function _init() {
+		student.setHeader();
 		_switchGuardianForm();
 	}
 

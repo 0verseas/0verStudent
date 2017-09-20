@@ -8,8 +8,14 @@
 	*	init
 	*/
 
+	_init();
+
 	/**
 	*	bind event
 	*/
+
+	function _init() {
+		student.setHeader();
+	}
 
 })();

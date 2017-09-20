@@ -1,27 +1,155 @@
-<div class="row">
+<% include components/_studentInfo %>
+
+<h2 class="text-center title">奧林匹亞志願</h2>
+
+<hr>
+
+<div class="row" id="form-hasOlympia">
 	<div class="col-12">
-		<table class="table text-center">
-			<thead>
-				<tr>
-					<td><b>報名層級</b></td>
-					<td><b>報名類組</b></td>
-					<td><b>身份別</b></td>
-					<td><b>報名序號</b></td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="table-warning">
-					<td>學士班</td>
-					<td>2</td>
-					<td>港澳生</td>
-					<td>200003</td>
-				</tr>
-			</tbody>
-		</table>
+		<fieldset class="form-group">
+			<legend>請問是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項？</legend>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="radio" class="form-check-input hasOlympia" name="hasOlympia" id="" value="1">
+					是
+				</label>
+			</div>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="radio" class="form-check-input hasOlympia" name="hasOlympia" id="" value="0" checked>
+					否
+				</label>
+			</div>
+		</fieldset>
 	</div>
 </div>
 
-<h2 class="text-center title">奧林匹亞</h2>
+<div class="row" id="form-olympiaSelect" style="display: none;">
+	<div class="col-12">
+		<hr>
+		<div class="alert alert-warning" role="alert">
+			請選填 <strong class="text-danger">國際奧林匹亞 / 美國科展獎項申請</strong> 志願，最多 <strong class="text-danger">3</strong> 個。
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header bg-primary text-white">注意事項</div>
+					<div class="card-block">
+						<p>
+							<strong>操作說明</strong>
+							<ol>
+								<li>
+									先於左欄招生校系清單以「學校名稱」、「系所名稱」、「志願代碼」或「學群」查詢，點選 <span class="badge badge-info"><i class="fa fa-plus" aria-hidden="true"></i></span> 將志願加入右欄。
+								</li>
+								<li>
+									於右欄可以點選 <span class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i></span> 刪除志願；以 <span class="badge badge-white"><i class="fa fa-chevron-up" aria-hidden="true"></i></span> <span class="badge badge-white"><i class="fa fa-chevron-down" aria-hidden="true"></i></span> 或直接輸入志願序調整志願順序。
+								</li>
+								<li>
+									最多可選填 <strong class="text-danger">3</strong> 個志願。
+								</li>
+							</ol>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="card card-bottom">
+					<div class="card-header">招生校系清單</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-inline">
+									<select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="">
+										<option>學校名稱</option>
+										<option>系所名稱</option>
+										<option>志願代碼</option>
+										<option>學群</option>
+									</select>
+									<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="" placeholder="關鍵字">
+									<button type="button" class="btn btn-primary">Search</button>
+								</div>
+							</div>
+						</div>
+						
+						<hr>
+
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-hover">
+									<tbody>
+										<tr>
+											<td>
+												國立暨南國際大學<br>
+												物理學系
+											</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												國立暨南國際大學<br>
+												土木工程學系
+											</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												國立暨南國際大學<br>
+												電機工程學系
+											</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												國立暨南國際大學<br>
+												應用化學系
+											</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												國立暨南國際大學<br>
+												資訊工程學系
+											</td>
+											<td class="text-right">
+												<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="card card-bottom">
+					<div class="card-header">已填選志願</div>
+					<div class="card-block">
+						<table class="table table-hover">
+							<tbody id="wish-list">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
 
 <hr>
 
