@@ -15,6 +15,8 @@
 	*/
 
 	function _init() {
+		student.setHeader();
+		
 		$(":file").filestyle({
 			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
 			btnClass: "btn-secondary",

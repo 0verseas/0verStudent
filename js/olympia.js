@@ -45,6 +45,7 @@
 	$hasOlympia.on('change', _showWishList);
 
 	function _init() {
+		student.setHeader();
 		_generateWishList();
 	}
 
@@ -58,34 +59,34 @@
 	}
 
 	function _findRowIndex(row) {
-		var tableRow = row.closest('tr');
-		var tbody = $("tr.row");
-		var index = tbody.index(tableRow);
+		const tableRow = row.closest('tr');
+		const tbody = $("tr.row");
+		const index = tbody.index(tableRow);
 		return index;
 	}
 
 	function _prevWish() {
-		var rowIndex = _findRowIndex($(this));
+		const rowIndex = _findRowIndex($(this));
 		if (rowIndex > 0) {
-			var swap = _wishList[rowIndex];
-			_wishList[rowIndex] = _wishList[rowIndex-1];
-			_wishList[rowIndex-1] = swap;
+			const swap = _wishList[rowIndex];
+			_wishList[rowIndex] = _wishList[rowIndex - 1];
+			_wishList[rowIndex - 1] = swap;
 			_generateWishList();
 		}
 	}
 
 	function _nextWish() {
-		var rowIndex = _findRowIndex($(this));
-		if (rowIndex < _wishList.length-1) {
-			var swap = _wishList[rowIndex];
-			_wishList[rowIndex] = _wishList[rowIndex+1];
-			_wishList[rowIndex+1] = swap;
+		const rowIndex = _findRowIndex($(this));
+		if (rowIndex < _wishList.length - 1) {
+			const swap = _wishList[rowIndex];
+			_wishList[rowIndex] = _wishList[rowIndex + 1];
+			_wishList[rowIndex + 1] = swap;
 			_generateWishList();
 		}
 	}
 
 	function _removeWish() {
-		var rowIndex = _findRowIndex($(this));
+		const rowIndex = _findRowIndex($(this));
 		_wishList.splice(rowIndex, 1);
 		_generateWishList();
 	}
@@ -95,7 +96,7 @@
 	}
 
 	function _chWishIndex() {
-		var currentNum = $(this).val();
+		let currentNum = $(this).val();
 
 		if (currentNum > _wishList.length) {
 			currentNum = _wishList.length;
@@ -104,16 +105,16 @@
 		}
 		_currentWishIndex = currentNum - 1;
 
-		var element = _wishList[_prevWishIndex];
+		const element = _wishList[_prevWishIndex];
 		_wishList.splice(_prevWishIndex, 1);
 		_wishList.splice(_currentWishIndex, 0, element);
 		_generateWishList();
 	}
 
 	function _generateWishList() {
-		var rowHtml = '';
+		let rowHtml = '';
 		for(i in _wishList) {
-			var rowHtml = rowHtml + `
+			rowHtml = rowHtml + `
 			<tr class="row">
 			<td class="col-1">
 			<button type="button" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
@@ -139,10 +140,10 @@
 		}
 		$wishList.html(rowHtml);
 
-		var $removeWish = $('.remove-wish');
-		var $wishNum = $wishList.find('.wish-num');
-		var $upArrow = $('.up-arrow');
-		var $downArrow = $('.down-arrow');
+		const $removeWish = $('.remove-wish');
+		const $wishNum = $wishList.find('.wish-num');
+		const $upArrow = $('.up-arrow');
+		const $downArrow = $('.down-arrow');
 		$removeWish.on("click", _removeWish);
 		$wishNum.on("focusin", _savePrevWishIndex);
 		$wishNum.on("change", _chWishIndex);
