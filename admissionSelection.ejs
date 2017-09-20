@@ -50,14 +50,13 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="form-inline">
-							<select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="">
-								<option>學校名稱</option>
-								<option>系所名稱</option>
-								<option>志願代碼</option>
-								<option>學群</option>
+							<select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="select-optionFilter">
+								<option value="0">志願代碼</option>
+								<option value="1">學群</option>
+								<option value="2">學校名稱</option>
+								<option value="3">系所名稱</option>
 							</select>
-							<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="" placeholder="關鍵字">
-							<button type="button" class="btn btn-primary">Search</button>
+							<input type="text" id="input-optionFilter" class="form-control mb-2 mr-sm-2 mb-sm-0" id="" placeholder="關鍵字">
 						</div>
 					</div>
 				</div>
@@ -67,52 +66,7 @@
 				<div class="row">
 					<div class="col-12">
 						<table class="table table-hover">
-							<tbody>
-								<tr>
-									<td>
-										國立暨南國際大學<br>
-										物理學系
-									</td>
-									<td class="text-right">
-										<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										國立暨南國際大學<br>
-										土木工程學系
-									</td>
-									<td class="text-right">
-										<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										國立暨南國際大學<br>
-										電機工程學系
-									</td>
-									<td class="text-right">
-										<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										國立暨南國際大學<br>
-										應用化學系
-									</td>
-									<td class="text-right">
-										<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										國立暨南國際大學<br>
-										資訊工程學系
-									</td>
-									<td class="text-right">
-										<button type="button" class="btn btn-info btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></button>
-									</td>
-								</tr>
+							<tbody id="optionalWish-list">
 							</tbody>
 						</table>
 					</div>
