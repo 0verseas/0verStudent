@@ -134,15 +134,29 @@
 
 	// 是否持有葡萄牙護照
 	function _checkPortugalPassport() {
-		console.log('asd');
 		const $this = $(this);
 		const portugalPassport = +$this.val();
+		$signUpForm.find('.whichPassportAlert.valid1').fadeOut();
+		$signUpForm.find('.whichPassportAlert.valid2').fadeOut();
 		if (portugalPassport) {
+			_currentIdentity = 1;
+			_typeOfKangAo = 1;
 			$signUpForm.find('.whichPassport').fadeOut();
 			$signUpForm.find('.portugalPassportMore').fadeIn();
 		} else {
 			$signUpForm.find('.whichPassport').fadeIn();
 			$signUpForm.find('.portugalPassportMore').fadeOut();
+			const isTaiwanHousehold = !!+$('.radio-holdpassport:checked').val() && +$('.radio-taiwanHousehold:checked').val();
+			// 在臺曾設有戶籍者身分確認為港澳生【甲】
+			if (isTaiwanHousehold) {
+				_currentIdentity = 1;
+				_typeOfKangAo = 1;
+				$signUpForm.find('.whichPassportAlert.valid1').fadeIn();
+			} else {
+				_currentIdentity = 3;
+				_typeOfKangAo = 2;
+				$signUpForm.find('.whichPassportAlert.valid2').fadeIn();
+			}
 		}
 	}
 
@@ -167,7 +181,7 @@
 				$signUpForm.find('.portugalPassportTimeAlert.valid2').fadeIn();
 			} else {
 				// 身分確認為「港澳具外國國籍之華裔學生」【乙】
-				_currentIdentity = 2;
+				_currentIdentity = 3;
 				_typeOfKangAo = 2;
 				$signUpForm.find('.portugalPassportTimeAlert.valid3').fadeIn();
 			}
