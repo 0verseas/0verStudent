@@ -27,6 +27,7 @@
 	// 港澳生-甲
 	const $KA1_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-isDistribution');
 	const $KA1_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_distributionMoreQuestion');
+	const $KA1_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-stayLimit');
 
 	/**
 	*	init
@@ -54,6 +55,7 @@
 	// 港澳生-甲
 	$KA1_isDistributionRadio.on('change', _handleKA1IsDistribution);
 	$KA1_distributionMoreQuestion.on('change', _checkKA1DistributionValidation);
+	$KA1_stayLimitRadio.on('change', _checkKA1StayLimitValidation);
 
 	/**
 	*	event handler
@@ -222,6 +224,24 @@
 			$signUpForm.find('.kangAoType1_distributionMoreAlert.valid').fadeIn();
 		} else {
 			$signUpForm.find('.kangAoType1_distributionMoreAlert.valid').fadeOut();
+		}
+	}
+
+	// 港澳生-甲 海外居留年限
+	function _checkKA1StayLimitValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.kangAoType1_stayLimitAlert').hide();
+		switch (option) {
+			case 1:
+				$signUpForm.find('.kangAoType1_stayLimitAlert.invalid').fadeIn();
+				break;
+			case 2:
+			case 4:
+				$signUpForm.find('.kangAoType1_stayLimitAlert.valid').fadeIn();
+				break;
+			default:
+				break;
 		}
 	}
 
