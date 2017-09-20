@@ -38,8 +38,29 @@
 			</header>
 		</div>
 		<hr>
-		
+
+		<% if (current.source == 'index' || current.source == 'treaty' || current.source == 'register' || current.source == 'resend') { -%>
 		<%- yield %>
+		<% } else { -%>
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="list-group">
+					<a href="systemChoose.html" class="list-group-item list-group-item-action list-group-item-success">資格驗證</a>
+					<a href="personalInfo.html" class="list-group-item list-group-item-action list-group-item-success">個人基本資料</a>
+					<a href="educationInfo.html" class="list-group-item list-group-item-action list-group-item-success">入學資料</a>
+					<a href="olympia.html" class="list-group-item list-group-item-action list-group-item-success">奧林匹亞志願</a>
+					<a href="uploadEducation.html" class="list-group-item list-group-item-action list-group-item-info">上傳個人申請資料</a>
+					<a href="admissionSelection.html" class="list-group-item list-group-item-action">個人申請志願</a>
+					<a href="grade.html" class="list-group-item list-group-item-action">聯合分發成績採計方式</a>
+					<a href="placementSelection.html" class="list-group-item list-group-item-action">聯合分發志願</a>
+					<a href="result.html" class="list-group-item list-group-item-action">志願檢視</a>
+				</div>
+			</div>
+			<div class="col-lg-9">
+				<%- yield %>
+			</div>
+		</div>
+		<% } -%>
 	</div>
 
 	<script src="js/<%= current.source %>.js"></script>
