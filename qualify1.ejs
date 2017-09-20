@@ -74,7 +74,7 @@
 							</div>
 							<div class="form-check">
 								<label class="form-check-label">
-									<input class="form-check-input distributionMoreQuestion" name="distributionMore" type="radio" value="2"> 2. 曾經分發註冊，惟在臺期間因故自願退學且在臺停留未滿一年，並退回僑居地(以一年為限)。
+									<input class="form-check-input distributionMoreQuestion" name="distributionMore" type="radio" value="2"> 2. 曾經分發註冊，惟在臺期間因故自願退學且在臺停留未滿一年，並退回僑居地(以一次為限)。
 								</label>
 							</div>
 							<div class="form-check">
@@ -328,9 +328,6 @@
 			</div>
 		</div>
 		<hr />
-
-
-
 		<div class="row questionRow">
 			<div class="col-md-12">
 				<fieldset class="form-group">
@@ -372,8 +369,6 @@
 			</div>
 		</div>
 		<hr />
-
-
 		<div class="row questionRow whichPassport hide">
 			<div class="col-md-12">
 				<fieldset class="form-group">
@@ -400,6 +395,83 @@
 				</div>
 		</div>
 		<hr class="whichPassport hide"/>
+
+
+		<div class="kangAoType type1 hide">
+			<dl class="row questionRow">
+				<dt class="col-md-3">
+					曾分發來臺
+				</dt>
+				<dd class="col-md-9">
+					<div class="row">
+						<div class="col-md-12">
+							<fieldset class="form-group">
+								<label>是否曾經分發來臺就學過？</label><br>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_radio-isDistribution" name="kangAoType1_isDistribution" type="radio" value="1"> 是
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_radio-isDistribution" name="kangAoType1_isDistribution" type="radio" value="0" checked> 否
+									</label>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					<div class="row kangAoType1_distributionMore hide">
+						<div class="col-12">
+							<fieldset class="form-group">
+								<label>於西元幾年分發來台？</label>
+								<input class="form-control" type="text">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>來台原因為何？</label>
+								<input class="form-control" type="text">
+							</fieldset>
+							<fieldset class="form-group">
+								<label>並請就下列選項擇一勾選</label><br>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_distributionMoreQuestion" name="kangAoType1_distributionMore" type="radio" value="1" checked> 1. 未曾辦理報到入學，亦未辦理保流入學資格。
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_distributionMoreQuestion" name="kangAoType1_distributionMore" type="radio" value="2"> 2. 曾經分發註冊，惟在臺期間因故自願退學且在臺停留未滿一年，並退回僑居地(以一次為限)。
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_distributionMoreQuestion" name="kangAoType1_distributionMore" type="radio" value="3"> 3. 辦理保留入學資格在案。
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_distributionMoreQuestion" name="kangAoType1_distributionMore" type="radio" value="4"> 4. 註冊在學。
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_distributionMoreQuestion" name="kangAoType1_distributionMore" type="radio" value="5"> 5. 辦理休學中。
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_distributionMoreQuestion" name="kangAoType1_distributionMore" type="radio" value="6"> 6. 非因故自願退學(如勒令退學)。
+									</label>
+								</div>
+							</fieldset>
+							<div class="alert alert-warning kangAoType1_distributionMoreAlert valid" role="alert">
+								<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 需在報名表件註記
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+			<hr />
+		</div>
 	</div>
 
 	<div class="row">
