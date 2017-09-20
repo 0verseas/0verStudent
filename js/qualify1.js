@@ -31,6 +31,13 @@
 	const $KA1_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-hasBeenTaiwan');
 	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-whyHasBeenTaiwan');
 
+	// 港澳生-乙
+	const $KA2_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-isDistribution');
+	const $KA2_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_distributionMoreQuestion');
+	const $KA2_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-stayLimit');
+	const $KA2_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-hasBeenTaiwan');
+	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-whyHasBeenTaiwan');
+
 	/**
 	*	init
 	*/
@@ -60,6 +67,13 @@
 	$KA1_stayLimitRadio.on('change', _checkKA1StayLimitValidation);
 	$KA1_hasBeenTaiwanRadio.on('change', _checkKA1HasBeenTaiwanValidation);
 	$KA1_whyHasBeenTaiwan.on('change', _checkKA1WhyHasBeenTaiwanValidation);
+
+	// 港澳生-乙
+	$KA2_isDistributionRadio.on('change', _handleKA2IsDistribution);
+	$KA2_distributionMoreQuestion.on('change', _checkKA2DistributionValidation);
+	$KA2_stayLimitRadio.on('change', _checkKA2StayLimitValidation);
+	$KA2_hasBeenTaiwanRadio.on('change', _checkKA2HasBeenTaiwanValidation);
+	$KA2_whyHasBeenTaiwan.on('change', _checkKA2WhyHasBeenTaiwanValidation);
 
 	/**
 	*	event handler
@@ -268,6 +282,66 @@
 			$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.invalid').fadeIn();
 		} else {
 			$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.valid').fadeIn();
+		}
+	}
+
+	// 港澳生-乙 是否分發來台
+	function _handleKA2IsDistribution() {
+		const $this = $(this);
+		const isDistribution = +$this.val();
+		!!isDistribution && $signUpForm.find('.kangAoType2_distributionMore').fadeIn();
+		!!isDistribution || $signUpForm.find('.kangAoType2_distributionMore').fadeOut();
+	}
+
+	// 港澳生-乙 曾分發來台的一堆問題
+	function _checkKA2DistributionValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		const valid = [1, 2];
+		if (valid.includes(option)) {
+			$signUpForm.find('.kangAoType2_distributionMoreAlert.valid').fadeIn();
+		} else {
+			$signUpForm.find('.kangAoType2_distributionMoreAlert.valid').fadeOut();
+		}
+	}
+
+	// 港澳生-乙 海外居留年限
+	function _checkKA2StayLimitValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.kangAoType2_stayLimitAlert').hide();
+		switch (option) {
+			case 1:
+				$signUpForm.find('.kangAoType2_stayLimitAlert.invalid').fadeIn();
+				break;
+			case 2:
+			case 4:
+				$signUpForm.find('.kangAoType2_stayLimitAlert.valid').fadeIn();
+				break;
+			default:
+				break;
+		}
+	}
+
+	// 港澳生-乙 在台停留日期
+	function _checkKA2HasBeenTaiwanValidation() {
+		const $this = $(this);
+		const has = +$this.val();
+		!!has && $signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeIn();
+		!!has || $signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeOut();
+	}
+
+
+	// 港澳生-乙 為何在台停留一堆問題
+	function _checkKA2WhyHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').hide();
+		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').hide();
+		if (option === 11) {
+			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').fadeIn();
+		} else {
+			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').fadeIn();
 		}
 	}
 
