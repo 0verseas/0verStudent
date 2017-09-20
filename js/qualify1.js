@@ -28,6 +28,8 @@
 	const $KA1_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-isDistribution');
 	const $KA1_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_distributionMoreQuestion');
 	const $KA1_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-stayLimit');
+	const $KA1_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-hasBeenTaiwan');
+	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-whyHasBeenTaiwan');
 
 	/**
 	*	init
@@ -56,6 +58,8 @@
 	$KA1_isDistributionRadio.on('change', _handleKA1IsDistribution);
 	$KA1_distributionMoreQuestion.on('change', _checkKA1DistributionValidation);
 	$KA1_stayLimitRadio.on('change', _checkKA1StayLimitValidation);
+	$KA1_hasBeenTaiwanRadio.on('change', _checkKA1HasBeenTaiwanValidation);
+	$KA1_whyHasBeenTaiwan.on('change', _checkKA1WhyHasBeenTaiwanValidation);
 
 	/**
 	*	event handler
@@ -242,6 +246,28 @@
 				break;
 			default:
 				break;
+		}
+	}
+
+	// 港澳生-甲 在台停留日期
+	function _checkKA1HasBeenTaiwanValidation() {
+		const $this = $(this);
+		const has = +$this.val();
+		!!has && $signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeIn();
+		!!has || $signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeOut();
+	}
+
+
+	// 港澳生-甲 為何在台停留一堆問題
+	function _checkKA1WhyHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.invalid').hide();
+		$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.valid').hide();
+		if (option === 11) {
+			$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.invalid').fadeIn();
+		} else {
+			$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.valid').fadeIn();
 		}
 	}
 

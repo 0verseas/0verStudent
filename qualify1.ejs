@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-12">
 					<fieldset class="form-group">
 						<label>申請身份別</label><br>
 						<div class="form-check form-check-inline">
@@ -530,6 +530,109 @@
 						<div class="col-md-12">
 							<div class="alert alert-warning kangAoType1_stayLimitAlert valid hide" role="alert">
 								<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 需填寫切結書
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+			<hr />
+			<dl class="row questionRow">
+				<dt class="col-md-3">
+					在台停留日期
+				</dt>
+				<dd class="col-md-9">
+					<div class="row">
+						<div class="col-md-12">
+							<fieldset class="form-group">
+								<label>報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？</label><br>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_radio-hasBeenTaiwan" type="radio" name="kangAoType1_hasBeenTaiwan" value="1"> 是
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label">
+										<input class="form-check-input kangAoType1_radio-hasBeenTaiwan" type="radio" name="kangAoType1_hasBeenTaiwan" value="0" checked> 否
+									</label>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					<div class="hide kangAoType1_hasBeenTaiwanQuestion">
+						<div class="row">
+							<div class="col-md-12">
+								<fieldset class="form-group">
+									<label>請就下列選項，擇一勾選，並檢附證明文件：</label>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="1" checked> 1. 就在臺灣地區接受兵役徵召服役。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="2"> 2. 交換學生，其交換期間合計未滿二年。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="3"> 3. 參加臺灣地區大專校院附設華語文教學機構之研習課程，其研習期間合計未滿二年。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="4"> 4. 懷胎七個月以上或生產、流產後未滿二個月。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="5"> 5. 罹患疾病而強制其出境有生命危險之虞。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="6"> 6. 在臺灣地區設有戶籍之配偶、直系血親、三親等內之旁系血親、二親等內之姻親在臺灣地區患重病或受重傷而住院或死亡。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="7"> 7. 遭遇天災或其他不可避免之事變。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="8"> 8. 就讀僑務主管機關舉辦之海外青年技術訓練班或中央主管教育行政機關認定之技術訓練專班，其訓練期間合計未滿二年。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="9"> 9. 經中央目的事業主管機關許可來臺實習，實習期間合計未滿二年。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="10"> 10. 因其他不可歸責之事由。
+										</label>
+									</div>
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input kangAoType1_radio-whyHasBeenTaiwan" type="radio" name="kangAoType1_whyHasBeenTaiwan" value="11"> 11. 未符合前述1至10條件
+										</label>
+									</div>
+								</fieldset>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-danger kangAoType1_whyHasBeenTaiwanAlert invalid hide" role="alert">
+									<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-warning kangAoType1_whyHasBeenTaiwanAlert valid" role="alert">
+									<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 需在報名表件註記
+								</div>
 							</div>
 						</div>
 					</div>
