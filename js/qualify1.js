@@ -20,6 +20,8 @@
 	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
+	const $portugalPassportRadio = $signUpForm.find('.radio-portugalPassport');
+	const $portugalPassportTime = $signUpForm.find('.input-portugalPassportTime');
 
 	/**
 	*	init
@@ -38,6 +40,8 @@
 	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
 	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassportRadio.on('change', _checkHoldpassport);
+	$portugalPassportRadio.on('change', _checkPortugalPassport);
+	$portugalPassportTime.on('change', _checkPortugalPassportTime);
 
 	// 確認兩次密碼輸入相同
 	function _handleValidatePassword() {
@@ -126,6 +130,62 @@
 		const holdpassport = +$this.val();
 		!!holdpassport && $signUpForm.find('.isTaiwanHousehold').fadeIn() && (_typeOfKangAo = null);
 		!!holdpassport || $signUpForm.find('.isTaiwanHousehold').fadeOut() && (_typeOfKangAo = 1);
+	}
+
+	// 是否持有葡萄牙護照
+	function _checkPortugalPassport() {
+		const $this = $(this);
+		const portugalPassport = +$this.val();
+		$signUpForm.find('.whichPassportAlert.valid1').fadeOut();
+		$signUpForm.find('.whichPassportAlert.valid2').fadeOut();
+		if (portugalPassport) {
+			_currentIdentity = 1;
+			_typeOfKangAo = 1;
+			$signUpForm.find('.whichPassport').fadeOut();
+			$signUpForm.find('.portugalPassportMore').fadeIn();
+		} else {
+			$signUpForm.find('.whichPassport').fadeIn();
+			$signUpForm.find('.portugalPassportMore').fadeOut();
+			const isTaiwanHousehold = !!+$('.radio-holdpassport:checked').val() && +$('.radio-taiwanHousehold:checked').val();
+			// 在臺曾設有戶籍者身分確認為港澳生【甲】
+			if (isTaiwanHousehold) {
+				_currentIdentity = 1;
+				_typeOfKangAo = 1;
+				$signUpForm.find('.whichPassportAlert.valid1').fadeIn();
+			} else {
+				_currentIdentity = 3;
+				_typeOfKangAo = 2;
+				$signUpForm.find('.whichPassportAlert.valid2').fadeIn();
+			}
+		}
+	}
+
+	// 於何時首次取得葡萄牙護照
+	function _checkPortugalPassportTime() {
+		const $this = $(this);
+		const portugalPassportTime = $this.val();
+		$signUpForm.find('.portugalPassportTimeAlert.valid1').fadeOut();
+		$signUpForm.find('.portugalPassportTimeAlert.valid2').fadeOut();
+		$signUpForm.find('.portugalPassportTimeAlert.valid3').fadeOut();
+		if (moment(portugalPassportTime).isBefore('1999-12-20')) {
+			// 身分確認為港澳生【甲】
+			_currentIdentity = 1;
+			_typeOfKangAo = 1;
+			$signUpForm.find('.portugalPassportTimeAlert.valid1').fadeIn();
+		} else {
+			const isTaiwanHousehold = !!+$('.radio-holdpassport:checked').val() && +$('.radio-taiwanHousehold:checked').val();
+			// 在臺曾設有戶籍者身分確認為港澳生【甲】
+			if (isTaiwanHousehold) {
+				_currentIdentity = 1;
+				_typeOfKangAo = 1;
+				$signUpForm.find('.portugalPassportTimeAlert.valid2').fadeIn();
+			} else {
+				// 身分確認為「港澳具外國國籍之華裔學生」【乙】
+				_currentIdentity = 3;
+				_typeOfKangAo = 2;
+				$signUpForm.find('.portugalPassportTimeAlert.valid3').fadeIn();
+			}
+		}
 	}
 
 	function _switchShowDistribution() {
