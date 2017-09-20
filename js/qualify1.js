@@ -88,10 +88,8 @@
 				$signUpForm.find('.question.kangAo').fadeIn();
 				break;
 			case '2':
-				$signUpForm.find('.question.overseas').fadeIn();
-				break;
 			case '3':
-				$signUpForm.find('.question.kangAoSpecial').fadeIn();
+				$signUpForm.find('.question.overseas').fadeIn();
 				break;
 		}
 	}
@@ -338,7 +336,7 @@
 		const option = +$this.val();
 		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').hide();
 		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').hide();
-		if (option === 11) {
+		if (option === 8) {
 			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').fadeIn();
 		} else {
 			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').fadeIn();
