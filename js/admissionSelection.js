@@ -27,6 +27,8 @@
 	*	cache DOM
 	*/
 
+	const $notJoinSelection = $('#notJoinSelection');
+	const $admissionSelectForm = $('#form-admissionSelect');
 	const $optionFilterSelect = $('#select-optionFilter');
 	const $optionFilterInput = $('#input-optionFilter'); // 搜尋欄
 	const $optionalWishList = $('#optionalWish-list');
@@ -44,11 +46,21 @@
 
 	$optionFilterSelect.on('change', _filterOptionalWishList);
 	$optionFilterInput.on('keyup', _filterOptionalWishList); // 列表篩選
+	$notJoinSelection.on('change', _showWishList);
 
 	function _init() {
 		student.setHeader();
 		_generateOptionalWish();
 		_generateWishList();
+	}
+
+	function _showWishList() {
+		let isJoin = !$(this).prop("checked");
+		if (isJoin) {
+			$admissionSelectForm.fadeIn();
+		} else {
+			$admissionSelectForm.fadeOut();
+		}
 	}
 
 	function _filterOptionalWishList() {
