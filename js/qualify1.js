@@ -149,8 +149,8 @@
 	function _checkHoldpassport() {
 		const $this = $(this);
 		const holdpassport = +$this.val();
-		!!holdpassport && $signUpForm.find('.isTaiwanHousehold').fadeIn() && _setTypeOfKangAo(null);
-		!!holdpassport || $signUpForm.find('.isTaiwanHousehold').fadeOut() && _setTypeOfKangAo(1);
+		!!holdpassport && $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeIn() && _setTypeOfKangAo(null);
+		!!holdpassport || $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeOut() && _setTypeOfKangAo(1);
 	}
 
 	// 是否持有葡萄牙護照
