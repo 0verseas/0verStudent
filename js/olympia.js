@@ -179,17 +179,17 @@
 		let rowHtml = '';
 		for(i in _wishList) {
 			rowHtml = rowHtml + `
-			<tr class="row" data-wishIndex="` + i + `">
-			<td class="col-1">
+			<tr data-wishIndex="` + i + `">
+			<td>
 			<button type="button" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
-			<td class="col-7 col-sm-8">
+			<td>
 			` + _wishList[i].id + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
 			</td>
-			<td class="col-4 col-sm-3 text-right">
+			<td class="text-right">
 			<div class="input-group">
-			<input type="number" class="form-control wish-num" value="` + (Number(i) + 1) + `">
+			<input type="text" class="form-control wish-num" value="` + (Number(i) + 1) + `">
 			<div class="input-group-btn">
 			<button type="button" class="btn btn-secondary btn-sm up-arrow">
 			<i class="fa fa-chevron-up" aria-hidden="true"></i>

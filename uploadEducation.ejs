@@ -1,6 +1,6 @@
 <% include components/_studentInfo %>
 
-<h2 class="text-center title">上傳個人申請資料</h2>
+<h2 class="text-center title">上傳學歷證件</h2>
 
 <hr>
 
@@ -21,14 +21,14 @@
 				<input type="file" class="filestyle">
 			</div>
 			<div class="col-sm-2 col-3">
-				<a class="btn btn-primary" href="#" role="button">上傳</a>
+				<!-- <a class="btn btn-primary" href="#" role="button">取得縮圖</a> -->
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
 					<div class="card-block">
-						<h4 class="card-title">已上傳學歷證明 <small class="text-muted">(點圖可放大)</small></h4>
+						<h4 class="card-title">待確認學歷證明 <small class="text-muted">(點圖可放大或刪除)</small></h4>
 						<img class="img-thumbnail" src="http://via.placeholder.com/970x1100" data-toggle="modal" data-target=".img-modal">
 					</div>
 				</div>
@@ -56,14 +56,14 @@
 				<input type="file" class="filestyle">
 			</div>
 			<div class="col-sm-2 col-3">
-				<a class="btn btn-primary" href="#" role="button">上傳</a>
+				<!-- <a class="btn btn-primary" href="#" role="button">取得縮圖</a> -->
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
 					<div class="card-block">
-						<h4 class="card-title">已上傳成績單 <small class="text-muted">(點圖可放大)</small></h4>
+						<h4 class="card-title">待確認成績單 <small class="text-muted">(點圖可放大或刪除)</small></h4>
 						<img class="img-thumbnail" src="http://via.placeholder.com/970x1100" data-toggle="modal" data-target=".img-modal">
 					</div>
 				</div>
@@ -95,7 +95,8 @@
 	</div>
 </div>
 
-<a class="btn btn-warning btn-logout" href="#" role="button">登出</a>
+<a class="btn btn-primary btn-save" href="#" role="button">確認上傳 / 完成並下一步 / 儲存</a>
+<!-- <a class="btn btn-warning btn-logout" href="#" role="button">登出</a> -->
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.3.0/bootstrap-filestyle.min.js"> </script>
 <!-- Doc: http://markusslima.github.io/bootstrap-filestyle/ -->

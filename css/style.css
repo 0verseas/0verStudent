@@ -1,17 +1,28 @@
+#app {
+	margin-top: 40px;
+}
+
+.navbar.header {
+	padding: 0px;
+}
+
 .title {
 	margin: 15px 0px;
 	letter-spacing: 5px;
 }
 
-#app {
-	margin-top: 40px;
-}
-
-.hide {
-	display: none;
+.btn-save {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	position: relative;
 	z-index: -1;
+}
+
+.hide {
+	display: none;
 }

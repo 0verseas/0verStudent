@@ -219,7 +219,7 @@
 			if (_nupsList.indexOf(_wishList[i].id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
 			rowHtml = rowHtml + `
 			<tr data-wishIndex="` + i + `">
-			<td class="">
+			<td>
 			<button type="button" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
