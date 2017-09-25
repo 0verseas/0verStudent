@@ -8,6 +8,7 @@
 	{id:"1001", group: "第一類組", school: "國立暨南國際大學", dept: "中國文學系", engDept: "Dept. of Chinese Literature"},
 	{id:"1002", group: "第一類組", school: "國立暨南國際大學", dept: "外國語文學系", engDept: "Dept. of Foreign Languages and Literatures"},
 	{id:"1003", group: "第一類組", school: "國立暨南國際大學", dept: "歷史學系", engDept: "Dept. of History"},
+	{id:"2FFF", group: "第一類組", school: "國立暨南國際大學", dept: "會計學系", engDept: "Dept. of Accounting"},
 	{id:"1004", group: "第二類組", school: "國立暨南國際大學", dept: "哲學系", engDept: "Dept. of Philosophy"},
 	{id:"1005", group: "第二類組", school: "國立暨南國際大學", dept: "人類學系", engDept: "Dept. of Anthropology"},
 	{id:"1006", group: "第二類組", school: "國立暨南國際大學", dept: "圖書資訊學系", engDept: "Dept. of Library and Information Science"},
@@ -15,8 +16,11 @@
 	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "戲劇學系", engDept: "Dept. of Drama and Theatre"},
 	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "法律學系法學組", engDept: "Dept. of Law, Division of Legal Science"},
 	{id:"1009", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系政治理論組", engDept: "Dept. of Political Science, Political Theory Division"},
-	{id:"1010", group: "第三類組", school: "國立暨南國際大學", dept: "經濟學系", engDept: "Dept. of Economics"}
+	{id:"1010", group: "第三類組", school: "國立暨南國際大學", dept: "經濟學系", engDept: "Dept. of Economics"},
+	{id:"1FFF", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系", engDept: "Dept. of Political Science"}
 	];
+
+	const _nupsList = ["1FFF", "2FFF"];
 
 	let _wishList = [];
 
@@ -177,15 +181,19 @@
 		_generateWishList();
 	}
 
-	function _generateOptionalWish() {
+	function _generateOptionalWish() { // 渲染招生校系清單
 		let rowHtml = '';
 
 		for(i in _optionalWish) {
+			let badgeNUPS = ''
+			if (_nupsList.indexOf(_optionalWish[i].id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
 			rowHtml = rowHtml + `
 			<tr>
 			<td>
 			<span>` + _optionalWish[i].id + `</span> ｜ <span>` + _optionalWish[i].group + `</span> ｜ <span>` + _optionalWish[i].school + `</span> <br>
 			<span>` + _optionalWish[i].dept + ` ` + _optionalWish[i].engDept + `</span>
+			<br />
+			` + badgeNUPS + `
 			</td>
 			<td class="text-right">
 			<button type="button" data-optionalIndex="` + i + `" class="btn btn-info btn-sm add-wish">
@@ -201,21 +209,28 @@
 		$addWish.on("click", _addWish);
 	}
 
-	function _generateWishList() {
+	function _generateWishList() { // 渲染已填選志願
 		let rowHtml = '';
+		let hasNUPS = false;
+		let invalidBadge = '';
+		
 		for(i in _wishList) {
+			let badgeNUPS = ''
+			if (_nupsList.indexOf(_wishList[i].id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
 			rowHtml = rowHtml + `
-			<tr class="row" data-wishIndex="` + i + `">
-			<td class="col-1">
+			<tr data-wishIndex="` + i + `">
+			<td class="">
 			<button type="button" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
-			<td class="col-7 col-sm-8">
+			<td>
 			` + _wishList[i].id + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
+			<br />
+			` + badgeNUPS + invalidBadge + `
 			</td>
-			<td class="col-4 col-sm-3 text-right">
+			<td class="text-right">
 			<div class="input-group">
-			<input type="number" class="form-control wish-num" value="` + (Number(i) + 1) + `">
+			<input type="text" class="form-control wish-num" value="` + (Number(i) + 1) + `">
 			<div class="input-group-btn">
 			<button type="button" class="btn btn-secondary btn-sm up-arrow">
 			<i class="fa fa-chevron-up" aria-hidden="true"></i>
@@ -228,6 +243,7 @@
 			</td>
 			</tr>
 			`;
+			if (hasNUPS === false && _nupsList.indexOf(_wishList[i].id) > -1) {invalidBadge = '<span class="badge badge-warning">無效志願</span>';}
 		}
 		$wishList.html(rowHtml);
 
