@@ -27,13 +27,15 @@
 	*	cache DOM
 	*/
 
-	const $hasOlympiaForm = $('#form-hasOlympia');
-	const $hasOlympia = $hasOlympiaForm.find('.hasOlympia');
-	const $olympiaSelectForm = $('#form-olympiaSelect');
-	const $optionFilterSelect = $('#select-optionFilter');
-	const $optionFilterInput = $('#input-optionFilter'); // 搜尋欄
-	const $optionalWishList = $('#optionalWish-list');
-	const $wishList = $('#wish-list');
+	const $hasOlympiaForm = $('#form-hasOlympia'); // 是否有「奧林匹亞獎項」表單
+	const $hasOlympia = $hasOlympiaForm.find('.hasOlympia'); // 是否有「奧林匹亞獎項」選項
+	const $olympiaSelectForm = $('#form-olympiaSelect'); // 奧林匹亞志願選擇表單
+	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
+	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
+	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
+	const optionalWishList = document.getElementById('optionalWish-list'); // 招生校系清單，渲染用
+	const $wishList = $('#wish-list'); // 已填選志願
+	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 
 	/**
 	*	init
@@ -45,9 +47,9 @@
 	*	bind event
 	*/
 
-	$hasOlympia.on('change', _showWishList);
-	$optionFilterSelect.on('change', _filterOptionalWishList);
-	$optionFilterInput.on('keyup', _filterOptionalWishList); // 列表篩選
+	$hasOlympia.on('change', _showWishList); // 監聽是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項
+	$optionFilterSelect.on('change', _filterOptionalWishList); // 監聽「招生校系清單」類別選項
+	$optionFilterInput.on('keyup', _filterOptionalWishList); // // 監聽「招生校系清單」關鍵字
 
 	function _init() {
 		student.setHeader();
@@ -55,7 +57,7 @@
 		_generateWishList();
 	}
 
-	function _showWishList() {
+	function _showWishList() { // 不參加申請，即不顯示聯分表單
 		const hasOlympiaVal = Number($(this).val());
 		if (hasOlympiaVal === 0) {
 			$olympiaSelectForm.fadeOut();
@@ -64,7 +66,7 @@
 		}
 	}
 
-	function _filterOptionalWishList() {
+	function _filterOptionalWishList() { // 篩選校系清單項目
 		const filterSelect = Number($optionFilterSelect.val());
 		const filter = $optionFilterInput.val().toUpperCase();
 		const tr = $optionalWishList.find('tr');
@@ -80,7 +82,7 @@
 		}
 	}
 
-	function _addWish() {
+	function _addWish() { // 增加志願
 		if (_wishList.length < 3) {
 			let optionalIndex = $(this).data("optionalindex");
 			_wishList.push(_optionalWish[optionalIndex]);
@@ -93,13 +95,13 @@
 		}
 	}
 
-	function _findRowIndex(row) {
+	function _findRowIndex(row) { // 尋找該志願選項 index（移動或刪除志願時使用）
 		const tableRow = row.closest('tr');
 		const index = tableRow.data('wishindex');
 		return index;
 	}
 
-	function _prevWish() {
+	function _prevWish() { // 志願上調
 		const rowIndex = _findRowIndex($(this));
 		if (rowIndex > 0) {
 			const swap = _wishList[rowIndex];
@@ -109,7 +111,7 @@
 		}
 	}
 
-	function _nextWish() {
+	function _nextWish() { // 志願下調
 		const rowIndex = _findRowIndex($(this));
 		if (rowIndex < _wishList.length - 1) {
 			const swap = _wishList[rowIndex];
@@ -119,7 +121,7 @@
 		}
 	}
 
-	function _removeWish() {
+	function _removeWish() { // 刪除志願
 		const rowIndex = _findRowIndex($(this));
 		_optionalWish.push(_wishList[rowIndex]);
 		_wishList.splice(rowIndex, 1);
@@ -131,11 +133,11 @@
 		_filterOptionalWishList();
 	}
 
-	function _savePrevWishIndex() {
+	function _savePrevWishIndex() { // 暫存志願序號
 		_prevWishIndex = $(this).val() - 1;
 	}
 
-	function _chWishIndex() {
+	function _chWishIndex() { // 修改志願序號
 		let currentNum = $(this).val();
 
 		if (currentNum > _wishList.length) {
@@ -151,7 +153,7 @@
 		_generateWishList();
 	}
 
-	function _generateOptionalWish() {
+	function _generateOptionalWish() { // 渲染「招生校系清單」
 		let rowHtml = '';
 
 		for(i in _optionalWish) {
@@ -169,13 +171,13 @@
 			</tr>
 			`;
 		}
-		$optionalWishList.html(rowHtml);
+		optionalWishList.innerHTML = rowHtml;
 
 		const $addWish = $optionalWishList.find('.add-wish');
 		$addWish.on("click", _addWish);
 	}
 
-	function _generateWishList() {
+	function _generateWishList() { // 「渲染已填選志願」
 		let rowHtml = '';
 		for(i in _wishList) {
 			rowHtml = rowHtml + `
@@ -203,7 +205,7 @@
 			</tr>
 			`;
 		}
-		$wishList.html(rowHtml);
+		wishList.innerHTML = rowHtml;
 
 		const $removeWish = $wishList.find('.remove-wish');
 		const $wishNum = $wishList.find('.wish-num');
