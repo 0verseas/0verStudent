@@ -16,6 +16,7 @@
 	const $portugalPassportTime = $signUpForm.find('.input-portugalPassportTime');
 	const $KA_isDistributionRadio = $signUpForm.find('.kangAo_radio-isDistribution');
 	const $KA_distributionMoreQuestion = $signUpForm.find('.kangAo_distributionMoreQuestion');
+	const $KA_stayLimitRadio = $signUpForm.find('.kangAo_radio-stayLimit');
 
 	/**
 	*	bind event
@@ -28,6 +29,7 @@
 	$portugalPassportTime.on('change', _checkPortugalPassportTime);
 	$KA_isDistributionRadio.on('change', _handleKAIsDistribution);
 	$KA_distributionMoreQuestion.on('change', _checkKADistributionValidation);
+	$KA_stayLimitRadio.on('change', _checkKAStayLimitValidation);
 
 	/**
 	*	event handler
@@ -143,6 +145,24 @@
 			$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeIn();
 		} else {
 			$signUpForm.find('.kangAo_distributionMoreAlert.invalid').fadeIn();
+		}
+	}
+
+	// 港澳生 海外居留年限
+	function _checkKAStayLimitValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.kangAo_stayLimitAlert').hide();
+		switch (option) {
+			case 1:
+				$signUpForm.find('.kangAo_stayLimitAlert.invalid').fadeIn();
+				break;
+			case 2:
+			case 4:
+				$signUpForm.find('.kangAo_stayLimitAlert.valid').fadeIn();
+				break;
+			default:
+				break;
 		}
 	}
 
