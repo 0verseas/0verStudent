@@ -3,7 +3,7 @@
 	*	private variable
 	*/
 	let _currentIdentity = 1;
-	let _typeOfKangAo = null;
+	let _typeOfKangAo = 1;
 
 	/**
 	*	cache DOM
@@ -21,22 +21,15 @@
 	// 港澳生
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
+	const $taiwanHousehold = $signUpForm.find('.radio-taiwanHousehold');
 	const $portugalPassportRadio = $signUpForm.find('.radio-portugalPassport');
 	const $portugalPassportTime = $signUpForm.find('.input-portugalPassportTime');
-
-	// 港澳生-甲
-	const $KA1_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-isDistribution');
-	const $KA1_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_distributionMoreQuestion');
-	const $KA1_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-stayLimit');
-	const $KA1_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-hasBeenTaiwan');
-	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType.type1 .kangAoType1_radio-whyHasBeenTaiwan');
-
-	// 港澳生-乙
-	const $KA2_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-isDistribution');
-	const $KA2_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_distributionMoreQuestion');
-	const $KA2_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-stayLimit');
-	const $KA2_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-hasBeenTaiwan');
-	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType.type2 .kangAoType2_radio-whyHasBeenTaiwan');
+	const $KA_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAo_radio-isDistribution');
+	const $KA_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAo_distributionMoreQuestion');
+	const $KA_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAo_radio-stayLimit');
+	const $KA_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAo_radio-hasBeenTaiwan');
+	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType1_radio-whyHasBeenTaiwan');
+	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType2_radio-whyHasBeenTaiwan');
 
 	/**
 	*	init
@@ -58,21 +51,14 @@
 	// 港澳生
 	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassportRadio.on('change', _checkHoldpassport);
+	$taiwanHousehold.on('change', _checkTaiwanHousehold);
 	$portugalPassportRadio.on('change', _checkPortugalPassport);
 	$portugalPassportTime.on('change', _checkPortugalPassportTime);
-
-	// 港澳生-甲
-	$KA1_isDistributionRadio.on('change', _handleKA1IsDistribution);
-	$KA1_distributionMoreQuestion.on('change', _checkKA1DistributionValidation);
-	$KA1_stayLimitRadio.on('change', _checkKA1StayLimitValidation);
-	$KA1_hasBeenTaiwanRadio.on('change', _checkKA1HasBeenTaiwanValidation);
+	$KA_isDistributionRadio.on('change', _handleKAIsDistribution);
+	$KA_distributionMoreQuestion.on('change', _checkKADistributionValidation);
+	$KA_stayLimitRadio.on('change', _checkKAStayLimitValidation);
+	$KA_hasBeenTaiwanRadio.on('change', _checkKAHasBeenTaiwanValidation);
 	$KA1_whyHasBeenTaiwan.on('change', _checkKA1WhyHasBeenTaiwanValidation);
-
-	// 港澳生-乙
-	$KA2_isDistributionRadio.on('change', _handleKA2IsDistribution);
-	$KA2_distributionMoreQuestion.on('change', _checkKA2DistributionValidation);
-	$KA2_stayLimitRadio.on('change', _checkKA2StayLimitValidation);
-	$KA2_hasBeenTaiwanRadio.on('change', _checkKA2HasBeenTaiwanValidation);
 	$KA2_whyHasBeenTaiwan.on('change', _checkKA2WhyHasBeenTaiwanValidation);
 
 	/**
@@ -85,10 +71,10 @@
 		$signUpForm.find('.question').hide();
 		switch(_currentIdentity) {
 			case '1':
+			case '3':
 				$signUpForm.find('.question.kangAo').fadeIn();
 				break;
 			case '2':
-			case '3':
 				$signUpForm.find('.question.overseas').fadeIn();
 				break;
 		}
@@ -153,6 +139,12 @@
 		!!holdpassport || $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeOut() && _setTypeOfKangAo(1);
 	}
 
+	// 是否曾在臺設有戶籍
+	function _checkTaiwanHousehold() {
+		$portugalPassportTime.val('').trigger('change');
+		_setTypeOfKangAo(null);
+	}
+
 	// 是否持有葡萄牙護照
 	function _checkPortugalPassport() {
 		const $this = $(this);
@@ -161,9 +153,10 @@
 		$signUpForm.find('.whichPassportAlert.valid2').fadeOut();
 		if (portugalPassport) {
 			_currentIdentity = 1;
-			_setTypeOfKangAo(1);
+			_setTypeOfKangAo(null);
 			$signUpForm.find('.whichPassport').fadeOut();
 			$signUpForm.find('.portugalPassportMore').fadeIn();
+			$portugalPassportTime.val('').trigger('change');
 		} else {
 			$signUpForm.find('.whichPassport').fadeIn();
 			$signUpForm.find('.portugalPassportMore').fadeOut();
@@ -188,6 +181,10 @@
 		$signUpForm.find('.portugalPassportTimeAlert.valid1').fadeOut();
 		$signUpForm.find('.portugalPassportTimeAlert.valid2').fadeOut();
 		$signUpForm.find('.portugalPassportTimeAlert.valid3').fadeOut();
+		if (portugalPassportTime === '') {
+			return;
+		}
+		
 		if (moment(portugalPassportTime).isBefore('1999-12-20')) {
 			// 身分確認為港澳生【甲】
 			_currentIdentity = 1;
@@ -223,54 +220,68 @@
 		!!option || $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeOut();
 	}
 
-	// 港澳生-甲 是否分發來台
-	function _handleKA1IsDistribution() {
+	// 港澳生 是否分發來台
+	function _handleKAIsDistribution() {
 		const $this = $(this);
 		const isDistribution = +$this.val();
-		!!isDistribution && $signUpForm.find('.kangAoType1_distributionMore').fadeIn();
-		!!isDistribution || $signUpForm.find('.kangAoType1_distributionMore').fadeOut();
+		!!isDistribution && $signUpForm.find('.kangAo_distributionMore').fadeIn();
+		!!isDistribution || $signUpForm.find('.kangAo_distributionMore').fadeOut();
 	}
 
-	// 港澳生-甲 曾分發來台的一堆問題
-	function _checkKA1DistributionValidation() {
+	// 港澳生 曾分發來台的一堆問題
+	function _checkKADistributionValidation() {
 		const $this = $(this);
 		const option = +$this.val();
 		const valid = [1, 2];
 		if (valid.includes(option)) {
-			$signUpForm.find('.kangAoType1_distributionMoreAlert.valid').fadeIn();
+			$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeIn();
 		} else {
-			$signUpForm.find('.kangAoType1_distributionMoreAlert.valid').fadeOut();
+			$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeOut();
 		}
 	}
 
-	// 港澳生-甲 海外居留年限
-	function _checkKA1StayLimitValidation() {
+	// 港澳生 海外居留年限
+	function _checkKAStayLimitValidation() {
 		const $this = $(this);
 		const option = +$this.val();
-		$signUpForm.find('.kangAoType1_stayLimitAlert').hide();
+		$signUpForm.find('.kangAo_stayLimitAlert').hide();
 		switch (option) {
 			case 1:
-				$signUpForm.find('.kangAoType1_stayLimitAlert.invalid').fadeIn();
+				$signUpForm.find('.kangAo_stayLimitAlert.invalid').fadeIn();
 				break;
 			case 2:
 			case 4:
-				$signUpForm.find('.kangAoType1_stayLimitAlert.valid').fadeIn();
+				$signUpForm.find('.kangAo_stayLimitAlert.valid').fadeIn();
 				break;
 			default:
 				break;
 		}
 	}
 
-	// 港澳生-甲 在台停留日期
-	function _checkKA1HasBeenTaiwanValidation() {
+	// 港澳生 在台停留日期
+	function _checkKAHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const has = +$this.val();
-		!!has && $signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeIn();
-		!!has || $signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeOut();
+		$signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeOut();
+		$signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeOut();
+		if (has) {
+			switch (_typeOfKangAo) {
+				case 1:
+					$signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeIn();
+					break;
+				case 2:
+					$signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeIn();
+					break;
+				default:
+					alert('請確保上述問題已正確填答');
+					$KA_hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
+					break;
+			}
+		}
 	}
 
 
-	// 港澳生-甲 為何在台停留一堆問題
+	// 港澳生 甲 為何在台停留一堆問題
 	function _checkKA1WhyHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const option = +$this.val();
@@ -283,54 +294,7 @@
 		}
 	}
 
-	// 港澳生-乙 是否分發來台
-	function _handleKA2IsDistribution() {
-		const $this = $(this);
-		const isDistribution = +$this.val();
-		!!isDistribution && $signUpForm.find('.kangAoType2_distributionMore').fadeIn();
-		!!isDistribution || $signUpForm.find('.kangAoType2_distributionMore').fadeOut();
-	}
-
-	// 港澳生-乙 曾分發來台的一堆問題
-	function _checkKA2DistributionValidation() {
-		const $this = $(this);
-		const option = +$this.val();
-		const valid = [1, 2];
-		if (valid.includes(option)) {
-			$signUpForm.find('.kangAoType2_distributionMoreAlert.valid').fadeIn();
-		} else {
-			$signUpForm.find('.kangAoType2_distributionMoreAlert.valid').fadeOut();
-		}
-	}
-
-	// 港澳生-乙 海外居留年限
-	function _checkKA2StayLimitValidation() {
-		const $this = $(this);
-		const option = +$this.val();
-		$signUpForm.find('.kangAoType2_stayLimitAlert').hide();
-		switch (option) {
-			case 1:
-				$signUpForm.find('.kangAoType2_stayLimitAlert.invalid').fadeIn();
-				break;
-			case 2:
-			case 4:
-				$signUpForm.find('.kangAoType2_stayLimitAlert.valid').fadeIn();
-				break;
-			default:
-				break;
-		}
-	}
-
-	// 港澳生-乙 在台停留日期
-	function _checkKA2HasBeenTaiwanValidation() {
-		const $this = $(this);
-		const has = +$this.val();
-		!!has && $signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeIn();
-		!!has || $signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeOut();
-	}
-
-
-	// 港澳生-乙 為何在台停留一堆問題
+	// 港澳生 乙 為何在台停留一堆問題
 	function _checkKA2WhyHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const option = +$this.val();
@@ -347,15 +311,17 @@
 	*	private method
 	*/
 	function _setTypeOfKangAo(type) {
-		$signUpForm.find('.question.kangAo .kangAoType').fadeOut();
+		console.log(`Kang Ao type changed: ${type}`);
+		$KA_hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
 		switch (type) {
 			case 1:
 				_typeOfKangAo = 1;
-				$signUpForm.find('.question.kangAo .kangAoType.type1').fadeIn();
 				break;
 			case 2:
 				_typeOfKangAo = 2;
-				$signUpForm.find('.question.kangAo .kangAoType.type2').fadeIn();
+				break;
+			default:
+				_typeOfKangAo = null;
 				break;
 		}
 	}
