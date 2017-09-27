@@ -4,15 +4,17 @@
 	*	cache DOM
 	*/
 
+	// 學歷證明
 	const $certificateFrom = $('#form-certificate');
-	const $addCertificateBtn = $certificateFrom.find('#btn-addCertificate');
-	const $certificateTitle = $certificateFrom.find('#title-certificate');
-	const $certificateImgArea = $certificateFrom.find('#certificateImgArea');
+	const $certificateFile = $('#file-certificate');
+	const $certificateTitle = $('#title-certificate');
+	const $certificateImgArea = $('#certificateImgArea');
 
+	// 成績單
 	const $transcriptForm = $('#form-transcript');
-	const $addTranscriptBtn = $transcriptForm.find('#btn-addTranscript');
-	const $transcriptTitle = $transcriptForm.find('#title-transcript');
-	const $transcriptImgArea = $transcriptForm.find('#transcriptImgArea');
+	const $transcriptFile = $('#file-transcript');
+	const $transcriptTitle = $('#title-transcript');
+	const $transcriptImgArea = $('#transcriptImgArea');
 	
 	/**
 	*	init
@@ -24,31 +26,40 @@
 	*	bind event
 	*/
 
-	$addCertificateBtn.on("click", _addCertificate);
-	$addTranscriptBtn.on("click", _addTranscript);
+	$certificateFile.on("change", _addCertificate);
+	$transcriptFile.on("change", _addTranscript);
 
 	function _init() {
 		student.setHeader();
 		
 		$(":file").filestyle({
 			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-			btnClass: "btn-secondary",
-			text: " 選擇圖片"
+			btnClass: "btn-success",
+			text: " 選擇圖片",
+			input: false
 		});
 	}
 
 	function _addCertificate() {
 		$certificateTitle.html('待上傳學歷證明');
-		let width = Math.floor((Math.random() * 500) + 200);
-		let height = Math.floor((Math.random() * 500) + 200);
-		$certificateImgArea.append('<img class="img-thumbnail bg-yellow" src="http://via.placeholder.com/' + width + 'x' + height + '" data-toggle="modal" data-target=".img-modal">');
+		var fileList = this.files;
+		var anyWindow = window.URL || window.webkitURL;
+		for(var i = 0; i < fileList.length; i++){
+			var objectUrl = anyWindow.createObjectURL(fileList[i]);
+			$certificateImgArea.append('<img class="img-thumbnail bg-yellow" src="' + objectUrl + '" data-toggle="modal" data-target=".img-modal">');
+			window.URL.revokeObjectURL(fileList[i]);
+		}
 	}
 
 	function _addTranscript() {
 		$transcriptTitle.html('待上傳成績單');
-		let width = Math.floor((Math.random() * 500) + 200);
-		let height = Math.floor((Math.random() * 500) + 200);
-		$transcriptImgArea.append('<img class="img-thumbnail bg-yellow" src="http://via.placeholder.com/' + width + 'x' + height + '" data-toggle="modal" data-target=".img-modal">');
+		var fileList = this.files;
+		var anyWindow = window.URL || window.webkitURL;
+		for(var i = 0; i < fileList.length; i++){
+			var objectUrl = anyWindow.createObjectURL(fileList[i]);
+			$transcriptImgArea.append('<img class="img-thumbnail bg-yellow" src="' + objectUrl + '" data-toggle="modal" data-target=".img-modal">');
+			window.URL.revokeObjectURL(fileList[i]);
+		}
 	}
 
 })();
