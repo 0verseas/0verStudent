@@ -11,6 +11,7 @@
 	const $graduatedRadio = $signUpForm.find('.radio-graduated');
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
+	const $taiwanHousehold = $signUpForm.find('.radio-taiwanHousehold');
 
 	/**
 	*	bind event
@@ -18,6 +19,7 @@
 	$graduatedRadio.on('change', _checkGraduated);
 	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassportRadio.on('change', _checkHoldpassport);
+	$taiwanHousehold.on('change', _checkTaiwanHousehold);
 
 	/**
 	*	event handler
@@ -44,6 +46,12 @@
 		const holdpassport = +$this.val();
 		!!holdpassport && $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeIn() && _setTypeOfKangAo(null);
 		!!holdpassport || $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeOut() && _setTypeOfKangAo(1);
+	}
+
+	// 是否曾在臺設有戶籍
+	function _checkTaiwanHousehold() {
+		// $portugalPassportTime.val('').trigger('change');
+		_setTypeOfKangAo(null);
 	}
 
 	/**
