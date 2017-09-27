@@ -142,6 +142,7 @@
 	// 是否曾在臺設有戶籍
 	function _checkTaiwanHousehold() {
 		$portugalPassportTime.val('').trigger('change');
+		$signUpForm.find('.radio-portugalPassport:checked').trigger('change');
 		_setTypeOfKangAo(null);
 	}
 
