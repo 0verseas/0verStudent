@@ -17,6 +17,9 @@
 	const $KA_isDistributionRadio = $signUpForm.find('.kangAo_radio-isDistribution');
 	const $KA_distributionMoreQuestion = $signUpForm.find('.kangAo_distributionMoreQuestion');
 	const $KA_stayLimitRadio = $signUpForm.find('.kangAo_radio-stayLimit');
+	const $KA_hasBeenTaiwanRadio = $signUpForm.find('.kangAo_radio-hasBeenTaiwan');
+	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan');
+	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan');
 
 	/**
 	*	bind event
@@ -30,6 +33,9 @@
 	$KA_isDistributionRadio.on('change', _handleKAIsDistribution);
 	$KA_distributionMoreQuestion.on('change', _checkKADistributionValidation);
 	$KA_stayLimitRadio.on('change', _checkKAStayLimitValidation);
+	$KA_hasBeenTaiwanRadio.on('change', _checkKAHasBeenTaiwanValidation);
+	$KA1_whyHasBeenTaiwan.on('change', _checkKA1WhyHasBeenTaiwanValidation);
+	$KA2_whyHasBeenTaiwan.on('change', _checkKA2WhyHasBeenTaiwanValidation);
 
 	/**
 	*	event handler
@@ -166,12 +172,61 @@
 		}
 	}
 
+	// 港澳生 在台停留日期
+	function _checkKAHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const has = +$this.val();
+		$signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeOut();
+		$signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeOut();
+		if (has) {
+			switch (_typeOfKangAo) {
+				case 1:
+					$signUpForm.find('.kangAoType1_hasBeenTaiwanQuestion').fadeIn();
+					break;
+				case 2:
+					$signUpForm.find('.kangAoType2_hasBeenTaiwanQuestion').fadeIn();
+					break;
+				default:
+					alert('請確保上述問題已正確填答');
+					$KA_hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
+					break;
+			}
+		}
+	}
+
+
+	// 港澳生 甲 為何在台停留一堆問題
+	function _checkKA1WhyHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.invalid').hide();
+		$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.valid').hide();
+		if (option === 11) {
+			$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.invalid').fadeIn();
+		} else {
+			$signUpForm.find('.kangAoType1_whyHasBeenTaiwanAlert.valid').fadeIn();
+		}
+	}
+
+	// 港澳生 乙 為何在台停留一堆問題
+	function _checkKA2WhyHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').hide();
+		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').hide();
+		if (option === 8) {
+			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').fadeIn();
+		} else {
+			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').fadeIn();
+		}
+	}
+
 	/**
 	*	private method
 	*/
 	function _setTypeOfKangAo(type) {
 		console.log(`Kang Ao type changed: ${type}`);
-		// $KA_hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
+		$KA_hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
 		switch (type) {
 			case 1:
 				_typeOfKangAo = 1;
