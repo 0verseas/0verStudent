@@ -229,15 +229,16 @@
 		!!isDistribution || $signUpForm.find('.kangAo_distributionMore').fadeOut();
 	}
 
-	// 港澳生 曾分發來台的一堆問題
 	function _checkKADistributionValidation() {
 		const $this = $(this);
 		const option = +$this.val();
 		const valid = [1, 2];
+		$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeOut();
+		$signUpForm.find('.kangAo_distributionMoreAlert.invalid').fadeOut();
 		if (valid.includes(option)) {
 			$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeIn();
 		} else {
-			$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeOut();
+			$signUpForm.find('.kangAo_distributionMoreAlert.invalid').fadeIn();
 		}
 	}
 
