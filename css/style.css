@@ -11,14 +11,8 @@
 	letter-spacing: 5px;
 }
 
-.btn-save {
-	position: fixed;
-	bottom: 30px;
-	right: 30px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
 footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
+	margin-top: 15px;
 	position: relative;
 	z-index: -1;
 }
