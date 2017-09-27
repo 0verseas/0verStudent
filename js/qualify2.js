@@ -9,11 +9,13 @@
 	*/
 	const $signUpForm = $('#form-signUp');
 	const $graduatedRadio = $signUpForm.find('.radio-graduated');
+	const $idCardRadio = $signUpForm.find('.radio-idCard');
 
 	/**
 	*	bind event
 	*/
 	$graduatedRadio.on('change', _checkGraduated);
+	$idCardRadio.on('change', _cehckIdCardValidation);
 
 	/**
 	*	event handler
@@ -24,6 +26,14 @@
 		const graduated = +$this.val();
 		!!graduated && $signUpForm.find('.graduatedAlert.invalid').fadeIn();
 		!!graduated || $signUpForm.find('.graduatedAlert.invalid').fadeOut();
+	}
+
+	// 是否擁有香港或澳門永久性居民身分證
+	function _cehckIdCardValidation() {
+		const $this = $(this);
+		const idCard = +$this.val();
+		!!idCard && $signUpForm.find('.idCardAlert.invalid').fadeOut();
+		!!idCard || $signUpForm.find('.idCardAlert.invalid').fadeIn();
 	}
 
 })();
