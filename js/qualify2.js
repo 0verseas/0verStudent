@@ -14,6 +14,8 @@
 	const $taiwanHousehold = $signUpForm.find('.radio-taiwanHousehold');
 	const $portugalPassportRadio = $signUpForm.find('.radio-portugalPassport');
 	const $portugalPassportTime = $signUpForm.find('.input-portugalPassportTime');
+	const $KA_isDistributionRadio = $signUpForm.find('.kangAo_radio-isDistribution');
+	const $KA_distributionMoreQuestion = $signUpForm.find('.kangAo_distributionMoreQuestion');
 
 	/**
 	*	bind event
@@ -24,6 +26,8 @@
 	$taiwanHousehold.on('change', _checkTaiwanHousehold);
 	$portugalPassportRadio.on('change', _checkPortugalPassport);
 	$portugalPassportTime.on('change', _checkPortugalPassportTime);
+	$KA_isDistributionRadio.on('change', _handleKAIsDistribution);
+	$KA_distributionMoreQuestion.on('change', _checkKADistributionValidation);
 
 	/**
 	*	event handler
@@ -117,6 +121,28 @@
 				_setTypeOfKangAo(2);
 				$signUpForm.find('.portugalPassportTimeAlert.valid3').fadeIn();
 			}
+		}
+	}
+
+	// 港澳生 是否分發來台
+	function _handleKAIsDistribution() {
+		const $this = $(this);
+		const isDistribution = +$this.val();
+		!!isDistribution && $signUpForm.find('.kangAo_distributionMore').fadeIn();
+		!!isDistribution || $signUpForm.find('.kangAo_distributionMore').fadeOut();
+	}
+
+	// 港澳生 曾分發來台的一堆問題
+	function _checkKADistributionValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		const valid = [1, 2];
+		$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeOut();
+		$signUpForm.find('.kangAo_distributionMoreAlert.invalid').fadeOut();
+		if (valid.includes(option)) {
+			$signUpForm.find('.kangAo_distributionMoreAlert.valid').fadeIn();
+		} else {
+			$signUpForm.find('.kangAo_distributionMoreAlert.invalid').fadeIn();
 		}
 	}
 
