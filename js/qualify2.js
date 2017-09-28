@@ -2,53 +2,29 @@
 	/**
 	*	private variable
 	*/
-	let _currentIdentity = 1;
 	let _typeOfKangAo = 1;
 
 	/**
-	*	cache DOM
+	*	cache dom
 	*/
 	const $signUpForm = $('#form-signUp');
-	const $identityRadio = $signUpForm.find('.radio-identity');
-
-	// 海外僑生
-	const $isDistribution = $signUpForm.find('.isDistribution');
-	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
-	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
-	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
-	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
-
-	// 港澳生
+	const $graduatedRadio = $signUpForm.find('.radio-graduated');
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
 	const $taiwanHousehold = $signUpForm.find('.radio-taiwanHousehold');
 	const $portugalPassportRadio = $signUpForm.find('.radio-portugalPassport');
 	const $portugalPassportTime = $signUpForm.find('.input-portugalPassportTime');
-	const $KA_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAo_radio-isDistribution');
-	const $KA_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAo_distributionMoreQuestion');
-	const $KA_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAo_radio-stayLimit');
-	const $KA_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAo_radio-hasBeenTaiwan');
-	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType1_radio-whyHasBeenTaiwan');
-	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType2_radio-whyHasBeenTaiwan');
-
-	/**
-	*	init
-	*/
-	$signUpForm.find('.question.kangAo').removeClass('hide');
+	const $KA_isDistributionRadio = $signUpForm.find('.kangAo_radio-isDistribution');
+	const $KA_distributionMoreQuestion = $signUpForm.find('.kangAo_distributionMoreQuestion');
+	const $KA_stayLimitRadio = $signUpForm.find('.kangAo_radio-stayLimit');
+	const $KA_hasBeenTaiwanRadio = $signUpForm.find('.kangAo_radio-hasBeenTaiwan');
+	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan');
+	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan');
 
 	/**
 	*	bind event
 	*/
-	$identityRadio.on('change', _handleChangeIdentity);
-
-	// 海外僑生
-	$isDistribution.on('change', _switchShowDistribution);
-	$distributionMoreQuestion.on('change', _checkDistributionValidation);
-	$stayLimitRadio.on('change', _checkStayLimitValidation)
-	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
-	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
-
-	// 港澳生
+	$graduatedRadio.on('change', _checkGraduated);
 	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassportRadio.on('change', _checkHoldpassport);
 	$taiwanHousehold.on('change', _checkTaiwanHousehold);
@@ -64,63 +40,12 @@
 	/**
 	*	event handler
 	*/
-	// 選擇身份別
-	// 1: 港澳 2: 海外 3: 港澳具外國
-	function _handleChangeIdentity () {
-		_currentIdentity = $(this).val();
-		$signUpForm.find('.question').hide();
-		switch(_currentIdentity) {
-			case '1':
-			case '3':
-				$signUpForm.find('.question.kangAo').fadeIn();
-				break;
-			case '2':
-				$signUpForm.find('.question.overseas').fadeIn();
-				break;
-		}
-	}
-
-	// 判斷是否分發來台就學的一推選項是否符合資格
-	function _checkDistributionValidation() {
+	// 請問您在香港是否修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程，並已取得畢業證書（應屆畢業者得檢附在學證明）？
+	function _checkGraduated() {
 		const $this = $(this);
-		const option = +$this.val();
-		const validOption = [1, 2, 7];
-		$signUpForm.find('.distributionMoreAlert').hide();
-		if (validOption.includes(option)) {
-			$signUpForm.find('.distributionMoreAlert.valid').fadeIn();
-		} else {
-			$signUpForm.find('.distributionMoreAlert.invalid').fadeIn();
-		}
-	}
-
-	// 海外居留年限判斷
-	function _checkStayLimitValidation() {
-		const $this = $(this);
-		const option = +$this.val();
-		$signUpForm.find('.stayLimitAlert').hide();
-		switch (option) {
-			case 1:
-				$signUpForm.find('.stayLimitAlert.invalid').fadeIn();
-				break;
-			case 2:
-			case 4:
-				$signUpForm.find('.stayLimitAlert.valid').fadeIn();
-				break;
-			default:
-				break;
-		}
-	}
-
-	// 為何在台超過一百二十天
-	function _checkWhyHasBeenTaiwanValidation() {
-		const $this = $(this);
-		const option = +$this.val();
-		$('.whyHasBeenTaiwanAlert').hide();
-		if (option === 8) {
-			$('.whyHasBeenTaiwanAlert.invalid').fadeIn();
-		} else {
-			$('.whyHasBeenTaiwanAlert.valid').fadeIn();
-		}
+		const graduated = +$this.val();
+		!!graduated && $signUpForm.find('.graduatedAlert.invalid').fadeIn();
+		!!graduated || $signUpForm.find('.graduatedAlert.invalid').fadeOut();
 	}
 
 	// 是否擁有香港或澳門永久性居民身分證
@@ -207,20 +132,6 @@
 		}
 	}
 
-	function _switchShowDistribution() {
-		const $this = $(this);
-		const isDistribution =  +$this.val();
-		!!isDistribution && $signUpForm.find('#distributionMore').fadeIn();
-		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut();
-	}
-
-	function _checkHasBeenTaiwanValidation() {
-		const $this = $(this);
-		const option = +$this.val();
-		!!option && $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeIn();
-		!!option || $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeOut();
-	}
-
 	// 港澳生 是否分發來台
 	function _handleKAIsDistribution() {
 		const $this = $(this);
@@ -229,6 +140,7 @@
 		!!isDistribution || $signUpForm.find('.kangAo_distributionMore').fadeOut();
 	}
 
+	// 港澳生 曾分發來台的一堆問題
 	function _checkKADistributionValidation() {
 		const $this = $(this);
 		const option = +$this.val();
