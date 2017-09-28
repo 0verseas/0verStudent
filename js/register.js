@@ -18,7 +18,8 @@
 	*	bind event
 	*/
 	$email.on('blur', _checkEmail);
-	$passwordConfirm.on('blur', _checkPassword);
+	$password.on('blur', _checkPassword);
+	$passwordConfirm.on('blur', _checkPasswordConfirm);
 	$registerBtn.on('click', _handleSubmit);
 	
 	/**
@@ -37,16 +38,33 @@
 
 	function _checkPassword() {
 		const oriPass = $password.val();
+		oriPass.length < 6 && $password.addClass('invalidInput') && (_passValid = false);
+		oriPass.length >= 6 && $password.removeClass('invalidInput') && (_passValid = true);
+	}
+
+	function _checkPasswordConfirm() {
+		const oriPass = $password.val();
 		const passConfirm = $passwordConfirm.val();
 		oriPass !== passConfirm && $passwordConfirm.addClass('invalidInput') && (_passValid = false);
 		oriPass === passConfirm && $passwordConfirm.removeClass('invalidInput') && (_passValid = true);
 	}
 
 	function _handleSubmit() {
+		const email = $email.val();
 		const oriPass = $password.val();
 		const passConfirm = $passwordConfirm.val();
 		if (_emailValid && _passValid && !!oriPass && !!passConfirm) {
-			location.href="./";
+			const data = {
+				email: email,
+				password: sha256(oriPass),
+				password_confirmation: sha256(passConfirm)
+			}
+			student.register(data)
+			.then((res) => { return res.json(); })
+			.then((json) => {
+				console.log(json);
+			})
+			location.href="./systemChoose.html";
 		} else {
 			alert('輸入有誤');
 		}

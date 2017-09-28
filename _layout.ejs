@@ -18,10 +18,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<script src="https://rawgit.com/CarlosBonetti/jquery-loading/master/dist/jquery.loading.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="../env.js"></script>
 	<script src="./js/student.js"></script>
-	<!-- <script src="../env.js"></script>
-	<script src="./js/user.js"></script>
-	<script src="./js/school.js"></script> -->
 </head>
 <body>
 	<% 
@@ -43,7 +41,7 @@
 	<div id="app" class="container">
 		<nav class="navbar header navbar-toggleable-md navbar-light">
 
-			<% if (_processPageList.indexOf(current.source) > -1) { %>
+			<% if (_processPageList.indexOf(current.source) > -1 || current.source === 'uploadReviewItems') { %>
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -56,11 +54,11 @@
 				/>
 				<span class="hidden-sm-down">海外聯合招生委員會 -</span> 學士班申請資料填報系統
 			</span>
-			<% if (_processPageList.indexOf(current.source) > -1) { %>
+			<% if (_processPageList.indexOf(current.source) > -1 || current.source === 'uploadReviewItems') { %>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<form class="form-inline my-2 my-lg-0">
-					<button class="btn btn-danger" type="submit">登出</button>
+					<button class="btn btn-danger" type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> 登出</button>
 				</form>
 			</div>
 			<% } %>
@@ -81,6 +79,10 @@
 					<a href="grade.html" class="list-group-item list-group-item-action">聯合分發成績採計方式</a>
 					<a href="placementSelection.html" class="list-group-item list-group-item-action">聯合分發志願</a>
 					<a href="result.html" class="list-group-item list-group-item-action">志願檢視</a>
+				</div>
+				<hr>	
+				<div class="list-group">
+					<a href="uploadReviewItems.html" class="list-group-item list-group-item-action">上傳備審資料 (暫放)</a>
 				</div>
 			</div>
 			<div class="col-lg-9">
