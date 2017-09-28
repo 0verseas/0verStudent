@@ -15,7 +15,8 @@
 	*	event handler
 	*/
 	function _handleSubmit() {
-		const system = $system.val();
+		let system = +$system.val();
+		if (system === 4) system = 3;
 		location.href = `./qualify${system}.html`;
 	}
 })();
