@@ -1,0 +1,9 @@
+.table > tbody > tr > td {
+	vertical-align: middle;
+}
+
+.img-thumbnail {
+	max-width: 200px;
+	max-height: 200px;
+	margin: 2px;
+}
