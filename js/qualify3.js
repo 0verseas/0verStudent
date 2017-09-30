@@ -18,6 +18,7 @@
 	// 海外僑生
 	const $isDistribution = $signUpForm.find('.isDistribution');
 	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
+	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
 
 	/**
 	* bind event
@@ -29,6 +30,7 @@
 	$applyPeerStatusPadio.on('change', _checkApplyPeerStatus);
 	$isDistribution.on('change', _switchShowDistribution);
 	$distributionMoreQuestion.on('change', _checkDistributionValidation);
+	$stayLimitRadio.on('change', _checkStayLimitValidation);
 
 	/**
 	* event handler
@@ -106,6 +108,21 @@
 			$signUpForm.find('.distributionMoreAlert.valid').fadeIn();
 		} else {
 			$signUpForm.find('.distributionMoreAlert.invalid').fadeIn();
+		}
+	}
+
+	// 海外僑生 海外居留年限
+	function _checkStayLimitValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$signUpForm.find('.stayLimitAlert').hide();
+		switch (option) {
+			case 1:
+				$signUpForm.find('.stayLimitAlert.invalid').fadeIn();
+				break;
+			case 2:
+				$signUpForm.find('.stayLimitAlert.valid').fadeIn();
+				break;
 		}
 	}
 })();

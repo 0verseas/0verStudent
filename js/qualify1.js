@@ -44,7 +44,7 @@
 	// 海外僑生
 	$isDistribution.on('change', _switchShowDistribution);
 	$distributionMoreQuestion.on('change', _checkDistributionValidation);
-	$stayLimitRadio.on('change', _checkStayLimitValidation)
+	$stayLimitRadio.on('change', _checkStayLimitValidation);
 	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
 	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
 
