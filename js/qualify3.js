@@ -15,6 +15,9 @@
 	const $taiwanUniversityRadio = $signUpForm.find('.radio-taiwanUniversity');
 	const $applyPeerRadio = $signUpForm.find('.radio-applyPeer');
 	const $applyPeerYearInput = $signUpForm.find('.input-applyPeerYear');
+	// 海外僑生
+	const $isDistribution = $signUpForm.find('.isDistribution');
+	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
 
 	/**
 	* bind event
@@ -24,6 +27,8 @@
 	$applyPeerRadio.on('change', _checkApplyPeer);
 	$applyPeerYearInput.on('blur', _checkApplyPeerYear);
 	$applyPeerStatusPadio.on('change', _checkApplyPeerStatus);
+	$isDistribution.on('change', _switchShowDistribution);
+	$distributionMoreQuestion.on('change', _checkDistributionValidation);
 
 	/**
 	* event handler
@@ -36,6 +41,8 @@
 			case 2:
 				break;
 			case 3:
+				$signUpForm.find('.question.overseas').fadeIn()[0].reset();
+				$signUpForm.find('.question.overseas input[type=radio]:checked').trigger('change');
 				break;
 			case 4:
 			case 5:
@@ -78,6 +85,27 @@
 			$signUpForm.find('.applyPeerStatusAlert.valid').fadeIn();
 		} else {
 			$signUpForm.find('.applyPeerStatusAlert.invalid').fadeIn();
+		}
+	}
+
+	// 海外僑生 曾分發與否
+	function _switchShowDistribution() {
+		const $this = $(this);
+		const isDistribution =  +$this.val();
+		!!isDistribution && $signUpForm.find('#distributionMore').fadeIn();
+		!!isDistribution || $signUpForm.find('#distributionMore').fadeOut();
+	}
+
+	// 海外僑生 曾分發與否 7選1
+	function _checkDistributionValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		const validOption = [1, 2, 7];
+		$signUpForm.find('.distributionMoreAlert').hide();
+		if (validOption.includes(option)) {
+			$signUpForm.find('.distributionMoreAlert.valid').fadeIn();
+		} else {
+			$signUpForm.find('.distributionMoreAlert.invalid').fadeIn();
 		}
 	}
 })();
