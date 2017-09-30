@@ -9,10 +9,12 @@
 	*/
 	const $signUpForm = $('#form-signUp');
 	const $identityRadio = $signUpForm.find('.radio-identity');
+	const $applyPeerStatusPadio = $signUpForm.find('.radio-applyPeerStatus');
 
 	// 在台僑生、在台港澳生
 	const $taiwanUniversityRadio = $signUpForm.find('.radio-taiwanUniversity');
 	const $applyPeerRadio = $signUpForm.find('.radio-applyPeer');
+	const $applyPeerYearInput = $signUpForm.find('.input-applyPeerYear');
 
 	/**
 	* bind event
@@ -20,6 +22,8 @@
 	$identityRadio.on('change', _handleChangeIdentity);
 	$taiwanUniversityRadio.on('change', _checkTaiwanUniversity);
 	$applyPeerRadio.on('change', _checkApplyPeer);
+	$applyPeerYearInput.on('blur', _checkApplyPeerYear);
+	$applyPeerStatusPadio.on('change', _checkApplyPeerStatus);
 
 	/**
 	* event handler
@@ -36,6 +40,7 @@
 			case 4:
 			case 5:
 				$signUpForm.find('.question.inTaiwan').fadeIn()[0].reset();
+				$signUpForm.find('.question.inTaiwan input[type=radio]:checked').trigger('change');
 				break;
 		}
 	}
@@ -56,5 +61,23 @@
 		const has = +$(this).val();
 		!!has && $signUpForm.find('.applyPeerMore').fadeIn();
 		!!has || $signUpForm.find('.applyPeerMore').fadeOut();
+	}
+
+	// 哪一年曾經向本會申請同級學程
+	function _checkApplyPeerYear() {
+		const $this = $(this);
+		!!$this[0].checkValidity() && $this.removeClass('invalidInput');
+		!!$this[0].checkValidity() || $this.addClass('invalidInput');
+	}
+
+	// 曾經向本會申請同級學程，擇一
+	function _checkApplyPeerStatus() {
+		const option = +$(this).val();
+		$signUpForm.find('.applyPeerStatusAlert').hide();
+		if (option === 1) {
+			$signUpForm.find('.applyPeerStatusAlert.valid').fadeIn();
+		} else {
+			$signUpForm.find('.applyPeerStatusAlert.invalid').fadeIn();
+		}
 	}
 })();

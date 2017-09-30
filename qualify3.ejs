@@ -759,7 +759,60 @@
 				</fieldset>
 			</div>
 			<div class="col-md-12 applyPeerMore hide">
-				??年??月??日，並就下列項目擇一勾選
+				<div class="form-group row">
+					<label class="col-2 col-form-label">哪一年：</label>
+					<div class="col-10">
+						<input class="form-control input-applyPeerYear" type="text" pattern="^[1-2]{1}\d{3}$" required>
+						<small class="text-danger">(請填寫西元年份，ex 2017)</small>
+					</div>
+				</div>
+				<fieldset class="form-group">
+					<label><strong>請就下列選項，擇一勾選：</strong></label>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input radio-applyPeerStatus" name="applyPeerStatus" value="1" checked>
+							未曾辦理報到入學，亦未辦理保留入學資格。
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input radio-applyPeerStatus" name="applyPeerStatus" value="2">
+							辦理保留入學資格在案。
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input radio-applyPeerStatus" name="applyPeerStatus" value="3">
+							註冊在學。
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input radio-applyPeerStatus" name="applyPeerStatus" value="4">
+							辦理休學中。
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input radio-applyPeerStatus" name="applyPeerStatus" value="5">
+							非因故自願退學(如勒令退學)。
+						</label>
+					</div>
+				</fieldset>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-danger applyPeerStatusAlert invalid hide" role="alert">
+							<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-warning applyPeerStatusAlert valid" role="alert">
+							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 需在報名表件註記
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<hr />
