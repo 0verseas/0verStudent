@@ -19,6 +19,8 @@
 	const $isDistribution = $signUpForm.find('.isDistribution');
 	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
 	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
+	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
+	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
 
 	/**
 	* bind event
@@ -31,6 +33,8 @@
 	$isDistribution.on('change', _switchShowDistribution);
 	$distributionMoreQuestion.on('change', _checkDistributionValidation);
 	$stayLimitRadio.on('change', _checkStayLimitValidation);
+	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
+	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
 
 	/**
 	* event handler
@@ -123,6 +127,26 @@
 			case 2:
 				$signUpForm.find('.stayLimitAlert.valid').fadeIn();
 				break;
+		}
+	}
+
+	// 海外僑生 來台超過120天
+	function _checkHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		!!option && $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeIn();
+		!!option || $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeOut();
+	}
+
+	// 海外僑生 為何來台超過120天
+	function _checkWhyHasBeenTaiwanValidation() {
+		const $this = $(this);
+		const option = +$this.val();
+		$('.whyHasBeenTaiwanAlert').hide();
+		if (option === 8) {
+			$('.whyHasBeenTaiwanAlert.invalid').fadeIn();
+		} else {
+			$('.whyHasBeenTaiwanAlert.valid').fadeIn();
 		}
 	}
 })();
