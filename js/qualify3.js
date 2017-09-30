@@ -21,6 +21,8 @@
 	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
 	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
 	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
+	// 港澳生
+	const $idCardRadio = $signUpForm.find('.radio-idCard');
 
 	/**
 	* bind event
@@ -35,6 +37,7 @@
 	$stayLimitRadio.on('change', _checkStayLimitValidation);
 	$hasBeenTaiwanRadio.on('change', _checkHasBeenTaiwanValidation);
 	$whyHasBeenTaiwanRadio.on('change', _checkWhyHasBeenTaiwanValidation);
+	$idCardRadio.on('change', _cehckIdCardValidation);
 
 	/**
 	* event handler
@@ -45,6 +48,8 @@
 		switch (identity) {
 			case 1:
 			case 2:
+				$signUpForm.find('.question.kangAo').fadeIn()[0].reset();
+				$signUpForm.find('.question.kangAo input[type=radio]:checked').trigger('change');
 				break;
 			case 3:
 				$signUpForm.find('.question.overseas').fadeIn()[0].reset();
@@ -148,5 +153,13 @@
 		} else {
 			$('.whyHasBeenTaiwanAlert.valid').fadeIn();
 		}
+	}
+
+	// 是否擁有香港或澳門永久性居民身分證
+	function _cehckIdCardValidation() {
+		const $this = $(this);
+		const idCard = +$this.val();
+		!!idCard && $signUpForm.find('.idCardAlert.invalid').fadeOut();
+		!!idCard || $signUpForm.find('.idCardAlert.invalid').fadeIn();
 	}
 })();
