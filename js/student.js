@@ -30,6 +30,17 @@ const student = (() => {
 		});
 	}
 
+	function login(data) {
+		return fetch(baseUrl + `/student/login`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}, 
+			body: JSON.stringify(data),
+			credentials: 'include'
+		});
+	}
+
 	function getDeptApplicationDoc(schoolId, system, deptId) { // 接系所資料（暫時用在「上傳備審資料」上）
 		return fetch(baseUrl + `/schools/` + schoolId + `/systems/` + system + `/departments/` + deptId, {
 			method: 'GET'
@@ -39,6 +50,7 @@ const student = (() => {
 	return {
 		setHeader,
 		register,
+		login,
 		getDeptApplicationDoc
 	};
 
