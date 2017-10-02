@@ -2,8 +2,6 @@
 
 <h2 class="text-center title">上傳系所備審資料</h2>
 
-<hr>
-
 <div id="wrap-wishList">
 	<div class="row">
 		<div class="col-12">
@@ -30,61 +28,24 @@
 </div>
 
 <div id="form-upload" style="display: none;">
+	<hr>
 	<dl class="row">
 		<dt class="col-4 col-md-2">
 			志願代碼
 		</dt>
-		<dd id="ModalDeptId" class="col-8 col-md-10">
-			asd
-		</dd>
+		<dd id="deptId" class="col-8 col-md-10"></dd>
 		<dt class="col-4 col-md-2">
 			學校名稱
 		</dt>
-		<dd id="ModalSchool" class="col-8 col-md-10">
-			asd
-		</dd>
+		<dd id="schoolName" class="col-8 col-md-10"></dd>
 		<dt class="col-4 col-md-2">
 			系所名稱
 		</dt>
-		<dd id="ModalDeptName" class="col-8 col-md-10">
-			asd
-		</dd>
+		<dd id="deptName" class="col-8 col-md-10"></dd>
 	</dl>
 
-	<div class="row">
-		<div class="col-12">
-			<div class="card">
-				<div class="card-header bg-primary text-white">
-					自傳
-					<span class="badge badge-danger">必填</span>
-					<span class="badge badge-warning">選填</span>
-				</div>
-				<div class="card-block">
-					<blockquote class="blockquote">
-						最高學歷畢業證書/修業證明/離校證明/在學證明
-					</blockquote>
-
-					<div class="row" style="margin-bottom: 15px;">
-						<div class="col-12">
-							<input id="file-certificate" type="file" class="filestyle" multiple>
-						</div>
-					</div>
-
-					<div class="card">
-						<div class="card-block">
-							<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-							<div id="certificateImgArea">
-								<img class="img-thumbnail" src="http://via.placeholder.com/970x1100" data-toggle="modal" data-target=".img-modal">
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
+	<div id="reviewItemsArea">
 	</div>
-
-	<hr>
 
 	<div class="row">
 		<div class="col-12 text-center">

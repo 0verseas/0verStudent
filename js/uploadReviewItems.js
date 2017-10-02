@@ -20,10 +20,12 @@
 	const $wishList = $('#wishList');
 	const wishList = document.getElementById('wishList');
 	let $wishEditBtn;
-	const $uploadForm = $('#form-upload');
-	const $ModalDeptId = $('#ModalDeptId');
-	const $ModalSchool = $('#ModalSchool');
-	const $ModalDeptName = $('#ModalDeptName');
+	const $uploadForm = $('#form-upload'); // 點下「上傳」按鈕後出現的表單
+	const $deptId = $('#deptId');
+	const $schoolName = $('#schoolName');
+	const $deptName = $('#deptName');
+	const $reviewItemsArea = $('#reviewItemsArea');
+	const reviewItemsArea = document.getElementById('reviewItemsArea');
 	const $saveBtn = $('#btn-save');
 	const $exitBtn = $('#btn-exit');
 
@@ -37,19 +39,14 @@
 	*	bind event
 	*/
 
-	$wishEditBtn.on('click', _handleEditModal);
+	$wishEditBtn.on('click', _handleEditForm);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
 
 	function _init() {
 		student.setHeader();
 		_renderWishList();
-		$(":file").filestyle({
-			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-			btnClass: "btn-success",
-			text: " 選擇圖片",
-			input: false
-		});
+		
 	}
 
 	function _renderWishList() {
@@ -73,12 +70,13 @@
 		$wishEditBtn = $wishList.find('.btn-wishEdit');
 	}
 
-	function _handleEditModal() {
+	function _handleEditForm() {
 		const deptId = $(this).data('deptid');
 		let applicationDoc = {};
 		student.getDeptApplicationDoc(_schoolId, _system, deptId)
 		.then((res) => { return res.json(); })
 		.then((json) => {
+			// 整理資料
 			applicationDoc["schoolId"] = json.id;
 			applicationDoc["schoolName"] = json.title;
 			applicationDoc["deptId"] = json.departments[0].id;
@@ -97,11 +95,61 @@
 			console.log(applicationDoc);
 		})
 		.then(() => {
-			$ModalDeptId.text(applicationDoc.deptId)
-			$ModalSchool.text(applicationDoc.schoolName);
-			$ModalDeptName.text(applicationDoc.deptNmae);
+			$deptId.text(applicationDoc.deptId)
+			$schoolName.text(applicationDoc.schoolName);
+			$deptName.text(applicationDoc.deptNmae);
+
+			let reviewItemHTML = '';
+			let requiredBadge = '';
+			applicationDoc['applicationDocFiles'].forEach((value, index) => {
+				value.required === true ? requiredBadge = '<span class="badge badge-danger">必填</span>' : requiredBadge = '<span class="badge badge-warning">選填</span>'
+				reviewItemHTML += `
+				<div class="row">
+				<div class="col-12">
+				<div class="card">
+				<div class="card-header bg-primary text-white">
+				` + value.name + ` ` + requiredBadge + `
+				</div>
+				<div class="card-block">
+				<blockquote class="blockquote">
+				` + value.description + `
+				</blockquote>
+
+				<div class="row" style="margin-bottom: 15px;">
+				<div class="col-12">
+				<input id="file-certificate" type="file" class="filestyle" multiple>
+				</div>
+				</div>
+
+				<div class="card">
+				<div class="card-block">
+				<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+				<div id="">
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
+				</div>
+				<hr>
+				`
+			});
+
+			// image HTML: '<img class="img-thumbnail" src="http://via.placeholder.com/970x1100" data-toggle="modal" data-target=".img-modal">'
+
+			reviewItemsArea.innerHTML = reviewItemHTML;
+		})
+		.then(() => {
+			$(":file").filestyle({
+				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
+				btnClass: "btn-success",
+				text: " 選擇圖片",
+				input: false
+			});
 			$wishListWrap.hide();
 			$uploadForm.fadeIn();
+			$('html')[0].scrollIntoView(); // 畫面置頂
 		})
 	}
 

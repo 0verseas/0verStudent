@@ -4,7 +4,7 @@ const student = (() => {
 
 	function setHeader() {
 		const $studentInfoHeader = $('#header-studentInfo');
-		let $headerSystem = $studentInfoHeader.find('#headerSystem');
+		const $headerSystem = $studentInfoHeader.find('#headerSystem');
 		const $headerIdentity = $studentInfoHeader.find('#headerIdentity');
 		const $headerId = $studentInfoHeader.find('#headerId');
 
