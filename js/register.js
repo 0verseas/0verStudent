@@ -38,15 +38,18 @@
 
 	function _checkPassword() {
 		const oriPass = $password.val();
-		oriPass.length < 6 && $password.addClass('invalidInput') && (_passValid = false);
+		const passConfirm = $passwordConfirm.val();
 		oriPass.length >= 6 && $password.removeClass('invalidInput') && (_passValid = true);
+		oriPass === passConfirm && $passwordConfirm.removeClass('invalidInput') && (_passValid = true);
+		oriPass.length < 6 && $password.addClass('invalidInput') && (_passValid = false);
+		oriPass !== passConfirm && $passwordConfirm.addClass('invalidInput') && (_passValid = false);
 	}
 
 	function _checkPasswordConfirm() {
 		const oriPass = $password.val();
 		const passConfirm = $passwordConfirm.val();
-		oriPass !== passConfirm && $passwordConfirm.addClass('invalidInput') && (_passValid = false);
 		oriPass === passConfirm && $passwordConfirm.removeClass('invalidInput') && (_passValid = true);
+		oriPass !== passConfirm && $passwordConfirm.addClass('invalidInput') && (_passValid = false);
 	}
 
 	function _handleSubmit() {
@@ -60,11 +63,23 @@
 				password_confirmation: sha256(passConfirm)
 			}
 			student.register(data)
-			.then((res) => { return res.json(); })
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
 			.then((json) => {
 				console.log(json);
+				location.href="./systemChoose.html";
 			})
-			location.href="./systemChoose.html";
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			})
 		} else {
 			alert('輸入有誤');
 		}
