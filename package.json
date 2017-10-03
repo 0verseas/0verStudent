@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "harp compile src dist && babel dist/js -d dist/js && babel dist/*/js -d dist/*/js",
+    "build": "harp compile src dist && babel dist/js -d dist/js",
     "serve": "harp server src"
   },
   "repository": {
