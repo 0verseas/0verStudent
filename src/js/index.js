@@ -23,8 +23,8 @@
 		const pass = $pass.val();
 
 		const loginData = {
-			email: email,
-			password: pass
+			email: sha256(email),
+			password: sha256(pass)
 		}
 
 		student.login(loginData)
