@@ -10,17 +10,7 @@
 	function _verify(){
 		const email = _getParam('email', window.location.href);
 		const token = _getParam('token', window.location.href);
-		const baseUrl = env.baseUrl;
-		fetch(baseUrl + `/students/verify-email/${email}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json'
-			}, 
-			credentials: 'include',
-			body: JSON.stringify({
-				token
-			})
-		})
+		student.verifyEmail(email, token)
 		.then((res) => {
 			if(res.ok) {
 				return res.json();

@@ -51,6 +51,27 @@ const student = (() => {
 		})
 	}
 
+	function verifyEmail(email, token) {
+		return fetch(baseUrl + `/students/verify-email/${email}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			}, 
+			credentials: 'include',
+			body: JSON.stringify({ token })
+		})
+	}
+
+	function resendEmail() {
+		return fetch(baseUrl + `/students/verify-email`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}, 
+			credentials: 'include'
+		})
+	}
+
 	function getDeptApplicationDoc(schoolId, system, deptId) { // 接系所資料（暫時用在「上傳備審資料」上）
 		return fetch(baseUrl + `/schools/` + schoolId + `/systems/` + system + `/departments/` + deptId, {
 			method: 'GET'
@@ -62,6 +83,8 @@ const student = (() => {
 		register,
 		login,
 		logout,
+		verifyEmail,
+		resendEmail,
 		getDeptApplicationDoc
 	};
 
