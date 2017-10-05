@@ -36,7 +36,22 @@
 	}
 
 	function _handleResendMail() {
-		console.log('API 還沒接 RRRRR');
+		student.resendEmail()
+		.then((res) => {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((data) => {
+			alert('已寄出驗證信，請至填寫信箱查看。');
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data.messages[0]);
+			});
+		})
 	}
 
 })();
