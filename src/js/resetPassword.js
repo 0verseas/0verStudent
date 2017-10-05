@@ -30,14 +30,23 @@
 	$resetPasswordSubmitBtn.on('click', _handleSubmit);
 
 	function _init() {
-		let email = _getParameterByName('email');
-		let token = _getParameterByName('token');
-		const data = {
-			email,
-			token
-		}
-		// if 無重設密碼需求
-		// then 踢走你
+		const email = _getParameterByName('email');
+		const token = _getParameterByName('token');
+
+		student.checkResetPasswordToken(email, token)
+		.then((res) => {
+			if (!res.ok) {
+				throw res;
+				console.log('2');
+			}
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.log(data.messages[0]);
+				alert('您並無重設密碼之請求。');
+				location.href="./index.html";
+			})
+		})
 	}
 
 	function _getParameterByName(name, url) {
@@ -67,18 +76,35 @@
 	}
 
 	function _handleSubmit() {
+		const email = _getParameterByName('email');
+		const token = _getParameterByName('token');
 		const oriPass = $resetPassword.val();
 		const passConfirm = $resetPasswordConfirm.val();
 		if (_passValid && !!oriPass && !!passConfirm) {
 			const data = {
+				email,
+				token,
 				password: sha256(oriPass),
 				password_confirmation: sha256(passConfirm)
 			}
-			console.log(data);
-			// 更新密碼
-			alert("密碼重設成功，請重新登入。");
-			location.href="./index.html";
-			// 更新成功後，導向到 index
+			student.resetPassword(data, email)
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				alert("密碼重設成功，請重新登入。");
+				location.href="./index.html";
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			})
 		} else {
 			alert('輸入有誤');
 		}

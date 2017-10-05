@@ -46,7 +46,7 @@ const student = (() => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}, 
+			},
 			credentials: 'include'
 		})
 	}
@@ -57,12 +57,44 @@ const student = (() => {
 		});
 	}
 
+	function sendResetPassword(data) {
+		return fetch(baseUrl + `/students/reset-password`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+	}
+
+	function resetPassword(data, email) {
+		return fetch(baseUrl + `/students/reset-password/` + email, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+	}
+
+	function checkResetPasswordToken(email, token) {
+		return fetch(baseUrl + `/students/reset-password?email=` + email + `&token=` + token, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+	}
+
 	return {
 		setHeader,
 		register,
 		login,
 		logout,
-		getDeptApplicationDoc
+		getDeptApplicationDoc,
+		sendResetPassword,
+		resetPassword,
+		checkResetPasswordToken
 	};
 
 })();
