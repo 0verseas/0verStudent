@@ -10,7 +10,36 @@
 	function _verify(){
 		const email = _getParam('email', window.location.href);
 		const token = _getParam('token', window.location.href);
-		console.log([email, token]);
+		const baseUrl = env.baseUrl;
+		fetch(baseUrl + `/students/verify-email/${email}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			}, 
+			credentials: 'include',
+			body: JSON.stringify({
+				token
+			})
+		})
+		.then((res) => {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((data) => {
+			$('#alert-valid').show();
+			setTimeout(() => {
+				window.location.href = './systemChoose.html';
+			}, 5000);
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data.messages[0]);
+			});
+			$('#alert-invalid').show();
+		});
 	}
 
 	function _getParam(name, url) {
