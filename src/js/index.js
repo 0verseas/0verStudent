@@ -23,7 +23,7 @@
 		const pass = $pass.val();
 
 		const loginData = {
-			email: sha256(email),
+			email: email,
 			password: sha256(pass)
 		}
 
