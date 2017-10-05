@@ -20,7 +20,7 @@ const student = (() => {
 	}
 
 	function register(data) {
-		return fetch(baseUrl + `/student/register`, {
+		return fetch(baseUrl + `/students/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ const student = (() => {
 	}
 
 	function login(data) {
-		return fetch(baseUrl + `/student/login`, {
+		return fetch(baseUrl + `/students/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ const student = (() => {
 	}
 
 	function logout() {
-		return fetch(baseUrl + `/student/logout`, {
+		return fetch(baseUrl + `/students/logout`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
