@@ -5,12 +5,14 @@
 	*/
 
 	const $logoutBtn = $('#btn-logout');
+	const $mailResendBtn = $('#btn-mailResend');
 
 	/**
 	*	bind event
 	*/
 
 	$logoutBtn.on('click', _handleLogout);
+	$mailResendBtn.on('click', _handleResendMail);
 
 	function _handleLogout() {
 		student.logout()
@@ -31,6 +33,10 @@
 				alert(`ERROR: \n${data.messages[0]}`);
 			})
 		})
+	}
+
+	function _handleResendMail() {
+		console.log('API 還沒接 RRRRR');
 	}
 
 })();
