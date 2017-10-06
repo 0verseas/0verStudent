@@ -10,6 +10,7 @@
 	*/
 	const $signUpForm = $('#form-signUp');
 	const $identityRadio = $signUpForm.find('.radio-identity');
+	const $saveBtn = $signUpForm.find('.btn-save');
 
 	// 海外僑生
 	const $isDistribution = $signUpForm.find('.isDistribution');
@@ -40,6 +41,7 @@
 	*	bind event
 	*/
 	$identityRadio.on('change', _handleChangeIdentity);
+	$saveBtn.on('click', _handleSave);
 
 	// 海外僑生
 	$isDistribution.on('change', _switchShowDistribution);
@@ -77,6 +79,63 @@
 			case '2':
 				$signUpForm.find('.question.overseas').fadeIn();
 				break;
+		}
+	}
+
+	// 儲存
+	function _handleSave() {
+		if (+_currentIdentity === 2) {
+			// 海外僑生
+			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
+			const distributionOption = +$signUpForm.find('.distributionMoreQuestion:checked').val();
+			const stayLimitOption = +$signUpForm.find('.radio-stayLimit:checked').val();
+			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
+			const hasBeenTaiwanOption = +$signUpForm.find('.radio-whyHasBeenTaiwan:checked').val();
+			const invalidDistributionOption = [3, 4, 5, 6];
+			let valid = true;
+			if (isDistribution === 1 && invalidDistributionOption.includes(distributionOption) ||
+				stayLimitOption ===1 ||
+				hasBeenTaiwan === 1 && hasBeenTaiwanOption === 8) {
+				valid = false;
+			}
+
+			if (valid) {
+				console.log('API 還沒接 ＲＲＲＲ');
+			} else {
+				alert('身份不具報名資格');
+			}
+		} else {
+			// 港澳生
+			const idCard = +$signUpForm.find('.radio-idCard:checked').val();
+			const holdpassport = +$signUpForm.find('.radio-holdpassport:checked').val();
+			const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
+			const portugalPassport = +$signUpForm.find('.radio-portugalPassport:checked').val();
+			const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
+			console.error('洲別、國別還沒弄呢');
+			const KA_isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
+			const KA_distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
+			const KA_distributionMoreQuestion = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
+			const KA_stayLimitOption = +$signUpForm.find('.kangAo_radio-stayLimit:checked').val();
+			const KA_hasBeenTaiwan = +$signUpForm.find('.kangAo_radio-hasBeenTaiwan:checked').val();
+			const KA1_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
+			const KA2_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
+			const invalidDistributionOption = [3, 4, 5, 6];
+			let valid = true;
+			if (!idCard ||
+				!_typeOfKangAo ||
+				!!KA_isDistribution && KA_distributionTime === '' ||
+				!!KA_isDistribution && invalidDistributionOption.includes(KA_distributionMoreQuestion) ||
+				KA_stayLimitOption === 1 ||
+				!!KA_hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwanOption === 11 ||
+				!!KA_hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwanOption === 8) {
+				valid = false;
+			}
+
+			if (valid) {
+				console.log('API 還沒接 ＲＲＲＲ');
+			} else {
+				alert('資料未正確填寫，或身份不具報名資格');
+			}
 		}
 	}
 
