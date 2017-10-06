@@ -10,6 +10,7 @@
 	*/
 	const $signUpForm = $('#form-signUp');
 	const $identityRadio = $signUpForm.find('.radio-identity');
+	const $saveBtn = $signUpForm.find('.btn-save');
 
 	// 海外僑生
 	const $isDistribution = $signUpForm.find('.isDistribution');
@@ -40,6 +41,7 @@
 	*	bind event
 	*/
 	$identityRadio.on('change', _handleChangeIdentity);
+	$saveBtn.on('click', _handleSave);
 
 	// 海外僑生
 	$isDistribution.on('change', _switchShowDistribution);
@@ -77,6 +79,33 @@
 			case '2':
 				$signUpForm.find('.question.overseas').fadeIn();
 				break;
+		}
+	}
+
+	// 儲存
+	function _handleSave() {
+		if (+_currentIdentity === 2) {
+			// 海外僑生
+			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
+			const distributionOption = +$signUpForm.find('.distributionMoreQuestion:checked').val();
+			const stayLimitOption = +$signUpForm.find('.radio-stayLimit:checked').val();
+			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
+			const hasBeenTaiwanOption = +$signUpForm.find('.radio-whyHasBeenTaiwan:checked').val();
+			const invalidDistributionOption = [3, 4, 5, 6];
+			let valid = true;
+			if (isDistribution === 1 && invalidDistributionOption.includes(distributionOption) ||
+				stayLimitOption ===1 ||
+				hasBeenTaiwan === 1 && hasBeenTaiwanOption === 8) {
+				valid = false;
+			}
+
+			if (valid) {
+				console.log('API 還沒接 ＲＲＲＲ');
+			} else {
+				alert('身份不具報名資格');
+			}
+		} else {
+			// 港澳生
 		}
 	}
 
