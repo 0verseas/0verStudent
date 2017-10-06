@@ -4,20 +4,20 @@
 	*	private variable
 	*/
 
-	let _hasOlympia = "false";
+	let _hasOlympia = 0;
 
 	let _optionalWish = [
-	{id:"1001", group: "第一類組", school: "國立暨南國際大學", dept: "中國文學系", engDept: "Dept. of Chinese Literature"},
-	{id:"1002", group: "第一類組", school: "國立暨南國際大學", dept: "外國語文學系", engDept: "Dept. of Foreign Languages and Literatures"},
-	{id:"1003", group: "第一類組", school: "國立暨南國際大學", dept: "歷史學系", engDept: "Dept. of History"},
-	{id:"1004", group: "第二類組", school: "國立暨南國際大學", dept: "哲學系", engDept: "Dept. of Philosophy"},
-	{id:"1005", group: "第二類組", school: "國立暨南國際大學", dept: "人類學系", engDept: "Dept. of Anthropology"},
-	{id:"1006", group: "第二類組", school: "國立暨南國際大學", dept: "圖書資訊學系", engDept: "Dept. of Library and Information Science"},
-	{id:"1007", group: "第二類組", school: "國立暨南國際大學", dept: "日本語文學系", engDept: "Dept. of Japanese Language and Literature"},
-	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "戲劇學系", engDept: "Dept. of Drama and Theatre"},
-	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "法律學系法學組", engDept: "Dept. of Law, Division of Legal Science"},
-	{id:"1009", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系政治理論組", engDept: "Dept. of Political Science, Political Theory Division"},
-	{id:"1010", group: "第三類組", school: "國立暨南國際大學", dept: "經濟學系", engDept: "Dept. of Economics"}
+	{id:"10101", group: "第一類組", school: "國立暨南國際大學", dept: "中國文學系", engDept: "Dept. of Chinese Literature"},
+	{id:"10102", group: "第一類組", school: "國立暨南國際大學", dept: "外國語文學系", engDept: "Dept. of Foreign Languages and Literatures"},
+	{id:"10103", group: "第一類組", school: "國立暨南國際大學", dept: "歷史學系", engDept: "Dept. of History"},
+	{id:"10104", group: "第二類組", school: "國立暨南國際大學", dept: "哲學系", engDept: "Dept. of Philosophy"},
+	{id:"10105", group: "第二類組", school: "國立暨南國際大學", dept: "人類學系", engDept: "Dept. of Anthropology"},
+	{id:"10106", group: "第二類組", school: "國立暨南國際大學", dept: "圖書資訊學系", engDept: "Dept. of Library and Information Science"},
+	{id:"10107", group: "第二類組", school: "國立暨南國際大學", dept: "日本語文學系", engDept: "Dept. of Japanese Language and Literature"},
+	{id:"10108", group: "第三類組", school: "國立暨南國際大學", dept: "戲劇學系", engDept: "Dept. of Drama and Theatre"},
+	{id:"10108", group: "第三類組", school: "國立暨南國際大學", dept: "法律學系法學組", engDept: "Dept. of Law, Division of Legal Science"},
+	{id:"10109", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系政治理論組", engDept: "Dept. of Political Science, Political Theory Division"},
+	{id:"10110", group: "第三類組", school: "國立暨南國際大學", dept: "經濟學系", engDept: "Dept. of Economics"}
 	];
 
 	let _wishList = [];
@@ -50,7 +50,7 @@
 	*	bind event
 	*/
 
-	$hasOlympia.on('change', _showWishList); // 監聽是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項
+	$hasOlympia.on('change', _changeHasOlympia); // 監聽是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項
 	$optionFilterSelect.on('change', _filterOptionalWishList); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _filterOptionalWishList); // // 監聽「招生校系清單」關鍵字
 	$saveBtn.on('click', _handleSave);
@@ -66,22 +66,44 @@
 		})
 		.then((json) => {
 			console.log(json);
+			_hasOlympia = +json.student_misc.has_olympia_aspiration;
+			$hasOlympia[_hasOlympia].checked = true;
+			const studentOlympiaAspirationOrder = json.student_olympia_aspiration_order;
+			return studentOlympiaAspirationOrder;
+		})
+		.then((studentOlympiaAspirationOrder) => {
+			let order = [];
+			studentOlympiaAspirationOrder.forEach((value, index) => {
+				order.push(value.dept_id);
+			});
+			order.forEach((value, index) => {
+				let orderIndex = _optionalWish.map(function(x) {return x.id; }).indexOf(value);
+				_wishList.push(_optionalWish[orderIndex]);
+				_optionalWish.splice(orderIndex, 1);
+			});
+		})
+		.then(() => {
+			student.setHeader();
+			_generateOptionalWish();
+			_generateWishList();
+			_showWishList();
 		})
 		.catch((err) => {
 			err.json && err.json().then((data) => {
 				console.error(data);
 			})
 		})
-		student.setHeader();
-		_generateOptionalWish();
-		_generateWishList();
+	}
+
+	function _changeHasOlympia() {
+		_hasOlympia = Number($(this).val());
+		_showWishList();
 	}
 
 	function _showWishList() { // 不參加申請，即不顯示聯分表單
-		_hasOlympia = $(this).val();
-		if (_hasOlympia === "false") {
+		if (_hasOlympia === 0) {
 			$olympiaSelectForm.fadeOut();
-		} else if (_hasOlympia === "true") {
+		} else if (_hasOlympia === 1) {
 			$olympiaSelectForm.fadeIn();
 		}
 	}
@@ -239,7 +261,7 @@
 	}
 
 	function _handleSave() {
-		if (_hasOlympia === "true") {
+		if (_hasOlympia === 1) {
 			let order = [];
 			if (_wishList.length > 0) {
 				_wishList.forEach((value, index) => {
