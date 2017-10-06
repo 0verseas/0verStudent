@@ -8,6 +8,7 @@
 	*	cache dom
 	*/
 	const $signUpForm = $('#form-signUp');
+	const $saveBtn = $signUpForm.find('.btn-save');
 	const $graduatedRadio = $signUpForm.find('.radio-graduated');
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
@@ -24,6 +25,7 @@
 	/**
 	*	bind event
 	*/
+	$saveBtn.on('click', _handleSave);
 	$graduatedRadio.on('change', _checkGraduated);
 	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassportRadio.on('change', _checkHoldpassport);
@@ -40,6 +42,42 @@
 	/**
 	*	event handler
 	*/
+	// 儲存
+	function _handleSave() {
+		const graduated = +$signUpForm.find('.radio-graduated:checked').val();
+		const idCard = +$signUpForm.find('.radio-idCard:checked').val();
+		const holdpassport = +$signUpForm.find('.radio-holdpassport:checked').val();
+		const taiwanHousehold = +$signUpForm.find('.radio-holdpassport:checked').val();
+		const portugalPassport = +$signUpForm.find('.radio-portugalPassport:checked').val();
+		const portugalPassportTime = +$signUpForm.find('.input-portugalPassportTime').val();
+		console.error('還沒處理洲別、國家');
+		const isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
+		const distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
+		const distributionOption = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
+		const stayLimitOption = +$signUpForm.find('.kangAo_radio-stayLimit:checked').val();
+		const hasBeenTaiwan = +$signUpForm.find('.kangAo_radio-hasBeenTaiwan:checked').val();
+		const KA1_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
+		const KA2_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
+		const invalidDistributionOption = [3, 4, 5, 6];
+		let valid = true;
+		if (!!graduated ||
+			!idCard ||
+			!_typeOfKangAo ||
+			!!isDistribution && distributionTime === '' ||
+			!!isDistribution && invalidDistributionOption.includes(distributionOption) ||
+			stayLimitOption === 1 ||
+			!!hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwanOption === 11 ||
+			!!hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwanOption === 8) {
+			valid = false;
+		}
+
+		if (valid) {
+			console.log('API 還沒接 ＲＲＲＲ');
+		} else {
+			alert('資料未正確填寫，或身份不具報名資格');
+		}
+	}
+
 	// 請問您在香港是否修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程，並已取得畢業證書（應屆畢業者得檢附在學證明）？
 	function _checkGraduated() {
 		const $this = $(this);
