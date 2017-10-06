@@ -107,6 +107,27 @@ const student = (() => {
 		})
 	}
 
+	function getOlympiaAspirationOrder() {
+		return fetch(baseUrl + `/students/olympia-aspiration-order`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
+	function setOlympiaAspirationOrder(data) {
+		return fetch(baseUrl + `/students/olympia-aspiration-order`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		register,
@@ -117,7 +138,9 @@ const student = (() => {
 		resetPassword,
 		checkResetPasswordToken,
 		verifyEmail,
-		resendEmail
+		resendEmail,
+		getOlympiaAspirationOrder,
+		setOlympiaAspirationOrder
 	};
 
 })();

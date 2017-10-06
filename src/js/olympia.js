@@ -4,6 +4,8 @@
 	*	private variable
 	*/
 
+	let _hasOlympia = "false";
+
 	let _optionalWish = [
 	{id:"1001", group: "第一類組", school: "國立暨南國際大學", dept: "中國文學系", engDept: "Dept. of Chinese Literature"},
 	{id:"1002", group: "第一類組", school: "國立暨南國際大學", dept: "外國語文學系", engDept: "Dept. of Foreign Languages and Literatures"},
@@ -36,6 +38,7 @@
 	const optionalWishList = document.getElementById('optionalWish-list'); // 招生校系清單，渲染用
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
+	const $saveBtn = $('#btn-save');
 
 	/**
 	*	init
@@ -50,18 +53,35 @@
 	$hasOlympia.on('change', _showWishList); // 監聽是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項
 	$optionFilterSelect.on('change', _filterOptionalWishList); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _filterOptionalWishList); // // 監聽「招生校系清單」關鍵字
+	$saveBtn.on('click', _handleSave);
 
 	function _init() {
+		student.getOlympiaAspirationOrder()
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
 		student.setHeader();
 		_generateOptionalWish();
 		_generateWishList();
 	}
 
 	function _showWishList() { // 不參加申請，即不顯示聯分表單
-		const hasOlympiaVal = Number($(this).val());
-		if (hasOlympiaVal === 0) {
+		_hasOlympia = $(this).val();
+		if (_hasOlympia === "false") {
 			$olympiaSelectForm.fadeOut();
-		} else if (hasOlympiaVal === 1) {
+		} else if (_hasOlympia === "true") {
 			$olympiaSelectForm.fadeIn();
 		}
 	}
@@ -126,7 +146,7 @@
 		_optionalWish.push(_wishList[rowIndex]);
 		_wishList.splice(rowIndex, 1);
 		_optionalWish.sort(function(a, b) {
-		    return parseInt(a.id) - parseInt(b.id);
+			return parseInt(a.id) - parseInt(b.id);
 		});
 		_generateOptionalWish();
 		_generateWishList();
@@ -156,7 +176,7 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」
 		let rowHtml = '';
 
-		for(i in _optionalWish) {
+		for(let i in _optionalWish) {
 			rowHtml = rowHtml + `
 			<tr>
 			<td>
@@ -179,7 +199,7 @@
 
 	function _generateWishList() { // 「渲染已填選志願」
 		let rowHtml = '';
-		for(i in _wishList) {
+		for(let i in _wishList) {
 			rowHtml = rowHtml + `
 			<tr data-wishIndex="` + i + `">
 			<td>
@@ -216,6 +236,69 @@
 		$wishNum.on("change", _chWishIndex);
 		$upArrow.on("click", _prevWish);
 		$downArrow.on("click", _nextWish);
+	}
+
+	function _handleSave() {
+		if (_hasOlympia === "true") {
+			let order = [];
+			if (_wishList.length > 0) {
+				_wishList.forEach((value, index) => {
+					order.push(value.id);
+				});
+				const data = {
+					has_olympia_aspiration: _hasOlympia,
+					order
+				}
+				student.setOlympiaAspirationOrder(data)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					console.log(json);
+					let conf = confirm("儲存成功，欲往下一頁請按「確定」，留在此頁請按「取消」。");
+					if (conf == true) {
+						location.href = "./uploadEducation.html"
+					}
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					})
+				})
+			} else {
+				alert('沒有選擇志願。');
+			}
+		} else {
+			const data = {
+				has_olympia_aspiration: _hasOlympia,
+			}
+			student.setOlympiaAspirationOrder(data)
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+				let conf = confirm("儲存成功，欲往下一頁請按「確定」，留在此頁請按「取消」。");
+				if (conf == true) {
+					location.href = "./uploadEducation.html"
+				}
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			})
+		}
 	}
 
 })();
