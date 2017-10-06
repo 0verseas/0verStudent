@@ -106,6 +106,36 @@
 			}
 		} else {
 			// 港澳生
+			const idCard = +$signUpForm.find('.radio-idCard:checked').val();
+			const holdpassport = +$signUpForm.find('.radio-holdpassport:checked').val();
+			const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
+			const portugalPassport = +$signUpForm.find('.radio-portugalPassport:checked').val();
+			const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
+			console.error('洲別、國別還沒弄呢');
+			const KA_isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
+			const KA_distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
+			const KA_distributionMoreQuestion = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
+			const KA_stayLimitOption = +$signUpForm.find('.kangAo_radio-stayLimit:checked').val();
+			const KA_hasBeenTaiwan = +$signUpForm.find('.kangAo_radio-hasBeenTaiwan:checked').val();
+			const KA1_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
+			const KA2_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
+			const invalidDistributionOption = [3, 4, 5, 6];
+			let valid = true;
+			if (!idCard ||
+				!_typeOfKangAo ||
+				!!KA_isDistribution && KA_distributionTime === '' ||
+				!!KA_isDistribution && invalidDistributionOption.includes(KA_distributionMoreQuestion) ||
+				KA_stayLimitOption === 1 ||
+				!!KA_hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwanOption === 11 ||
+				!!KA_hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwanOption === 8) {
+				valid = false;
+			}
+
+			if (valid) {
+				console.log('API 還沒接 ＲＲＲＲ');
+			} else {
+				alert('資料未正確填寫，或身份不具報名資格');
+			}
 		}
 	}
 
