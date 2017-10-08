@@ -86,7 +86,65 @@
 	const $serviceAddress = $('#serviceAddress'); // 服務機關地址
 	const $saveBtn = $('#btn-save');
 
-
+	let formValidateList = [
+	{el: $reserveEmail, require: true, type: "string"},
+	{el: $name, require: true, type: "string"},
+	{el: $engName, require: true, type: "string"},
+	{el: $gender, require: true, type: "string"},
+	{el: $birthday, require: true, type: "string"},
+	{el: $birthState, require: true, type: "string"},
+	{el: $birthCountry, require: true, type: "string"},
+	{el: $specail, require: true, type: "string"},
+	{el: $residenceState, require: true, type: "string"},
+	{el: $residenceCountry, require: true, type: "string"},
+	{el: $idNumber, require: true, type: "string"},
+	{el: $passportId, require: true, type: "string"},
+	{el: $telCode, require: true, type: "string"},
+	{el: $telNumber, require: true, type: "string"},
+	{el: $phoneCode, require: true, type: "string"},
+	{el: $phoneNumber, require: true, type: "string"},
+	{el: $address, require: true, type: "string"},
+	{el: $otherLangAddress, require: true, type: "string"},
+	{el: $credentialsType, require: true, type: "string"},
+	{el: $credentialsId, require: true, type: "string"},
+	{el: $taiwanPassportId, require: true, type: "string"},
+	{el: $taiwanTel, require: true, type: "string"},
+	{el: $taiwanAddress, require: true, type: "string"},
+	{el: $educationDescription, require: true, type: "string"},
+	{el: $schoolState, require: true, type: "string"},
+	{el: $schoolCountry, require: true, type: "string"},
+	{el: $schoolLocation, require: true, type: "string"},
+	{el: $schoolName, require: true, type: "string"},
+	{el: $admissionDate, require: true, type: "string"},
+	{el: $graduationDate, require: true, type: "string"},
+	{el: $fatherStatus, require: true, type: "string"},
+	{el: $fatherDataForm, require: true, type: "string"},
+	{el: $fatherName, require: true, type: "string"},
+	{el: $engFatherName, require: true, type: "string"},
+	{el: $fatherBirthday, require: true, type: "string"},
+	{el: $fatherNativePlace, require: true, type: "string"},
+	{el: $fatherJob, require: true, type: "string"},
+	{el: $motherStatus, require: true, type: "string"},
+	{el: $motherDataForm, require: true, type: "string"},
+	{el: $motherName, require: true, type: "string"},
+	{el: $engMotherName, require: true, type: "string"},
+	{el: $motherBirthday, require: true, type: "string"},
+	{el: $motherNativePlace, require: true, type: "string"},
+	{el: $motherJob, require: true, type: "string"},
+	{el: $guardianForm, require: true, type: "string"},
+	{el: $guardianName, require: true, type: "string"},
+	{el: $engGuardianName, require: true, type: "string"},
+	{el: $guardianBirthday, require: true, type: "string"},
+	{el: $guardianNativePlace, require: true, type: "string"},
+	{el: $guardianJob, require: true, type: "string"},
+	{el: $contactPersonName, require: true, type: "string"},
+	{el: $contactPersonRelation, require: true, type: "string"},
+	{el: $contactPersonPhone, require: true, type: "string"},
+	{el: $contactPersonAddress, require: true, type: "string"},
+	{el: $serviceName, require: true, type: "string"},
+	{el: $servicePhone, require: true, type: "string"},
+	{el: $serviceAddress, require: true, type: "string"},
+	]
 
 	/**
 	*	init
@@ -136,7 +194,14 @@
 	}
 
 	function _handleSave() {
+		_validateForm();
 		location.href = './educationInfo.html'
+	}
+
+	function _validateForm() {
+		formValidateList.forEach((obj, index) => {
+			console.log(obj.el.val());
+		})
 	}
 
 })();
