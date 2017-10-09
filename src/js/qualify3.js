@@ -143,6 +143,31 @@
 			}
 		} else {
 			// 在台港澳生、僑生
+			const taiwanUniversity = +$signUpForm.find('.radio-taiwanUniversity:checked').val();
+			const distributionYear = $signUpForm.find('.input-distributionYear').val();
+			const distributionWay = $signUpForm.find('.input-distributionWay').val();
+			const distributionSchool = $signUpForm.find('.input-distributionSchool').val();
+			const distributionDept = $signUpForm.find('.input-distributionDept').val();
+			const distributionNo = $signUpForm.find('.input-distributionNo').val();
+			const applyPeer = +$signUpForm.find('.radio-applyPeer:checked').val();
+			const applyPeerYear = $signUpForm.find('.input-applyPeerYear').val();
+			const applyPeerStatus = +$signUpForm.find('.radio-applyPeerStatus:checked').val();
+			let valid = true;
+			if (!taiwanUniversity ||
+				distributionYear === '' ||
+				distributionWay === '' ||
+				distributionSchool === '' ||
+				distributionDept === '' ||
+				!!applyPeer && applyPeerYear === '' ||
+				!!applyPeer && applyPeerStatus !== 1) {
+				valid = false;
+			}
+
+			if (!valid) {
+				alert('資料未正確填寫，或身份不具報名資格');
+			} else {
+				console.log('API 還沒接 RRR');
+			}
 		}
 	}
 
