@@ -103,10 +103,30 @@
 	$saveBtn.on('click', _handleSave);
 
 	function _init() {
-		student.setHeader();
-		$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
-		$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
-		_switchGuardianForm();
+		
+
+		student.getOlympiaAspirationOrder()
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+		})
+		.then(() => {
+			student.setHeader();
+			$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
+			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
+			_switchGuardianForm();
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
 	}
 
 	function _switchDadDataForm() {
@@ -138,11 +158,27 @@
 	}
 
 	function _handleSave() {
-		if (data = _validateForm()) {
-			console.log(data);
-			// location.href = './educationInfo.html'
+		if (sendData = _validateForm()) {
+			console.log(sendData);
+			student.setStudentPersonalData(sendData)
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+				// location.href = './educationInfo.html'
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			})
 		} else {
-			console.log(data);
 			console.log('wrong');
 		}
 	}
@@ -170,10 +206,7 @@
 	}
 
 	function _getDBData(obj) {
-		let sendObj = {};
-		let _snedKey = obj.dbKey;
 		let _sendValue = "";
-
 		if (obj.dbData) {
 			_sendValue = obj.dbData;
 		} else if (obj.value) {
@@ -181,11 +214,7 @@
 		} else {
 			_sendValue = obj.el.val();
 		}
-		if (obj.type === "date"){
-			_sendValue = _sendValue.replace(/-/g, "/");
-		}
-		sendObj[_snedKey] = _sendValue;
-		return sendObj;
+		return _sendValue;
 	}
 
 	function _validateForm() {
@@ -464,7 +493,7 @@
 		// console.log(formValidateList);
 
 		let _correct = true; // 格式正確
-		let sendData = []; // 送給後端的
+		let sendData = {}; // 送給後端的
 
 		formValidateList.forEach((obj, index) => {
 			if (obj.require) {
@@ -472,7 +501,7 @@
 					switch(obj.type) {
 						case 'email':
 						if (_validateEmail(obj)) {
-							(obj.dbKey) && sendData.push(_getDBData(obj));
+							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
 							_correct = false;
@@ -481,7 +510,7 @@
 						break;
 						case 'date':
 						if (_validateDate(obj)) {
-							(obj.dbKey) && sendData.push(_getDBData(obj));
+							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
 							_correct = false;
@@ -489,7 +518,7 @@
 						}
 						break;
 						default:
-						(obj.dbKey) && sendData.push(_getDBData(obj));
+						if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 						obj.el.removeClass('invalidInput');
 					}
 				} else {
@@ -501,7 +530,7 @@
 					switch(obj.type) {
 						case 'email':
 						if (_validateEmail(obj)) {
-							(obj.dbKey) && sendData.push(_getDBData(obj));
+							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
 							_correct = false;
@@ -510,7 +539,7 @@
 						break;
 						case 'date':
 						if (_validateDate(obj)) {
-							(obj.dbKey) && sendData.push(_getDBData(obj));
+							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
 							_correct = false;
@@ -518,21 +547,22 @@
 						}
 						break;
 						default:
-						(obj.dbKey) && sendData.push(_getDBData(obj));
+						if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 						obj.el.removeClass('invalidInput');
 					}
 				} else {
-					(obj.dbKey) && sendData.push(_getDBData(obj));
+					if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 					obj.el.removeClass('invalidInput');
 				}
 			}
 		})
 
 		if (_correct) {
-			console.log(sendData);
 			return sendData;
 		} else {
+			console.log('==== validate failed ====');
 			console.log(sendData);
+			console.log("=========================");
 			return false;
 		}
 

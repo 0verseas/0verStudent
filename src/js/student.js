@@ -107,6 +107,27 @@ const student = (() => {
 		})
 	}
 
+	function getStudentPersonalData() {
+		return fetch(baseUrl + `/students/personal-data`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
+	function setStudentPersonalData(data) {
+		return fetch(baseUrl + `/students/personal-data`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	function getOlympiaAspirationOrder() {
 		return fetch(baseUrl + `/students/olympia-aspiration-order`, {
 			method: 'GET',
@@ -149,6 +170,8 @@ const student = (() => {
 		sendResetPassword,
 		resetPassword,
 		checkResetPasswordToken,
+		getStudentPersonalData,
+		setStudentPersonalData,
 		verifyEmail,
 		resendEmail,
 		getOlympiaAspirationOrder,
