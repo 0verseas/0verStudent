@@ -10,12 +10,13 @@
 	*/
 	const $signUpForm = $('#form-signUp');
 	const $identityRadio = $signUpForm.find('.radio-identity');
-	const $applyPeerStatusPadio = $signUpForm.find('.radio-applyPeerStatus');
+	const $saveBtn = $signUpForm.find('.btn-save');
 
 	// 在台僑生、在台港澳生
 	const $taiwanUniversityRadio = $signUpForm.find('.radio-taiwanUniversity');
 	const $applyPeerRadio = $signUpForm.find('.radio-applyPeer');
 	const $applyPeerYearInput = $signUpForm.find('.input-applyPeerYear');
+	const $applyPeerStatusPadio = $signUpForm.find('.radio-applyPeerStatus');
 	// 海外僑生
 	const $isDistribution = $signUpForm.find('.isDistribution');
 	const $distributionMoreQuestion = $signUpForm.find('.distributionMoreQuestion');
@@ -39,6 +40,7 @@
 	* bind event
 	*/
 	$identityRadio.on('change', _handleChangeIdentity);
+	$saveBtn.on('click', _handleSave);
 	$taiwanUniversityRadio.on('change', _checkTaiwanUniversity);
 	$applyPeerRadio.on('change', _checkApplyPeer);
 	$applyPeerYearInput.on('blur', _checkApplyPeerYear);
@@ -82,6 +84,90 @@
 				$signUpForm.find('.question.inTaiwan').fadeIn()[0].reset();
 				$signUpForm.find('.question.inTaiwan input[type=radio]:checked').trigger('change');
 				break;
+		}
+	}
+
+	// 儲存
+	function _handleSave() {
+		if (_identity < 3) {
+			// 港澳生
+			const idCard = +$signUpForm.find('.radio-idCard:checked').val();
+			const holdpassport = +$signUpForm.find('.radio-holdpassport:checked').val();
+			const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
+			const portugalPassport = +$signUpForm.find('.radio-portugalPassport:checked').val();
+			const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
+			console.error('洲別、過別還沒弄');
+			const isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
+			const distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
+			const distributionOption = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
+			const stayLimitOption = +$signUpForm.find('.kangAo_radio-stayLimit:checked').val();
+			const hasBeenTaiwan = +$signUpForm.find('.kangAo_radio-hasBeenTaiwan:checked').val();
+			const KA1_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
+			const KA2_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
+			let valid = true;	
+			if (!idCard ||
+				!!isDistribution && distributionTime === '' ||
+				!!isDistribution && distributionOption > 2 ||
+				stayLimitOption === 1 ||
+				_typeOfKangAo === null ||
+				!!hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwan === 11 ||
+				!!hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwan === 8
+				) {
+				valid = false;
+			}
+
+			if (!valid) {
+				alert('資料未正確填寫，或身份不具報名資格');
+			} else {
+				console.log('API 還沒接 RRR');
+			}
+		} else if (_identity === 3) {
+			// 海外僑生
+			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
+			const distributionOption = +$signUpForm.find('.distributionMoreQuestion:checked').val();
+			const stayLimitOption = +$signUpForm.find('.radio-stayLimit:checked').val();
+			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
+			const whyHasBeenTaiwan = +$signUpForm.find('.radio-whyHasBeenTaiwan:checked').val();
+			const invalidDistributionOption = [3, 4, 5, 6];
+			let valid = true;
+			if (!!isDistribution && invalidDistributionOption.includes(distributionOption) ||
+				stayLimitOption === 1 ||
+				!!hasBeenTaiwan && whyHasBeenTaiwan === 8) {
+				valid = false;
+			}
+
+			if (!valid) {
+				alert('身份不具報名資格');
+			} else {
+				console.log('API 還沒接 RRR');
+			}
+		} else {
+			// 在台港澳生、僑生
+			const taiwanUniversity = +$signUpForm.find('.radio-taiwanUniversity:checked').val();
+			const distributionYear = $signUpForm.find('.input-distributionYear').val();
+			const distributionWay = $signUpForm.find('.input-distributionWay').val();
+			const distributionSchool = $signUpForm.find('.input-distributionSchool').val();
+			const distributionDept = $signUpForm.find('.input-distributionDept').val();
+			const distributionNo = $signUpForm.find('.input-distributionNo').val();
+			const applyPeer = +$signUpForm.find('.radio-applyPeer:checked').val();
+			const applyPeerYear = $signUpForm.find('.input-applyPeerYear').val();
+			const applyPeerStatus = +$signUpForm.find('.radio-applyPeerStatus:checked').val();
+			let valid = true;
+			if (!taiwanUniversity ||
+				distributionYear === '' ||
+				distributionWay === '' ||
+				distributionSchool === '' ||
+				distributionDept === '' ||
+				!!applyPeer && applyPeerYear === '' ||
+				!!applyPeer && applyPeerStatus !== 1) {
+				valid = false;
+			}
+
+			if (!valid) {
+				alert('資料未正確填寫，或身份不具報名資格');
+			} else {
+				console.log('API 還沒接 RRR');
+			}
 		}
 	}
 

@@ -100,7 +100,38 @@
 			}
 
 			if (valid) {
-				console.log('API 還沒接 ＲＲＲＲ');
+				console.log(`是否曾經分發來臺就學過？ ${!!isDistribution}`);
+				console.log(`曾分發來臺請就下列選項擇一勾選 ${distributionOption}`);
+				console.log(`海外居留年限 ${stayLimitOption}`);
+				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
+				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件： ${hasBeenTaiwanOption}`);
+				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				student.verifyQualification({
+					system_id: 1,
+					identity: 3,
+					has_come_to_taiwan: !!isDistribution,
+					reason_selection_of_come_to_taiwan: distributionOption,
+					overseas_residence_time: stayLimitOption,
+					stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
+					reason_selection_of_stay_over_120_days_in_taiwan: hasBeenTaiwanOption,
+					force_update: true // TODO:
+				})
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					console.log(json);
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					})
+				});
 			} else {
 				alert('身份不具報名資格');
 			}
@@ -111,7 +142,8 @@
 			const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
 			const portugalPassport = +$signUpForm.find('.radio-portugalPassport:checked').val();
 			const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
-			console.error('洲別、國別還沒弄呢');
+			const passportContinent = $signUpForm.find('.select-passportContinent').val();
+			const passportCountry = $signUpForm.find('.select-passportCountry').val();
 			const KA_isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
 			const KA_distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
 			const KA_distributionMoreQuestion = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
@@ -132,7 +164,55 @@
 			}
 
 			if (valid) {
-				console.log('API 還沒接 ＲＲＲＲ');
+				console.log(`請問您是否擁有香港或澳門永久性居民身分證？ ${!!idCard}`);
+				console.log(`是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？ ${!!holdpassport}`);
+				console.log(`是否曾在臺設有戶籍？ ${!!taiwanHousehold}`);
+				console.log(`是否持有葡萄牙護照？ ${!!portugalPassport}`);
+				console.log(`於何時首次取得葡萄牙護照？ ${portugalPassportTime.replace(/-/g, '/')}`);
+				console.log(`您持有哪一個國家之護照？洲別 ${passportContinent}`);
+				console.log(`您持有哪一個國家之護照？國別 ${passportCountry}`);
+				console.log(`曾分發來臺 ${!!KA_isDistribution}`);
+				console.log(`於西元幾年分發來台？ ${KA_distributionTime}`);
+				console.log(`曾分發來臺並請就下列選項擇一勾選 ${KA_distributionMoreQuestion}`);
+				console.log(`海外居留年限 ${KA_stayLimitOption}`);
+				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!KA_hasBeenTaiwan}`);
+				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type1 }}} ${KA1_whyHasBeenTaiwanOption}`);
+				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type2 }}} ${KA2_whyHasBeenTaiwanOption}`);
+				console.error('您持有哪一個國家之護照，洲別國家組合碼還沒處理');
+				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				student.verifyQualification({
+					system_id: 1,
+					identity: _typeOfKangAo,
+					HK_Macao_permanent_residency: !!idCard,
+					except_HK_Macao_passport: !!holdpassport,
+					taiwan_census: !!taiwanHousehold,
+					portugal_passport: !!portugalPassport,
+					first_get_portugal_passport_at: portugalPassportTime.replace(/-/g, '/'),
+					which_nation_passport: '1234', // TODO: not yet to get the combination code
+					has_come_to_taiwan: !!KA_isDistribution,
+					come_to_taiwan_at: KA_distributionTime,
+					reason_selection_of_come_to_taiwan: KA_distributionMoreQuestion,
+					overseas_residence_time: KA_stayLimitOption,
+					stay_over_120_days_in_taiwan: !!KA_hasBeenTaiwan,
+					reason_selection_of_stay_over_120_days_in_taiwan: _typeOfKangAo === 1 ? KA1_whyHasBeenTaiwanOption : KA2_whyHasBeenTaiwanOption,
+					force_update: true
+				})
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					console.log(json);
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					})
+				});
 			} else {
 				alert('資料未正確填寫，或身份不具報名資格');
 			}

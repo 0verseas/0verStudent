@@ -348,7 +348,7 @@
 					<div class="col-md-12">
 						<fieldset class="form-group">
 							<label><strong>於何時首次取得葡萄牙護照？</strong></label>
-							<input class="form-control input-portugalPassportTime" type="date">
+							<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy-mm-dd">
 						</fieldset>
 					</div>
 					<div class="col-md-12 portugalPassportTimeAlert valid1 hide">
@@ -374,13 +374,15 @@
 					<fieldset class="form-group">
 						<label><strong>您持有哪一個國家之護照？</strong></label><br>
 						<label>洲別</label><br>
-						<div>
-							<input class="form-control" type="text" placeholder="洲別">
-						</div>
+						<select class="form-control select-passportContinent">
+							<option>南美洲</option>
+						</select>
+					</fieldset>
+					<fieldset class="form-group">
 						<label>國家</label><br>
-						<div>
-							<input class="form-control" type="text" placeholder="國家">
-						</div>
+						<select class="form-control select-passportCountry">
+							<option>巴拉圭</option>
+						</select>
 					</fieldset>
 				</div>
 				<div class="col-md-12 whichPassportAlert valid1 hide">
