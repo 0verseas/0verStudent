@@ -289,7 +289,8 @@
 			el: $residentAddress,
 			require: true,
 			type: 'string',
-			dbKey: 'resident_address'
+			dbKey: 'resident_address',
+			dbData: $residentAddress.val() + ';' + $residentOtherLangAddress.val();
 		},
 		{
 			el: $residentOtherLangAddress,
