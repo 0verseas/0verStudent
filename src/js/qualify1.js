@@ -100,7 +100,36 @@
 			}
 
 			if (valid) {
-				console.log('API 還沒接 ＲＲＲＲ');
+				console.log(`是否曾經分發來臺就學過？ ${!!isDistribution}`);
+				console.log(`曾分發來臺請就下列選項擇一勾選 ${distributionOption}`);
+				console.log(`海外居留年限 ${stayLimitOption}`);
+				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
+				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件： ${hasBeenTaiwanOption}`);
+				student.verifyQualification({
+					system_id: 1,
+					identity: 3,
+					has_come_to_taiwan: !!isDistribution,
+					reason_selection_of_come_to_taiwan: distributionOption,
+					overseas_residence_time: stayLimitOption,
+					stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
+					reason_selection_of_stay_over_120_days_in_taiwan: hasBeenTaiwanOption
+				})
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					console.log(json);
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					})
+				});
 			} else {
 				alert('身份不具報名資格');
 			}

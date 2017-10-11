@@ -128,6 +128,18 @@ const student = (() => {
 		})
 	}
 
+	// POST /students/verify-qualification
+	function verifyQualification(data) {
+		return fetch(`${baseUrl}/students/verify-qualification`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		});
+	}
+
 	return {
 		setHeader,
 		register,
@@ -140,7 +152,8 @@ const student = (() => {
 		verifyEmail,
 		resendEmail,
 		getOlympiaAspirationOrder,
-		setOlympiaAspirationOrder
+		setOlympiaAspirationOrder,
+		verifyQualification
 	};
 
 })();
