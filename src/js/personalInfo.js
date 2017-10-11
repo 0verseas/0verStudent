@@ -46,6 +46,7 @@
 	const $educationSystemDescription = $('#educationSystemDescription'); // 學制描述
 	const $schoolState = $('#schoolState'); // 學校所在地（州）
 	const $schoolCountry = $('#schoolCountry'); // 學校所在地（國）
+	const $schoolType = $('#schoolType'); // 學校類別
 	const $schoolLocation = $('#schoolLocation'); // 學校所在地
 	const $schoolName = $('#schoolName'); // 學校名稱
 	const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
@@ -290,7 +291,7 @@
 			require: true,
 			type: 'string',
 			dbKey: 'resident_address',
-			dbData: $residentAddress.val() + ';' + $residentOtherLangAddress.val();
+			dbData: $residentAddress.val() + ';' + $residentOtherLangAddress.val()
 		},
 		{
 			el: $residentOtherLangAddress,
@@ -334,9 +335,16 @@
 			dbKey: 'school_country'
 		},
 		{
+			el: $schoolType,
+			require: true,
+			type: 'string',
+			dbKey: 'school_type'
+		},
+		{
 			el: $schoolLocation,
 			require: true,
-			type: 'string'
+			type: 'string',
+			dbKey: 'school_locate'
 		},
 		{
 			el: $schoolName,
