@@ -4,8 +4,8 @@
 	*	private variable
 	*/
 
-	let _currentFatherStatus = 1;
-	let _currentMotherStatus = 1;
+	let _currentDadStatus = 'alive';
+	let _currentMomStatus = 'deceased';
 
 	/**
 	*	cache DOM
@@ -14,137 +14,77 @@
 	const $personalInfoForm = $('#form-personalInfo'); // 個人資料表單
 
 	// 申請人資料表
-	const $reserveEmail = $('#reserveEmail'); // 備用 E-Mail
+	const $backupEmail = $('#backupEmail'); // 備用 E-Mail
 	const $name = $('#name'); // 姓名（中）
 	const $engName = $('#engName');	// 姓名（英）
-	const $gender = $personalInfoForm.find('.personalInfoForm'); // 性別
+	const $gender = $personalInfoForm.find('.gender'); // 性別
 	const $birthday = $('#birthday'); // 生日
 	const $birthState = $('#birthState'); // 出生地（州）
-	const $birthCountry = $('#birthCountry'); // 出生地（國）
+	const $birthLocation = $('#birthLocation'); // 出生地（國）
 	const $specail = $personalInfoForm.find('.specail'); // 是否為「身心障礙」或「特殊照護」或「特殊教育」者
 
 	// 僑居地資料
 	const $residenceState = $('#residenceState'); // 州
-	const $residenceCountry = $('#residenceCountry'); // 國
-	const $idNumber = $('#idNumber'); // 身分證號碼（ID no.）
-	const $passportId = $('#passportId'); // 護照號碼
-	const $telCode = $('telCode'); // 電話國碼
-	const $telNumber = $('#telNumber'); // 電話號碼
-	const $phoneCode = $('#phoneCode'); // 手機國碼
-	const $phoneNumber = $('#phoneNumber'); // 手機號碼
-	const $address = $('#address'); // 地址（中 / 英）
-	const $otherLangAddress = $('#otherLangAddress'); // 地址（其他語言）
+	const $residentLocation = $('#residentLocation'); // 國
+	const $residentId = $('#residentId'); // 身分證號碼（ID no.）
+	const $residentPassportNo = $('#residentPassportNo'); // 護照號碼
+	const $residentPhoneCode = $('#residentPhoneCode'); // 電話國碼
+	const $residentPhone = $('#residentPhone'); // 電話號碼
+	const $residentCellphoneCode = $('#residentCellphoneCode'); // 手機國碼
+	const $residentCellphone = $('#residentCellphone'); // 手機號碼
+	const $residentAddress = $('#residentAddress'); // 地址（中 / 英）
+	const $residentOtherLangAddress = $('#residentOtherLangAddress'); // 地址（其他語言）
 
 	// 在台資料 (選填)
-	const $credentialsType = $('#credentialsType'); // 證件類型
-	const $credentialsId = $('#credentialsId'); // 該證件號碼
-	const $taiwanPassportId = $('#taiwanPassportId'); // 臺灣護照號碼
-	const $taiwanTel = $('#taiwanTel'); // 臺灣電話
+	const $taiwanIdType = $('#taiwanIdType'); // 證件類型
+	const $taiwanIdNo = $('#taiwanIdNo'); // 該證件號碼
+	const $taiwanPassport = $('#taiwanPassport'); // 臺灣護照號碼
+	const $taiwanPhone = $('#taiwanPhone'); // 臺灣電話
 	const $taiwanAddress = $('#taiwanAddress'); // 臺灣地址
 
 	// 學歷
-	const $educationDescription = $('#educationDescription'); // 學制描述
+	const $educationSystemDescription = $('#educationSystemDescription'); // 學制描述
 	const $schoolState = $('#schoolState'); // 學校所在地（州）
 	const $schoolCountry = $('#schoolCountry'); // 學校所在地（國）
 	const $schoolLocation = $('#schoolLocation'); // 學校所在地
 	const $schoolName = $('#schoolName'); // 學校名稱
-	const $admissionDate = $('#admissionDate'); // 入學時間
-	const $graduationDate = $('#graduationDate'); // 畢業時間
+	const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
+	const $schoolGraduateAt = $('#schoolGraduateAt'); // 畢業時間
 
 	// 家長資料
 	// 父親
-	const $fatherStatus = $('.fatherStatus'); // 存歿
-	const $fatherDataForm = $('#form-fatherData'); // 資料表單
-	const $fatherName = $('#fatherName'); // 姓名（中）
-	const $engFatherName = $('#engFatherName'); // 姓名（英）
-	const $fatherBirthday = $('#fatherBirthday'); // 生日
-	const $fatherNativePlace = $('#fatherNativePlace'); // 籍貫
-	const $fatherJob = $('#fatherJob'); // 職業
+	const $dadStatus = $('.dadStatus'); // 存歿
+	const $dadDataForm = $('#form-dadData'); // 資料表單
+	const $dadName = $('#dadName'); // 姓名（中）
+	const $dadEngName = $('#dadEngName'); // 姓名（英）
+	const $dadBirthday = $('#dadBirthday'); // 生日
+	const $dadHometown = $('#dadHometown'); // 籍貫
+	const $dadJob = $('#dadJob'); // 職業
 	// 母親
-	const $motherStatus = $('.motherStatus'); // 存歿
-	const $motherDataForm = $('#form-motherData'); // 資料表單
-	const $motherName = $('#motherName'); // 姓名（中）
-	const $engMotherName = $('#engMotherName'); // 姓名（英）
-	const $motherBirthday = $('#motherBirthday'); // 生日
-	const $motherNativePlace = $('#motherNativePlace'); // 籍貫
-	const $motherJob = $('#motherJob'); // 職業
+	const $momStatus = $('.momStatus'); // 存歿
+	const $momDataForm = $('#form-momData'); // 資料表單
+	const $momName = $('#momName'); // 姓名（中）
+	const $momEngName = $('#momEngName'); // 姓名（英）
+	const $momBirthday = $('#momBirthday'); // 生日
+	const $momHometown = $('#momHometown'); // 籍貫
+	const $momJob = $('#momJob'); // 職業
 	// 監護人（父母皆不詳才需要填寫）
 	const $guardianForm = $('#form-guardian'); // 資料表單
 	const $guardianName = $('#guardianName'); // 姓名（中）
-	const $engGuardianName = $('#engGuardianName'); // 姓名（英）
+	const $guardianEngName = $('#guardianEngName'); // 姓名（英）
 	const $guardianBirthday = $('#guardianBirthday'); // 生日
-	const $guardianNativePlace = $('#guardianNativePlace'); // 籍貫
+	const $guardianHometown = $('#guardianHometown'); // 籍貫
 	const $guardianJob = $('#guardianJob'); // 職業
 
 	// 在台聯絡人
-	const $contactPersonName = $('#contactPersonName'); // 姓名
-	const $contactPersonRelation = $('#contactPersonRelation'); // 關係
-	const $contactPersonPhone = $('#contactPersonPhone'); // 聯絡電話
-	const $contactPersonAddress = $('#contactPersonAddress'); // 地址
-	const $serviceName = $('#serviceName'); // 服務機關名稱
-	const $servicePhone = $('#servicePhone'); // 服務機關電話
-	const $serviceAddress = $('#serviceAddress'); // 服務機關地址
+	const $twContactName = $('#twContactName'); // 姓名
+	const $twContactRelation = $('#twContactRelation'); // 關係
+	const $twContactPhone = $('#twContactPhone'); // 聯絡電話
+	const $twContactAddress = $('#twContactAddress'); // 地址
+	const $twContactWorkplaceName = $('#twContactWorkplaceName'); // 服務機關名稱
+	const $twContactWorkplacePhone = $('#twContactWorkplacePhone'); // 服務機關電話
+	const $twContactWorkplaceAddress = $('#twContactWorkplaceAddress'); // 服務機關地址
 	const $saveBtn = $('#btn-save');
-
-	let formValidateList = [
-	{el: $reserveEmail, require: true, type: "string"},
-	{el: $name, require: true, type: "string"},
-	{el: $engName, require: true, type: "string"},
-	{el: $gender, require: true, type: "string"},
-	{el: $birthday, require: true, type: "string"},
-	{el: $birthState, require: true, type: "string"},
-	{el: $birthCountry, require: true, type: "string"},
-	{el: $specail, require: true, type: "string"},
-	{el: $residenceState, require: true, type: "string"},
-	{el: $residenceCountry, require: true, type: "string"},
-	{el: $idNumber, require: true, type: "string"},
-	{el: $passportId, require: true, type: "string"},
-	{el: $telCode, require: true, type: "string"},
-	{el: $telNumber, require: true, type: "string"},
-	{el: $phoneCode, require: true, type: "string"},
-	{el: $phoneNumber, require: true, type: "string"},
-	{el: $address, require: true, type: "string"},
-	{el: $otherLangAddress, require: true, type: "string"},
-	{el: $credentialsType, require: true, type: "string"},
-	{el: $credentialsId, require: true, type: "string"},
-	{el: $taiwanPassportId, require: true, type: "string"},
-	{el: $taiwanTel, require: true, type: "string"},
-	{el: $taiwanAddress, require: true, type: "string"},
-	{el: $educationDescription, require: true, type: "string"},
-	{el: $schoolState, require: true, type: "string"},
-	{el: $schoolCountry, require: true, type: "string"},
-	{el: $schoolLocation, require: true, type: "string"},
-	{el: $schoolName, require: true, type: "string"},
-	{el: $admissionDate, require: true, type: "string"},
-	{el: $graduationDate, require: true, type: "string"},
-	{el: $fatherStatus, require: true, type: "string"},
-	{el: $fatherDataForm, require: true, type: "string"},
-	{el: $fatherName, require: true, type: "string"},
-	{el: $engFatherName, require: true, type: "string"},
-	{el: $fatherBirthday, require: true, type: "string"},
-	{el: $fatherNativePlace, require: true, type: "string"},
-	{el: $fatherJob, require: true, type: "string"},
-	{el: $motherStatus, require: true, type: "string"},
-	{el: $motherDataForm, require: true, type: "string"},
-	{el: $motherName, require: true, type: "string"},
-	{el: $engMotherName, require: true, type: "string"},
-	{el: $motherBirthday, require: true, type: "string"},
-	{el: $motherNativePlace, require: true, type: "string"},
-	{el: $motherJob, require: true, type: "string"},
-	{el: $guardianForm, require: true, type: "string"},
-	{el: $guardianName, require: true, type: "string"},
-	{el: $engGuardianName, require: true, type: "string"},
-	{el: $guardianBirthday, require: true, type: "string"},
-	{el: $guardianNativePlace, require: true, type: "string"},
-	{el: $guardianJob, require: true, type: "string"},
-	{el: $contactPersonName, require: true, type: "string"},
-	{el: $contactPersonRelation, require: true, type: "string"},
-	{el: $contactPersonPhone, require: true, type: "string"},
-	{el: $contactPersonAddress, require: true, type: "string"},
-	{el: $serviceName, require: true, type: "string"},
-	{el: $servicePhone, require: true, type: "string"},
-	{el: $serviceAddress, require: true, type: "string"},
-	]
 
 	/**
 	*	init
@@ -156,37 +96,40 @@
 	*	bind event
 	*/
 
-	$fatherStatus.on('change', _switchFatherDataForm);
-	$motherStatus.on('change', _switchMotherDataForm);
+
+	$dadStatus.on('change', _switchDadDataForm);
+	$momStatus.on('change', _switchMomStatus);
 	$saveBtn.on('click', _handleSave);
 
 	function _init() {
 		student.setHeader();
+		$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
+		$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
 		_switchGuardianForm();
 	}
 
-	function _switchFatherDataForm() {
-		_currentFatherStatus = Number($(this).val());
-		if (_currentFatherStatus === 3) {
-			$fatherDataForm.hide();
+	function _switchDadDataForm() {
+		_currentDadStatus = $(this).val();
+		if (_currentDadStatus === "undefined") {
+			$dadDataForm.hide();
 		} else {
-			$fatherDataForm.fadeIn();
+			$dadDataForm.fadeIn();
 		}
 		_switchGuardianForm();
 	}
 
-	function _switchMotherDataForm() {
-		_currentMotherStatus = Number($(this).val());
-		if (_currentMotherStatus === 3) {
-			$motherDataForm.hide();
+	function _switchMomStatus() {
+		_currentMomStatus = $(this).val();
+		if (_currentMomStatus === "undefined") {
+			$momDataForm.hide();
 		} else {
-			$motherDataForm.fadeIn();
+			$momDataForm.fadeIn();
 		}
 		_switchGuardianForm();
 	}
 
 	function _switchGuardianForm() {
-		if (_currentFatherStatus === 3 && _currentMotherStatus === 3) {
+		if (_currentDadStatus === "undefined" && _currentMomStatus === "undefined") {
 			$guardianForm.fadeIn();
 		} else {
 			$guardianForm.hide();
@@ -194,14 +137,394 @@
 	}
 
 	function _handleSave() {
-		_validateForm();
-		location.href = './educationInfo.html'
+		if (data = _validateForm()) {
+			console.log(data);
+			// location.href = './educationInfo.html'
+		} else {
+			console.log(data);
+			console.log('wrong');
+		}
+	}
+
+	// 驗證是否有值
+	function _validateNotEmpty(obj) {
+		let _checkValue = (obj.value) ? obj.value : obj.el.val();
+		return _checkValue !== "";
+	}
+
+	// 驗證 Email 格式是否正確
+	function _validateEmail(obj) {
+		let _checkValue = (obj.value) ? obj.value : obj.el.val();
+		if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(_checkValue)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	// 驗證日期
+	function _validateDate(obj) {
+		let _checkValue = (obj.value) ? obj.value : obj.el.val();
+		return Date.parse(_checkValue)
+	}
+
+	function _getDBData(obj) {
+		let sendObj = {};
+		let _snedKey = obj.dbKey;
+		let _sendValue = "";
+
+		if (obj.dbData) {
+			_sendValue = obj.dbData;
+		} else if (obj.value) {
+			_sendValue = obj.value;
+		} else {
+			_sendValue = obj.el.val();
+		}
+		if (obj.type === "date"){
+			_sendValue = _sendValue.replace(/-/g, "/");
+		}
+		sendObj[_snedKey] = _sendValue;
+		return sendObj;
 	}
 
 	function _validateForm() {
+
+		/**
+		*	formValidateList: 格式設定表，由此表決定如何驗證表單，並產出要送給後端的 json object。
+		*	el: DOM 元素。
+		*	require: 是否為必填。
+		*	type: 輸出值的格式，之後會驗證是否符合該格式。
+		*	value: 預設取值方式為 el.val()，如果有特殊需求(像是 radio 要用 class name 取值)，則填寫在 value 中。
+		*	dbKey: 資料送往後端的 key，不需送出則不填。
+		*	dbData: 送往後端的資料，預設為 value，其次為 el.val()。如果有特殊需求（像是電話要和國碼合併），則填寫在 dbData 中。
+		*/
+		let formValidateList = [
+		{
+			el: $backupEmail,
+			require: false,
+			type: 'email',
+			dbKey: 'backup_email'
+		},
+		{
+			el: $name,
+			require: true,
+			type: 'string',
+			dbKey: 'name'
+		},
+		{
+			el: $engName,
+			require: true,
+			type: 'string',
+			dbKey: 'eng_name'
+		},
+		{
+			el: $gender,
+			require: true,
+			type: 'radio',
+			value: $(".gender:checked").val(),
+			dbKey: 'gender'
+		},
+		{
+			el: $birthday,
+			require: true,
+			type: 'date',
+			dbKey: 'birthday'
+		},
+		{
+			el: $birthLocation,
+			require: true,
+			type: 'string',
+			dbKey: 'birth_location'
+		},
+		{
+			el: $specail,
+			require: true,
+			type: 'radio',
+			value: $(".specail:checked").val(),
+			dbKey:'special'
+		},
+		{
+			el: $residentLocation,
+			require: true,
+			type: 'string',
+			dbKey: 'resident_location'
+		},
+		{
+			el: $residentId,
+			require: true,
+			type: 'string',
+			dbKey: 'resident_id'
+		},
+		{
+			el: $residentPassportNo,
+			require: true,
+			type: 'string',
+			dbKey: 'resident_passport_no'
+		},
+		{ // 電話國碼，需驗證，合併在電話號碼一起送出。
+			el: $residentPhoneCode,
+			require: true,
+			type: 'string'
+		}, 
+		{
+			el: $residentPhone,
+			require: true,
+			type: 'string',
+			dbKey: 'resident_phone',
+			dbData: $residentPhoneCode.val() + $residentPhone.val()
+		},
+		{ // 手機國碼，需驗證，合併在手機號碼一起送出。
+			el: $residentCellphoneCode,
+			require: true,
+			type: 'string'
+		},
+		{
+			el: $residentCellphone,
+			require: true,
+			type: 'string',
+			dbKey: 'resident_cellphone',
+			dbData: $residentCellphoneCode.val() + $residentCellphone.val()
+		},
+		{
+			el: $residentAddress,
+			require: true,
+			type: 'string',
+			dbKey: 'resident_address'
+		},
+		{
+			el: $residentOtherLangAddress,
+			require: false,
+			type: 'string'
+		},
+		{
+			el: $taiwanIdType,
+			require: false,
+			type: 'string',
+			dbKey: 'taiwan_id_type'
+		},
+		{
+			el: $taiwanPassport,
+			require: false,
+			type: 'string',
+			dbKey: 'taiwan_passport'
+		},
+		{
+			el: $taiwanPhone,
+			require: false,
+			type: 'string',
+			dbKey: 'taiwan_phone'
+		},
+		{
+			el: $taiwanAddress,
+			require: false,
+			type: 'string',
+			dbKey: 'taiwan_address'
+		},
+		{
+			el: $educationSystemDescription,
+			require: true,
+			type: 'string',
+			dbKey: 'education_system_description'
+		},
+		{
+			el: $schoolCountry,
+			require: true,
+			type: 'string',
+			dbKey: 'school_country'
+		},
+		{
+			el: $schoolLocation,
+			require: true,
+			type: 'string'
+		},
+		{
+			el: $schoolName,
+			require: true,
+			type: 'string',
+			dbKey: 'school_name'
+		},
+		{
+			el: $schoolAdmissionAt,
+			require: true,
+			type: 'date',
+			dbKey: 'school_admission_at'
+		},
+		{
+			el: $schoolGraduateAt,
+			require: true,
+			type: 'date',
+			dbKey: 'school_graduate_at'
+		},
+		{
+			el: $dadStatus,
+			require: true,
+			type: 'radio',
+			value: _currentDadStatus,
+			dbKey: 'dad_status'
+		},
+		{
+			el: $momStatus,
+			require: true,
+			type: 'radio',
+			value: _currentMomStatus,
+			dbKey: 'mom_status'
+		},
+		{
+			el: $twContactName,
+			require: false,
+			type: 'string',
+			dbKey: 'tw_contact_name'
+		},
+		{
+			el: $twContactRelation,
+			require: false,
+			type: 'string',
+			dbKey: 'tw_contact_relation'
+		},
+		{
+			el: $twContactPhone,
+			require: false,
+			type: 'string',
+			dbKey: 'tw_contact_phone'
+		},
+		{
+			el: $twContactAddress,
+			require: false,
+			type: 'string',
+			dbKey: 'tw_contact_address'
+		},
+		{
+			el: $twContactWorkplaceName,
+			require: false,
+			type: 'string',
+			dbKey: 'tw_contact_workplace_name'
+		},
+		{
+			el: $twContactWorkplacePhone,
+			require: false,
+			type: 'string',
+			dbKey: 'tw_contact_workplace_phone'
+		},
+		{
+			el: $twContactWorkplaceAddress,
+			require: false,
+			type: 'string',
+			dbKey: 'tw_contact_workplace_address'
+		}]
+
+		// 父親不為「不詳」時增加的驗證
+		if (_currentDadStatus !== "undefined") {
+			formValidateList.push(
+				{el: $dadName, require: true, type: 'string', dbKey: 'dad_name'},
+				{el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name'},
+				{el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday'},
+				{el: $dadHometown, require: false, type: 'string', dbKey: 'dad_hometown'},
+				{el: $dadJob, require: true, type: 'string', dbKey: 'dad_job'}
+				);
+		}
+
+		// 母親不為「不詳」時增加的驗證
+		if (_currentMomStatus !== "undefined") {
+			formValidateList.push(
+				{el: $momName, require: true, type: 'string', dbKey: 'mom_name'},
+				{el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name'},
+				{el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday'},
+				{el: $momHometown, require: false, type: 'string', dbKey: 'mom_hometown'},
+				{el: $momJob, require: true, type: 'string', dbKey: 'mom_job'}
+				);
+		}
+
+		// 父母皆為「不詳」時，增加「監護人」驗證
+		if (_currentDadStatus === "undefined" && _currentMomStatus === "undefined") {
+			formValidateList.push(
+				{el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name'},
+				{el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name'},
+				{el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday'},
+				{el: $guardianHometown, require: false, type: 'string', dbKey: 'guardian_hometown'},
+				{el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job'}
+				);
+		}
+
+		// 有證件類型再送 ID
+		if ($taiwanIdType.val() !== "") {
+			formValidateList.push(
+				{el: $taiwanIdNo, require: false, type: 'string', dbKey: 'taiwan_id'}
+				);
+		}
+
+		// console.log(formValidateList);
+
+		let _correct = true; // 格式正確
+		let sendData = []; // 送給後端的
+
 		formValidateList.forEach((obj, index) => {
-			console.log(obj.el.val());
+			if (obj.require) {
+				if (_validateNotEmpty(obj)) {
+					switch(obj.type) {
+						case 'email':
+						if (_validateEmail(obj)) {
+							(obj.dbKey) && sendData.push(_getDBData(obj));
+							obj.el.removeClass('invalidInput');
+						} else {
+							_correct = false;
+							obj.el.addClass('invalidInput');
+						}
+						break;
+						case 'date':
+						if (_validateDate(obj)) {
+							(obj.dbKey) && sendData.push(_getDBData(obj));
+							obj.el.removeClass('invalidInput');
+						} else {
+							_correct = false;
+							obj.el.addClass('invalidInput');
+						}
+						break;
+						default:
+						(obj.dbKey) && sendData.push(_getDBData(obj));
+						obj.el.removeClass('invalidInput');
+					}
+				} else {
+					_correct = false;
+					obj.el.addClass('invalidInput');
+				}
+			} else {
+				if (_validateNotEmpty(obj)) {
+					switch(obj.type) {
+						case 'email':
+						if (_validateEmail(obj)) {
+							(obj.dbKey) && sendData.push(_getDBData(obj));
+							obj.el.removeClass('invalidInput');
+						} else {
+							_correct = false;
+							obj.el.addClass('invalidInput');
+						}
+						break;
+						case 'date':
+						if (_validateDate(obj)) {
+							(obj.dbKey) && sendData.push(_getDBData(obj));
+							obj.el.removeClass('invalidInput');
+						} else {
+							_correct = false;
+							obj.el.addClass('invalidInput');
+						}
+						break;
+						default:
+						(obj.dbKey) && sendData.push(_getDBData(obj));
+						obj.el.removeClass('invalidInput');
+					}
+				} else {
+					(obj.dbKey) && sendData.push(_getDBData(obj));
+					obj.el.removeClass('invalidInput');
+				}
+			}
 		})
+
+		if (_correct) {
+			return sendData;
+		} else {
+			return false;
+		}
+
 	}
 
 })();
