@@ -6,6 +6,7 @@
 
 	let _currentDadStatus = 'alive';
 	let _currentMomStatus = 'deceased';
+	let _countryList = [];
 
 	/**
 	*	cache DOM
@@ -97,15 +98,19 @@
 	*	bind event
 	*/
 
-
+	$birthState.on('change', _reRenderCountry);
+	$residenceState.on('change', _reRenderCountry);
+	$schoolState.on('change', _reRenderCountry);
 	$dadStatus.on('change', _switchDadDataForm);
 	$momStatus.on('change', _switchMomStatus);
 	$saveBtn.on('click', _handleSave);
 
 	function _init() {
-		student.getOlympiaAspirationOrder()
+		student.getStudentPersonalData()
 		.then((res) => {
 			if (res.ok) {
+				_initCountryList();
+
 				return res.json();
 			} else {
 				throw res;
@@ -125,6 +130,36 @@
 				console.error(data);
 			})
 		})
+	}
+
+	function _initCountryList() {
+		student.getCountryList()
+		.then((json) => {
+			let stateHTML = '<option data-continentIndex="-1">Continent</option>';
+			json.forEach((obj, index) => {
+				stateHTML += '<option data-continentIndex="' + index + '">' + obj.continent + '</option>'
+			})
+			$birthState.html(stateHTML);
+			$residenceState.html(stateHTML);
+			$schoolState.html(stateHTML);
+			_countryList = json;
+		})
+	}
+
+	function _reRenderCountry() {
+		const continent = $(this).find(':selected').data('continentindex');
+		const $row = $(this).closest('.row');
+		const $countrySelect = $row.find('.country');
+
+		let countryHTML = '';
+		if (continent !== -1) {
+			_countryList[continent]['country'].forEach((obj, index) => {
+				countryHTML += '<option value="' + obj.id + '">' + obj.country + '</option>';
+			})
+		} else {
+			countryHTML = '<option value="">Country</option>'
+		}
+		$countrySelect.html(countryHTML);
 	}
 
 	function _switchDadDataForm() {
@@ -177,7 +212,7 @@
 				})
 			})
 		} else {
-			console.log('wrong');
+			console.log('==== validate failed ====');
 		}
 	}
 
@@ -558,12 +593,8 @@
 		if (_correct) {
 			return sendData;
 		} else {
-			console.log('==== validate failed ====');
-			console.log(sendData);
-			console.log("=========================");
 			return false;
 		}
-
 	}
 
 })();
