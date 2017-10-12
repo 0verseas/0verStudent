@@ -19,6 +19,40 @@ const student = (() => {
 		$headerId.html(headerData.id);
 	}
 
+	async function getCountryList() {
+		if (localStorage.countryList && localStorage.countryList !== "") {
+			return JSON.parse(localStorage.countryList);
+		} else {
+			try {
+				const response = await fetch(baseUrl + `/country-lists`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					credentials: 'include'
+				})
+				if (!response.ok) { throw response; }
+				const json = await response.json();
+
+				let group_to_values = await json.reduce(function (obj, item) {
+					obj[item.continent] = obj[item.continent] || [];
+					obj[item.continent].push({id: item.id, country: item.country});
+					return obj;
+				}, {});
+
+				let groups = await Object.keys(group_to_values).map(function (key) {
+					return {continent: key, country: group_to_values[key]};
+				});
+
+				localStorage.countryList = JSON.stringify(groups);
+				return groups;
+			} catch (e) {
+				console.log('Boooom!!');
+				console.log(e);
+			}
+		}
+	}
+
 	function register(data) {
 		return fetch(baseUrl + `/students/register`, {
 			method: 'POST',
@@ -170,6 +204,31 @@ const student = (() => {
 		})
 	}
 
+	function getDiplomaAndTranscripts() {
+
+		var urls = [
+		baseUrl + '/students/diploma',
+		baseUrl + '/students/transcripts'
+		]
+		const grabContent = url => fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+		return Promise.all(urls.map(grabContent))
+
+		
+		// return fetch(baseUrl + `/students/diploma`, {
+		// 	method: 'GET',
+		// 	headers: {
+		// 		'Content-Type': 'application/json'
+		// 	},
+		// 	credentials: 'include'
+		// })
+	}
+
 	// POST /students/verify-qualification
 	function verifyQualification(data) {
 		return fetch(`${baseUrl}/students/verify-qualification`, {
@@ -184,6 +243,7 @@ const student = (() => {
 
 	return {
 		setHeader,
+		getCountryList,
 		register,
 		login,
 		logout,
@@ -199,6 +259,7 @@ const student = (() => {
 		setStudentEducationInfoData,
 		getOlympiaAspirationOrder,
 		setOlympiaAspirationOrder,
+		getDiplomaAndTranscripts,
 		verifyQualification
 	};
 

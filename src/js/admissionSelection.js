@@ -69,43 +69,17 @@
 		const filterSelect = Number($optionFilterSelect.val());
 		const filter = $optionFilterInput.val().toUpperCase();
 		const tr = $optionalWishList.find('tr');
-
-		if (_wishList.length > 0) { // 有選志願
-			const currentGroup = _wishList[0].group; // 當前類組
-			for (i = 0; i < tr.length; i++) {
-				let groupVal = String($(tr[i].getElementsByTagName("span")[1]).text()); // 欄位中的類組
-				let spanVal = String($(tr[i].getElementsByTagName("span")[filterSelect]).text()); // 要被篩選的欄位
-				if (spanVal) {
-					// 先篩選資料
-					if (spanVal.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-					// 再篩選類組
-					if (currentGroup === "第一類組") {
-						if (groupVal === "第二類組" || groupVal === "第三類組") {
-							tr[i].style.display = "none";
-						}
-					} else {
-						if (groupVal === "第一類組") {
-							tr[i].style.display = "none";
-						}
-					}
-				}
-			}
-		} else { // 沒選志願
-			for (i = 0; i < tr.length; i++) {
-				let spanVal = $(tr[i].getElementsByTagName("span")[filterSelect]).text();
-				if (spanVal) {
-					if (spanVal.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
+		for (i = 0; i < tr.length; i++) {
+			let spanVal = $(tr[i].getElementsByTagName("span")[filterSelect]).text();
+			if (spanVal) {
+				if (spanVal.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				} else {
+					tr[i].style.display = "none";
 				}
 			}
 		}
+
 	}
 
 	function _addWish() { // 增加志願
@@ -152,7 +126,7 @@
 		_optionalWish.push(_wishList[rowIndex]);
 		_wishList.splice(rowIndex, 1);
 		_optionalWish.sort(function(a, b) {
-		    return parseInt(a.id) - parseInt(b.id);
+			return parseInt(a.id) - parseInt(b.id);
 		});
 		_generateOptionalWish();
 		_generateWishList();

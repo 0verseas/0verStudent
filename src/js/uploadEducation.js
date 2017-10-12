@@ -1,5 +1,8 @@
 (() => {
 
+	let _diplomaFiles = {};
+	let _transcriptsFiles = {};
+
 	/**
 	*	cache DOM
 	*/
@@ -30,7 +33,38 @@
 	$transcriptFile.on("change", _addTranscript);
 
 	function _init() {
-		student.setHeader();
+		let files = student.getDiplomaAndTranscripts()
+		.then((res) => {
+			if (res[0].ok) {
+				return res;
+			} else {
+				throw res[0];
+			}
+		})
+		.then(res => {
+			res[0].json().then((data) => {  
+				 _diplomaFiles = data;
+			});
+			res[1].json().then((data) => {  
+				_transcriptsFiles = data;
+			}); 
+		})
+		.then(() => {
+			console.log(_diplomaFiles);
+			console.log(_transcriptsFiles);
+		})
+		.then(() => {
+			student.setHeader();
+		})
+		.catch((err) => {
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			}
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
 		
 		$(":file").filestyle({
 			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
