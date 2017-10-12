@@ -87,20 +87,23 @@
 		if (+_currentIdentity === 2) {
 			// 海外僑生
 			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
+			const distributionTime = $signUpForm.find('inpit-distributionTime').val();
 			const distributionOption = +$signUpForm.find('.distributionMoreQuestion:checked').val();
 			const stayLimitOption = +$signUpForm.find('.radio-stayLimit:checked').val();
 			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
 			const hasBeenTaiwanOption = +$signUpForm.find('.radio-whyHasBeenTaiwan:checked').val();
 			const invalidDistributionOption = [3, 4, 5, 6];
 			let valid = true;
-			if (isDistribution === 1 && invalidDistributionOption.includes(distributionOption) ||
+			if (!!isDistribution && invalidDistributionOption.includes(distributionOption) ||
+				!!isDistribution && distributionTime === '' ||
 				stayLimitOption ===1 ||
-				hasBeenTaiwan === 1 && hasBeenTaiwanOption === 8) {
+				!!hasBeenTaiwan && hasBeenTaiwanOption === 8) {
 				valid = false;
 			}
 
 			if (valid) {
 				console.log(`是否曾經分發來臺就學過？ ${!!isDistribution}`);
+				console.log(`曾分發來臺於西元幾年分發來台？ ${distributionTime}`);
 				console.log(`曾分發來臺請就下列選項擇一勾選 ${distributionOption}`);
 				console.log(`海外居留年限 ${stayLimitOption}`);
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
@@ -110,6 +113,7 @@
 					system_id: 1,
 					identity: 3,
 					has_come_to_taiwan: !!isDistribution,
+					come_to_taiwan_at: distributionTime,
 					reason_selection_of_come_to_taiwan: distributionOption,
 					overseas_residence_time: stayLimitOption,
 					stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
