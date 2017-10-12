@@ -32,8 +32,8 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="reserveEmail">備用 E-Mail</label>
-						<input type="email" class="form-control" id="reserveEmail">
+						<label for="backupEmail">備用 E-Mail</label>
+						<input type="email" class="form-control" id="backupEmail">
 					</div>
 				</div>
 			</div>
@@ -57,12 +57,12 @@
 						<label class="text-danger">性別</label><br>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
-								<input class="form-check-input gender" type="radio" name="gender" value="0" checked> 女
+								<input class="form-check-input gender" type="radio" name="gender" value="F" checked> 女
 							</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
-								<input class="form-check-input gender" type="radio" name="gender" value="1"> 男
+								<input class="form-check-input gender" type="radio" name="gender" value="M"> 男
 							</label>
 						</div>
 					</fieldset>
@@ -70,7 +70,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="birthday">生日</label>
-						<input class="form-control" type="date" id="birthday" value="">
+						<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy/mm/dd" id="birthday">
 					</div>
 				</div>
 			</div>
@@ -90,11 +90,11 @@
 								</select>
 							</div>
 							<div class="col-md-4">
-								<select class="form-control" id="birthCountry">
+								<select class="form-control" id="birthLocation">
 									<option value="">Country</option>
-									<option value="">one</option>
-									<option value="">two</option>
-									<option value="">three</option>
+									<option value="one">one</option>
+									<option value="two">two</option>
+									<option value="three">three</option>
 								</select>
 							</div>
 						</div>
@@ -144,11 +144,11 @@
 								</select>
 							</div>
 							<div class="col-md-4">
-								<select class="form-control" id="residenceCountry">
+								<select class="form-control" id="residentLocation">
 									<option value="">Country</option>
-									<option value="">one</option>
-									<option value="">two</option>
-									<option value="">three</option>
+									<option value="one">one</option>
+									<option value="two">two</option>
+									<option value="three">three</option>
 								</select>
 							</div>
 						</div>
@@ -158,27 +158,27 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
-						<label class="text-danger" for="idNumber">身分證號碼（ID no.）</label>
-						<input type="text" class="form-control" id="idNumber" placeholder="ID no.">
+						<label class="text-danger" for="residentId">身分證號碼（ID no.）</label>
+						<input type="text" class="form-control" id="residentId" placeholder="ID no.">
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="passportId">護照號碼</label>
-						<input type="text" class="form-control" id="passportId" placeholder="Passport no.">
+						<label for="residentPassportNo">護照號碼</label>
+						<input type="text" class="form-control" id="residentPassportNo" placeholder="Passport no.">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label class="text-danger" for="telCode">電話</label>
+						<label class="text-danger" for="residentPhoneCode">電話</label>
 						<div class="row">
 							<div class="col-3">
-								<input type="text" class="form-control" id="telCode" maxlength="5" placeholder="國碼">
+								<input type="text" class="form-control" id="residentPhoneCode" maxlength="5" placeholder="國碼">
 							</div>
 							<div class="col-9">
-								<input type="text" class="form-control" id="telNumber" placeholder="電話號碼">
+								<input type="text" class="form-control" id="residentPhone" placeholder="電話號碼">
 							</div>
 						</div>
 					</div>
@@ -187,13 +187,13 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label class="text-danger" for="phoneCode">手機</label>
+						<label class="text-danger" for="residentCellphoneCode">手機</label>
 						<div class="row">
 							<div class="col-3">
-								<input type="text" class="form-control" id="phoneCode" maxlength="5" placeholder="國碼">
+								<input type="text" class="form-control" id="residentCellphoneCode" maxlength="5" placeholder="國碼">
 							</div>
 							<div class="col-9">
-								<input type="text" class="form-control" id="phoneNumber" placeholder="手機電話號碼">
+								<input type="text" class="form-control" id="residentCellphone" placeholder="手機電話號碼">
 							</div>
 						</div>
 					</div>
@@ -202,8 +202,8 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label class="text-danger" for="address">地址</label>
-						<input type="text" class="form-control" id="address" placeholder="地址">
+						<label class="text-danger" for="residentAddress">地址</label>
+						<input type="text" class="form-control" id="residentAddress" placeholder="地址">
 						<small class="form-text text-danger">請以「中文」或「英文」填寫</small>
 					</div>
 				</div>
@@ -211,8 +211,8 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="">地址</label>
-						<input type="text" class="form-control" id="otherLangAddress" placeholder="地址">
+						<label for="residentOtherLangAddress">地址</label>
+						<input type="text" class="form-control" id="residentOtherLangAddress" placeholder="地址">
 						<small class="form-text text-muted">（選填）請以 <span class="text-danger">中英文以外語言</span> 填寫</small>
 					</div>
 				</div>
@@ -230,17 +230,17 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label for="credentialsType">證件類型</label>
+						<label for="taiwanIdType">證件類型</label>
 						<div class="row">
 							<div class="col-md-4">
-								<select class="form-control" id="credentialsType">
-									<option>請選擇</option>
-									<option>身分證</option>
-									<option>居留證</option>
+								<select class="form-control" id="taiwanIdType">
+									<option value="">請選擇</option>
+									<option value="idCard">身分證</option>
+									<option value="blabla">居留證</option>
 								</select>
 							</div>
 							<div class="col-md-4">
-								<input type="text" class="form-control" id="credentialsId" placeholder="">
+								<input type="text" class="form-control" id="taiwanIdNo" placeholder="">
 							</div>
 						</div>
 					</div>
@@ -249,23 +249,23 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="">臺灣護照號碼</label>
-						<input type="text" class="form-control" id="taiwanPassportId" placeholder="Passport no.">
+						<label for="taiwanPassport">臺灣護照號碼</label>
+						<input type="text" class="form-control" id="taiwanPassport" placeholder="Passport no.">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="">臺灣電話</label>
-						<input type="text" class="form-control" id="taiwanTel" placeholder="電話">
+						<label for="taiwanPhone">臺灣電話</label>
+						<input type="text" class="form-control" id="taiwanPhone" placeholder="電話">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="">臺灣地址</label>
+						<label for="taiwanAddress">臺灣地址</label>
 						<input type="text" class="form-control" id="taiwanAddress" placeholder="地址">
 					</div>
 				</div>
@@ -283,8 +283,8 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label class="text-danger" for="educationDescription">學制描述</label>
-						<input type="text" class="form-control" id="educationDescription" placeholder="xx小學6年、xx中學3年、xx高中3年">
+						<label class="text-danger" for="educationSystemDescription">學制描述</label>
+						<input type="text" class="form-control" id="educationSystemDescription" placeholder="xx小學6年、xx中學3年、xx高中3年">
 					</div>
 				</div>
 			</div>
@@ -306,12 +306,25 @@
 							<div class="col-md-4">
 								<select class="form-control" id="schoolCountry">
 									<option value="">Country</option>
-									<option value="">one</option>
-									<option value="">two</option>
-									<option value="">three</option>
+									<option value="one">one</option>
+									<option value="two">two</option>
+									<option value="three">three</option>
 								</select>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="form-group">
+						<label class="text-danger" for="schoolType">學校類別</label>
+						<select class="form-control" id="schoolType">
+							<option value="">請選擇</option>
+							<option value="第一類">第一類</option>
+							<option value="第二類">第二類</option>
+							<option value="第三類">第三類</option>
+						</select>
 					</div>
 				</div>
 			</div>
@@ -320,7 +333,7 @@
 					<div class="form-group">
 						<label class="text-danger" for="schoolLocation">學校所在地</label>
 						<select class="form-control" id="schoolLocation">
-							<option>澳門半島</option>
+							<option value="澳門半島">澳門半島</option>
 						</select>
 					</div>
 				</div>
@@ -328,7 +341,7 @@
 					<div class="form-group">
 						<label class="text-danger" for="schoolName">學校名稱</label>
 						<select class="form-control" id="schoolName">
-							<option>培正中學</option>
+							<option value="培正中學">培正中學</option>
 						</select>
 					</div>
 				</div>
@@ -336,14 +349,14 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label class="text-danger" for="admissionDate">入學時間</label>
-						<input class="form-control" type="month" id="admissionDate" value="">
+						<label class="text-danger" for="schoolAdmissionAt">入學時間</label>
+						<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy/mm" id="schoolAdmissionAt">
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label class="text-danger" for="graduationDate">畢業時間</label>
-						<input class="form-control" type="month" id="graduationDate" value="">
+						<label class="text-danger" for="schoolGraduateAt">畢業時間</label>
+						<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy/mm" id="schoolGraduateAt">
 					</div>
 				</div>
 			</div>
@@ -370,56 +383,56 @@
 										<label class="text-danger" for="">存歿</label><br>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label">
-												<input class="form-check-input fatherStatus" type="radio" name="fatherStatus" value="1" checked> 存
+												<input class="form-check-input dadStatus" type="radio" name="dadStatus" value="alive" checked> 存
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label">
-												<input class="form-check-input fatherStatus" type="radio" name="fatherStatus" value="2"> 歿
+												<input class="form-check-input dadStatus" type="radio" name="dadStatus" value="deceased"> 歿
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label">
-												<input class="form-check-input fatherStatus" type="radio" name="fatherStatus" value="3"> 不詳
+												<input class="form-check-input dadStatus" type="radio" name="dadStatus" value="undefined"> 不詳
 											</label>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div id="form-fatherData">
+							<div id="form-dadData">
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="fatherName">姓名（中）</label>
-											<input type="text" class="form-control" id="fatherName" placeholder="">
+											<label class="text-danger" for="dadName">姓名（中）</label>
+											<input type="text" class="form-control" id="dadName" placeholder="">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="engFatherName">姓名（英）</label>
-											<input type="text" class="form-control" id="engFatherName" placeholder="">
+											<label class="text-danger" for="dadEngName">姓名（英）</label>
+											<input type="text" class="form-control" id="dadEngName" placeholder="">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="fatherBirthday">生日</label>
-											<input type="date" class="form-control" id="fatherBirthday" placeholder="">
+											<label class="text-danger" for="dadBirthday">生日</label>
+											<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy/mm/dd" id="dadBirthday">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="fatherNativePlace">籍貫</label>
-											<input type="text" class="form-control" id="fatherNativePlace" placeholder="">
+											<label for="dadHometown">籍貫</label>
+											<input type="text" class="form-control" id="dadHometown" placeholder="">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="fatherJob">職業</label>
-											<input type="text" class="form-control" id="fatherJob" placeholder="">
+											<label class="text-danger" for="dadJob">職業</label>
+											<input type="text" class="form-control" id="dadJob" placeholder="">
 										</div>
 									</div>
 								</div>
@@ -434,60 +447,60 @@
 						<div class="card-block">
 							<div class="row">
 								<div class="col-md-8">
-									<div class="form-group" id="motherStatus">
+									<div class="form-group" id="momStatus">
 										<label class="text-danger" for="">存歿</label><br>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label">
-												<input class="form-check-input motherStatus" type="radio" name="mother" value="1" checked> 存
+												<input class="form-check-input momStatus" type="radio" name="momStatus" value="alive" checked> 存
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label">
-												<input class="form-check-input motherStatus" type="radio" name="mother" value="2"> 歿
+												<input class="form-check-input momStatus" type="radio" name="momStatus" value="deceased"> 歿
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label">
-												<input class="form-check-input motherStatus" type="radio" name="mother" id="btn-motherUnknown" value="3"> 不詳
+												<input class="form-check-input momStatus" type="radio" name="momStatus" id="btn-motherUnknown" value="undefined"> 不詳
 											</label>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div id="form-motherData">
+							<div id="form-momData">
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="motherName">姓名（中）</label>
-											<input type="text" class="form-control" id="motherName" placeholder="">
+											<label class="text-danger" for="momName">姓名（中）</label>
+											<input type="text" class="form-control" id="momName" placeholder="">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="engMotherName">姓名（英）</label>
-											<input type="text" class="form-control" id="engMotherName" placeholder="">
+											<label class="text-danger" for="momEngName">姓名（英）</label>
+											<input type="text" class="form-control" id="momEngName" placeholder="">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="motherBirthday">生日</label>
-											<input type="date" class="form-control" id="motherBirthday" placeholder="">
+											<label class="text-danger" for="momBirthday">生日</label>
+											<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy/mm/dd" id="momBirthday">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="motherNativePlace">籍貫</label>
-											<input type="text" class="form-control" id="motherNativePlace" placeholder="">
+											<label for="momHometown">籍貫</label>
+											<input type="text" class="form-control" id="momHometown" placeholder="">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="motherJob">職業</label>
-											<input type="text" class="form-control" id="motherJob" placeholder="">
+											<label class="text-danger" for="momJob">職業</label>
+											<input type="text" class="form-control" id="momJob" placeholder="">
 										</div>
 									</div>
 								</div>
@@ -516,8 +529,8 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="engGuardianName">姓名（英）</label>
-											<input type="text" class="form-control" id="engGuardianName" placeholder="">
+											<label class="text-danger" for="guardianEngName">姓名（英）</label>
+											<input type="text" class="form-control" id="guardianEngName" placeholder="">
 										</div>
 									</div>
 								</div>
@@ -525,13 +538,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="text-danger" for="guardianBirthday">生日</label>
-											<input type="date" class="form-control" id="guardianBirthday" placeholder="">
+											<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy/mm/dd" id="guardianBirthday">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="guardianNativePlace">籍貫</label>
-											<input type="text" class="form-control" id="guardianNativePlace" placeholder="">
+											<label for="guardianHometown">籍貫</label>
+											<input type="text" class="form-control" id="guardianHometown" placeholder="">
 										</div>
 									</div>
 								</div>
@@ -562,50 +575,50 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="contactPersonName">姓名</label>
-						<input type="text" class="form-control" id="contactPersonName" placeholder="">
+						<label for="twContactName">姓名</label>
+						<input type="text" class="form-control" id="twContactName" placeholder="">
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="contactPersonRelation">關係</label>
-						<input type="text" class="form-control" id="contactPersonRelation" placeholder="">
+						<label for="twContactRelation">關係</label>
+						<input type="text" class="form-control" id="twContactRelation" placeholder="">
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="contactPersonPhone">聯絡電話</label>
-						<input type="text" class="form-control" id="contactPersonPhone" placeholder="">
+						<label for="twContactPhone">聯絡電話</label>
+						<input type="text" class="form-control" id="twContactPhone" placeholder="">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="contactPersonAddress">地址</label>
-						<input type="text" class="form-control" id="contactPersonAddress" placeholder="">
+						<label for="twContactAddress">地址</label>
+						<input type="text" class="form-control" id="twContactAddress" placeholder="">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="serviceName">服務機關名稱</label>
-						<input type="text" class="form-control" id="serviceName" placeholder="">
+						<label for="twContactWorkplaceName">服務機關名稱</label>
+						<input type="text" class="form-control" id="twContactWorkplaceName" placeholder="">
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="servicePhone">服務機關電話</label>
-						<input type="text" class="form-control" id="servicePhone" placeholder="">
+						<label for="twContactWorkplacePhone">服務機關電話</label>
+						<input type="text" class="form-control" id="twContactWorkplacePhone" placeholder="">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="serviceAddress">服務機關地址</label>
-						<input type="text" class="form-control" id="serviceAddress" placeholder="">
+						<label for="twContactWorkplaceAddress">服務機關地址</label>
+						<input type="text" class="form-control" id="twContactWorkplaceAddress" placeholder="">
 					</div>
 				</div>
 			</div>

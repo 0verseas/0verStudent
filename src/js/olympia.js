@@ -66,7 +66,7 @@
 		})
 		.then((json) => {
 			console.log(json);
-			_hasOlympia = +json.student_misc.has_olympia_aspiration;
+			_hasOlympia = +json.student_misc_data.has_olympia_aspiration;
 			$hasOlympia[_hasOlympia].checked = true;
 			const studentOlympiaAspirationOrder = json.student_olympia_aspiration_order;
 			return studentOlympiaAspirationOrder;

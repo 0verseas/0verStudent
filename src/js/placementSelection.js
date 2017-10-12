@@ -186,7 +186,7 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」
 		let rowHtml = '';
 
-		for(i in _optionalWish) {
+		for(let i in _optionalWish) {
 			let badgeNUPS = ''
 			if (_nupsList.indexOf(_optionalWish[i].id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
 			rowHtml = rowHtml + `

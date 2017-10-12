@@ -182,7 +182,7 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」
 		let rowHtml = '';
 
-		for(i in _optionalWish) {
+		for(let i in _optionalWish) {
 			rowHtml = rowHtml + `
 			<tr>
 			<td>
