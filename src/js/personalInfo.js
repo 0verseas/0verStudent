@@ -522,13 +522,13 @@
 
 		if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
 			formValidateList.push(
-				{el: $otherDisabilityCategory, require: true, type: 'string'},
-				{el: $disabilityLevel, require: true, type: 'string'}
+				{el: $otherDisabilityCategory, require: true, type: 'string', dbKey: 'disability_category'},
+				{el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level'}
 				);
 		} else if ($(".specail:checked").val() === "1") {
 			formValidateList.push(
-				{el: $disabilityCategory, require: true, type: 'string'},
-				{el: $disabilityLevel, require: true, type: 'string'}
+				{el: $disabilityCategory, require: true, type: 'string', dbKey: 'disability_category'},
+				{el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level'}
 				);
 		}
 
