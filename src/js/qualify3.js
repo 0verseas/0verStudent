@@ -9,12 +9,28 @@
 	/**
 	* init
 	*/
-	if (+_systemID !== 3 &&
-		+_systemID !== 4) {
-		alert('選取之學制有誤');
-		window.location.replace('./systemChoose.html');
-	} else {
-		$('.systemID').text(+_systemID === 3 ? '碩士班' : '博士班');
+	function _init() {
+		// validate system id
+		if (+_systemID !== 3 &&
+			+_systemID !== 4) {
+			alert('選取之學制有誤');
+			window.location.replace('./systemChoose.html');
+		} else {
+			$('.systemID').text(+_systemID === 3 ? '碩士班' : '博士班');
+		}
+
+		// set Continent & Country select option
+		student.getCountryList().then((data) => {
+			$passportContinentSelect.empty();
+			data.forEach((val, i) => {
+				$passportContinentSelect.append(`<option value="${i}">${val.continent}</option>`);
+			});
+
+			$passportCountrySelect.empty();
+			data[0].country.forEach((val, i) => {
+				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+			});	
+		});
 	}
 
 	/**
@@ -41,6 +57,8 @@
 	const $taiwanHousehold = $signUpForm.find('.radio-taiwanHousehold');
 	const $portugalPassportRadio = $signUpForm.find('.radio-portugalPassport');
 	const $portugalPassportTime = $signUpForm.find('.input-portugalPassportTime');
+	const $passportContinentSelect = $signUpForm.find('.select-passportContinent');
+	const $passportCountrySelect = $signUpForm.find('.select-passportCountry');
 	const $KA_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAo_radio-isDistribution');
 	const $KA_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAo_distributionMoreQuestion');
 	const $KA_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAo_radio-stayLimit');
@@ -67,6 +85,7 @@
 	$taiwanHousehold.on('change', _checkTaiwanHousehold);
 	$portugalPassportRadio.on('change', _checkPortugalPassport);
 	$portugalPassportTime.on('change', _checkPortugalPassportTime);
+	$passportContinentSelect.on('change', _setCountryOption);
 	$KA_isDistributionRadio.on('change', _handleKAIsDistribution);
 	$KA_distributionMoreQuestion.on('change', _checkKADistributionValidation);
 	$KA_stayLimitRadio.on('change', _checkKAStayLimitValidation);
@@ -108,7 +127,7 @@
 			const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
 			const portugalPassport = +$signUpForm.find('.radio-portugalPassport:checked').val();
 			const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
-			console.error('洲別、過別還沒弄');
+			const passportCountry = $passportCountrySelect.val();
 			const isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
 			const distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
 			const distributionOption = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
@@ -136,8 +155,7 @@
 				console.log(`是否曾在臺設有戶籍？ ${!!taiwanHousehold}`);
 				console.log(`是否持有葡萄牙護照？ ${!!portugalPassport}`);
 				console.log(`於何時首次取得葡萄牙護照？ ${portugalPassportTime}`);
-				console.log(`您持有哪一個國家之護照？洲 ${$signUpForm.find('.select-passportContinent').val()}`);
-				console.log(`您持有哪一個國家之護照？國 ${$signUpForm.find('.select-passportCountry').val()}`);
+				console.log(`您持有哪一個國家之護照？ ${passportCountry}`);
 				console.log(`曾分發來臺 ${!!isDistribution}`);
 				console.log(`西元幾年分發來台？ ${distributionTime}`);
 				console.log(`並請就下列選項擇一勾選 ${distributionOption}`);
@@ -154,7 +172,7 @@
 					taiwan_census: !!taiwanHousehold,
 					portugal_passport: !!portugalPassport,
 					first_get_portugal_passport_at: portugalPassportTime,
-					which_nation_passport: '2312', // TODO: get combination code
+					which_nation_passport: passportCountry,
 					has_come_to_taiwan: !!isDistribution,
 					come_to_taiwan_at: distributionTime,
 					reason_selection_of_come_to_taiwan: distributionOption,
@@ -432,6 +450,17 @@
 		}
 	}
 
+	// 選洲，更換國家選項
+	function _setCountryOption() {
+		const order = $(this).val();
+		$passportCountrySelect.empty();
+		student.getCountryList().then((data) => {
+			data[order].country.forEach((val, i) => {
+				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+			});
+		});
+	}
+
 	// 港澳生 是否分發來台
 	function _handleKAIsDistribution() {
 		const $this = $(this);
@@ -545,4 +574,6 @@
 		if (!results[2]) return '';
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
+
+	_init();
 })();
