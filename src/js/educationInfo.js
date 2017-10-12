@@ -42,15 +42,36 @@
 		})
 		.then((json) => {
 			console.log(json);
+			_initForm(json.student_education_background_data);
 		})
 		.then(() => {
 			student.setHeader();
 		})
 		.catch((err) => {
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			}
 			err.json && err.json().then((data) => {
 				console.error(data);
 			})
 		})
+	}
+
+	function _initForm(data) {
+		$primarySchoolName.val(data.primary_school_name);
+		$primarySchoolAdmissionsAt.val(data.primary_school_admissions_at);
+		$primarySchoolGraduatedAt.val(data.primary_school_graduated_at);
+		$highSchool1to3Name.val(data.high_school_1to3_name);
+		$highSchool1to3AdmissionsAt.val(data.high_school_1to3_admissions_at);
+		$highSchool1to3GraduatedAt.val(data.high_school_1to3_graduated_at);
+		$highSchool4to5Name.val(data.high_school_4to5_name);
+		$highSchool4to5AdmissionsAt.val(data.high_school_4to5_admissions_at);
+		$highSchool4to5GraduatedAt.val(data.high_school_4to5_graduated_at);
+		$highSchool6Name.val(data.high_school_6_name);
+		$highSchool6AdmissionsAt.val(data.high_school_6_admissions_at);
+		$highSchool6GraduatedAt.val(data.high_school_6_graduated_at);
+		$transfer.val(data.transfer);
 	}
 
 	function _handleSave() {
@@ -66,7 +87,7 @@
 			})
 			.then((json) => {
 				console.log(json);
-				// llocation.href = './olympia.html'
+				// location.href = './olympia.html'
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
