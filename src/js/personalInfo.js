@@ -103,8 +103,6 @@
 	$saveBtn.on('click', _handleSave);
 
 	function _init() {
-		
-
 		student.getOlympiaAspirationOrder()
 		.then((res) => {
 			if (res.ok) {
