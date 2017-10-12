@@ -4,6 +4,16 @@
 	*/
 	let _identity = 1;
 	let _typeOfKangAo = 1;
+	const _systemID = _getParam('systemid', window.location.href);
+
+	/**
+	* init
+	*/
+	if (+_systemID !== 3 &&
+		+_systemID !== 4) {
+		alert('選取之學制有誤');
+		window.location.replace('./systemChoose.html');
+	}
 
 	/**
 	* cache dom
@@ -124,6 +134,7 @@
 		} else if (_identity === 3) {
 			// 海外僑生
 			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
+			const distributionTime = $signUpForm.find('.input-distributionTime').val();
 			const distributionOption = +$signUpForm.find('.distributionMoreQuestion:checked').val();
 			const stayLimitOption = +$signUpForm.find('.radio-stayLimit:checked').val();
 			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
@@ -131,6 +142,7 @@
 			const invalidDistributionOption = [3, 4, 5, 6];
 			let valid = true;
 			if (!!isDistribution && invalidDistributionOption.includes(distributionOption) ||
+				!!isDistribution && distributionTime === '' ||
 				stayLimitOption === 1 ||
 				!!hasBeenTaiwan && whyHasBeenTaiwan === 8) {
 				valid = false;
@@ -139,7 +151,24 @@
 			if (!valid) {
 				alert('身份不具報名資格');
 			} else {
-				console.log('API 還沒接 RRR');
+				console.log(`是否曾經分發來臺就學過？ ${!!isDistribution}`);
+				console.log(`曾分發來臺於西元幾年分發來台？ ${distributionTime}`);
+				console.log(`曾分發來臺請就下列選項擇一勾選 ${distributionOption}`);
+				console.log(`海外居留年限 ${stayLimitOption}`);
+				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
+				console.log(`請就下列選項，擇一勾選，並檢附證明文件： ${whyHasBeenTaiwan}`);
+				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				student.verifyQualification({
+					system_id: _systemID,
+					identity: 3,
+					has_come_to_taiwan: !!isDistribution,
+					come_to_taiwan_at: distributionTime,
+					reason_selection_of_come_to_taiwan: distributionOption,
+					overseas_residence_time: stayLimitOption,
+					stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
+					reason_selection_of_stay_over_120_days_in_taiwan: whyHasBeenTaiwan,
+					force_update: true // TODO:
+				});
 			}
 		} else {
 			// 在台港澳生、僑生
@@ -449,5 +478,15 @@
 				_typeOfKangAo = null;
 				break;
 		}
+	}
+
+	function _getParam(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+		const results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 })();

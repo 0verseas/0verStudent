@@ -16,7 +16,10 @@
 	*/
 	function _handleSubmit() {
 		let system = +$system.val();
-		if (system === 4) system = 3;
-		location.href = `./qualify${system}.html`;
+		if (system >= 3) {
+			location.href = `./qualify3.html?systemid=${system}`;
+		} else {
+			location.href = `./qualify${system}.html`;
+		}
 	}
 })();
