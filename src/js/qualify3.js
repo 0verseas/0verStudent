@@ -129,7 +129,38 @@
 			if (!valid) {
 				alert('資料未正確填寫，或身份不具報名資格');
 			} else {
-				console.log('API 還沒接 RRR');
+				console.log(`請問您是否擁有香港或澳門永久性居民身分證？ ${!!idCard}`);
+				console.log(`是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？ ${!!holdpassport}`);
+				console.log(`是否曾在臺設有戶籍？ ${!!taiwanHousehold}`);
+				console.log(`是否持有葡萄牙護照？ ${!!portugalPassport}`);
+				console.log(`於何時首次取得葡萄牙護照？ ${portugalPassportTime}`);
+				console.log(`您持有哪一個國家之護照？洲 ${$signUpForm.find('.select-passportContinent').val()}`);
+				console.log(`您持有哪一個國家之護照？國 ${$signUpForm.find('.select-passportCountry').val()}`);
+				console.log(`曾分發來臺 ${!!isDistribution}`);
+				console.log(`西元幾年分發來台？ ${distributionTime}`);
+				console.log(`並請就下列選項擇一勾選 ${distributionOption}`);
+				console.log(`海外居留年限 ${stayLimitOption}`);
+				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
+				console.log(`請就下列選項，擇一勾選，並檢附證明文件：{{type 1}} ${KA1_whyHasBeenTaiwan}`);
+				console.log(`請就下列選項，擇一勾選，並檢附證明文件：{{type 2}} ${KA2_whyHasBeenTaiwan}`);
+				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				student.verifyQualification({
+					system_id: _systemID,
+					identity: _typeOfKangAo,
+					HK_Macao_permanent_residency: !!idCard,
+					except_HK_Macao_passport: !!holdpassport,
+					taiwan_census: !!taiwanHousehold,
+					portugal_passport: !!portugalPassport,
+					first_get_portugal_passport_at: portugalPassportTime,
+					which_nation_passport: '2312', // TODO: get combination code
+					has_come_to_taiwan: !!isDistribution,
+					come_to_taiwan_at: distributionTime,
+					reason_selection_of_come_to_taiwan: distributionOption,
+					overseas_residence_time: stayLimitOption,
+					stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
+					reason_selection_of_stay_over_120_days_in_taiwan: _typeOfKangAo === 1 ? KA1_whyHasBeenTaiwan : KA2_whyHasBeenTaiwan,
+					force_update: true
+				});
 			}
 		} else if (_identity === 3) {
 			// 海外僑生
