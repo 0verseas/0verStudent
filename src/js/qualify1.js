@@ -210,7 +210,7 @@
 					taiwan_census: !!taiwanHousehold,
 					portugal_passport: !!portugalPassport,
 					first_get_portugal_passport_at: portugalPassportTime.replace(/-/g, '/'),
-					which_nation_passport: passportCountry
+					which_nation_passport: passportCountry,
 					has_come_to_taiwan: !!KA_isDistribution,
 					come_to_taiwan_at: KA_distributionTime,
 					reason_selection_of_come_to_taiwan: KA_distributionMoreQuestion,
