@@ -195,7 +195,30 @@
 			if (!valid) {
 				alert('資料未正確填寫，或身份不具報名資格');
 			} else {
-				console.log('API 還沒接 RRR');
+				console.log(`請問您是否曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過？ ${!!taiwanUniversity}`);
+				console.log(`分發年份： ${distributionYear}`);
+				console.log(`分發管道： ${distributionWay}`);
+				console.log(`分發學校： ${distributionSchool}`);
+				console.log(`分發學系： ${distributionDept}`);
+				console.log(`分發文字號： ${distributionNo}`);
+				console.log(`請問您是否曾經向本會申請同級學程（【帶入報名學生選定之申請類別】），並經由本會分發？ ${!!applyPeer}`);
+				console.log(`哪一年： ${applyPeerYear}`);
+				console.log(`請就下列選項，擇一勾選：: ${applyPeerStatus}`);
+				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				student.verifyQualification({
+					system_id: _systemID,
+					identity: _identity,
+					register_and_admission_at_taiwan: !!taiwanUniversity,
+					admission_year: distributionYear,
+					admission_way: distributionWay,
+					admission_school: distributionSchool,
+					admission_department: distributionDept,
+					admission_document_no: distributionNo,
+					same_grade_course: !!applyPeer,
+					same_grade_course_apply_year: applyPeerYear,
+					same_grade_course_selection: applyPeerStatus,
+					force_update: true // TODO
+				});
 			}
 		}
 	}
