@@ -4,6 +4,8 @@
 	*	private variable
 	*/
 
+	let _specailStatus = 0;
+	let _disabilityCategory = '視覺障礙';
 	let _currentDadStatus = 'alive';
 	let _currentMomStatus = 'deceased';
 	let _countryList = [];
@@ -20,12 +22,17 @@
 	const $engName = $('#engName');	// 姓名（英）
 	const $gender = $personalInfoForm.find('.gender'); // 性別
 	const $birthday = $('#birthday'); // 生日
-	const $birthState = $('#birthState'); // 出生地（州）
+	const $birthContinent = $('#birthContinent'); // 出生地（州）
 	const $birthLocation = $('#birthLocation'); // 出生地（國）
 	const $specail = $personalInfoForm.find('.specail'); // 是否為「身心障礙」或「特殊照護」或「特殊教育」者
+	const $specialForm = $('#specialForm'); // 身心障礙表單
+	const $disabilityCategory = $('#disabilityCategory'); // 障礙類別
+	const $disabilityLevel = $('#disabilityLevel'); // 障礙等級
+	const $otherDisabilityCategoryForm = $('#otherDisabilityCategoryForm'); // 其他障礙說明表單
+	const $otherDisabilityCategory = $('#otherDisabilityCategory'); // 其他障礙說明
 
 	// 僑居地資料
-	const $residenceState = $('#residenceState'); // 州
+	const $residenceContinent = $('#residenceContinent'); // 州
 	const $residentLocation = $('#residentLocation'); // 國
 	const $residentId = $('#residentId'); // 身分證號碼（ID no.）
 	const $residentPassportNo = $('#residentPassportNo'); // 護照號碼
@@ -45,7 +52,7 @@
 
 	// 學歷
 	const $educationSystemDescription = $('#educationSystemDescription'); // 學制描述
-	const $schoolState = $('#schoolState'); // 學校所在地（州）
+	const $schoolContinent = $('#schoolContinent'); // 學校所在地（州）
 	const $schoolCountry = $('#schoolCountry'); // 學校所在地（國）
 	const $schoolType = $('#schoolType'); // 學校類別
 	const $schoolLocation = $('#schoolLocation'); // 學校所在地
@@ -98,9 +105,11 @@
 	*	bind event
 	*/
 
-	$birthState.on('change', _reRenderCountry);
-	$residenceState.on('change', _reRenderCountry);
-	$schoolState.on('change', _reRenderCountry);
+	$birthContinent.on('change', _reRenderCountry);
+	$specail.on('change', _changeSpecail);
+	$disabilityCategory.on('change', _switchDisabilityCategory);
+	$residenceContinent.on('change', _reRenderCountry);
+	$schoolContinent.on('change', _reRenderCountry);
 	$dadStatus.on('change', _switchDadDataForm);
 	$momStatus.on('change', _switchMomStatus);
 	$saveBtn.on('click', _handleSave);
@@ -123,6 +132,8 @@
 			student.setHeader();
 			$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
 			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
+			_showSpecailForm();
+			_handleOtherDisabilityCategoryForm();
 			_switchGuardianForm();
 		})
 		.catch((err) => {
@@ -139,9 +150,9 @@
 			json.forEach((obj, index) => {
 				stateHTML += '<option data-continentIndex="' + index + '">' + obj.continent + '</option>'
 			})
-			$birthState.html(stateHTML);
-			$residenceState.html(stateHTML);
-			$schoolState.html(stateHTML);
+			$birthContinent.html(stateHTML);
+			$residenceContinent.html(stateHTML);
+			$schoolContinent.html(stateHTML);
 			_countryList = json;
 		})
 	}
@@ -160,6 +171,32 @@
 			countryHTML = '<option value="">Country</option>'
 		}
 		$countrySelect.html(countryHTML);
+	}
+
+	function _switchDisabilityCategory() {
+		_disabilityCategory = $(this).val();
+		_handleOtherDisabilityCategoryForm();
+	}
+
+	function _handleOtherDisabilityCategoryForm() {
+		if (_disabilityCategory === "-1") {
+			$otherDisabilityCategoryForm.fadeIn();
+		} else {
+			$otherDisabilityCategoryForm.hide();
+		}
+	}
+
+	function _changeSpecail() {
+		_specailStatus = Number($(this).val());
+		_showSpecailForm();
+	}
+
+	function _showSpecailForm() {
+		if (_specailStatus === 1) {
+			$specialForm.fadeIn();
+		} else {
+			$specialForm.hide();
+		}
 	}
 
 	function _switchDadDataForm() {
@@ -483,6 +520,18 @@
 			dbKey: 'tw_contact_workplace_address'
 		}]
 
+		if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
+			formValidateList.push(
+				{el: $otherDisabilityCategory, require: true, type: 'string'},
+				{el: $disabilityLevel, require: true, type: 'string'}
+				);
+		} else if ($(".specail:checked").val() === "1") {
+			formValidateList.push(
+				{el: $disabilityCategory, require: true, type: 'string'},
+				{el: $disabilityLevel, require: true, type: 'string'}
+				);
+		}
+
 		// 父親不為「不詳」時增加的驗證
 		if (_currentDadStatus !== "undefined") {
 			formValidateList.push(
@@ -522,8 +571,6 @@
 				{el: $taiwanIdNo, require: false, type: 'string', dbKey: 'taiwan_id'}
 				);
 		}
-
-		// console.log(formValidateList);
 
 		let _correct = true; // 格式正確
 		let sendData = {}; // 送給後端的
