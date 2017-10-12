@@ -81,7 +81,7 @@
 						<label class="text-danger">出生地、國別</label>
 						<div class="row">
 							<div class="col-md-4">
-								<select class="form-control" id="birthState">
+								<select class="form-control" id="birthContinent">
 								</select>
 							</div>
 							<div class="col-md-4">
@@ -110,6 +110,45 @@
 					</fieldset>
 				</div>
 			</div>
+			<div id="specialForm">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="text-danger" for="disabilityCategory">障礙類別</label>
+							<select class="form-control" id="disabilityCategory">
+								<option value="視覺障礙">視覺障礙</option>
+								<option value="聽覺障礙">聽覺障礙</option>
+								<option value="肢體障礙">肢體障礙</option>
+								<option value="語言障礙">語言障礙</option>
+								<option value="腦性麻痺">腦性麻痺</option>
+								<option value="自閉症">自閉症</option>
+								<option value="學習障礙">學習障礙</option>
+								<option value="-1">其他</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="text-danger" for="disabilityLevel">程度</label>
+							<select class="form-control" id="disabilityLevel">
+								<option value="極重度">極重度</option>
+								<option value="重度">重度</option>
+								<option value="中度">中度</option>
+								<option value="輕度">輕度</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row" id="otherDisabilityCategoryForm">
+					<div class="col-md-8">
+						<div class="form-group">
+							<label class="text-danger" for="otherDisabilityCategory">其他類別</label>
+							<input class="form-control" type="text" id="otherDisabilityCategory" maxlength="15">
+							<small class="text-muted">請填寫 15 字內的說明</small>
+						</div>
+					</div>
+				</div>
+			</div>
 		</dd>
 	</dl>
 
@@ -126,7 +165,7 @@
 						<label class="text-danger">國別</label>
 						<div class="row">
 							<div class="col-md-4">
-								<select class="form-control" id="residenceState">
+								<select class="form-control" id="residenceContinent">
 								</select>
 							</div>
 							<div class="col-md-4">
@@ -277,7 +316,7 @@
 						<label class="text-danger">學校所在地</label>
 						<div class="row">
 							<div class="col-md-4">
-								<select class="form-control" id="schoolState">
+								<select class="form-control" id="schoolContinent">
 								</select>
 							</div>
 							<div class="col-md-4">
