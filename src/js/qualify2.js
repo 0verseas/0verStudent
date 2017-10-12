@@ -60,7 +60,7 @@
 		const KA2_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
 		const invalidDistributionOption = [3, 4, 5, 6];
 		let valid = true;
-		if (!!graduated ||
+		if (!graduated ||
 			!idCard ||
 			!_typeOfKangAo ||
 			!!isDistribution && distributionTime === '' ||
@@ -82,8 +82,8 @@
 	function _checkGraduated() {
 		const $this = $(this);
 		const graduated = +$this.val();
-		!!graduated && $signUpForm.find('.graduatedAlert.invalid').fadeIn();
-		!!graduated || $signUpForm.find('.graduatedAlert.invalid').fadeOut();
+		!!graduated && $signUpForm.find('.graduatedAlert.invalid').fadeOut();
+		!!graduated || $signUpForm.find('.graduatedAlert.invalid').fadeIn();
 	}
 
 	// 是否擁有香港或澳門永久性居民身分證
