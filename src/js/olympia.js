@@ -196,8 +196,6 @@
 	}
 
 	function _generateOptionalWish() { // 渲染「招生校系清單」
-
-		console.log("_generateOptionalWish");
 		let rowHtml = '';
 
 		for(let i in _optionalWish) {
