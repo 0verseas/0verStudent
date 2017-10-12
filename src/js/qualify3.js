@@ -13,6 +13,8 @@
 		+_systemID !== 4) {
 		alert('選取之學制有誤');
 		window.location.replace('./systemChoose.html');
+	} else {
+		$('.systemID').text(+_systemID === 3 ? '碩士班' : '博士班');
 	}
 
 	/**
