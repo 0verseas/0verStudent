@@ -54,9 +54,14 @@
 	const $educationSystemDescription = $('#educationSystemDescription'); // 學制描述
 	const $schoolContinent = $('#schoolContinent'); // 學校所在地（州）
 	const $schoolCountry = $('#schoolCountry'); // 學校所在地（國）
+	const $schoolTypeForm = $('#schoolTypeForm'); // 學校類別表單
 	const $schoolType = $('#schoolType'); // 學校類別
+	const $schoolLocationForm = $('#schoolLocationForm'); // 學校所在地、學校名稱 (select) 表單
 	const $schoolLocation = $('#schoolLocation'); // 學校所在地
 	const $schoolName = $('#schoolName'); // 學校名稱
+	// const $schoolNameSelect = $('#schoolNameSelect'); // 學校名稱 (select)
+	const $schoolNameTextForm = $('#schoolNameTextForm'); // 學校名稱表單
+	// const $schoolNameText = $('#schoolNameText'); // 學校名稱 (text)
 	const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
 	const $schoolGraduateAt = $('#schoolGraduateAt'); // 畢業時間
 

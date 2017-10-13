@@ -76,13 +76,11 @@
 
 	function _addCertificate() {
 
-		let filesArr = []
-		for (let i = 0; i < fileList.length; i++) {
-			filesArr.push(fileList[i]);
-		}
-
+		var fileList = this.files;
 		let sendData = new FormData();
-		sendData.append('files[]', filesArr);
+		for (let i = 0; i < fileList.length; i++) {
+			sendData.append('files[]', fileList[i]);
+		}
 
 		student.uploadDiploma(sendData)
 		.then((res) => {
@@ -106,13 +104,6 @@
 				console.error(data);
 			})
 		})
-
-		// var anyWindow = window.URL || window.webkitURL;
-		// for(var i = 0; i < fileList.length; i++){
-		// 	var objectUrl = anyWindow.createObjectURL(fileList[i]);
-		// 	$certificateImgArea.append('<img class="img-thumbnail bg-yellow" src="' + objectUrl + '" data-toggle="modal" data-target=".img-modal">');
-		// 	window.URL.revokeObjectURL(fileList[i]);
-		// }
 	}
 
 	function _addTranscript() {
