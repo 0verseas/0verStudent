@@ -222,9 +222,6 @@ const student = (() => {
 	function uploadDiploma(data) {
 		return fetch(baseUrl + `/students/diploma`, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'multipart/form-data'
-			},
 			body: data,
 			credentials: 'include'
 		});
