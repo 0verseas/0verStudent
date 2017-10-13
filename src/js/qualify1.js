@@ -6,6 +6,24 @@
 	let _typeOfKangAo = 1;
 
 	/**
+	* init
+	*/
+	function _init() {
+		// set Continent & Country select option
+		student.getCountryList().then((data) => {
+			$passportContinentSelect.empty();
+			data.forEach((val, i) => {
+				$passportContinentSelect.append(`<option value="${i}">${val.continent}</option>`);
+			});
+
+			$passportCountrySelect.empty();
+			data[0].country.forEach((val, i) => {
+				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+			});	
+		});
+	}
+
+	/**
 	*	cache DOM
 	*/
 	const $signUpForm = $('#form-signUp');
@@ -25,6 +43,8 @@
 	const $taiwanHousehold = $signUpForm.find('.radio-taiwanHousehold');
 	const $portugalPassportRadio = $signUpForm.find('.radio-portugalPassport');
 	const $portugalPassportTime = $signUpForm.find('.input-portugalPassportTime');
+	const $passportContinentSelect = $signUpForm.find('.select-passportContinent');
+	const $passportCountrySelect = $signUpForm.find('.select-passportCountry');
 	const $KA_isDistributionRadio = $signUpForm.find('.question.kangAo .kangAo_radio-isDistribution');
 	const $KA_distributionMoreQuestion = $signUpForm.find('.question.kangAo .kangAo_distributionMoreQuestion');
 	const $KA_stayLimitRadio = $signUpForm.find('.question.kangAo .kangAo_radio-stayLimit');
@@ -56,6 +76,7 @@
 	$taiwanHousehold.on('change', _checkTaiwanHousehold);
 	$portugalPassportRadio.on('change', _checkPortugalPassport);
 	$portugalPassportTime.on('change', _checkPortugalPassportTime);
+	$passportContinentSelect.on('change', _setCountryOption);
 	$KA_isDistributionRadio.on('change', _handleKAIsDistribution);
 	$KA_distributionMoreQuestion.on('change', _checkKADistributionValidation);
 	$KA_stayLimitRadio.on('change', _checkKAStayLimitValidation);
@@ -146,8 +167,7 @@
 			const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
 			const portugalPassport = +$signUpForm.find('.radio-portugalPassport:checked').val();
 			const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
-			const passportContinent = $signUpForm.find('.select-passportContinent').val();
-			const passportCountry = $signUpForm.find('.select-passportCountry').val();
+			const passportCountry = $passportCountrySelect.val();
 			const KA_isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
 			const KA_distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
 			const KA_distributionMoreQuestion = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
@@ -173,8 +193,7 @@
 				console.log(`是否曾在臺設有戶籍？ ${!!taiwanHousehold}`);
 				console.log(`是否持有葡萄牙護照？ ${!!portugalPassport}`);
 				console.log(`於何時首次取得葡萄牙護照？ ${portugalPassportTime.replace(/-/g, '/')}`);
-				console.log(`您持有哪一個國家之護照？洲別 ${passportContinent}`);
-				console.log(`您持有哪一個國家之護照？國別 ${passportCountry}`);
+				console.log(`您持有哪一個國家之護照？ ${passportCountry}`);
 				console.log(`曾分發來臺 ${!!KA_isDistribution}`);
 				console.log(`於西元幾年分發來台？ ${KA_distributionTime}`);
 				console.log(`曾分發來臺並請就下列選項擇一勾選 ${KA_distributionMoreQuestion}`);
@@ -182,7 +201,6 @@
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!KA_hasBeenTaiwan}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type1 }}} ${KA1_whyHasBeenTaiwanOption}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type2 }}} ${KA2_whyHasBeenTaiwanOption}`);
-				console.error('您持有哪一個國家之護照，洲別國家組合碼還沒處理');
 				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
 				student.verifyQualification({
 					system_id: 1,
@@ -192,7 +210,7 @@
 					taiwan_census: !!taiwanHousehold,
 					portugal_passport: !!portugalPassport,
 					first_get_portugal_passport_at: portugalPassportTime.replace(/-/g, '/'),
-					which_nation_passport: '1234', // TODO: not yet to get the combination code
+					which_nation_passport: passportCountry,
 					has_come_to_taiwan: !!KA_isDistribution,
 					come_to_taiwan_at: KA_distributionTime,
 					reason_selection_of_come_to_taiwan: KA_distributionMoreQuestion,
@@ -364,6 +382,17 @@
 		!!option || $signUpForm.find('.question.overseas .hasBeenTaiwanQuestion').fadeOut();
 	}
 
+	// 選洲，更換國家選項
+	function _setCountryOption() {
+		const order = $(this).val();
+		$passportCountrySelect.empty();
+		student.getCountryList().then((data) => {
+			data[order].country.forEach((val, i) => {
+				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+			});
+		});
+	}
+
 	// 港澳生 是否分發來台
 	function _handleKAIsDistribution() {
 		const $this = $(this);
@@ -470,4 +499,6 @@
 				break;
 		}
 	}
+
+	_init();
 })();
