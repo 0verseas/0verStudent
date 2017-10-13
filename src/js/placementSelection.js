@@ -76,7 +76,7 @@
 
 		if (_wishList.length > 0) { // 有選志願
 			const currentGroup = _wishList[0].group; // 當前類組
-			for (i = 0; i < tr.length; i++) {
+			for (let i = 0; i < tr.length; i++) {
 				let groupVal = String($(tr[i].getElementsByTagName("span")[1]).text()); // 欄位中的類組
 				let spanVal = String($(tr[i].getElementsByTagName("span")[filterSelect]).text()); // 要被篩選的欄位
 				if (spanVal) {
@@ -99,7 +99,7 @@
 				}
 			}
 		} else { // 沒選志願
-			for (i = 0; i < tr.length; i++) {
+			for (let i = 0; i < tr.length; i++) {
 				let spanVal = $(tr[i].getElementsByTagName("span")[filterSelect]).text();
 				if (spanVal) {
 					if (spanVal.toUpperCase().indexOf(filter) > -1) {

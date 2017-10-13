@@ -112,7 +112,7 @@
 		const filterSelect = Number($optionFilterSelect.val());
 		const filter = $optionFilterInput.val().toUpperCase();
 		const tr = $optionalWishList.find('tr');
-		for (i = 0; i < tr.length; i++) {
+		for (let i = 0; i < tr.length; i++) {
 			let spanVal = $(tr[i].getElementsByTagName("span")[filterSelect]).text();
 			if (spanVal) {
 				if (spanVal.toUpperCase().indexOf(filter) > -1) {
