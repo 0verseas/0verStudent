@@ -216,7 +216,7 @@
 		let hasNUPS = false;
 		let invalidBadge = '';
 		
-		for(i in _wishList) {
+		for(let i in _wishList) {
 			let badgeNUPS = ''
 			if (_nupsList.indexOf(_wishList[i].id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
 			rowHtml = rowHtml + `

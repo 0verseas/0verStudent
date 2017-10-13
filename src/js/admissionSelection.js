@@ -179,7 +179,7 @@
 
 	function _generateWishList() { // 「渲染已填選志願」
 		let rowHtml = '';
-		for(i in _wishList) {
+		for(let i in _wishList) {
 			rowHtml = rowHtml + `
 			<tr data-wishIndex="` + i + `">
 			<td>
