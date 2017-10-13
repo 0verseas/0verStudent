@@ -1,7 +1,7 @@
 (() => {
 
-	let _diplomaFiles = {};
-	let _transcriptsFiles = {};
+	let _diplomaFiles = [];
+	let _transcriptsFiles = [];
 
 	/**
 	*	cache DOM
@@ -43,10 +43,10 @@
 		})
 		.then(res => {
 			res[0].json().then((data) => {  
-				 _diplomaFiles = data;
+				 _diplomaFiles = data.uploaded_files;
 			});
 			res[1].json().then((data) => {  
-				_transcriptsFiles = data;
+				_transcriptsFiles = data.uploaded_files;
 			}); 
 		})
 		.then(() => {
@@ -75,14 +75,44 @@
 	}
 
 	function _addCertificate() {
-		$certificateTitle.html('待上傳學歷證明');
-		var fileList = this.files;
-		var anyWindow = window.URL || window.webkitURL;
-		for(var i = 0; i < fileList.length; i++){
-			var objectUrl = anyWindow.createObjectURL(fileList[i]);
-			$certificateImgArea.append('<img class="img-thumbnail bg-yellow" src="' + objectUrl + '" data-toggle="modal" data-target=".img-modal">');
-			window.URL.revokeObjectURL(fileList[i]);
+
+		let filesArr = []
+		for (let i = 0; i < fileList.length; i++) {
+			filesArr.push(fileList[i]);
 		}
+
+		let sendData = new FormData();
+		sendData.append('files[]', filesArr);
+
+		student.uploadDiploma(sendData)
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+		})
+		.catch((err) => {
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			} else if (err.status && err.status === 400) {
+				alert("圖片規格不符");
+			}
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
+
+		// var anyWindow = window.URL || window.webkitURL;
+		// for(var i = 0; i < fileList.length; i++){
+		// 	var objectUrl = anyWindow.createObjectURL(fileList[i]);
+		// 	$certificateImgArea.append('<img class="img-thumbnail bg-yellow" src="' + objectUrl + '" data-toggle="modal" data-target=".img-modal">');
+		// 	window.URL.revokeObjectURL(fileList[i]);
+		// }
 	}
 
 	function _addTranscript() {

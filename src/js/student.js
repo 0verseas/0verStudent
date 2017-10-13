@@ -205,7 +205,6 @@ const student = (() => {
 	}
 
 	function getDiplomaAndTranscripts() {
-
 		var urls = [
 		baseUrl + '/students/diploma',
 		baseUrl + '/students/transcripts'
@@ -218,15 +217,25 @@ const student = (() => {
 			credentials: 'include'
 		})
 		return Promise.all(urls.map(grabContent))
+	}
 
-		
-		// return fetch(baseUrl + `/students/diploma`, {
-		// 	method: 'GET',
-		// 	headers: {
-		// 		'Content-Type': 'application/json'
-		// 	},
-		// 	credentials: 'include'
-		// })
+	function uploadDiploma(data) {
+		return fetch(baseUrl + `/students/diploma`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			},
+			body: data,
+			credentials: 'include'
+		});
+	}
+
+	function uploadTranscripts(data) {
+		return fetch(baseUrl + `/students/transcripts`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		});
 	}
 
 	// POST /students/verify-qualification
@@ -260,6 +269,8 @@ const student = (() => {
 		getOlympiaAspirationOrder,
 		setOlympiaAspirationOrder,
 		getDiplomaAndTranscripts,
+		uploadDiploma,
+		uploadTranscripts,
 		verifyQualification
 	};
 
