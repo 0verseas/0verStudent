@@ -10,10 +10,10 @@
 	*/
 
 	// 學歷證明
-	const $certificateFrom = $('#form-certificate');
-	const $certificateFile = $('#file-certificate');
-	const $certificateTitle = $('#title-certificate');
-	const certificateImgArea = document.getElementById('certificateImgArea');
+	const $diplomaFrom = $('#form-diploma');
+	const $diplomaFile = $('#file-diploma');
+	const $diplomaTitle = $('#title-diploma');
+	const diplomaImgArea = document.getElementById('diplomaImgArea');
 
 	// 成績單
 	const $transcriptForm = $('#form-transcript');
@@ -31,7 +31,7 @@
 	*	bind event
 	*/
 
-	$certificateFile.on("change", _addCertificate);
+	$diplomaFile.on("change", _addDiploma);
 	$transcriptFile.on("change", _addTranscript);
 
 	function _init() {
@@ -45,26 +45,15 @@
 		})
 		.then(res => {
 			res[0].json().then((data) => {  
-				 _diplomaFiles = data.uploaded_files;
+				_diplomaFiles = data.uploaded_files;
 			});
 			res[1].json().then((data) => {  
 				_transcriptsFiles = data.uploaded_files;
 			}); 
 		})
 		.then(() => {
-			let diplomaAreaHTML = '';
-			_diplomaFiles.forEach((file, index) => {
-				diplomaAreaHTML += '<img class="img-thumbnail" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal">';
-			})
-			certificateImgArea.innerHTML = diplomaAreaHTML;
-			
-			let transcriptAreaHTML = '';
-			_transcriptsFiles.forEach((file, index) => {
-				transcriptAreaHTML += '<img class="img-thumbnail" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal">';
-			})
-			transcriptImgArea.innerHTML = transcriptAreaHTML;
-		})
-		.then(() => {
+			renderDiplomaArea();
+			renderTranscriptsArea();
 			student.setHeader();
 		})
 		.catch((err) => {
@@ -85,14 +74,28 @@
 		});
 	}
 
-	function _addCertificate() {
+	function renderDiplomaArea() {
+		let diplomaAreaHTML = '';
+		_diplomaFiles.forEach((file, index) => {
+			diplomaAreaHTML += '<img class="img-thumbnail" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal">';
+		})
+		diplomaImgArea.innerHTML = diplomaAreaHTML;
+	}
 
-		var fileList = this.files;
+	function renderTranscriptsArea() {
+		let transcriptAreaHTML = '';
+		_transcriptsFiles.forEach((file, index) => {
+			transcriptAreaHTML += '<img class="img-thumbnail" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal">';
+		})
+		transcriptImgArea.innerHTML = transcriptAreaHTML;
+	}
+
+	function _addDiploma() {
+		const fileList = this.files;
 		let sendData = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			sendData.append('files[]', fileList[i]);
 		}
-
 		student.uploadDiploma(sendData)
 		.then((res) => {
 			if (res.ok) {
@@ -102,7 +105,10 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
+			_diplomaFiles = _diplomaFiles.concat(json.uploaded_files);
+		})
+		.then(() => {
+			renderDiplomaArea();
 		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
@@ -118,14 +124,35 @@
 	}
 
 	function _addTranscript() {
-		$transcriptTitle.html('待上傳成績單');
-		var fileList = this.files;
-		var anyWindow = window.URL || window.webkitURL;
-		for(var i = 0; i < fileList.length; i++){
-			var objectUrl = anyWindow.createObjectURL(fileList[i]);
-			$transcriptImgArea.append('<img class="img-thumbnail bg-yellow" src="' + objectUrl + '" data-toggle="modal" data-target=".img-modal">');
-			window.URL.revokeObjectURL(fileList[i]);
+		const fileList = this.files;
+		let sendData = new FormData();
+		for (let i = 0; i < fileList.length; i++) {
+			sendData.append('files[]', fileList[i]);
 		}
+		student.uploadTranscripts(sendData)
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			_transcriptsFiles = _transcriptsFiles.concat(json.uploaded_files);
+		})
+		.then(() => {
+			renderTranscriptsArea();
+		})
+		.catch((err) => {
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			} else if (err.status && err.status === 400) {
+				alert("圖片規格不符");
+			}
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
 	}
-
 })();
