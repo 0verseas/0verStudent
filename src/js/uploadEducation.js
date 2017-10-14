@@ -1,5 +1,7 @@
 (() => {
 
+	const baseUrl = env.baseUrl + '/students';
+
 	let _diplomaFiles = [];
 	let _transcriptsFiles = [];
 
@@ -11,13 +13,13 @@
 	const $certificateFrom = $('#form-certificate');
 	const $certificateFile = $('#file-certificate');
 	const $certificateTitle = $('#title-certificate');
-	const $certificateImgArea = $('#certificateImgArea');
+	const certificateImgArea = document.getElementById('certificateImgArea');
 
 	// 成績單
 	const $transcriptForm = $('#form-transcript');
 	const $transcriptFile = $('#file-transcript');
 	const $transcriptTitle = $('#title-transcript');
-	const $transcriptImgArea = $('#transcriptImgArea');
+	const transcriptImgArea = document.getElementById('transcriptImgArea');
 	
 	/**
 	*	init
@@ -50,8 +52,17 @@
 			}); 
 		})
 		.then(() => {
-			console.log(_diplomaFiles);
-			console.log(_transcriptsFiles);
+			let diplomaAreaHTML = '';
+			_diplomaFiles.forEach((file, index) => {
+				diplomaAreaHTML += '<img class="img-thumbnail" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal">';
+			})
+			certificateImgArea.innerHTML = diplomaAreaHTML;
+			
+			let transcriptAreaHTML = '';
+			_transcriptsFiles.forEach((file, index) => {
+				transcriptAreaHTML += '<img class="img-thumbnail" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal">';
+			})
+			transcriptImgArea.innerHTML = transcriptAreaHTML;
 		})
 		.then(() => {
 			student.setHeader();
