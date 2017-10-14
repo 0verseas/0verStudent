@@ -235,6 +235,13 @@ const student = (() => {
 		});
 	}
 
+	function deleteEducationImg(type, fileName) {
+		return fetch(baseUrl + `/students/` + type + `/` + fileName, {
+			method: 'DELETE',
+			credentials: 'include'
+		});
+	}
+
 	// POST /students/verify-qualification
 	function verifyQualification(data) {
 		return fetch(`${baseUrl}/students/verify-qualification`, {
@@ -268,6 +275,7 @@ const student = (() => {
 		getDiplomaAndTranscripts,
 		uploadDiploma,
 		uploadTranscripts,
+		deleteEducationImg,
 		verifyQualification
 	};
 
