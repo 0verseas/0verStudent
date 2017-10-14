@@ -6,19 +6,7 @@
 
 	let _hasOlympia = 0;
 
-	let _optionalWish = [
-	{id:"10101", group: "第一類組", school: "國立暨南國際大學", dept: "中國文學系", engDept: "Dept. of Chinese Literature"},
-	{id:"10102", group: "第一類組", school: "國立暨南國際大學", dept: "外國語文學系", engDept: "Dept. of Foreign Languages and Literatures"},
-	{id:"10103", group: "第一類組", school: "國立暨南國際大學", dept: "歷史學系", engDept: "Dept. of History"},
-	{id:"10104", group: "第二類組", school: "國立暨南國際大學", dept: "哲學系", engDept: "Dept. of Philosophy"},
-	{id:"10105", group: "第二類組", school: "國立暨南國際大學", dept: "人類學系", engDept: "Dept. of Anthropology"},
-	{id:"10106", group: "第二類組", school: "國立暨南國際大學", dept: "圖書資訊學系", engDept: "Dept. of Library and Information Science"},
-	{id:"10107", group: "第二類組", school: "國立暨南國際大學", dept: "日本語文學系", engDept: "Dept. of Japanese Language and Literature"},
-	{id:"10108", group: "第三類組", school: "國立暨南國際大學", dept: "戲劇學系", engDept: "Dept. of Drama and Theatre"},
-	{id:"10108", group: "第三類組", school: "國立暨南國際大學", dept: "法律學系法學組", engDept: "Dept. of Law, Division of Legal Science"},
-	{id:"10109", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系政治理論組", engDept: "Dept. of Political Science, Political Theory Division"},
-	{id:"10110", group: "第三類組", school: "國立暨南國際大學", dept: "經濟學系", engDept: "Dept. of Economics"}
-	];
+	let _optionalWish = [];
 
 	let _wishList = [];
 
@@ -55,44 +43,52 @@
 	$optionFilterInput.on('keyup', _filterOptionalWishList); // // 監聽「招生校系清單」關鍵字
 	$saveBtn.on('click', _handleSave);
 
-	function _init() {
-		student.getOlympiaAspirationOrder()
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			console.log(json);
-			_hasOlympia = +json.student_misc_data.has_olympia_aspiration;
+	async function _init() {
+		try {
+			const response = await student.getOlympiaAspirationOrder()
+			if (!response[0].ok) { throw response[0]; }
+
+			const resOlympia = await response[0].json();
+			const resOrder = await response[1].json();
+
+			const groupName = ["", "第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
+			await resOrder.forEach((value, index) => { // 志願列表格式整理
+				let add = {
+					id: value.card_code,
+					group: groupName[value.group_code],
+					school: value.school.title,
+					dept: value.title,
+					engDept: value.eng_title
+				};
+				_optionalWish.push(add);
+			})
+
+			// checked 是否曾獲得獎項
+			_hasOlympia = +resOlympia.student_misc_data.has_olympia_aspiration;
 			$hasOlympia[_hasOlympia].checked = true;
-			const studentOlympiaAspirationOrder = json.student_olympia_aspiration_order;
-			return studentOlympiaAspirationOrder;
-		})
-		.then((studentOlympiaAspirationOrder) => {
+
+			// 整理已選志願
 			let order = [];
-			studentOlympiaAspirationOrder.forEach((value, index) => {
-				order.push(value.dept_id);
+			resOlympia.student_olympia_aspiration_order.forEach((value, index) => {
+				order.push(value.department_data.card_code);
 			});
-			order.forEach((value, index) => {
+			await order.forEach((value, index) => {
 				let orderIndex = _optionalWish.map(function(x) {return x.id; }).indexOf(value);
 				_wishList.push(_optionalWish[orderIndex]);
 				_optionalWish.splice(orderIndex, 1);
 			});
-		})
-		.then(() => {
+
 			student.setHeader();
 			_generateOptionalWish();
 			_generateWishList();
 			_showWishList();
-		})
-		.catch((err) => {
-			err.json && err.json().then((data) => {
-				console.error(data);
-			})
-		})
+
+			console.log(resOlympia);
+			console.log(_optionalWish);
+		} catch (e) {
+			console.log('Boooom!!');
+			console.log(e);
+		}
 	}
 
 	function _changeHasOlympia() {

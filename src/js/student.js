@@ -183,14 +183,29 @@ const student = (() => {
 		})
 	}
 
-	function getOlympiaAspirationOrder() {
-		return fetch(baseUrl + `/students/olympia-aspiration-order`, {
+	function getOrderList(type) {
+		return fetch(baseUrl + `/students/admission-order-list?type=` + type, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			credentials: 'include'
 		})
+	}
+
+	function getOlympiaAspirationOrder() {
+		var urls = [
+		baseUrl + '/students/olympia-aspiration-order',
+		baseUrl + '/students/admission-order-list?type=olympia'
+		]
+		const grabContent = url => fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+		return Promise.all(urls.map(grabContent))
 	}
 
 	function setOlympiaAspirationOrder(data) {
@@ -262,6 +277,7 @@ const student = (() => {
 		setStudentPersonalData,
 		getStudentEducationInfoData,
 		setStudentEducationInfoData,
+		getOrderList,
 		getOlympiaAspirationOrder,
 		setOlympiaAspirationOrder,
 		getEducationFile,
