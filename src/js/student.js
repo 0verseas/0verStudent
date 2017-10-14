@@ -204,7 +204,7 @@ const student = (() => {
 		})
 	}
 
-	function getDiplomaAndTranscripts() {
+	function getEducationFile() {
 		var urls = [
 		baseUrl + '/students/diploma',
 		baseUrl + '/students/transcripts'
@@ -219,23 +219,15 @@ const student = (() => {
 		return Promise.all(urls.map(grabContent))
 	}
 
-	function uploadDiploma(data) {
-		return fetch(baseUrl + `/students/diploma`, {
+	function uploadEducationFile(type, data) {
+		return fetch(baseUrl + `/students/` + type, {
 			method: 'POST',
 			body: data,
 			credentials: 'include'
 		});
 	}
 
-	function uploadTranscripts(data) {
-		return fetch(baseUrl + `/students/transcripts`, {
-			method: 'POST',
-			body: data,
-			credentials: 'include'
-		});
-	}
-
-	function deleteEducationImg(type, fileName) {
+	function deleteEducationFile(type, fileName) {
 		return fetch(baseUrl + `/students/` + type + `/` + fileName, {
 			method: 'DELETE',
 			credentials: 'include'
@@ -272,10 +264,9 @@ const student = (() => {
 		setStudentEducationInfoData,
 		getOlympiaAspirationOrder,
 		setOlympiaAspirationOrder,
-		getDiplomaAndTranscripts,
-		uploadDiploma,
-		uploadTranscripts,
-		deleteEducationImg,
+		getEducationFile,
+		uploadEducationFile,
+		deleteEducationFile,
 		verifyQualification
 	};
 

@@ -12,18 +12,17 @@
 	*/
 
 	const $uploadEducationForm = $('#form-uploadEducation');
+	const $fileUpload = $uploadEducationForm.find('.file-upload');
 
 	// 學歷證明
 	const $diplomaFrom = $('#form-diploma');
-	const $diplomaFile = $('#file-diploma');
 	const $diplomaTitle = $('#title-diploma');
 	const diplomaImgArea = document.getElementById('diplomaImgArea');
 
 	// 成績單
-	const $transcriptForm = $('#form-transcript');
-	const $transcriptFile = $('#file-transcript');
-	const $transcriptTitle = $('#title-transcript');
-	const transcriptImgArea = document.getElementById('transcriptImgArea');
+	const $transcriptsForm = $('#form-transcripts');
+	const $transcriptsTitle = $('#title-transcripts');
+	const transcriptsImgArea = document.getElementById('transcriptsImgArea');
 
 	// Modal
 	const $imgModal = $('#imgModal');
@@ -40,13 +39,12 @@
 	*	bind event
 	*/
 
-	$diplomaFile.on("change", _addDiploma);
-	$transcriptFile.on("change", _addTranscript);
+	$fileUpload.on("change", _addImg);
 	$modalDeleteBtn.on("click", _deleteImg);
 	
 
 	function _init() {
-		let files = student.getDiplomaAndTranscripts()
+		let files = student.getEducationFile()
 		.then((res) => {
 			if (res[0].ok) {
 				return res;
@@ -63,10 +61,8 @@
 			}); 
 		})
 		.then(() => {
-			renderDiplomaArea();
-			renderTranscriptsArea();
+			_renderImgArea();
 			student.setHeader();
-			_bindImgEvent();
 		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
@@ -86,29 +82,62 @@
 		});
 	}
 
-	function renderDiplomaArea() {
+	function _renderImgArea() {
 		let diplomaAreaHTML = '';
 		_diplomaFiles.forEach((file, index) => {
 			diplomaAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="diploma" data-filename="' + file + '">';
 		})
 		diplomaImgArea.innerHTML = diplomaAreaHTML;
-	}
 
-	function renderTranscriptsArea() {
-		let transcriptAreaHTML = '';
+		let transcriptsAreaHTML = '';
 		_transcriptsFiles.forEach((file, index) => {
-			transcriptAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="transcripts" data-filename="' + file + '">';
+			transcriptsAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="transcripts" data-filename="' + file + '">';
 		})
-		transcriptImgArea.innerHTML = transcriptAreaHTML;
-	}
+		transcriptsImgArea.innerHTML = transcriptsAreaHTML;
 
-	function _bindImgEvent() {
 		const $eduImg = $uploadEducationForm.find('.img-edu');
 		$eduImg.on("click", _showDetail);
 	}
 
+	function _addImg() {
+		const uploadtype = $(this).data('uploadtype');
+		const fileList = this.files;
+		let sendData = new FormData();
+		for (let i = 0; i < fileList.length; i++) {
+			sendData.append('files[]', fileList[i]);
+		}
+		student.uploadEducationFile(uploadtype, sendData)
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			if (uploadtype == "diploma") {
+				_diplomaFiles = _diplomaFiles.concat(json.uploaded_files);
+			} else if (uploadtype == "transcripts") {
+				_transcriptsFiles = _transcriptsFiles.concat(json.uploaded_files);
+			}
+		})
+		.then(() => {
+			_renderImgArea();
+		})
+		.catch((err) => {
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			} else if (err.status && err.status === 400) {
+				alert("圖片規格不符");
+			}
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
+	}
+
 	function _showDetail() {
-		// console.log("asd");
 		_modalFiletype = $(this).data('filetype');
 		_modalFilename = $(this).data('filename');
 		$modalDetailImg.attr("src", baseUrl + "/" + _modalFiletype + "/" +_modalFilename);
@@ -118,7 +147,7 @@
 		var deleteConfirm = confirm("確定要刪除嗎？");
 		if (deleteConfirm === true) {
 			$imgModal.modal('hide');
-			student.deleteEducationImg(_modalFiletype, _modalFilename)
+			student.deleteEducationFile(_modalFiletype, _modalFilename)
 			.then((res) => {
 				if (res.ok) {
 					return res.json();
@@ -134,16 +163,14 @@
 				}
 			})
 			.then(() => {
-				renderDiplomaArea();
-				renderTranscriptsArea();
-				_bindImgEvent();
+				_renderImgArea();
 			})
 			.catch((err) => {
 				if (err.status && err.status === 401) {
 					alert('請登入。');
 					location.href = "./index.html";
-				} else if (err.status && err.status === 400) {
-					alert("圖片規格不符");
+				} else if (err.status && err.status === 404) {
+					alert("沒有這張圖片。");
 				}
 				err.json && err.json().then((data) => {
 					console.error(data);
@@ -152,73 +179,4 @@
 		}
 	}
 
-	function _addDiploma() {
-		const fileList = this.files;
-		let sendData = new FormData();
-		for (let i = 0; i < fileList.length; i++) {
-			sendData.append('files[]', fileList[i]);
-		}
-		student.uploadDiploma(sendData)
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			_diplomaFiles = _diplomaFiles.concat(json.uploaded_files);
-		})
-		.then(() => {
-			renderDiplomaArea();
-			renderTranscriptsArea();
-			_bindImgEvent();
-		})
-		.catch((err) => {
-			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
-			} else if (err.status && err.status === 400) {
-				alert("圖片規格不符");
-			}
-			err.json && err.json().then((data) => {
-				console.error(data);
-			})
-		})
-	}
-
-	function _addTranscript() {
-		const fileList = this.files;
-		let sendData = new FormData();
-		for (let i = 0; i < fileList.length; i++) {
-			sendData.append('files[]', fileList[i]);
-		}
-		student.uploadTranscripts(sendData)
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			_transcriptsFiles = _transcriptsFiles.concat(json.uploaded_files);
-		})
-		.then(() => {
-			renderDiplomaArea();
-			renderTranscriptsArea();
-			_bindImgEvent();
-		})
-		.catch((err) => {
-			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
-			} else if (err.status && err.status === 400) {
-				alert("圖片規格不符");
-			}
-			err.json && err.json().then((data) => {
-				console.error(data);
-			})
-		})
-	}
 })();
