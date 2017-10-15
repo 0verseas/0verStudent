@@ -49,7 +49,7 @@
 			if (res[0].ok && res[1].ok) {
 				return [res[0].json(), res[1].json()];
 			} else {
-				throw res;
+				throw res[0];
 			}
 		})
 		.then((json) => {
@@ -61,9 +61,9 @@
 				_transcriptsFiles = data.uploaded_files;
 			});
 
-            Promise.all([json[0], json[1]]).then(() => {
-                _renderImgArea();
-            });
+			Promise.all([json[0], json[1]]).then(() => {
+				_renderImgArea();
+			});
 		})
 		.then(() => {
 			student.setHeader();
