@@ -46,22 +46,26 @@
 	function _init() {
 		let files = student.getEducationFile()
 		.then((res) => {
-			if (res[0].ok) {
-				return res;
+			if (res[0].ok && res[1].ok) {
+				return [res[0].json(), res[1].json()];
 			} else {
-				throw res[0];
+				throw res;
 			}
 		})
-		.then(res => {
-			res[0].json().then((data) => {  
+		.then((json) => {
+			json[0].then((data) => {  
 				_diplomaFiles = data.uploaded_files;
 			});
-			res[1].json().then((data) => {  
+
+			json[1].then((data) => {  
 				_transcriptsFiles = data.uploaded_files;
-			}); 
+			});
+
+            Promise.all([json[0], json[1]]).then(() => {
+                _renderImgArea();
+            });
 		})
 		.then(() => {
-			_renderImgArea();
 			student.setHeader();
 		})
 		.catch((err) => {
