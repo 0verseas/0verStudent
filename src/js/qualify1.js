@@ -6,6 +6,7 @@
 	let _typeOfKangAo = 1;
 	let _savedIdentity = null;
 	let _savedSystem = null;
+	let _countryList = [];
 
 	/**
 	* init
@@ -13,6 +14,7 @@
 	function _init() {
 		// set Continent & Country select option
 		student.getCountryList().then((data) => {
+			_countryList = data;
 			$passportContinentSelect.empty();
 			data.forEach((val, i) => {
 				$passportContinentSelect.append(`<option value="${i}">${val.continent}</option>`);
@@ -39,6 +41,8 @@
 				if (json.student_qualification_verify.system_data && json.student_qualification_verify.system_data.id) {
 					_savedSystem = json.student_qualification_verify.system_data.id;
 				}
+
+				+json.student_qualification_verify.system_id === 1 && _setData(json.student_qualification_verify);
 			}
 		})
 		.catch((err) => {
@@ -120,7 +124,11 @@
 		$signUpForm.find('.question').hide();
 		switch(_currentIdentity) {
 			case '1':
+				_typeOfKangAo = 1;
+				$signUpForm.find('.question.kangAo').fadeIn();
+				break;
 			case '3':
+				_typeOfKangAo = 2;
 				$signUpForm.find('.question.kangAo').fadeIn();
 				break;
 			case '2':
@@ -536,6 +544,75 @@
 				_typeOfKangAo = null;
 				break;
 		}
+	}
+
+	function _setData(data) {
+		console.log('asd')
+		// 申請身份別
+		switch (data.identity) {
+			case 1:
+				$signUpForm.find('.radio-identity[value=1]').trigger('click');
+				break;
+			case 2:
+				$signUpForm.find('.radio-identity[value=3]').trigger('click');
+				break;
+			case 3:
+				$signUpForm.find('.radio-identity[value=2]').trigger('click');
+				break;
+		}
+
+		// 港澳生
+		// 是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？
+		!!data.except_HK_Macao_passport && $signUpForm.find('.radio-holdpassport[value=1]').trigger('click');
+
+		//是否曾在臺設有戶籍？
+		!!data.taiwan_census && $signUpForm.find('.radio-taiwanHousehold[value=1]').trigger('click');
+
+		// 是否持有葡萄牙護照？
+		!data.portugal_passport && $signUpForm.find('.radio-portugalPassport[value=0]').trigger('click');
+
+		// 於何時首次取得葡萄牙護照？
+		!!data.portugal_passport && $signUpForm.find('.input-portugalPassportTime').val(data.first_get_portugal_passport_at.replace(/\//g, '-')).trigger('change');
+
+		// 您持有哪一個國家之護照？
+		if (!!data.except_HK_Macao_passport && !data.portugal_passport) {
+			const country = _getCountryByID(data.which_nation_passport);
+			$signUpForm.find(`.select-passportContinent option[value=${country.index}]`).prop('select', true);
+			$signUpForm.find('.select-passportContinent').trigger('change');
+			$signUpForm.fdin(`select-passportCountry[value=${country.id}]`).prop('select', true);
+		}
+
+		// 曾分發來臺
+		!!data.has_come_to_taiwan && 
+		$signUpForm.find('.kangAo_radio-isDistribution[value=1]').trigger('click') &&
+		$signUpForm.find('.kangAo_input-distributionTime').val(data.come_to_taiwan_at).trigger('change') &&
+		$signUpForm.find(`.kangAo_distributionMoreQuestion[value=${data.reason_selection_of_come_to_taiwan}]`).trigger('click');
+
+		// 海外居留年限
+		$signUpForm.find(`.kangAo_radio-stayLimit[value=${data.overseas_residence_time}]`).trigger('click');
+
+		// 在台停留日期
+		!!data.stay_over_120_days_in_taiwan &&
+		$signUpForm.find('.kangAo_radio-hasBeenTaiwan[value=1]').trigger('click');
+		const selector = data.identity === 1 ? '.kangAoType1_radio-whyHasBeenTaiwan' : '.kangAoType2_radio-whyHasBeenTaiwan';
+		$(`${selector}[value=${data.reason_selection_of_stay_over_120_days_in_taiwan}]`).trigger('click');
+	}
+
+	function _getCountryByID (id) {
+		const result = {};
+		_countryList.some((c, i) => {
+			result.index = i;
+			return Object.values(c.country).some((cc, j) => {
+				if (+cc.id === +id) {
+					result.id = id;
+					return true;
+				}
+
+				return false;
+			});
+		});
+
+		return result;
 	}
 
 	_init();

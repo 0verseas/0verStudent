@@ -49,6 +49,8 @@
 				if (json.student_qualification_verify.system_data && json.student_qualification_verify.system_data.id) {
 					_savedSystem = json.student_qualification_verify.system_data.id;
 				}
+
+				+json.student_qualification_verify.system_id === +_systemID && _setData(json.student_qualification_verify);
 			}
 		})
 		.catch((err) => {
@@ -195,7 +197,7 @@
 						return;
 					}
 				}
-				
+
 				student.verifyQualification({
 					system_id: _systemID,
 					identity: _typeOfKangAo,
@@ -617,6 +619,10 @@
 		if (!results) return null;
 		if (!results[2]) return '';
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	function _setData(data) {
+
 	}
 
 	_init();

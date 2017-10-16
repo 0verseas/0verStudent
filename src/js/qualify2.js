@@ -38,6 +38,8 @@
 				if (json.student_qualification_verify.system_data && json.student_qualification_verify.system_data.id) {
 					_savedSystem = json.student_qualification_verify.system_data.id;
 				}
+
+				json.student_qualification_verify.system_id === 2 && _setData(json.student_qualification_verify);
 			}
 		})
 		.catch((err) => {
