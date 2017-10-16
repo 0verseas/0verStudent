@@ -24,6 +24,7 @@
 	const $olympiaSelectForm = $('#form-olympiaSelect'); // 奧林匹亞志願選擇表單
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
+	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container');
 	const $wishList = $('#wish-list'); // 已填選志願
@@ -43,6 +44,7 @@
 	$hasOlympia.on('change', _changeHasOlympia); // 監聽是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
+	$manualSearchBtn.on('click', _generateOptionalWish); // 手動篩選清單，解決在手機上輸入中文不會觸發 keyup 的問題
 	$saveBtn.on('click', _handleSave);
 
 	async function _init() {
