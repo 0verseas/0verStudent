@@ -624,7 +624,7 @@
 	function _setData(data) {
 		// 身分別
 		$signUpForm.find(`.radio-identity[value=${data.identity}]`).trigger('click');
-		if (+data.identity === 5) {
+		if (+data.identity >= 4) {
 			// 在台僑生
 			// 分發年份：
 			$signUpForm.find('.input-distributionYear').val(data.admission_year).trigger('change');
