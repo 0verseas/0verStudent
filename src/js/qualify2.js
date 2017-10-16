@@ -3,6 +3,8 @@
 	*	private variable
 	*/
 	let _typeOfKangAo = 1;
+	let _savedIdentity = null;
+	let _savedSystem = null;
 
 	/**
 	* init
@@ -19,6 +21,30 @@
 			data[0].country.forEach((val, i) => {
 				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
 			});	
+		});
+
+		// get data
+		student.getVerifyQualification().then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+			if (json && json.student_qualification_verify && json.student_qualification_verify.identity) {
+				_savedIdentity = json.student_qualification_verify.identity;
+				if (json.student_qualification_verify.system_data && json.student_qualification_verify.system_data.id) {
+					_savedSystem = json.student_qualification_verify.system_data.id;
+				}
+			}
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
@@ -107,7 +133,13 @@
 			console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
 			console.log(`請就下列選項，擇一勾選，並檢附證明文件： {{type 1}} ${KA1_whyHasBeenTaiwanOption}`);
 			console.log(`請就下列選項，擇一勾選，並檢附證明文件： {{type 2}} ${KA2_whyHasBeenTaiwanOption}`);
-			console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+			if ((_savedSystem !== null && _savedIdentity !== null) &&
+				(+_savedSystem !== 2 || +_savedIdentity !== +_typeOfKangAo)) {
+				if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
+					return;
+				}
+			}
+
 			student.verifyQualification({
 				system_id: 2,
 				identity: _typeOfKangAo,

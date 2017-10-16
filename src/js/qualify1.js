@@ -155,7 +155,8 @@
 				console.log(`海外居留年限 ${stayLimitOption}`);
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件： ${hasBeenTaiwanOption}`);
-				if (+_savedSystem !== 1 || +_savedIdentity !== 3) {
+				if ((_savedSystem !== null && _savedIdentity !== null) &&
+					(+_savedSystem !== 1 || +_savedIdentity !== 3)) {
 					if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
 						return;
 					}
@@ -232,7 +233,8 @@
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!KA_hasBeenTaiwan}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type1 }}} ${KA1_whyHasBeenTaiwanOption}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type2 }}} ${KA2_whyHasBeenTaiwanOption}`);
-				if (+_savedSystem !== 1 || +_savedIdentity !== +_typeOfKangAo) {
+				if ((_savedSystem !== null && _savedIdentity !== null) &&
+					(+_savedSystem !== 1 || +_savedIdentity !== +_typeOfKangAo)) {
 					if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
 						return;
 					}
