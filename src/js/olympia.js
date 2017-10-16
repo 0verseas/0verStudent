@@ -25,7 +25,6 @@
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
-	const optionalWishList = document.getElementById('optionalWish-list'); // 招生校系清單，渲染用
 	const $paginationContainer = $('#pagination-container');
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
@@ -86,9 +85,6 @@
 			_generateOptionalWish();
 			_generateWishList();
 			_showWishList();
-
-			console.log(resOlympia);
-			console.log(_optionalWish);
 		} catch (e) {
 			console.log('Boooom!!');
 			console.log(e);
