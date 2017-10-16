@@ -2,7 +2,7 @@
 	/**
 	*	private variable
 	*/
-	window._typeOfKangAo = 1;
+	let _typeOfKangAo = 1;
 	let _savedIdentity = null;
 	let _savedSystem = null;
 	let _countryList = [];

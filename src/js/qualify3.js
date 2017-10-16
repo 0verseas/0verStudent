@@ -622,7 +622,31 @@
 	}
 
 	function _setData(data) {
+		// 身分別
+		$signUpForm.find(`.radio-identity[value=${data.identity}]`).trigger('click');
+		if (+data.identity === 5) {
+			// 在台僑生
+			// 分發年份：
+			$signUpForm.find('.input-distributionYear').val(data.admission_year).trigger('change');
 
+			// 分發管道：
+			$signUpForm.find('.input-distributionWay').val(data.admission_way).trigger('change');
+
+			// 分發學校：
+			$signUpForm.find('.input-distributionSchool').val(data.admission_school).trigger('change');
+
+			// 分發學系：
+			$signUpForm.find('.input-distributionDept').val(data.admission_department).trigger('change');
+
+			// 分發文字號：
+			$signUpForm.find('.input-distributionNo').val(data.admission_document_no).trigger('change');
+
+			// 請問您是否曾經向本會申請同級學程（【帶入報名學生選定之申請類別】），並經由本會分發？
+			!!data.same_grade_course &&
+			$signUpForm.find('.radio-applyPeer[value=1]').trigger('click') &&
+			$signUpForm.find('.input-applyPeerYear').val(data.same_grade_course_apply_year) &&
+			$signUpForm.find(`.radio-applyPeerStatus[value=${data.same_grade_course_selection}]`).trigger('click');
+		}
 	}
 
 	_init();
