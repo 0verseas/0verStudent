@@ -55,11 +55,11 @@
 			const resOlympia = await response[0].json();
 			const resOrder = await response[1].json();
 
-			const groupName = ["", "第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
+			const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
 			await resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {
-					id: value.card_code,
-					group: groupName[value.group_code],
+					id: value.id,
+					group: groupName[value.group_code - 1],
 					school: value.school.title,
 					dept: value.title,
 					engDept: value.eng_title,
@@ -75,7 +75,7 @@
 			// 整理已選志願
 			let order = [];
 			await resOlympia.student_olympia_aspiration_order.forEach((value, index) => {
-				order.push(value.department_data.card_code);
+				order.push(value.department_data.id);
 			});
 			await order.forEach((value, index) => {
 				let orderIndex = _optionalWish.findIndex(order => order.id === value)
