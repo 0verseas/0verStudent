@@ -276,6 +276,16 @@ const student = (() => {
 		});
 	}
 
+	function getVerifyQualification() {
+		return fetch(`${baseUrl}/students/verify-qualification`, {
+			method: 'get',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+	}
+
 	function getStudentAvailableApplyWayList() {
 		return fetch(baseUrl + `/students/available-apply-way`, {
 			method: 'GET',
@@ -310,6 +320,7 @@ const student = (() => {
 		deleteEducationFile,
 		getAdmissionSelectionOrder,
 		verifyQualification,
+		getVerifyQualification,
 		getStudentAvailableApplyWayList
 	};
 

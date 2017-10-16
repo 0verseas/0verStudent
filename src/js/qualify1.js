@@ -4,6 +4,8 @@
 	*/
 	let _currentIdentity = 1;
 	let _typeOfKangAo = 1;
+	let _savedIdentity = null;
+	let _savedSystem = null;
 
 	/**
 	* init
@@ -20,6 +22,30 @@
 			data[0].country.forEach((val, i) => {
 				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
 			});	
+		});
+
+		// get data
+		student.getVerifyQualification().then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+			if (json && json.student_qualification_verify && json.student_qualification_verify.identity) {
+				_savedIdentity = json.student_qualification_verify.identity;
+				if (json.student_qualification_verify.system_data && json.student_qualification_verify.system_data.id) {
+					_savedSystem = json.student_qualification_verify.system_data.id;
+				}
+			}
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
@@ -108,7 +134,7 @@
 		if (+_currentIdentity === 2) {
 			// 海外僑生
 			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
-			const distributionTime = $signUpForm.find('inpit-distributionTime').val();
+			const distributionTime = $signUpForm.find('.input-distributionTime').val();
 			const distributionOption = +$signUpForm.find('.distributionMoreQuestion:checked').val();
 			const stayLimitOption = +$signUpForm.find('.radio-stayLimit:checked').val();
 			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
@@ -129,7 +155,12 @@
 				console.log(`海外居留年限 ${stayLimitOption}`);
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件： ${hasBeenTaiwanOption}`);
-				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				if (+_savedSystem !== 1 || +_savedIdentity !== 3) {
+					if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
+						return;
+					}
+				}
+
 				student.verifyQualification({
 					system_id: 1,
 					identity: 3,
@@ -201,7 +232,12 @@
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!KA_hasBeenTaiwan}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type1 }}} ${KA1_whyHasBeenTaiwanOption}`);
 				console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type2 }}} ${KA2_whyHasBeenTaiwanOption}`);
-				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				if (+_savedSystem !== 1 || +_savedIdentity !== +_typeOfKangAo) {
+					if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
+						return;
+					}
+				}
+
 				student.verifyQualification({
 					system_id: 1,
 					identity: _typeOfKangAo,
