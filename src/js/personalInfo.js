@@ -17,6 +17,7 @@
 	const $personalInfoForm = $('#form-personalInfo'); // 個人資料表單
 
 	// 申請人資料表
+	const $email = $('#email');
 	const $backupEmail = $('#backupEmail'); // 備用 E-Mail
 	const $name = $('#name'); // 姓名（中）
 	const $engName = $('#engName');	// 姓名（英）
@@ -124,7 +125,6 @@
 		.then((res) => {
 			if (res.ok) {
 				_initCountryList();
-
 				return res.json();
 			} else {
 				throw res;
@@ -132,10 +132,81 @@
 		})
 		.then((json) => {
 			console.log(json);
+			let formData = json.student_personal_data;
+
+			// init 申請人資料表
+			$email.val(json.email);
+			$backupEmail.val(formData.backup_email);
+			$name.val(json.name);
+			$engName.val(json.eng_name);
+			$("input[name=gender][value='"+ json.gender +"']").prop("checked",true);
+			$birthday.val(formData.birthday);
+			$birthContinent.val(_findContinent(formData.birth_location)).change();
+			$birthLocation.val(formData.birth_location);
+			$("input[name=specail][value='"+ json.gender +"']").prop("checked",true);
+
+			// init 僑居地資料
+			$residenceContinent.val(_findContinent(formData.resident_location)).change();
+			$residentLocation.val(formData.resident_location);
+			$residentId.val(formData.resident_id);
+			$residentPassportNo.val(formData.resident_passport_no);
+			$residentPhoneCode.val(_splitWithSemicolon(formData.resident_phone)[0]);
+			$residentPhone.val(_splitWithSemicolon(formData.resident_phone)[1]);
+			$residentCellphoneCode.val(_splitWithSemicolon(formData.resident_cellphone)[0]);
+			$residentCellphone.val(_splitWithSemicolon(formData.resident_cellphone)[1]);
+			$residentAddress.val(_splitWithSemicolon(formData.resident_address)[0]);
+			$residentOtherLangAddress.val(_splitWithSemicolon(formData.resident_address)[1]);
+
+			// init 在台資料
+			$taiwanIdType.val(formData.taiwan_id_type);
+			$taiwanIdNo.val(formData.taiwan_id);
+			$taiwanPassport.val(formData.taiwan_passport);
+			$taiwanPhone.val(formData.taiwan_phone);
+			$taiwanAddress.val(formData.taiwan_address);
+
+			// init 學歷
+			$educationSystemDescription.val(formData.education_system_description);
+			$schoolContinent.val(_findContinent(formData.school_country)).change();
+			$schoolCountry.val(formData.school_country);
+			$schoolType.val(formData.school_type);
+			// $schoolLocation.val(formData.);
+			$schoolName.val(formData.school_name);
+			$schoolAdmissionAt.val(formData.school_admission_at);
+			$schoolGraduateAt.val(formData.school_graduate_at);
+
+			// init 家長資料
+			// 父
+			$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
+			$dadName.val(formData.dad_name);
+			$dadEngName.val(formData.dad_eng_name);
+			$dadBirthday.val(formData.dad_birthday);
+			$dadHometown.val(formData.dad_hometown);
+			$dadJob.val(formData.dad_job);
+			// 母
+			$momName.val(formData.mom_name);
+			$momEngName.val(formData.mom_eng_name);
+			$momBirthday.val(formData.mom_birthday);
+			$momHometown.val(formData.mom_hometown);
+			$momJob.val(formData.mom_job);
+			// 監護人
+			$guardianName.val(formData.guardian_name);
+			$guardianEngName.val(formData.guardian_eng_name);
+			$guardianBirthday.val(formData.guardian_birthday);
+			$guardianHometown.val(formData.guardian_hometown);
+			$guardianJob.val(formData.guardian_job);
+
+			// init 在台聯絡人
+			$twContactName.val(formData.tw_contact_name);
+			$twContactRelation.val(formData.tw_contact_relation);
+			$twContactPhone.val(formData.tw_contact_phone);
+			$twContactAddress.val(formData.tw_contact_address);
+			$twContactWorkplaceName.val(formData.tw_contact_workplace_name);
+			$twContactWorkplacePhone.val(formData.tw_contact_workplace_phone);
+			$twContactWorkplaceAddress.val(formData.tw_contact_workplace_address);
 		})
 		.then(() => {
 			student.setHeader();
-			$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
+
 			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
 			_showSpecailForm();
 			_handleOtherDisabilityCategoryForm();
@@ -148,12 +219,29 @@
 		})
 	}
 
+	function _findContinent(locationId) { // 找到
+		let continent = '';
+		for (let i = 0; i < _countryList.length; i++) {
+			let countryObj = _countryList[i].country.filter((obj) => {
+				return obj.id === locationId;
+			});
+			if (countryObj.length > 0) {
+				return '' + i;
+			}
+		}
+	}
+
+	function _splitWithSemicolon(phoneNum) {
+		let i = phoneNum.indexOf(";");
+		return [phoneNum.slice(0,i), phoneNum.slice(i+1)];;
+	}
+
 	function _initCountryList() {
 		student.getCountryList()
 		.then((json) => {
 			let stateHTML = '<option data-continentIndex="-1">Continent</option>';
 			json.forEach((obj, index) => {
-				stateHTML += '<option data-continentIndex="' + index + '">' + obj.continent + '</option>'
+				stateHTML += '<option value="' + index + '" data-continentIndex="' + index + '">' + obj.continent + '</option>'
 			})
 			$birthContinent.html(stateHTML);
 			$residenceContinent.html(stateHTML);
@@ -376,7 +464,7 @@
 			require: true,
 			type: 'string',
 			dbKey: 'resident_phone',
-			dbData: $residentPhoneCode.val() + $residentPhone.val()
+			dbData: $residentPhoneCode.val() + ';' + $residentPhone.val()
 		},
 		{ // 手機國碼，需驗證，合併在手機號碼一起送出。
 			el: $residentCellphoneCode,
@@ -388,7 +476,7 @@
 			require: true,
 			type: 'string',
 			dbKey: 'resident_cellphone',
-			dbData: $residentCellphoneCode.val() + $residentCellphone.val()
+			dbData: $residentCellphoneCode.val() + ';' + $residentCellphone.val()
 		},
 		{
 			el: $residentAddress,
