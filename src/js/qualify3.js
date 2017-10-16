@@ -647,6 +647,23 @@
 			$signUpForm.find('.input-applyPeerYear').val(data.same_grade_course_apply_year) &&
 			$signUpForm.find(`.radio-applyPeerStatus[value=${data.same_grade_course_selection}]`).trigger('click');
 		}
+
+		if (+data.identity === 3) {
+			// 海外僑生
+			// 曾分發來臺
+			!!data.has_come_to_taiwan &&
+			$signUpForm.find('.isDistribution[value=1]').trigger('click') &&
+			$signUpForm.find('.input-distributionTime').val(data.come_to_taiwan_at).trigger('change') &&
+			$signUpForm.find(`.distributionMoreQuestion[value=${data.reason_selection_of_come_to_taiwan}]`).trigger('click');
+
+			// 海外居留年限
+			$signUpForm.find(`.radio-stayLimit[value=${data.overseas_residence_time}]`).trigger('click');
+
+			// 在台停留日期
+			!!data.stay_over_120_days_in_taiwan &&
+			$signUpForm.find('.radio-hasBeenTaiwan[value=1]').trigger('click') &&
+			$signUpForm.find(`.radio-whyHasBeenTaiwan[value=${data.reason_selection_of_stay_over_120_days_in_taiwan}]`).trigger('click');
+		}
 	}
 
 	_init();
