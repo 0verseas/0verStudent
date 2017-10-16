@@ -4,22 +4,14 @@
 	*	private variable
 	*/
 
-	let _optionalWish = [
-	{id:"1001", group: "第一類組", school: "國立暨南國際大學", dept: "中國文學系", engDept: "Dept. of Chinese Literature"},
-	{id:"1002", group: "第一類組", school: "國立暨南國際大學", dept: "外國語文學系", engDept: "Dept. of Foreign Languages and Literatures"},
-	{id:"1003", group: "第一類組", school: "國立暨南國際大學", dept: "歷史學系", engDept: "Dept. of History"},
-	{id:"1004", group: "第二類組", school: "國立暨南國際大學", dept: "哲學系", engDept: "Dept. of Philosophy"},
-	{id:"1005", group: "第二類組", school: "國立暨南國際大學", dept: "人類學系", engDept: "Dept. of Anthropology"},
-	{id:"1006", group: "第二類組", school: "國立暨南國際大學", dept: "圖書資訊學系", engDept: "Dept. of Library and Information Science"},
-	{id:"1007", group: "第二類組", school: "國立暨南國際大學", dept: "日本語文學系", engDept: "Dept. of Japanese Language and Literature"},
-	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "戲劇學系", engDept: "Dept. of Drama and Theatre"},
-	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "法律學系法學組", engDept: "Dept. of Law, Division of Legal Science"},
-	{id:"1009", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系政治理論組", engDept: "Dept. of Political Science, Political Theory Division"},
-	{id:"1010", group: "第三類組", school: "國立暨南國際大學", dept: "經濟學系", engDept: "Dept. of Economics"}
-	];
+	// 是否有奧林匹亞獎項
+	let _isJoin = 0;
 
-	let _wishList = [];
+	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
+	let _optionalWish = []; // 剩餘可選志願
+	let _wishList = []; // 已選擇志願
 
+	// 序號調整志願序之參數
 	let _prevWishIndex = -1;
 	let _currentWishIndex = -1;
 
@@ -31,10 +23,12 @@
 	const $admissionSelectForm = $('#form-admissionSelect'); // 個人申請表單
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
+	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
-	const optionalWishList = document.getElementById('optionalWish-list'); // 招生校系清單，渲染用
+	const $paginationContainer = $('#pagination-container');
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
+	const $saveBtn = $('#btn-save');
 
 	/**
 	*	init
@@ -46,50 +40,77 @@
 	*	bind event
 	*/
 
-	$notJoinSelection.on('change', _showWishList); // 監聽是否不參加聯合分發
-	$optionFilterSelect.on('change', _filterOptionalWishList); // 監聽「招生校系清單」類別選項
-	$optionFilterInput.on('keyup', _filterOptionalWishList); // 監聽「招生校系清單」關鍵字
+	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加聯合分發
+	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
+	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
+	$saveBtn.on('click', _handleSave);
 
-	function _init() {
-		student.setHeader();
-		_generateOptionalWish();
-		_generateWishList();
+	async function _init() {
+		try {
+			const response = await student.getAdmissionSelectionOrder();
+			if (!response[0].ok) { throw response[0]; }
+
+			const resAdmission = await response[0].json();
+			const resOrder = await response[1].json();
+
+			const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
+			await resOrder.forEach((value, index) => { // 志願列表格式整理
+				let add = {
+					id: value.id,
+					group: groupName[value.group_code - 1],
+					school: value.school.title,
+					dept: value.title,
+					engDept: value.eng_title,
+					sortNum: index
+				};
+				_optionalWish.push(add);
+			})
+
+			_isJoin = resAdmission.student_misc_data.join_admission_selection;
+			$notJoinSelection.prop("checked", !_isJoin);
+
+			// 整理已選志願
+			let order = [];
+			await resAdmission.student_olympia_aspiration_order.forEach((value, index) => {
+				order.push(value.department_data.id);
+			});
+			await order.forEach((value, index) => {
+				let orderIndex = _optionalWish.findIndex(order => order.id === value)
+				_wishList.push(_optionalWish[orderIndex]);
+				_optionalWish.splice(orderIndex, 1);
+			});
+
+			student.setHeader();
+			_generateOptionalWish();
+			_generateWishList();
+			_showWishList();
+		} catch (e) {
+			console.log('Boooom!!');
+			console.log(e);
+		}
+	}
+
+	function _changeIsJoin() {
+		_isJoin = !$(this).prop("checked");
+		_showWishList();
 	}
 
 	function _showWishList() { // 不參加申請，即不顯示聯分表單
-		const isJoin = !$(this).prop("checked");
 		if (isJoin) {
 			$admissionSelectForm.fadeIn();
 		} else {
-			$admissionSelectForm.fadeOut();
+			$admissionSelectForm.hide();
 		}
-	}
-
-	function _filterOptionalWishList() { // 篩選校系清單項目
-		const filterSelect = Number($optionFilterSelect.val());
-		const filter = $optionFilterInput.val().toUpperCase();
-		const tr = $optionalWishList.find('tr');
-		for (let i = 0; i < tr.length; i++) {
-			let spanVal = $(tr[i].getElementsByTagName("span")[filterSelect]).text();
-			if (spanVal) {
-				if (spanVal.toUpperCase().indexOf(filter) > -1) {
-					tr[i].style.display = "";
-				} else {
-					tr[i].style.display = "none";
-				}
-			}
-		}
-
 	}
 
 	function _addWish() { // 增加志願
-		if (_wishList.length < 4) {
-			let optionalIndex = $(this).data("optionalindex");
+		if (_wishList.length < 3) {
+			const sortNum = $(this).data("sortnum");
+			const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum)
 			_wishList.push(_optionalWish[optionalIndex]);
 			_optionalWish.splice(optionalIndex, 1);
 			_generateOptionalWish();
 			_generateWishList();
-			_filterOptionalWishList();
 		} else {
 			alert('志願數量已達上限。');
 		}

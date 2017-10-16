@@ -249,6 +249,21 @@ const student = (() => {
 		});
 	}
 
+	function getAdmissionSelectionOrder() {
+		var urls = [
+		baseUrl + '/students/admission-selection-order',
+		baseUrl + '/students/admission-order-list?type=selection'
+		]
+		const grabContent = url => fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+		return Promise.all(urls.map(grabContent))
+	}
+
 	// POST /students/verify-qualification
 	function verifyQualification(data) {
 		return fetch(`${baseUrl}/students/verify-qualification`, {
@@ -293,6 +308,7 @@ const student = (() => {
 		getEducationFile,
 		uploadEducationFile,
 		deleteEducationFile,
+		getAdmissionSelectionOrder,
 		verifyQualification,
 		getStudentAvailableApplyWayList
 	};

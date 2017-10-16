@@ -49,7 +49,7 @@
 
 	async function _init() {
 		try {
-			const response = await student.getOlympiaAspirationOrder()
+			const response = await student.getOlympiaAspirationOrder();
 			if (!response[0].ok) { throw response[0]; }
 
 			const resOlympia = await response[0].json();
