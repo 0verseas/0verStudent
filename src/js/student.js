@@ -261,6 +261,16 @@ const student = (() => {
 		});
 	}
 
+	function getStudentAvailableApplyWayList() {
+		return fetch(baseUrl + `/students/available-apply-way`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getCountryList,
@@ -283,7 +293,8 @@ const student = (() => {
 		getEducationFile,
 		uploadEducationFile,
 		deleteEducationFile,
-		verifyQualification
+		verifyQualification,
+		getStudentAvailableApplyWayList
 	};
 
 })();
