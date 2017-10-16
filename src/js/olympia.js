@@ -4,12 +4,14 @@
 	*	private variable
 	*/
 
+	// 是否有奧林匹亞獎項
 	let _hasOlympia = 0;
 
-	let _optionalWish = [];
+	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
+	let _optionalWish = []; // 剩餘可選志願
+	let _wishList = []; // 已選擇志願
 
-	let _wishList = [];
-
+	// 序號調整志願序之參數
 	let _prevWishIndex = -1;
 	let _currentWishIndex = -1;
 
@@ -24,6 +26,7 @@
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const optionalWishList = document.getElementById('optionalWish-list'); // 招生校系清單，渲染用
+	const $paginationContainer = $('#pagination-container');
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 	const $saveBtn = $('#btn-save');
@@ -39,8 +42,8 @@
 	*/
 
 	$hasOlympia.on('change', _changeHasOlympia); // 監聽是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項
-	$optionFilterSelect.on('change', _filterOptionalWishList); // 監聽「招生校系清單」類別選項
-	$optionFilterInput.on('keyup', _filterOptionalWishList); // // 監聽「招生校系清單」關鍵字
+	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
+	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$saveBtn.on('click', _handleSave);
 
 	async function _init() {
@@ -58,7 +61,8 @@
 					group: groupName[value.group_code],
 					school: value.school.title,
 					dept: value.title,
-					engDept: value.eng_title
+					engDept: value.eng_title,
+					sortNum: index
 				};
 				_optionalWish.push(add);
 			})
@@ -69,11 +73,11 @@
 
 			// 整理已選志願
 			let order = [];
-			resOlympia.student_olympia_aspiration_order.forEach((value, index) => {
+			await resOlympia.student_olympia_aspiration_order.forEach((value, index) => {
 				order.push(value.department_data.card_code);
 			});
 			await order.forEach((value, index) => {
-				let orderIndex = _optionalWish.map(function(x) {return x.id; }).indexOf(value);
+				let orderIndex = _optionalWish.findIndex(order => order.id === value)
 				_wishList.push(_optionalWish[orderIndex]);
 				_optionalWish.splice(orderIndex, 1);
 			});
@@ -104,71 +108,29 @@
 		}
 	}
 
-	function _filterOptionalWishList() { // 篩選校系清單項目
-		const filterSelect = Number($optionFilterSelect.val());
-		const filter = $optionFilterInput.val().toUpperCase();
-		const tr = $optionalWishList.find('tr');
-		for (let i = 0; i < tr.length; i++) {
-			let spanVal = $(tr[i].getElementsByTagName("span")[filterSelect]).text();
-			if (spanVal) {
-				if (spanVal.toUpperCase().indexOf(filter) > -1) {
-					tr[i].style.display = "";
-				} else {
-					tr[i].style.display = "none";
-				}
-			}
-		}
-	}
-
 	function _addWish() { // 增加志願
 		if (_wishList.length < 3) {
-			let optionalIndex = $(this).data("optionalindex");
+			const sortNum = $(this).data("sortnum");
+			const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum)
 			_wishList.push(_optionalWish[optionalIndex]);
 			_optionalWish.splice(optionalIndex, 1);
 			_generateOptionalWish();
 			_generateWishList();
-			_filterOptionalWishList();
 		} else {
 			alert('志願數量已達上限。');
 		}
 	}
 
-	function _findRowIndex(row) { // 尋找該志願選項 index（移動或刪除志願時使用）
-		const tableRow = row.closest('tr');
-		const index = tableRow.data('wishindex');
-		return index;
-	}
-
-	function _prevWish() { // 志願上調
-		const rowIndex = _findRowIndex($(this));
-		if (rowIndex > 0) {
-			const swap = _wishList[rowIndex];
-			_wishList[rowIndex] = _wishList[rowIndex - 1];
-			_wishList[rowIndex - 1] = swap;
-			_generateWishList();
-		}
-	}
-
-	function _nextWish() { // 志願下調
-		const rowIndex = _findRowIndex($(this));
-		if (rowIndex < _wishList.length - 1) {
-			const swap = _wishList[rowIndex];
-			_wishList[rowIndex] = _wishList[rowIndex + 1];
-			_wishList[rowIndex + 1] = swap;
-			_generateWishList();
-		}
-	}
-
 	function _removeWish() { // 刪除志願
-		const rowIndex = _findRowIndex($(this));
-		_optionalWish.push(_wishList[rowIndex]);
-		_wishList.splice(rowIndex, 1);
+		const sortNum = $(this).data("sortnum");
+		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
+		_optionalWish.push(_wishList[wishIndex]);
+		_wishList.splice(wishIndex, 1);
 		_optionalWish.sort(function(a, b) {
-			return parseInt(a.id) - parseInt(b.id);
+			return parseInt(a.sortNum) - parseInt(b.sortNum);
 		});
 		_generateOptionalWish();
 		_generateWishList();
-		_filterOptionalWishList();
 	}
 
 	function _savePrevWishIndex() { // 暫存志願序號
@@ -191,28 +153,77 @@
 		_generateWishList();
 	}
 
-	function _generateOptionalWish() { // 渲染「招生校系清單」
-		let rowHtml = '';
+	function _prevWish() { // 志願上調
+		const sortNum = $(this).data("sortnum");
+		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
+		if (wishIndex > 0) {
+			const swap = _wishList[wishIndex];
+			_wishList[wishIndex] = _wishList[wishIndex - 1];
+			_wishList[wishIndex - 1] = swap;
+			_generateWishList();
+		}
+	}
 
-		for(let i in _optionalWish) {
-			rowHtml = rowHtml + `
+	function _nextWish() { // 志願下調
+		const sortNum = $(this).data("sortnum");
+		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
+		if (wishIndex < _wishList.length - 1) {
+			const swap = _wishList[wishIndex];
+			_wishList[wishIndex] = _wishList[wishIndex + 1];
+			_wishList[wishIndex + 1] = swap;
+			_generateWishList();
+		}
+	}
+
+	function _optionalWishTemplating(data) { // 分頁資料渲染（data.length === 0 時不會被呼叫）
+		var html = '';
+		$.each(data, function(index, item){
+			html += `
 			<tr>
 			<td>
-			<span>` + _optionalWish[i].id + `</span> ｜ <span>` + _optionalWish[i].group + `</span> ｜ <span>` + _optionalWish[i].school + `</span> <br>
-			<span>` + _optionalWish[i].dept + ` ` + _optionalWish[i].engDept + `</span>
+			<span>` + item.id + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
+			<span>` + item.dept + ` ` + item.engDept + `</span>
 			</td>
 			<td class="text-right">
-			<button type="button" data-optionalIndex="` + i + `" class="btn btn-info btn-sm add-wish">
+			<button type="button" data-sortNum="` + item.sortNum + `" class="btn btn-info btn-sm add-wish">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			</button>
 			</td>
 			</tr>
 			`;
-		}
-		optionalWishList.innerHTML = rowHtml;
+		});
+		return html;
+	}
 
-		const $addWish = $optionalWishList.find('.add-wish');
-		$addWish.on("click", _addWish);
+	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
+		const filterSelect = $optionFilterSelect.val();
+		const filter = $optionFilterInput.val().toUpperCase();
+
+		_filterOptionalWish = _optionalWish.filter(function (obj) {
+			if (filterSelect === "dept") {
+				return obj['dept'].toUpperCase().indexOf(filter) > -1 ||
+				obj['engDept'].toUpperCase().indexOf(filter) > -1
+			}
+			return obj[filterSelect].toUpperCase().indexOf(filter) > -1;
+		});
+
+		$paginationContainer.pagination({
+			dataSource: _filterOptionalWish,
+			callback: function(data, pagination) {
+				var html = _optionalWishTemplating(data);
+				$optionalWishList.html(html);
+				const $addWish = $optionalWishList.find('.add-wish');
+				$addWish.on("click", _addWish);
+			}
+		})
+
+		if (_filterOptionalWish.length === 0) {
+			$optionalWishList.html(`
+				<tr>
+				<td class="text-center" colspan="2">查無資料。</td>
+				</tr>
+				`);
+		}
 	}
 
 	function _generateWishList() { // 「渲染已填選志願」
@@ -221,7 +232,7 @@
 			rowHtml = rowHtml + `
 			<tr data-wishIndex="` + i + `">
 			<td>
-			<button type="button" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
+			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
 			` + _wishList[i].id + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
@@ -231,10 +242,10 @@
 			<div class="input-group">
 			<input type="text" class="form-control wish-num" value="` + (Number(i) + 1) + `">
 			<div class="input-group-btn">
-			<button type="button" class="btn btn-secondary btn-sm up-arrow">
+			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-secondary btn-sm up-arrow">
 			<i class="fa fa-chevron-up" aria-hidden="true"></i>
 			</button>
-			<button type="button" class="btn btn-secondary btn-sm down-arrow">
+			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-secondary btn-sm down-arrow">
 			<i class="fa fa-chevron-down" aria-hidden="true"></i>
 			</button>
 			</div>

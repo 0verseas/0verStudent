@@ -1,5 +1,7 @@
 <% include components/_studentInfo %>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.0.8/pagination.css">
+
 <h2 class="text-center title">奧林匹亞志願</h2>
 
 <hr>
@@ -66,10 +68,10 @@
 							<div class="col-12">
 								<div class="form-inline">
 									<select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="select-optionFilter">
-										<option value="0">志願代碼</option>
-										<option value="1">學群</option>
-										<option value="2">學校名稱</option>
-										<option value="3">系所名稱</option>
+										<option value="id">志願代碼</option>
+										<option value="group">學群</option>
+										<option value="school">學校名稱</option>
+										<option value="dept">系所名稱</option>
 									</select>
 									<input type="text" id="input-optionFilter" class="form-control mb-2 mr-sm-2 mb-sm-0" id="" placeholder="關鍵字">
 								</div>
@@ -83,6 +85,14 @@
 								<table class="table table-hover">
 									<tbody id="optionalWish-list">
 									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<table class="table table-hover">
+									<div id="pagination-container"></div>
 								</table>
 							</div>
 						</div>
@@ -112,3 +122,5 @@
 		<button id="btn-save" class="btn btn-primary">儲存</button>
 	</div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.0.8/pagination.min.js"></script>
