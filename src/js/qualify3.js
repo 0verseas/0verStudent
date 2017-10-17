@@ -5,6 +5,8 @@
 	let _identity = 1;
 	let _typeOfKangAo = 1;
 	const _systemID = _getParam('systemid', window.location.href);
+	let _savedIdentity = null;
+	let _savedSystem = null;
 
 	/**
 	* init
@@ -30,6 +32,32 @@
 			data[0].country.forEach((val, i) => {
 				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
 			});	
+		});
+
+		// get data
+		student.getVerifyQualification().then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+			if (json && json.student_qualification_verify && json.student_qualification_verify.identity) {
+				_savedIdentity = json.student_qualification_verify.identity;
+				if (json.student_qualification_verify.system_data && json.student_qualification_verify.system_data.id) {
+					_savedSystem = json.student_qualification_verify.system_data.id;
+				}
+
+				+json.student_qualification_verify.system_id === +_systemID && _setData(json.student_qualification_verify);
+			}
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
@@ -163,7 +191,13 @@
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
 				console.log(`請就下列選項，擇一勾選，並檢附證明文件：{{type 1}} ${KA1_whyHasBeenTaiwan}`);
 				console.log(`請就下列選項，擇一勾選，並檢附證明文件：{{type 2}} ${KA2_whyHasBeenTaiwan}`);
-				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				if ((_savedSystem !== null && _savedIdentity !== null) &&
+					(+_savedSystem !== +_systemID || +_savedIdentity !== +_typeOfKangAo)) {
+					if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
+						return;
+					}
+				}
+
 				student.verifyQualification({
 					system_id: _systemID,
 					identity: _typeOfKangAo,
@@ -208,7 +242,13 @@
 				console.log(`海外居留年限 ${stayLimitOption}`);
 				console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
 				console.log(`請就下列選項，擇一勾選，並檢附證明文件： ${whyHasBeenTaiwan}`);
-				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				if ((_savedSystem !== null && _savedIdentity !== null) &&
+					(+_savedSystem !== +_systemID || +_savedIdentity !== 3)) {
+					if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
+						return;
+					}
+				}
+
 				student.verifyQualification({
 					system_id: _systemID,
 					identity: 3,
@@ -255,7 +295,13 @@
 				console.log(`請問您是否曾經向本會申請同級學程（【帶入報名學生選定之申請類別】），並經由本會分發？ ${!!applyPeer}`);
 				console.log(`哪一年： ${applyPeerYear}`);
 				console.log(`請就下列選項，擇一勾選：: ${applyPeerStatus}`);
-				console.error('還沒判斷是否已選定身份別，若是，則要帶 force_update');
+				if ((_savedSystem !== null && _savedIdentity !== null) &&
+					(+_savedSystem !== +_systemID || +_savedIdentity !== +_identity)) {
+					if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
+						return;
+					}
+				}
+
 				student.verifyQualification({
 					system_id: _systemID,
 					identity: _identity,
@@ -573,6 +619,51 @@
 		if (!results) return null;
 		if (!results[2]) return '';
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	function _setData(data) {
+		// 身分別
+		$signUpForm.find(`.radio-identity[value=${data.identity}]`).trigger('click');
+		if (+data.identity >= 4) {
+			// 在台僑生
+			// 分發年份：
+			$signUpForm.find('.input-distributionYear').val(data.admission_year).trigger('change');
+
+			// 分發管道：
+			$signUpForm.find('.input-distributionWay').val(data.admission_way).trigger('change');
+
+			// 分發學校：
+			$signUpForm.find('.input-distributionSchool').val(data.admission_school).trigger('change');
+
+			// 分發學系：
+			$signUpForm.find('.input-distributionDept').val(data.admission_department).trigger('change');
+
+			// 分發文字號：
+			$signUpForm.find('.input-distributionNo').val(data.admission_document_no).trigger('change');
+
+			// 請問您是否曾經向本會申請同級學程（【帶入報名學生選定之申請類別】），並經由本會分發？
+			!!data.same_grade_course &&
+			$signUpForm.find('.radio-applyPeer[value=1]').trigger('click') &&
+			$signUpForm.find('.input-applyPeerYear').val(data.same_grade_course_apply_year) &&
+			$signUpForm.find(`.radio-applyPeerStatus[value=${data.same_grade_course_selection}]`).trigger('click');
+		}
+
+		if (+data.identity === 3) {
+			// 海外僑生
+			// 曾分發來臺
+			!!data.has_come_to_taiwan &&
+			$signUpForm.find('.isDistribution[value=1]').trigger('click') &&
+			$signUpForm.find('.input-distributionTime').val(data.come_to_taiwan_at).trigger('change') &&
+			$signUpForm.find(`.distributionMoreQuestion[value=${data.reason_selection_of_come_to_taiwan}]`).trigger('click');
+
+			// 海外居留年限
+			$signUpForm.find(`.radio-stayLimit[value=${data.overseas_residence_time}]`).trigger('click');
+
+			// 在台停留日期
+			!!data.stay_over_120_days_in_taiwan &&
+			$signUpForm.find('.radio-hasBeenTaiwan[value=1]').trigger('click') &&
+			$signUpForm.find(`.radio-whyHasBeenTaiwan[value=${data.reason_selection_of_stay_over_120_days_in_taiwan}]`).trigger('click');
+		}
 	}
 
 	_init();

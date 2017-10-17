@@ -287,8 +287,28 @@ const student = (() => {
 		});
 	}
 
+	function getVerifyQualification() {
+		return fetch(`${baseUrl}/students/verify-qualification`, {
+			method: 'get',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+	}
+
 	function getStudentAvailableApplyWayList() {
 		return fetch(baseUrl + `/students/available-apply-way`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
+	function getStudentRegistrationProgress() {
+		return fetch(baseUrl + `/students/registration-progress`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -322,7 +342,9 @@ const student = (() => {
 		getAdmissionSelectionOrder,
 		setAdmissionSelectionOrder,
 		verifyQualification,
-		getStudentAvailableApplyWayList
+		getVerifyQualification,
+		getStudentAvailableApplyWayList,
+        getStudentRegistrationProgress
 	};
 
 })();
