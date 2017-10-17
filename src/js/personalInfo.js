@@ -80,7 +80,7 @@
 	const $schoolNameSelect = $('#schoolNameSelect'); // 學校名稱 (select)
 
 	const $schoolNameTextForm = $('#schoolNameTextForm'); // 學校名稱表單
-	// const $schoolNameText = $('#schoolNameText'); // 學校名稱 (text)
+	const $schoolNameText = $('#schoolNameText'); // 學校名稱 (text)
 
 	const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
 	const $schoolGraduateAt = $('#schoolGraduateAt'); // 畢業時間
@@ -143,118 +143,6 @@
 	$dadStatus.on('change', _switchDadDataForm);
 	$momStatus.on('change', _switchMomStatus);
 	$saveBtn.on('click', _handleSave);
-
-	function _chSchoolCountry() {
-		_schoolCountryId = $(this).val();
-		_currentSchoolType = "";
-		_currentSchoolLocate = "";
-		_currentSchoolName = "";
-		_reRenderSchoolType();
-	}
-
-	function _reRenderSchoolType() {
-		if (_schoolCountryId in _schoolType) {
-			console.log("有類別");
-			let typeHTML = '';
-			_schoolType[_schoolCountryId].forEach((value, index) => {
-				typeHTML += '<option value="' + value + '">' + value + '</option>';
-			})
-			$schoolType.html(typeHTML);
-			if (_currentSchoolType !== "") {
-				$schoolType.val(_currentSchoolType);
-			}
-			$schoolTypeForm.fadeIn();
-		} else {
-			console.log("沒類別");
-			$schoolTypeForm.hide();
-		}
-		_reRenderSchoolLocation();
-	}
-
-	function _chSchoolType() {
-		_currentSchoolType = $(this).val();
-		_currentSchoolLocate = "";
-		_currentSchoolName = "";
-		_reRenderSchoolLocation();
-	}
-
-	function _reRenderSchoolLocation() {
-		student.getSchoolList(_schoolCountryId)
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			let schoolWithType = [];
-			if (_schoolCountryId in _schoolType) {
-				schoolWithType = json.filter((obj) => {
-					return obj.type === _currentSchoolType;
-				})
-			} else {
-				schoolWithType = json;
-			}
-
-			if (schoolWithType.length > 0) {
-				let group_to_values = schoolWithType.reduce(function (obj, item) {
-					obj[item.locate] = obj[item.locate] || [];
-					obj[item.locate].push({name: item.name});
-					return obj;
-				}, {});
-
-				let groups = Object.keys(group_to_values).map(function (key) {
-					return {locate: key, school: group_to_values[key]};
-				});
-
-				_schoolList = groups;
-
-				let schoolLocationHTML = '';
-				_schoolList.forEach((value, index) => {
-					schoolLocationHTML += '<option value="' + value.locate + '">' + value.locate + '</option>';
-				})
-				$schoolLocation.html(schoolLocationHTML);
-				$schoolLocationForm.fadeIn();
-				$schoolNameTextForm.hide();
-				if (_currentSchoolLocate !== "") {
-					$schoolLocation.val(_currentSchoolLocate);
-				} else {
-					_currentSchoolLocate = _schoolList[0].locate;
-				}
-			} else {
-				$schoolLocationForm.hide();
-				$schoolNameTextForm.fadeIn();
-			}
-		})
-		.then(() => {
-			setTimeout(_reRenderSchoolList(), 500);
-		})
-		.catch((err) => {
-			err.json && err.json().then((data) => {
-				console.error(data);
-			})
-		})
-	}
-
-	function _chSchoolLocation() {
-		_currentSchoolLocate = $(this).val();
-		_currentSchoolName = "";
-		_reRenderSchoolList();
-	}
-
-	function _reRenderSchoolList() {
-		let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
-
-		let schoolListHTML = '';
-		_schoolList[locateIndex].school.forEach((value, index) => {
-			schoolListHTML += '<option value="' + value.name + '">' + value.name + '</option>';
-		})
-		$schoolNameSelect.html(schoolListHTML);
-		if (_currentSchoolName !== "") {
-			$schoolNameSelect.val(_currentSchoolName);
-		}
-	}
 
 	function _init() {
 		student.getStudentPersonalData()
@@ -322,7 +210,7 @@
 				_currentSchoolType = "";
 			}
 			if (formData.school_locate !== null) {
-				_currentSchoolLocate = formData.school_locate
+				_currentSchoolLocate = formData.school_locate;
 			} else {
 				_currentSchoolLocate = "";
 			}
@@ -450,11 +338,120 @@
 		}
 	}
 
-	
+	function _chSchoolCountry() {
+		_schoolCountryId = $(this).val();
+		_currentSchoolType = "";
+		_currentSchoolLocate = "";
+		_currentSchoolName = "";
+		_reRenderSchoolType();
+	}
 
-	
+	function _reRenderSchoolType() {
+		if (_schoolCountryId in _schoolType) {
+			let typeHTML = '';
+			_schoolType[_schoolCountryId].forEach((value, index) => {
+				typeHTML += '<option value="' + value + '">' + value + '</option>';
+			})
+			$schoolType.html(typeHTML);
+			if (_currentSchoolType !== "") {
+				$schoolType.val(_currentSchoolType);
+			}
+			$schoolTypeForm.fadeIn();
+			_hasEduType = true;
+		} else {
+			$schoolTypeForm.hide();
+			_hasEduType = false;
+		}
+		_reRenderSchoolLocation();
+	}
 
+	function _chSchoolType() {
+		_currentSchoolType = $(this).val();
+		_currentSchoolLocate = "";
+		_currentSchoolName = "";
+		_reRenderSchoolLocation();
+	}
 
+	function _reRenderSchoolLocation() {
+		student.getSchoolList(_schoolCountryId)
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			let schoolWithType = [];
+			if (_schoolCountryId in _schoolType) {
+				schoolWithType = json.filter((obj) => {
+					return obj.type === _currentSchoolType;
+				})
+			} else {
+				schoolWithType = json;
+			}
+
+			if (schoolWithType.length > 0) {
+				let group_to_values = schoolWithType.reduce(function (obj, item) {
+					obj[item.locate] = obj[item.locate] || [];
+					obj[item.locate].push({name: item.name});
+					return obj;
+				}, {});
+
+				let groups = Object.keys(group_to_values).map(function (key) {
+					return {locate: key, school: group_to_values[key]};
+				});
+
+				_schoolList = groups;
+
+				let schoolLocationHTML = '';
+				_schoolList.forEach((value, index) => {
+					schoolLocationHTML += '<option value="' + value.locate + '">' + value.locate + '</option>';
+				})
+				$schoolLocation.html(schoolLocationHTML);
+				$schoolLocationForm.fadeIn();
+				$schoolNameTextForm.hide();
+				if (_currentSchoolLocate !== "") {
+					$schoolLocation.val(_currentSchoolLocate);
+				} else {
+					_currentSchoolLocate = _schoolList[0].locate;
+				}
+				_hasSchoolList = true;
+			} else {
+				$schoolLocationForm.hide();
+				$schoolNameTextForm.fadeIn();
+				$schoolNameText.val(_currentSchoolName);
+				_hasSchoolList = false;
+			}
+		})
+		.then(() => {
+			setTimeout(_reRenderSchoolList(), 500);
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
+	}
+
+	function _chSchoolLocation() {
+		_currentSchoolLocate = $(this).val();
+		_currentSchoolName = "";
+		_reRenderSchoolList();
+	}
+
+	function _reRenderSchoolList() {
+		let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
+
+		let schoolListHTML = '';
+		_schoolList[locateIndex].school.forEach((value, index) => {
+			schoolListHTML += '<option value="' + value.name + '">' + value.name + '</option>';
+		})
+		$schoolNameSelect.html(schoolListHTML);
+		if (_currentSchoolName !== "") {
+			$schoolNameSelect.val(_currentSchoolName);
+		}
+	}
 
 	function _switchDadDataForm() {
 		_currentDadStatus = $(this).val();
@@ -486,7 +483,13 @@
 
 	function _handleSave() {
 		if (sendData = _validateForm()) {
-			console.log(sendData);
+			for (let i in sendData) {
+				if (sendData[i] === null) {
+					sendData[i] = "";
+				}
+			}
+			if (!_hasEduType) { sendData.school_type = ""; }
+			if (!_hasSchoolList) { sendData.school_locate = ""; }
 			student.setStudentPersonalData(sendData)
 			.then((res) => {
 				if (res.ok) {
@@ -497,7 +500,7 @@
 			})
 			.then((json) => {
 				console.log(json);
-				// location.href = './educationInfo.html'
+				alert('儲存成功');
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
@@ -692,21 +695,17 @@
 		},
 		{
 			el: $schoolType,
-			require: true,
+			require: false,
 			type: 'string',
-			dbKey: 'school_type'
+			dbKey: 'school_type',
+			dbData: _currentSchoolType
 		},
 		{
 			el: $schoolLocation,
-			require: true,
+			require: false,
 			type: 'string',
-			dbKey: 'school_locate'
-		},
-		{
-			el: $schoolName,
-			require: true,
-			type: 'string',
-			dbKey: 'school_name'
+			dbKey: 'school_locate',
+			dbData: _currentSchoolLocate
 		},
 		{
 			el: $schoolAdmissionAt,
@@ -826,6 +825,17 @@
 		if ($taiwanIdType.val() !== "") {
 			formValidateList.push(
 				{el: $taiwanIdNo, require: false, type: 'string', dbKey: 'taiwan_id'}
+				);
+		}
+
+		// 判斷 schoolName 要送 select 的還是 text 的
+		if (_hasSchoolList) {
+			formValidateList.push(
+				{el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name'}
+				);
+		} else {
+			formValidateList.push(
+				{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name'}
 				);
 		}
 
