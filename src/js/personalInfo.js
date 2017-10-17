@@ -7,36 +7,24 @@
 	let _specailStatus = 0;
 	let _disabilityCategory = '視覺障礙';
 	let _currentDadStatus = 'alive';
-	let _currentMomStatus = 'deceased';
+	let _currentMomStatus = 'alive';
 	let _countryList = [];
 
 	let _hasEduType = false; // 有無學校類別
 	let _hasSchoolList = false; // 有無學校列表，true 則採用 $schoolNameSelect，否則採用 $schoolNameText
+	let _schoolCountryId = "";
+	let _currentSchoolType = "";
+	let _currentSchoolLocate = "";
+	let _currentSchoolName = "";
+	let _schoolList = [];
 	let _schoolType = { // 有類別的地區
-		"106": { // 緬甸
-			"國際學校": [],
-			"華校": [],
-			"緬校": []
-		},
-		"115": { // 印尼
-			"臺校以外": [],
-			"臺灣學校學生": []
-		},
-		"128": { // 馬來西亞
-			"國民型或國民中學學生": [],
-			"馬來西亞華文獨立中學": [],
-			"海外臺灣學校": [],
-			"馬來西亞國際學校": []
-		},
-		"140": { // 越南
-			"臺灣學校學生": [],
-			"臺校以外": []
-		},
-		"143": { // 泰國
-			"泰北未立案之華文中學": [],
-			"泰國當地中學": []
-		}
+		"106": ["國際學校", "華校", "緬校"], // 緬甸
+		"115": ["臺校以外", "臺灣學校學生"], // 印尼
+		"128": ["國民型或國民中學學生", "馬來西亞華文獨立中學", "海外臺灣學校", "馬來西亞國際學校"], // 馬來西亞
+		"140": ["臺灣學校學生", "臺校以外"], // 越南
+		"143": ["泰北未立案之華文中學", "泰國當地中學"] // 泰國
 	}
+	const _disabilityCategoryList = ["視覺障礙", "聽覺障礙", "肢體障礙", "語言障礙", "腦性麻痺", "自閉症", "學習障礙"];
 
 	/**
 	*	cache DOM
@@ -83,14 +71,17 @@
 	const $educationSystemDescription = $('#educationSystemDescription'); // 學制描述
 	const $schoolContinent = $('#schoolContinent'); // 學校所在地（州）
 	const $schoolCountry = $('#schoolCountry'); // 學校所在地（國）
+
 	const $schoolTypeForm = $('#schoolTypeForm'); // 學校類別表單
 	const $schoolType = $('#schoolType'); // 學校類別
+
 	const $schoolLocationForm = $('#schoolLocationForm'); // 學校所在地、學校名稱 (select) 表單
 	const $schoolLocation = $('#schoolLocation'); // 學校所在地
-	const $schoolName = $('#schoolName'); // 學校名稱
-	// const $schoolNameSelect = $('#schoolNameSelect'); // 學校名稱 (select)
+	const $schoolNameSelect = $('#schoolNameSelect'); // 學校名稱 (select)
+
 	const $schoolNameTextForm = $('#schoolNameTextForm'); // 學校名稱表單
 	// const $schoolNameText = $('#schoolNameText'); // 學校名稱 (text)
+
 	const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
 	const $schoolGraduateAt = $('#schoolGraduateAt'); // 畢業時間
 
@@ -144,9 +135,126 @@
 	$disabilityCategory.on('change', _switchDisabilityCategory);
 	$residenceContinent.on('change', _reRenderCountry);
 	$schoolContinent.on('change', _reRenderCountry);
+
+	$schoolCountry.on('change', _chSchoolCountry);
+	$schoolType.on('change', _chSchoolType);
+	$schoolLocation.on('change', _chSchoolLocation);
+
 	$dadStatus.on('change', _switchDadDataForm);
 	$momStatus.on('change', _switchMomStatus);
 	$saveBtn.on('click', _handleSave);
+
+	function _chSchoolCountry() {
+		_schoolCountryId = $(this).val();
+		_currentSchoolType = "";
+		_currentSchoolLocate = "";
+		_currentSchoolName = "";
+		_reRenderSchoolType();
+	}
+
+	function _reRenderSchoolType() {
+		if (_schoolCountryId in _schoolType) {
+			console.log("有類別");
+			let typeHTML = '';
+			_schoolType[_schoolCountryId].forEach((value, index) => {
+				typeHTML += '<option value="' + value + '">' + value + '</option>';
+			})
+			$schoolType.html(typeHTML);
+			if (_currentSchoolType !== "") {
+				$schoolType.val(_currentSchoolType);
+			}
+			$schoolTypeForm.fadeIn();
+		} else {
+			console.log("沒類別");
+			$schoolTypeForm.hide();
+		}
+		_reRenderSchoolLocation();
+	}
+
+	function _chSchoolType() {
+		_currentSchoolType = $(this).val();
+		_currentSchoolLocate = "";
+		_currentSchoolName = "";
+		_reRenderSchoolLocation();
+	}
+
+	function _reRenderSchoolLocation() {
+		student.getSchoolList(_schoolCountryId)
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			let schoolWithType = [];
+			if (_schoolCountryId in _schoolType) {
+				schoolWithType = json.filter((obj) => {
+					return obj.type === _currentSchoolType;
+				})
+			} else {
+				schoolWithType = json;
+			}
+
+			if (schoolWithType.length > 0) {
+				let group_to_values = schoolWithType.reduce(function (obj, item) {
+					obj[item.locate] = obj[item.locate] || [];
+					obj[item.locate].push({name: item.name});
+					return obj;
+				}, {});
+
+				let groups = Object.keys(group_to_values).map(function (key) {
+					return {locate: key, school: group_to_values[key]};
+				});
+
+				_schoolList = groups;
+
+				let schoolLocationHTML = '';
+				_schoolList.forEach((value, index) => {
+					schoolLocationHTML += '<option value="' + value.locate + '">' + value.locate + '</option>';
+				})
+				$schoolLocation.html(schoolLocationHTML);
+				$schoolLocationForm.fadeIn();
+				$schoolNameTextForm.hide();
+				if (_currentSchoolLocate !== "") {
+					$schoolLocation.val(_currentSchoolLocate);
+				} else {
+					_currentSchoolLocate = _schoolList[0].locate;
+				}
+			} else {
+				$schoolLocationForm.hide();
+				$schoolNameTextForm.fadeIn();
+			}
+		})
+		.then(() => {
+			setTimeout(_reRenderSchoolList(), 500);
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
+		})
+	}
+
+	function _chSchoolLocation() {
+		_currentSchoolLocate = $(this).val();
+		_currentSchoolName = "";
+		_reRenderSchoolList();
+	}
+
+	function _reRenderSchoolList() {
+		let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
+
+		let schoolListHTML = '';
+		_schoolList[locateIndex].school.forEach((value, index) => {
+			schoolListHTML += '<option value="' + value.name + '">' + value.name + '</option>';
+		})
+		$schoolNameSelect.html(schoolListHTML);
+		if (_currentSchoolName !== "") {
+			$schoolNameSelect.val(_currentSchoolName);
+		}
+	}
 
 	function _init() {
 		student.getStudentPersonalData()
@@ -171,7 +279,17 @@
 			$birthday.val(formData.birthday);
 			$birthContinent.val(_findContinent(formData.birth_location)).change();
 			$birthLocation.val(formData.birth_location);
-			$("input[name=specail][value='"+ json.gender +"']").prop("checked",true);
+			_specailStatus = formData.special;
+			$("input[name=special][value='"+ _specailStatus +"']").prop("checked",true).change();
+			if (_specailStatus === 1) {
+				if (_disabilityCategoryList.indexOf(formData.disability_category) > -1) {
+					$disabilityCategory.val(formData.disability_category).change();
+				} else {
+					$disabilityCategory.val("-1").change();
+					$otherDisabilityCategory.val(formData.disability_category);
+				}
+				$disabilityLevel.val(formData.disability_level);
+			}
 
 			// init 僑居地資料
 			$residenceContinent.val(_findContinent(formData.resident_location)).change();
@@ -196,9 +314,22 @@
 			$educationSystemDescription.val(formData.education_system_description);
 			$schoolContinent.val(_findContinent(formData.school_country)).change();
 			$schoolCountry.val(formData.school_country);
-			$schoolType.val(formData.school_type);
-			// $schoolLocation.val(formData.);
-			$schoolName.val(formData.school_name);
+
+			_schoolCountryId = formData.school_country;
+			if (formData.school_type !== null) {
+				_currentSchoolType = formData.school_type
+			} else {
+				_currentSchoolType = "";
+			}
+			if (formData.school_locate !== null) {
+				_currentSchoolLocate = formData.school_locate
+			} else {
+				_currentSchoolLocate = "";
+			}
+			_currentSchoolName = formData.school_name;
+
+			_reRenderSchoolType();
+
 			$schoolAdmissionAt.val(formData.school_admission_at);
 			$schoolGraduateAt.val(formData.school_graduate_at);
 
@@ -211,6 +342,7 @@
 			$dadHometown.val(formData.dad_hometown);
 			$dadJob.val(formData.dad_job);
 			// 母
+			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
 			$momName.val(formData.mom_name);
 			$momEngName.val(formData.mom_eng_name);
 			$momBirthday.val(formData.mom_birthday);
@@ -234,8 +366,6 @@
 		})
 		.then(() => {
 			student.setHeader();
-
-			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
 			_showSpecailForm();
 			_handleOtherDisabilityCategoryForm();
 			_switchGuardianForm();
@@ -267,6 +397,7 @@
 	function _initCountryList() {
 		student.getCountryList()
 		.then((json) => {
+			_countryList = json;
 			let stateHTML = '<option data-continentIndex="-1">Continent</option>';
 			json.forEach((obj, index) => {
 				stateHTML += '<option value="' + index + '" data-continentIndex="' + index + '">' + obj.continent + '</option>'
@@ -274,7 +405,6 @@
 			$birthContinent.html(stateHTML);
 			$residenceContinent.html(stateHTML);
 			$schoolContinent.html(stateHTML);
-			_countryList = json;
 		})
 	}
 
@@ -319,6 +449,12 @@
 			$specialForm.hide();
 		}
 	}
+
+	
+
+	
+
+
 
 	function _switchDadDataForm() {
 		_currentDadStatus = $(this).val();

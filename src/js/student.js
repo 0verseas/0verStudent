@@ -53,6 +53,12 @@ const student = (() => {
 		}
 	}
 
+	function getSchoolList(countryId) {
+		return fetch(baseUrl + `/overseas-school-lists?country_id=` + countryId, {
+			method: 'GET'
+		});
+	}
+
 	function register(data) {
 		return fetch(baseUrl + `/students/register`, {
 			method: 'POST',
@@ -320,6 +326,7 @@ const student = (() => {
 	return {
 		setHeader,
 		getCountryList,
+		getSchoolList,
 		register,
 		login,
 		logout,
