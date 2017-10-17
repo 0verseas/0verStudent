@@ -2,13 +2,13 @@ const student = (() => {
 
 	const baseUrl = env.baseUrl;
 
-	function setHeader() {
+	function setHeader(headerData) {
 		const $studentInfoHeader = $('#header-studentInfo');
 		const $headerSystem = $studentInfoHeader.find('#headerSystem');
 		const $headerIdentity = $studentInfoHeader.find('#headerIdentity');
 		const $headerId = $studentInfoHeader.find('#headerId');
 
-		let headerData = {
+		headerData = headerData || {
 			system: "學士班",
 			identity: "港澳生",
 			id: "200003"
@@ -313,6 +313,16 @@ const student = (() => {
 		})
 	}
 
+	function getStudentAdmissionPlacementApplyWay() {
+		return fetch(baseUrl + `/students/admission-placement-apply-way`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
 	function getStudentRegistrationProgress() {
 		return fetch(baseUrl + `/students/registration-progress`, {
 			method: 'GET',
@@ -351,6 +361,7 @@ const student = (() => {
 		verifyQualification,
 		getVerifyQualification,
 		getStudentAvailableApplyWayList,
+		getStudentAdmissionPlacementApplyWay,
         getStudentRegistrationProgress
 	};
 

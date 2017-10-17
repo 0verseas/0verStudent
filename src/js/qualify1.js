@@ -190,6 +190,7 @@
 				})
 				.then((json) => {
 					console.log(json);
+					window.location.href = './personalInfo.html';
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {
@@ -274,6 +275,7 @@
 				})
 				.then((json) => {
 					console.log(json);
+					window.location.href = './personalInfo.html';
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {

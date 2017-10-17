@@ -65,7 +65,7 @@
 			</div>
 			<% } %>
 		</nav>
-		<div class="alert alert-danger mt-2" role="alert">
+		<div class="alert alert-danger mt-2 alert-emailVerify hide" role="alert">
 			<strong>注意！</strong> 您的信箱尚未驗證，請儘速前往填寫信箱開啟驗證信。若您未收到驗證信，請按 <a id="btn-mailResend" href="javascript:;">這裡</a> 重送驗證信。
 		</div>
 
@@ -75,30 +75,30 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="list-group">
-					<a href="systemChoose.html" class="list-group-item list-group-item-action list-group-item-success">資格驗證</a>
-					<a href="personalInfo.html" class="list-group-item list-group-item-action list-group-item-success">個人基本資料</a>
-					<a href="educationInfo.html" class="list-group-item list-group-item-action list-group-item-success">入學資料</a>
-					<a href="olympia.html" class="list-group-item list-group-item-action list-group-item-success">奧林匹亞志願</a>
-					<a href="uploadEducation.html" class="list-group-item list-group-item-action list-group-item-info">上傳學歷證件</a>
-					<a href="admissionSelection.html" class="list-group-item list-group-item-action">個人申請志願</a>
-					<a href="grade.html" class="list-group-item list-group-item-action">聯合分發成績採計方式</a>
-					<a href="placementSelection.html" class="list-group-item list-group-item-action">聯合分發志願</a>
-					<a href="result.html" class="list-group-item list-group-item-action">志願檢視</a>
+					<a href="systemChoose.html" class="list-group-item list-group-item-action nav-systemChoose <%= 'qualify1qualify2qualify3systemChoose'.includes(current.source) ? 'active' : ''%>">資格驗證</a>
+					<a href="personalInfo.html" class="list-group-item list-group-item-action nav-personalInfo <%= current.source === 'personalInfo' ? 'active' : ''%>">個人基本資料</a>
+					<a href="educationInfo.html" class="list-group-item list-group-item-action nav-educationInfo hide <%= current.source === 'educationInfo' ? 'active' : ''%>">入學資料</a>
+					<a href="olympia.html" class="list-group-item list-group-item-action nav-olympia hide <%= current.source === 'olympia' ? 'active' : ''%>">奧林匹亞志願</a>
+					<a href="uploadEducation.html" class="list-group-item list-group-item-action nav-uploadEducation <%= current.source === 'uploadEducation' ? 'active' : ''%>">上傳學歷證件</a>
+					<a href="admissionSelection.html" class="list-group-item list-group-item-action nav-admissionSelection <%= current.source === 'admissionSelection' ? 'active' : ''%>">個人申請志願</a>
+					<a href="grade.html" class="list-group-item list-group-item-action nav-grade hide <%= current.source === 'grade' ? 'active' : ''%>">聯合分發成績採計方式</a>
+					<a href="placementSelection.html" class="list-group-item list-group-item-action nav-placementSelection hide <%= current.source === 'placementSelection' ? 'active' : ''%>">聯合分發志願</a>
+					<a href="result.html" class="list-group-item list-group-item-action nav-result <%= current.source === 'result' ? 'active' : ''%>">志願檢視</a>
 				</div>
 				<hr>	
 				<div class="list-group">
-					<a href="uploadReviewItems.html" class="list-group-item list-group-item-action">上傳備審資料 (暫放)</a>
+					<a href="uploadReviewItems.html" class="list-group-item list-group-item-action nav-uploadReviewItems">上傳備審資料 (暫放)</a>
 				</div>
 			</div>
 			<div class="col-lg-9">
 				<%- yield %>
 			</div>
 		</div>
+		<script src="./js/navbar.js"></script>
 		<% } else { %>
 		<%- yield %>
 		<% } %>
 	</div>
-	<script src="./js/navbar.js"></script>
 	<script src="js/<%= current.source %>.js"></script>
 	<footer class="container">
 		<div class="row">

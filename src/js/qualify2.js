@@ -57,7 +57,6 @@
 	*/
 	const $signUpForm = $('#form-signUp');
 	const $saveBtn = $signUpForm.find('.btn-save');
-	const $identityRadio = $signUpForm.find('.radio-identity');
 	const $graduatedRadio = $signUpForm.find('.radio-graduated');
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
@@ -77,7 +76,6 @@
 	*	bind event
 	*/
 	$saveBtn.on('click', _handleSave);
-	$identityRadio.on('click', _handleChangeIdentity);
 	$graduatedRadio.on('change', _checkGraduated);
 	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassportRadio.on('change', _checkHoldpassport);
@@ -163,14 +161,27 @@
 				stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
 				reason_selection_of_stay_over_120_days_in_taiwan: _typeOfKangAo === 1 ? KA1_whyHasBeenTaiwanOption : KA2_whyHasBeenTaiwanOption,
 				force_update: true
+			})
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+				window.location.href = './personalInfo.html';
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
 			});
 		} else {
 			alert('資料未正確填寫，或身份不具報名資格');
 		}
-	}
-
-	function _handleChangeIdentity() {
-		_setTypeOfKangAo($(this).val());
 	}
 
 	// 請問您在香港是否修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程，並已取得畢業證書（應屆畢業者得檢附在學證明）？

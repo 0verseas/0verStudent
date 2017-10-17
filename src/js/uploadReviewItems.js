@@ -44,7 +44,6 @@
 	$exitBtn.on('click', _handleExit);
 
 	function _init() {
-		student.setHeader();
 		_renderWishList();
 		
 	}
