@@ -297,8 +297,18 @@ const student = (() => {
 		});
 	}
 
-	function getStudentApplyWayList() {
-		return fetch(baseUrl + `/students/apply-way`, {
+	function getStudentAvailableApplyWayList() {
+		return fetch(baseUrl + `/students/available-apply-way`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
+	function getStudentAdmissionPlacementApplyWay() {
+		return fetch(baseUrl + `/students/admission-placement-apply-way`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -343,7 +353,8 @@ const student = (() => {
 		setAdmissionSelectionOrder,
 		verifyQualification,
 		getVerifyQualification,
-		getStudentApplyWayList,
+		getStudentAvailableApplyWayList,
+		getStudentAdmissionPlacementApplyWay,
         getStudentRegistrationProgress
 	};
 

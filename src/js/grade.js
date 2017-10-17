@@ -3,7 +3,7 @@
 	/**
 	*	cache DOM
 	*/
-    const $applyWaysFieldSet = $('#apply-ways');
+	const $applyWaysFieldSet = $('#apply-ways');
 	
 	/**
 	*	init
@@ -28,23 +28,39 @@
 	}
 
 	function _init() {
-		student.getStudentApplyWayList()
+		// 取得選項
+		student.getStudentAvailableApplyWayList()
 		.then((res) => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw res;
-            }
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
 		})
 		.then((json) => {
-            let fieldSetHTML = '';
+			let fieldSetHTML = '';
 
 			json.forEach((file, index) => {
-                fieldSetHTML += '<div class="form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" id="" value=' + file.code + '>' + file.description + '</label></div>';
-            });
+				fieldSetHTML += '<div class="form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" id="" value=' + file.code + '>' + file.description + '</label></div>';
+			});
 
-            $applyWaysFieldSet.html(fieldSetHTML);
-        })
+			$applyWaysFieldSet.html(fieldSetHTML);
+		})
+		.then(() => {
+			// 取得選擇的選項
+			student.getStudentAdmissionPlacementApplyWay()
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				const option = json.student_misc_data.admission_placement_apply_way;
+				!!option && $(`.radio-option[value=${option}]`).trigger('click');
+			})
+		})
 		.catch((err) => {
 			console.error(err);
 			if (err.status && err.status === 401) {
@@ -55,7 +71,7 @@
 			err.json && err.json().then((data) => {
 				console.error(data);
 			})
-		})
+		});
 	}
 
 })();
