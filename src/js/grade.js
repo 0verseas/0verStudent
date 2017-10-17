@@ -22,6 +22,8 @@
 		if (+$(this).val() === 23) {
 			// 以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請
 			$('.forCode23').fadeIn();
+		} else {
+			$('.forCode23').hide();
 		}
 	}
 
