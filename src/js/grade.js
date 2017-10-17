@@ -29,7 +29,7 @@
 
 	function _init() {
 		student.setHeader();
-		student.getStudentAvailableApplyWayList()
+		student.getStudentApplyWayList()
 		.then((res) => {
             if (res.ok) {
                 return res.json();

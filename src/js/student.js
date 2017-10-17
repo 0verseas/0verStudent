@@ -297,8 +297,8 @@ const student = (() => {
 		});
 	}
 
-	function getStudentAvailableApplyWayList() {
-		return fetch(baseUrl + `/students/available-apply-way`, {
+	function getStudentApplyWayList() {
+		return fetch(baseUrl + `/students/apply-way`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -343,7 +343,7 @@ const student = (() => {
 		setAdmissionSelectionOrder,
 		verifyQualification,
 		getVerifyQualification,
-		getStudentAvailableApplyWayList,
+		getStudentApplyWayList,
         getStudentRegistrationProgress
 	};
 
