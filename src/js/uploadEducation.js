@@ -54,11 +54,11 @@
 		})
 		.then((json) => {
 			json[0].then((data) => {  
-				_diplomaFiles = data.uploaded_files;
+				_diplomaFiles = data.student_diploma;
 			});
 
 			json[1].then((data) => {  
-				_transcriptsFiles = data.uploaded_files;
+				_transcriptsFiles = data.student_transcripts;
 			});
 
 			Promise.all([json[0], json[1]]).then(() => {
@@ -120,9 +120,9 @@
 		})
 		.then((json) => {
 			if (uploadtype == "diploma") {
-				_diplomaFiles = _diplomaFiles.concat(json.uploaded_files);
+				_diplomaFiles = _diplomaFiles.concat(json.student_diploma);
 			} else if (uploadtype == "transcripts") {
-				_transcriptsFiles = _transcriptsFiles.concat(json.uploaded_files);
+				_transcriptsFiles = _transcriptsFiles.concat(json.student_transcripts);
 			}
 		})
 		.then(() => {
@@ -161,9 +161,9 @@
 			})
 			.then((json) => {
 				if (_modalFiletype === "diploma") {
-					_diplomaFiles = json.uploaded_files;
+					_diplomaFiles = json.student_diploma;
 				} else if (_modalFiletype === "transcripts") {
-					_transcriptsFiles = json.uploaded_files;
+					_transcriptsFiles = json.student_transcripts;
 				}
 			})
 			.then(() => {
