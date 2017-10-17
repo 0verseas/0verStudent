@@ -59,6 +59,7 @@
 			await resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {
 					id: value.id,
+					cardCode: value.card_code,
 					group: groupName[value.group_code - 1],
 					school: value.school.title,
 					dept: value.title,
@@ -89,7 +90,14 @@
 			_showWishList();
 		} catch (e) {
 			console.log('Boooom!!');
-			console.log(e);
+			console.log(e.status);
+			if (e.status && e.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			}
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
 		}
 	}
 
@@ -179,7 +187,7 @@
 			html += `
 			<tr>
 			<td>
-			<span>` + item.id + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
+			<span>` + item.cardCode + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
 			<span>` + item.dept + ` ` + item.engDept + `</span>
 			</td>
 			<td class="text-right">
@@ -233,7 +241,7 @@
 			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
-			` + _wishList[i].id + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
+			` + _wishList[i].cardCode + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
 			</td>
 			<td class="text-right">
