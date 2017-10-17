@@ -57,7 +57,6 @@
 	*/
 	const $signUpForm = $('#form-signUp');
 	const $saveBtn = $signUpForm.find('.btn-save');
-	const $identityRadio = $signUpForm.find('.radio-identity');
 	const $graduatedRadio = $signUpForm.find('.radio-graduated');
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
@@ -77,7 +76,6 @@
 	*	bind event
 	*/
 	$saveBtn.on('click', _handleSave);
-	$identityRadio.on('click', _handleChangeIdentity);
 	$graduatedRadio.on('change', _checkGraduated);
 	$idCardRadio.on('change', _cehckIdCardValidation);
 	$holdpassportRadio.on('change', _checkHoldpassport);

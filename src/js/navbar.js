@@ -20,6 +20,7 @@
 	.then((json) => {
 		console.log(json);
 		_setEmailVerifyAlert(json.student_misc_data);
+		_setProgress(json);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -79,5 +80,37 @@
 		if (!miscData.email_verified) {
 			$('.alert-emailVerify').show();
 		}
+	}
+
+	function _setProgress(data) {
+		// 資格驗證
+		if (!!data.student_qualification_verify) {
+			$('.nav-systemChoose').addClass('list-group-item-success');
+			const systemID = data.student_qualification_verify.system_id;
+			if (+systemID === 1) {
+				$('.nav-educationInfo, .nav-olympia, .nav-grade, .nav-placementSelection').show();
+			}
+		}
+
+		// 個人基本資料
+		!!data.student_personal_data && $('.nav-personalInfo').addClass('list-group-item-success');
+
+		// 入學資料
+		!!data.student_education_background_data && $('.nav-educationInfo').addClass('list-group-item-success');
+
+		// 奧林匹亞志願
+		!!data.student_olympia_aspiration_order && $('.nav-olympia').addClass('list-group-item-success');
+
+		// 上傳學歷證件
+		!!data.student_education_document && $('.nav-uploadEducation').addClass('list-group-item-success');
+
+		// 個人申請志願
+		!!data.student_department_admission_selection_order && $('.nav-admissionSelection').addClass('list-group-item-success');
+
+		// 聯合分發成績採計方式
+		!!data.student_department_admission_placement_apply_way && $('.nav-grade').addClass('list-group-item-success');
+
+		// 聯合分發志願
+		!!data.student_department_admission_placement_order && $('.nav-placementSelection').addClass('list-group-item-success');
 	}
 })();
