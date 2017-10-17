@@ -2,13 +2,13 @@ const student = (() => {
 
 	const baseUrl = env.baseUrl;
 
-	function setHeader() {
+	function setHeader(headerData) {
 		const $studentInfoHeader = $('#header-studentInfo');
 		const $headerSystem = $studentInfoHeader.find('#headerSystem');
 		const $headerIdentity = $studentInfoHeader.find('#headerIdentity');
 		const $headerId = $studentInfoHeader.find('#headerId');
 
-		let headerData = {
+		headerData = headerData || {
 			system: "學士班",
 			identity: "港澳生",
 			id: "200003"

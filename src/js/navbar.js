@@ -21,6 +21,7 @@
 		console.log(json);
 		_setEmailVerifyAlert(json.student_misc_data);
 		_setProgress(json);
+		_setHeader(json);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -112,5 +113,16 @@
 
 		// 聯合分發志願
 		!!data.student_department_admission_placement_order && $('.nav-placementSelection').addClass('list-group-item-success');
+	}
+
+	function _setHeader(data) {
+		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
+		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生'];
+		console.log(data.student_qualification_verify.identity);
+		student.setHeader({
+			system: systemMap[data.student_qualification_verify.system_id - 1],
+			identity: identityMap[data.student_qualification_verify.identity - 1],
+			id: data.id
+		});
 	}
 })();
