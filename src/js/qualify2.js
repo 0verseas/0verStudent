@@ -169,10 +169,6 @@
 		}
 	}
 
-	function _handleChangeIdentity() {
-		_setTypeOfKangAo($(this).val());
-	}
-
 	// 請問您在香港是否修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程，並已取得畢業證書（應屆畢業者得檢附在學證明）？
 	function _checkGraduated() {
 		const $this = $(this);
