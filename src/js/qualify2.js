@@ -161,6 +161,23 @@
 				stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
 				reason_selection_of_stay_over_120_days_in_taiwan: _typeOfKangAo === 1 ? KA1_whyHasBeenTaiwanOption : KA2_whyHasBeenTaiwanOption,
 				force_update: true
+			})
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+				window.location.href = './personalInfo.html';
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
 			});
 		} else {
 			alert('資料未正確填寫，或身份不具報名資格');
