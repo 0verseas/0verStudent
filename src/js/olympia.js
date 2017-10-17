@@ -89,7 +89,14 @@
 			_showWishList();
 		} catch (e) {
 			console.log('Boooom!!');
-			console.log(e);
+			console.log(e.status);
+			if (e.status && e.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			}
+			err.json && err.json().then((data) => {
+				console.error(data);
+			})
 		}
 	}
 
