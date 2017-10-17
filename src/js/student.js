@@ -264,6 +264,17 @@ const student = (() => {
 		return Promise.all(urls.map(grabContent))
 	}
 
+	function setAdmissionSelectionOrder(data) {
+		return fetch(baseUrl + `/students/admission-selection-order`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	// POST /students/verify-qualification
 	function verifyQualification(data) {
 		return fetch(`${baseUrl}/students/verify-qualification`, {
@@ -309,6 +320,7 @@ const student = (() => {
 		uploadEducationFile,
 		deleteEducationFile,
 		getAdmissionSelectionOrder,
+		setAdmissionSelectionOrder,
 		verifyQualification,
 		getStudentAvailableApplyWayList
 	};
