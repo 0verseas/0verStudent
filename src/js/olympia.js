@@ -315,11 +315,13 @@
 				}
 			})
 			.then((json) => {
+				$('#myModal').modal({
+					backdrop: 'static',
+					keyboard: false,
+					show: true
+				})
+				$('#btn-nextPage').on('click', function(){location.href = "./uploadEducation.html"});
 				console.log(json);
-				let conf = confirm("儲存成功，欲往下一頁請按「確定」，留在此頁請按「取消」。");
-				if (conf == true) {
-					location.href = "./uploadEducation.html"
-				}
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
