@@ -57,6 +57,7 @@
 			await resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {
 					id: value.id,
+					cardCode: value.card_code,
 					group: groupName[value.group_code - 1],
 					school: value.school.title,
 					dept: value.title,
@@ -111,7 +112,7 @@
 	}
 
 	function _addWish() { // 增加志願
-		if (_wishList.length < 3) {
+		if (_wishList.length < 4) {
 			const sortNum = $(this).data("sortnum");
 			const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum)
 			_wishList.push(_optionalWish[optionalIndex]);
@@ -183,7 +184,7 @@
 			html += `
 			<tr>
 			<td>
-			<span>` + item.id + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
+			<span>` + item.cardCode + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
 			<span>` + item.dept + ` ` + item.engDept + `</span>
 			</td>
 			<td class="text-right">
@@ -200,8 +201,6 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
 		const filterSelect = $optionFilterSelect.val();
 		const filter = $optionFilterInput.val().toUpperCase();
-		console.log(filterSelect);
-		console.log(filter);
 
 		_filterOptionalWish = _optionalWish.filter(function (obj) {
 			if (filterSelect === "dept") {
@@ -239,7 +238,7 @@
 			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
-			` + _wishList[i].id + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
+			` + _wishList[i].cardCode + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
 			</td>
 			<td class="text-right">
