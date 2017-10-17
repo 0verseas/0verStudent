@@ -323,6 +323,17 @@ const student = (() => {
 		})
 	}
 
+	function setStudentAdmissionPlacementApplyWay(data) {
+		return fetch(baseUrl + `/students/admission-placement-apply-way`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	function getStudentRegistrationProgress() {
 		return fetch(baseUrl + `/students/registration-progress`, {
 			method: 'GET',
@@ -362,6 +373,7 @@ const student = (() => {
 		getVerifyQualification,
 		getStudentAvailableApplyWayList,
 		getStudentAdmissionPlacementApplyWay,
+		setStudentAdmissionPlacementApplyWay,
         getStudentRegistrationProgress
 	};
 
