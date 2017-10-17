@@ -3,14 +3,35 @@
 	/**
 	*	cache DOM
 	*/
-
 	const $logoutBtn = $('#btn-logout');
 	const $mailResendBtn = $('#btn-mailResend');
 
 	/**
+	* init
+	*/
+	// get progress
+	student.getStudentRegistrationProgress().then((res) => {
+	if (res.ok) {
+			return res.json();
+		} else {
+			throw res;
+		}
+	})
+	.then((json) => {
+		console.log(json);
+		_setEmailVerifyAlert(json.student_misc_data);
+	})
+	.catch((err) => {
+		console.error(err);
+		err.json && err.json().then((data) => {
+			console.error(data);
+			alert(`ERROR: \n${data.messages[0]}`);
+		})
+	});
+
+	/**
 	*	bind event
 	*/
-
 	$logoutBtn.on('click', _handleLogout);
 	$mailResendBtn.on('click', _handleResendMail);
 
@@ -53,5 +74,10 @@
 			});
 		})
 	}
-
+	
+	function _setEmailVerifyAlert(miscData) {
+		if (!miscData.email_verified) {
+			$('.alert-emailVerify').show();
+		}
+	}
 })();
