@@ -15,7 +15,6 @@
 	*/
 
 	function _init() {
-		student.setHeader();
 	}
 
 })();

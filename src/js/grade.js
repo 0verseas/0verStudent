@@ -28,7 +28,6 @@
 	}
 
 	function _init() {
-		student.setHeader();
 		student.getStudentApplyWayList()
 		.then((res) => {
             if (res.ok) {

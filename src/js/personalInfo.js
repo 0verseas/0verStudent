@@ -233,8 +233,6 @@
 			$twContactWorkplaceAddress.val(formData.tw_contact_workplace_address);
 		})
 		.then(() => {
-			student.setHeader();
-
 			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
 			_showSpecailForm();
 			_handleOtherDisabilityCategoryForm();

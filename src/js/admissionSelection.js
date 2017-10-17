@@ -81,7 +81,6 @@
 				_optionalWish.splice(orderIndex, 1);
 			});
 
-			student.setHeader();
 			_generateOptionalWish();
 			_generateWishList();
 			_showWishList();

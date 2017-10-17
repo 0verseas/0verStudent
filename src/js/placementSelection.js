@@ -55,7 +55,6 @@
 	$optionFilterInput.on('keyup', _filterOptionalWishList); // 監聽「招生校系清單」關鍵字
 
 	function _init() {
-		student.setHeader();
 		_generateOptionalWish();
 		_generateWishList();
 	}
