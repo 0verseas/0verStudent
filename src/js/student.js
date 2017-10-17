@@ -296,6 +296,16 @@ const student = (() => {
 		})
 	}
 
+	function getStudentRegistrationProgress() {
+		return fetch(baseUrl + `/students/registration-progress`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getCountryList,
@@ -321,7 +331,8 @@ const student = (() => {
 		getAdmissionSelectionOrder,
 		verifyQualification,
 		getVerifyQualification,
-		getStudentAvailableApplyWayList
+		getStudentAvailableApplyWayList,
+        getStudentRegistrationProgress
 	};
 
 })();
