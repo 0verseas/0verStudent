@@ -145,7 +145,8 @@
 				alert("圖片規格不符");
 			}
 			err.json && err.json().then((data) => {
-				console.error(data);
+				console.error(data.messages[0]);
+				alert(data.messages[0]);
 			})
 			loading.complete();
 		})
@@ -189,7 +190,8 @@
 					alert("沒有這張圖片。");
 				}
 				err.json && err.json().then((data) => {
-					console.error(data);
+					console.error(data.messages[0]);
+					alert(data.messages[0]);
 				})
 				loading.complete();
 			})
