@@ -134,6 +134,11 @@
 			if (err.status && err.status === 401) {
 				alert('請登入。');
 				location.href = "./index.html";
+			} else if (err.status && err.status === 403) {
+				err.json && err.json().then((data) => {
+					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
+					window.history.back();
+				})
 			} else {
 				err.json && err.json().then((data) => {
 					console.error(data);
