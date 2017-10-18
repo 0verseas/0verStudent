@@ -408,6 +408,40 @@ const student = (() => {
 		})
 	}
 
+	function setReviewItem({ student_id, dept_id, type_id, data }) {
+		return fetch(`${baseUrl}/students/${student_id}/admission-selection-application-document/departments/${dept_id}/types/${type_id}/files`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		})
+	}
+
+	function getReviewItem({ student_id, dept_id, type_id }) {
+		return new Promise((resolve, reject) => {
+			fetch(`${baseUrl}/students/${student_id}/admission-selection-application-document/departments/${dept_id}/types/${type_id}/files`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				credentials: 'include'
+			})
+			.then((res) => {
+				if (res.ok) {
+					resolve(res.json());
+				} else {
+					reject(res);
+				}
+			})
+		})
+	}
+
+	function delReviewItem({ student_id, dept_id, type_id, filename }) {
+		return fetch(`${baseUrl}/students/${student_id}/admission-selection-application-document/departments/${dept_id}/types/${type_id}/files/${filename}`, {
+			method: 'Delete',
+			credentials: 'include'
+		})
+	}
+
 	function dataConfirmation(data) {
 		return fetch(baseUrl + `/students/data-confirmation`, {
 			method: 'POST',
@@ -450,11 +484,14 @@ const student = (() => {
 		getStudentAvailableApplyWayList,
 		getStudentAdmissionPlacementApplyWay,
 		setStudentAdmissionPlacementApplyWay,
+		getStudentRegistrationProgress,
 		getPlacementSelectionOrder,
 		setPlacementSelectionOrder,
 		getOrderResultList,
-		getStudentRegistrationProgress,
 		dataConfirmation
+		setReviewItem,
+		getReviewItem,
+		delReviewItem
 	};
 
 })();

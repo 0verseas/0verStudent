@@ -4,9 +4,11 @@
 	*	private variable
 	*/
 
-	let _schoolId = 1; // 暫時假資料（南開科技大學）
 	let _system = 1;
 	let _wishList = [];
+	let _studentID;
+	let _deptID;
+	let _schoolID;
 
 	/**
 	*	cache DOM
@@ -37,6 +39,10 @@
 	$wishListWrap.on('click.edit', '.btn-wishEdit', _handleEditForm);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
+	$('body').on('change.upload', '.file-certificate', _handleUpload);
+	$('body').on('click.showOriImg', '.img-thumbnail', _showOriImg);
+	$('.btn-delImg').on('click', _handleDelImg);
+	$('#btn-logout').on('click', _handleLogout);
 
 	async function _init() {
 		// set header
@@ -113,10 +119,25 @@
 		wishList.innerHTML = wishHTML;
 	}
 
-	function _handleEditForm() {
-		const deptId = $(this).data('deptid');
+	async function _handleEditForm() {
+		loading.start();
+		const deptId = _deptID = _deptID || $(this).data('deptid');
+		const schoolID = _schoolID = _schoolID || $(this).data('schoolid');
+		const uploadedFile = await student.getReviewItem({
+			student_id: _studentID,
+			dept_id: deptId,
+			type_id: 'all'
+		});
+
+		const parsedUploadedFile = [];
+		Object.values(uploadedFile).forEach((val, i) => {
+			parsedUploadedFile[+val.type_id] = val.files;
+		});
+
+		console.log(parsedUploadedFile)
+
 		let applicationDoc = {};
-		student.getDeptApplicationDoc(_schoolId, _system, deptId)
+		student.getDeptApplicationDoc(schoolID, _system, deptId)
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			// 整理資料
@@ -148,39 +169,48 @@
 			applicationDoc['applicationDocFiles'].forEach((value, index) => {
 				value.required === true ? requiredBadge = '<span class="badge badge-danger">必填</span>' : requiredBadge = '<span class="badge badge-warning">選填</span>'
 				reviewItemHTML += `
-				<div class="row">
-				<div class="col-12">
-				<div class="card">
-				<div class="card-header bg-primary text-white">
-				` + value.name + ` ` + requiredBadge + `
-				</div>
-				<div class="card-block">
-				<blockquote class="blockquote">
-				` + value.description + `
-				</blockquote>
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header bg-primary text-white">
+									${value.name} ${requiredBadge}
+								</div>
+								<div class="card-block">
+									<blockquote class="blockquote">
+										${value.description}
+									</blockquote>
 
-				<div class="row" style="margin-bottom: 15px;">
-				<div class="col-12">
-				<input id="file-certificate" type="file" class="filestyle" multiple>
-				</div>
-				</div>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-type="${value.typeId}" data-deptid="${applicationDoc["deptId"]}" multiple>
+										</div>
+									</div>
 
-				<div class="card">
-				<div class="card-block">
-				<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-				<div id="">
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				<hr>
+									<div class="card">
+										<div class="card-block">
+											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											<div id="">
+												${
+													parsedUploadedFile[value.typeId].map((file, i) => {
+														return `<img 
+																	class="img-thumbnail" 
+																	src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
+																	data-toggle="modal"
+																	data-target=".img-modal"
+																	data-type="${value.typeId}"
+																/>`
+													}).join('').replace(/,/g, '')
+												}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
 				`
 			});
-
-			// image HTML: '<img class="img-thumbnail" src="http://via.placeholder.com/970x1100" data-toggle="modal" data-target=".img-modal">'
 
 			reviewItemsArea.innerHTML = reviewItemHTML;
 		})
@@ -194,6 +224,8 @@
 			$wishListWrap.hide();
 			$uploadForm.fadeIn();
 			$('html')[0].scrollIntoView(); // 畫面置頂
+			const r = Math.floor(Math.random() * 1000);
+			setTimeout(loading.complete, 200 + r);
 		})
 	}
 
@@ -207,7 +239,101 @@
 		$wishListWrap.fadeIn();
 	}
 
+	function _handleUpload() {
+		const type_id = $(this).data('type');
+		const dept_id = $(this).data('deptid');
+		const fileList = this.files;
+		let data = new FormData();
+		for (let i = 0; i < fileList.length; i++) {
+			data.append('files[]', fileList[i]);
+		}
+
+		student.setReviewItem({data, type_id, dept_id, student_id: _studentID}).then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+			_handleEditForm();
+		})
+		.catch((err) => {
+			console.error(err);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			});
+		});
+	}
+
+	function _showOriImg() {
+		const src = $(this).attr('src');
+		$('.btn-delImg').attr({
+			'data-type': $(this).data('type'),
+			'data-filename': src.split('/').pop()
+		});
+		$('.img-ori').attr('src', src);
+	}
+
+	function _handleDelImg() {
+		if (!confirm('確定刪除？')) {
+			return;
+		}
+
+		student.delReviewItem({
+			student_id: _studentID,
+			dept_id: _deptID,
+			type_id: $(this).attr('data-type'),
+			filename: $(this).attr('data-filename')
+		})
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			$('.img-modal').modal('hide');
+			_handleEditForm();
+		})
+		.catch((err) => {
+			console.error(err);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			});
+		});
+	}
+
+	function _handleLogout() {
+		loading.start();
+		student.logout()
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			alert('登出成功。');
+			location.href="./index.html";
+			loading.complete();
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
+			loading.complete();
+		})
+	}
+
 	function _setHeader(data) {
+		_studentID = data.id;
 		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
 		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生'];
 		student.setHeader({
