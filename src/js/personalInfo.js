@@ -222,7 +222,7 @@
 			// init 家長資料
 			// 父
 			_currentDadStatus = formData.dad_status;
-			$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
+			$("input[name=dadStatus][value='"+ formData.dad_status +"']").prop("checked",true);
 			$dadStatus.change();
 			$dadName.val(formData.dad_name);
 			$dadEngName.val(formData.dad_eng_name);
@@ -231,7 +231,7 @@
 			$dadJob.val(formData.dad_job);
 			// 母
 			_currentMomStatus = formData.mom_status;
-			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
+			$("input[name=momStatus][value='"+ formData.mom_status +"']").prop("checked",true);
 			$momStatus.change();
 			$momName.val(formData.mom_name);
 			$momEngName.val(formData.mom_eng_name);
@@ -494,6 +494,7 @@
 	}
 
 	function _handleSave() {
+		let sendData = {};
 		if (sendData = _validateForm()) {
 			for (let i in sendData) {
 				if (sendData[i] === null) {
@@ -513,6 +514,7 @@
 			.then((json) => {
 				console.log(json);
 				alert('儲存成功');
+				location.href = "./educationInfo.html"
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
@@ -522,6 +524,7 @@
 			})
 		} else {
 			console.log('==== validate failed ====');
+			alert("填寫格式錯誤，請檢查表單。");
 		}
 	}
 
@@ -629,7 +632,7 @@
 		},
 		{
 			el: $residentPassportNo,
-			require: true,
+			require: false,
 			type: 'string',
 			dbKey: 'resident_passport_no'
 		},
