@@ -382,6 +382,22 @@ const student = (() => {
 		})
 	}
 
+	function getOrderResultList() {
+		var urls = [
+		baseUrl + '/students/admission-selection-order',
+		baseUrl + '/students/olympia-aspiration-order',
+		baseUrl + '/students/admission-placement-order',
+		]
+		const grabContent = url => fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+		return Promise.all(urls.map(grabContent))
+	}
+
 	function getStudentRegistrationProgress() {
 		return fetch(baseUrl + `/students/registration-progress`, {
 			method: 'GET',
@@ -426,6 +442,17 @@ const student = (() => {
 		})
 	}
 
+	function dataConfirmation(data) {
+		return fetch(baseUrl + `/students/data-confirmation`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getCountryList,
@@ -460,6 +487,8 @@ const student = (() => {
 		getStudentRegistrationProgress,
 		getPlacementSelectionOrder,
 		setPlacementSelectionOrder,
+		getOrderResultList,
+		dataConfirmation,
 		setReviewItem,
 		getReviewItem,
 		delReviewItem
