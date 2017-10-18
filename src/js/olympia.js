@@ -93,7 +93,7 @@
 				alert('請登入。');
 				location.href = "./index.html";
 			} else {
-				err.json && err.json().then((data) => {
+				e.json && e.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				})
