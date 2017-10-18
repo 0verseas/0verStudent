@@ -84,6 +84,7 @@
 			_generateOptionalWish();
 			_generateWishList();
 			_showWishList();
+			loading.complete();
 		} catch (e) {
 			console.log('Boooom!!');
 			console.log(e.status);

@@ -24,6 +24,9 @@
 				window.location.href = './systemChoose.html';
 			}, 5000);
 		})
+		.then(() => {
+			loading.complete();
+		})
 		.catch((err) => {
 			err.json && err.json().then((data) => {
 				console.error(data.messages[0]);

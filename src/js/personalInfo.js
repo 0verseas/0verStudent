@@ -260,6 +260,9 @@
 			_handleOtherDisabilityCategoryForm();
 			_switchGuardianForm();
 		})
+		.then(() => {
+			// loading.complete();
+		})
 		.catch((err) => {
 			err.json && err.json().then((data) => {
 				console.error(data);

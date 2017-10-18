@@ -116,6 +116,9 @@
 				$('.my_admission_ticket_no').val(my_admission_ticket_no || '');
 			})
 		})
+		.then(() => {
+			loading.complete();
+		})
 		.catch((err) => {
 			console.error(err);
 			if (err.status && err.status === 401) {

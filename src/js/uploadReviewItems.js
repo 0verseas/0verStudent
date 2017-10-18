@@ -45,7 +45,7 @@
 
 	function _init() {
 		_renderWishList();
-		
+		loading.complete();
 	}
 
 	function _renderWishList() {

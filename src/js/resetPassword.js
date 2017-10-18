@@ -40,6 +40,9 @@
 				console.log('2');
 			}
 		})
+		.then(() => {
+			loading.complete();
+		})
 		.catch((err) => {
 			err.json && err.json().then((data) => {
 				console.log(data.messages[0]);

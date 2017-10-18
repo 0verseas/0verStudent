@@ -57,6 +57,7 @@
 	function _init() {
 		_generateOptionalWish();
 		_generateWishList();
+		loading.complete();
 	}
 
 	function _showWishList() { // 不參加聯分，即不顯示聯分表單

@@ -5,6 +5,12 @@
 	const $email = $('#email');
 	const $pass = $('#password');
 	const $loginBtn = $('#btn-login');
+
+	/**
+	*	init
+	*/
+
+	_init();
 	
 	/**
 	*	bind event
@@ -15,6 +21,10 @@
 	/**
 	*	event handlet
 	*/
+
+	function _init() {
+		loading.complete();
+	}
 
 	function _handleLogin() {
 		const email = $email.val();

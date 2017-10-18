@@ -11,11 +11,17 @@
 	*	init
 	*/
 
+	_init();
+
 	$resetPasswordBtn.on('click', _handleResetPassword);
 
 	/**
 	*	bind event
 	*/
+
+	function _init() {
+		loading.complete();
+	}
 
 	function _handleResetPassword() {
 

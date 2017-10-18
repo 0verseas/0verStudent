@@ -44,6 +44,9 @@
 			console.log(json);
 			_initForm(json.student_education_background_data);
 		})
+		.then(() => {
+			loading.complete();
+		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
 				alert('請登入。');

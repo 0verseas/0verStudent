@@ -15,6 +15,7 @@
 	*/
 
 	function _init() {
+		loading.complete();
 	}
 
 })();

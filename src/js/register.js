@@ -15,6 +15,12 @@
 	const $registerBtn = $Register.find('.Register__btnRegister');
 
 	/**
+	*	init
+	*/
+
+	_init();
+
+	/**
 	*	bind event
 	*/
 	$email.on('blur', _checkEmail);
@@ -25,6 +31,11 @@
 	/**
 	*	private method
 	*/
+
+	function _init() {
+		loading.complete();
+	}
+
 	function _checkEmail() {
 		const email = $email.val();
 		if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
