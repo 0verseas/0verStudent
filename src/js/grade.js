@@ -1,8 +1,18 @@
 (() => {
 
 	/**
+	*	private variable
+	*/
+
+	// 是否參加聯合分發
+	let _isJoin = false;
+
+	/**
 	*	cache DOM
 	*/
+
+	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加聯合分發 checkbox
+	const $gradeForm = $('#form-grade');
 	const $applyWaysFieldSet = $('#apply-ways');
 	
 	/**
@@ -13,12 +23,28 @@
 	/**
 	*	bind event
 	*/
+
+	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加聯合分發
 	$applyWaysFieldSet.on('change.chooseOption', '.radio-option', _handleChoose);
 	$('.btn-save').on('click', _handleSave);
 
 	/**
 	* event handler
 	*/
+
+	function _changeIsJoin() {
+		_isJoin = !$(this).prop("checked");
+		_showWishList();
+	}
+
+	function _showWishList() { // 不參加聯分，即不顯示聯分表單
+		if (_isJoin) {
+			$gradeForm.fadeIn();
+		} else {
+			$gradeForm.fadeOut();
+		}
+	}
+
 	function _handleChoose() {
 		if (+$(this).val() === 23) {
 			// 以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請
@@ -36,27 +62,33 @@
 	}
 
 	function _handleSave() {
-		const id = $('.radio-option:checked').attr('data-id');
-		const code = $('.radio-option:checked').val();
-		if (!id || !code) {
-			alert('請選擇您欲申請的成績採計方式');
-			return;
-		}
-		
-		const data = {
-			apply_way: id
+
+		let data = {
+			apply_way: 0
 		}
 
-		if (+code === 1) {
-			data.my_admission_ticket_no = $('.my_admission_ticket_no').val();
+		if (_isJoin) {
+			const id = $('.radio-option:checked').attr('data-id');
+			const code = $('.radio-option:checked').val();
+			if (!id || !code) {
+				alert('請選擇您欲申請的成績採計方式');
+				return;
+			}
+			
+			data.apply_way = id;
+
+			if (+code === 1) {
+				data.my_admission_ticket_no = $('.my_admission_ticket_no').val();
+			}
+
+			if (+code === 23) {
+				data.year_of_hk_dse = $('.year_of_hk_dse').val();
+				data.year_of_hk_ale = $('.year_of_hk_ale').val();
+				data.year_of_hk_cee = $('.year_of_hk_cee').val();
+			}
 		}
 
-		if (+code === 23) {
-			data.year_of_hk_dse = $('.year_of_hk_dse').val();
-			data.year_of_hk_ale = $('.year_of_hk_ale').val();
-			data.year_of_hk_cee = $('.year_of_hk_cee').val();
-		}
-
+		loading.start();
 		student.setStudentAdmissionPlacementApplyWay(data).then((res) => {
 			if (res.ok) {
 				return res.json();
@@ -66,7 +98,9 @@
 		})
 		.then((json) => {
 			console.log(json);
-			window.location.href = './placementSelection.html'
+			alert("儲存成功");
+			window.location.reload();
+			loading.complete();
 		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
@@ -76,6 +110,7 @@
 			err.json && err.json().then((data) => {
 				console.error(data);
 			})
+			loading.complete();
 		});
 	}
 
@@ -116,6 +151,11 @@
 				$('.year_of_hk_ale').val(year_of_hk_ale || '');
 				$('.year_of_hk_cee').val(year_of_hk_cee || '');
 				$('.my_admission_ticket_no').val(my_admission_ticket_no || '');
+				_isJoin = (json.student_misc_data.admission_placement_apply_way === null || json.student_misc_data.admission_placement_apply_way !== 0);
+				$notJoinSelection.prop("checked", !_isJoin);
+			})
+			.then(() => {
+				_showWishList();
 			})
 		})
 		.then(() => {
@@ -134,5 +174,7 @@
 			loading.complete();
 		});
 	}
+
+
 
 })();

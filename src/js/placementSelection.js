@@ -4,9 +4,6 @@
 	*	private variable
 	*/
 
-	// 是否參加個人申請
-	let _isJoin = 0;
-
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
 	let _optionalWish = []; // 剩餘可選志願
 	let _wishList = []; // 已選擇志願
@@ -22,7 +19,6 @@
 	*	cache DOM
 	*/
 
-	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加聯合分發 checkbox
 	const $placementSelectForm = $('#form-placementSelect'); // 聯分表單
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
@@ -43,7 +39,6 @@
 	*	bind event
 	*/
 
-	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加聯合分發
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$saveBtn.on('click', _handleSave);
@@ -70,9 +65,6 @@
 				_optionalWish.push(add);
 			})
 
-			_isJoin = (resPlacement.student_misc_data.join_admission_selection === null || resPlacement.student_misc_data.join_admission_selection !== 0);
-			$notJoinSelection.prop("checked", !_isJoin);
-
 			// 整理已選志願
 			let order = [];
 			await resPlacement.student_department_admission_placement_order.forEach((value, index) => {
@@ -86,7 +78,6 @@
 
 			_generateOptionalWish();
 			_generateWishList();
-			_showWishList();
 			loading.complete();
 		} catch (e) {
 			console.log(e);
@@ -100,19 +91,6 @@
 				})
 			}
 			loading.complete();
-		}
-	}
-
-	function _changeIsJoin() {
-		_isJoin = !$(this).prop("checked");
-		_showWishList();
-	}
-
-	function _showWishList() { // 不參加聯分，即不顯示聯分表單
-		if (_isJoin) {
-			$placementSelectForm.fadeIn();
-		} else {
-			$placementSelectForm.fadeOut();
 		}
 	}
 
