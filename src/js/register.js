@@ -73,6 +73,7 @@
 				password: sha256(oriPass),
 				password_confirmation: sha256(passConfirm)
 			}
+			loading.start();
 			student.register(data)
 			.then((res) => {
 				if (res.ok) {
@@ -84,12 +85,14 @@
 			.then((json) => {
 				console.log(json);
 				location.href="./systemChoose.html";
+				loading.complete();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				})
+				loading.complete();
 			})
 		} else {
 			alert('輸入有誤');

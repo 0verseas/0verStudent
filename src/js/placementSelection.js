@@ -4,26 +4,14 @@
 	*	private variable
 	*/
 
-	let _optionalWish = [
-	{id:"1001", group: "第一類組", school: "國立暨南國際大學", dept: "中國文學系", engDept: "Dept. of Chinese Literature"},
-	{id:"1002", group: "第一類組", school: "國立暨南國際大學", dept: "外國語文學系", engDept: "Dept. of Foreign Languages and Literatures"},
-	{id:"1003", group: "第一類組", school: "國立暨南國際大學", dept: "歷史學系", engDept: "Dept. of History"},
-	{id:"2FFF", group: "第一類組", school: "國立暨南國際大學", dept: "會計學系", engDept: "Dept. of Accounting"},
-	{id:"1004", group: "第二類組", school: "國立暨南國際大學", dept: "哲學系", engDept: "Dept. of Philosophy"},
-	{id:"1005", group: "第二類組", school: "國立暨南國際大學", dept: "人類學系", engDept: "Dept. of Anthropology"},
-	{id:"1006", group: "第二類組", school: "國立暨南國際大學", dept: "圖書資訊學系", engDept: "Dept. of Library and Information Science"},
-	{id:"1007", group: "第二類組", school: "國立暨南國際大學", dept: "日本語文學系", engDept: "Dept. of Japanese Language and Literature"},
-	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "戲劇學系", engDept: "Dept. of Drama and Theatre"},
-	{id:"1008", group: "第三類組", school: "國立暨南國際大學", dept: "法律學系法學組", engDept: "Dept. of Law, Division of Legal Science"},
-	{id:"1009", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系政治理論組", engDept: "Dept. of Political Science, Political Theory Division"},
-	{id:"1010", group: "第三類組", school: "國立暨南國際大學", dept: "經濟學系", engDept: "Dept. of Economics"},
-	{id:"1FFF", group: "第三類組", school: "國立暨南國際大學", dept: "政治學系", engDept: "Dept. of Political Science"}
-	];
+	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
+	let _optionalWish = []; // 剩餘可選志願
+	let _wishList = []; // 已選擇志願
 
-	const _nupsList = ["1FFF", "2FFF"];
+	// 僑先部 cardCode
+	const _nupsList = ["1FFFF", "2FFFF", "3FFFF"];
 
-	let _wishList = [];
-
+	// 序號調整志願序之參數
 	let _prevWishIndex = -1;
 	let _currentWishIndex = -1;
 
@@ -31,14 +19,15 @@
 	*	cache DOM
 	*/
 
-	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加聯合分發 checkbox
 	const $placementSelectForm = $('#form-placementSelect'); // 聯分表單
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
+	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
-	const optionalWishList = document.getElementById('optionalWish-list'); // 招生校系清單，渲染用
+	const $paginationContainer = $('#pagination-container'); // 分頁區域
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
+	const $saveBtn = $('#btn-save');
 
 	/**
 	*	init
@@ -50,117 +39,85 @@
 	*	bind event
 	*/
 
-	$notJoinSelection.on('change', _showWishList); // 監聽是否不參加聯合分發
-	$optionFilterSelect.on('change', _filterOptionalWishList); // 監聽「招生校系清單」類別選項
-	$optionFilterInput.on('keyup', _filterOptionalWishList); // 監聽「招生校系清單」關鍵字
+	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
+	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
+	$saveBtn.on('click', _handleSave);
 
-	function _init() {
-		_generateOptionalWish();
-		_generateWishList();
-		loading.complete();
-	}
+	async function _init() {
+		try {
+			const response = await student.getPlacementSelectionOrder();
+			if (!response[0].ok) { throw response[0]; }
 
-	function _showWishList() { // 不參加聯分，即不顯示聯分表單
-		const isJoin = !$(this).prop("checked");
-		if (isJoin) {
-			$placementSelectForm.fadeIn();
-		} else {
-			$placementSelectForm.fadeOut();
-		}
-	}
+			const resPlacement = await response[0].json();
+			const resOrder = await response[1].json();
 
-	function _filterOptionalWishList() { // 篩選校系清單項目
-		const filterSelect = Number($optionFilterSelect.val());
-		const filter = $optionFilterInput.val().toUpperCase();
-		const tr = $optionalWishList.find('tr');
+			const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
+			await resOrder.forEach((value, index) => { // 志願列表格式整理
+				let add = {
+					id: value.id,
+					cardCode: value.card_code,
+					group: groupName[value.group_code - 1],
+					school: value.school.title,
+					dept: value.title,
+					engDept: value.eng_title,
+					sortNum: index
+				};
+				_optionalWish.push(add);
+			})
 
-		if (_wishList.length > 0) { // 有選志願
-			const currentGroup = _wishList[0].group; // 當前類組
-			for (let i = 0; i < tr.length; i++) {
-				let groupVal = String($(tr[i].getElementsByTagName("span")[1]).text()); // 欄位中的類組
-				let spanVal = String($(tr[i].getElementsByTagName("span")[filterSelect]).text()); // 要被篩選的欄位
-				if (spanVal) {
-					// 先篩選資料
-					if (spanVal.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-					// 再篩選類組
-					if (currentGroup === "第一類組") {
-						if (groupVal === "第二類組" || groupVal === "第三類組") {
-							tr[i].style.display = "none";
-						}
-					} else {
-						if (groupVal === "第一類組") {
-							tr[i].style.display = "none";
-						}
-					}
-				}
+			// 整理已選志願
+			let order = [];
+			await resPlacement.student_department_admission_placement_order.forEach((value, index) => {
+				order.push(value.department_data.id);
+			});
+			await order.forEach((value, index) => {
+				let orderIndex = _optionalWish.findIndex(order => order.id === value)
+				_wishList.push(_optionalWish[orderIndex]);
+				_optionalWish.splice(orderIndex, 1);
+			});
+
+			_generateOptionalWish();
+			_generateWishList();
+			loading.complete();
+		} catch (e) {
+			console.log(e);
+			if (e.status && e.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			} else {
+				e.json && e.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
 			}
-		} else { // 沒選志願
-			for (let i = 0; i < tr.length; i++) {
-				let spanVal = $(tr[i].getElementsByTagName("span")[filterSelect]).text();
-				if (spanVal) {
-					if (spanVal.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			}
+			loading.complete();
 		}
 	}
 
 	function _addWish() { // 增加志願
 		if (_wishList.length < 70) {
-			let optionalIndex = $(this).data("optionalindex");
+			const sortNum = $(this).data("sortnum");
+			const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum)
 			_wishList.push(_optionalWish[optionalIndex]);
 			_optionalWish.splice(optionalIndex, 1);
 			_generateOptionalWish();
 			_generateWishList();
-			_filterOptionalWishList();
 		} else {
 			alert('志願數量已達上限。');
 		}
 	}
 
-	function _findRowIndex(row) { // 尋找該志願選項 index（移動或刪除志願時使用）
-		const tableRow = row.closest('tr');
-		const index = tableRow.data('wishindex');
-		return index;
-	}
-
-	function _prevWish() { // 志願上調
-		const rowIndex = _findRowIndex($(this));
-		if (rowIndex > 0) {
-			const swap = _wishList[rowIndex];
-			_wishList[rowIndex] = _wishList[rowIndex - 1];
-			_wishList[rowIndex - 1] = swap;
-			_generateWishList();
-		}
-	}
-
-	function _nextWish() { // 志願下調
-		const rowIndex = _findRowIndex($(this));
-		if (rowIndex < _wishList.length - 1) {
-			const swap = _wishList[rowIndex];
-			_wishList[rowIndex] = _wishList[rowIndex + 1];
-			_wishList[rowIndex + 1] = swap;
-			_generateWishList();
-		}
-	}
-
 	function _removeWish() { // 刪除志願
-		const rowIndex = _findRowIndex($(this));
-		_optionalWish.push(_wishList[rowIndex]);
-		_wishList.splice(rowIndex, 1);
+
+		const sortNum = $(this).data("sortnum");
+		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
+		_optionalWish.push(_wishList[wishIndex]);
+		_wishList.splice(wishIndex, 1);
 		_optionalWish.sort(function(a, b) {
-			return parseInt(a.id) - parseInt(b.id);
+			return parseInt(a.sortNum) - parseInt(b.sortNum);
 		});
 		_generateOptionalWish();
 		_generateWishList();
-		_filterOptionalWishList();
 	}
 
 	function _savePrevWishIndex() { // 暫存志願序號
@@ -183,32 +140,105 @@
 		_generateWishList();
 	}
 
-	function _generateOptionalWish() { // 渲染「招生校系清單」
-		let rowHtml = '';
+	function _prevWish() { // 志願上調
+		const sortNum = $(this).data("sortnum");
+		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
+		if (wishIndex > 0) {
+			const swap = _wishList[wishIndex];
+			_wishList[wishIndex] = _wishList[wishIndex - 1];
+			_wishList[wishIndex - 1] = swap;
+			_generateWishList();
+		}
+	}
 
-		for(let i in _optionalWish) {
-			let badgeNUPS = ''
-			if (_nupsList.indexOf(_optionalWish[i].id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
-			rowHtml = rowHtml + `
+	function _nextWish() { // 志願下調
+		const sortNum = $(this).data("sortnum");
+		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
+		if (wishIndex < _wishList.length - 1) {
+			const swap = _wishList[wishIndex];
+			_wishList[wishIndex] = _wishList[wishIndex + 1];
+			_wishList[wishIndex + 1] = swap;
+			_generateWishList();
+		}
+	}
+
+	function _optionalWishTemplating(data) { // 分頁資料渲染（data.length === 0 時不會被呼叫）
+		var html = '';
+		$.each(data, function(index, item){
+			let badgeNUPS = '';
+			if (_nupsList.indexOf(item.id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
+			html += `
 			<tr>
 			<td>
-			<span>` + _optionalWish[i].id + `</span> ｜ <span>` + _optionalWish[i].group + `</span> ｜ <span>` + _optionalWish[i].school + `</span> <br>
-			<span>` + _optionalWish[i].dept + ` ` + _optionalWish[i].engDept + `</span>
+			<span>` + item.cardCode + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
+			<span>` + item.dept + ` ` + item.engDept + `</span>
 			<br />
 			` + badgeNUPS + `
 			</td>
 			<td class="text-right">
-			<button type="button" data-optionalIndex="` + i + `" class="btn btn-info btn-sm add-wish">
+			<button type="button" data-sortNum="` + item.sortNum + `" class="btn btn-info btn-sm add-wish">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			</button>
 			</td>
 			</tr>
 			`;
-		}
-		optionalWishList.innerHTML = rowHtml;
+		});
+		return html;
+	}
 
-		const $addWish = $optionalWishList.find('.add-wish');
-		$addWish.on("click", _addWish);
+	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
+		const filterSelect = '' + $optionFilterSelect.val();
+		const filter = $optionFilterInput.val().toUpperCase();
+
+		if (_wishList.length > 0) { // 有選志願
+			const _currentWishGroup = _wishList[0].group;
+			// 先篩類組
+			if (_currentWishGroup === "第一類組") {
+				_filterOptionalWish = _optionalWish.filter(function (obj) {
+					return obj["group"] === "第一類組";
+				});
+			} else {
+				_filterOptionalWish = _optionalWish.filter(function (obj) {
+					return obj["group"] === "第二類組" || obj["group"] === "第三類組";
+				});
+			}
+
+			// 再篩資料
+			_filterOptionalWish = _filterOptionalWish.filter(function (obj) {
+				if (filterSelect === "dept") {
+					return obj['dept'].toUpperCase().indexOf(filter) > -1 ||
+					obj['engDept'].toUpperCase().indexOf(filter) > -1
+				}
+				return obj[filterSelect].toUpperCase().indexOf(filter) > -1;
+			});
+		} else { // 沒選志願
+			// 全部篩選
+			_filterOptionalWish = _optionalWish.filter(function (obj) {
+				if (filterSelect === "dept") {
+					return obj['dept'].toUpperCase().indexOf(filter) > -1 ||
+					obj['engDept'].toUpperCase().indexOf(filter) > -1
+				}
+				return obj[filterSelect].toUpperCase().indexOf(filter) > -1;
+			});
+		}
+
+		$paginationContainer.pagination({
+			dataSource: _filterOptionalWish,
+			callback: function(data, pagination) {
+				var html = _optionalWishTemplating(data);
+				$optionalWishList.html(html);
+				const $addWish = $optionalWishList.find('.add-wish');
+				$addWish.on("click", _addWish);
+			}
+		})
+
+		if (_filterOptionalWish.length === 0) {
+			$optionalWishList.html(`
+				<tr>
+				<td class="text-center" colspan="2">查無資料。</td>
+				</tr>
+				`);
+		}
 	}
 
 	function _generateWishList() { // 「渲染已填選志願」
@@ -222,10 +252,10 @@
 			rowHtml = rowHtml + `
 			<tr data-wishIndex="` + i + `">
 			<td>
-			<button type="button" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
+			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
-			` + _wishList[i].id + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
+			` + _wishList[i].cardCode + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
 			<br />
 			` + badgeNUPS + invalidBadge + `
@@ -234,10 +264,10 @@
 			<div class="input-group">
 			<input type="text" class="form-control wish-num" value="` + (Number(i) + 1) + `">
 			<div class="input-group-btn">
-			<button type="button" class="btn btn-secondary btn-sm up-arrow">
+			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-secondary btn-sm up-arrow">
 			<i class="fa fa-chevron-up" aria-hidden="true"></i>
 			</button>
-			<button type="button" class="btn btn-secondary btn-sm down-arrow">
+			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-secondary btn-sm down-arrow">
 			<i class="fa fa-chevron-down" aria-hidden="true"></i>
 			</button>
 			</div>
@@ -258,6 +288,41 @@
 		$wishNum.on("change", _chWishIndex);
 		$upArrow.on("click", _prevWish);
 		$downArrow.on("click", _nextWish);
+	}
+
+	function _handleSave() {
+		let order = [];
+		if (_wishList.length > 0) {
+			_wishList.forEach((value, index) => {
+				order.push(value.id);
+			});
+			const data = {
+				order
+			}
+			loading.start();
+			student.setPlacementSelectionOrder(data)
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				alert("儲存成功");
+				window.location.reload();
+				loading.complete();
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+				loading.complete();
+			})
+		} else {
+			alert('沒有選擇志願。');
+		}
 	}
 
 })();

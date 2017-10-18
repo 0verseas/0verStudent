@@ -81,6 +81,7 @@
 		let sendData = {};
 		if (sendData = _validateForm()) {
 			console.log(sendData);
+			loading.start();
 			student.setStudentEducationInfoData(sendData)
 			.then((res) => {
 				if (res.ok) {
@@ -92,12 +93,14 @@
 			.then((json) => {
 				alert("儲存成功");
 				window.location.reload();
+				loading.complete();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				})
+				loading.complete();
 			})
 		} else {
 			alert("填寫格式錯誤，請檢查表單。");

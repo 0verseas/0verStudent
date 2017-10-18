@@ -179,6 +179,7 @@
 					}
 				}
 
+				loading.start();
 				student.verifyQualification({
 					system_id: 1,
 					identity: 3,
@@ -200,12 +201,14 @@
 				.then((json) => {
 					console.log(json);
 					window.location.href = './personalInfo.html';
+					loading.complete();
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {
 						console.error(data);
 						alert(`ERROR: \n${data.messages[0]}`);
 					})
+					loading.complete();
 				});
 			} else {
 				alert('身份不具報名資格');
@@ -258,6 +261,7 @@
 					}
 				}
 
+				loading.start();
 				student.verifyQualification({
 					system_id: 1,
 					identity: _typeOfKangAo,
@@ -285,12 +289,14 @@
 				.then((json) => {
 					console.log(json);
 					window.location.href = './personalInfo.html';
+					loading.complete();
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {
 						console.error(data);
 						alert(`ERROR: \n${data.messages[0]}`);
 					})
+					loading.complete();
 				});
 			} else {
 				alert('資料未正確填寫，或身份不具報名資格');

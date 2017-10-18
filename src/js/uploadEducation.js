@@ -117,6 +117,7 @@
 		for (let i = 0; i < fileList.length; i++) {
 			sendData.append('files[]', fileList[i]);
 		}
+		loading.start();
 		student.uploadEducationFile(uploadtype, sendData)
 		.then((res) => {
 			if (res.ok) {
@@ -134,6 +135,7 @@
 		})
 		.then(() => {
 			_renderImgArea();
+			loading.complete();
 		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
@@ -145,6 +147,7 @@
 			err.json && err.json().then((data) => {
 				console.error(data);
 			})
+			loading.complete();
 		})
 	}
 
@@ -158,6 +161,7 @@
 		var deleteConfirm = confirm("確定要刪除嗎？");
 		if (deleteConfirm === true) {
 			$imgModal.modal('hide');
+			loading.start();
 			student.deleteEducationFile(_modalFiletype, _modalFilename)
 			.then((res) => {
 				if (res.ok) {
@@ -175,6 +179,7 @@
 			})
 			.then(() => {
 				_renderImgArea();
+				loading.complete();
 			})
 			.catch((err) => {
 				if (err.status && err.status === 401) {
@@ -186,6 +191,7 @@
 				err.json && err.json().then((data) => {
 					console.error(data);
 				})
+				loading.complete();
 			})
 		}
 	}

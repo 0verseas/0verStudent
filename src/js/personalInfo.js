@@ -509,6 +509,7 @@
 			}
 			if (!_hasEduType) { sendData.school_type = ""; }
 			if (!_hasSchoolList) { sendData.school_locate = ""; }
+			loading.start();
 			student.setStudentPersonalData(sendData)
 			.then((res) => {
 				if (res.ok) {
@@ -521,12 +522,14 @@
 				console.log(json);
 				alert('儲存成功');
 				window.location.reload();
+				loading.complete();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				})
+				loading.complete();
 			})
 		} else {
 			console.log('==== validate failed ====');

@@ -4,7 +4,9 @@
 	*	private variable
 	*/
 
-	// 是否有奧林匹亞獎項
+	let _currentSystem = 0;
+	let _showCodeId = "";
+	// 是否參加個人申請
 	let _isJoin = 0;
 
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
@@ -19,13 +21,13 @@
 	*	cache DOM
 	*/
 
-	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加聯合分發 checkbox
+	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加個人申請 checkbox
 	const $admissionSelectForm = $('#form-admissionSelect'); // 個人申請表單
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
-	const $paginationContainer = $('#pagination-container');
+	const $paginationContainer = $('#pagination-container'); // 分頁區域
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 	const $saveBtn = $('#btn-save');
@@ -40,7 +42,7 @@
 	*	bind event
 	*/
 
-	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加聯合分發
+	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加個人申請
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$saveBtn.on('click', _handleSave);
@@ -53,28 +55,48 @@
 			const resAdmission = await response[0].json();
 			const resOrder = await response[1].json();
 
+			_currentSystem = resAdmission.student_qualification_verify.system_id; // 當前學制
 			const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
-			await resOrder.forEach((value, index) => { // 志願列表格式整理
+			resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {
 					id: value.id,
-					cardCode: value.card_code,
-					group: groupName[value.group_code - 1],
 					school: value.school.title,
 					dept: value.title,
 					engDept: value.eng_title,
 					sortNum: index
 				};
+				if (_currentSystem === 1) {
+					add.group = groupName[value.group_code - 1];
+					add.cardCode = value.card_code;
+				}
 				_optionalWish.push(add);
 			})
+
+			if (_currentSystem === 1) { // 學士班志願顯示 cardCode，其餘 id
+				_showCodeId = "cardCode";
+				$optionFilterSelect.append('<option value="group">學群</option>');
+			} else {
+				_showCodeId = "id";
+			}
+			$('#option-code-id').val(_showCodeId);
 
 			_isJoin = (resAdmission.student_misc_data.join_admission_selection === null || resAdmission.student_misc_data.join_admission_selection === true);
 			$notJoinSelection.prop("checked", !_isJoin);
 
 			// 整理已選志願
 			let order = [];
-			await resAdmission.student_department_admission_selection_order.forEach((value, index) => {
+			let orderKey = "";
+			if (_currentSystem === 1) {
+				orderKey = "student_department_admission_selection_order";
+			} else if (_currentSystem === 2) {
+				orderKey = "student_two_year_tech_department_admission_selection_order";
+			} else {
+				orderKey = "student_graduate_department_admission_selection_order";
+			}
+			resAdmission[orderKey].forEach((value, index) => {
 				order.push(value.department_data.id);
 			});
+
 			await order.forEach((value, index) => {
 				let orderIndex = _optionalWish.findIndex(order => order.id === value)
 				_wishList.push(_optionalWish[orderIndex]);
@@ -90,7 +112,7 @@
 				alert('請登入。');
 				location.href = "./index.html";
 			} else {
-				err.json && err.json().then((data) => {
+				e.json && e.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				})
@@ -104,7 +126,7 @@
 		_showWishList();
 	}
 
-	function _showWishList() { // 不參加申請，即不顯示聯分表單
+	function _showWishList() { // 不參加申請，即不顯示志願表單
 		if (_isJoin) {
 			$admissionSelectForm.fadeIn();
 		} else {
@@ -182,10 +204,14 @@
 	function _optionalWishTemplating(data) { // 分頁資料渲染（data.length === 0 時不會被呼叫）
 		var html = '';
 		$.each(data, function(index, item){
+			let groupHTML = '';
+			if (_currentSystem === 1) {
+				groupHTML += ' ｜ <span>' + item.group + '</span>';
+			}
 			html += `
 			<tr>
 			<td>
-			<span>` + item.cardCode + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
+			<span>` + item[_showCodeId] + `</span>` + groupHTML + ` ｜ <span>` + item.school + `</span> <br>
 			<span>` + item.dept + ` ` + item.engDept + `</span>
 			</td>
 			<td class="text-right">
@@ -202,7 +228,7 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
 		const filterSelect = $optionFilterSelect.val();
 		const filter = $optionFilterInput.val().toUpperCase();
-
+		console.log(_optionalWish);
 		_filterOptionalWish = _optionalWish.filter(function (obj) {
 			if (filterSelect === "dept") {
 				return obj['dept'].toUpperCase().indexOf(filter) > -1 ||
@@ -233,13 +259,17 @@
 	function _generateWishList() { // 「渲染已填選志願」
 		let rowHtml = '';
 		for(let i in _wishList) {
+			let groupHTML = '';
+			if (_currentSystem === 1) {
+				groupHTML += ' ｜ ' + _wishList[i].group;
+			}
 			rowHtml = rowHtml + `
 			<tr data-wishIndex="` + i + `">
 			<td>
 			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
-			` + _wishList[i].cardCode + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
+			` + _wishList[i][_showCodeId] + groupHTML + ` ｜ ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
 			</td>
 			<td class="text-right">

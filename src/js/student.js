@@ -353,6 +353,35 @@ const student = (() => {
 		})
 	}
 
+
+	
+
+	function getPlacementSelectionOrder() {
+		var urls = [
+		baseUrl + '/students/admission-placement-order',
+		baseUrl + '/students/admission-order-list?type=placement'
+		]
+		const grabContent = url => fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+		return Promise.all(urls.map(grabContent))
+	}
+
+	function setPlacementSelectionOrder(data) {
+		return fetch(baseUrl + `/students/admission-placement-order`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	function getStudentRegistrationProgress() {
 		return fetch(baseUrl + `/students/registration-progress`, {
 			method: 'GET',
@@ -421,9 +450,12 @@ const student = (() => {
 		getStudentAvailableApplyWayList,
 		getStudentAdmissionPlacementApplyWay,
 		setStudentAdmissionPlacementApplyWay,
-        getStudentRegistrationProgress,
-        setReviewItem,
-        getReviewItem
+		getStudentRegistrationProgress,
+		getPlacementSelectionOrder,
+		setPlacementSelectionOrder,
+		getStudentRegistrationProgress,
+		setReviewItem,
+		getReviewItem
 	};
 
 })();

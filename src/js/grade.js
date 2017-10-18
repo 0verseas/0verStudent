@@ -3,6 +3,7 @@
 	/**
 	*	cache DOM
 	*/
+
 	const $applyWaysFieldSet = $('#apply-ways');
 	
 	/**
@@ -13,12 +14,14 @@
 	/**
 	*	bind event
 	*/
+
 	$applyWaysFieldSet.on('change.chooseOption', '.radio-option', _handleChoose);
 	$('.btn-save').on('click', _handleSave);
 
 	/**
 	* event handler
 	*/
+
 	function _handleChoose() {
 		if (+$(this).val() === 23) {
 			// 以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請
@@ -36,14 +39,15 @@
 	}
 
 	function _handleSave() {
+
 		const id = $('.radio-option:checked').attr('data-id');
 		const code = $('.radio-option:checked').val();
 		if (!id || !code) {
 			alert('請選擇您欲申請的成績採計方式');
 			return;
 		}
-		
-		const data = {
+
+		let data = {
 			apply_way: id
 		}
 
@@ -57,6 +61,7 @@
 			data.year_of_hk_cee = $('.year_of_hk_cee').val();
 		}
 
+		loading.start();
 		student.setStudentAdmissionPlacementApplyWay(data).then((res) => {
 			if (res.ok) {
 				return res.json();
@@ -66,7 +71,9 @@
 		})
 		.then((json) => {
 			console.log(json);
-			window.location.href = './placementSelection.html'
+			alert("儲存成功");
+			window.location.reload();
+			loading.complete();
 		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
@@ -76,6 +83,7 @@
 			err.json && err.json().then((data) => {
 				console.error(data);
 			})
+			loading.complete();
 		});
 	}
 
@@ -134,5 +142,7 @@
 			loading.complete();
 		});
 	}
+
+
 
 })();
