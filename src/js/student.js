@@ -363,6 +363,14 @@ const student = (() => {
 		})
 	}
 
+	function setReviewItem({ student_id, dept_id, type_id, data }) {
+		return fetch(`${baseUrl}/students/${student_id}/admission-selection-application-document/departments/${dept_id}/types/${type_id}/files`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getCountryList,
@@ -394,7 +402,8 @@ const student = (() => {
 		getStudentAvailableApplyWayList,
 		getStudentAdmissionPlacementApplyWay,
 		setStudentAdmissionPlacementApplyWay,
-        getStudentRegistrationProgress
+        getStudentRegistrationProgress,
+        setReviewItem
 	};
 
 })();

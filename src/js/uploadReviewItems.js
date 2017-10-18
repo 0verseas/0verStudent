@@ -4,9 +4,9 @@
 	*	private variable
 	*/
 
-	let _schoolId = 1; // 暫時假資料（南開科技大學）
 	let _system = 1;
 	let _wishList = [];
+	let _studentID;
 
 	/**
 	*	cache DOM
@@ -37,6 +37,7 @@
 	$wishListWrap.on('click.edit', '.btn-wishEdit', _handleEditForm);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
+	$('body').on('change.upload', '.file-certificate', _handleUpload)
 
 	async function _init() {
 		// set header
@@ -115,8 +116,9 @@
 
 	function _handleEditForm() {
 		const deptId = $(this).data('deptid');
+		const schoolID = $(this).data('schoolid');
 		let applicationDoc = {};
-		student.getDeptApplicationDoc(_schoolId, _system, deptId)
+		student.getDeptApplicationDoc(schoolID, _system, deptId)
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			// 整理資料
@@ -161,7 +163,7 @@
 
 				<div class="row" style="margin-bottom: 15px;">
 				<div class="col-12">
-				<input id="file-certificate" type="file" class="filestyle" multiple>
+				<input id="file-certificate" type="file" class="filestyle file-certificate" data-type="${value.typeId}" data-deptid="${applicationDoc["deptId"]}" multiple>
 				</div>
 				</div>
 
@@ -207,7 +209,36 @@
 		$wishListWrap.fadeIn();
 	}
 
+	function _handleUpload() {
+		const type_id = $(this).data('type');
+		const dept_id = $(this).data('deptid');
+		const fileList = this.files;
+		let data = new FormData();
+		for (let i = 0; i < fileList.length; i++) {
+			data.append('files[]', fileList[i]);
+		}
+
+		student.setReviewItem({data, type_id, dept_id, student_id: _studentID}).then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			console.log(json);
+		})
+		.catch((err) => {
+			console.error(err);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			});
+		});
+	}
+
 	function _setHeader(data) {
+		_studentID = data.id;
 		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
 		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生'];
 		student.setHeader({
