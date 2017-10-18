@@ -55,6 +55,9 @@
 				+json.student_qualification_verify.system_id === +_systemID && _setData(json.student_qualification_verify);
 			}
 		})
+		.then(() => {
+			loading.complete();
+		})
 		.catch((err) => {
 			console.error(err);
 			err.json && err.json().then((data) => {

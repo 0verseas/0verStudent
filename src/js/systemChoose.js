@@ -9,11 +9,21 @@
 	/**
 	*	bind event
 	*/
+	_init();
+
+	/**
+	*	bind event
+	*/
 	$nextBtn.on('click', _handleSubmit);
 
 	/**
 	*	event handler
 	*/
+
+	function _init() {
+		loading.complete();
+	}
+
 	function _handleSubmit() {
 		let system = +$system.val();
 		if (system >= 3) {

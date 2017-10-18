@@ -14,6 +14,7 @@
 	<!-- Custom styles for this template -->
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/<%= current.source %>.css" rel="stylesheet">
+	<link rel="stylesheet" href="./css/loading.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -22,6 +23,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 	<script src="../env.js"></script>
 	<script src="./js/student.js"></script>
+	
 </head>
 <body>
 	<% 
@@ -40,6 +42,9 @@
 	'result'
 	];
 	%>
+	
+	<% include components/_loading %>
+
 	<div id="app" class="container">
 		<nav class="navbar header navbar-toggleable-md navbar-light">
 
@@ -99,6 +104,17 @@
 		<%- yield %>
 		<% } %>
 	</div>
+	<script>
+		var loading = {
+			start: function () {
+				$('#loading-wrapper').show();
+			},
+			complete: function () {
+				$('#loading-wrapper').hide();
+			}
+		};
+		loading.start();
+	</script>
 	<script src="js/<%= current.source %>.js"></script>
 	<footer class="container">
 		<div class="row">
