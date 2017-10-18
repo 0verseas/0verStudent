@@ -29,6 +29,9 @@
 	const $modalDetailImg = $('#img-modalDetail');
 	const $modalDeleteBtn = $('#btn-modalDelete');
 
+	// 重整按鈕
+	const $refreshBtn = $('#btn-refresh');
+
 	/**
 	*	init
 	*/
@@ -41,6 +44,7 @@
 
 	$fileUpload.on("change", _addImg);
 	$modalDeleteBtn.on("click", _deleteImg);
+	$refreshBtn.on("click", function() {window.location.reload();});
 	
 
 	function _init() {
