@@ -4,13 +4,9 @@
 	*	private variable
 	*/
 
-	let _schoolId = "A8"; // 暫時假資料（南開科技大學）
-	let _system = "bachelor";
-	let _wishList = [ // 志願列表
-	{id:"2A801" , school: "南開科技大學", dept: "機械工程系車輛組"},
-	{id:"2A807" , school: "南開科技大學", dept: "工業管理系"},
-	{id:"1A801" , school: "南開科技大學", dept: "企業管理系"}
-	]
+	let _schoolId = 1; // 暫時假資料（南開科技大學）
+	let _system = 1;
+	let _wishList = [];
 
 	/**
 	*	cache DOM
@@ -19,7 +15,6 @@
 	const $wishListWrap = $('#wrap-wishList');
 	const $wishList = $('#wishList');
 	const wishList = document.getElementById('wishList');
-	let $wishEditBtn;
 	const $uploadForm = $('#form-upload'); // 點下「上傳」按鈕後出現的表單
 	const $deptId = $('#deptId');
 	const $schoolName = $('#schoolName');
@@ -39,13 +34,63 @@
 	*	bind event
 	*/
 
-	$wishEditBtn.on('click', _handleEditForm);
+	$wishListWrap.on('click.edit', '.btn-wishEdit', _handleEditForm);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
 
-	function _init() {
-		_renderWishList();
-		loading.complete();
+	async function _init() {
+		// set header
+		new Promise((resolve, reject) => {
+			student.getStudentRegistrationProgress().then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				_setHeader(json);
+				_system = json.student_qualification_verify.system_id;
+				resolve();
+			})
+			.catch((err) => {
+				console.error(err);
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			});
+		})
+		.then(async function () {
+			// get wish list
+			let key;
+			switch (_system) {
+				case 1:
+					key = 'student_department_admission_selection_order';
+					break;
+				case 2:
+					key = 'student_two_year_tech_department_admission_selection_order';
+					break;
+				case 3:
+				case 4:
+					key = 'student_graduate_department_admission_selection_order';
+					break;
+			}
+
+			const result = await student.getAdmissionSelectionWishOrder();
+			_wishList = result[key].map((val, i) => {
+				return {
+					id: val.department_data.id,
+					school: val.department_data.school.title,
+					schoolID: val.department_data.school.id,
+					dept: val.department_data.title
+				}
+			});
+		})
+		.then(() => {
+			_renderWishList();
+			loading.complete();
+		});
 	}
 
 	function _renderWishList() {
@@ -66,7 +111,6 @@
 			`
 		});
 		wishList.innerHTML = wishHTML;
-		$wishEditBtn = $wishList.find('.btn-wishEdit');
 	}
 
 	function _handleEditForm() {
@@ -76,6 +120,7 @@
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			// 整理資料
+			console.log(json)
 			applicationDoc["schoolId"] = json.id;
 			applicationDoc["schoolName"] = json.title;
 			applicationDoc["deptId"] = json.departments[0].id;
@@ -162,4 +207,13 @@
 		$wishListWrap.fadeIn();
 	}
 
+	function _setHeader(data) {
+		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
+		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生'];
+		student.setHeader({
+			system: systemMap[data.student_qualification_verify.system_id - 1],
+			identity: identityMap[data.student_qualification_verify.identity - 1],
+			id: (data.id).toString().padStart(6, "0")
+		});
+	}
 })();
