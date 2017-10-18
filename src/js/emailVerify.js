@@ -28,10 +28,17 @@
 			loading.complete();
 		})
 		.catch((err) => {
-			err.json && err.json().then((data) => {
-				console.error(data.messages[0]);
-			});
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			} else {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			}
 			$('#alert-invalid').show();
+			loading.complete();
 		});
 	}
 

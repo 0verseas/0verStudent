@@ -69,10 +69,12 @@
 			window.location.href = './placementSelection.html'
 		})
 		.catch((err) => {
-			console.error(err);
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			}
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
 			})
 		});
 	}
@@ -120,15 +122,16 @@
 			loading.complete();
 		})
 		.catch((err) => {
-			console.error(err);
 			if (err.status && err.status === 401) {
 				alert('請登入。');
 				location.href = "./index.html";
+			} else {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
 			}
-
-			err.json && err.json().then((data) => {
-				console.error(data);
-			})
+			loading.complete();
 		});
 	}
 

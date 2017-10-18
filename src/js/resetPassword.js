@@ -49,6 +49,7 @@
 				alert('您並無重設密碼之請求。');
 				location.href="./index.html";
 			})
+			loading.complete();
 		})
 	}
 
