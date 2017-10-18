@@ -42,6 +42,7 @@
 	$('body').on('change.upload', '.file-certificate', _handleUpload);
 	$('body').on('click.showOriImg', '.img-thumbnail', _showOriImg);
 	$('.btn-delImg').on('click', _handleDelImg);
+	$('#btn-logout').on('click', _handleLogout);
 
 	async function _init() {
 		// set header
@@ -119,6 +120,7 @@
 	}
 
 	async function _handleEditForm() {
+		loading.start();
 		const deptId = _deptID = _deptID || $(this).data('deptid');
 		const schoolID = _schoolID = _schoolID || $(this).data('schoolid');
 		const uploadedFile = await student.getReviewItem({
@@ -222,6 +224,8 @@
 			$wishListWrap.hide();
 			$uploadForm.fadeIn();
 			$('html')[0].scrollIntoView(); // 畫面置頂
+			const r = Math.floor(Math.random() * 1000);
+			setTimeout(loading.complete, 200 + r);
 		})
 	}
 
@@ -302,6 +306,30 @@
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
 		});
+	}
+
+	function _handleLogout() {
+		loading.start();
+		student.logout()
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			alert('登出成功。');
+			location.href="./index.html";
+			loading.complete();
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
+			loading.complete();
+		})
 	}
 
 	function _setHeader(data) {
