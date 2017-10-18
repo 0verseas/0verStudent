@@ -16,6 +16,14 @@
 	*	cache DOM
 	*/
 	
+	const $olympiaForm = $('#form-olympia');
+	const $olympiaTbody = $('#tbody-olympia');
+	const $admissionForm = $('#form-admission');
+	const $admissionTbody = $('#tbody-admission');
+	const $placementForm = $('#form-placement');
+	const $placementTbody = $('#tbody-placement');
+	const $noSelectForm = $('#form-no-select');
+
 	/**
 	*	init
 	*/
@@ -61,19 +69,60 @@
 
 			if (_hasOlympia) {
 				_olympiaList = resOlympia.student_olympia_aspiration_order;
+				let olympiaHTML = '';
+				_olympiaList.forEach((val, index) => {
+					olympiaHTML += `
+					<tr>
+					<td>` + val.order + `</td>
+					<td>` + val.department_data.card_code + `</td>
+					<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+					</tr>
+					`
+				})
+				$olympiaTbody.html(olympiaHTML);
+				$olympiaForm.show();
 				console.log(_olympiaList);
 			}
 
 			if (_hasAdmission) {
 				_admissionList = resAdmission[admissionKey[(_systemId - 1)]];
+				let admissionHTML = '';
+				_admissionList.forEach((val, index) => {
+					let showId = (_systemId === 1) ? val.department_data.card_code : val.dept_id;
+					admissionHTML += `
+					<tr>
+					<td>` + val.order + `</td>
+					<td>` + showId + `</td>
+					<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+					</tr>
+					`
+				})
+				$admissionTbody.html(admissionHTML);
+				$admissionForm.show();
 				console.log(_admissionList);
 			}
 
 			if (_hasPlacement) {
 				_placementList = resPlacement.student_department_admission_placement_order;
+				let placementHTML = '';
+				_placementList.forEach((val, index) => {
+					placementHTML += `
+					<tr>
+					<td>` + val.order + `</td>
+					<td>` + val.department_data.card_code + `</td>
+					<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+					</tr>
+					`
+				})
+				$placementTbody.html(placementHTML);
+				$placementForm.show();
 				console.log(_placementList);
 			}
 
+			if (!_hasOlympia && !_hasAdmission && !_hasPlacement) {
+				$noSelectForm.show();
+			}
+			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
 				alert('請登入。');
@@ -86,48 +135,6 @@
 			}
 			loading.complete();
 		}
-
-
-		loading.complete();
-
 	}
 
 })();
-
-	// "student_misc_data": {
-	// 	"user_id": 216,
-	// 	"email_verified": false,
-	// 	"backup_email_verified": null,
-	// 	"join_admission_selection": false,
-	// 	"admission_placement_apply_way": null,
-	// 	"year_of_hk_dse": null,
-	// 	"year_of_hk_ale": null,
-	// 	"year_of_hk_cee": null,
-	// 	"my_admission_ticket_no": null,
-	// 	"has_olympia_aspiration": null,
-	// 	"agree_privacy_policy": true,
-	// 	"created_at": "2017-10-18T21:17:51+0800",
-	// 	"updated_at": "2017-10-19T00:20:06+0800",
-	// 	"confirmed_at": null,
-	// 	"overseas_student_id": null,
-	// 	"rule_code_of_overseas_student_id": null
-	// },
-
-	// "student_misc_data": {
-	// 	"user_id": 197,
-	// 	"email_verified": true,
-	// 	"backup_email_verified": false,
-	// 	"join_admission_selection": true,
-	// 	"admission_placement_apply_way": 17,
-	// 	"year_of_hk_dse": null,
-	// 	"year_of_hk_ale": null,
-	// 	"year_of_hk_cee": null,
-	// 	"my_admission_ticket_no": null,
-	// 	"has_olympia_aspiration": true,
-	// 	"agree_privacy_policy": true,
-	// 	"created_at": "2017-10-12T16:14:31+0800",
-	// 	"updated_at": "2017-10-19T00:14:02+0800",
-	// 	"confirmed_at": null,
-	// 	"overseas_student_id": null,
-	// 	"rule_code_of_overseas_student_id": null
-	// },
