@@ -261,7 +261,7 @@
 			_switchGuardianForm();
 		})
 		.then(() => {
-			// loading.complete();
+			loading.complete();
 		})
 		.catch((err) => {
 			err.json && err.json().then((data) => {
