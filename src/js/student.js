@@ -488,7 +488,7 @@ const student = (() => {
 		getPlacementSelectionOrder,
 		setPlacementSelectionOrder,
 		getOrderResultList,
-		dataConfirmation
+		dataConfirmation,
 		setReviewItem,
 		getReviewItem,
 		delReviewItem
