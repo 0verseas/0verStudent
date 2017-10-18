@@ -9,9 +9,9 @@ const student = (() => {
 		const $headerId = $studentInfoHeader.find('#headerId');
 
 		headerData = headerData || {
-			system: "學士班",
-			identity: "港澳生",
-			id: "200003"
+			system: "",
+			identity: "請重新整理。",
+			id: ""
 		}
 
 		$headerSystem.html(headerData.system);

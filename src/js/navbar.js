@@ -120,7 +120,7 @@
 		student.setHeader({
 			system: systemMap[data.student_qualification_verify.system_id - 1],
 			identity: identityMap[data.student_qualification_verify.identity - 1],
-			id: data.id
+			id: (data.id).toString().padStart(6, "0")
 		});
 	}
 })();
