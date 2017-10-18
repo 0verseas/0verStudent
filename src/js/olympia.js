@@ -294,13 +294,9 @@
 					}
 				})
 				.then((json) => {
-					$('#myModal').modal({
-						backdrop: 'static',
-						keyboard: false,
-						show: true
-					})
-					$('#btn-nextPage').on('click', function(){location.href = "./uploadEducation.html"});
 					console.log(json);
+					alert('儲存成功');
+					window.location.reload();
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {
