@@ -283,6 +283,7 @@
 					join_admission_selection: _isJoin,
 					order
 				}
+				loading.start();
 				student.setAdmissionSelectionOrder(data)
 				.then((res) => {
 					if (res.ok) {
@@ -292,19 +293,16 @@
 					}
 				})
 				.then((json) => {
-					$('#myModal').modal({
-						backdrop: 'static',
-						keyboard: false,
-						show: true
-					})
-					$('#btn-nextPage').on('click', function(){location.href = "./grade.html"});
-					console.log(json);
+					alert("儲存成功");
+					window.location.reload();
+					loading.complete();
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {
 						console.error(data);
 						alert(`ERROR: \n${data.messages[0]}`);
 					})
+					loading.complete();
 				})
 			} else {
 				alert('沒有選擇志願。');
@@ -312,7 +310,9 @@
 		} else {
 			const data = {
 				join_admission_selection: _isJoin,
+				order: []
 			}
+			loading.start();
 			student.setAdmissionSelectionOrder(data)
 			.then((res) => {
 				if (res.ok) {
@@ -322,19 +322,16 @@
 				}
 			})
 			.then((json) => {
-				$('#myModal').modal({
-					backdrop: 'static',
-					keyboard: false,
-					show: true
-				})
-				$('#btn-nextPage').on('click', function(){location.href = "./grade.html"});
-				console.log(json);
+				alert("儲存成功");
+				window.location.reload();
+				loading.complete();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				})
+				loading.complete();
 			})
 		}
 	}
