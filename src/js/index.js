@@ -35,6 +35,7 @@
 			password: sha256(pass)
 		}
 
+		loading.start();
 		student.login(loginData)
 		.then((res) => {
 			if (res.ok) {
@@ -45,9 +46,11 @@
 		})
 		.then((json) => {
 			location.href = './systemChoose.html';
+			loading.complete();
 		})
 		.catch((err) => {
 			err === 401 && alert('帳號或密碼輸入錯誤。');
+			loading.complete();
 		})
 	}
 
