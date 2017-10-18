@@ -123,8 +123,7 @@
 
 	// 驗證日期
 	function _validateDate(obj) {
-		let _checkValue = (obj.value) ? obj.value : obj.el.val();
-		return Date.parse(_checkValue)
+		return true;
 	}
 
 	function _getDBData(obj) {
