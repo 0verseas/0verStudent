@@ -138,8 +138,8 @@
 	$schoolCountry.on('change', _chSchoolCountry);
 	$schoolType.on('change', _chSchoolType);
 	$schoolLocation.on('change', _chSchoolLocation);
-	$dadStatus.on('change', _switchDadDataForm);
-	$momStatus.on('change', _switchMomStatus);
+	$dadStatus.on('change', _chDadStatus);
+	$momStatus.on('change', _chMomStatus);
 	$saveBtn.on('click', _handleSave);
 
 	function _init() {
@@ -223,7 +223,6 @@
 			// 父
 			_currentDadStatus = formData.dad_status;
 			$("input[name=dadStatus][value='"+ formData.dad_status +"']").prop("checked",true);
-			$dadStatus.change();
 			$dadName.val(formData.dad_name);
 			$dadEngName.val(formData.dad_eng_name);
 			$dadBirthday.val(formData.dad_birthday);
@@ -232,7 +231,6 @@
 			// 母
 			_currentMomStatus = formData.mom_status;
 			$("input[name=momStatus][value='"+ formData.mom_status +"']").prop("checked",true);
-			$momStatus.change();
 			$momName.val(formData.mom_name);
 			$momEngName.val(formData.mom_eng_name);
 			$momBirthday.val(formData.mom_birthday);
@@ -255,10 +253,10 @@
 			$twContactWorkplaceAddress.val(formData.tw_contact_workplace_address);
 		})
 		.then(() => {
-			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
 			_showSpecailForm();
 			_handleOtherDisabilityCategoryForm();
-			_switchGuardianForm();
+			_switchDadDataForm();
+			_switchMomDataForm();
 		})
 		.then(() => {
 			loading.complete();
@@ -465,8 +463,12 @@
 		}
 	}
 
-	function _switchDadDataForm() {
+	function _chDadStatus() {
 		_currentDadStatus = $(this).val();
+		_switchDadDataForm();
+	}
+
+	function _switchDadDataForm() {
 		if (_currentDadStatus === "undefined") {
 			$dadDataForm.hide();
 		} else {
@@ -475,8 +477,12 @@
 		_switchGuardianForm();
 	}
 
-	function _switchMomStatus() {
+	function _chMomStatus() {
 		_currentMomStatus = $(this).val();
+		_switchMomDataForm();
+	}
+
+	function _switchMomDataForm() {
 		if (_currentMomStatus === "undefined") {
 			$momDataForm.hide();
 		} else {
