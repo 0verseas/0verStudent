@@ -4,7 +4,7 @@
 	*	private variable
 	*/
 
-	// 是否有奧林匹亞獎項
+	// 是否參加個人申請
 	let _isJoin = 0;
 
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
@@ -19,13 +19,13 @@
 	*	cache DOM
 	*/
 
-	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加聯合分發 checkbox
+	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加個人申請 checkbox
 	const $admissionSelectForm = $('#form-admissionSelect'); // 個人申請表單
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
-	const $paginationContainer = $('#pagination-container');
+	const $paginationContainer = $('#pagination-container'); // 分頁區域
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 	const $saveBtn = $('#btn-save');
@@ -40,7 +40,7 @@
 	*	bind event
 	*/
 
-	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加聯合分發
+	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加個人申請
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$saveBtn.on('click', _handleSave);
@@ -90,7 +90,7 @@
 				alert('請登入。');
 				location.href = "./index.html";
 			} else {
-				err.json && err.json().then((data) => {
+				e.json && e.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				})
@@ -104,7 +104,7 @@
 		_showWishList();
 	}
 
-	function _showWishList() { // 不參加申請，即不顯示聯分表單
+	function _showWishList() { // 不參加申請，即不顯示志願表單
 		if (_isJoin) {
 			$admissionSelectForm.fadeIn();
 		} else {
