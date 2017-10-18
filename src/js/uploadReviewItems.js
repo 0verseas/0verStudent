@@ -8,6 +8,7 @@
 	let _wishList = [];
 	let _studentID;
 	let _deptID;
+	let _schoolID;
 
 	/**
 	*	cache DOM
@@ -118,8 +119,8 @@
 	}
 
 	async function _handleEditForm() {
-		const deptId = _deptID = $(this).data('deptid');
-		const schoolID = $(this).data('schoolid');
+		const deptId = _deptID = _deptID || $(this).data('deptid');
+		const schoolID = _schoolID = _schoolID || $(this).data('schoolid');
 		const uploadedFile = await student.getReviewItem({
 			student_id: _studentID,
 			dept_id: deptId,
@@ -252,6 +253,7 @@
 		})
 		.then((json) => {
 			console.log(json);
+			_handleEditForm();
 		})
 		.catch((err) => {
 			console.error(err);
@@ -275,7 +277,7 @@
 		if (!confirm('確定刪除？')) {
 			return;
 		}
-		
+
 		student.delReviewItem({
 			student_id: _studentID,
 			dept_id: _deptID,
@@ -291,6 +293,7 @@
 		})
 		.then((json) => {
 			$('.img-modal').modal('hide');
+			_handleEditForm();
 		})
 		.catch((err) => {
 			console.error(err);
