@@ -135,11 +135,9 @@
 	$disabilityCategory.on('change', _switchDisabilityCategory);
 	$residenceContinent.on('change', _reRenderCountry);
 	$schoolContinent.on('change', _reRenderCountry);
-
 	$schoolCountry.on('change', _chSchoolCountry);
 	$schoolType.on('change', _chSchoolType);
 	$schoolLocation.on('change', _chSchoolLocation);
-
 	$dadStatus.on('change', _switchDadDataForm);
 	$momStatus.on('change', _switchMomStatus);
 	$saveBtn.on('click', _handleSave);
@@ -163,7 +161,7 @@
 			$backupEmail.val(formData.backup_email);
 			$name.val(json.name);
 			$engName.val(json.eng_name);
-			$("input[name=gender][value='"+ json.gender +"']").prop("checked",true);
+			$("input[name=gender][value='"+ formData.gender +"']").prop("checked",true);
 			$birthday.val(formData.birthday);
 			$birthContinent.val(_findContinent(formData.birth_location)).change();
 			$birthLocation.val(formData.birth_location);
@@ -223,14 +221,18 @@
 
 			// init 家長資料
 			// 父
+			_currentDadStatus = formData.dad_status;
 			$("input[name=dadStatus][value='"+ _currentDadStatus +"']").prop("checked",true);
+			$dadStatus.change();
 			$dadName.val(formData.dad_name);
 			$dadEngName.val(formData.dad_eng_name);
 			$dadBirthday.val(formData.dad_birthday);
 			$dadHometown.val(formData.dad_hometown);
 			$dadJob.val(formData.dad_job);
 			// 母
+			_currentMomStatus = formData.mom_status;
 			$("input[name=momStatus][value='"+ _currentMomStatus +"']").prop("checked",true);
+			$momStatus.change();
 			$momName.val(formData.mom_name);
 			$momEngName.val(formData.mom_eng_name);
 			$momBirthday.val(formData.mom_birthday);
