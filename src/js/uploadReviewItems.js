@@ -97,17 +97,17 @@
 		let wishHTML = '';
 		_wishList.forEach((value, index) => {
 			wishHTML += `
-			<tr class="table-warning">
-			<td>` + (index + 1) + `</td>
-			<td>` + value.id + `</td>
-			<td>` + value.school + ` ` + value.dept + `</td>
-			<td class="text-right">
-			<button type="button" class="btn btn-info btn-wishEdit" data-toggle="modal" data-target="#modal-applicationDoc" data-deptid="` + value.id + `">
-			<i class="fa fa-upload" aria-hidden="true"></i>
-			<span class="hidden-sm-down"> 上傳</span>
-			</button>
-			</td>
-			</tr>
+				<tr class="table-warning">
+					<td>${index + 1}</td>
+					<td>${value.id}</td>
+					<td>${value.school} ${value.dept}</td>
+					<td class="text-right">
+						<button type="button" class="btn btn-info btn-wishEdit" data-toggle="modal" data-target="#modal-applicationDoc" data-deptid="${value.id}" data-schoolid="${value.schoolID}"">
+							<i class="fa fa-upload" aria-hidden="true"></i>
+							<span class="hidden-sm-down"> 上傳</span>
+						</button>
+					</td>
+				</tr>
 			`
 		});
 		wishList.innerHTML = wishHTML;

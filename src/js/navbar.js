@@ -105,7 +105,17 @@
 		!!data.student_education_document && $('.nav-uploadEducation').addClass('list-group-item-success');
 
 		// 個人申請志願
-		!!data.student_department_admission_selection_order && $('.nav-admissionSelection').addClass('list-group-item-success');
+		+data.student_qualification_verify.system_id === 1 &&
+		!!data.student_department_admission_selection_order &&
+		$('.nav-admissionSelection').addClass('list-group-item-success');
+
+		+data.student_qualification_verify.system_id === 2 &&
+		!!data.student_two_year_tech_department_admission_selection_order &&
+		$('.nav-admissionSelection').addClass('list-group-item-success');
+
+		+data.student_qualification_verify.system_id > 2 &&
+		!!data.student_graduate_department_admission_selection_order &&
+		$('.nav-admissionSelection').addClass('list-group-item-success');
 
 		// 聯合分發成績採計方式
 		!!data.student_department_admission_placement_apply_way && $('.nav-grade').addClass('list-group-item-success');
