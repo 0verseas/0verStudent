@@ -44,10 +44,13 @@
 			if (!response[0].ok) { throw response[0]; }
 
 			const resAdmission = await response[0].json();
+			_systemId = resAdmission.student_qualification_verify.system_id;
+			if (_systemId === 1 && !response[2].ok) { throw response[2]; }
+
 			const resOlympia = await response[1].json();
 			const resPlacement = await response[2].json();
 
-			_systemId = resAdmission.student_qualification_verify.system_id;
+			// 學士班的聯分有讀取條件
 
 			if (_systemId === 1) { // 學士班
 				_hasOlympia = (resOlympia.student_misc_data.has_olympia_aspiration !== null && resOlympia.student_misc_data.has_olympia_aspiration === true);
@@ -123,6 +126,11 @@
 			if (e.status && e.status === 401) {
 				alert('請登入。');
 				location.href = "./index.html";
+			} else if (e.status && e.status === 403) {
+				e.json && e.json().then((data) => {
+					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
+					window.history.back();
+				})
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
