@@ -520,7 +520,7 @@
 			.then((json) => {
 				console.log(json);
 				alert('儲存成功');
-				location.href = "./educationInfo.html"
+				window.location.reload();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {

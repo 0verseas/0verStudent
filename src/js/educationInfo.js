@@ -78,6 +78,7 @@
 	}
 
 	function _handleSave() {
+		let sendData = {};
 		if (sendData = _validateForm()) {
 			console.log(sendData);
 			student.setStudentEducationInfoData(sendData)
@@ -89,8 +90,8 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
-				// location.href = './olympia.html'
+				alert("儲存成功");
+				window.location.reload();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
@@ -99,6 +100,7 @@
 				})
 			})
 		} else {
+			alert("填寫格式錯誤，請檢查表單。");
 			console.log('wrong');
 		}
 	}
