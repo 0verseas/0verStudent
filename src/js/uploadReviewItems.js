@@ -7,6 +7,7 @@
 	let _system = 1;
 	let _wishList = [];
 	let _studentID;
+	let _deptID;
 
 	/**
 	*	cache DOM
@@ -37,7 +38,9 @@
 	$wishListWrap.on('click.edit', '.btn-wishEdit', _handleEditForm);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
-	$('body').on('change.upload', '.file-certificate', _handleUpload)
+	$('body').on('change.upload', '.file-certificate', _handleUpload);
+	$('body').on('click.showOriImg', '.img-thumbnail', _showOriImg);
+	$('.btn-delImg').on('click', _handleDelImg);
 
 	async function _init() {
 		// set header
@@ -115,7 +118,7 @@
 	}
 
 	async function _handleEditForm() {
-		const deptId = $(this).data('deptid');
+		const deptId = _deptID = $(this).data('deptid');
 		const schoolID = $(this).data('schoolid');
 		const uploadedFile = await student.getReviewItem({
 			student_id: _studentID,
@@ -186,7 +189,13 @@
 											<div id="">
 												${
 													parsedUploadedFile[value.typeId].map((file, i) => {
-														return `<img src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}" />`
+														return `<img 
+																	class="img-thumbnail" 
+																	src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
+																	data-toggle="modal"
+																	data-target=".img-modal"
+																	data-type="${value.typeId}"
+																/>`
 													}).join('').replace(/,/g, '')
 												}
 											</div>
@@ -199,8 +208,6 @@
 					<hr>
 				`
 			});
-
-			// image HTML: '<img class="img-thumbnail" src="http://via.placeholder.com/970x1100" data-toggle="modal" data-target=".img-modal">'
 
 			reviewItemsArea.innerHTML = reviewItemHTML;
 		})
@@ -245,6 +252,45 @@
 		})
 		.then((json) => {
 			console.log(json);
+		})
+		.catch((err) => {
+			console.error(err);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			});
+		});
+	}
+
+	function _showOriImg() {
+		const src = $(this).attr('src');
+		$('.btn-delImg').attr({
+			'data-type': $(this).data('type'),
+			'data-filename': src.split('/').pop()
+		});
+		$('.img-ori').attr('src', src);
+	}
+
+	function _handleDelImg() {
+		if (!confirm('確定刪除？')) {
+			return;
+		}
+		
+		student.delReviewItem({
+			student_id: _studentID,
+			dept_id: _deptID,
+			type_id: $(this).attr('data-type'),
+			filename: $(this).attr('data-filename')
+		})
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			$('.img-modal').modal('hide');
 		})
 		.catch((err) => {
 			console.error(err);

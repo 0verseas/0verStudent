@@ -419,6 +419,13 @@ const student = (() => {
 		})
 	}
 
+	function delReviewItem({ student_id, dept_id, type_id, filename }) {
+		return fetch(`${baseUrl}/students/${student_id}/admission-selection-application-document/departments/${dept_id}/types/${type_id}/files/${filename}`, {
+			method: 'Delete',
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getCountryList,
@@ -453,9 +460,9 @@ const student = (() => {
 		getStudentRegistrationProgress,
 		getPlacementSelectionOrder,
 		setPlacementSelectionOrder,
-		getStudentRegistrationProgress,
 		setReviewItem,
-		getReviewItem
+		getReviewItem,
+		delReviewItem
 	};
 
 })();
