@@ -23,6 +23,7 @@
 	const $placementForm = $('#form-placement');
 	const $placementTbody = $('#tbody-placement');
 	const $noSelectForm = $('#form-no-select');
+	const $checkBtn = $('#btn-check');
 
 	/**
 	*	init
@@ -33,6 +34,8 @@
 	/**
 	*	bind event
 	*/
+
+	$checkBtn.on('click', _checkAllSet);
 
 	async function _init() {
 
@@ -56,10 +59,6 @@
 				_hasAdmission = (resAdmission.student_misc_data.join_admission_selection !== null && resAdmission.student_misc_data.join_admission_selection === true);
 			}
 
-			console.log(_hasOlympia);
-			console.log(_hasAdmission);
-			console.log(_hasPlacement);
-
 			const admissionKey = [
 			"student_department_admission_selection_order",
 			"student_two_year_tech_department_admission_selection_order",
@@ -81,7 +80,6 @@
 				})
 				$olympiaTbody.html(olympiaHTML);
 				$olympiaForm.show();
-				console.log(_olympiaList);
 			}
 
 			if (_hasAdmission) {
@@ -99,7 +97,6 @@
 				})
 				$admissionTbody.html(admissionHTML);
 				$admissionForm.show();
-				console.log(_admissionList);
 			}
 
 			if (_hasPlacement) {
@@ -116,7 +113,6 @@
 				})
 				$placementTbody.html(placementHTML);
 				$placementForm.show();
-				console.log(_placementList);
 			}
 
 			if (!_hasOlympia && !_hasAdmission && !_hasPlacement) {
@@ -135,6 +131,41 @@
 			}
 			loading.complete();
 		}
+	}
+
+	function _checkAllSet() {
+		var isAllSet = confirm("確認後就無法再次更改資料，確認送出嗎？");
+		if (isAllSet === true) {
+			const data = {
+				"confirmed": true
+			}
+			student.dataConfirmation(data)
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+				alert("成功確認資料。");
+				location.href = "./uploadReviewItems.html";
+				loading.complete();
+			})
+			.catch((err) => {
+				if (err.status && err.status === 401) {
+					alert('請登入。');
+					location.href = "./index.html";
+				} else {
+					err.json && err.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					})
+				}
+				loading.complete();
+			});
+		} 
 	}
 
 })();

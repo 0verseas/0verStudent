@@ -408,6 +408,17 @@ const student = (() => {
 		})
 	}
 
+	function dataConfirmation(data) {
+		return fetch(baseUrl + `/students/data-confirmation`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getCountryList,
@@ -442,7 +453,8 @@ const student = (() => {
 		getPlacementSelectionOrder,
 		setPlacementSelectionOrder,
 		getOrderResultList,
-		getStudentRegistrationProgress
+		getStudentRegistrationProgress,
+		dataConfirmation
 	};
 
 })();
