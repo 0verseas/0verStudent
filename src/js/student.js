@@ -371,6 +371,25 @@ const student = (() => {
 		})
 	}
 
+	function getReviewItem({ student_id, dept_id, type_id }) {
+		return new Promise((resolve, reject) => {
+			fetch(`${baseUrl}/students/${student_id}/admission-selection-application-document/departments/${dept_id}/types/${type_id}/files`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				credentials: 'include'
+			})
+			.then((res) => {
+				if (res.ok) {
+					resolve(res.json());
+				} else {
+					reject(res);
+				}
+			})
+		})
+	}
+
 	return {
 		setHeader,
 		getCountryList,
@@ -403,7 +422,8 @@ const student = (() => {
 		getStudentAdmissionPlacementApplyWay,
 		setStudentAdmissionPlacementApplyWay,
         getStudentRegistrationProgress,
-        setReviewItem
+        setReviewItem,
+        getReviewItem
 	};
 
 })();

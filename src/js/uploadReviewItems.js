@@ -114,9 +114,22 @@
 		wishList.innerHTML = wishHTML;
 	}
 
-	function _handleEditForm() {
+	async function _handleEditForm() {
 		const deptId = $(this).data('deptid');
 		const schoolID = $(this).data('schoolid');
+		const uploadedFile = await student.getReviewItem({
+			student_id: _studentID,
+			dept_id: deptId,
+			type_id: 'all'
+		});
+
+		const parsedUploadedFile = [];
+		Object.values(uploadedFile).forEach((val, i) => {
+			parsedUploadedFile[+val.type_id] = val.files;
+		});
+
+		console.log(parsedUploadedFile)
+
 		let applicationDoc = {};
 		student.getDeptApplicationDoc(schoolID, _system, deptId)
 		.then((res) => { return res.json(); })
@@ -150,35 +163,40 @@
 			applicationDoc['applicationDocFiles'].forEach((value, index) => {
 				value.required === true ? requiredBadge = '<span class="badge badge-danger">必填</span>' : requiredBadge = '<span class="badge badge-warning">選填</span>'
 				reviewItemHTML += `
-				<div class="row">
-				<div class="col-12">
-				<div class="card">
-				<div class="card-header bg-primary text-white">
-				` + value.name + ` ` + requiredBadge + `
-				</div>
-				<div class="card-block">
-				<blockquote class="blockquote">
-				` + value.description + `
-				</blockquote>
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header bg-primary text-white">
+									${value.name} ${requiredBadge}
+								</div>
+								<div class="card-block">
+									<blockquote class="blockquote">
+										${value.description}
+									</blockquote>
 
-				<div class="row" style="margin-bottom: 15px;">
-				<div class="col-12">
-				<input id="file-certificate" type="file" class="filestyle file-certificate" data-type="${value.typeId}" data-deptid="${applicationDoc["deptId"]}" multiple>
-				</div>
-				</div>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-type="${value.typeId}" data-deptid="${applicationDoc["deptId"]}" multiple>
+										</div>
+									</div>
 
-				<div class="card">
-				<div class="card-block">
-				<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-				<div id="">
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				</div>
-				<hr>
+									<div class="card">
+										<div class="card-block">
+											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											<div id="">
+												${
+													parsedUploadedFile[value.typeId].map((file, i) => {
+														return `<img src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}" />`
+													}).join('').replace(/,/g, '')
+												}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
 				`
 			});
 
