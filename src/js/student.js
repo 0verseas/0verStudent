@@ -270,6 +270,25 @@ const student = (() => {
 		return Promise.all(urls.map(grabContent))
 	}
 
+	function getAdmissionSelectionWishOrder() {
+		return new Promise((resolve, reject) => {
+			fetch(baseUrl + `/students/admission-selection-order`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				credentials: 'include'
+			})
+			.then((res) => {
+				if (res.ok) {
+					resolve(res.json());
+				} else {
+					reject(res);
+				}
+			})
+		})
+	}
+
 	function setAdmissionSelectionOrder(data) {
 		return fetch(baseUrl + `/students/admission-selection-order`, {
 			method: 'POST',
@@ -397,6 +416,7 @@ const student = (() => {
 		uploadEducationFile,
 		deleteEducationFile,
 		getAdmissionSelectionOrder,
+		getAdmissionSelectionWishOrder,
 		setAdmissionSelectionOrder,
 		verifyQualification,
 		getVerifyQualification,
