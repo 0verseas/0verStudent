@@ -9,6 +9,7 @@
 	let _currentDadStatus = 'alive';
 	let _currentMomStatus = 'alive';
 	let _countryList = [];
+	let _systemId = 0;
 
 	let _hasEduType = false; // 有無學校類別
 	let _hasSchoolList = false; // 有無學校列表，true 則採用 $schoolNameSelect，否則採用 $schoolNameText
@@ -82,6 +83,10 @@
 	const $schoolNameTextForm = $('#schoolNameTextForm'); // 學校名稱表單
 	const $schoolNameText = $('#schoolNameText'); // 學校名稱 (text)
 
+	const $subjectForm = $('#subjectForm');
+	const $majorSubject = $('#majorSubject');
+	const $minorSubject = $('#minorSubject');
+
 	const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
 	const $schoolGraduateAt = $('#schoolGraduateAt'); // 畢業時間
 
@@ -154,6 +159,7 @@
 		})
 		.then((json) => {
 			console.log(json);
+			_systemId = json.student_qualification_verify.system_id;
 			let formData = json.student_personal_data;
 
 			// init 申請人資料表
@@ -215,6 +221,12 @@
 			_currentSchoolName = formData.school_name;
 
 			_reRenderSchoolType();
+
+			if (_systemId === 3 || _systemId === 4) {
+				$subjectForm.show();
+				$majorSubject.val(formData.major_subject);
+				$minorSubject.val(formData.minor_subject);
+			}
 
 			$schoolAdmissionAt.val(formData.school_admission_at);
 			$schoolGraduateAt.val(formData.school_graduate_at);
@@ -859,6 +871,14 @@
 		} else {
 			formValidateList.push(
 				{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name'}
+				);
+		}
+
+		// 判斷是否送主、輔修科目
+		if (_systemId === 3 || _systemId === 4) {
+			formValidateList.push(
+				{el: $majorSubject, require: true, type: 'string', dbKey: 'major_subject'},
+				{el: $minorSubject, require: false, type: 'string', dbKey: 'minor_subject'}
 				);
 		}
 
