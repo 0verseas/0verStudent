@@ -56,25 +56,25 @@
 			const resOrder = await response[1].json();
 
 			_currentSystem = resAdmission.student_qualification_verify.system_id; // 當前學制
-			const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
+			// const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
 			resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {
-					id: value.id,
-					school: value.school.title,
-					dept: value.title,
-					engDept: value.eng_title,
-					sortNum: index
+					id: value.id, // 系所編號
+					school: value.school.title, // 校名
+					dept: value.title, // 中文系名
+					engDept: value.eng_title, // 英文系名
+					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
 				};
 				if (_currentSystem === 1) {
-					add.group = groupName[value.group_code - 1];
-					add.cardCode = value.card_code;
+					add.mainGroup = value.main_group_data.title; // 學群名稱
+					add.cardCode = value.card_code; // 畫卡號碼
 				}
 				_optionalWish.push(add);
 			})
 
 			if (_currentSystem === 1) { // 學士班志願顯示 cardCode，其餘 id
 				_showCodeId = "cardCode";
-				$optionFilterSelect.append('<option value="group">學群</option>');
+				$optionFilterSelect.append('<option value="mainGroup">學群</option>');
 			} else {
 				_showCodeId = "id";
 			}
@@ -206,7 +206,7 @@
 		$.each(data, function(index, item){
 			let groupHTML = '';
 			if (_currentSystem === 1) {
-				groupHTML += ' ｜ <span>' + item.group + '</span>';
+				groupHTML += ' ｜ <span>' + item.mainGroup + '</span>';
 			}
 			html += `
 			<tr>
@@ -228,7 +228,6 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
 		const filterSelect = $optionFilterSelect.val();
 		const filter = $optionFilterInput.val().toUpperCase();
-		console.log(_optionalWish);
 		_filterOptionalWish = _optionalWish.filter(function (obj) {
 			if (filterSelect === "dept") {
 				return obj['dept'].toUpperCase().indexOf(filter) > -1 ||
@@ -261,7 +260,7 @@
 		for(let i in _wishList) {
 			let groupHTML = '';
 			if (_currentSystem === 1) {
-				groupHTML += ' ｜ ' + _wishList[i].group;
+				groupHTML += ' ｜ ' + _wishList[i].mainGroup;
 			}
 			rowHtml = rowHtml + `
 			<tr data-wishIndex="` + i + `">
