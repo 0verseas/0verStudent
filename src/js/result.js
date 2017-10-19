@@ -8,9 +8,6 @@
 	let _hasOlympia = false;
 	let _hasAdmission = false;
 	let _hasPlacement = false;
-	let _olympiaList = [];
-	let _admissionList = [];
-	let _placementList = [];
 
 	/**
 	*	cache DOM
@@ -40,86 +37,116 @@
 	async function _init() {
 
 		try {
-			const response = await student.getOrderResultList();
-			if (!response[0].ok) { throw response[0]; }
+			const progressResponse = await student.getStudentRegistrationProgress();
+			if (!progressResponse.ok) { throw progressResponse; }
+			const progressJson = await progressResponse.json();
 
-			const resAdmission = await response[0].json();
-			_systemId = resAdmission.student_qualification_verify.system_id;
-			if (_systemId === 1 && !response[2].ok) { throw response[2]; }
+			_systemId = progressJson.student_qualification_verify.system_id;
 
-			const resOlympia = await response[1].json();
-			const resPlacement = await response[2].json();
+			console.log(!!progressJson.student_olympia_aspiration_order);
 
-			// 學士班的聯分有讀取條件
-
-			if (_systemId === 1) { // 學士班
-				_hasOlympia = (resOlympia.student_misc_data.has_olympia_aspiration !== null && resOlympia.student_misc_data.has_olympia_aspiration === true);
-				_hasAdmission = (resAdmission.student_misc_data.join_admission_selection !== null && resAdmission.student_misc_data.join_admission_selection === true);
-				_hasPlacement = (resPlacement.student_misc_data.admission_placement_apply_way !== null && resPlacement.student_misc_data.admission_placement_apply_way !== 79);
-			} else if (_systemId === 2) { // 二技
-				_hasAdmission = (resAdmission.student_misc_data.join_admission_selection !== null && resAdmission.student_misc_data.join_admission_selection === true);
-			} else { // 碩博
-				_hasAdmission = (resAdmission.student_misc_data.join_admission_selection !== null && resAdmission.student_misc_data.join_admission_selection === true);
-			}
-
-			const admissionKey = [
-			"student_department_admission_selection_order",
-			"student_two_year_tech_department_admission_selection_order",
-			"student_graduate_department_admission_selection_order",
-			"student_graduate_department_admission_selection_order"
-			]
-
-			if (_hasOlympia) {
-				_olympiaList = resOlympia.student_olympia_aspiration_order;
-				let olympiaHTML = '';
-				_olympiaList.forEach((val, index) => {
-					olympiaHTML += `
-					<tr>
-					<td>` + val.order + `</td>
-					<td>` + val.department_data.card_code + `</td>
-					<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
-					</tr>
-					`
-				})
-				$olympiaTbody.html(olympiaHTML);
-				$olympiaForm.show();
-			}
-
-			if (_hasAdmission) {
-				_admissionList = resAdmission[admissionKey[(_systemId - 1)]];
-				let admissionHTML = '';
-				_admissionList.forEach((val, index) => {
-					let showId = (_systemId === 1) ? val.department_data.card_code : val.dept_id;
-					admissionHTML += `
-					<tr>
-					<td>` + val.order + `</td>
-					<td>` + showId + `</td>
-					<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
-					</tr>
-					`
-				})
-				$admissionTbody.html(admissionHTML);
-				$admissionForm.show();
-			}
-
-			if (_hasPlacement) {
-				_placementList = resPlacement.student_department_admission_placement_order;
-				let placementHTML = '';
-				_placementList.forEach((val, index) => {
-					placementHTML += `
-					<tr>
-					<td>` + val.order + `</td>
-					<td>` + val.department_data.card_code + `</td>
-					<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
-					</tr>
-					`
-				})
-				$placementTbody.html(placementHTML);
-				$placementForm.show();
+			if (_systemId === 1) {
+				_hasOlympia = !!progressJson.student_olympia_aspiration_order;
+				_hasAdmission = !!progressJson.student_department_admission_selection_order;
+				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way;
+			} else if (_systemId === 2) {
+				_hasAdmission = !!progressJson.student_two_year_tech_department_admission_selection_order;
+			} else {
+				_hasAdmission = !!progressJson.student_graduate_department_admission_selection_order;
 			}
 
 			if (!_hasOlympia && !_hasAdmission && !_hasPlacement) {
 				$noSelectForm.show();
+			} else {
+
+				const admissionKey = [ // 個人申請在每個學制的 key
+				"student_department_admission_selection_order",
+				"student_two_year_tech_department_admission_selection_order",
+				"student_graduate_department_admission_selection_order",
+				"student_graduate_department_admission_selection_order"
+				]
+				
+				if (_systemId === 1) { // 學士班，三種都有可能
+					if (_hasOlympia) {
+						const url = '/students/olympia-aspiration-order';
+						const olympiaResponse = await student.getOrderResultList(url);
+						if (!olympiaResponse.ok) { throw olympiaResponse; }
+						const olympiaJson = await olympiaResponse.json();
+						const olympiaList = olympiaJson.student_olympia_aspiration_order;
+						let olympiaHTML = '';
+						olympiaList.forEach((val, index) => {
+							olympiaHTML += `
+							<tr>
+							<td>` + val.order + `</td>
+							<td>` + val.department_data.card_code + `</td>
+							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+							</tr>
+							`
+						})
+						$olympiaTbody.html(olympiaHTML);
+						$olympiaForm.show();
+					}
+					if (_hasAdmission) {
+						const url = '/students/admission-selection-order';
+						const admissionResponse = await student.getOrderResultList(url);
+						if (!admissionResponse.ok) { throw admissionResponse; }
+						const admissionJson = await admissionResponse.json();
+						const admissionList = admissionJson[admissionKey[(_systemId - 1)]];
+						let admissionHTML = '';
+						admissionList.forEach((val, index) => {
+							let showId = (_systemId === 1) ? val.department_data.card_code : val.dept_id;
+							admissionHTML += `
+							<tr>
+							<td>` + val.order + `</td>
+							<td>` + showId + `</td>
+							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+							</tr>
+							`
+						})
+						$admissionTbody.html(admissionHTML);
+						$admissionForm.show();
+					}
+					if (_hasPlacement) {
+						const url = '/students/admission-placement-order';
+						const placementResponse = await student.getOrderResultList(url);
+						if (!placementResponse.ok) { throw placementResponse; }
+						const placementJson = await placementResponse.json();
+						const placementList = placementJson.student_department_admission_placement_order;
+						let placementHTML = '';
+						placementList.forEach((val, index) => {
+							placementHTML += `
+							<tr>
+							<td>` + val.order + `</td>
+							<td>` + val.department_data.card_code + `</td>
+							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+							</tr>
+							`
+						})
+						$placementTbody.html(placementHTML);
+						$placementForm.show();
+					}
+				} else { // 其他學制，只需判斷個人申請
+					if (_hasAdmission) {
+						const url = '/students/admission-selection-order';
+						const admissionResponse = await student.getOrderResultList(url);
+						if (!admissionResponse.ok) { throw admissionResponse; }
+						const admissionJson = await admissionResponse.json();
+						const admissionList = admissionJson[admissionKey[(_systemId - 1)]];
+						let admissionHTML = '';
+						admissionList.forEach((val, index) => {
+							let showId = (_systemId === 1) ? val.department_data.card_code : val.dept_id;
+							admissionHTML += `
+							<tr>
+							<td>` + val.order + `</td>
+							<td>` + showId + `</td>
+							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+							</tr>
+							`
+						})
+						$admissionTbody.html(admissionHTML);
+						$admissionForm.show();
+					}
+				}
 			}
 			loading.complete();
 		} catch(e) {

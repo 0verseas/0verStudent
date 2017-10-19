@@ -382,20 +382,14 @@ const student = (() => {
 		})
 	}
 
-	function getOrderResultList() {
-		var urls = [
-		baseUrl + '/students/admission-selection-order',
-		baseUrl + '/students/olympia-aspiration-order',
-		baseUrl + '/students/admission-placement-order',
-		]
-		const grabContent = url => fetch(url, {
+	function getOrderResultList(url) {
+		return fetch(baseUrl + url, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			credentials: 'include'
 		})
-		return Promise.all(urls.map(grabContent))
 	}
 
 	function getStudentRegistrationProgress() {
