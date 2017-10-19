@@ -93,6 +93,26 @@
 					</div>
 				</div>
 			</div>
+			<div class="row" id="form-homeTown" style="display: none;">
+				<div class="col-md-10">
+					<div class="form-group">
+						<label class="text-danger">籍貫</label>
+						<div class="input-group">
+							<input type="text" id="homeTownProvince" class="form-control">
+							<span class="input-group-addon">省</span>
+							<input type="text" id="homeTownCity" class="form-control">
+							<span class="input-group-addon">市</span>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">於西元</span>
+							<input type="text" id="whenToResident" class="form-control" placeholder="YYYY">
+							<span class="input-group-addon">年從</span>
+							<input type="text" id="whereToResident" class="form-control" placeholder="某地">
+							<span class="input-group-addon">到達現居留地</span>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<fieldset class="form-group">
@@ -341,8 +361,7 @@
 				</div>
 			</div>
 
-			<!-- 顯示：香港、澳門、馬來西亞（類別：華文獨立中學學生、臺灣學校學生）。
-			必須和學校名稱 (select) 一起出現 -->
+			<!-- 顯示：香港、澳門、馬來西亞（類別：華文獨立中學學生、臺灣學校學生）。必須和學校名稱 (select) 一起出現 -->
 			<div id="schoolLocationForm" class="row">
 				<div class="col-md-4">
 					<div class="form-group">
