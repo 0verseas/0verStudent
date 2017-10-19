@@ -167,7 +167,7 @@
 			let reviewItemHTML = '';
 			let requiredBadge = '';
 			applicationDoc['applicationDocFiles'].forEach((value, index) => {
-				value.required === true ? requiredBadge = '<span class="badge badge-danger">必填</span>' : requiredBadge = '<span class="badge badge-warning">選填</span>'
+				value.required === true ? requiredBadge = '<span class="badge badge-danger">必繳</span>' : requiredBadge = '<span class="badge badge-warning">選繳</span>'
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
