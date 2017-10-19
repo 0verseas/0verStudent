@@ -63,6 +63,7 @@
 					school: value.school.title, // 校名
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
+					specialDeptType: value.special_dept_type, // 特殊系所
 					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
 				};
 				if (_currentSystem === 1) {
@@ -203,16 +204,23 @@
 
 	function _optionalWishTemplating(data) { // 分頁資料渲染（data.length === 0 時不會被呼叫）
 		var html = '';
+		let medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 		$.each(data, function(index, item){
 			let groupHTML = '';
+			let markStart = '';
+			let markEnd = '';
 			if (_currentSystem === 1) {
-				groupHTML += ' ｜ <span>' + item.mainGroup + '</span>';
+				groupHTML += ' ｜ ' + item.mainGroup;
+			}
+			if (item.specialDeptType !== null && medicalList.indexOf(item.specialDeptType) > -1) {
+				markStart = '<mark>';
+				markEnd = '</mark>';
 			}
 			html += `
 			<tr>
 			<td>
-			<span>` + item[_showCodeId] + `</span>` + groupHTML + ` ｜ <span>` + item.school + `</span> <br>
-			<span>` + item.dept + ` ` + item.engDept + `</span>
+			` + markStart + item[_showCodeId] + groupHTML + ` ｜ ` + item.school + ` <br>
+			` + item.dept + ` ` + item.engDept + markEnd + `
 			</td>
 			<td class="text-right">
 			<button type="button" data-sortNum="` + item.sortNum + `" class="btn btn-info btn-sm add-wish">
