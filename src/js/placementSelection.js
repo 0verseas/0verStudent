@@ -56,7 +56,7 @@
 				let add = {
 					id: value.id,
 					cardCode: value.card_code,
-					group: groupName[value.group_code - 1],
+					group: groupName[Number(value.group_code) - 1],
 					school: value.school.title,
 					dept: value.title,
 					engDept: value.eng_title,
@@ -71,9 +71,11 @@
 				order.push(value.department_data.id);
 			});
 			await order.forEach((value, index) => {
-				let orderIndex = _optionalWish.findIndex(order => order.id === value)
-				_wishList.push(_optionalWish[orderIndex]);
-				_optionalWish.splice(orderIndex, 1);
+				let orderIndex = _optionalWish.findIndex(order => order.id === value);
+				if (orderIndex > -1) {
+					_wishList.push(_optionalWish[orderIndex]);
+					_optionalWish.splice(orderIndex, 1);
+				}
 			});
 
 			_generateOptionalWish();
@@ -194,6 +196,8 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
 		const filterSelect = '' + $optionFilterSelect.val();
 		const filter = $optionFilterInput.val().toUpperCase();
+
+		console.log(_wishList);
 
 		if (_wishList.length > 0) { // 有選志願
 			const _currentWishGroup = _wishList[0].group;
