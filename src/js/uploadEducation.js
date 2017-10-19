@@ -30,7 +30,7 @@
 	const $modalDeleteBtn = $('#btn-modalDelete');
 
 	// 重整按鈕
-	const $refreshBtn = $('#btn-refresh');
+	const $saveBtn = $('#btn-save');
 
 	/**
 	*	init
@@ -44,7 +44,7 @@
 
 	$fileUpload.on("change", _addImg);
 	$modalDeleteBtn.on("click", _deleteImg);
-	$refreshBtn.on("click", function() {window.location.reload();});
+	$saveBtn.on("click", function() {alert('儲存成功。'); window.location.reload();});
 	
 
 	function _init() {
