@@ -327,8 +327,10 @@
 				$signUpForm.find('.stayLimitAlert.invalid').fadeIn();
 				break;
 			case 2:
-			case 4:
 				$signUpForm.find('.stayLimitAlert.valid').fadeIn();
+				break;
+			case 4:
+				$signUpForm.find('.stayLimitAlert.valid2').fadeIn();
 				break;
 			default:
 				break;
@@ -487,8 +489,10 @@
 				$signUpForm.find('.kangAo_stayLimitAlert.invalid').fadeIn();
 				break;
 			case 2:
-			case 4:
 				$signUpForm.find('.kangAo_stayLimitAlert.valid').fadeIn();
+				break;
+			case 4:
+				$signUpForm.find('.kangAo_stayLimitAlert.valid2').fadeIn();
 				break;
 			default:
 				break;
