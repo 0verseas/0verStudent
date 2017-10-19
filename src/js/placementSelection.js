@@ -54,13 +54,14 @@
 			const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
 			await resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {
-					id: value.id,
-					cardCode: value.card_code,
-					group: groupName[Number(value.group_code) - 1],
-					school: value.school.title,
-					dept: value.title,
-					engDept: value.eng_title,
-					sortNum: index
+					id: value.id, // 系所 id
+					cardCode: value.card_code, // 畫卡號碼
+					mainGroup: value.main_group_data.title, // 學群
+					group: groupName[Number(value.group_code) - 1], // 類組
+					school: value.school.title, // 校名
+					dept: value.title, // 中文系名
+					engDept: value.eng_title, // 英文系名
+					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
 				};
 				_optionalWish.push(add);
 			})
@@ -177,7 +178,7 @@
 			html += `
 			<tr>
 			<td>
-			<span>` + item.cardCode + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.school + `</span> <br>
+			<span>` + item.cardCode + `</span> ｜ <span>` + item.group + `</span> ｜ <span>` + item.mainGroup + `</span> ｜ <span>` + item.school + `</span> <br>
 			<span>` + item.dept + ` ` + item.engDept + `</span>
 			<br />
 			` + badgeNUPS + `
@@ -196,8 +197,6 @@
 	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
 		const filterSelect = '' + $optionFilterSelect.val();
 		const filter = $optionFilterInput.val().toUpperCase();
-
-		console.log(_wishList);
 
 		if (_wishList.length > 0) { // 有選志願
 			const _currentWishGroup = _wishList[0].group;
@@ -264,7 +263,7 @@
 			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
-			` + _wishList[i].cardCode + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].school + ` <br>
+			` + _wishList[i].cardCode + ` ｜ ` + _wishList[i].group + ` ｜ ` + _wishList[i].mainGroup + ` | ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
 			<br />
 			` + badgeNUPS + invalidBadge + `
