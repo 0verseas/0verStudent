@@ -844,7 +844,14 @@
 				{el: $homeTownProvince, require: true, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市'},
 				{el: $homeTownCity, require: true, type: 'string'},
 				{el: $whenToResident, require: false, type: 'string', dbKey: 'when_to_resident'},
-				{el: $whereToResident, require: false, type: 'string', dbKey: 'where_to_resident'},
+				{el: $whereToResident, require: false, type: 'string', dbKey: 'where_to_resident'}
+				);
+		} else {
+			formValidateList.push(
+				{el: $homeTownProvince, require: false, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市'},
+				{el: $homeTownCity, require: false, type: 'string'},
+				{el: $whenToResident, require: false, type: 'string', dbKey: 'when_to_resident'},
+				{el: $whereToResident, require: false, type: 'string', dbKey: 'where_to_resident'}
 				);
 		}
 
