@@ -10,6 +10,7 @@
 	let _currentMomStatus = 'alive';
 	let _countryList = [];
 	let _systemId = 0;
+	let _identityId = 0;
 
 	let _hasEduType = false; // 有無學校類別
 	let _hasSchoolList = false; // 有無學校列表，true 則採用 $schoolNameSelect，否則採用 $schoolNameText
@@ -42,6 +43,11 @@
 	const $birthday = $('#birthday'); // 生日
 	const $birthContinent = $('#birthContinent'); // 出生地（州）
 	const $birthLocation = $('#birthLocation'); // 出生地（國）
+	const $homeTownForm = $('#form-homeTown'); // 籍貫表單
+	const $homeTownProvince = $('#homeTownProvince'); // 籍貫-省
+	const $homeTownCity = $('#homeTownCity'); // 籍貫-市
+	const $whenToResident = $('#whenToResident'); // 籍貫搬遷年份
+	const $whereToResident = $('#whereToResident'); // 籍貫搬遷來源地
 	const $specail = $personalInfoForm.find('.specail'); // 是否為「身心障礙」或「特殊照護」或「特殊教育」者
 	const $specialForm = $('#specialForm'); // 身心障礙表單
 	const $disabilityCategory = $('#disabilityCategory'); // 障礙類別
@@ -160,6 +166,7 @@
 		.then((json) => {
 			console.log(json);
 			_systemId = json.student_qualification_verify.system_id;
+			_identityId = json.student_qualification_verify.identity;
 			let formData = json.student_personal_data;
 
 			// init 申請人資料表
@@ -171,6 +178,15 @@
 			$birthday.val(formData.birthday);
 			$birthContinent.val(_findContinent(formData.birth_location)).change();
 			$birthLocation.val(formData.birth_location);
+
+			if (_identityId === 3) {
+				$homeTownForm.show();
+				$homeTownProvince.val(_splitHomeTown(formData.home_town)[0]);
+				$homeTownCity.val(_splitHomeTown(formData.home_town)[1]);
+				$whenToResident.val(formData.when_to_resident);
+				$whereToResident.val(formData.where_to_resident);
+			}
+
 			_specailStatus = formData.special;
 			$("input[name=special][value='"+ _specailStatus +"']").prop("checked",true).change();
 			if (_specailStatus === 1) {
@@ -264,28 +280,28 @@
 			$twContactWorkplacePhone.val(formData.tw_contact_workplace_phone);
 			$twContactWorkplaceAddress.val(formData.tw_contact_workplace_address);
 		})
-		.then(() => {
-			_showSpecailForm();
-			_handleOtherDisabilityCategoryForm();
-			_switchDadDataForm();
-			_switchMomDataForm();
-		})
-		.then(() => {
-			loading.complete();
-		})
-		.catch((err) => {
-			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
-			} else {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-				})
-			}
-			loading.complete();
+.then(() => {
+	_showSpecailForm();
+	_handleOtherDisabilityCategoryForm();
+	_switchDadDataForm();
+	_switchMomDataForm();
+})
+.then(() => {
+	loading.complete();
+})
+.catch((err) => {
+	if (err.status && err.status === 401) {
+		alert('請登入。');
+		location.href = "./index.html";
+	} else {
+		err.json && err.json().then((data) => {
+			console.error(data);
+			alert(`ERROR: \n${data.messages[0]}`);
 		})
 	}
+	loading.complete();
+})
+}
 
 	function _findContinent(locationId) { // 找到
 		let continent = '';
@@ -301,7 +317,18 @@
 
 	function _splitWithSemicolon(phoneNum) {
 		let i = phoneNum.indexOf(";");
-		return [phoneNum.slice(0,i), phoneNum.slice(i+1)];;
+		return [phoneNum.slice(0,i), phoneNum.slice(i+1)];
+	}
+
+	function _splitHomeTown(homeTown) {
+		let returnArr = [];
+		if (homeTown !== null && homeTown !== "") {
+			let provinceIndex = homeTown.indexOf("省");
+			let cityIndex = homeTown.lastIndexOf("市");
+			returnArr[0] = homeTown.slice(0, provinceIndex);
+			returnArr[1] = homeTown.slice(provinceIndex + 1, cityIndex);
+		}
+		return returnArr;
 	}
 
 	function _initCountryList() {
@@ -521,6 +548,7 @@
 			}
 			if (!_hasEduType) { sendData.school_type = ""; }
 			if (!_hasSchoolList) { sendData.school_locate = ""; }
+			console.log(sendData);
 			loading.start();
 			student.setStudentPersonalData(sendData)
 			.then((res) => {
@@ -533,7 +561,7 @@
 			.then((json) => {
 				console.log(json);
 				alert('儲存成功');
-				window.location.reload();
+				// window.location.reload();
 				loading.complete();
 			})
 			.catch((err) => {
@@ -810,6 +838,15 @@
 			type: 'string',
 			dbKey: 'tw_contact_workplace_address'
 		}]
+
+		if (_identityId === 3) {
+			formValidateList.push(
+				{el: $homeTownProvince, require: true, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市'},
+				{el: $homeTownCity, require: true, type: 'string'},
+				{el: $whenToResident, require: false, type: 'string', dbKey: 'when_to_resident'},
+				{el: $whereToResident, require: false, type: 'string', dbKey: 'where_to_resident'},
+				);
+		}
 
 		if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
 			formValidateList.push(
