@@ -21,6 +21,18 @@ footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	display: none;
 }
 
+.nav-item {
+	display: inline;
+}
+
+.nav-item.hide {
+	display: none;
+}
+
+.nav-item.list-group-item-success i {
+	display: initial;
+}
+
 #logo {
 	color: inherit;
 	position: absolute;
