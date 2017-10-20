@@ -164,7 +164,7 @@
 			}
 		})
 		.then((json) => {
-		_systemId = json.student_qualification_verify.system_id;
+			_systemId = json.student_qualification_verify.system_id;
 			_identityId = json.student_qualification_verify.identity;
 			let formData = json.student_personal_data;
 			if (formData === null) {
@@ -342,6 +342,16 @@
 	_handleOtherDisabilityCategoryForm();
 	_switchDadDataForm();
 	_switchMomDataForm();
+	$schoolAdmissionAt.datepicker( {
+		format: "yyyy/mm",
+		startView: "months", 
+		minViewMode: "months"
+	});
+	$schoolGraduateAt.datepicker( {
+		format: "yyyy/mm",
+		startView: "months", 
+		minViewMode: "months"
+	});
 })
 .then(() => {
 	loading.complete();
