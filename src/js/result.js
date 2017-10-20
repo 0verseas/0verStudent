@@ -43,22 +43,20 @@
 
 			_systemId = progressJson.student_qualification_verify.system_id;
 
-			console.log(!!progressJson.student_olympia_aspiration_order);
 
 			if (_systemId === 1) {
-				_hasOlympia = !!progressJson.student_olympia_aspiration_order;
-				_hasAdmission = !!progressJson.student_department_admission_selection_order;
-				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way;
+				_hasOlympia = !!progressJson.student_olympia_aspiration_order && progressJson.student_misc_data.has_olympia_aspiration;
+				_hasAdmission = !!progressJson.student_department_admission_selection_order && progressJson.student_misc_data.join_admission_selection;
+				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way && progressJson.student_misc_data.admission_placement_apply_way !== 79;
 			} else if (_systemId === 2) {
-				_hasAdmission = !!progressJson.student_two_year_tech_department_admission_selection_order;
+				_hasAdmission = !!progressJson.student_two_year_tech_department_admission_selection_order && progressJson.student_misc_data.join_admission_selection;
 			} else {
-				_hasAdmission = !!progressJson.student_graduate_department_admission_selection_order;
+				_hasAdmission = !!progressJson.student_graduate_department_admission_selection_order && progressJson.student_misc_data.join_admission_selection;
 			}
 
 			if (!_hasOlympia && !_hasAdmission && !_hasPlacement) {
 				$noSelectForm.show();
 			} else {
-
 				const admissionKey = [ // 個人申請在每個學制的 key
 				"student_department_admission_selection_order",
 				"student_two_year_tech_department_admission_selection_order",
