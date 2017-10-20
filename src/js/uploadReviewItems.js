@@ -126,8 +126,6 @@
 		loading.start();
 		const deptId = $(this).data('deptid');
 		const schoolID = $(this).data('schoolid');
-		console.log(deptId);
-		console.log(schoolID);
 		const uploadedFile = await student.getReviewItem({
 			student_id: _studentID,
 			dept_id: deptId,
@@ -139,15 +137,13 @@
 			parsedUploadedFile[+val.type_id] = val.files;
 		});
 
-		console.log(parsedUploadedFile)
-
 		let applicationDoc = {};
 		student.getDeptApplicationDoc(schoolID, _system, deptId)
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			// 整理資料
-			console.log(json)
 			applicationDoc["schoolId"] = json.id;
+			applicationDoc["schoolCardCode"] = json.departments[0].card_code;
 			applicationDoc["schoolName"] = json.title;
 			applicationDoc["deptId"] = json.departments[0].id;
 			applicationDoc["deptNmae"] = json.departments[0].title;
@@ -159,13 +155,18 @@
 				applicationDoc["applicationDocFiles"][index]["description"] = value.description;
 				applicationDoc["applicationDocFiles"][index]["engDescription"] = value.eng_description;
 				applicationDoc["applicationDocFiles"][index]["required"] = value.required;
+				applicationDoc["applicationDocFiles"][index]["paper"] = value.paper;
 				applicationDoc["applicationDocFiles"][index]["files"] = []
 
 			})
 			console.log(applicationDoc);
 		})
 		.then(() => {
-			$deptId.text(applicationDoc.deptId)
+			if (_system === 1) {
+				$deptId.text(applicationDoc.schoolCardCode);
+			} else {
+				$deptId.text(applicationDoc.deptId);
+			}
 			$schoolName.text(applicationDoc.schoolName);
 			$deptName.text(applicationDoc.deptNmae);
 
@@ -173,48 +174,86 @@
 			let requiredBadge = '';
 			applicationDoc['applicationDocFiles'].forEach((value, index) => {
 				value.required === true ? requiredBadge = '<span class="badge badge-danger">必繳</span>' : requiredBadge = '<span class="badge badge-warning">選繳</span>'
-				reviewItemHTML += `
-					<div class="row">
-						<div class="col-12">
-							<div class="card">
-								<div class="card-header bg-primary text-white">
-									${value.name} ${requiredBadge}
-								</div>
-								<div class="card-block">
-									<blockquote class="blockquote">
-										${value.description}
-									</blockquote>
-
-									<div class="row" style="margin-bottom: 15px;">
-										<div class="col-12">
-											<input type="file" class="filestyle file-certificate" data-type="${value.typeId}" data-deptid="${applicationDoc["deptId"]}" multiple>
-										</div>
+				if (!!value.paper) { // 如果有 paper
+					console.log(value);
+					reviewItemHTML += `
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-header bg-primary text-white">
+										${value.name} ${requiredBadge}
 									</div>
+									<div class="card-block">
+										<blockquote class="blockquote">
+											${value.description}
+										</blockquote>
 
-									<div class="card">
-										<div class="card-block">
-											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-											<div id="">
-												${
-													parsedUploadedFile[value.typeId].map((file, i) => {
-														return `<img 
-																	class="img-thumbnail" 
-																	src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
-																	data-toggle="modal"
-																	data-target=".img-modal"
-																	data-type="${value.typeId}"
-																/>`
-													}).join('').replace(/,/g, '')
-												}
+										<div class="card">
+											<div class="card-block">
+												<p>只接受紙本，請於 <span class="text-danger">${value.paper.deadline}</span> 前逕行寄送到下列地址</p>
+												<dl class="row">
+													<dt class="col-md-3 col-lg-2">收件人：</dt>
+													<dd class="col-md-9 col-lg-10">${value.paper.recipient}</dd>
+													<dt class="col-md-3 col-lg-2">地址：</dt>
+													<dd class="col-md-9 col-lg-10">${value.paper.address}</dd>
+													<dt class="col-md-3 col-lg-2">聯絡電話：</dt>
+													<dd class="col-md-9 col-lg-10">${value.paper.phone}</dd>
+													<dt class="col-md-3 col-lg-2">E-mail：</dt>
+													<dd class="col-md-9 col-lg-10">${value.paper.email}</dd>
+												</dl>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<hr>
-				`
+						<hr>
+					`
+				} else {
+					reviewItemHTML += `
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-header bg-primary text-white">
+										${value.name} ${requiredBadge}
+									</div>
+									<div class="card-block">
+										<blockquote class="blockquote">
+											${value.description}
+										</blockquote>
+
+										<div class="row" style="margin-bottom: 15px;">
+											<div class="col-12">
+												<input type="file" class="filestyle file-certificate" data-type="${value.typeId}" data-deptid="${applicationDoc["deptId"]}" multiple>
+											</div>
+										</div>
+
+										<div class="card">
+											<div class="card-block">
+												<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+												<div id="">
+													${
+														parsedUploadedFile[value.typeId].map((file, i) => {
+															return `<img 
+																		class="img-thumbnail" 
+																		src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
+																		data-toggle="modal"
+																		data-target=".img-modal"
+																		data-type="${value.typeId}"
+																	/>`
+														}).join('').replace(/,/g, '')
+													}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+					`
+				}
+				
 			});
 
 			reviewItemsArea.innerHTML = reviewItemHTML;
