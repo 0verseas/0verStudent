@@ -5,6 +5,7 @@
 	*/
 	const $logoutBtn = $('#btn-logout');
 	const $mailResendBtn = $('#btn-mailResend');
+	const $checkBtn = $('#btn-all-set');
 
 	/**
 	* init
@@ -35,6 +36,7 @@
 	*/
 	$logoutBtn.on('click', _handleLogout);
 	$mailResendBtn.on('click', _handleResendMail);
+	$checkBtn.on('click', _checkAllSet);
 
 	function _handleLogout() {
 		loading.start();
@@ -139,4 +141,39 @@
 			id: (data.id).toString().padStart(6, "0")
 		});
 	}
+	function _checkAllSet() {
+		var isAllSet = confirm("確認後就「無法再次更改資料」，您真的確認送出嗎？");
+		if (isAllSet === true) {
+			const data = {
+				"confirmed": true
+			}
+			student.dataConfirmation(data)
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+				alert("成功確認資料。\n如果需要再修改資料請利用「資料修正表」，或是重新申請一組新的帳號。");
+				location.href = "./uploadReviewItems.html";
+				loading.complete();
+			})
+			.catch((err) => {
+				if (err.status && err.status === 401) {
+					alert('請登入。');
+					location.href = "./index.html";
+				} else {
+					err.json && err.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					})
+				}
+				loading.complete();
+			});
+		}
+	}
+
 })();

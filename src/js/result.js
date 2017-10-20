@@ -20,7 +20,7 @@
 	const $placementForm = $('#form-placement');
 	const $placementTbody = $('#tbody-placement');
 	const $noSelectForm = $('#form-no-select');
-	const $checkBtn = $('#btn-check');
+
 
 	/**
 	*	init
@@ -31,8 +31,6 @@
 	/**
 	*	bind event
 	*/
-
-	$checkBtn.on('click', _checkAllSet);
 
 	async function _init() {
 
@@ -164,41 +162,6 @@
 			}
 			loading.complete();
 		}
-	}
-
-	function _checkAllSet() {
-		var isAllSet = confirm("確認後就無法再次更改資料，確認送出嗎？");
-		if (isAllSet === true) {
-			const data = {
-				"confirmed": true
-			}
-			student.dataConfirmation(data)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				console.log(json);
-				alert("成功確認資料。");
-				location.href = "./uploadReviewItems.html";
-				loading.complete();
-			})
-			.catch((err) => {
-				if (err.status && err.status === 401) {
-					alert('請登入。');
-					location.href = "./index.html";
-				} else {
-					err.json && err.json().then((data) => {
-						console.error(data);
-						alert(`ERROR: \n${data.messages[0]}`);
-					})
-				}
-				loading.complete();
-			});
-		} 
 	}
 
 })();
