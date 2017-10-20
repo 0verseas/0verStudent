@@ -43,6 +43,11 @@
 		.then((json) => {
 			console.log(json);
 			_initForm(json.student_education_background_data);
+			$('.input-datepicker').datepicker( {
+				format: "yyyy/mm",
+				startView: "months", 
+				minViewMode: "months"
+			});
 		})
 		.then(() => {
 			loading.complete();
