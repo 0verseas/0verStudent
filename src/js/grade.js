@@ -47,6 +47,8 @@
 			return;
 		}
 
+		console.log(id);
+
 		let data = {
 			apply_way: id
 		}
@@ -72,7 +74,11 @@
 		.then((json) => {
 			console.log(json);
 			alert("儲存成功");
-			window.location.reload();
+			if (id === "79") { // 不參加聯分，原地 reload
+				window.location.reload();
+			} else { // 其餘導向下一頁
+				location.href = "./placementSelection.html"
+			}
 			loading.complete();
 		})
 		.catch((err) => {
