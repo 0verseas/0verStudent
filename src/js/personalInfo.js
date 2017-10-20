@@ -164,8 +164,7 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
-			_systemId = json.student_qualification_verify.system_id;
+		_systemId = json.student_qualification_verify.system_id;
 			_identityId = json.student_qualification_verify.identity;
 			let formData = json.student_personal_data;
 			if (formData === null) {
@@ -393,7 +392,6 @@
 	function _initCountryList() {
 		student.getCountryList()
 		.then((json) => {
-			console.log(json);
 			_countryList = json;
 			let stateHTML = '<option value="-1" data-continentIndex="-1">Continent</option>';
 			json.forEach((obj, index) => {
@@ -614,7 +612,6 @@
 			}
 			if (!_hasEduType) { sendData.school_type = ""; }
 			if (!_hasSchoolList) { sendData.school_locate = ""; }
-			console.log(sendData);
 			loading.start();
 			student.setStudentPersonalData(sendData)
 			.then((res) => {
@@ -627,7 +624,7 @@
 			.then((json) => {
 				console.log(json);
 				alert('儲存成功');
-				// window.location.reload();
+				window.location.reload();
 				loading.complete();
 			})
 			.catch((err) => {
