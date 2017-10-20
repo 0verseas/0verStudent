@@ -87,6 +87,7 @@
 			_wishList = result[key].map((val, i) => {
 				return {
 					id: val.department_data.id,
+					cardCode: val.department_data.card_code,
 					school: val.department_data.school.title,
 					schoolID: val.department_data.school.id,
 					dept: val.department_data.title
@@ -102,13 +103,15 @@
 	function _renderWishList() {
 		let wishHTML = '';
 		_wishList.forEach((value, index) => {
+			let showId = (_system !== 1) ? value.id : value.cardCode;
 			wishHTML += `
 				<tr class="table-warning">
 					<td>${index + 1}</td>
-					<td>${value.id}</td>
+					<td>` + showId + `</td>
 					<td>${value.school} ${value.dept}</td>
 					<td class="text-right">
-						<button type="button" class="btn btn-info btn-wishEdit" data-toggle="modal" data-target="#modal-applicationDoc" data-deptid="${value.id}" data-schoolid="${value.schoolID}"">
+						<button type="button" class="btn btn-info btn-wishEdit"
+							data-deptid="${value.id}" data-schoolid="${value.schoolID}"">
 							<i class="fa fa-upload" aria-hidden="true"></i>
 							<span class="hidden-sm-down"> 上傳</span>
 						</button>
@@ -121,8 +124,10 @@
 
 	async function _handleEditForm() {
 		loading.start();
-		const deptId = _deptID = _deptID || $(this).data('deptid');
-		const schoolID = _schoolID = _schoolID || $(this).data('schoolid');
+		const deptId = $(this).data('deptid');
+		const schoolID = $(this).data('schoolid');
+		console.log(deptId);
+		console.log(schoolID);
 		const uploadedFile = await student.getReviewItem({
 			student_id: _studentID,
 			dept_id: deptId,
