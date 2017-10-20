@@ -342,16 +342,6 @@
 	_handleOtherDisabilityCategoryForm();
 	_switchDadDataForm();
 	_switchMomDataForm();
-	$schoolAdmissionAt.datepicker( {
-		format: "yyyy/mm",
-		startView: "months", 
-		minViewMode: "months"
-	});
-	$schoolGraduateAt.datepicker( {
-		format: "yyyy/mm",
-		startView: "months", 
-		minViewMode: "months"
-	});
 })
 .then(() => {
 	loading.complete();
