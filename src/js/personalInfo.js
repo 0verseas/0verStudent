@@ -168,6 +168,64 @@
 			_systemId = json.student_qualification_verify.system_id;
 			_identityId = json.student_qualification_verify.identity;
 			let formData = json.student_personal_data;
+			if (formData === null) {
+				formData = {
+					"backup_email": "",
+					"gender": "F",
+					"birthday": "",
+					"birth_location": "",
+					"special": 0,
+					"disability_category": "",
+					"disability_level": "",
+					"resident_location": "",
+					"resident_id": "",
+					"resident_passport_no": "",
+					"resident_phone": "",
+					"resident_cellphone": "",
+					"resident_address": ";",
+					"taiwan_id_type": "",
+					"taiwan_id": "",
+					"taiwan_passport": "",
+					"taiwan_phone": "",
+					"taiwan_address": "",
+					"education_system_description": "",
+					"school_country": "",
+					"school_name": "",
+					"school_type": "",
+					"school_locate": "",
+					"school_admission_at": "",
+					"school_graduate_at": "",
+					"major_subject": null,
+					"minor_subject": null,
+					"dad_status": "alive",
+					"dad_name": "",
+					"dad_eng_name": "",
+					"dad_birthday": "",
+					"dad_hometown": "",
+					"dad_job": "",
+					"mom_status": "alive",
+					"mom_name": "",
+					"mom_eng_name": "",
+					"mom_birthday": "",
+					"mom_hometown": "",
+					"mom_job": "",
+					"guardian_name": "",
+					"guardian_eng_name": "",
+					"guardian_birthday": "",
+					"guardian_hometown": "",
+					"guardian_job": "",
+					"tw_contact_name": "",
+					"tw_contact_relation": "",
+					"tw_contact_phone": "",
+					"tw_contact_address": "",
+					"tw_contact_workplace_name": "",
+					"tw_contact_workplace_phone": "",
+					"tw_contact_workplace_address": "",
+					"home_town": "省市",
+					"when_to_resident": null,
+					"where_to_resident": null
+				}
+			}
 
 			// init 申請人資料表
 			$email.val(json.email);
@@ -303,7 +361,7 @@
 })
 }
 
-	function _findContinent(locationId) { // 找到
+	function _findContinent(locationId) { // 找到州別
 		let continent = '';
 		for (let i = 0; i < _countryList.length; i++) {
 			let countryObj = _countryList[i].country.filter((obj) => {
@@ -313,6 +371,7 @@
 				return '' + i;
 			}
 		}
+		return -1;
 	}
 
 	function _splitWithSemicolon(phoneNum) {
@@ -334,8 +393,9 @@
 	function _initCountryList() {
 		student.getCountryList()
 		.then((json) => {
+			console.log(json);
 			_countryList = json;
-			let stateHTML = '<option data-continentIndex="-1">Continent</option>';
+			let stateHTML = '<option value="-1" data-continentIndex="-1">Continent</option>';
 			json.forEach((obj, index) => {
 				stateHTML += '<option value="' + index + '" data-continentIndex="' + index + '">' + obj.continent + '</option>'
 			})
@@ -359,6 +419,7 @@
 			countryHTML = '<option value="">Country</option>'
 		}
 		$countrySelect.html(countryHTML);
+		$schoolCountry.change();
 	}
 
 	function _switchDisabilityCategory() {
@@ -422,65 +483,70 @@
 	}
 
 	function _reRenderSchoolLocation() {
-		student.getSchoolList(_schoolCountryId)
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			let schoolWithType = [];
-			if (_schoolCountryId in _schoolType) {
-				schoolWithType = json.filter((obj) => {
-					return obj.type === _currentSchoolType;
-				})
-			} else {
-				schoolWithType = json;
-			}
-
-			if (schoolWithType.length > 0) {
-				let group_to_values = schoolWithType.reduce(function (obj, item) {
-					obj[item.locate] = obj[item.locate] || [];
-					obj[item.locate].push({name: item.name});
-					return obj;
-				}, {});
-
-				let groups = Object.keys(group_to_values).map(function (key) {
-					return {locate: key, school: group_to_values[key]};
-				});
-
-				_schoolList = groups;
-
-				let schoolLocationHTML = '';
-				_schoolList.forEach((value, index) => {
-					schoolLocationHTML += '<option value="' + value.locate + '">' + value.locate + '</option>';
-				})
-				$schoolLocation.html(schoolLocationHTML);
-				$schoolLocationForm.fadeIn();
-				$schoolNameTextForm.hide();
-				if (_currentSchoolLocate !== "") {
-					$schoolLocation.val(_currentSchoolLocate);
+		if (_schoolCountryId !== "") {
+			student.getSchoolList(_schoolCountryId)
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
 				} else {
-					_currentSchoolLocate = _schoolList[0].locate;
+					throw res;
 				}
-				_hasSchoolList = true;
-			} else {
-				$schoolLocationForm.hide();
-				$schoolNameTextForm.fadeIn();
-				$schoolNameText.val(_currentSchoolName);
-				_hasSchoolList = false;
-			}
-		})
-		.then(() => {
-			setTimeout(_reRenderSchoolList(), 500);
-		})
-		.catch((err) => {
-			err.json && err.json().then((data) => {
-				console.error(data);
 			})
-		})
+			.then((json) => {
+				let schoolWithType = [];
+				if (_schoolCountryId in _schoolType) {
+					schoolWithType = json.filter((obj) => {
+						return obj.type === _currentSchoolType;
+					})
+				} else {
+					schoolWithType = json;
+				}
+
+				if (schoolWithType.length > 0) {
+					let group_to_values = schoolWithType.reduce(function (obj, item) {
+						obj[item.locate] = obj[item.locate] || [];
+						obj[item.locate].push({name: item.name});
+						return obj;
+					}, {});
+
+					let groups = Object.keys(group_to_values).map(function (key) {
+						return {locate: key, school: group_to_values[key]};
+					});
+
+					_schoolList = groups;
+
+					let schoolLocationHTML = '';
+					_schoolList.forEach((value, index) => {
+						schoolLocationHTML += '<option value="' + value.locate + '">' + value.locate + '</option>';
+					})
+					$schoolLocation.html(schoolLocationHTML);
+					$schoolLocationForm.fadeIn();
+					$schoolNameTextForm.hide();
+					if (_currentSchoolLocate !== "") {
+						$schoolLocation.val(_currentSchoolLocate);
+					} else {
+						_currentSchoolLocate = _schoolList[0].locate;
+					}
+					_hasSchoolList = true;
+				} else {
+					$schoolLocationForm.hide();
+					$schoolNameTextForm.fadeIn();
+					$schoolNameText.val(_currentSchoolName);
+					_hasSchoolList = false;
+				}
+			})
+			.then(() => {
+				setTimeout(_reRenderSchoolList(), 500);
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data);
+				})
+			})
+		} else {
+			$schoolLocationForm.hide();
+			$schoolNameTextForm.hide();
+		}
 	}
 
 	function _chSchoolLocation() {
