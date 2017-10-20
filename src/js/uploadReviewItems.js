@@ -124,8 +124,8 @@
 
 	async function _handleEditForm() {
 		loading.start();
-		const deptId = $(this).data('deptid');
-		const schoolID = $(this).data('schoolid');
+		const deptId = _deptID = _deptID || $(this).data('deptid');
+		const schoolID = _schoolID = _schoolID || $(this).data('schoolid');
 		const uploadedFile = await student.getReviewItem({
 			student_id: _studentID,
 			dept_id: deptId,
