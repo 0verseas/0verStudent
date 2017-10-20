@@ -45,7 +45,12 @@
 			}
 		})
 		.then((json) => {
-			location.href = './systemChoose.html';
+			console.log(!!json.student_misc_data.confirmed_at);
+			if (!!json.student_misc_data.confirmed_at) {
+				location.href = './uploadReviewItems.html';
+			} else {
+				location.href = './systemChoose.html';
+			}
 			loading.complete();
 		})
 		.catch((err) => {
