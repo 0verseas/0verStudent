@@ -19,6 +19,7 @@
 		}
 	})
 	.then((json) => {
+		!!json.student_misc_data || location.replace('./');
 		_setGreet(json.username);
 		_setEmailVerifyAlert(json.student_misc_data);
 		_setProgress(json);
