@@ -22,6 +22,7 @@
 		_setEmailVerifyAlert(json.student_misc_data);
 		_setProgress(json);
 		_setHeader(json);
+		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -141,6 +142,22 @@
 			id: (data.id).toString().padStart(6, "0")
 		});
 	}
+
+	function _checkQualificationVerify(currentPathName, qualificationVerifyStatus) {
+		const doNotVerifyPages = [ // 不需檢查資格驗證的頁面
+		"/systemChoose.html",
+		"/qualify1.html",
+		"/qualify2.html",
+		"/qualify3.html"
+		];
+		if (!qualificationVerifyStatus) {
+			if (!(doNotVerifyPages.indexOf(currentPathName) > -1)) {
+				alert("請先完成資格驗證");
+				location.href = "./systemChoose.html"
+			}
+		}
+	}
+
 	function _checkAllSet() {
 		var isAllSet = confirm("確認後就「無法再次更改資料」，您真的確認送出嗎？");
 		if (isAllSet === true) {

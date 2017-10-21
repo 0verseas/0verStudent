@@ -113,6 +113,8 @@
 			if (e.status && e.status === 401) {
 				alert('請登入。');
 				location.href = "./index.html";
+			} else if (e.status && e.status === 403) {
+				// 是否有完成資格驗證在 navbar.js 已經有判斷。
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
