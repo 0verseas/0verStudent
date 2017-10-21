@@ -19,6 +19,7 @@
 		}
 	})
 	.then((json) => {
+		_setGreet(json.username);
 		_setEmailVerifyAlert(json.student_misc_data);
 		_setProgress(json);
 		_setHeader(json);
@@ -175,5 +176,8 @@
 			});
 		}
 	}
-
+	
+	function _setGreet(name) {
+		$('.greet').text(`歡迎 ${name} 登入！親！`)
+	}
 })();
