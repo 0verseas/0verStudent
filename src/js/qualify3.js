@@ -177,7 +177,6 @@
 			const hasBeenTaiwan = +$signUpForm.find('.kangAo_radio-hasBeenTaiwan:checked').val();
 			const KA1_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
 			const KA2_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
-			let valid = true;	
 			if (!idCard) return alert('未擁有香港或澳門永久性居民身分證');
 			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
 			if (!!isDistribution && distributionOption > 2) return alert('分發來台選項不具報名資格')
@@ -253,7 +252,6 @@
 			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
 			const whyHasBeenTaiwan = +$signUpForm.find('.radio-whyHasBeenTaiwan:checked').val();
 			const invalidDistributionOption = [3, 4, 5, 6];
-			let valid = true;
 			if (!!isDistribution && invalidDistributionOption.includes(distributionOption)) return alert('分發來台選項不具報名資格');
 			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
 			if (stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
@@ -314,7 +312,6 @@
 			const applyPeer = +$signUpForm.find('.radio-applyPeer:checked').val();
 			const applyPeerYear = $signUpForm.find('.input-applyPeerYear').val();
 			const applyPeerStatus = +$signUpForm.find('.radio-applyPeerStatus:checked').val();
-			let valid = true;
 			if (!taiwanUniversity) return alert('未曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過');
 			if (!distributionYear === '') return alert('未填寫分發年份');
 			if (distributionWay === '') return alert('未填寫分發管道');
