@@ -25,6 +25,7 @@
 	const reviewItemsArea = document.getElementById('reviewItemsArea');
 	const $saveBtn = $('#btn-save');
 	const $exitBtn = $('#btn-exit');
+	const $downloadDocumentsBtn = $('#btn-downloadDocuments');
 
 	/**
 	*	init
@@ -96,6 +97,7 @@
 		})
 		.then(() => {
 			_renderWishList();
+			$downloadDocumentsBtn.attr('href', env.baseUrl + '/students/admission-paper');
 			loading.complete();
 		});
 	}
@@ -386,4 +388,5 @@
 			id: (data.id).toString().padStart(6, "0")
 		});
 	}
+
 })();
