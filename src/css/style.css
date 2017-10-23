@@ -1,3 +1,43 @@
+
+@keyframes bounce {
+	0%, 100%, 20%, 50%, 80% {
+		-webkit-transform: translateY(0);
+		-ms-transform:     translateY(0);
+		transform:         translateY(0)
+	}
+	40% {
+		-webkit-transform: translateY(-30px);
+		-ms-transform:     translateY(-30px);
+		transform:         translateY(-30px)
+	}
+	60% {
+		-webkit-transform: translateY(-15px);
+		-ms-transform:     translateY(-15px);
+		transform:         translateY(-15px)
+	}
+}
+
+@keyframes bounceX {
+	0%, 20%, 50%, 80%, 100% {
+		-moz-transform: translateX(0);
+		-ms-transform: translateX(0);
+		-webkit-transform: translateX(0);
+		transform: translateX(0);
+	}
+	40% {
+		-moz-transform: translateX(-15px);
+		-ms-transform: translateX(-15px);
+		-webkit-transform: translateX(-15px);
+		transform: translateX(-15px);
+	}
+	60% {
+		-moz-transform: translateX(-5px);
+		-ms-transform: translateX(-5px);
+		-webkit-transform: translateX(-5px);
+		transform: translateX(-5px);
+	}
+}
+
 #app {
 	margin-top: 40px;
 }
@@ -29,8 +69,21 @@ footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	display: none;
 }
 
-.nav-item.list-group-item-success i {
+.nav-item.list-group-item-success i.done {
 	display: initial;
+}
+
+.nav-item.list-group-item-success i.yet {
+	display: none;
+}
+
+.nav-item.active .icon-arrow {
+	position: absolute;
+	top: 17px;
+	display: initial;
+	-moz-animation: bounceX 2s infinite;
+	-webkit-animation: bounceX 2s infinite;
+	animation: bounceX 2s infinite;
 }
 
 #logo {
@@ -53,62 +106,44 @@ footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	-moz-animation-name: bounce;
 }
 
-@keyframes bounce {
-	0%, 100%, 20%, 50%, 80% {
-		-webkit-transform: translateY(0);
-		-ms-transform:     translateY(0);
-		transform:         translateY(0)
-	}
-	40% {
-		-webkit-transform: translateY(-30px);
-		-ms-transform:     translateY(-30px);
-		transform:         translateY(-30px)
-	}
-	60% {
-		-webkit-transform: translateY(-15px);
-		-ms-transform:     translateY(-15px);
-		transform:         translateY(-15px)
-	}
-}
-
 #arrow-top{
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgb(0, 0, 0);
-    background: rgba(0, 0, 0, 0.7);
-    width: 50px;
-    height: 50px;
-    display: block;
-    text-decoration: none;
-    -webkit-border-radius: 35px;
-    -moz-border-radius: 35px;
-    border-radius: 35px;
-    display: none;
-    -webkit-transition: all 0.3s linear;
-    -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background: rgb(0, 0, 0);
+	background: rgba(0, 0, 0, 0.7);
+	width: 50px;
+	height: 50px;
+	display: block;
+	text-decoration: none;
+	-webkit-border-radius: 35px;
+	-moz-border-radius: 35px;
+	border-radius: 35px;
+	display: none;
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 #arrow-top i{
-    color: #fff;
-    margin: 0;
-    position: relative;
-    left: 16px;
-    top: 13px;
-    font-size: 19px;
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+	color: #fff;
+	margin: 0;
+	position: relative;
+	left: 16px;
+	top: 13px;
+	font-size: 19px;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 #arrow-top:hover{
-    background: rgba(0, 0, 0, 0.9);
+	background: rgba(0, 0, 0, 0.9);
 }
 #arrow-top:hover i{
-    color: #fff;
-    top: 5px;
+	color: #fff;
+	top: 5px;
 }
 
