@@ -57,6 +57,7 @@
 			})
 			.then((json) => {
 				_setHeader(json);
+				_setGreet(json.name || json.email);
 				_system = json.student_qualification_verify.system_id;
 				resolve();
 			})
@@ -387,6 +388,10 @@
 			identity: identityMap[data.student_qualification_verify.identity - 1],
 			id: (data.id).toString().padStart(6, "0")
 		});
+	}
+
+	function _setGreet(name) {
+		$('.greet').text(`歡迎 ${name} 登入！`)
 	}
 
 })();
