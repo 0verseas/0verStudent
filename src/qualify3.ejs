@@ -681,12 +681,15 @@
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<label>分發年份：</label>
-					<input type="text" class="form-control input-distributionYear">
+					<label>入學管道：</label>
+					<select class="form-control input-distributionWay">
+						<option value="海外聯合招生委員會">海外聯合招生委員會</option>
+						<option value="各校單獨招生">各校單獨招生</option>
+					</select>
 				</div>
 				<div class="form-group">
-					<label>分發管道：</label>
-					<input type="text" class="form-control input-distributionWay">
+					<label>首度分發至臺灣各大學之年份：</label>
+					<input class="form-control input-distributionYear" data-provide="datepicker" data-date-format="yyyy" data-date-min-view-mode="2" data-date-end-date="yyyy">
 				</div>
 				<div class="form-group">
 					<label>分發學校：</label>
@@ -697,7 +700,7 @@
 					<input type="text" class="form-control input-distributionDept">
 				</div>
 				<div class="form-group">
-					<label>分發文字號： <a href="https://dev.overseas.ncnu.edu.tw/school_allstudent/select.php" target="_blank">錄取結果查詢系統 <i class="fa fa-external-link" aria-hidden="true"></i></a></label>
+					<label>分發文字號： <a href="https://dev.overseas.ncnu.edu.tw/school_allstudent/select.php" target="_blank">海外聯招會-歷年錄取結果查詢系統 <i class="fa fa-external-link" aria-hidden="true"></i></a></label>
 					<input type="text" class="form-control input-distributionNo" placeholder="如經海外聯招會分發者，建議提供分發文字號">
 				</div>
 			</div>
