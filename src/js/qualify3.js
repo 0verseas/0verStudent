@@ -378,7 +378,7 @@
 		const has = +$(this).val();
 		if (!has) {
 			const theReallyIdentity = _identity === 4 ? 1 : 3;
-			const identityName = { 1: '港澳生', 3: '海外僑生' };
+			const identityName = { 1: '港澳生或港澳具外國國籍之華裔學生', 3: '海外僑生' };
 			alert(`身份別應為 ${identityName[theReallyIdentity]}`);
 			$signUpForm.find(`.radio-identity[value="${theReallyIdentity}"]`).prop('checked', true).trigger('change');
 		}
