@@ -121,7 +121,6 @@
 		const KA1_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
 		const KA2_whyHasBeenTaiwanOption = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
 		const invalidDistributionOption = [3, 4, 5, 6];
-		let valid = true;
 		if (!graduated) return alert('您未在香港是否修習全日制副學士學位或高級文憑課程，並已取得畢業證書');
 		if (!idCard) return alert('未擁有香港或澳門永久性居民身分證');
 		if (!_typeOfKangAo) return alert('請確保上方問題皆已選填');
