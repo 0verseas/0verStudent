@@ -6,6 +6,7 @@
 	const $logoutBtn = $('#btn-logout');
 	const $mailResendBtn = $('#btn-mailResend');
 	const $checkBtn = $('#btn-all-set');
+	const $afterConfirmZone = $('#afterConfirmZone');
 
 	/**
 	* init
@@ -19,6 +20,7 @@
 		}
 	})
 	.then((json) => {
+		console.log(json);
 		!!json.student_misc_data || location.replace('./');
 		_setGreet(json.name || json.email);
 		_setEmailVerifyAlert(json.student_misc_data);
@@ -178,7 +180,7 @@
 			.then((json) => {
 				console.log(json);
 				alert("成功確認資料。\n如果需要再修改資料請利用「資料修正表」，或是重新申請一組新的帳號。");
-				location.href = "./uploadReviewItems.html";
+				location.href = "./downloadDocs.html";
 				loading.complete();
 			})
 			.catch((err) => {
@@ -201,6 +203,6 @@
 	}
 
 	function  _checkConfirm(confirmed) {
-		confirmed && $('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報');
+		confirmed && $('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報') && $afterConfirmZone.show();
 	}
 })();
