@@ -277,7 +277,7 @@
 			<br />
 			` + badgeNUPS + invalidBadge + `
 			</td>
-			<td class="text-right">
+			<td class="text-right td-wish-num">
 			<div class="input-group">
 			<input type="text" class="form-control wish-num" value="` + (Number(i) + 1) + `">
 			<div class="input-group-btn">

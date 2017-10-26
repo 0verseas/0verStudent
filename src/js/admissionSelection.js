@@ -282,7 +282,7 @@
 			` + _wishList[i][_showCodeId] + groupHTML + ` ｜ ` + _wishList[i].school + ` <br>
 			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
 			</td>
-			<td class="text-right">
+			<td class="text-right td-wish-num">
 			<div class="input-group">
 			<input type="text" class="form-control wish-num" value="` + (Number(i) + 1) + `">
 			<div class="input-group-btn">

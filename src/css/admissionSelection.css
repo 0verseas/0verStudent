@@ -12,6 +12,11 @@
 
 .table > tbody > tr > td {
 	vertical-align: middle;
+	font-size: 14px;
+}
+
+.table > tbody > tr > .td-wish-num {
+	width: 100px
 }
 
 .badge-white {
