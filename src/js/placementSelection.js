@@ -108,9 +108,10 @@
 		if (_wishList.length < 70) {
 			const sortNum = $(this).data("sortnum");
 			const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum)
+			const pageNum = $paginationContainer.pagination('getSelectedPageNum');
 			_wishList.push(_optionalWish[optionalIndex]);
 			_optionalWish.splice(optionalIndex, 1);
-			_generateOptionalWish();
+			_generateOptionalWish(pageNum);
 			_generateWishList();
 		} else {
 			alert('志願數量已達上限。');
@@ -118,15 +119,15 @@
 	}
 
 	function _removeWish() { // 刪除志願
-
 		const sortNum = $(this).data("sortnum");
 		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
+		const pageNum = $paginationContainer.pagination('getSelectedPageNum');
 		_optionalWish.push(_wishList[wishIndex]);
 		_wishList.splice(wishIndex, 1);
 		_optionalWish.sort(function(a, b) {
 			return parseInt(a.sortNum) - parseInt(b.sortNum);
 		});
-		_generateOptionalWish();
+		_generateOptionalWish(pageNum);
 		_generateWishList();
 	}
 
@@ -203,7 +204,8 @@
 		return html;
 	}
 
-	function _generateOptionalWish() { // 渲染「招生校系清單」、含篩選
+	function _generateOptionalWish(pageNum) { // 渲染「招生校系清單」、含篩選
+		pageNum = (!isNaN(parseFloat(pageNum)) && isFinite(pageNum)) ? pageNum : 1;
 		const filterSelect = '' + $optionFilterSelect.val();
 		const filter = $optionFilterInput.val().toUpperCase();
 
@@ -241,13 +243,14 @@
 
 		$paginationContainer.pagination({
 			dataSource: _filterOptionalWish,
+			pageNumber: pageNum,
 			callback: function(data, pagination) {
 				var html = _optionalWishTemplating(data);
 				$optionalWishList.html(html);
 				const $addWish = $optionalWishList.find('.add-wish');
 				$addWish.on("click", _addWish);
 			}
-		})
+		});
 
 		if (_filterOptionalWish.length === 0) {
 			$optionalWishList.html(`
