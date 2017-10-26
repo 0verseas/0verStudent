@@ -20,6 +20,7 @@
 	const $placementForm = $('#form-placement');
 	const $placementTbody = $('#tbody-placement');
 	const $noSelectForm = $('#form-no-select');
+	const $previewPersonalDataBtn = $('#btn-previewPersonalData');
 
 
 	/**
@@ -144,6 +145,7 @@
 					}
 				}
 			}
+			$previewPersonalDataBtn.attr('href', env.baseUrl + '/students/admission-paper/department-apply-form');
 			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
