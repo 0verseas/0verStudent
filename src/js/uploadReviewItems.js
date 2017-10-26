@@ -127,14 +127,14 @@
 
 	async function _handleEditForm() {
 		loading.start();
-		const deptId = _deptID = _deptID || $(this).data('deptid');
-		const schoolID = _schoolID = _schoolID || $(this).data('schoolid');
+		const deptId = _deptID = $(this).data('deptid') || _deptID;
+		const schoolID = _schoolID = $(this).data('schoolid') || _schoolID;
 		const uploadedFile = await student.getReviewItem({
 			student_id: _studentID,
 			dept_id: deptId,
 			type_id: 'all'
 		});
-
+		
 		const parsedUploadedFile = [];
 		Object.values(uploadedFile).forEach((val, i) => {
 			parsedUploadedFile[+val.type_id] = val.files;
