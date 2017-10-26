@@ -25,6 +25,7 @@
 		_setProgress(json);
 		_setHeader(json);
 		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
+		_checkConfirm(!!json.student_misc_data.confirmed_at);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -197,5 +198,9 @@
 	
 	function _setGreet(name) {
 		$('.greet').text(`歡迎 ${name} 登入！`)
+	}
+
+	function  _checkConfirm(confirmed) {
+		confirmed && $('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報');
 	}
 })();
