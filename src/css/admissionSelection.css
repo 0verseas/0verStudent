@@ -12,6 +12,9 @@
 
 .table > tbody > tr > td {
 	vertical-align: middle;
+}
+
+#optionalWish-list, #wish-list > tr > td {
 	font-size: 14px;
 }
 
