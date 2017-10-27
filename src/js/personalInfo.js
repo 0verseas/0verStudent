@@ -27,6 +27,7 @@
 		"143": ["泰北未立案之華文中學", "泰國當地中學"] // 泰國
 	}
 	const _disabilityCategoryList = ["視覺障礙", "聽覺障礙", "肢體障礙", "語言障礙", "腦性麻痺", "自閉症", "學習障礙"];
+	let _errormsg = [];
 
 	/**
 	*	cache DOM
@@ -636,7 +637,7 @@
 			})
 		} else {
 			console.log('==== validate failed ====');
-			alert("填寫格式錯誤，請檢查表單。");
+			alert("填寫格式錯誤，請檢查以下表單：\n———————————————\n" + _errormsg.join('、'));
 		}
 	}
 
@@ -689,57 +690,66 @@
 			el: $backupEmail,
 			require: false,
 			type: 'email',
-			dbKey: 'backup_email'
+			dbKey: 'backup_email',
+			colName: '備用 E-Mail'
 		},
 		{
 			el: $name,
 			require: true,
 			type: 'string',
-			dbKey: 'name'
+			dbKey: 'name',
+			colName: '姓名（中）'
 		},
 		{
 			el: $engName,
 			require: true,
 			type: 'string',
-			dbKey: 'eng_name'
+			dbKey: 'eng_name',
+			colName: '姓名（英）'
 		},
 		{
 			el: $gender,
 			require: true,
 			type: 'radio',
 			value: $(".gender:checked").val(),
-			dbKey: 'gender'
+			dbKey: 'gender',
+			colName: '性別'
 		},
 		{
 			el: $birthday,
 			require: true,
 			type: 'date',
-			dbKey: 'birthday'
+			dbKey: 'birthday',
+			colName: '生日'
 		},
 		{
 			el: $birthLocation,
 			require: true,
 			type: 'string',
-			dbKey: 'birth_location'
+			dbKey: 'birth_location',
+			colName: '出生國別'
 		},
 		{
 			el: $specail,
 			require: true,
 			type: 'radio',
 			value: $(".specail:checked").val(),
-			dbKey:'special'
+			dbKey:'special',
+			colName: '身心障礙選項'
 		},
 		{
 			el: $residentLocation,
 			require: true,
 			type: 'string',
-			dbKey: 'resident_location'
+			dbKey: 'resident_location',
+			colName: '僑居地國別'
 		},
 		{
 			el: $residentId,
 			require: true,
 			type: 'string',
-			dbKey: 'resident_id'
+			dbKey: 'resident_id',
+			colName: '身分證號碼'
 		},
 		{
 			el: $residentPassportNo,
@@ -750,33 +760,38 @@
 		{ // 電話國碼，需驗證，合併在電話號碼一起送出。
 			el: $residentPhoneCode,
 			require: true,
-			type: 'string'
+			type: 'string',
+			colName: '僑居地電話國碼'
 		}, 
 		{
 			el: $residentPhone,
 			require: true,
 			type: 'string',
 			dbKey: 'resident_phone',
-			dbData: $residentPhoneCode.val() + ';' + $residentPhone.val()
+			dbData: $residentPhoneCode.val() + ';' + $residentPhone.val(),
+			colName: '僑居地電話號碼'
 		},
 		{ // 手機國碼，需驗證，合併在手機號碼一起送出。
 			el: $residentCellphoneCode,
 			require: true,
-			type: 'string'
+			type: 'string',
+			colName: '僑居地手機國碼'
 		},
 		{
 			el: $residentCellphone,
 			require: true,
 			type: 'string',
 			dbKey: 'resident_cellphone',
-			dbData: $residentCellphoneCode.val() + ';' + $residentCellphone.val()
+			dbData: $residentCellphoneCode.val() + ';' + $residentCellphone.val(),
+			colName: '僑居地手機號碼'
 		},
 		{
 			el: $residentAddress,
 			require: true,
 			type: 'string',
 			dbKey: 'resident_address',
-			dbData: $residentAddress.val() + ';' + $residentOtherLangAddress.val()
+			dbData: $residentAddress.val() + ';' + $residentOtherLangAddress.val(),
+			colName: '僑居地地址'
 		},
 		{
 			el: $residentOtherLangAddress,
@@ -811,13 +826,15 @@
 			el: $educationSystemDescription,
 			require: true,
 			type: 'string',
-			dbKey: 'education_system_description'
+			dbKey: 'education_system_description',
+			colName: '學制描述'
 		},
 		{
 			el: $schoolCountry,
 			require: true,
 			type: 'string',
-			dbKey: 'school_country'
+			dbKey: 'school_country',
+			colName: '學校所在地國家'
 		},
 		{
 			el: $schoolType,
@@ -837,27 +854,31 @@
 			el: $schoolAdmissionAt,
 			require: true,
 			type: 'date',
-			dbKey: 'school_admission_at'
+			dbKey: 'school_admission_at',
+			colName: '入學時間'
 		},
 		{
 			el: $schoolGraduateAt,
 			require: true,
 			type: 'date',
-			dbKey: 'school_graduate_at'
+			dbKey: 'school_graduate_at',
+			colName: '畢業時間'
 		},
 		{
 			el: $dadStatus,
 			require: true,
 			type: 'radio',
 			value: _currentDadStatus,
-			dbKey: 'dad_status'
+			dbKey: 'dad_status',
+			colName: '父親存歿'
 		},
 		{
 			el: $momStatus,
 			require: true,
 			type: 'radio',
 			value: _currentMomStatus,
-			dbKey: 'mom_status'
+			dbKey: 'mom_status',
+			colName: '母親存歿'
 		},
 		{
 			el: $twContactName,
@@ -904,8 +925,8 @@
 
 		if (_identityId === 3) {
 			formValidateList.push(
-				{el: $homeTownProvince, require: true, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市'},
-				{el: $homeTownCity, require: true, type: 'string'},
+				{el: $homeTownProvince, require: true, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市', colName: '籍貫(省)'},
+				{el: $homeTownCity, require: true, type: 'string', colName: '籍貫(市)'},
 				{el: $whenToResident, require: false, type: 'string', dbKey: 'when_to_resident'},
 				{el: $whereToResident, require: false, type: 'string', dbKey: 'where_to_resident'}
 				);
@@ -920,46 +941,46 @@
 
 		if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
 			formValidateList.push(
-				{el: $otherDisabilityCategory, require: true, type: 'string', dbKey: 'disability_category'},
-				{el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level'}
+				{el: $otherDisabilityCategory, require: true, type: 'string', dbKey: 'disability_category', colName: '其他身心障礙類別'},
+				{el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level', colName: '身心障礙程度'}
 				);
 		} else if ($(".specail:checked").val() === "1") {
 			formValidateList.push(
-				{el: $disabilityCategory, require: true, type: 'string', dbKey: 'disability_category'},
-				{el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level'}
+				{el: $disabilityCategory, require: true, type: 'string', dbKey: 'disability_category', colName: '身心障礙類別'},
+				{el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level', colName: '身心障礙程度'}
 				);
 		}
 
 		// 父親不為「不詳」時增加的驗證
 		if (_currentDadStatus !== "undefined") {
 			formValidateList.push(
-				{el: $dadName, require: true, type: 'string', dbKey: 'dad_name'},
-				{el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name'},
-				{el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday'},
+				{el: $dadName, require: true, type: 'string', dbKey: 'dad_name', colName: '父親姓名（中）'},
+				{el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name', colName: '父親姓名（英）'},
+				{el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday', colName: '父親生日'},
 				{el: $dadHometown, require: false, type: 'string', dbKey: 'dad_hometown'},
-				{el: $dadJob, require: true, type: 'string', dbKey: 'dad_job'}
+				{el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業'}
 				);
 		}
 
 		// 母親不為「不詳」時增加的驗證
 		if (_currentMomStatus !== "undefined") {
 			formValidateList.push(
-				{el: $momName, require: true, type: 'string', dbKey: 'mom_name'},
-				{el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name'},
-				{el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday'},
+				{el: $momName, require: true, type: 'string', dbKey: 'mom_name', colName: '母親姓名（中）'},
+				{el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name', colName: '母親姓名（英）'},
+				{el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday', colName: '母親生日'},
 				{el: $momHometown, require: false, type: 'string', dbKey: 'mom_hometown'},
-				{el: $momJob, require: true, type: 'string', dbKey: 'mom_job'}
+				{el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業'}
 				);
 		}
 
 		// 父母皆為「不詳」時，增加「監護人」驗證
 		if (_currentDadStatus === "undefined" && _currentMomStatus === "undefined") {
 			formValidateList.push(
-				{el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name'},
-				{el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name'},
-				{el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday'},
+				{el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）'},
+				{el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）'},
+				{el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日'},
 				{el: $guardianHometown, require: false, type: 'string', dbKey: 'guardian_hometown'},
-				{el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job'}
+				{el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業'}
 				);
 		}
 
@@ -973,24 +994,25 @@
 		// 判斷 schoolName 要送 select 的還是 text 的
 		if (_hasSchoolList) {
 			formValidateList.push(
-				{el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name'}
+				{el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
 				);
 		} else {
 			formValidateList.push(
-				{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name'}
+				{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
 				);
 		}
 
 		// 判斷是否送主、輔修科目
 		if (_systemId === 3 || _systemId === 4) {
 			formValidateList.push(
-				{el: $majorSubject, require: true, type: 'string', dbKey: 'major_subject'},
+				{el: $majorSubject, require: true, type: 'string', dbKey: 'major_subject', colName: '主修科目'},
 				{el: $minorSubject, require: false, type: 'string', dbKey: 'minor_subject'}
 				);
 		}
 
 		let _correct = true; // 格式正確
 		let sendData = {}; // 送給後端的
+		_errormsg = [];
 
 		formValidateList.forEach((obj, index) => {
 			if (obj.require) {
@@ -1001,6 +1023,7 @@
 							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
+							_errormsg.push(obj.colName);
 							_correct = false;
 							obj.el.addClass('invalidInput');
 						}
@@ -1010,6 +1033,7 @@
 							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
+							_errormsg.push(obj.colName);
 							_correct = false;
 							obj.el.addClass('invalidInput');
 						}
@@ -1019,6 +1043,7 @@
 						obj.el.removeClass('invalidInput');
 					}
 				} else {
+					_errormsg.push(obj.colName);
 					_correct = false;
 					obj.el.addClass('invalidInput');
 				}
@@ -1030,6 +1055,7 @@
 							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
+							_errormsg.push(obj.colName);
 							_correct = false;
 							obj.el.addClass('invalidInput');
 						}
@@ -1039,6 +1065,7 @@
 							if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
 							obj.el.removeClass('invalidInput');
 						} else {
+							_errormsg.push(obj.colName);
 							_correct = false;
 							obj.el.addClass('invalidInput');
 						}
