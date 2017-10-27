@@ -11,7 +11,7 @@
 	*/
 
 	function _init() {
-		$('#btn-smart').attr('href', env.baseUrl + '/students/admission-paper');
+		$('#btn-smart').attr('href', env.baseUrl + '/students/print-admission-paper');
 		console.log("Asd");
 		loading.complete();
 	}
