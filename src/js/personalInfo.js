@@ -408,7 +408,7 @@
 		const $row = $(this).closest('.row');
 		const $countrySelect = $row.find('.country');
 
-		let countryHTML = '';
+		let countryHTML = '<option value="">Country</option>';
 		if (continent !== -1) {
 			_countryList[continent]['country'].forEach((obj, index) => {
 				countryHTML += '<option value="' + obj.id + '">' + obj.country + '</option>';
