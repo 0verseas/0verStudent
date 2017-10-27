@@ -17,7 +17,6 @@
 			if (!response.ok) { throw response; }
 
 			$('#btn-smart').attr('href', env.baseUrl + '/students/print-admission-paper');
-			console.log("Asd");
 			loading.complete();
 
 		} catch (e) {

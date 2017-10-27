@@ -75,7 +75,8 @@ const student = (() => {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			credentials: 'include'
 		})
 	}
 
