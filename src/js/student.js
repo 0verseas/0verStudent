@@ -70,6 +70,15 @@ const student = (() => {
 		});
 	}
 
+	function isLogin() {
+		return fetch(baseUrl + `/students/login`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+	}
+
 	function login(data) {
 		return fetch(baseUrl + `/students/login`, {
 			method: 'POST',
@@ -452,6 +461,7 @@ const student = (() => {
 		getCountryList,
 		getSchoolList,
 		register,
+		isLogin,
 		login,
 		logout,
 		verifyEmail,
