@@ -208,27 +208,25 @@
 	}
 
 	function _optionalWishTemplating(data) { // 分頁資料渲染（data.length === 0 時不會被呼叫）
-		var html = '';
-		let medicalList = ["醫學系", "牙醫學系", "中醫學系"];
+		let html = '';
+		const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 		$.each(data, function(index, item){
+			let medicalHTML = '';
 			let groupHTML = '';
-			let markStart = '';
-			let markEnd = '';
-			if (_currentSystem === 1) {
-				groupHTML += ' ｜ ' + item.mainGroup;
-			}
 			if (item.specialDeptType !== null && medicalList.indexOf(item.specialDeptType) > -1) {
-				markStart = '<mark>';
-				markEnd = '</mark>';
+				medicalHTML = ' class="bg-medical"';
+			}
+			if (_currentSystem === 1) {
+				groupHTML += '｜ ' + item.mainGroup;
 			}
 			html += `
-			<tr>
+			<tr${medicalHTML}>
 			<td>
-			` + markStart + item[_showCodeId] + groupHTML + ` ｜ ` + item.school + ` <br>
-			` + item.dept + ` ` + item.engDept + markEnd + `
+			${item[_showCodeId]} ${groupHTML} ｜ ${item.school}<br>
+			${item.dept} ${item.engDept}
 			</td>
 			<td class="text-right">
-			<button type="button" data-sortNum="` + item.sortNum + `" class="btn btn-info btn-sm add-wish">
+			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-info btn-sm add-wish">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			</button>
 			</td>
@@ -272,28 +270,33 @@
 
 	function _generateWishList() { // 「渲染已填選志願」
 		let rowHtml = '';
+		const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 		for(let i in _wishList) {
+			let medicalHTML = '';
 			let groupHTML = '';
+			if (_wishList[i].specialDeptType !== null && medicalList.indexOf(_wishList[i].specialDeptType) > -1) {
+				medicalHTML = ' class="bg-medical"';
+			}
 			if (_currentSystem === 1) {
-				groupHTML += ' ｜ ' + _wishList[i].mainGroup;
+				groupHTML += '｜ ' + _wishList[i].mainGroup;
 			}
 			rowHtml = rowHtml + `
-			<tr data-wishIndex="` + i + `">
+			<tr${medicalHTML} data-wishIndex="${i}">
 			<td>
-			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
+			<button type="button" data-sortNum="${_wishList[i].sortNum}" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
 			<td>
-			` + _wishList[i][_showCodeId] + groupHTML + ` ｜ ` + _wishList[i].school + ` <br>
-			` + _wishList[i].dept + ` ` + _wishList[i].engDept + `
+			${_wishList[i][_showCodeId]} ${groupHTML} ｜ ${_wishList[i].school}<br>
+			${_wishList[i].dept} ${_wishList[i].engDept}
 			</td>
 			<td class="text-right td-wish-num">
 			<div class="input-group">
-			<input type="text" class="form-control wish-num" value="` + (Number(i) + 1) + `">
+			<input type="text" class="form-control wish-num" value="${(Number(i) + 1)}">
 			<div class="input-group-btn">
-			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-secondary btn-sm up-arrow">
+			<button type="button" data-sortNum="${_wishList[i].sortNum}" class="btn btn-secondary btn-sm up-arrow">
 			<i class="fa fa-chevron-up" aria-hidden="true"></i>
 			</button>
-			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-secondary btn-sm down-arrow">
+			<button type="button" data-sortNum="${_wishList[i].sortNum}" class="btn btn-secondary btn-sm down-arrow">
 			<i class="fa fa-chevron-down" aria-hidden="true"></i>
 			</button>
 			</div>
