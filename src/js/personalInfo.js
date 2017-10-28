@@ -145,7 +145,7 @@
 	$birthContinent.on('change', _reRenderCountry);
 	$specail.on('change', _changeSpecail);
 	$disabilityCategory.on('change', _switchDisabilityCategory);
-	$residenceContinent.on('change', _reRenderCountry);
+	$residenceContinent.on('change', _reRenderResidenceCountry);
 	$schoolContinent.on('change', _reRenderCountry);
 	$schoolCountry.on('change', _chSchoolCountry);
 	$schoolType.on('change', _chSchoolType);
@@ -338,28 +338,29 @@
 			$twContactWorkplacePhone.val(formData.tw_contact_workplace_phone);
 			$twContactWorkplaceAddress.val(formData.tw_contact_workplace_address);
 		})
-.then(() => {
-	_showSpecailForm();
-	_handleOtherDisabilityCategoryForm();
-	_switchDadDataForm();
-	_switchMomDataForm();
-})
-.then(() => {
-	loading.complete();
-})
-.catch((err) => {
-	if (err.status && err.status === 401) {
-		alert('請登入。');
-		location.href = "./index.html";
-	} else {
-		err.json && err.json().then((data) => {
-			console.error(data);
-			alert(`ERROR: \n${data.messages[0]}`);
+		.then(() => {
+			_showSpecailForm();
+			_handleOtherDisabilityCategoryForm();
+			_switchDadDataForm();
+			_switchMomDataForm();
+			_setResidenceContinent();
+		})
+		.then(() => {
+			loading.complete();
+		})
+		.catch((err) => {
+			if (err.status && err.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			} else {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			}
+			loading.complete();
 		})
 	}
-	loading.complete();
-})
-}
 
 	function _findContinent(locationId) { // 找到州別
 		let continent = '';
@@ -396,12 +397,24 @@
 			_countryList = json;
 			let stateHTML = '<option value="-1" data-continentIndex="-1">Continent</option>';
 			json.forEach((obj, index) => {
-				stateHTML += '<option value="' + index + '" data-continentIndex="' + index + '">' + obj.continent + '</option>'
+				stateHTML += `<option value="${index}" data-continentIndex="${index}">${obj.continent}</option>`
 			})
 			$birthContinent.html(stateHTML);
 			$residenceContinent.html(stateHTML);
 			$schoolContinent.html(stateHTML);
 		})
+	}
+
+	function _setResidenceContinent() {
+		// 兩種港澳生的洲別只能選到「亞洲」
+		if ($residenceContinent && (_identityId === 1 || _identityId === 2)) {
+			let residenceContinentOptions = $residenceContinent.find('option');
+			for (let i = 0; i < residenceContinentOptions.length; i++) {
+				if (!(residenceContinentOptions[i].value === "-1" || residenceContinentOptions[i].value === "0")) {
+					residenceContinentOptions[i].remove();
+				}
+			}
+		}
 	}
 
 	function _reRenderCountry() {
@@ -412,13 +425,34 @@
 		let countryHTML = '<option value="">Country</option>';
 		if (continent !== -1) {
 			_countryList[continent]['country'].forEach((obj, index) => {
-				countryHTML += '<option value="' + obj.id + '">' + obj.country + '</option>';
+				countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
 			})
 		} else {
 			countryHTML = '<option value="">Country</option>'
 		}
 		$countrySelect.html(countryHTML);
 		$schoolCountry.change();
+	}
+
+	function _reRenderResidenceCountry() {
+		const continent = $(this).find(':selected').data('continentindex');
+		const identity12Rule = ["113", "127"]; // 兩種港澳生只能選到香港、澳門
+		const identity3Rule = ["113", "127", "147", "148"]; // 海外不能選到香港、澳門、大陸跟台灣
+
+		let countryHTML = '<option value="">Country</option>';
+		if (continent !== -1) {
+			_countryList[continent]['country'].forEach((obj, index) => {
+				if (_identityId === 1 || _identityId === 2) {
+					if (identity12Rule.indexOf(obj.id) === -1) { return; }
+				} else {
+					if (identity3Rule.indexOf(obj.id) > -1) { return; }
+				}
+				countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
+			})
+		} else {
+			countryHTML = '<option value="">Country</option>'
+		}
+		$residentLocation.html(countryHTML);
 	}
 
 	function _switchDisabilityCategory() {
@@ -482,7 +516,7 @@
 	}
 
 	function _reRenderSchoolLocation() {
-		if (_schoolCountryId !== "") {
+		if (!!_schoolCountryId) {
 			student.getSchoolList(_schoolCountryId)
 			.then((res) => {
 				if (res.ok) {
