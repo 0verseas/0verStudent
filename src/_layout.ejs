@@ -15,6 +15,7 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/<%= current.source %>.css" rel="stylesheet">
 	<link rel="stylesheet" href="./css/loading.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js" integrity="sha256-WRc/eG3R84AverJv0zmqxAmdwQxstUpqkiE+avJ3WSo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -23,10 +24,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 	<script src="../env.js"></script>
 	<script src="./js/student.js"></script>
-	
+
 </head>
 <body>
-	<% 
+	<%
 	const _processPageList = [ // 填寫資料頁面列表
 	'systemChoose',
 	'qualify1',
@@ -44,7 +45,7 @@
 	'uploadReviewItems'
 	];
 	%>
-	
+
 	<% include components/_loading %>
 
 	<div id="app" class="container">
@@ -127,7 +128,7 @@
 			}
 		};
 		loading.start();
-		// ===== Scroll to Top ==== 
+		// ===== Scroll to Top ====
 		$(window).scroll(function() {
 			if ($(this).scrollTop() >= 50) {
 				$('#arrow-top').fadeIn("fast");
