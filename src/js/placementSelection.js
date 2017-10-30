@@ -121,7 +121,7 @@
 	function _removeWish() { // 刪除志願
 		const sortNum = $(this).data("sortnum");
 		const wishIndex = _wishList.findIndex(order => order.sortNum === sortNum);
-		const pageNum = $paginationContainer.pagination('getSelectedPageNum');
+		const pageNum = (_filterOptionalWish.length === 0) ? 1 : $paginationContainer.pagination('getSelectedPageNum');
 		_optionalWish.push(_wishList[wishIndex]);
 		_wishList.splice(wishIndex, 1);
 		_optionalWish.sort(function(a, b) {
