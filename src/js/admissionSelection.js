@@ -7,7 +7,7 @@
 	let _currentSystem = 0;
 	let _showCodeId = "";
 	// 是否參加個人申請
-	let _isJoin = 1;
+	let _isJoin = true;
 
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
 	let _optionalWish = []; // 剩餘可選志願
