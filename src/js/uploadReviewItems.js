@@ -371,30 +371,6 @@
 		});
 	}
 
-	function _handleLogout() {
-		loading.start();
-		student.logout()
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			alert('登出成功。');
-			location.href="./index.html";
-			loading.complete();
-		})
-		.catch((err) => {
-			err.json && err.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-			})
-			loading.complete();
-		})
-	}
-
 	function _setHeader(data) {
 		_studentID = data.id;
 		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
