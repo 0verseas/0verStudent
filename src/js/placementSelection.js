@@ -20,6 +20,9 @@
 	*/
 
 	const $placementSelectForm = $('#form-placementSelect'); // 聯分表單
+	const $group1QuotaBtn = $('#btn-group1Quota');
+	const $group2QuotaBtn = $('#btn-group2Quota');
+	const $group3QuotaBtn = $('#btn-group3Quota');
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
@@ -80,6 +83,10 @@
 					_optionalWish.splice(orderIndex, 1);
 				}
 			});
+
+			$group1QuotaBtn.attr('href', `${env.quotaUrl}/?school=all&group=all&keyword=&first-group=true&second-group=false&third-group=false`);
+			$group2QuotaBtn.attr('href', `${env.quotaUrl}/?school=all&group=all&keyword=&first-group=false&second-group=true&third-group=false`);
+			$group3QuotaBtn.attr('href', `${env.quotaUrl}/?school=all&group=all&keyword=&first-group=false&second-group=false&third-group=true`);
 
 			_generateOptionalWish();
 			_generateWishList();
