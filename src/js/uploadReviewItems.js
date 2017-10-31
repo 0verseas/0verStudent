@@ -148,13 +148,27 @@
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			// 整理資料
+			console.log(json);
+			let deptObjName = '';
+			switch (_system) {
+				case 1:
+					deptObjName = 'departments';
+					break;
+				case 2:
+					deptObjName = 'two_year_tech_departments';
+					break;
+				case 3:
+				case 4:
+					deptObjName = 'graduate_departments';
+					break;
+			}
 			applicationDoc["schoolId"] = json.id;
-			applicationDoc["schoolCardCode"] = json.departments[0].card_code;
+			applicationDoc["schoolCardCode"] = (_system === 1) ? json[deptObjName][0].card_code : ''; // 學士班才需要 cardCode
 			applicationDoc["schoolName"] = json.title;
-			applicationDoc["deptId"] = json.departments[0].id;
-			applicationDoc["deptNmae"] = json.departments[0].title;
+			applicationDoc["deptId"] = json[deptObjName][0].id;
+			applicationDoc["deptNmae"] = json[deptObjName][0].title;
 			applicationDoc["applicationDocFiles"] = [];
-			json.departments[0].application_docs.forEach((value, index) => {
+			json[deptObjName][0].application_docs.forEach((value, index) => {
 				applicationDoc["applicationDocFiles"][index] = {};
 				applicationDoc["applicationDocFiles"][index]["typeId"] = value.type_id;
 				applicationDoc["applicationDocFiles"][index]["name"] = value.type.name;
@@ -165,7 +179,6 @@
 				applicationDoc["applicationDocFiles"][index]["files"] = []
 
 			})
-			console.log(applicationDoc);
 		})
 		.then(() => {
 			if (_system === 1) {
