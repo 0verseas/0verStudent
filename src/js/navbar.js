@@ -105,6 +105,8 @@
 				$('.nav-educationInfo, .nav-olympia, .nav-grade, .nav-placementSelection').show();
 			}
 		}
+		// 不得參加個人申請
+		+data.student_misc_data.join_admission_selection === 2 && $('.nav-admissionSelection').hide();
 
 		// 個人基本資料
 		!!data.student_personal_data && $('.nav-personalInfo').addClass('list-group-item-success');
