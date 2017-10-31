@@ -2,6 +2,10 @@
 	margin-bottom: 30px;
 }
 
+.bg-medical {
+	background-color: #FFD700;
+}
+
 .table > tbody > tr > td {
 	vertical-align: middle;
 }
