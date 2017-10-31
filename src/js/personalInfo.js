@@ -76,6 +76,7 @@
 	const $taiwanAddress = $('#taiwanAddress'); // 臺灣地址
 
 	// 學歷
+	const $educationSystemDescriptionDiv = $('#div-educationSystemDescription');
 	const $educationSystemDescription = $('#educationSystemDescription'); // 學制描述
 	const $schoolContinent = $('#schoolContinent'); // 學校所在地（州）
 	const $schoolCountry = $('#schoolCountry'); // 學校所在地（國）
@@ -277,7 +278,11 @@
 			$taiwanAddress.val(formData.taiwan_address);
 
 			// init 學歷
-			$educationSystemDescription.val(formData.education_system_description);
+			if (_systemId === 1) { // 學士班才需要填寫學制描述
+				$educationSystemDescription.val(formData.education_system_description);
+			} else {
+				$educationSystemDescriptionDiv.hide();
+			}
 			$schoolContinent.val(_findContinent(formData.school_country)).change();
 			$schoolCountry.val(formData.school_country);
 
@@ -857,13 +862,6 @@
 			dbKey: 'taiwan_address'
 		},
 		{
-			el: $educationSystemDescription,
-			require: true,
-			type: 'string',
-			dbKey: 'education_system_description',
-			colName: '學制描述'
-		},
-		{
 			el: $schoolCountry,
 			require: true,
 			type: 'string',
@@ -1033,6 +1031,17 @@
 		} else {
 			formValidateList.push(
 				{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
+				);
+		}
+
+		// 學士班才需要送出學歷學制描述
+		if (_systemId === 1) {
+			formValidateList.push(
+				{el: $educationSystemDescription, require: true, type: 'string', dbKey: 'education_system_description', colName: '學制描述'}
+				);
+		} else {
+			formValidateList.push(
+				{el: $educationSystemDescription, require: false, type: 'string', dbKey: 'education_system_description', dbData: ''}
 				);
 		}
 
