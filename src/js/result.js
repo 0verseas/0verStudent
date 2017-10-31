@@ -22,6 +22,8 @@
 	const $noSelectForm = $('#form-no-select');
 	const $previewPersonalDataBtn = $('#btn-previewPersonalData');
 	const $previewPlacementListBtn = $('#btn-previewPlacementList');
+	const $previewPersonalDataDiv = $('#div-previewPersonalData');
+	const $previewPlacementListDiv = $('#div-previewPlacementList');
 
 
 	/**
@@ -41,7 +43,6 @@
 			const progressJson = await progressResponse.json();
 
 			_systemId = progressJson.student_qualification_verify.system_id;
-
 
 			if (_systemId === 1) {
 				_hasOlympia = !!progressJson.student_olympia_aspiration_order && progressJson.student_misc_data.has_olympia_aspiration;
@@ -147,6 +148,12 @@
 			}
 			$previewPersonalDataBtn.attr('href', env.baseUrl + '/students/admission-paper/department-apply-form');
 			$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
+			if (_systemId !== 1) {
+				$previewPlacementListDiv.remove();
+				$previewPersonalDataDiv.removeClass('col-md-6');
+				$previewPersonalDataDiv.addClass('col-md-12');
+				console.log('a');
+			}
 			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
