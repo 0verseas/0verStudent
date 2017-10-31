@@ -63,6 +63,7 @@
 					school: value.school.title, // 校名
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
+					specialDeptType: value.special_dept_type, // 特殊系所
 					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
 				};
 				_optionalWish.push(add);
@@ -194,7 +195,7 @@
                 console.log(item.specialDeptType);
             }
 			html += `
-			<tr>
+			<tr${medicalHTML}>
 			<td>
 			<span>` + item.cardCode + `</span> ｜ <span>` + item.mainGroup + `</span> ｜ <span>` + item.school + `</span> <br>
 			<span>` + item.dept + ` ` + item.engDept + `</span>
@@ -256,7 +257,7 @@
                 medicalHTML = ' class="bg-medical"';
             }
 			rowHtml = rowHtml + `
-			<tr data-wishIndex="` + i + `">
+			<tr${medicalHTML} data-wishIndex="` + i + `">
 			<td>
 			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>

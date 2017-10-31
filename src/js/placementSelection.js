@@ -181,7 +181,6 @@
 			let badgeNUPS = '';
 			if (item.specialDeptType !== null && medicalList.indexOf(item.specialDeptType) > -1) {
 				medicalHTML = ' class="bg-medical"';
-				console.log(item.specialDeptType);
 			}
 			if (_nupsList.indexOf(item.id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
 			html += `
