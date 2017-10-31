@@ -82,7 +82,7 @@
 			}
 			$('#option-code-id').val(_showCodeId);
 
-			_isJoin = (resAdmission.student_misc_data.join_admission_selection === null || resAdmission.student_misc_data.join_admission_selection === true);
+			_isJoin = (resAdmission.student_misc_data.join_admission_selection === null || resAdmission.student_misc_data.join_admission_selection === 1);
 			$notJoinSelection.prop("checked", !_isJoin);
 
 			// 整理已選志願
