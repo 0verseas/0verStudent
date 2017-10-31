@@ -7,7 +7,7 @@
 	let _currentSystem = 0;
 	let _showCodeId = "";
 	// 是否參加個人申請
-	let _isJoin = 0;
+	let _isJoin = true;
 
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
 	let _optionalWish = []; // 剩餘可選志願
@@ -82,8 +82,13 @@
 			}
 			$('#option-code-id').val(_showCodeId);
 
-			_isJoin = (resAdmission.student_misc_data.join_admission_selection === null || resAdmission.student_misc_data.join_admission_selection === 1);
-			$notJoinSelection.prop("checked", !_isJoin);
+			// 只有學士班可以選擇「本人 不參加 個人申請」
+			if (+resAdmission.student_qualification_verify.system_id === 1) {
+				_isJoin = (resAdmission.student_misc_data.join_admission_selection === null || +resAdmission.student_misc_data.join_admission_selection === 1);
+				$notJoinSelection.prop("checked", !_isJoin);
+			} else {
+				$('.notJoinSelectionWrap').hide();
+			}
 
 			// 整理已選志願
 			let order = [];
