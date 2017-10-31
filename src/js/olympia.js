@@ -186,14 +186,12 @@
 
 	function _optionalWishTemplating(data) { // 分頁資料渲染（data.length === 0 時不會被呼叫）
 		var html = '';
-        const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
+		const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 		$.each(data, function(index, item){
-            let medicalHTML = '';
-            let badgeNUPS = '';
-            if (item.specialDeptType !== null && medicalList.indexOf(item.specialDeptType) > -1) {
-                medicalHTML = ' class="bg-medical"';
-                console.log(item.specialDeptType);
-            }
+			let medicalHTML = '';
+			if (item.specialDeptType !== null && medicalList.indexOf(item.specialDeptType) > -1) {
+				medicalHTML = ' class="bg-medical"';
+			}
 			html += `
 			<tr${medicalHTML}>
 			<td>
@@ -246,16 +244,13 @@
 
 	function _generateWishList() { // 「渲染已填選志願」
 		let rowHtml = '';
-        const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
-        let hasNUPS = false;
-        let invalidBadge = '';
+		const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 
-        for(let i in _wishList) {
-            let medicalHTML = '';
-            let badgeNUPS = '';
-            if (_wishList[i].specialDeptType !== null && medicalList.indexOf(_wishList[i].specialDeptType) > -1) {
-                medicalHTML = ' class="bg-medical"';
-            }
+		for(let i in _wishList) {
+			let medicalHTML = '';
+			if (_wishList[i].specialDeptType !== null && medicalList.indexOf(_wishList[i].specialDeptType) > -1) {
+				medicalHTML = ' class="bg-medical"';
+			}
 			rowHtml = rowHtml + `
 			<tr${medicalHTML} data-wishIndex="` + i + `">
 			<td>
