@@ -194,7 +194,7 @@
                 console.log(item.specialDeptType);
             }
 			html += `
-			<tr>
+			<tr${medicalHTML}>
 			<td>
 			<span>` + item.cardCode + `</span> ｜ <span>` + item.mainGroup + `</span> ｜ <span>` + item.school + `</span> <br>
 			<span>` + item.dept + ` ` + item.engDept + `</span>
@@ -256,7 +256,7 @@
                 medicalHTML = ' class="bg-medical"';
             }
 			rowHtml = rowHtml + `
-			<tr data-wishIndex="` + i + `">
+			<tr${medicalHTML} data-wishIndex="` + i + `">
 			<td>
 			<button type="button" data-sortNum="` + _wishList[i].sortNum + `" class="btn btn-danger btn-sm remove-wish"><i class="fa fa-times" aria-hidden="true"></i></button>
 			</td>
