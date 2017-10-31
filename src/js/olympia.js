@@ -70,8 +70,10 @@
 			})
 
 			// checked 是否曾獲得獎項
-			_hasOlympia = +resOlympia.student_misc_data.has_olympia_aspiration;
-			$hasOlympia[_hasOlympia].checked = true;
+			if (resOlympia.student_misc_data.has_olympia_aspiration !== null) {
+				_hasOlympia = +resOlympia.student_misc_data.has_olympia_aspiration;
+				$hasOlympia[_hasOlympia].checked = true;
+			}
 
 			// 整理已選志願
 			let order = [];
