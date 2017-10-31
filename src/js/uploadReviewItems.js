@@ -42,7 +42,6 @@
 	$('body').on('change.upload', '.file-certificate', _handleUpload);
 	$('body').on('click.showOriImg', '.img-thumbnail', _showOriImg);
 	$('.btn-delImg').on('click', _handleDelImg);
-	$('#btn-logout').on('click', _handleLogout);
 
 	async function _init() {
 		// set header
