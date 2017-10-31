@@ -444,7 +444,6 @@
 			return;
 		}
 
-		$passportCountrySelect.append('<option value="-1">國家</option>');
 		student.getCountryList().then((data) => {
 			data[order].country.forEach((val, i) => {
 				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
