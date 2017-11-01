@@ -193,7 +193,7 @@
 			applicationDoc['applicationDocFiles'].forEach((value, index) => {
 				value.required === true ? requiredBadge = '<span class="badge badge-danger">必繳</span>' : requiredBadge = '<span class="badge badge-warning">選繳</span>'
 				if (!!value.paper) { // 如果有 paper
-					console.log(value);
+					//console.log(value);
 					reviewItemHTML += `
 						<div class="row">
 							<div class="col-12">
@@ -250,15 +250,45 @@
 											<div class="card-block">
 												<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
 												<div id="">
+													
 													${
 														parsedUploadedFile[value.typeId].map((file, i) => {
-															return `<img 
+															//console.log("value",file)
+															if(file.split('.')[1]=='docx' || file.split('.')[1]=='doc')
+                                                                return `<img 
+																		class="img-thumbnail" 
+																		src="http://www.guanshan.gov.tw/images/DOC_ICON.png"
+																		data-toggle="modal"
+																		data-target=".img-modal"
+																		data-type="${value.typeId}"
+																		alt="${file}"
+																	/> `
+                                                            else if(file.split('.')[1]=='pdf')
+                                                                return `<img 
+																		class="img-thumbnail" 
+																		src="http://www.ksb.moj.gov.tw/site/moj/public//MMO/PDF_ICON.png"
+																		data-toggle="modal"
+																		data-target=".img-modal"
+																		data-type="${value.typeId}"
+																		alt="${file}"
+																	/> `
+                                                            else if(file.split('.')[1]=='mp3' || file.split('.')[1]=='mp4' || file.split('.')[1]=='avi')
+                                                                return `<img 
+																		class="img-thumbnail" 
+																		src="https://ihrip.wda.gov.tw/images/vicon.png"
+																		data-toggle="modal"
+																		data-target=".img-modal"
+																		data-type="${value.typeId}"
+																		alt="${file}"
+																	/> `
+															else
+																return `<img 
 																		class="img-thumbnail" 
 																		src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
 																		data-toggle="modal"
 																		data-target=".img-modal"
 																		data-type="${value.typeId}"
-																	/>`
+																	/> `
 														}).join('').replace(/,/g, '')
 													}
 												</div>
@@ -332,18 +362,25 @@
 
 	function _showOriImg() {
 		const src = $(this).attr('src');
+
 		$('.btn-delImg').attr({
 			'data-type': $(this).data('type'),
 			'data-filename': src.split('/').pop()
 		});
 		$('.img-ori').attr('src', src);
+
+        $('.btn-delImg').attr({
+            'data-type': $(this).data('type'),
+            'data-filename': $(this).attr('alt').split('/').pop()
+        });
+
 	}
 
 	function _handleDelImg() {
 		if (!confirm('確定刪除？')) {
 			return;
 		}
-
+		console.log("back to end",_studentID,_deptID,$(this).attr('data-type'),$(this).attr('data-filename'))
 		student.delReviewItem({
 			student_id: _studentID,
 			dept_id: _deptID,
