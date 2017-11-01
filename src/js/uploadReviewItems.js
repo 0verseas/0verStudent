@@ -263,8 +263,8 @@
 																		data-type="${value.typeId}"
 																		alt="${file}"
 																	/> `
-                                                            else if(file.split('.')[1]=='pdf')
-                                                                return `<img 
+															else if(file.split('.')[1]=='pdf')
+																return `<img 
 																		class="img-thumbnail" 
 																		src="http://www.ksb.moj.gov.tw/site/moj/public//MMO/PDF_ICON.png"
 																		data-toggle="modal"
@@ -272,10 +272,10 @@
 																		data-type="${value.typeId}"
 																		alt="${file}"
 																	/> `
-                                                            else if(file.split('.')[1]=='mp3' || file.split('.')[1]=='mp4' || file.split('.')[1]=='avi')
-                                                                return `<img 
+															else if(file.split('.')[1]=='mp3' || file.split('.')[1]=='mp4' || file.split('.')[1]=='avi')
+																return `<img 
 																		class="img-thumbnail" 
-																		src="https://ihrip.wda.gov.tw/images/vicon.png"
+																		src="https://networkingnerd.files.wordpress.com/2015/09/video.png?w=200&h=200"
 																		data-toggle="modal"
 																		data-target=".img-modal"
 																		data-type="${value.typeId}"
@@ -369,10 +369,10 @@
 		});
 		$('.img-ori').attr('src', src);
 
-        $('.btn-delImg').attr({
-            'data-type': $(this).data('type'),
-            'data-filename': $(this).attr('alt').split('/').pop()
-        });
+		$('.btn-delImg').attr({
+			'data-type': $(this).data('type'),
+			'data-filename': $(this).attr('alt').split('/').pop()
+		});
 
 	}
 
