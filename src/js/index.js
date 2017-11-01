@@ -2,6 +2,8 @@
 	/**
 	*	cache DOM
 	*/
+	const $HK_MacaoNum = $('#HK_MacaoNum');
+	const $otherNum = $('#otherNum');
 	const $email = $('#email');
 	const $pass = $('#password');
 	const $loginBtn = $('#btn-login');
@@ -22,7 +24,17 @@
 	*	event handlet
 	*/
 
-	function _init() {
+	async function _init() {
+		try {
+		const response = await student.getAdmissionCount();
+		if (!response.ok) { throw response; }
+		const admissionCount = await response.json();
+		$HK_MacaoNum.text(admissionCount.HK_Macao);
+		$otherNum.text(admissionCount.other);
+
+		} catch (e) {
+			console.log(e);
+		}
 		loading.complete();
 	}
 

@@ -124,7 +124,7 @@
 				}
 			})
 			.then((json) => {
-				const option = json.student_misc_data.admission_placement_apply_way_data.code;
+				const option = json.student_misc_data.admission_placement_apply_way_data ? json.student_misc_data.admission_placement_apply_way_data.code : null;
 				const { year_of_hk_ale, year_of_hk_cee, year_of_hk_dse, my_admission_ticket_no } = json.student_misc_data;
 				!!option && $(`.radio-option[value=${option}]`).trigger('click');
 				$('.year_of_hk_dse').val(year_of_hk_dse || '');
