@@ -435,26 +435,30 @@
 		$schoolCountry.change();
 	}
 
-	function _reRenderResidenceCountry() {
-		const continent = $(this).find(':selected').data('continentindex');
-		const identity12Rule = ["113", "127"]; // 兩種港澳生只能選到香港、澳門
-		const identity3Rule = ["113", "127", "147", "148"]; // 海外不能選到香港、澳門、大陸跟台灣
+    function _reRenderResidenceCountry() {
+        const continent = $(this).find(':selected').data('continentindex');
+        const identity12Rule = ["113", "127"]; // 兩種港澳生只能選到香港、澳門
+        const identity3Rule = ["113", "127", "147", "148"]; // 海外不能選到香港、澳門、大陸跟台灣
+        const identity4Rule = [ "147", "148"]; // 海外不能選到香港、澳門、大陸跟台灣
 
-		let countryHTML = '<option value="">Country</option>';
-		if (continent !== -1) {
-			_countryList[continent]['country'].forEach((obj, index) => {
-				if (_identityId === 1 || _identityId === 2) {
-					if (identity12Rule.indexOf(obj.id) === -1) { return; }
-				} else {
-					if (identity3Rule.indexOf(obj.id) > -1) { return; }
-				}
-				countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
-			})
-		} else {
-			countryHTML = '<option value="">Country</option>'
-		}
-		$residentLocation.html(countryHTML);
-	}
+        let countryHTML = '<option value="">Country</option>';
+        if (continent !== -1) {
+            _countryList[continent]['country'].forEach((obj, index) => {
+                if (_identityId === 1 || _identityId === 2 ) {
+                    if (identity12Rule.indexOf(obj.id) === -1) { return; }
+                } else if (_identityId === 4 ){
+                    if (identity4Rule.indexOf(obj.id) > -1) { return; }
+                }
+                else{
+                    if (identity3Rule.indexOf(obj.id) > -1) { return; }
+                }
+                countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
+            })
+        } else {
+            countryHTML = '<option value="">Country</option>'
+        }
+        $residentLocation.html(countryHTML);
+    }
 
 	function _switchDisabilityCategory() {
 		_disabilityCategory = $(this).val();
