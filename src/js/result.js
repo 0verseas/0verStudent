@@ -150,8 +150,9 @@
 			$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
 			if (_systemId !== 1) {
 				$previewPlacementListDiv.remove();
-				$previewPersonalDataDiv.removeClass('col-md-6');
-				$previewPersonalDataDiv.addClass('col-md-12');
+                $previewPersonalDataDiv.remove();
+				//$previewPersonalDataDiv.removeClass('col-md-6');
+				//$previewPersonalDataDiv.addClass('col-md-12');
 				console.log('a');
 			}
 			loading.complete();
