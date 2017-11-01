@@ -272,7 +272,15 @@
 																		data-type="${value.typeId}"
 																		alt="${file}"
 																	/> `
-															
+                                                            else if(file.split('.')[1]=='mp3' || file.split('.')[1]=='mp4' || file.split('.')[1]=='avi')
+                                                                return `<img 
+																		class="img-thumbnail" 
+																		src="https://ihrip.wda.gov.tw/images/vicon.png"
+																		data-toggle="modal"
+																		data-target=".img-modal"
+																		data-type="${value.typeId}"
+																		alt="${file}"
+																	/> `
 															else
 																return `<img 
 																		class="img-thumbnail" 
