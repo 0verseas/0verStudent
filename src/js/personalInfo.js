@@ -13,7 +13,7 @@
 	let _identityId = 0;
 
 	let _hasEduType = false; // 有無學校類別
-	let _hasSchoolList = false; // 有無學校列表，true 則採用 $schoolNameSelect，否則採用 $schoolNameText
+	let _hasSchoolLocate = false; // 有無學校所在地列表，true 則採用 $schoolNameSelect，否則採用 $schoolNameText
 	let _schoolCountryId = "";
 	let _currentSchoolType = "";
 	let _currentSchoolLocate = "";
@@ -85,6 +85,8 @@
 	const $schoolType = $('#schoolType'); // 學校類別
 
 	const $schoolLocationForm = $('#schoolLocationForm'); // 學校所在地、學校名稱 (select) 表單
+	const $schoolLocationDiv = $('#div-schoolLocation');
+	const $schoolNameSelectDiv = $('#div-schoolNameSelect');
 	const $schoolLocation = $('#schoolLocation'); // 學校所在地
 	const $schoolNameSelect = $('#schoolNameSelect'); // 學校名稱 (select)
 
@@ -287,26 +289,20 @@
 			$schoolCountry.val(formData.school_country);
 
 			_schoolCountryId = formData.school_country;
-			if (formData.school_type !== null) {
-				_currentSchoolType = formData.school_type
-			} else {
-				_currentSchoolType = "";
-			}
-			if (formData.school_locate !== null) {
-				_currentSchoolLocate = formData.school_locate;
-			} else {
-				_currentSchoolLocate = "";
-			}
+			_currentSchoolType = (formData.school_type !== null) ? formData.school_type : "";
+			_currentSchoolLocate = (formData.school_locate !== null) ? formData.school_locate : "";
 			_currentSchoolName = formData.school_name;
 
 			_reRenderSchoolType();
 
+			// 主副修欄位渲染、初始化
 			if (_systemId === 3 || _systemId === 4) {
 				$subjectForm.show();
 				$majorSubject.val(formData.major_subject);
 				$minorSubject.val(formData.minor_subject);
 			}
 
+			// 入學時間、畢業時間初始化
 			$schoolAdmissionAt.val(formData.school_admission_at);
 			$schoolGraduateAt.val(formData.school_graduate_at);
 
@@ -487,6 +483,8 @@
 	}
 
 	function _chSchoolCountry() {
+		// 更換學校國家時，取得國家 id 作為後續渲染使用
+		// 並初始化相關變數，接下去觸發渲染學校類型事件
 		_schoolCountryId = $(this).val();
 		_currentSchoolType = "";
 		_currentSchoolLocate = "";
@@ -495,10 +493,11 @@
 	}
 
 	function _reRenderSchoolType() {
+		// 處理該國籍是否需要選擇學校類型，以及學校類型 select bar 渲染工作
 		if (_schoolCountryId in _schoolType) {
 			let typeHTML = '';
 			_schoolType[_schoolCountryId].forEach((value, index) => {
-				typeHTML += '<option value="' + value + '">' + value + '</option>';
+				typeHTML += `<option value="${value}">${value}</option>`;
 			})
 			$schoolType.html(typeHTML);
 			if (_currentSchoolType !== "") {
@@ -514,6 +513,8 @@
 	}
 
 	function _chSchoolType() {
+		// 取得修改後的學校類型，以此判斷是否要渲染學校列表
+		// 初始化學校所在地、名稱變數，接下去觸發渲染學校列表事件
 		_currentSchoolType = $(this).val();
 		_currentSchoolLocate = "";
 		_currentSchoolName = "";
@@ -521,6 +522,7 @@
 	}
 
 	function _reRenderSchoolLocation() {
+		// 沒有選國家則不會出現學校名稱欄位
 		if (!!_schoolCountryId) {
 			student.getSchoolList(_schoolCountryId)
 			.then((res) => {
@@ -531,6 +533,7 @@
 				}
 			})
 			.then((json) => {
+				// schoolWithType: 當前類別的學校列表
 				let schoolWithType = [];
 				if (_schoolCountryId in _schoolType) {
 					schoolWithType = json.filter((obj) => {
@@ -541,36 +544,47 @@
 				}
 
 				if (schoolWithType.length > 0) {
+					// 當前類別有學校列表的話，渲染所在地、學校名稱列表
 					let group_to_values = schoolWithType.reduce(function (obj, item) {
 						obj[item.locate] = obj[item.locate] || [];
 						obj[item.locate].push({name: item.name});
 						return obj;
 					}, {});
 
+					// group by 學校所在地
 					let groups = Object.keys(group_to_values).map(function (key) {
 						return {locate: key, school: group_to_values[key]};
 					});
-
-					_schoolList = groups;
-
 					let schoolLocationHTML = '';
+					_schoolList = groups;
+					// 渲染學校所在地、隱藏學校名稱輸入
 					_schoolList.forEach((value, index) => {
-						schoolLocationHTML += '<option value="' + value.locate + '">' + value.locate + '</option>';
+						schoolLocationHTML += `<option value="${value.locate}">${value.locate}</option>`;
 					})
 					$schoolLocation.html(schoolLocationHTML);
-					$schoolLocationForm.fadeIn();
-					$schoolNameTextForm.hide();
 					if (_currentSchoolLocate !== "") {
 						$schoolLocation.val(_currentSchoolLocate);
 					} else {
 						_currentSchoolLocate = _schoolList[0].locate;
 					}
-					_hasSchoolList = true;
+					$schoolLocationForm.fadeIn();
+					if (_systemId === 1) {
+						// 學士班不需要隱藏學校列表、但要隱藏學校名稱 text field
+						$schoolNameTextForm.hide();
+					} else {
+						// 學士班需要隱藏學校列表，預設會顯示學校名稱 text field
+						$schoolLocationDiv.removeClass('col-md-4');
+						$schoolLocationDiv.addClass('col-md-8');
+						$schoolNameSelectDiv.hide();
+						$schoolNameTextForm.fadeIn();
+					}
+					_hasSchoolLocate = true;
 				} else {
+					// 沒有學校列表，則單純顯示學校名稱 text field
 					$schoolLocationForm.hide();
 					$schoolNameTextForm.fadeIn();
 					$schoolNameText.val(_currentSchoolName);
-					_hasSchoolList = false;
+					_hasSchoolLocate = false;
 				}
 			})
 			.then(() => {
@@ -594,15 +608,21 @@
 	}
 
 	function _reRenderSchoolList() {
-		let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
+		if (_systemId === 1) {
+			// 重新渲染學士班的學校列表
+			let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
 
-		let schoolListHTML = '';
-		_schoolList[locateIndex].school.forEach((value, index) => {
-			schoolListHTML += '<option value="' + value.name + '">' + value.name + '</option>';
-		})
-		$schoolNameSelect.html(schoolListHTML);
-		if (_currentSchoolName !== "") {
-			$schoolNameSelect.val(_currentSchoolName);
+			let schoolListHTML = '';
+			_schoolList[locateIndex].school.forEach((value, index) => {
+				schoolListHTML += `<option value="${value.name}">${value.name}</option>`;
+			})
+			$schoolNameSelect.html(schoolListHTML);
+			if (_currentSchoolName !== "") {
+				$schoolNameSelect.val(_currentSchoolName);
+			}
+		} else {
+			// 非學士班，渲染學校名稱 text field
+			$schoolNameText.val(_currentSchoolName);
 		}
 	}
 
@@ -651,7 +671,7 @@
 				}
 			}
 			if (!_hasEduType) { sendData.school_type = ""; }
-			if (!_hasSchoolList) { sendData.school_locate = ""; }
+			if (!_hasSchoolLocate) { sendData.school_locate = ""; }
 			loading.start();
 			student.setStudentPersonalData(sendData)
 			.then((res) => {
@@ -955,6 +975,7 @@
 			dbKey: 'tw_contact_workplace_address'
 		}]
 
+		// 海外僑生要填寫籍貫
 		if (_identityId === 3) {
 			formValidateList.push(
 				{el: $homeTownProvince, require: true, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市', colName: '籍貫(省)'},
@@ -971,6 +992,7 @@
 				);
 		}
 
+		// 身心障礙選項
 		if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
 			formValidateList.push(
 				{el: $otherDisabilityCategory, require: true, type: 'string', dbKey: 'disability_category', colName: '其他身心障礙類別'},
@@ -1024,10 +1046,18 @@
 		}
 
 		// 判斷 schoolName 要送 select 的還是 text 的
-		if (_hasSchoolList) {
-			formValidateList.push(
-				{el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
-				);
+		if (_hasSchoolLocate) {
+			// 學士班送的學校名稱照舊，是 select bar
+			// 其他學制送的是 text 學校名稱
+			if (_systemId === 1) {
+				formValidateList.push(
+					{el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
+					);
+			} else {
+				formValidateList.push(
+					{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
+					);
+			}
 		} else {
 			formValidateList.push(
 				{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
