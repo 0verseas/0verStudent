@@ -120,6 +120,10 @@
 				location.href = "./index.html";
 			} else if (e.status && e.status === 403) {
 				// 是否有完成資格驗證在 navbar.js 已經有判斷。
+				e.json && e.json().then((data) => {
+					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
+					window.history.back();
+				})
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
