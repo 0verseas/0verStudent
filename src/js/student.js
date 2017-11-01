@@ -463,6 +463,19 @@ const student = (() => {
 		})
 	}
 
+	function uploadAndSubmit() {
+		return fetch(baseUrl + `/students/admission-selection-application-document-lock`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				confirmed: true
+			}),
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -503,7 +516,8 @@ const student = (() => {
 		dataConfirmation,
 		setReviewItem,
 		getReviewItem,
-		delReviewItem
+		delReviewItem,
+		uploadAndSubmit
 	};
 
 })();
