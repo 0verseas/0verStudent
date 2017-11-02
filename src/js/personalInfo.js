@@ -85,8 +85,6 @@
 	const $schoolType = $('#schoolType'); // 學校類別
 
 	const $schoolLocationForm = $('#schoolLocationForm'); // 學校所在地、學校名稱 (select) 表單
-	const $schoolLocationDiv = $('#div-schoolLocation');
-	const $schoolNameSelectDiv = $('#div-schoolNameSelect');
 	const $schoolLocation = $('#schoolLocation'); // 學校所在地
 	const $schoolNameSelect = $('#schoolNameSelect'); // 學校名稱 (select)
 
@@ -494,17 +492,23 @@
 
 	function _reRenderSchoolType() {
 		// 處理該國籍是否需要選擇學校類型，以及學校類型 select bar 渲染工作
-		if (_schoolCountryId in _schoolType) {
-			let typeHTML = '';
-			_schoolType[_schoolCountryId].forEach((value, index) => {
-				typeHTML += `<option value="${value}">${value}</option>`;
-			})
-			$schoolType.html(typeHTML);
-			if (_currentSchoolType !== "") {
-				$schoolType.val(_currentSchoolType);
+		// 學士班才需要學校類別
+		if (_systemId === 1) {
+			if (_schoolCountryId in _schoolType) {
+				let typeHTML = '';
+				_schoolType[_schoolCountryId].forEach((value, index) => {
+					typeHTML += `<option value="${value}">${value}</option>`;
+				})
+				$schoolType.html(typeHTML);
+				if (_currentSchoolType !== "") {
+					$schoolType.val(_currentSchoolType);
+				}
+				$schoolTypeForm.fadeIn();
+				_hasEduType = true;
+			} else {
+				$schoolTypeForm.hide();
+				_hasEduType = false;
 			}
-			$schoolTypeForm.fadeIn();
-			_hasEduType = true;
 		} else {
 			$schoolTypeForm.hide();
 			_hasEduType = false;
@@ -524,77 +528,76 @@
 	function _reRenderSchoolLocation() {
 		// 沒有選國家則不會出現學校名稱欄位
 		if (!!_schoolCountryId) {
-			student.getSchoolList(_schoolCountryId)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				// schoolWithType: 當前類別的學校列表
-				let schoolWithType = [];
-				if (_schoolCountryId in _schoolType) {
-					schoolWithType = json.filter((obj) => {
-						return obj.type === _currentSchoolType;
-					})
-				} else {
-					schoolWithType = json;
-				}
-
-				if (schoolWithType.length > 0) {
-					// 當前類別有學校列表的話，渲染所在地、學校名稱列表
-					let group_to_values = schoolWithType.reduce(function (obj, item) {
-						obj[item.locate] = obj[item.locate] || [];
-						obj[item.locate].push({name: item.name});
-						return obj;
-					}, {});
-
-					// group by 學校所在地
-					let groups = Object.keys(group_to_values).map(function (key) {
-						return {locate: key, school: group_to_values[key]};
-					});
-					let schoolLocationHTML = '';
-					_schoolList = groups;
-					// 渲染學校所在地、隱藏學校名稱輸入
-					_schoolList.forEach((value, index) => {
-						schoolLocationHTML += `<option value="${value.locate}">${value.locate}</option>`;
-					})
-					$schoolLocation.html(schoolLocationHTML);
-					if (_currentSchoolLocate !== "") {
-						$schoolLocation.val(_currentSchoolLocate);
+			// 學士班才需要出現學校所在地、名稱列表
+			if (_systemId === 1) {
+				student.getSchoolList(_schoolCountryId)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
 					} else {
-						_currentSchoolLocate = _schoolList[0].locate;
+						throw res;
 					}
-					$schoolLocationForm.fadeIn();
-					if (_systemId === 1) {
-						// 學士班不需要隱藏學校列表、但要隱藏學校名稱 text field
-						$schoolNameTextForm.hide();
-					} else {
-						// 學士班需要隱藏學校列表，預設會顯示學校名稱 text field
-						$schoolLocationDiv.removeClass('col-md-4');
-						$schoolLocationDiv.addClass('col-md-8');
-						$schoolNameSelectDiv.hide();
-						$schoolNameTextForm.fadeIn();
-					}
-					_hasSchoolLocate = true;
-				} else {
-					// 沒有學校列表，則單純顯示學校名稱 text field
-					$schoolLocationForm.hide();
-					$schoolNameTextForm.fadeIn();
-					$schoolNameText.val(_currentSchoolName);
-					_hasSchoolLocate = false;
-				}
-			})
-			.then(() => {
-				setTimeout(_reRenderSchoolList(), 500);
-			})
-			.catch((err) => {
-				err.json && err.json().then((data) => {
-					console.error(data);
 				})
-			})
+				.then((json) => {
+					// schoolWithType: 當前類別的學校列表
+					let schoolWithType = [];
+					if (_schoolCountryId in _schoolType) {
+						schoolWithType = json.filter((obj) => {
+							return obj.type === _currentSchoolType;
+						})
+					} else {
+						schoolWithType = json;
+					}
+
+					if (schoolWithType.length > 0) {
+						// 當前類別有學校列表的話，渲染所在地、學校名稱列表
+						let group_to_values = schoolWithType.reduce(function (obj, item) {
+							obj[item.locate] = obj[item.locate] || [];
+							obj[item.locate].push({name: item.name});
+							return obj;
+						}, {});
+
+						// group by 學校所在地
+						let groups = Object.keys(group_to_values).map(function (key) {
+							return {locate: key, school: group_to_values[key]};
+						});
+						let schoolLocationHTML = '';
+						_schoolList = groups;
+						// 渲染學校所在地、隱藏學校名稱輸入
+						_schoolList.forEach((value, index) => {
+							schoolLocationHTML += `<option value="${value.locate}">${value.locate}</option>`;
+						})
+						$schoolLocation.html(schoolLocationHTML);
+						if (_currentSchoolLocate !== "") {
+							$schoolLocation.val(_currentSchoolLocate);
+						} else {
+							_currentSchoolLocate = _schoolList[0].locate;
+						}
+						$schoolLocationForm.fadeIn();
+						$schoolNameTextForm.hide();
+						_hasSchoolLocate = true;
+					} else {
+						// 沒有學校列表，則單純顯示學校名稱 text field
+						$schoolLocationForm.hide();
+						$schoolNameTextForm.fadeIn();
+						$schoolNameText.val(_currentSchoolName);
+						_hasSchoolLocate = false;
+					}
+				})
+				.then(() => {
+					setTimeout(_reRenderSchoolList(), 500);
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						console.error(data);
+					})
+				})
+			} else {
+				$schoolLocationForm.hide();
+				$schoolNameTextForm.fadeIn();
+				$schoolNameText.val(_currentSchoolName);
+				_hasSchoolLocate = false;
+			}
 		} else {
 			$schoolLocationForm.hide();
 			$schoolNameTextForm.hide();
@@ -1047,17 +1050,9 @@
 
 		// 判斷 schoolName 要送 select 的還是 text 的
 		if (_hasSchoolLocate) {
-			// 學士班送的學校名稱照舊，是 select bar
-			// 其他學制送的是 text 學校名稱
-			if (_systemId === 1) {
-				formValidateList.push(
-					{el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
-					);
-			} else {
-				formValidateList.push(
-					{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
-					);
-			}
+			formValidateList.push(
+				{el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
+				);
 		} else {
 			formValidateList.push(
 				{el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱'}
