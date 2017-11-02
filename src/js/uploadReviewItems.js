@@ -310,7 +310,7 @@
 			$(":file").filestyle({
 				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
 				btnClass: "btn-success",
-				text: " 選擇圖片",
+				text: " 選擇檔案",
 				input: false
 			});
 			$wishListWrap.hide();
