@@ -94,14 +94,14 @@
 
 	function _handleUploadAndSubmit() {
 		swal({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
+				title: '確認提交',
+				text: "注意：按下確認提交後，上傳的檔案就無法再做任何變更。",
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
-				confirmButtonText: 'Yes, delete it!',
-				cancelButtonText: 'No, cancel!',
+				confirmButtonText: '確認提交',
+				cancelButtonText: '取消',
 				confirmButtonClass: 'btn btn-success',
 				cancelButtonClass: 'btn btn-danger',
 				buttonsStyling: false
