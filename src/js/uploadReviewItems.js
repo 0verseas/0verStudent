@@ -25,6 +25,8 @@
 	const reviewItemsArea = document.getElementById('reviewItemsArea');
 	const $saveBtn = $('#btn-save');
 	const $exitBtn = $('#btn-exit');
+	const $downloadBtn = $('#btn-download');
+	const $imgModalBody= $('#img-modal-body');
 
 	/**
 	*	init
@@ -203,7 +205,7 @@
 									</div>
 									<div class="card-block">
 										<blockquote class="blockquote">
-											${value.description}
+											說明：${value.description}
 										</blockquote>
 
 										<div class="card">
@@ -228,6 +230,43 @@
 						<hr>
 					`
 				} else {
+					let filesHtml = '';
+
+					// 依照備審項目，設定檔案縮圖
+					parsedUploadedFile[value.typeId].map((file, i) => {
+						// 取得檔案的類型
+						const fileType = _getFileType(file.split('.')[1]);
+
+						// 圖檔用本身，非圖檔用 icon
+						if (fileType === 'img') {
+							filesHtml += `<img
+								class="img-thumbnail"
+								src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
+								data-toggle="modal"
+								data-target=".img-modal"
+								data-type="${value.typeId}"
+								data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
+								data-filename="${file}"
+								data-filetype="img"
+							/> `;
+						} else {
+							filesHtml += `
+								<div
+									class="img-thumbnail non-img-file-thumbnail"
+									data-toggle="modal"
+									data-target=".img-modal"
+									data-type="${value.typeId}"
+									data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
+									data-filename="${file}"
+									data-filetype="${fileType}"
+									data-icon="fa-file-${fileType}-o"
+								>
+									<i class="fa fa-file-${fileType}-o" aria-hidden="true"></i>
+								</div>
+							`;
+						}
+					}).join('').replace(/,/g, '');
+
 					reviewItemHTML += `
 						<div class="row">
 							<div class="col-12">
@@ -237,7 +276,7 @@
 									</div>
 									<div class="card-block">
 										<blockquote class="blockquote">
-											${value.description}
+											說明：${value.description}
 										</blockquote>
 
 										<div class="row" style="margin-bottom: 15px;">
@@ -249,49 +288,7 @@
 										<div class="card">
 											<div class="card-block">
 												<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-												<div id="">
-													
-													${
-														parsedUploadedFile[value.typeId].map((file, i) => {
-															//console.log("value",file)
-															if(file.split('.')[1]=='docx' || file.split('.')[1]=='doc')
-                                                                return `<img 
-																		class="img-thumbnail" 
-																		src="http://www.guanshan.gov.tw/images/DOC_ICON.png"
-																		data-toggle="modal"
-																		data-target=".img-modal"
-																		data-type="${value.typeId}"
-																		alt="${file}"
-																	/> `
-															else if(file.split('.')[1]=='pdf')
-																return `<img 
-																		class="img-thumbnail" 
-																		src="http://www.ksb.moj.gov.tw/site/moj/public//MMO/PDF_ICON.png"
-																		data-toggle="modal"
-																		data-target=".img-modal"
-																		data-type="${value.typeId}"
-																		alt="${file}"
-																	/> `
-															else if(file.split('.')[1]=='mp3' || file.split('.')[1]=='mp4' || file.split('.')[1]=='avi')
-																return `<img 
-																		class="img-thumbnail" 
-																		src="https://networkingnerd.files.wordpress.com/2015/09/video.png?w=200&h=200"
-																		data-toggle="modal"
-																		data-target=".img-modal"
-																		data-type="${value.typeId}"
-																		alt="${file}"
-																	/> `
-															else
-																return `<img 
-																		class="img-thumbnail" 
-																		src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
-																		data-toggle="modal"
-																		data-target=".img-modal"
-																		data-type="${value.typeId}"
-																	/> `
-														}).join('').replace(/,/g, '')
-													}
-												</div>
+												${filesHtml}
 											</div>
 										</div>
 									</div>
@@ -360,18 +357,43 @@
 		});
 	}
 
+	// 顯示檔案 modal
 	function _showOriImg() {
-		const src = $(this).attr('src');
+		const type = this.dataset.type;
+		const fileName = this.dataset.filename;
+		const fileType = this.dataset.filetype;
+
+		// 清空 modal 內容
+		$imgModalBody.html('');
+
+		// 是圖放圖，非圖放 icon
+		if (fileType === 'img') {
+			const src = this.src;
+
+			$imgModalBody.html(`
+				<img
+					src="${src}"
+					class="img-fluid rounded img-ori"
+				>
+			`);
+		} else {
+			const icon = this.dataset.icon;
+			const fileLink = this.dataset.filelink;
+
+			$imgModalBody.html(`
+				<div>
+					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>
+				</div>
+
+				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
+					<i class="fa fa-download" aria-hidden="true"></i> 下載
+				</a>
+			`);
+		}
 
 		$('.btn-delImg').attr({
-			'data-type': $(this).data('type'),
-			'data-filename': src.split('/').pop()
-		});
-		$('.img-ori').attr('src', src);
-
-		$('.btn-delImg').attr({
-			'data-type': $(this).data('type'),
-			'data-filename': $(this).attr('alt').split('/').pop()
+			'data-type': type,
+			'data-filename': fileName
 		});
 
 	}
@@ -405,6 +427,29 @@
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
 		});
+	}
+
+	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
+	function _getFileType(fileNameExtension = '') {
+		switch (fileNameExtension) {
+			case 'doc':
+			case 'docx':
+				return 'word';
+
+			case 'mp3':
+				return 'audio';
+
+			case 'mp4':
+			case 'avi':
+				return 'video';
+
+			case 'pdf':
+				return 'pdf';
+
+			default:
+				return 'img';
+
+		}
 	}
 
 	function _setHeader(data) {
