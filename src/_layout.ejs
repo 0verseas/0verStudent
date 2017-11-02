@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://rawgit.com/CarlosBonetti/jquery-loading/master/dist/jquery.loading.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.2/sweetalert2.min.css">
 	<!-- Custom styles for this template -->
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/<%= current.source %>.css" rel="stylesheet">
@@ -22,6 +23,7 @@
 	<script src="https://rawgit.com/CarlosBonetti/jquery-loading/master/dist/jquery.loading.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.2/sweetalert2.min.js"></script>
 	<script src="../env.js"></script>
 	<script src="./js/student.js"></script>
 	<script>
@@ -105,11 +107,12 @@
 				<div id="afterConfirmZone" style="display: none;">
 					<hr>
 					<div class="list-group">
-						<a href="downloadDocs.html" class="nav-item list-group-item list-group-item-action nav-lalalalalala <%= current.source === 'downloadDocs' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　下載報名表件 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
+						<a href="downloadDocs.html" class="nav-item list-group-item list-group-item-action nav-lalalalalala <%= current.source === 'downloadDocs' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　下載報名表件</a>
+						<!--a href="#" onclick="alert('將於近期開放')" class="nav-item list-group-item list-group-item-action nav-lalalalalala <%= current.source === 'downloadDocs' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　下載報名表件</a>-->
 						<a href="uploadReviewItems.html" class="nav-item list-group-item list-group-item-action nav-lalalalalala <%= current.source === 'uploadReviewItems' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　上傳備審資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
 					</div>
 					<hr>
-					<button type="button" id="lalalalalal" class="btn btn-danger btn-block">確認上傳資料並提交</button>
+					<button type="button" id="btn-uploadAndSubmit" class="btn btn-danger btn-block">確認上傳資料並提交</button>
 				</div>
 			</div>
 			<div class="col-lg-9">

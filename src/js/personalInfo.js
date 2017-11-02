@@ -408,7 +408,7 @@
 
 	function _setResidenceContinent() {
 		// 兩種港澳生的洲別只能選到「亞洲」
-		if ($residenceContinent && (_identityId === 1 || _identityId === 2)) {
+		if ($residenceContinent && (_identityId === 1 || _identityId === 2 || _identityId === 4)) {
 			let residenceContinentOptions = $residenceContinent.find('option');
 			for (let i = 0; i < residenceContinentOptions.length; i++) {
 				if (!(residenceContinentOptions[i].value === "-1" || residenceContinentOptions[i].value === "0")) {
@@ -437,15 +437,15 @@
 
 	function _reRenderResidenceCountry() {
 		const continent = $(this).find(':selected').data('continentindex');
-		const identity12Rule = ["113", "127"]; // 兩種港澳生只能選到香港、澳門
+		const identity124Rule = ["113", "127"]; // 港澳生、港澳具外國國籍之華裔學生、在臺港澳生，只能選到香港、澳門
 		const identity3Rule = ["113", "127", "147", "148"]; // 海外不能選到香港、澳門、大陸跟台灣
 
 		let countryHTML = '<option value="">Country</option>';
 		if (continent !== -1) {
 			_countryList[continent]['country'].forEach((obj, index) => {
-				if (_identityId === 1 || _identityId === 2) {
-					if (identity12Rule.indexOf(obj.id) === -1) { return; }
-				} else {
+				if (_identityId === 1 || _identityId === 2 || _identityId === 4) {
+					if (identity124Rule.indexOf(obj.id) === -1) { return; }
+				} else{
 					if (identity3Rule.indexOf(obj.id) > -1) { return; }
 				}
 				countryHTML += `<option value="${obj.id}">${obj.country}</option>`;

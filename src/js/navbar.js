@@ -7,6 +7,7 @@
 	const $mailResendBtn = $('#btn-mailResend');
 	const $checkBtn = $('#btn-all-set');
 	const $afterConfirmZone = $('#afterConfirmZone');
+	const $uploadAndSubmit = $('#btn-uploadAndSubmit');
 
 	/**
 	* init
@@ -43,6 +44,7 @@
 	$logoutBtn.on('click', _handleLogout);
 	$mailResendBtn.on('click', _handleResendMail);
 	$checkBtn.on('click', _checkAllSet);
+	$uploadAndSubmit.on('click', _handleUploadAndSubmit);
 
 	function _handleLogout() {
 		loading.start();
@@ -87,6 +89,47 @@
 				console.error(data.messages[0]);
 			});
 			loading.complete();
+		})
+	}
+
+	function _handleUploadAndSubmit() {
+		swal({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!',
+				cancelButtonText: 'No, cancel!',
+				confirmButtonClass: 'btn btn-success',
+				cancelButtonClass: 'btn btn-danger',
+				buttonsStyling: false
+		}).
+		then(function () {
+			student.uploadAndSubmit().then((res) => {
+				if(res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((data) => {
+				swal(
+					'Deleted!',
+					'Your file has been deleted.',
+					'success'
+				)
+				.then(() => { location.reload() });
+			})
+			.catch((err) => {
+				err.json && err.json().then((data) => {
+					console.error(data.messages[0]);
+				});
+				loading.complete();
+			})
+		}, function (dismiss) {
+			return;
 		})
 	}
 	

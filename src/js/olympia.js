@@ -94,6 +94,11 @@
 			if (e.status && e.status === 401) {
 				alert('請登入。');
 				location.href = "./index.html";
+			} else if (e.status && e.status === 403) {
+				e.json && e.json().then(data => {
+					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
+					window.history.back();
+				});
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
