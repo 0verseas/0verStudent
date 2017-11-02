@@ -14,6 +14,8 @@
 	const $resetPasswordConfirm = $('#input-resetPasswordConfirm');
 	const $resetPasswordSubmitBtn = $('#btn-resetPasswordSubmit');
 	
+	const $passwordWarning = $('#password-warning');
+
 	/**
 	*	init
 	*/
@@ -25,7 +27,7 @@
 	*/
 
 	$resetPassword.on('blur', _checkPassword);
-	$resetPasswordConfirm.on('blur', _checkPasswordConfirm);
+	$resetPasswordConfirm.on('blur', _checkPassword);
 	$resetPasswordConfirm.keyup((e) => { e.keyCode == 13 && _handleSubmit(); });
 	$resetPasswordSubmitBtn.on('click', _handleSubmit);
 
@@ -60,23 +62,32 @@
 		results = regex.exec(url);
 		if (!results) return null;
 		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
+		return decodeURIComponent(results[2]);
 	}
 
 	function _checkPassword() {
-		const oriPass = $resetPassword.val();
-		const passConfirm = $resetPasswordConfirm.val();
-		oriPass.length >= 6 && $resetPassword.removeClass('invalidInput') && (_passValid = true);
-		oriPass === passConfirm && $resetPasswordConfirm.removeClass('invalidInput') && (_passValid = true);
-		oriPass.length < 6 && $resetPassword.addClass('invalidInput') && (_passValid = false);
-		oriPass !== passConfirm && $resetPasswordConfirm.addClass('invalidInput') && (_passValid = false);
-	}
+		const oriPass = $password.val();
+		const passConfirm = $passwordConfirm.val();
 
-	function _checkPasswordConfirm() {
-		const oriPass = $resetPassword.val();
-		const passConfirm = $resetPasswordConfirm.val();
-		oriPass === passConfirm && $resetPasswordConfirm.removeClass('invalidInput') && (_passValid = true);
-		oriPass !== passConfirm && $resetPasswordConfirm.addClass('invalidInput') && (_passValid = false);
+		// 判斷密碼長度
+		if (oriPass.length >= 6) {
+			$password.removeClass('invalidInput');
+			$passwordWarning.hide();
+			_passValid = true;
+		} else {
+			$password.addClass('invalidInput');
+			$passwordWarning.show();
+			_passValid = false;
+		}
+
+		// 判斷確認密碼長度與以及是否與密碼相同
+		if ((passConfirm.length >= 6) && (passConfirm === oriPass)) {
+			$passwordConfirm.removeClass('invalidInput');
+			_passValid = true;
+		} else {
+			$passwordConfirm.addClass('invalidInput');
+			_passValid = false;
+		}
 	}
 
 	function _handleSubmit() {
@@ -84,37 +95,39 @@
 		const token = _getParameterByName('token');
 		const oriPass = $resetPassword.val();
 		const passConfirm = $resetPasswordConfirm.val();
-		if (_passValid && !!oriPass && !!passConfirm) {
-			const data = {
-				email,
-				token,
-				password: sha256(oriPass),
-				password_confirmation: sha256(passConfirm)
-			}
-			loading.start();
-			student.resetPassword(data, email)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				alert("密碼重設成功，請重新登入。");
-				location.href="./index.html";
-				loading.complete();
-			})
-			.catch((err) => {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-				})
-				loading.complete();
-			})
-		} else {
-			alert('輸入有誤');
+
+		if (!_passValid) {
+			alert('密碼格式錯誤，或「確認密碼」與「密碼」內容不符。');
+			return;
 		}
+
+		const data = {
+			email,
+			token,
+			password: sha256(oriPass),
+			password_confirmation: sha256(passConfirm)
+		}
+		loading.start();
+		student.resetPassword(data, email)
+		.then((res) => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then((json) => {
+			alert("密碼重設成功，請重新登入。");
+			location.href="./index.html";
+			loading.complete();
+		})
+		.catch((err) => {
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
+			loading.complete();
+		});
 	}
 
 })();
