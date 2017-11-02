@@ -66,26 +66,26 @@
 	}
 
 	function _checkPassword() {
-		const oriPass = $password.val();
-		const passConfirm = $passwordConfirm.val();
+		const oriPass = $resetPassword.val();
+		const passConfirm = $resetPasswordConfirm.val();
 
 		// 判斷密碼長度
 		if (oriPass.length >= 6) {
-			$password.removeClass('invalidInput');
+			$resetPassword.removeClass('invalidInput');
 			$passwordWarning.hide();
 			_passValid = true;
 		} else {
-			$password.addClass('invalidInput');
+			$resetPassword.addClass('invalidInput');
 			$passwordWarning.show();
 			_passValid = false;
 		}
 
 		// 判斷確認密碼長度與以及是否與密碼相同
 		if ((passConfirm.length >= 6) && (passConfirm === oriPass)) {
-			$passwordConfirm.removeClass('invalidInput');
+			$resetPasswordConfirm.removeClass('invalidInput');
 			_passValid = true;
 		} else {
-			$passwordConfirm.addClass('invalidInput');
+			$resetPasswordConfirm.addClass('invalidInput');
 			_passValid = false;
 		}
 	}
