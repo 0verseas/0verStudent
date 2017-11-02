@@ -116,9 +116,9 @@
 			})
 			.then((data) => {
 				swal(
-					'Deleted!',
-					'Your file has been deleted.',
-					'success'
+					'提交成功!',
+					'Your file has been submitted for review!',
+					'success!'
 				)
 				.then(() => { location.reload() });
 			})
