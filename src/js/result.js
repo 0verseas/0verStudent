@@ -22,9 +22,7 @@
 	const $noSelectForm = $('#form-no-select');
 	const $previewPersonalDataBtn = $('#btn-previewPersonalData');
 	const $previewPlacementListBtn = $('#btn-previewPlacementList');
-	const $previewPersonalDataDiv = $('#div-previewPersonalData');
-	const $previewPlacementListDiv = $('#div-previewPlacementList');
-
+	const $previewDataDiv = $('#div-previewData');
 
 	/**
 	*	init
@@ -149,11 +147,7 @@
 			$previewPersonalDataBtn.attr('href', env.baseUrl + '/students/admission-paper/department-apply-form');
 			$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
 			if (_systemId !== 1) {
-				$previewPlacementListDiv.remove();
-                $previewPersonalDataDiv.remove();
-				//$previewPersonalDataDiv.removeClass('col-md-6');
-				//$previewPersonalDataDiv.addClass('col-md-12');
-				console.log('a');
+				$previewDataDiv.remove();
 			}
 			loading.complete();
 		} catch(e) {

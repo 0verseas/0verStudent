@@ -23,6 +23,7 @@
 
 	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加個人申請 checkbox
 	const $admissionSelectForm = $('#form-admissionSelect'); // 個人申請表單
+	const $quotaLinkBtn = $('#btn-quotaLink');
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
@@ -109,6 +110,8 @@
 				_wishList.push(_optionalWish[orderIndex]);
 				_optionalWish.splice(orderIndex, 1);
 			});
+
+			$quotaLinkBtn.attr('href', env.quotaUrl);
 
 			_generateOptionalWish();
 			_generateWishList();
