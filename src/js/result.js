@@ -104,7 +104,8 @@
 						$admissionTbody.html(admissionHTML);
 						$admissionForm.show();
 					}
-					if (_hasPlacement) {
+					// 如果 apply_way id 是 1, 11 ,78 （以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請、以僑先部結業成績申請），就不顯示分發志願。
+					if (_hasPlacement && (progressJson.student_misc_data.admission_placement_apply_way != 1 && progressJson.student_misc_data.admission_placement_apply_way != 11 && progressJson.student_misc_data.admission_placement_apply_way != 78)) {
 						const url = '/students/admission-placement-order';
 						const placementResponse = await student.getOrderResultList(url);
 						if (!placementResponse.ok) { throw placementResponse; }
@@ -147,7 +148,14 @@
 				}
 			}
 			$previewPersonalDataBtn.attr('href', env.baseUrl + '/students/admission-paper/department-apply-form');
-			$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
+			
+			// 如果 apply_way id 是 1, 11 ,78 （以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請、以僑先部結業成績申請），就不讓按鈕運作。
+			if ((progressJson.student_misc_data.admission_placement_apply_way == 1) || (progressJson.student_misc_data.admission_placement_apply_way == 11) || (progressJson.student_misc_data.admission_placement_apply_way == 78)) {
+				$previewPlacementListBtn.attr('onclick', 'event.preventDefault();');
+			} else {
+				$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
+			}
+			
 			if (_systemId !== 1) {
 				$previewPlacementListDiv.remove();
                 $previewPersonalDataDiv.remove();
