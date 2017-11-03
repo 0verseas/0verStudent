@@ -116,7 +116,7 @@
 			})
 			.then((data) => {
 				swal(
-					'提交成功!',
+					'提交成功！',
 					'Your file has been submitted for review!',
 					'success!'
 				)
@@ -125,6 +125,11 @@
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data.messages[0]);
+					swal(
+						'提交失敗！',
+						data.messages[0],
+						'error'
+					);
 				});
 				loading.complete();
 			})
