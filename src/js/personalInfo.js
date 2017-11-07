@@ -437,7 +437,7 @@
 		const continent = $(this).find(':selected').data('continentindex');
 		const identity124Rule = ["113", "127"]; // 港澳生、港澳具外國國籍之華裔學生、在臺港澳生，只能選到香港、澳門
 		const identity3Rule = ["113", "127", "147", "148"]; // 海外不能選到香港、澳門、臺灣跟大陸
-        const identity6Rule = ["148"]; // 僑先部結業生不能選到大陸
+        const identity6Rule = ["147"]; // 僑先部結業生不能選到臺灣
 
 		let countryHTML = '<option value="">Country</option>';
 		if (continent !== -1) {
