@@ -48,7 +48,8 @@
 	async function _init() {
 		// set header
 		new Promise((resolve, reject) => {
-			student.getStudentRegistrationProgress().then((res) => {
+			student.getStudentRegistrationProgress()
+			.then((res) => {
 				if (res.ok) {
 					return res.json();
 				} else {

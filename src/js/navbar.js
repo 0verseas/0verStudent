@@ -13,8 +13,9 @@
 	* init
 	*/
 	// get progress
-	student.getStudentRegistrationProgress().then((res) => {
-	if (res.ok) {
+	student.getStudentRegistrationProgress()
+	.then((res) => {
+		if (res.ok) {
 			return res.json();
 		} else {
 			throw res;
