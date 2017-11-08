@@ -109,18 +109,46 @@
 		}).
 		then(function () {
 			student.uploadAndSubmit().then((res) => {
-				if(res.ok) {
+				if (res.ok) {
 					return res.json();
 				} else {
 					throw res;
 				}
 			})
 			.then((data) => {
-				swal(
+				/*swal(
 					'提交成功！',
 					'Your file has been submitted for review!',
 					'success!'
-				)
+				)*/
+				var html = ``;
+				for (var i = 0; i < data.length; i++) {
+					html += `
+						<h4>${data[i].name}</h4><br />
+					`;
+					for (var j = 0; j < data[i].docs_result.length; j++) {
+						html += `
+							<div style="text-align: left">
+							${data[i].docs_result[j].doc_name}
+						`;
+						if (data[i].docs_result[j].doc_required) {
+							html += ` (必繳)`;
+						} else {
+							html += ` (選繳)`;
+						}
+						html += `
+							, 已上傳 ${data[i].docs_result[j].doc_count} 個檔案。
+							</div><br />
+						`;
+					}
+					html += `<br />`;
+				}
+				swal({
+					title: '<i>提交成功！</i>',
+					type: 'info',
+					html: html,
+					showCloseButton: true,
+				})
 				.then(() => { location.reload() });
 			})
 			.catch((err) => {
