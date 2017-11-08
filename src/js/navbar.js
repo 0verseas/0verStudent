@@ -22,7 +22,7 @@
 		}
 	})
 	.then((json) => {
-		console.log(json);
+		console.log("json",json);
 		!!json.student_misc_data || location.replace('./');
 		_setGreet(json.name || json.email);
 		_setEmailVerifyAlert(json.student_misc_data);
@@ -219,7 +219,7 @@
 
 	function _setHeader(data) {
 		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
-		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生'];
+		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生', '僑先部結業生'];
 		student.setHeader({
 			system: systemMap[data.student_qualification_verify.system_id - 1],
 			identity: identityMap[data.student_qualification_verify.identity - 1],
