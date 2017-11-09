@@ -95,19 +95,19 @@
 
 	function _handleUploadAndSubmit() {
 		swal({
-				title: '確認提交',
-				text: "注意：按下確認提交後，上傳的檔案就無法再做任何變更。",
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '確認提交',
-				cancelButtonText: '取消',
-				confirmButtonClass: 'btn btn-success',
-				cancelButtonClass: 'btn btn-danger',
-				buttonsStyling: false
-		}).
-		then(function () {
+			title: '確認提交',
+			text: "注意：按下確認提交後，上傳的檔案就無法再做任何變更。",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '確認提交',
+			cancelButtonText: '取消',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false
+		})
+		.then(function () {
 			student.uploadAndSubmit().then((res) => {
 				if (res.ok) {
 					return res.json();
@@ -149,7 +149,7 @@
 					html: html,
 					showCloseButton: true,
 				})
-				.then(() => { location.reload() });
+				.then(() => { location.href = './uploadReviewItems.html' });
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
