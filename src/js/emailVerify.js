@@ -17,7 +17,7 @@
 
 			$('#alert-valid').show();
 			setTimeout(() => {
-				window.location.href = './index.html';
+				location.href = './index.html';
 			}, 3000);
 			loading.complete();
 
