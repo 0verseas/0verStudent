@@ -26,6 +26,7 @@
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
 			})
+			$('#alert-invalid').show();
 			loading.complete();
 		}
 	}
