@@ -7,39 +7,27 @@
 	/**
 	* private method
 	*/
-	function _verify(){
-		const email = _getParam('email', window.location.href);
-		const token = _getParam('token', window.location.href);
-		student.verifyEmail(email, token)
-		.then((res) => {
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((data) => {
+	async function _verify(){
+		try {
+			const email = _getParam('email', window.location.href);
+			const token = _getParam('token', window.location.href);
+
+			const response = await student.verifyEmail(email, token);
+			if (!response.ok) { throw response; }
+
 			$('#alert-valid').show();
 			setTimeout(() => {
-				window.location.href = './systemChoose.html';
-			}, 5000);
-		})
-		.then(() => {
+				window.location.href = './index.html';
+			}, 3000);
 			loading.complete();
-		})
-		.catch((err) => {
-			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
-			} else {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-				})
-			}
-			$('#alert-invalid').show();
+
+		} catch (e) {
+			e.json && e.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 			loading.complete();
-		});
+		}
 	}
 
 	function _getParam(name, url) {
