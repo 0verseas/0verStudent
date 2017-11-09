@@ -22,10 +22,14 @@
 			loading.complete();
 
 		} catch (e) {
-			e.json && e.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-			})
+			let errorMsg = '';
+			if (e.status && e.status === 400) {
+				errorMsg = 'Email 格式錯誤。';
+			} else if (e.status && e.status === 403) {
+				errorMsg = '驗證錯誤。';
+			}
+			console.error(data);
+			alert(errorMsg);
 			$('#alert-invalid').show();
 			loading.complete();
 		}
