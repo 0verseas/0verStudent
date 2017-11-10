@@ -98,7 +98,8 @@
 					cardCode: val.department_data.card_code,
 					school: val.department_data.school.title,
 					schoolID: val.department_data.school.id,
-					dept: val.department_data.title
+					dept: val.department_data.title,
+					uploadedFileList: val.uploaded_file_list
 				}
 			});
 		})
@@ -110,6 +111,7 @@
 
 	function _renderWishList() {
 		let wishHTML = '';
+		console.log(_wishList);
 		_wishList.forEach((value, index) => {
 			let showId = (_system !== 1) ? value.id : value.cardCode;
 			wishHTML += `
@@ -126,6 +128,26 @@
 					</td>
 				</tr>
 			`
+
+			wishHTML += `
+				<tr>
+					<td colspan="4">
+						<h6>繳交狀況：</h6>
+						<blockquote class="blockquote">
+						`
+			value.uploadedFileList.forEach((doc, docIndex) => {
+				const requiredBadge = (doc.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
+				const filesNum = (doc.paper === null) ? (doc.files.length + ' 份檔案') : '請於期限內寄紙本資料至指定收件處';
+				wishHTML += `
+					${requiredBadge} ${doc.type.name}： ${filesNum}<br />
+				`
+			});
+
+			wishHTML += `
+						</blockquote>
+					</td>
+				</tr>
+				`
 		});
 		wishList.innerHTML = wishHTML;
 	}
