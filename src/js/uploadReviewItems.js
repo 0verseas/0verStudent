@@ -9,6 +9,7 @@
 	let _studentID;
 	let _deptID;
 	let _schoolID;
+	let _isDocumentLock = true;
 
 	/**
 	*	cache DOM
@@ -60,6 +61,7 @@
 				_setHeader(json);
 				_setGreet(json.name || json.email);
 				_system = json.student_qualification_verify.system_id;
+				_isDocumentLock = !!json.student_misc_data.admission_selection_document_lock_at;
 				resolve();
 			})
 			.catch((err) => {
@@ -93,13 +95,14 @@
 
 			const result = await student.getAdmissionSelectionWishOrder();
 			_wishList = result[key].map((val, i) => {
+				const uploadedFileList = (!!val.uploaded_file_list) ? val.uploaded_file_list : [];
 				return {
 					id: val.department_data.id,
 					cardCode: val.department_data.card_code,
 					school: val.department_data.school.title,
 					schoolID: val.department_data.school.id,
 					dept: val.department_data.title,
-					uploadedFileList: val.uploaded_file_list
+					uploadedFileList: uploadedFileList
 				}
 			});
 		})
@@ -129,25 +132,27 @@
 				</tr>
 			`
 
-			wishHTML += `
-				<tr>
-					<td colspan="4">
-						<h6>繳交狀況：</h6>
-						<blockquote class="blockquote">
-						`
-			value.uploadedFileList.forEach((doc, docIndex) => {
-				const requiredBadge = (doc.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
-				const filesNum = (doc.paper === null) ? (doc.files.length + ' 份檔案') : '請於期限內寄紙本資料至指定收件處';
+			if (_isDocumentLock) {
 				wishHTML += `
-					${requiredBadge} ${doc.type.name}： ${filesNum}<br />
-				`
-			});
+					<tr>
+						<td colspan="4">
+							<h6>繳交狀況：</h6>
+							<blockquote class="blockquote">
+							`
+				value.uploadedFileList.forEach((doc, docIndex) => {
+					const requiredBadge = (doc.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
+					const filesNum = (doc.paper === null) ? (doc.files.length + ' 份檔案') : '請於期限內寄紙本資料至指定收件處';
+					wishHTML += `
+						${requiredBadge} ${doc.type.name}： ${filesNum}<br />
+					`
+				});
 
-			wishHTML += `
-						</blockquote>
-					</td>
-				</tr>
-				`
+				wishHTML += `
+							</blockquote>
+						</td>
+					</tr>
+					`
+			}
 		});
 		wishList.innerHTML = wishHTML;
 	}
