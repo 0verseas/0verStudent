@@ -30,6 +30,7 @@
 		_setHeader(json);
 		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
 		_checkConfirm(!!json.student_misc_data.confirmed_at);
+		_checkDocumentLock(!!json.student_misc_data.admission_selection_document_lock_at);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -284,4 +285,9 @@
 	function  _checkConfirm(confirmed) {
 		confirmed && $('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報') && $afterConfirmZone.show();
 	}
+
+	function _checkDocumentLock(confirmed) {
+		confirmed && $('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $afterConfirmZone.show();
+	}
+
 })();
