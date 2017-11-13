@@ -11,6 +11,8 @@
 	let _orderIndex;
 	let _schoolID;
 	let _deptID;
+	let _hasWorks = false; // 項目中是否有作品集，有的話要儲存作品集文字
+	let _workUrls = [];
 
 	/**
 	*	cache DOM
@@ -130,6 +132,7 @@
 
 	function _handleEditForm() {
 		loading.start();
+		_hasWorks = false;
 		const deptId = _deptID = $(this).data('deptid') || _deptID;
 		_orderIndex = _wishList.findIndex(i => i.dept_id === (deptId + ""));
 
@@ -147,6 +150,7 @@
 		_wishList[_orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
 			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
 			if (fileListItem.type.name === "作品集") {
+				_hasWorks = true;
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
@@ -181,7 +185,7 @@
 											<div class="input-group">
 												<input type="text" class="form-control" id="workUrl">
 												<span class="input-group-btn">
-													<button class="btn btn-primary" type="button">
+													<button class="btn btn-primary" type="button" id="btn-addWorkUrl">
 														<i class="fa fa-plus" aria-hidden="true"></i>
 													</button>
 												</span>
@@ -324,6 +328,11 @@
 
 		$reviewItemsArea.html(reviewItemHTML);
 
+		if (_hasWorks) {
+			_renderWorkUrlList();
+			$('#btn-addWorkUrl').on('click', _handleAddWorkUrl);
+		}
+
 		$(":file").filestyle({
 			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
 			btnClass: "btn-success",
@@ -334,6 +343,35 @@
 		$uploadForm.fadeIn();
 
 		loading.complete();
+	}
+
+	function _handleAddWorkUrl() {
+		let workUrl = $('#workUrl').val();
+		_workUrls.push(workUrl);
+		$('#workUrl').val('');
+		_renderWorkUrlList();
+	}
+
+	function _handleRemoveUrl() {
+		const workIndex = +$(this).data('workindex');
+		_workUrls.splice(workIndex, 1);
+		_renderWorkUrlList();
+	}
+
+	function _renderWorkUrlList() {
+		let workUrlHTML = '';
+		_workUrls.forEach((val, index) => {
+			workUrlHTML += `
+				<li>
+					${val}
+					<button class="btn btn-danger btn-sm btn-removeWorkUrl" data-workindex="${index}" type="button">
+						<i class="fa fa-times" aria-hidden="true"></i>
+					</button>
+				</li>
+			`
+		})
+		$('#workUrls').html(workUrlHTML);
+		$('.btn-removeWorkUrl').on('click', _handleRemoveUrl);
 	}
 
 	function _handleSave() {
