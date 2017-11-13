@@ -8,6 +8,7 @@
 	let _studentID;
 	let _isDocumentLock = true; // 備審資料是否已提交
 	let _wishList = [];
+	let _orderIndex;
 	let _schoolID;
 	let _deptID;
 
@@ -85,7 +86,7 @@
 					<td>${showId}</td>
 					<td>${value.department_data.school.title} ${value.department_data.title}</td>
 					<td class="text-right">
-						<button type="button" class="btn btn-info btn-wishEdit" data-orderindex="${index}">
+						<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
 							<i class="fa fa-upload" aria-hidden="true"></i>
 							<span class="hidden-sm-down"> 上傳</span>
 						</button>
@@ -129,24 +130,99 @@
 
 	function _handleEditForm() {
 		loading.start();
-		const orderIndex = $(this).data('orderindex');
-		console.log(orderIndex);
+		const deptId = _deptID = $(this).data('deptid') || _deptID;
+		_orderIndex = _wishList.findIndex(i => i.dept_id === (deptId + ""));
 
 		if (_system === 1) {
-			$deptId.text(_wishList[orderIndex].department_data.card_code);
+			$deptId.text(_wishList[_orderIndex].department_data.card_code);
 		} else {
-			$deptId.text(_wishList[orderIndex].department_data.id);
+			$deptId.text(_wishList[_orderIndex].department_data.id);
 		}
-		$schoolName.text(_wishList[orderIndex].department_data.school.title);
-		$deptName.text(_wishList[orderIndex].department_data.title);
+		$schoolName.text(_wishList[_orderIndex].department_data.school.title);
+		$deptName.text(_wishList[_orderIndex].department_data.title);
 
 		let reviewItemHTML = '';
 		let requiredBadge = '';
 
-		_wishList[orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
-			console.log(fileListItem);
+		_wishList[_orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
 			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
-			if (!!fileListItem.paper) {
+			if (fileListItem.type.name === "作品集") {
+				reviewItemHTML += `
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header bg-primary text-white">
+									${fileListItem.type.name} ${requiredBadge}
+								</div>
+								<div class="card-block">
+									<blockquote class="blockquote">
+										說明：${fileListItem.description}
+									</blockquote>
+
+									<div>
+										<div class="form-group">
+											<label for="workName">作品名稱</label>
+											<input type="text" class="form-control" id="workName">
+										</div>
+										<div class="form-group">
+											<label for="workPosition">個人參與的職位或項目</label>
+											<input type="text" class="form-control" id="workPosition">
+										</div>
+										<div class="form-group">
+											<label for="workType">術科類型</label>
+											<input type="text" class="form-control" id="workType">
+										</div>
+										<div class="form-group">
+											<label for="workMemo">備註</label>
+											<input type="text" class="form-control" id="workMemo">
+										</div>
+										<div class="form-group">
+											<label for="workUrl">作品連結</label>
+											<div class="input-group">
+												<input type="text" class="form-control" id="workUrl">
+												<span class="input-group-btn">
+													<button class="btn btn-primary" type="button">
+														<i class="fa fa-plus" aria-hidden="true"></i>
+													</button>
+												</span>
+											</div>
+										</div>
+										<div>已填寫連結：</div>
+										<ul id="workUrls"></ul>
+										<hr />
+									</div>
+
+									<h4 style="margin-bottom: 15px;">作品授權書</h4>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-workstype="authorization" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-block">
+											<h4 class="card-title"><span>已上傳授權書</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+										</div>
+									</div>
+									<hr />
+
+									<h4 style="margin-bottom: 15px;">作品集檔案</h4>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-workstype="works" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-block">
+											<h4 class="card-title"><span>已上傳作品檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+				`
+			} else if (!!fileListItem.paper) {
 				console.log('paper');
 				reviewItemHTML += `
 					<div class="row">
@@ -248,7 +324,6 @@
 
 		$reviewItemsArea.html(reviewItemHTML);
 
-
 		$(":file").filestyle({
 			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
 			btnClass: "btn-success",
@@ -257,9 +332,6 @@
 		});
 		$wishListWrap.hide();
 		$uploadForm.fadeIn();
-		$('html')[0].scrollIntoView(); // 畫面置頂
-		const r = Math.floor(Math.random() * 1000);
-		setTimeout(loading.complete, 200 + r);
 
 		loading.complete();
 	}
@@ -267,16 +339,20 @@
 	function _handleSave() {
 		$uploadForm.hide();
 		$wishListWrap.fadeIn();
+		$('html')[0].scrollIntoView(); // 畫面置頂
 	}
 	
 	function _handleExit() {
 		$uploadForm.hide();
 		$wishListWrap.fadeIn();
+		$('html')[0].scrollIntoView(); // 畫面置頂
 	}
 
 	function _handleUpload() {
 		const type_id = $(this).data('type');
 		const dept_id = $(this).data('deptid');
+		const workType = ($(this).attr('data-workstype')) ? $(this).data('workstype') : false;
+
 		const fileList = this.files;
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
@@ -292,6 +368,8 @@
 		})
 		.then((json) => {
 			console.log(json);
+			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+json.type_id ));
+			_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(json.files);
 			_handleEditForm();
 		})
 		.catch((err) => {
@@ -363,6 +441,9 @@
 			}
 		})
 		.then((json) => {
+			console.log(json);
+			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+json[0].type_id ));
+			_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = json[0].files;
 			$('.img-modal').modal('hide');
 			_handleEditForm();
 		})
