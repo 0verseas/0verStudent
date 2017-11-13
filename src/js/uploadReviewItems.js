@@ -140,8 +140,18 @@
 							<blockquote class="blockquote">
 							`
 				value.uploadedFileList.forEach((doc, docIndex) => {
+					console.log(doc);
 					const requiredBadge = (doc.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
-					const filesNum = (doc.paper === null) ? (doc.files.length + ' 份檔案') : '請於期限內寄紙本資料至指定收件處';
+					let filesNum = '';
+
+					if (doc.paper === null && doc.type.name === "作品集") { // 作品集檔案
+						filesNum = (doc.work_files.length + ' 份檔案');
+					} else if (doc.paper === null) { // 非紙本資料
+						filesNum = (doc.files.length + ' 份檔案');
+					} else { // 紙本資料
+						filesNum = '請於期限內寄紙本資料至指定收件處';
+					}
+
 					wishHTML += `
 						${requiredBadge} ${doc.type.name}： ${filesNum}<br />
 					`
