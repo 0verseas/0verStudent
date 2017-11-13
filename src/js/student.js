@@ -287,21 +287,12 @@ const student = (() => {
 	}
 
 	function getAdmissionSelectionWishOrder() {
-		return new Promise((resolve, reject) => {
-			fetch(baseUrl + `/students/admission-selection-order`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				credentials: 'include'
-			})
-			.then((res) => {
-				if (res.ok) {
-					resolve(res.json());
-				} else {
-					reject(res);
-				}
-			})
+		return fetch(baseUrl + `/students/admission-selection-order`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
 		})
 	}
 

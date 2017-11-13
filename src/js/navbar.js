@@ -22,7 +22,6 @@
 		}
 	})
 	.then((json) => {
-		console.log("json",json);
 		!!json.student_misc_data || location.replace('./');
 		_setGreet(json.name || json.email);
 		_setEmailVerifyAlert(json.student_misc_data);

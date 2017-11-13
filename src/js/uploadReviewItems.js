@@ -5,11 +5,11 @@
 	*/
 
 	let _system = 1;
-	let _wishList = [];
 	let _studentID;
-	let _deptID;
+	let _isDocumentLock = true; // 備審資料是否已提交
+	let _wishList = [];
 	let _schoolID;
-	let _isDocumentLock = true;
+	let _deptID;
 
 	/**
 	*	cache DOM
@@ -17,17 +17,18 @@
 
 	const $wishListWrap = $('#wrap-wishList');
 	const $wishList = $('#wishList');
-	const wishList = document.getElementById('wishList');
 	const $uploadForm = $('#form-upload'); // 點下「上傳」按鈕後出現的表單
-	const $deptId = $('#deptId');
-	const $schoolName = $('#schoolName');
-	const $deptName = $('#deptName');
-	const $reviewItemsArea = $('#reviewItemsArea');
-	const reviewItemsArea = document.getElementById('reviewItemsArea');
+	const $deptId = $('#deptId'); // 顯示，志願代碼
+	const $schoolName = $('#schoolName'); // 顯示，學校名稱
+	const $deptName = $('#deptName'); // 顯示，系所名稱
+	const $reviewItemsArea = $('#reviewItemsArea'); // 各備審項目
+	const $downloadBtn = $('#btn-download'); // modal 下載按鈕
+	const $imgModalBody= $('#img-modal-body'); // modal 本體
 	const $saveBtn = $('#btn-save');
 	const $exitBtn = $('#btn-exit');
-	const $downloadBtn = $('#btn-download');
-	const $imgModalBody= $('#img-modal-body');
+
+	const wishList = document.getElementById('wishList');
+	const reviewItemsArea = document.getElementById('reviewItemsArea');
 
 	/**
 	*	init
@@ -47,84 +48,44 @@
 	$('.btn-delImg').on('click', _handleDelImg);
 
 	async function _init() {
-		// set header
-		new Promise((resolve, reject) => {
-			student.getStudentRegistrationProgress()
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				_setHeader(json);
-				_setGreet(json.name || json.email);
-				_system = json.student_qualification_verify.system_id;
-				_isDocumentLock = !!json.student_misc_data.admission_selection_document_lock_at;
-				resolve();
-			})
-			.catch((err) => {
-				if (err.status && err.status === 401) {
-					alert('請登入。');
-					location.href = "./index.html";
-				} else {
-					err.json && err.json().then((data) => {
-						console.error(data.messages[0]);
-						alert(data.messages[0]);
-					})
-				}
-				loading.complete();
-			});
-		})
-		.then(async function () {
-			// get wish list
-			let key;
-			switch (_system) {
-				case 1:
-					key = 'student_department_admission_selection_order';
-					break;
-				case 2:
-					key = 'student_two_year_tech_department_admission_selection_order';
-					break;
-				case 3:
-				case 4:
-					key = 'student_graduate_department_admission_selection_order';
-					break;
-			}
 
-			const result = await student.getAdmissionSelectionWishOrder();
-			_wishList = result[key].map((val, i) => {
-				const uploadedFileList = (!!val.uploaded_file_list) ? val.uploaded_file_list : [];
-				return {
-					id: val.department_data.id,
-					cardCode: val.department_data.card_code,
-					school: val.department_data.school.title,
-					schoolID: val.department_data.school.id,
-					dept: val.department_data.title,
-					uploadedFileList: uploadedFileList
-				}
-			});
-		})
-		.then(() => {
+		try {
+			const response = await student.getAdmissionSelectionWishOrder();
+			if (!response.ok) { throw response; }
+			const orderJson = await response.json();
+
+			_studentID = orderJson.id;
+			_system = orderJson.student_qualification_verify.system_id;
+			_isDocumentLock = !!orderJson.student_misc_data.admission_selection_document_lock_at;
+			_wishList = orderJson.student_department_admission_selection_order;
+
 			_renderWishList();
 			loading.complete();
-		});
+		} catch(e) {
+			if (e.status && e.status === 401) {
+				alert('請登入。');
+				location.href = "./index.html";
+			} else {
+				e.json && e.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			}
+			loading.complete();
+		}
 	}
 
 	function _renderWishList() {
 		let wishHTML = '';
-		console.log(_wishList);
 		_wishList.forEach((value, index) => {
-			let showId = (_system !== 1) ? value.id : value.cardCode;
+			let showId = (_system === 1) ? value.department_data.card_code : value.department_data.id;
 			wishHTML += `
 				<tr class="table-warning">
 					<td>${index + 1}</td>
-					<td>` + showId + `</td>
-					<td>${value.school} ${value.dept}</td>
+					<td>${showId}</td>
+					<td>${value.department_data.school.title} ${value.department_data.title}</td>
 					<td class="text-right">
-						<button type="button" class="btn btn-info btn-wishEdit"
-							data-deptid="${value.id}" data-schoolid="${value.schoolID}"">
+						<button type="button" class="btn btn-info btn-wishEdit" data-orderindex="${index}">
 							<i class="fa fa-upload" aria-hidden="true"></i>
 							<span class="hidden-sm-down"> 上傳</span>
 						</button>
@@ -139,12 +100,11 @@
 							<h6>繳交狀況：</h6>
 							<blockquote class="blockquote">
 							`
-				value.uploadedFileList.forEach((doc, docIndex) => {
-					console.log(doc);
+				value.uploaded_file_list.forEach((doc, docIndex) => {
 					const requiredBadge = (doc.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
 					let filesNum = '';
 
-					if (doc.paper === null && doc.type.name === "作品集") { // 作品集檔案
+					if (doc.type.name === "作品集") { // 作品集檔案
 						filesNum = (doc.work_files.length + ' 份檔案');
 					} else if (doc.paper === null) { // 非紙本資料
 						filesNum = (doc.files.length + ' 份檔案');
@@ -153,7 +113,7 @@
 					}
 
 					wishHTML += `
-						${requiredBadge} ${doc.type.name}： ${filesNum}<br />
+						${requiredBadge} ${doc.type.name}：${filesNum}<br />
 					`
 				});
 
@@ -164,127 +124,79 @@
 					`
 			}
 		});
-		wishList.innerHTML = wishHTML;
+		$wishList.html(wishHTML);
 	}
 
-	async function _handleEditForm() {
+	function _handleEditForm() {
 		loading.start();
-		const deptId = _deptID = $(this).data('deptid') || _deptID;
-		const schoolID = _schoolID = $(this).data('schoolid') || _schoolID;
-		const uploadedFile = await student.getReviewItem({
-			student_id: _studentID,
-			dept_id: deptId,
-			type_id: 'all'
-		});
-		
-		const parsedUploadedFile = [];
-		Object.values(uploadedFile).forEach((val, i) => {
-			parsedUploadedFile[+val.type_id] = val.files;
-		});
+		const orderIndex = $(this).data('orderindex');
+		console.log(orderIndex);
 
-		let applicationDoc = {};
-		student.getDeptApplicationDoc(schoolID, _system, deptId)
-		.then((res) => { return res.json(); })
-		.then((json) => {
-			// 整理資料
-			console.log(json);
-			let deptObjName = '';
-			switch (_system) {
-				case 1:
-					deptObjName = 'departments';
-					break;
-				case 2:
-					deptObjName = 'two_year_tech_departments';
-					break;
-				case 3:
-				case 4:
-					deptObjName = 'graduate_departments';
-					break;
-			}
-			applicationDoc["schoolId"] = json.id;
-			applicationDoc["schoolCardCode"] = (_system === 1) ? json[deptObjName][0].card_code : ''; // 學士班才需要 cardCode
-			applicationDoc["schoolName"] = json.title;
-			applicationDoc["deptId"] = json[deptObjName][0].id;
-			applicationDoc["deptNmae"] = json[deptObjName][0].title;
-			applicationDoc["applicationDocFiles"] = [];
-			json[deptObjName][0].application_docs.forEach((value, index) => {
-				applicationDoc["applicationDocFiles"][index] = {};
-				applicationDoc["applicationDocFiles"][index]["typeId"] = value.type_id;
-				applicationDoc["applicationDocFiles"][index]["name"] = value.type.name;
-				applicationDoc["applicationDocFiles"][index]["description"] = value.description;
-				applicationDoc["applicationDocFiles"][index]["engDescription"] = value.eng_description;
-				applicationDoc["applicationDocFiles"][index]["required"] = value.required;
-				applicationDoc["applicationDocFiles"][index]["paper"] = value.paper;
-				applicationDoc["applicationDocFiles"][index]["files"] = []
+		if (_system === 1) {
+			$deptId.text(_wishList[orderIndex].department_data.card_code);
+		} else {
+			$deptId.text(_wishList[orderIndex].department_data.id);
+		}
+		$schoolName.text(_wishList[orderIndex].department_data.school.title);
+		$deptName.text(_wishList[orderIndex].department_data.title);
 
-			})
-		})
-		.then(() => {
-			if (_system === 1) {
-				$deptId.text(applicationDoc.schoolCardCode);
-			} else {
-				$deptId.text(applicationDoc.deptId);
-			}
-			$schoolName.text(applicationDoc.schoolName);
-			$deptName.text(applicationDoc.deptNmae);
+		let reviewItemHTML = '';
+		let requiredBadge = '';
 
-			let reviewItemHTML = '';
-			let requiredBadge = '';
-			applicationDoc['applicationDocFiles'].forEach((value, index) => {
-				value.required === true ? requiredBadge = '<span class="badge badge-danger">必繳</span>' : requiredBadge = '<span class="badge badge-warning">選繳</span>'
-				if (!!value.paper) { // 如果有 paper
-					//console.log(value);
-					reviewItemHTML += `
-						<div class="row">
-							<div class="col-12">
-								<div class="card">
-									<div class="card-header bg-primary text-white">
-										${value.name} ${requiredBadge}
-									</div>
-									<div class="card-block">
-										<blockquote class="blockquote">
-											說明：${value.description}
-										</blockquote>
+		_wishList[orderIndex].uploaded_file_list.forEach((value, index) => {
+			// console.log(value);
+			requiredBadge = (value.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
+			if (!!value.paper) {
+				console.log('paper');
+				reviewItemHTML += `
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header bg-primary text-white">
+									${value.type.name} ${requiredBadge}
+								</div>
+								<div class="card-block">
+									<blockquote class="blockquote">
+										說明：${value.description}
+									</blockquote>
 
-										<div class="card">
-											<div class="card-block">
-												<p>只接受紙本，請於 <span class="text-danger">${value.paper.deadline}</span> 前逕行寄送到下列地址</p>
-												<dl class="row">
-													<dt class="col-md-3 col-lg-2">收件人：</dt>
-													<dd class="col-md-9 col-lg-10">${value.paper.recipient}</dd>
-													<dt class="col-md-3 col-lg-2">地址：</dt>
-													<dd class="col-md-9 col-lg-10">${value.paper.address}</dd>
-													<dt class="col-md-3 col-lg-2">聯絡電話：</dt>
-													<dd class="col-md-9 col-lg-10">${value.paper.phone}</dd>
-													<dt class="col-md-3 col-lg-2">E-mail：</dt>
-													<dd class="col-md-9 col-lg-10">${value.paper.email}</dd>
-												</dl>
-											</div>
+									<div class="card">
+										<div class="card-block">
+											<p>只接受紙本，請於 <span class="text-danger">${value.paper.deadline}</span> 前逕行寄送到下列地址</p>
+											<dl class="row">
+												<dt class="col-md-3 col-lg-2">收件人：</dt>
+												<dd class="col-md-9 col-lg-10">${value.paper.recipient}</dd>
+												<dt class="col-md-3 col-lg-2">地址：</dt>
+												<dd class="col-md-9 col-lg-10">${value.paper.address}</dd>
+												<dt class="col-md-3 col-lg-2">聯絡電話：</dt>
+												<dd class="col-md-9 col-lg-10">${value.paper.phone}</dd>
+												<dt class="col-md-3 col-lg-2">E-mail：</dt>
+												<dd class="col-md-9 col-lg-10">${value.paper.email}</dd>
+											</dl>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<hr>
-					`
-				} else {
-					let filesHtml = '';
-
-					// 依照備審項目，設定檔案縮圖
-					parsedUploadedFile[value.typeId].map((file, i) => {
-						// 取得檔案的類型
-						const fileType = _getFileType(file.split('.')[1]);
-
-						// 圖檔用本身，非圖檔用 icon
+					</div>
+					<hr>
+				`
+			} else {
+				let filesHtml = '';
+				// console.log(_wishList[orderIndex].uploaded_file_list.files);
+				_wishList[orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
+					filesHtml = '';
+					fileListItem.files.forEach((fileName, index) => {
+						const fileType = _getFileType(fileName.split('.')[1]);
 						if (fileType === 'img') {
 							filesHtml += `<img
 								class="img-thumbnail"
-								src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
+								src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
 								data-toggle="modal"
 								data-target=".img-modal"
-								data-type="${value.typeId}"
-								data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
-								data-filename="${file}"
+								data-type="${fileListItem.type_id}"
+								data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+								data-filename="${fileName}"
 								data-filetype="img"
 							/> `;
 						} else {
@@ -293,9 +205,9 @@
 									class="img-thumbnail non-img-file-thumbnail"
 									data-toggle="modal"
 									data-target=".img-modal"
-									data-type="${value.typeId}"
-									data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${deptId}/types/${value.typeId}/files/${file}"
-									data-filename="${file}"
+									data-type="${fileListItem.type_id}"
+									data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+									data-filename="${fileName}"
 									data-filetype="${fileType}"
 									data-icon="fa-file-${fileType}-o"
 								>
@@ -303,23 +215,22 @@
 								</div>
 							`;
 						}
-					}).join('').replace(/,/g, '');
-
+					})
 					reviewItemHTML += `
 						<div class="row">
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header bg-primary text-white">
-										${value.name} ${requiredBadge}
+										${fileListItem.type.name} ${requiredBadge}
 									</div>
 									<div class="card-block">
 										<blockquote class="blockquote">
-											說明：${value.description}
+											說明：${fileListItem.description}
 										</blockquote>
 
 										<div class="row" style="margin-bottom: 15px;">
 											<div class="col-12">
-												<input type="file" class="filestyle file-certificate" data-type="${value.typeId}" data-deptid="${applicationDoc["deptId"]}" multiple>
+												<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
 											</div>
 										</div>
 
@@ -335,25 +246,26 @@
 						</div>
 						<hr>
 					`
-				}
-				
-			});
+				})
+			}
+		})
 
-			reviewItemsArea.innerHTML = reviewItemHTML;
-		})
-		.then(() => {
-			$(":file").filestyle({
-				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-				btnClass: "btn-success",
-				text: " 選擇檔案",
-				input: false
-			});
-			$wishListWrap.hide();
-			$uploadForm.fadeIn();
-			$('html')[0].scrollIntoView(); // 畫面置頂
-			const r = Math.floor(Math.random() * 1000);
-			setTimeout(loading.complete, 200 + r);
-		})
+		$reviewItemsArea.html(reviewItemHTML);
+
+
+		$(":file").filestyle({
+			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
+			btnClass: "btn-success",
+			text: " 選擇檔案",
+			input: false
+		});
+		$wishListWrap.hide();
+		$uploadForm.fadeIn();
+		$('html')[0].scrollIntoView(); // 畫面置頂
+		const r = Math.floor(Math.random() * 1000);
+		setTimeout(loading.complete, 200 + r);
+
+		loading.complete();
 	}
 
 	function _handleSave() {
@@ -486,23 +398,7 @@
 
 			default:
 				return 'img';
-
 		}
-	}
-
-	function _setHeader(data) {
-		_studentID = data.id;
-		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
-		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生'];
-		student.setHeader({
-			system: systemMap[data.student_qualification_verify.system_id - 1],
-			identity: identityMap[data.student_qualification_verify.identity - 1],
-			id: (data.id).toString().padStart(6, "0")
-		});
-	}
-
-	function _setGreet(name) {
-		$('.greet').text(`歡迎 ${name} 登入！`)
 	}
 
 })();
