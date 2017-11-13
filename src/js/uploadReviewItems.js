@@ -143,35 +143,35 @@
 		let reviewItemHTML = '';
 		let requiredBadge = '';
 
-		_wishList[orderIndex].uploaded_file_list.forEach((value, index) => {
-			// console.log(value);
-			requiredBadge = (value.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
-			if (!!value.paper) {
+		_wishList[orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
+			console.log(fileListItem);
+			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
+			if (!!fileListItem.paper) {
 				console.log('paper');
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header bg-primary text-white">
-									${value.type.name} ${requiredBadge}
+									${fileListItem.type.name} ${requiredBadge}
 								</div>
 								<div class="card-block">
 									<blockquote class="blockquote">
-										說明：${value.description}
+										說明：${fileListItem.description}
 									</blockquote>
 
 									<div class="card">
 										<div class="card-block">
-											<p>只接受紙本，請於 <span class="text-danger">${value.paper.deadline}</span> 前逕行寄送到下列地址</p>
+											<p>只接受紙本，請於 <span class="text-danger">${fileListItem.paper.deadline}</span> 前逕行寄送到下列地址</p>
 											<dl class="row">
 												<dt class="col-md-3 col-lg-2">收件人：</dt>
-												<dd class="col-md-9 col-lg-10">${value.paper.recipient}</dd>
+												<dd class="col-md-9 col-lg-10">${fileListItem.paper.recipient}</dd>
 												<dt class="col-md-3 col-lg-2">地址：</dt>
-												<dd class="col-md-9 col-lg-10">${value.paper.address}</dd>
+												<dd class="col-md-9 col-lg-10">${fileListItem.paper.address}</dd>
 												<dt class="col-md-3 col-lg-2">聯絡電話：</dt>
-												<dd class="col-md-9 col-lg-10">${value.paper.phone}</dd>
+												<dd class="col-md-9 col-lg-10">${fileListItem.paper.phone}</dd>
 												<dt class="col-md-3 col-lg-2">E-mail：</dt>
-												<dd class="col-md-9 col-lg-10">${value.paper.email}</dd>
+												<dd class="col-md-9 col-lg-10">${fileListItem.paper.email}</dd>
 											</dl>
 										</div>
 									</div>
@@ -183,70 +183,66 @@
 				`
 			} else {
 				let filesHtml = '';
-				// console.log(_wishList[orderIndex].uploaded_file_list.files);
-				_wishList[orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
-					filesHtml = '';
-					fileListItem.files.forEach((fileName, index) => {
-						const fileType = _getFileType(fileName.split('.')[1]);
-						if (fileType === 'img') {
-							filesHtml += `<img
-								class="img-thumbnail"
-								src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+				fileListItem.files.forEach((fileName, index) => {
+					const fileType = _getFileType(fileName.split('.')[1]);
+					if (fileType === 'img') {
+						filesHtml += `<img
+							class="img-thumbnail"
+							src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+							data-toggle="modal"
+							data-target=".img-modal"
+							data-type="${fileListItem.type_id}"
+							data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+							data-filename="${fileName}"
+							data-filetype="img"
+						/> `;
+					} else {
+						filesHtml += `
+							<div
+								class="img-thumbnail non-img-file-thumbnail"
 								data-toggle="modal"
 								data-target=".img-modal"
 								data-type="${fileListItem.type_id}"
 								data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
 								data-filename="${fileName}"
-								data-filetype="img"
-							/> `;
-						} else {
-							filesHtml += `
-								<div
-									class="img-thumbnail non-img-file-thumbnail"
-									data-toggle="modal"
-									data-target=".img-modal"
-									data-type="${fileListItem.type_id}"
-									data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
-									data-filename="${fileName}"
-									data-filetype="${fileType}"
-									data-icon="fa-file-${fileType}-o"
-								>
-									<i class="fa fa-file-${fileType}-o" aria-hidden="true"></i>
+								data-filetype="${fileType}"
+								data-icon="fa-file-${fileType}-o"
+							>
+								<i class="fa fa-file-${fileType}-o" aria-hidden="true"></i>
+							</div>
+						`;
+					}
+				})
+				reviewItemHTML += `
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header bg-primary text-white">
+									${fileListItem.type.name} ${requiredBadge}
 								</div>
-							`;
-						}
-					})
-					reviewItemHTML += `
-						<div class="row">
-							<div class="col-12">
-								<div class="card">
-									<div class="card-header bg-primary text-white">
-										${fileListItem.type.name} ${requiredBadge}
-									</div>
-									<div class="card-block">
-										<blockquote class="blockquote">
-											說明：${fileListItem.description}
-										</blockquote>
+								<div class="card-block">
+									<blockquote class="blockquote">
+										說明：${fileListItem.description}
+									</blockquote>
 
-										<div class="row" style="margin-bottom: 15px;">
-											<div class="col-12">
-												<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
-											</div>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
 										</div>
+									</div>
 
-										<div class="card">
-											<div class="card-block">
-												<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-												${filesHtml}
-											</div>
+									<div class="card">
+										<div class="card-block">
+											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											${filesHtml}
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<hr>
-					`
-				})
+					</div>
+					<hr>
+				`
 			}
 		})
 
