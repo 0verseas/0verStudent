@@ -152,9 +152,11 @@
 			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
 			if (fileListItem.type.name === "作品集") {
 				_hasWorks = true;
-				console.log("-------");
-				console.log(fileListItem.type_id);
 				_workTypeId = fileListItem.type_id;
+
+				let authorizationHTML = _getFileAreaHTML(fileListItem, "authorization_files");
+				let worksHTML = _getFileAreaHTML(fileListItem, "work_files");
+
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
@@ -209,6 +211,7 @@
 									<div class="card">
 										<div class="card-block">
 											<h4 class="card-title"><span>已上傳授權書</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											${authorizationHTML}
 										</div>
 									</div>
 									<hr />
@@ -222,6 +225,7 @@
 									<div class="card">
 										<div class="card-block">
 											<h4 class="card-title"><span>已上傳作品檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											${worksHTML}
 										</div>
 									</div>
 								</div>
@@ -266,37 +270,7 @@
 					<hr>
 				`
 			} else {
-				let filesHtml = '';
-				fileListItem.files.forEach((fileName, index) => {
-					const fileType = _getFileType(fileName.split('.')[1]);
-					if (fileType === 'img') {
-						filesHtml += `<img
-							class="img-thumbnail"
-							src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
-							data-toggle="modal"
-							data-target=".img-modal"
-							data-type="${fileListItem.type_id}"
-							data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
-							data-filename="${fileName}"
-							data-filetype="img"
-						/> `;
-					} else {
-						filesHtml += `
-							<div
-								class="img-thumbnail non-img-file-thumbnail"
-								data-toggle="modal"
-								data-target=".img-modal"
-								data-type="${fileListItem.type_id}"
-								data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
-								data-filename="${fileName}"
-								data-filetype="${fileType}"
-								data-icon="fa-file-${fileType}-o"
-							>
-								<i class="fa fa-file-${fileType}-o" aria-hidden="true"></i>
-							</div>
-						`;
-					}
-				})
+				let filesHtml = _getFileAreaHTML(fileListItem, "files");
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
@@ -347,6 +321,41 @@
 		$uploadForm.fadeIn();
 
 		loading.complete();
+	}
+
+	function _getFileAreaHTML(fileListItem, fileListKey) {
+		let html = '';
+		fileListItem[fileListKey].forEach((fileName, index) => {
+			const fileType = _getFileType(fileName.split('.')[1]);
+			if (fileType === 'img') {
+				html += `<img
+					class="img-thumbnail"
+					src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+					data-toggle="modal"
+					data-target=".img-modal"
+					data-type="${fileListItem.type_id}"
+					data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+					data-filename="${fileName}"
+					data-filetype="img"
+				/> `;
+			} else {
+				html += `
+					<div
+						class="img-thumbnail non-img-file-thumbnail"
+						data-toggle="modal"
+						data-target=".img-modal"
+						data-type="${fileListItem.type_id}"
+						data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+						data-filename="${fileName}"
+						data-filetype="${fileType}"
+						data-icon="fa-file-${fileType}-o"
+					>
+						<i class="fa fa-file-${fileType}-o" aria-hidden="true"></i>
+					</div>
+				`;
+			}
+		})
+		return html;
 	}
 
 	function _handleAddWorkUrl() {
@@ -424,6 +433,9 @@
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
 		}
+		if (!!workType) {
+			data.append('file_type', workType);
+		}
 
 		student.setReviewItem({data, type_id, dept_id, student_id: _studentID}).then((res) => {
 			if (res.ok) {
@@ -435,7 +447,15 @@
 		.then((json) => {
 			console.log(json);
 			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+json.type_id ));
-			_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(json.files);
+			if (!!workType) {
+				if (workType === "authorization") {
+					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = json.authorization_files;
+				} else if (workType === "works") {
+					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = json.work_files;
+				}
+			} else {
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(json.files);
+			}
 			_handleEditForm();
 		})
 		.catch((err) => {
