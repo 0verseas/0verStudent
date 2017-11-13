@@ -12,6 +12,7 @@
 	let _schoolID;
 	let _deptID;
 	let _hasWorks = false; // 項目中是否有作品集，有的話要儲存作品集文字
+	let _workTypeId; // 作品集的項目編號
 	let _workUrls = [];
 
 	/**
@@ -151,6 +152,9 @@
 			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
 			if (fileListItem.type.name === "作品集") {
 				_hasWorks = true;
+				console.log("-------");
+				console.log(fileListItem.type_id);
+				_workTypeId = fileListItem.type_id;
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
@@ -178,7 +182,7 @@
 										</div>
 										<div class="form-group">
 											<label for="workMemo">備註</label>
-											<input type="text" class="form-control" id="workMemo">
+											<textarea class="form-control" id="workMemo" rows="3"></textarea>
 										</div>
 										<div class="form-group">
 											<label for="workUrl">作品連結</label>
@@ -374,16 +378,40 @@
 		$('.btn-removeWorkUrl').on('click', _handleRemoveUrl);
 	}
 
-	function _handleSave() {
-		$uploadForm.hide();
-		$wishListWrap.fadeIn();
-		$('html')[0].scrollIntoView(); // 畫面置頂
+	async function _handleSave() {
+		if (_hasWorks) {
+			let data = new FormData();
+			data.append('name', $('#workName').val());
+			data.append('position', $('#workPosition').val());
+			data.append('work_type', $('#workType').val());
+			data.append('memo', $('#workMemo').val());
+			_workUrls.forEach((val, index) => {
+				data.append('urls[]', val);
+			})
+
+			try {
+				loading.start();
+				const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
+				if (!response.ok) { throw response; }
+				alert('儲存完成');
+				loading.complete();
+				window.location.reload();
+			} catch(e) {
+				e.json && e.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+				loading.complete();
+			}
+		} else {
+			alert('儲存完成');
+			loading.complete();
+			window.location.reload();
+		}
 	}
 	
 	function _handleExit() {
-		$uploadForm.hide();
-		$wishListWrap.fadeIn();
-		$('html')[0].scrollIntoView(); // 畫面置頂
+		window.location.reload();
 	}
 
 	function _handleUpload() {
