@@ -12,6 +12,7 @@
 	let _schoolID;
 	let _deptID;
 	let _hasWorks = false; // 項目中是否有作品集，有的話要儲存作品集文字
+	let _worksRequired = false;
 	let _workTypeId; // 作品集的項目編號
 	let _workUrls = [];
 
@@ -165,6 +166,7 @@
 			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
 			if (fileListItem.type.name === "作品集") {
 				_hasWorks = true;
+				_worksRequired  = fileListItem.required;
 				_workTypeId = fileListItem.type_id;
 				_workUrls = fileListItem.work_urls;
 
@@ -323,6 +325,7 @@
 		if (_hasWorks) {
 			_renderWorkUrlList();
 			$('#btn-addWorkUrl').on('click', _handleAddWorkUrl);
+			$('#workUrl').keyup((e) => { e.keyCode == 13 && _handleAddWorkUrl(); });
 		}
 
 		$(":file").filestyle({
@@ -408,47 +411,100 @@
 	}
 
 	async function _handleSave() {
+		// 儲存按鈕在有作品集的狀況下才會作動，否則直接 pass
 		if (_hasWorks) {
-			let correct = true;
-			let errorMsg = [];
-			if ($('#workName').val() === "") {
-				correct = false;
-				$('#workName').addClass('invalidInput');
-				errorMsg.push('作品名稱');
+			// sendType: 判斷是否需要送資料、送的方式。
+			// complete: 完整資料, empty: 傳送空資料（選繳清空資料用）。
+			let sendType = '';
+			if (_worksRequired) {
+				// 必填的話，要填，要檢驗
+				sendType = 'complete';
 			} else {
-				$('#workName').removeClass('invalidInput');
-			}
-			if ($('#workPosition').val() === "") {
-				correct = false;
-				$('#workPosition').addClass('invalidInput');
-				errorMsg.push('個人參與的職位或項目');
-			} else {
-				$('#workPosition').removeClass('invalidInput');
-			}
-			if ($('#workType').val() === "") {
-				correct = false;
-				$('#workType').addClass('invalidInput');
-				errorMsg.push('術科類型');
-			} else {
-				$('#workType').removeClass('invalidInput');
-			}
-			if (_workUrls.length === 0) {
-				correct = false;
-				$('#workUrl').addClass('invalidInput');
-				errorMsg.push('作品連結');
-			} else {
-				$('#workUrl').removeClass('invalidInput');
+				// 選填的話，檢查作品集欄位如果有填任何資料，要進行檢驗，否則傳送空值清資料
+				const workTypeIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+_workTypeId));
+				let isEmpty = true; // 資料是不是空的
+				if ($('#workName').val() !== "") { isEmpty = false; }
+				if ($('#workPosition').val() !== "") { isEmpty = false; }
+				if ($('#workType').val() !== "") { isEmpty = false; }
+				if ($('#workMemo').val() !== "") { isEmpty = false; }
+				if (_workUrls.length > 0) { isEmpty = false; }
+				if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].authorization_files.length > 0) { isEmpty = false; }
+				if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].work_files.length > 0) { isEmpty = false; }
+
+				if (isEmpty) {
+					sendType = 'empty';
+				} else {
+					sendType = 'complete';
+				}
 			}
 
-			if (correct) {
+			if (sendType === 'complete') {
+				let correct = true;
+				let errorMsg = [];
+				if ($('#workName').val() === "") {
+					correct = false;
+					$('#workName').addClass('invalidInput');
+					errorMsg.push('作品名稱');
+				} else {
+					$('#workName').removeClass('invalidInput');
+				}
+				if ($('#workPosition').val() === "") {
+					correct = false;
+					$('#workPosition').addClass('invalidInput');
+					errorMsg.push('個人參與的職位或項目');
+				} else {
+					$('#workPosition').removeClass('invalidInput');
+				}
+				if ($('#workType').val() === "") {
+					correct = false;
+					$('#workType').addClass('invalidInput');
+					errorMsg.push('術科類型');
+				} else {
+					$('#workType').removeClass('invalidInput');
+				}
+				if (_workUrls.length === 0) {
+					correct = false;
+					$('#workUrl').addClass('invalidInput');
+					errorMsg.push('作品連結');
+				} else {
+					$('#workUrl').removeClass('invalidInput');
+				}
+
+				if (correct) {
+					let data = new FormData();
+					data.append('name', $('#workName').val());
+					data.append('position', $('#workPosition').val());
+					data.append('work_type', $('#workType').val());
+					data.append('memo', $('#workMemo').val());
+					_workUrls.forEach((val, index) => {
+						data.append('urls[]', val);
+					})
+
+					try {
+						loading.start();
+						const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
+						if (!response.ok) { throw response; }
+
+						alert('儲存完成');
+						loading.complete();
+						window.location.reload();
+					} catch(e) {
+						e.json && e.json().then((data) => {
+							console.error(data);
+							alert(`ERROR: \n${data.messages[0]}`);
+						})
+						loading.complete();
+					}
+				} else {
+					alert(errorMsg.join('、') + " 欄位必填");
+				}
+			} else if (sendType === 'empty') {
 				let data = new FormData();
-				data.append('name', $('#workName').val());
-				data.append('position', $('#workPosition').val());
-				data.append('work_type', $('#workType').val());
-				data.append('memo', $('#workMemo').val());
-				_workUrls.forEach((val, index) => {
-					data.append('urls[]', val);
-				})
+				data.append('name', '');
+				data.append('position', '');
+				data.append('work_type', '');
+				data.append('memo', '');
+				data.append('urls[]', '');
 
 				try {
 					loading.start();
@@ -465,8 +521,6 @@
 					})
 					loading.complete();
 				}
-			} else {
-				alert(errorMsg.join('、') + " 欄位必填");
 			}
 		} else {
 			alert('儲存完成');
