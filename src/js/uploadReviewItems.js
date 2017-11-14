@@ -168,7 +168,7 @@
 				_hasWorks = true;
 				_worksRequired  = fileListItem.required;
 				_workTypeId = fileListItem.type_id;
-				_workUrls = fileListItem.work_urls;
+				_workUrls = (fileListItem.work_urls !== "") ? fileListItem.work_urls : [];
 
 				let authorizationHTML = _getFileAreaHTML(fileListItem, "authorization_files");
 				let worksHTML = _getFileAreaHTML(fileListItem, "work_files");
@@ -504,7 +504,7 @@
 				data.append('position', '');
 				data.append('work_type', '');
 				data.append('memo', '');
-				data.append('urls[]', '');
+				data.append('urls', '');
 
 				try {
 					loading.start();
