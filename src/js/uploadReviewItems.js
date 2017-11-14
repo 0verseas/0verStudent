@@ -536,14 +536,14 @@
 		.then((json) => {
 			console.log(json);
 			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+json[0].type_id ));
-			if ($(this).data('iswork')) {
+			if ($(this).attr('data-iswork') === "true") {
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = json[0].authorization_files;
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = json[0].work_files;
 			} else {
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = json[0].files;
 			}
-			$('.img-modal').modal('hide');
 			_handleEditForm();
+			$('.img-modal').modal('hide');
 			loading.complete();
 		})
 		.catch((err) => {
