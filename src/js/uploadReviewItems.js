@@ -61,7 +61,20 @@
 			_studentID = orderJson.id;
 			_system = orderJson.student_qualification_verify.system_id;
 			_isDocumentLock = !!orderJson.student_misc_data.admission_selection_document_lock_at;
-			_wishList = orderJson.student_department_admission_selection_order;
+			let key = '';
+			switch (_system) {
+				case 1:
+					key = 'student_department_admission_selection_order';
+				break;
+				case 2:
+					key = 'student_two_year_tech_department_admission_selection_order';
+				break;
+				case 3:
+				case 4:
+					key = 'student_graduate_department_admission_selection_order';
+				break;
+			}
+			_wishList = orderJson[key];
 
 			_renderWishList();
 			loading.complete();
