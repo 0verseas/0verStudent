@@ -437,6 +437,7 @@
 			data.append('file_type', workType);
 		}
 
+		loading.start();
 		student.setReviewItem({data, type_id, dept_id, student_id: _studentID}).then((res) => {
 			if (res.ok) {
 				return res.json();
@@ -457,6 +458,7 @@
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(json.files);
 			}
 			_handleEditForm();
+			loading.complete();
 		})
 		.catch((err) => {
 			console.error(err);
@@ -464,6 +466,7 @@
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
+			loading.complete();
 		});
 	}
 
@@ -500,10 +503,13 @@
 				</a>
 			`);
 		}
+		const fileListIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === parseInt(type));
+		const isWork = (_wishList[_orderIndex].uploaded_file_list[fileListIndex].type.name === "作品集") // 是不是作品集
 
 		$('.btn-delImg').attr({
 			'data-type': type,
-			'data-filename': fileName
+			'data-filename': fileName,
+			'data-iswork': isWork
 		});
 
 	}
@@ -512,7 +518,8 @@
 		if (!confirm('確定刪除？')) {
 			return;
 		}
-		console.log("back to end",_studentID,_deptID,$(this).attr('data-type'),$(this).attr('data-filename'))
+		loading.start();
+		console.log("back to end",_studentID,_deptID,$(this).attr('data-type'),$(this).attr('data-filename'));
 		student.delReviewItem({
 			student_id: _studentID,
 			dept_id: _deptID,
@@ -529,9 +536,15 @@
 		.then((json) => {
 			console.log(json);
 			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+json[0].type_id ));
-			_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = json[0].files;
+			if ($(this).data('iswork')) {
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = json[0].authorization_files;
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = json[0].work_files;
+			} else {
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = json[0].files;
+			}
 			$('.img-modal').modal('hide');
 			_handleEditForm();
+			loading.complete();
 		})
 		.catch((err) => {
 			console.error(err);
@@ -539,6 +552,7 @@
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
+			loading.complete();
 		});
 	}
 
