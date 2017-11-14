@@ -36,3 +36,7 @@
 	border-left: .25rem solid #969696;
 	font-size: 1rem;
 }
+
+.invalidInput {
+	border-color: #d9534f !important;
+}

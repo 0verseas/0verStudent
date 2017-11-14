@@ -172,15 +172,15 @@
 
 									<div>
 										<div class="form-group">
-											<label for="workName">作品名稱</label>
+											<label class="text-danger" for="workName">* 作品名稱</label>
 											<input type="text" class="form-control" id="workName" value="${fileListItem.name}">
 										</div>
 										<div class="form-group">
-											<label for="workPosition">個人參與的職位或項目</label>
+											<label class="text-danger" for="workPosition">* 個人參與的職位或項目</label>
 											<input type="text" class="form-control" id="workPosition" value="${fileListItem.position}">
 										</div>
 										<div class="form-group">
-											<label for="workType">術科類型</label>
+											<label class="text-danger" for="workType">* 術科類型</label>
 											<input type="text" class="form-control" id="workType" value="${fileListItem.work_type}">
 										</div>
 										<div class="form-group">
@@ -188,7 +188,7 @@
 											<textarea class="form-control" id="workMemo" rows="3">${fileListItem.memo}</textarea>
 										</div>
 										<div class="form-group">
-											<label for="workUrl">作品連結</label>
+											<label class="text-danger" for="workUrl">* 作品連結</label>
 											<div class="input-group">
 												<input type="text" class="form-control" id="workUrl">
 												<span class="input-group-btn">
@@ -361,8 +361,14 @@
 
 	function _handleAddWorkUrl() {
 		let workUrl = $('#workUrl').val();
-		_workUrls.push(workUrl);
-		$('#workUrl').val('');
+		var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+		var regex = new RegExp(expression);
+		if (workUrl.match(regex)) {
+			_workUrls.push(workUrl);
+			$('#workUrl').val('');
+		} else {
+			alert("網址格式錯誤。");
+		}
 		_renderWorkUrlList();
 	}
 
@@ -390,28 +396,64 @@
 
 	async function _handleSave() {
 		if (_hasWorks) {
-			let data = new FormData();
-			data.append('name', $('#workName').val());
-			data.append('position', $('#workPosition').val());
-			data.append('work_type', $('#workType').val());
-			data.append('memo', $('#workMemo').val());
-			_workUrls.forEach((val, index) => {
-				data.append('urls[]', val);
-			})
+			let correct = true;
+			let errorMsg = [];
+			if ($('#workName').val() === "") {
+				correct = false;
+				$('#workName').addClass('invalidInput');
+				errorMsg.push('作品名稱');
+			} else {
+				$('#workName').removeClass('invalidInput');
+			}
+			if ($('#workPosition').val() === "") {
+				correct = false;
+				$('#workPosition').addClass('invalidInput');
+				errorMsg.push('個人參與的職位或項目');
+			} else {
+				$('#workPosition').removeClass('invalidInput');
+			}
+			if ($('#workType').val() === "") {
+				correct = false;
+				$('#workType').addClass('invalidInput');
+				errorMsg.push('術科類型');
+			} else {
+				$('#workType').removeClass('invalidInput');
+			}
+			if (_workUrls.length === 0) {
+				correct = false;
+				$('#workUrl').addClass('invalidInput');
+				errorMsg.push('作品連結');
+			} else {
+				$('#workUrl').removeClass('invalidInput');
+			}
 
-			try {
-				loading.start();
-				const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
-				if (!response.ok) { throw response; }
-				alert('儲存完成');
-				loading.complete();
-				window.location.reload();
-			} catch(e) {
-				e.json && e.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+			if (correct) {
+				let data = new FormData();
+				data.append('name', $('#workName').val());
+				data.append('position', $('#workPosition').val());
+				data.append('work_type', $('#workType').val());
+				data.append('memo', $('#workMemo').val());
+				_workUrls.forEach((val, index) => {
+					data.append('urls[]', val);
 				})
-				loading.complete();
+
+				try {
+					loading.start();
+					const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
+					if (!response.ok) { throw response; }
+
+					alert('儲存完成');
+					loading.complete();
+					window.location.reload();
+				} catch(e) {
+					e.json && e.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					})
+					loading.complete();
+				}
+			} else {
+				alert(errorMsg.join('、') + " 欄位必填");
 			}
 		} else {
 			alert('儲存完成');
@@ -424,7 +466,7 @@
 		window.location.reload();
 	}
 
-	function _handleUpload() {
+	async function _handleUpload() {
 		const type_id = $(this).data('type');
 		const dept_id = $(this).data('deptid');
 		const workType = ($(this).attr('data-workstype')) ? $(this).data('workstype') : false;
@@ -438,37 +480,31 @@
 			data.append('file_type', workType);
 		}
 
-		loading.start();
-		student.setReviewItem({data, type_id, dept_id, student_id: _studentID}).then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			console.log(json);
-			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+json.type_id ));
+		try {
+			loading.start();
+			const response = await student.setReviewItem({data, type_id, dept_id, student_id: _studentID});
+			if (!response.ok) { throw response; }
+			const responseJson = await response.json();
+
+			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson.type_id ));
 			if (!!workType) {
 				if (workType === "authorization") {
-					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = json.authorization_files;
+					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = responseJson.authorization_files;
 				} else if (workType === "works") {
-					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = json.work_files;
+					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson.work_files;
 				}
 			} else {
-				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(json.files);
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(responseJson.files);
 			}
 			_handleEditForm();
 			loading.complete();
-		})
-		.catch((err) => {
-			console.error(err);
-			err.json && err.json().then((data) => {
+		} catch(e) {
+			e.json && e.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
-			});
+			})
 			loading.complete();
-		});
+		}
 	}
 
 	// 顯示檔案 modal
@@ -512,49 +548,41 @@
 			'data-filename': fileName,
 			'data-iswork': isWork
 		});
-
 	}
 
-	function _handleDelImg() {
+	async function _handleDelImg() {
 		if (!confirm('確定刪除？')) {
 			return;
 		}
-		loading.start();
 		console.log("back to end",_studentID,_deptID,$(this).attr('data-type'),$(this).attr('data-filename'));
-		student.delReviewItem({
-			student_id: _studentID,
-			dept_id: _deptID,
-			type_id: $(this).attr('data-type'),
-			filename: $(this).attr('data-filename')
-		})
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			console.log(json);
-			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+json[0].type_id ));
+		try {
+			loading.start();
+			const response = await student.delReviewItem({
+				student_id: _studentID,
+				dept_id: _deptID,
+				type_id: $(this).attr('data-type'),
+				filename: $(this).attr('data-filename')
+			});
+			if (!response.ok) { throw response; }
+			const responseJson = await response.json();
+
+			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson[0].type_id ));
 			if ($(this).attr('data-iswork') === "true") {
-				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = json[0].authorization_files;
-				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = json[0].work_files;
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = responseJson[0].authorization_files;
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson[0].work_files;
 			} else {
-				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = json[0].files;
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = responseJson[0].files;
 			}
 			_handleEditForm();
 			$('.img-modal').modal('hide');
 			loading.complete();
-		})
-		.catch((err) => {
-			console.error(err);
-			err.json && err.json().then((data) => {
+		} catch(e) {
+			e.json && e.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
-			});
+			})
 			loading.complete();
-		});
+		}
 	}
 
 	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
