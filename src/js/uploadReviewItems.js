@@ -153,6 +153,7 @@
 			if (fileListItem.type.name === "作品集") {
 				_hasWorks = true;
 				_workTypeId = fileListItem.type_id;
+				_workUrls = fileListItem.work_urls;
 
 				let authorizationHTML = _getFileAreaHTML(fileListItem, "authorization_files");
 				let worksHTML = _getFileAreaHTML(fileListItem, "work_files");
@@ -172,19 +173,19 @@
 									<div>
 										<div class="form-group">
 											<label for="workName">作品名稱</label>
-											<input type="text" class="form-control" id="workName">
+											<input type="text" class="form-control" id="workName" value="${fileListItem.name}">
 										</div>
 										<div class="form-group">
 											<label for="workPosition">個人參與的職位或項目</label>
-											<input type="text" class="form-control" id="workPosition">
+											<input type="text" class="form-control" id="workPosition" value="${fileListItem.position}">
 										</div>
 										<div class="form-group">
 											<label for="workType">術科類型</label>
-											<input type="text" class="form-control" id="workType">
+											<input type="text" class="form-control" id="workType" value="${fileListItem.work_type}">
 										</div>
 										<div class="form-group">
 											<label for="workMemo">備註</label>
-											<textarea class="form-control" id="workMemo" rows="3"></textarea>
+											<textarea class="form-control" id="workMemo" rows="3">${fileListItem.memo}</textarea>
 										</div>
 										<div class="form-group">
 											<label for="workUrl">作品連結</label>
