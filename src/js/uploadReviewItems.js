@@ -221,6 +221,18 @@
 									<h4 style="margin-bottom: 15px;">作品授權書</h4>
 									<div class="row" style="margin-bottom: 15px;">
 										<div class="col-12">
+											<div>
+												<a href="${env.baseUrl + '/forms/作品著作權切結書.pdf'}" class="btn btn-info" target="_blank">
+													<i class="fa fa-download" aria-hidden="true"></i> 作品著作權切結書
+												</a>
+											</div>
+											<div>
+												<small class="text-danger">請下載作品著作權切結書填妥後親自簽名，並掃描成圖檔上傳作品及目錄中備查。</small>
+											</div>
+										</div>
+									</div>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
 											<input type="file" class="filestyle file-certificate" data-workstype="authorization" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
 										</div>
 									</div>
