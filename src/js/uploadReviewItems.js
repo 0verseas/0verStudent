@@ -413,6 +413,7 @@
 	async function _handleSave() {
 		// 儲存按鈕在有作品集的狀況下才會作動，否則直接 pass
 		if (_hasWorks) {
+			const workTypeIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+_workTypeId));
 			// sendType: 判斷是否需要送資料、送的方式。
 			// complete: 完整資料, empty: 傳送空資料（選繳清空資料用）。
 			let sendType = '';
@@ -421,7 +422,6 @@
 				sendType = 'complete';
 			} else {
 				// 選填的話，檢查作品集欄位如果有填任何資料，要進行檢驗，否則傳送空值清資料
-				const workTypeIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+_workTypeId));
 				let isEmpty = true; // 資料是不是空的
 				if ($('#workName').val() !== "") { isEmpty = false; }
 				if ($('#workPosition').val() !== "") { isEmpty = false; }
@@ -462,7 +462,9 @@
 				} else {
 					$('#workType').removeClass('invalidInput');
 				}
-				if (_workUrls.length === 0) {
+
+				// 作品連結、檔案擇一上傳。沒檔案，才強制上傳 url
+				if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].work_files.length === 0 && _workUrls.length === 0) {
 					correct = false;
 					$('#workUrl').addClass('invalidInput');
 					errorMsg.push('作品連結');
@@ -476,9 +478,14 @@
 					data.append('position', $('#workPosition').val());
 					data.append('work_type', $('#workType').val());
 					data.append('memo', $('#workMemo').val());
-					_workUrls.forEach((val, index) => {
-						data.append('urls[]', val);
-					})
+
+					if (_workUrls.length === 0) {
+						data.append('urls', '');
+					} else {
+						_workUrls.forEach((val, index) => {
+							data.append('urls[]', val);
+						})
+					}
 
 					try {
 						loading.start();
