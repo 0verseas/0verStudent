@@ -116,11 +116,11 @@
 				}
 			})
 			.then((data) => {
-				/*swal(
-					'提交成功！',
-					'Your file has been submitted for review!',
-					'success!'
-				)*/
+				swal({
+					title: '<i>提交成功！</i>',
+					type: 'success',
+				})
+				/*
 				var html = ``;
 				for (var i = 0; i < data.length; i++) {
 					html += `
@@ -149,6 +149,7 @@
 					html: html,
 					showCloseButton: true,
 				})
+				*/
 				.then(() => { location.href = './uploadReviewItems.html' });
 			})
 			.catch((err) => {
