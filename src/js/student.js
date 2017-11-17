@@ -25,6 +25,12 @@ const student = (() => {
 		});
 	}
 
+	function getAdmissionCountDetail() {
+		return fetch(baseUrl + `/students/admission-count/detail`, {
+			method: 'GET'
+		});
+	}
+
 	async function getCountryList() {
 		if (localStorage.countryList && localStorage.countryList !== "") {
 			return JSON.parse(localStorage.countryList);
@@ -470,6 +476,7 @@ const student = (() => {
 	return {
 		setHeader,
 		getAdmissionCount,
+		getAdmissionCountDetail,
 		getCountryList,
 		getSchoolList,
 		register,
