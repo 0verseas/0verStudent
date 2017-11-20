@@ -39,9 +39,9 @@
 	*	cache DOM
 	*/
 
-	$dataType = $('#data-type');
-	$countThead = $('#thead-count')
-	$countTbody = $('#tbody-count');
+	const $dataType = $('#data-type');
+	const $countThead = $('#thead-count')
+	const $countTbody = $('#tbody-count');
 	
 	/**
 	*	init
