@@ -97,8 +97,6 @@
 				return returnObj;
 			})
 
-			console.log(_sumTable);
-
 			_reRenderTbody();
 			loading.complete();
 		} catch(e) {
@@ -131,7 +129,6 @@
 			theadHTML += `<tr>`;
 			theadHTML += `<th>日期</th>`;
 			_typeChekced.forEach(checkedVal => {
-				console.log(checkedVal);
 				const mappingIndex = _keyNameMapping.findIndex(i => i.key === checkedVal);
 				theadHTML += `
 				<th>單日${_keyNameMapping[mappingIndex].name}</th>
@@ -151,7 +148,6 @@
 					`
 				})
 				tbodyHTML += `</tr>`;
-				console.log(tableVal);
 			})
 		} else {
 			theadHTML = `
@@ -162,6 +158,28 @@
 		}
 		$countThead.html(theadHTML);
 		$countTbody.html(tbodyHTML);
+
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(_drawChart);
+	}
+
+	function _drawChart() {
+		let chartArr = _typeChekced.map(value => {
+			const mappingIndex = _keyNameMapping.findIndex(i => i.key === value);
+			const mappingName = "累積" + _keyNameMapping[mappingIndex].name;
+			const sum = _sumTable[_sumTable.length - 1]['sum_' + value]
+			return [mappingName, sum]
+		})
+		chartArr.unshift(['title', 'sum'])
+
+		var data = google.visualization.arrayToDataTable(chartArr);
+
+		var options = {
+			title: '累積人數圓餅圖'
+		};
+
+		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+		chart.draw(data, options);
 	}
 
 })();

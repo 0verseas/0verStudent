@@ -1,6 +1,9 @@
 #data-type {
 	color: #000000;
 }
+#piechart {
+	height: 450px;
+}
 input[type="checkbox"],
 input[type="radio"] {
 	position: absolute;
