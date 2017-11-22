@@ -287,7 +287,7 @@
 	}
 
 	function _checkDocumentLock(confirmed) {
-		confirmed && $('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $afterConfirmZone.show();
+		confirmed && $('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
 	}
 
 })();
