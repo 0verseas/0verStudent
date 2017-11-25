@@ -31,16 +31,17 @@
 	{ key: "master_confirmed", name: "海外僑生與港澳生碩士班提交人數" },
 	{ key: "phd", name: "海外僑生與港澳生博士班開通帳號註冊人數" },
 	{ key: "phd_confirmed", name: "海外僑生與港澳生博士班提交人數" }
-	]
+	];
 	let _typeChekced = [];
 	let _sumTable = [];
-
+	let _chartData = [];
+	let _chartLineSeries = {};// {1: {type: 'line'}, 3: {type: 'line'}}
 	/**
 	*	cache DOM
 	*/
 
 	const $dataType = $('#data-type');
-	const $countThead = $('#thead-count')
+	const $countThead = $('#thead-count');
 	const $countTbody = $('#tbody-count');
 	
 	/**
@@ -66,7 +67,7 @@
 				<input type="checkbox" name="datatype" id="cb-${value.key}" data-key="${value.key}" />
 				<label for="cb-${value.key}">${value.name}</label>
 				`
-			})
+			});
 			$dataType.html(dataTypeHTML);
 			$('#data-type :checkbox').change(_handleChecked);
 
@@ -75,7 +76,7 @@
 			let countSum = {};
 			_keyNameMapping.forEach(value => {
 				countSum[value.key] = 0;
-			})
+			});
 			// 新陣列為原資料的延伸，同個物件下加上欄位數值總和，結構如下：
 			// [
 			// 	{
@@ -93,9 +94,9 @@
 					countSum[mappingVal.key] += jsonVal[mappingVal.key];
 					returnObj[mappingVal.key] = jsonVal[mappingVal.key];
 					returnObj["sum_" + mappingVal.key] = countSum[mappingVal.key];
-				})
+				});
 				return returnObj;
-			})
+			});
 
 			_reRenderTbody();
 			loading.complete();
@@ -103,7 +104,7 @@
 			e.json && e.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
-			})
+			});
 			loading.complete();
 		}
 	}
@@ -123,62 +124,89 @@
 
 		let theadHTML = '';
 		let tbodyHTML = '';
+		let chartTitle = [];
+		let chartBody = [];
+		let chartBeLine = 1;
 		if (_typeChekced.length > 0) {
+
+            _chartLineSeries = {};
 
 			// thead
 			theadHTML += `<tr>`;
 			theadHTML += `<th>日期</th>`;
+            chartTitle.push('Date');
 			_typeChekced.forEach(checkedVal => {
 				const mappingIndex = _keyNameMapping.findIndex(i => i.key === checkedVal);
 				theadHTML += `
 				<th>單日${_keyNameMapping[mappingIndex].name}</th>
 				<th>累積${_keyNameMapping[mappingIndex].name}</th>
-				`
-			})
+				`;
+                chartTitle.push(`單日${_keyNameMapping[mappingIndex].name}`);
+                chartTitle.push(`累積${_keyNameMapping[mappingIndex].name}`);
+
+                _chartLineSeries[chartBeLine] = {type: 'line'};
+                chartBeLine += 2;
+			});
 			theadHTML += `</tr>`;
+            _chartData = [chartTitle];
 
 			// tbody
 			_sumTable.forEach(tableVal => {
 				tbodyHTML += `<tr>`;
 				tbodyHTML += `<th scope="row">${tableVal.Date}</th>`;
+                chartBody.push(`${tableVal.Date}`);
 				_typeChekced.forEach(checkedVal => {
 					tbodyHTML += `
 					<td>${tableVal[checkedVal]}</td>
 					<td>${tableVal['sum_' + checkedVal]}</td>
-					`
-				})
+					`;
+                    chartBody.push(parseInt(tableVal[checkedVal]));
+                    chartBody.push(parseInt(tableVal['sum_' + checkedVal]));
+				});
 				tbodyHTML += `</tr>`;
-			})
-		} else {
+                _chartData.push(chartBody);
+                chartBody = [];
+			});
+
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(_drawChart);
+        } else {
 			theadHTML = `
 			<tr>
 			<th>尚未選擇欄位。</th>
 			</tr>
 			`
+
+            document.getElementById('chart').innerHTML = '';
+
+            _chartLineSeries = {};
 		}
 		$countThead.html(theadHTML);
 		$countTbody.html(tbodyHTML);
-
-		google.charts.load('current', {'packages':['corechart']});
-		google.charts.setOnLoadCallback(_drawChart);
 	}
 
 	function _drawChart() {
+		/*
 		let chartArr = _typeChekced.map(value => {
 			const mappingIndex = _keyNameMapping.findIndex(i => i.key === value);
 			const mappingName = "累積" + _keyNameMapping[mappingIndex].name;
-			const sum = _sumTable[_sumTable.length - 1]['sum_' + value]
+			const sum = _sumTable[_sumTable.length - 1]['sum_' + value];
 			return [mappingName, sum]
-		})
-		chartArr.unshift(['title', 'sum'])
+		});
+		chartArr.unshift(['title', 'sum']);
+		*/
 
-		var data = google.visualization.arrayToDataTable(chartArr);
+		var data = google.visualization.arrayToDataTable(_chartData);
 
 		var options = {
-			title: '累積人數圓餅圖'
-		};
+			title: '報名人數走勢圖',
+			vAxis: {title: '人數'},
+			hAxis: {title: '日期'},
+			seriesType: 'bars',
+			series: _chartLineSeries
+        };
 
-		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+		var chart = new google.visualization.ComboChart(document.getElementById('chart'));
 		chart.draw(data, options);
 	}
 

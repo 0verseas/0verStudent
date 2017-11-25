@@ -1,8 +1,8 @@
 #data-type {
 	color: #000000;
 }
-#piechart {
-	height: 450px;
+#chart {
+	height: 500px;
 }
 input[type="checkbox"],
 input[type="radio"] {
