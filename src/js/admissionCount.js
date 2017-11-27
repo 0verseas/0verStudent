@@ -171,13 +171,7 @@
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(_drawChart);
         } else {
-			theadHTML = `
-			<tr>
-			<th>尚未選擇欄位。</th>
-			</tr>
-			`
-
-            document.getElementById('chart').innerHTML = '';
+            document.getElementById('chart').innerHTML = '<div>尚未選擇欄位</div>';
 
             _chartLineSeries = {};
 		}
