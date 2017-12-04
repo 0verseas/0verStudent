@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/0verseas/0verStudent",
   "dependencies": {
-    "harp": "^0.24.1"
+    "harp": "^0.25.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
