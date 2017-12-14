@@ -133,6 +133,9 @@
 	function _handleChangeIdentity () {
 		_currentIdentity = $(this).val();
 		$signUpForm.find('.question').hide();
+		$KA_hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
+		$hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
+		
 		switch(_currentIdentity) {
 			case '1':
 				_typeOfKangAo = 1;
