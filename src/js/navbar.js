@@ -225,6 +225,13 @@
 		// 聯合分發志願
 		!!data.student_department_admission_placement_order && $('.nav-placementSelection').addClass('list-group-item-success');
 
+		//  不在報名聯合分發的期間，「聯合分發成績採計方式」、「聯合分發志願」呈現 disabled 樣式
+		if (!data.can_admission_placement) {
+			$('.nav-grade').addClass('disabled');
+			$('.nav-grade').click(function(e){e.preventDefault();});
+			$('.nav-placementSelection').addClass('disabled');
+			$('.nav-placementSelection').click(function(e){e.preventDefault();});
+		}
 	}
 
 	function _setHeader(data) {
