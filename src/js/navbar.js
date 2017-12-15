@@ -211,11 +211,20 @@
 		!!data.student_graduate_department_admission_selection_order &&
 		$('.nav-admissionSelection').addClass('list-group-item-success');
 
+		//  不在報名個人申請的期間，「上傳學歷證件」、「個人申請志願」呈現 disabled 樣式
+		if (!data.can_admission_selection) {
+			$('.nav-uploadEducation').addClass('disabled');
+			$('.nav-uploadEducation').click(function(e){e.preventDefault();});
+			$('.nav-admissionSelection').addClass('disabled');
+			$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+		}
+
 		// 聯合分發成績採計方式
 		!!data.student_department_admission_placement_apply_way && $('.nav-grade').addClass('list-group-item-success');
 
 		// 聯合分發志願
 		!!data.student_department_admission_placement_order && $('.nav-placementSelection').addClass('list-group-item-success');
+
 	}
 
 	function _setHeader(data) {

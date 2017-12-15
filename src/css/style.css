@@ -86,6 +86,20 @@ footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	animation: bounceX 2s infinite;
 }
 
+.nav-item.disabled {
+	color: #ccc;
+}
+
+.nav-item.disabled:hover {
+	color: #ccc;
+	background-color: #fff;
+}
+
+.nav-item.disabled:focus {
+	color: #ccc;
+	background-color: #fff;
+}
+
 #logo {
 	color: inherit;
 	position: absolute;
