@@ -28,7 +28,7 @@
 		_setProgress(json);
 		_setHeader(json);
 		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
-		_checkConfirm(!!json.student_misc_data.confirmed_at);
+		_checkConfirm(json);
 		_checkDocumentLock(!!json.student_misc_data.admission_selection_document_lock_at);
 	})
 	.catch((err) => {
@@ -298,8 +298,13 @@
 		$('.greet').text(`歡迎 ${name} 登入！`)
 	}
 
-	function  _checkConfirm(confirmed) {
-		confirmed && $('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報') && $afterConfirmZone.show();
+	function  _checkConfirm(json) {
+		if (!!json.student_misc_data.confirmed_at) {
+			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報') && $afterConfirmZone.show();
+		} else if (!json.can_admission_selection && !json.can_admission_placement) {
+			// 還沒有填報，且不在報名個人申請、聯合分發的期間，不能點送出填報按鈕
+			$('#btn-all-set').prop('disabled', true).text('目前不是可報名時間');
+		}
 	}
 
 	function _checkDocumentLock(confirmed) {
