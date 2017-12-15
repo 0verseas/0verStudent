@@ -232,6 +232,9 @@
 			$('.nav-placementSelection').addClass('disabled');
 			$('.nav-placementSelection').click(function(e){e.preventDefault();});
 		}
+
+		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
+		!data.can_upload_papers && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
 	}
 
 	function _setHeader(data) {
