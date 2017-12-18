@@ -29,7 +29,7 @@
 		_setHeader(json);
 		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
 		_checkConfirm(json);
-		_checkDocumentLock(!!json.student_misc_data.admission_selection_document_lock_at);
+		_checkDocumentLock(json);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -310,8 +310,13 @@
 		}
 	}
 
-	function _checkDocumentLock(confirmed) {
-		confirmed && $('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
+	function _checkDocumentLock(json) {
+		if (!!json.student_misc_data.admission_selection_document_lock_at) {
+			$('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
+		} else if (!json.can_upload_papers) {
+			// 還沒有提交上傳資料，且不在上傳備審資料的期間，不能點提交按鈕
+			$('#btn-uploadAndSubmit').prop('disabled', true).text('目前不是可上傳備審資料時間');
+		}
 	}
 
 })();
