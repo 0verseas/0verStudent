@@ -310,7 +310,7 @@
 		} else if (json.student_qualification_verify.system_id === 1 && !json.student_department_admission_placement_apply_way) {
 			// 學士班，聯合分發成績採計方式未填寫者，確認提交按鈕消失
 			$('#btn-all-set').addClass('hide');
-		} else if ((json.student_qualification_verify.system_id === 3 || json.student_qualification_verify.system_id === 4) && !json.student_personal_data) {
+		} else if (json.student_qualification_verify.system_id !== 1 && !json.student_personal_data) {
 			// 學士班以外其它學制，個人基本資料未填寫者，確認提交按鈕消失
 			$('#btn-all-set').addClass('hide');
 		} else if (!json.can_admission_selection && !json.can_admission_placement) {
