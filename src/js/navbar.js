@@ -237,12 +237,18 @@
 		// 聯合分發志願
 		!!data.student_department_admission_placement_order && $('.nav-placementSelection').addClass('list-group-item-success');
 
-		//  不在報名聯合分發的期間，「聯合分發成績採計方式」、「聯合分發志願」呈現 disabled 樣式
-		if (!data.can_admission_placement) {
-			// $('.nav-grade').addClass('disabled');
-			// $('.nav-grade').click(function(e){e.preventDefault();});
+		if (!data.student_department_admission_placement_apply_way) {
+			// 學生沒有填聯合分發採計方式時，「聯合分發志願」出現提示訊息（請先選擇聯合分發採計方式）
 			$('.nav-placementSelection').addClass('disabled');
+			$('.nav-placementSelection').addClass('show-grade-first');
 			$('.nav-placementSelection').click(function(e){e.preventDefault();});
+		} else {
+			// 學生有填聯合分發採計方式，但沒有在聯合分發期間期間時，「聯合分發志願」出現提示訊息（聯合分發已截止）
+			if (!data.can_admission_placement) {
+				$('.nav-placementSelection').addClass('disabled');
+				$('.nav-placementSelection').addClass('show-placement-deadline');
+				$('.nav-placementSelection').click(function(e){e.preventDefault();});
+			}
 		}
 
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
