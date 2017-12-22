@@ -211,12 +211,24 @@
 		!!data.student_graduate_department_admission_selection_order &&
 		$('.nav-admissionSelection').addClass('list-group-item-success');
 
-		//  不在報名個人申請的期間，「上傳學歷證件」、「個人申請志願」呈現 disabled 樣式
-		if (!data.can_admission_selection) {
+		if (!data.student_personal_data) {
+			// 學生沒有填個人資料時，「上傳學歷證件」、「個人申請志願」出現提示訊息（請先填寫個人基本資料）
 			$('.nav-uploadEducation').addClass('disabled');
+			$('.nav-uploadEducation').addClass('show-personal-info-first');
 			$('.nav-uploadEducation').click(function(e){e.preventDefault();});
 			$('.nav-admissionSelection').addClass('disabled');
+			$('.nav-admissionSelection').addClass('show-personal-info-first');
 			$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+		} else {
+			// 學生有填個人資料，但沒有在可報名期間內時，「上傳學歷證件」、「個人申請志願」出現提示訊息（個人申請已截止）
+			if (!data.can_admission_selection) {
+				$('.nav-uploadEducation').addClass('disabled');
+				$('.nav-uploadEducation').addClass('show-deadline');
+				$('.nav-uploadEducation').click(function(e){e.preventDefault();});
+				$('.nav-admissionSelection').addClass('disabled');
+				$('.nav-admissionSelection').addClass('show-deadline');
+				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+			}
 		}
 
 		// 聯合分發成績採計方式

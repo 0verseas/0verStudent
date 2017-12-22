@@ -100,6 +100,22 @@ footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	background-color: #fff;
 }
 
+.tip-personal-info-first {
+	display: none;
+}
+
+.tip-deadline {
+	display: none;
+}
+
+.show-personal-info-first>.tip-personal-info-first {
+	display: block;
+}
+
+.show-deadline>.tip-deadline {
+	display: block;
+}
+
 #logo {
 	color: inherit;
 	position: absolute;
