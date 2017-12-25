@@ -188,15 +188,15 @@
 									<div>
 										<div class="form-group">
 											<label class="text-danger" for="workName">* 作品名稱</label>
-											<input type="text" class="form-control" id="workName" value="${fileListItem.name}">
+											<input type="text" class="form-control" id="workName" value="${fileListItem.name.replace(/"/g, '&quot;')}">
 										</div>
 										<div class="form-group">
 											<label class="text-danger" for="workPosition">* 個人參與的職位或項目</label>
-											<input type="text" class="form-control" id="workPosition" value="${fileListItem.position}">
+											<input type="text" class="form-control" id="workPosition" value="${fileListItem.position.replace(/"/g, '&quot;')}">
 										</div>
 										<div class="form-group">
 											<label class="text-danger" for="workType">* 術科類型</label>
-											<input type="text" class="form-control" id="workType" value="${fileListItem.work_type}">
+											<input type="text" class="form-control" id="workType" value="${fileListItem.work_type.replace(/"/g, '&quot;')}">
 										</div>
 										<div class="form-group">
 											<label for="workMemo">備註</label>
