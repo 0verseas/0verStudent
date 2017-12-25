@@ -28,8 +28,8 @@
 		_setProgress(json);
 		_setHeader(json);
 		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
-		_checkConfirm(!!json.student_misc_data.confirmed_at);
-		_checkDocumentLock(!!json.student_misc_data.admission_selection_document_lock_at);
+		_checkConfirm(json);
+		_checkDocumentLock(json);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -211,11 +211,48 @@
 		!!data.student_graduate_department_admission_selection_order &&
 		$('.nav-admissionSelection').addClass('list-group-item-success');
 
+		if (!data.student_personal_data) {
+			// 學生沒有填個人資料時，「上傳學歷證件」、「個人申請志願」出現提示訊息（請先填寫個人基本資料）
+			$('.nav-uploadEducation').addClass('disabled');
+			$('.nav-uploadEducation').addClass('show-personal-info-first');
+			$('.nav-uploadEducation').click(function(e){e.preventDefault();});
+			$('.nav-admissionSelection').addClass('disabled');
+			$('.nav-admissionSelection').addClass('show-personal-info-first');
+			$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+		} else {
+			// 學生有填個人資料，但沒有在可報名期間內時，「上傳學歷證件」、「個人申請志願」出現提示訊息（個人申請已截止）
+			if (!data.can_admission_selection) {
+				$('.nav-uploadEducation').addClass('disabled');
+				$('.nav-uploadEducation').addClass('show-deadline');
+				$('.nav-uploadEducation').click(function(e){e.preventDefault();});
+				$('.nav-admissionSelection').addClass('disabled');
+				$('.nav-admissionSelection').addClass('show-deadline');
+				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+			}
+		}
+
 		// 聯合分發成績採計方式
 		!!data.student_department_admission_placement_apply_way && $('.nav-grade').addClass('list-group-item-success');
 
 		// 聯合分發志願
 		!!data.student_department_admission_placement_order && $('.nav-placementSelection').addClass('list-group-item-success');
+
+		if (!data.student_department_admission_placement_apply_way) {
+			// 學生沒有填聯合分發採計方式時，「聯合分發志願」出現提示訊息（請先選擇聯合分發採計方式）
+			$('.nav-placementSelection').addClass('disabled');
+			$('.nav-placementSelection').addClass('show-grade-first');
+			$('.nav-placementSelection').click(function(e){e.preventDefault();});
+		} else {
+			// 學生有填聯合分發採計方式，但沒有在聯合分發期間期間時，「聯合分發志願」出現提示訊息（聯合分發已截止）
+			if (!data.can_admission_placement) {
+				$('.nav-placementSelection').addClass('disabled');
+				$('.nav-placementSelection').addClass('show-placement-deadline');
+				$('.nav-placementSelection').click(function(e){e.preventDefault();});
+			}
+		}
+
+		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
+		!data.can_upload_papers && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
 	}
 
 	function _setHeader(data) {
@@ -282,12 +319,31 @@
 		$('.greet').text(`歡迎 ${name} 登入！`)
 	}
 
-	function  _checkConfirm(confirmed) {
-		confirmed && $('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報') && $afterConfirmZone.show();
+	function  _checkConfirm(json) {
+		if (!!json.student_misc_data.confirmed_at) {
+			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報') && $afterConfirmZone.show();
+		} else if (!json.student_qualification_verify) {
+			// 沒有輸入資格驗證的狀況下，隱藏提交按鈕
+			$('#btn-all-set').addClass('hide');
+		} else if (json.student_qualification_verify.system_id === 1 && !json.student_department_admission_placement_apply_way) {
+			// 學士班，聯合分發成績採計方式未填寫者，確認提交按鈕消失
+			$('#btn-all-set').addClass('hide');
+		} else if (json.student_qualification_verify.system_id !== 1 && !json.student_personal_data) {
+			// 學士班以外其它學制，個人基本資料未填寫者，確認提交按鈕消失
+			$('#btn-all-set').addClass('hide');
+		} else if (!json.can_admission_selection && !json.can_admission_placement) {
+			// 還沒有填報，且不在報名個人申請、聯合分發的期間，不能點送出填報按鈕
+			$('#btn-all-set').prop('disabled', true).text('目前不是可報名時間');
+		}
 	}
 
-	function _checkDocumentLock(confirmed) {
-		confirmed && $('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
+	function _checkDocumentLock(json) {
+		if (!!json.student_misc_data.admission_selection_document_lock_at) {
+			$('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
+		} else if (!json.can_upload_papers) {
+			// 還沒有提交上傳資料，且不在上傳備審資料的期間，不能點提交按鈕
+			$('#btn-uploadAndSubmit').prop('disabled', true).text('目前不是可上傳備審資料時間');
+		}
 	}
 
 })();

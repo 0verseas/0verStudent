@@ -59,7 +59,7 @@
 		.then((json) => {
 			console.log(!!json.student_misc_data.confirmed_at);
 			if (!!json.student_misc_data.confirmed_at) {
-				location.href = './uploadReviewItems.html';
+				location.href = './downloadDocs.html';
 			} else {
 				location.href = './systemChoose.html';
 			}

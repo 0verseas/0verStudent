@@ -86,6 +86,52 @@ footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	animation: bounceX 2s infinite;
 }
 
+.nav-item.disabled {
+	color: #ccc;
+}
+
+.nav-item.disabled:hover {
+	color: #ccc;
+	background-color: #fff;
+}
+
+.nav-item.disabled:focus {
+	color: #ccc;
+	background-color: #fff;
+}
+
+.tip-personal-info-first {
+	display: none;
+}
+
+.tip-deadline {
+	display: none;
+}
+
+.show-personal-info-first>.tip-personal-info-first {
+	display: block;
+}
+
+.show-deadline>.tip-deadline {
+	display: block;
+}
+
+.tip-grade-first {
+	display: none;
+}
+
+.tip-placement-deadline {
+	display: none;
+}
+
+.show-grade-first>.tip-grade-first {
+	display: block;
+}
+
+.show-placement-deadline>.tip-placement-deadline {
+	display: block;
+}
+
 #logo {
 	color: inherit;
 	position: absolute;

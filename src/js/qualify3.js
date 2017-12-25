@@ -560,7 +560,9 @@
 
 		student.getCountryList().then((data) => {
 			data[order].country.forEach((val, i) => {
-				$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+				if (val.id !== "113" && val.id !== "127" && val.id !== "147") {
+					$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+				}
 			});
 		});
 	}
