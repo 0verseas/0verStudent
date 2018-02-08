@@ -163,7 +163,7 @@
 
 	function _addWish() { // 增加志願
 		// 檢查所選志願是否超過上限
-		if (_wishList.length <= quotaNumber) {
+		if (_wishList.length < quotaNumber) {
 			const sortNum = $(this).data("sortnum");
 			const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum)
 			const pageNum = $paginationContainer.pagination('getSelectedPageNum');
