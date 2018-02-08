@@ -4,8 +4,8 @@
 
 	let _diplomaFiles = [];
 	let _transcriptsFiles = [];
-	let _modalFiletype = ""
-	let _modalFilename = ""
+	let _modalFiletype = "";
+	let _modalFilename = "";
 
 	/**
 	*	cache DOM
@@ -15,11 +15,13 @@
 	const $fileUpload = $uploadEducationForm.find('.file-upload');
 
 	// 學歷證明
+	const $diplomaBlockquote = $('#blockquote-diploma');
 	const $diplomaFrom = $('#form-diploma');
 	const $diplomaTitle = $('#title-diploma');
 	const diplomaImgArea = document.getElementById('diplomaImgArea');
 
 	// 成績單
+	const $transcriptsBlockquote = $('#blockquote-transcripts');
 	const $transcriptsForm = $('#form-transcripts');
 	const $transcriptsTitle = $('#title-transcripts');
 	const transcriptsImgArea = document.getElementById('transcriptsImgArea');
@@ -50,14 +52,14 @@
 	function _init() {
 		let files = student.getEducationFile()
 		.then((res) => {
-			if (res[0].ok && res[1].ok) {
-				return [res[0].json(), res[1].json()];
+			if (res[0].ok && res[1].ok && res[2].ok) {
+				return [res[0].json(), res[1].json(), res[2].json()];
 			} else {
 				throw res[0];
 			}
 		})
 		.then((json) => {
-			json[0].then((data) => {  
+			json[0].then((data) => {
 				_diplomaFiles = data.student_diploma;
 			});
 
@@ -67,6 +69,13 @@
 
 			Promise.all([json[0], json[1]]).then(() => {
 				_renderImgArea();
+			});
+
+			json[2].then((data) => {
+				if (data.student_qualification_verify.system_id === 2) {
+					$diplomaBlockquote.show();
+					$transcriptsBlockquote.show();
+				}
 			});
 		})
 		.then(() => {
