@@ -20,7 +20,19 @@
 	*	event handler
 	*/
 
-	function _init() {
+	async function _init() {
+		try {
+			const response = await student.getStudentRegistrationProgress();
+			if (!response.ok) { throw response; }
+			const json = await response.json();
+
+			if (json.student_qualification_verify) {
+				$system.val(json.student_qualification_verify.system_id);
+			}
+
+		} catch (error) {
+			console.log(error);
+		}
 		loading.complete();
 	}
 
