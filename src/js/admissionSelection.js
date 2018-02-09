@@ -9,6 +9,7 @@
 	// 是否參加個人申請
 	let _isJoin = true;
 
+	let quotaNumber = 0; // 最高可選志願數量
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
 	let _optionalWish = []; // 剩餘可選志願
 	let _wishList = []; // 已選擇志願
@@ -23,6 +24,7 @@
 
 	const $notJoinSelection = $('#notJoinSelection'); // 是否不參加個人申請 checkbox
 	const $admissionSelectForm = $('#form-admissionSelect'); // 個人申請表單
+	const $quotaNumber = $('.quota-number'); // 最高可選志願數量
 	const $quotaLinkBtn = $('#btn-quotaLink');
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
@@ -74,6 +76,15 @@
 				}
 				_optionalWish.push(add);
 			})
+
+			// 不同學制可選志願數量不同
+			if (_currentSystem === 2) {
+				quotaNumber = 5;
+			} else {
+				quotaNumber = 4;
+			}
+			$quotaNumber.html(quotaNumber);
+
 
 			if (_currentSystem === 1) { // 學士班志願顯示 cardCode，其餘 id
 				_showCodeId = "cardCode";
@@ -151,7 +162,8 @@
 	}
 
 	function _addWish() { // 增加志願
-		if (_wishList.length < 4) {
+		// 檢查所選志願是否超過上限
+		if (_wishList.length < quotaNumber) {
 			const sortNum = $(this).data("sortnum");
 			const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum)
 			const pageNum = $paginationContainer.pagination('getSelectedPageNum');

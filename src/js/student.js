@@ -250,7 +250,8 @@ const student = (() => {
 	function getEducationFile() {
 		var urls = [
 		baseUrl + '/students/diploma',
-		baseUrl + '/students/transcripts'
+		baseUrl + '/students/transcripts',
+		baseUrl + '/students/registration-progress'
 		]
 		const grabContent = url => fetch(url, {
 			method: 'GET',
@@ -365,9 +366,6 @@ const student = (() => {
 			credentials: 'include'
 		})
 	}
-
-
-	
 
 	function getPlacementSelectionOrder() {
 		var urls = [
