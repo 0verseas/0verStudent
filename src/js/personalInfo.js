@@ -278,7 +278,7 @@
 			$taiwanAddress.val(formData.taiwan_address);
 
 			// init 學歷
-			if (_systemId === 1) { // 學士班才需要填寫學制描述
+			if (_systemId === 1 || _systemId === 2) { // 學士班、港二技 才需要填寫學制描述
 				$educationSystemDescription.val(formData.education_system_description);
 			} else {
 				$educationSystemDescriptionDiv.hide();
