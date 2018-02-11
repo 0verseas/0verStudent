@@ -288,7 +288,7 @@
 			$taiwanAddress.val(formData.taiwan_address);
 
 			// init 學歷
-			if (_systemId === 1 || _systemId === 2) { // 學士班、港二技 才需要填寫學制描述
+			if (_systemId === 1 || _systemId === 2) { // 學士班、港二技 需要填寫學制描述
 				$educationSystemDescription.val(formData.education_system_description);
 			} else {
 				$educationSystemDescriptionDiv.hide();
@@ -1114,8 +1114,8 @@
 				);
 		}
 
-		// 學士班才需要送出學歷學制描述
-		if (_systemId === 1) {
+		// 學士班、港二技 需要送出學歷學制描述
+		if (_systemId === 1 || _systemId === 2) {
 			formValidateList.push(
 				{el: $educationSystemDescription, require: true, type: 'string', dbKey: 'education_system_description', colName: '學制描述'}
 				);
