@@ -91,12 +91,18 @@
 	const $schoolNameTextForm = $('#schoolNameTextForm'); // 學校名稱表單
 	const $schoolNameText = $('#schoolNameText'); // 學校名稱 (text)
 
-	const $subjectForm = $('#subjectForm');
-	const $majorSubject = $('#majorSubject');
-	const $minorSubject = $('#minorSubject');
+	const $subjectForm = $('#subjectForm'); // 主、輔修表單
+	const $majorSubject = $('#majorSubject'); // 主修科目
+	const $minorSubject = $('#minorSubject'); // 輔修科目
 
 	const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
 	const $schoolGraduateAt = $('#schoolGraduateAt'); // 畢業時間
+
+	const $twoYearTechClassForm = $('.twoYearTechClassForm'); // 港二技表單
+	const $twoYearTechDiploma = $('#twoYearTechDiploma'); // 文憑類別（港二技）
+	const $twoYearTechClassName = $('#twoYearTechClassName'); // 課程名稱（港二技）
+	const $twoYearTechClassStart = $('#twoYearTechClassStart'); // 課程開始日期（港二技）
+	const $twoYearTechClassEnd = $('#twoYearTechClassEnd'); // 課程結束日期（港二技）
 
 	// 家長資料
 	// 父親
@@ -224,7 +230,11 @@
 					"tw_contact_workplace_address": "",
 					"home_town": "省市",
 					"when_to_resident": null,
-					"where_to_resident": null
+					"where_to_resident": null,
+					"two_year_tech_diploma": "",
+					"two_year_tech_class_name": "",
+					"two_year_tech_class_start": "",
+					"two_year_tech_class_end": ""
 				}
 			}
 
@@ -303,6 +313,15 @@
 			// 入學時間、畢業時間初始化
 			$schoolAdmissionAt.val(formData.school_admission_at);
 			$schoolGraduateAt.val(formData.school_graduate_at);
+
+			// 港二技文憑渲染、初始化
+			if (_systemId === 2) {
+				$twoYearTechClassForm.show();
+				$twoYearTechDiploma.val(formData.two_year_tech_diploma);
+				$twoYearTechClassName.val(formData.two_year_tech_class_name);
+				$twoYearTechClassStart.val(formData.two_year_tech_class_start);
+				$twoYearTechClassEnd.val(formData.two_year_tech_class_end);
+			}
 
 			// init 家長資料
 			// 父
@@ -1111,6 +1130,23 @@
 			formValidateList.push(
 				{el: $majorSubject, require: true, type: 'string', dbKey: 'major_subject', colName: '主修科目'},
 				{el: $minorSubject, require: false, type: 'string', dbKey: 'minor_subject'}
+				);
+		}
+
+		// 判斷是否送港二技的文憑類別與課程
+		if (_systemId === 2) {
+			formValidateList.push(
+				{el: $twoYearTechDiploma, require: true, type: 'string', dbKey: 'two_year_tech_diploma', colName: '文憑類別'},
+				{el: $twoYearTechClassName, require: true, type: 'string', dbKey: 'two_year_tech_class_name', colName: '課程名稱'},
+				{el: $twoYearTechClassStart, require: true, type: 'string', dbKey: 'two_year_tech_class_start', colName: '課程開始日期'},
+				{el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end'},
+				);
+		} else {
+			formValidateList.push(
+				{el: $twoYearTechDiploma, require: false, type: 'string', dbKey: 'two_year_tech_diploma', dbData: ''},
+				{el: $twoYearTechClassName, require: false, type: 'string', dbKey: 'two_year_tech_class_name', dbData: ''},
+				{el: $twoYearTechClassStart, require: false, type: 'string', dbKey: 'two_year_tech_class_start', dbData: ''},
+				{el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end', dbData: ''},
 				);
 		}
 
