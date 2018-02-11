@@ -147,7 +147,7 @@
 	$specail.on('change', _changeSpecail);
 	$disabilityCategory.on('change', _switchDisabilityCategory);
 	$residenceContinent.on('change', _reRenderResidenceCountry);
-	$schoolContinent.on('change', _reRenderCountry);
+	$schoolContinent.on('change', _reRenderSchoolCountry);
 	$schoolCountry.on('change', _chSchoolCountry);
 	$schoolType.on('change', _chSchoolType);
 	$schoolLocation.on('change', _chSchoolLocation);
@@ -343,6 +343,7 @@
 			_switchDadDataForm();
 			_switchMomDataForm();
 			_setResidenceContinent();
+			_setSchoolContinent();
 		})
 		.then(() => {
 			loading.complete();
@@ -416,6 +417,18 @@
 		}
 	}
 
+	function _setSchoolContinent() {
+		// 港二技的學校洲別只能選到「亞洲」
+		if ($schoolContinent && (_systemId === 2)) {
+			let schoolContinentOptions = $schoolContinent.find('option');
+			for (let i = 0; i < schoolContinentOptions.length; i++) {
+				if (!(schoolContinentOptions[i].value === "-1" || schoolContinentOptions[i].value === "0")) {
+					schoolContinentOptions[i].remove();
+				}
+			}
+		}
+	}
+
 	function _reRenderCountry() {
 		const continent = $(this).find(':selected').data('continentindex');
 		const $row = $(this).closest('.row');
@@ -430,7 +443,7 @@
 			countryHTML = '<option value="">Country</option>'
 		}
 		$countrySelect.html(countryHTML);
-		$schoolCountry.change();
+		$countrySelect.change();
 	}
 
 	function _reRenderResidenceCountry() {
@@ -455,6 +468,26 @@
 			countryHTML = '<option value="">Country</option>'
 		}
 		$residentLocation.html(countryHTML);
+	}
+
+	function _reRenderSchoolCountry() {
+		const continent = $(this).find(':selected').data('continentindex');
+		// 港二技學制只能選擇香港
+		const system2Rule = ["113"];
+
+		let countryHTML = '<option value="">Country</option>';
+		if (continent !== -1) {
+			_countryList[continent]['country'].forEach((obj, index) => {
+				if (_systemId === 2) {
+					if (system2Rule.indexOf(obj.id) === -1) { return; }
+				}
+				countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
+			})
+		} else {
+			countryHTML = '<option value="">Country</option>'
+		}
+		$schoolCountry.html(countryHTML);
+		$schoolCountry.change();
 	}
 
 	function _switchDisabilityCategory() {
