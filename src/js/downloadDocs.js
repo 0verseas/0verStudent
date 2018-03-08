@@ -17,6 +17,19 @@
 	*/
 
 	async function _init() {
+		student.getStudentPersonalData()
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((data) => {
+				if(data.student_personal_data.resident_location === '113'){
+					$('#alert-hk-order').show();
+				}
+			})
 
 		student.getStudentRegistrationProgress()
 		.then((res) => {
