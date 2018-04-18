@@ -31,6 +31,7 @@
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 	const $saveBtn = $('#btn-save');
+	const $confirmedBtn = $('#btn-confirmed');
 
 	/**
 	*	init
@@ -46,6 +47,7 @@
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
+	$confirmedBtn.on('click', _handleConfirmed);
 
 	async function _init() {
 		try {
@@ -109,6 +111,23 @@
 			}
 			loading.complete();
 		}
+		//僑先部＆＆已填報＆＆後填志願時間期內，要顯示確認鎖定志願按鈕
+		student.getStudentRegistrationProgress()
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((data) => {
+				if (data.student_qualification_verify.identity === 6 &&
+					data.student_misc_data.confirmed_at !=  null  &&
+					data.can_admission_placement == true) {
+					$('#div-btn-confirmed').show();
+					_checkconfirm(data);
+				}
+			})
 	}
 
 	function _addWish() { // 增加志願
@@ -352,6 +371,51 @@
 			})
 		} else {
 			alert('沒有選擇志願。');
+		}
+	}
+
+	function _handleConfirmed() {
+		var isAllSet = confirm("確認後就「無法再次更改志願」，您真的確認送出嗎？");
+		if (isAllSet === true) {
+			let order = [];
+			if (_wishList.length > 0) {
+				_wishList.forEach((value, index) => {
+					order.push(value.id);
+				});
+				const data = {
+					order
+				}
+				loading.start();
+				student.SecondPlacementSelectionOrder(data)
+					.then((res) => {
+						if (res.ok) {
+							return res.json();
+						} else {
+							throw res;
+						}
+					})
+					.then((json) => {
+						alert("儲存成功並已鎖定");
+						window.location.reload();
+						loading.complete();
+						location.href = "./downloadDocs.html";
+						})
+					.catch((err) => {
+						err.json && err.json().then((data) => {
+							console.error(data);
+							alert(`ERROR: \n${data.messages[0]}`);
+						})
+						loading.complete();
+					})
+			} else {
+				alert('沒有選擇志願。');
+			}
+		}
+	}
+
+	function _checkconfirm(data) {
+		if (!!data.student_misc_data.confirmed_placement_at) {
+			$('#btn-confirmed').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定志願') && $afterConfirmZone.show();
 		}
 	}
 
