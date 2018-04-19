@@ -58,9 +58,15 @@
 		})
 		.then((json) => {
 			console.log(!!json.student_misc_data.confirmed_at);
-			if (!!json.student_misc_data.confirmed_at) {
+			
+			if(json.student_qualification_verify.identity=== 6 && json.student_misc_data.join_admission_selection=== 1
+				&& json.student_misc_data.confirmed_at !=null && json.can_admission_placement == true){
+				location.href = './placementSelection.html';
+			}
+			else if (!!json.student_misc_data.confirmed_at) {
 				location.href = './downloadDocs.html';
-			} else {
+			}
+			else {
 				location.href = './systemChoose.html';
 			}
 			loading.complete();
