@@ -253,6 +253,14 @@
 
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
 		!data.can_upload_papers && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
+
+		//僑先部個申後填志願同學，在確認鎖定志願之前，不能印報名表件
+		if(data.student_qualification_verify.identity=== 6 && data.student_misc_data.join_admission_selection=== 1 &&
+			data.student_misc_data.confirmed_at !=null && json.can_admission_placement == true){
+			$('.nav-lalalalalala').addClass('disabled');
+			$('.nav-lalalalalala').addClass('show-deadline');
+			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
+		}
 	}
 
 	function _setHeader(data) {
