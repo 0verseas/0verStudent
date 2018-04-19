@@ -123,7 +123,8 @@
 			.then((data) => {
 				if (data.student_qualification_verify.identity === 6 &&
 					data.student_misc_data.confirmed_at !=  null  &&
-					data.can_admission_placement == true) {
+					data.can_admission_placement == true &&
+					data.student_misc_data.join_admission_selection ===1) {
 					$('#div-btn-confirmed').show();
 					_checkconfirm(data);
 				}
