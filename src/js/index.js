@@ -57,8 +57,10 @@
 			}
 		})
 		.then((json) => {
-			console.log(!!json.student_misc_data.confirmed_at);
-			
+			console.log(json);
+			if( typeof(json.student_qualification_verify) === 'undefined')
+				location.href = './systemChoose.html';
+
 			if(json.student_qualification_verify.identity=== 6 && json.student_misc_data.join_admission_selection=== 1
 				&& json.student_misc_data.confirmed_at !=null && json.can_admission_placement == true){
 				location.href = './placementSelection.html';
