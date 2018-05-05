@@ -45,7 +45,7 @@
 			if (_systemId === 1) {
 				_hasOlympia = !!progressJson.student_olympia_aspiration_order && progressJson.student_misc_data.has_olympia_aspiration;
 				_hasAdmission = !!progressJson.student_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
-				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way && progressJson.student_misc_data.admission_placement_apply_way !== 79;
+				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way ;
 			} else if (_systemId === 2) {
 				_hasAdmission = !!progressJson.student_two_year_tech_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
 			} else {
