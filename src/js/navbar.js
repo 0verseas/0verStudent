@@ -255,8 +255,14 @@
 		!data.can_upload_papers && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
 
 		//僑先部個申後填志願同學，在確認鎖定志願之前，不能印報名表件
-		if(data.student_qualification_verify.identity=== 6 && data.student_misc_data.join_admission_selection=== 1 &&
-			data.student_misc_data.confirmed_at !=null && data.can_admission_placement == true){
+		if((data.student_qualification_verify.identity === 6 && data.student_misc_data.join_admission_selection === 1 &&
+			data.student_misc_data.confirmed_at != null && data.can_admission_placement == true) ||
+            (data.student_qualification_verify.identity === 7 &&
+            data.student_misc_data.confirmed_at != null &&
+            data.student_misc_data.confirmed_placement_at === null) ||
+            (datastudent_misc_data.admission_placement_apply_way_data.code == "23" &&
+            data.student_misc_data.confirmed_at != null &&
+            data.student_misc_data.confirmed_placement_at === null)){
 			$('.nav-lalalalalala').addClass('disabled');
 			$('.nav-lalalalalala').addClass('show-deadline');
 			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
