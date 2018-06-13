@@ -121,10 +121,16 @@
 				}
 			})
 			.then((data) => {
-				if (data.student_qualification_verify.identity === 6 &&
-					data.student_misc_data.confirmed_at !=  null  &&
+				if ((data.student_qualification_verify.identity === 6 &&
+					data.student_misc_data.confirmed_at != null &&
 					data.can_admission_placement == true &&
-					data.student_misc_data.join_admission_selection ===1) {
+					data.student_misc_data.join_admission_selection === 1) ||
+					(data.student_qualification_verify.identity === 7 &&
+					data.student_misc_data.confirmed_at != null &&
+                    data.student_misc_data.confirmed_placement_at === null) ||
+					(datastudent_misc_data.admission_placement_apply_way_data.code == "23" &&
+					data.student_misc_data.confirmed_at != null &&
+                    data.student_misc_data.confirmed_placement_at === null) ) {
 					$('#div-btn-confirmed').show();
 					_checkconfirm(data);
 				}
