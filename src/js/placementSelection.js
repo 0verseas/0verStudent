@@ -417,7 +417,7 @@
 							}
 						})
 						.then((json) => {
-							alert("儲存成功並已鎖定");
+							alert("儲存成功並已鎖定，系統已寄送志願選填通知信至您的 email。");
 							window.location.reload();
 							loading.complete();
 							location.href = "./downloadDocs.html";
