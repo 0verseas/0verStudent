@@ -21,21 +21,17 @@
 	*/
 
 	async function _init() {
-		student.isLogin().catch((err) => {
-            if (err.status && err.status === 401) {
-                alert('請登入。');
-                location.href = "./index.html";
-            } else {
-                err.json && err.json().then((data) => {
-                    console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-                })
-            }
-        });
-
 		try {
 			const response = await student.getStudentRegistrationProgress();
-			if (!response.ok) { throw response; }
+			console.log(response.status);
+			if (!response.ok) {
+				if (response.status && response.status === 401) {
+                    alert('請登入。');
+                    location.href = "./index.html";
+				} else {
+                    throw response;
+                }
+			}
 			const json = await response.json();
 
 			if (json.student_qualification_verify) {
@@ -45,6 +41,7 @@
 		} catch (error) {
 			console.log(error);
 		}
+
 		loading.complete();
 	}
 
