@@ -23,14 +23,9 @@
 	async function _init() {
 		try {
 			const response = await student.getStudentRegistrationProgress();
-			console.log(response.status);
+
 			if (!response.ok) {
-				if (response.status && response.status === 401) {
-                    alert('請登入。');
-                    location.href = "./index.html";
-				} else {
-                    throw response;
-                }
+				throw response;
 			}
 			const json = await response.json();
 
