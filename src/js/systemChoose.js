@@ -21,6 +21,18 @@
 	*/
 
 	async function _init() {
+		student.isLogin().catch((err) => {
+            if (err.status && err.status === 401) {
+                alert('請登入。');
+                location.href = "./index.html";
+            } else {
+                err.json && err.json().then((data) => {
+                    console.error(data);
+                    alert(`ERROR: \n${data.messages[0]}`);
+                })
+            }
+        });
+
 		try {
 			const response = await student.getStudentRegistrationProgress();
 			if (!response.ok) { throw response; }
