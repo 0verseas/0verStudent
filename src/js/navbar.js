@@ -33,10 +33,15 @@
 	})
 	.catch((err) => {
 		console.error(err);
-		err.json && err.json().then((data) => {
-			console.error(data);
-			alert(`ERROR: \n${data.messages[0]}`);
-		})
+        if (err.status && err.status === 401) {
+            alert('請登入。');
+            location.href = "./index.html";
+        } else {
+            err.json && err.json().then((data) => {
+                console.error(data);
+                alert(`ERROR: \n${data.messages[0]}`);
+            })
+        }
 	});
 
 	/**
@@ -253,11 +258,25 @@
 
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
 		!data.can_upload_papers && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
+
+		//僑先部個申後填志願同學，在確認鎖定志願之前，不能印報名表件
+		if((data.student_qualification_verify.identity === 6 && data.student_misc_data.join_admission_selection === 1 &&
+			data.student_misc_data.confirmed_at != null && data.can_admission_placement == true) ||
+            (data.student_qualification_verify.identity === 7 &&
+            data.student_misc_data.confirmed_at != null &&
+            data.student_misc_data.confirmed_placement_at === null) ||
+            (data.student_misc_data.admission_placement_apply_way_data.code == "23" &&
+            data.student_misc_data.confirmed_at != null &&
+            data.student_misc_data.confirmed_placement_at === null)){
+			$('.nav-lalalalalala').addClass('disabled');
+			$('.nav-lalalalalala').addClass('show-deadline');
+			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
+		}
 	}
 
 	function _setHeader(data) {
 		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
-		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生', '僑先部結業生'];
+		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生', '僑先部結業生', '印輔班結業生'];
 		student.setHeader({
 			system: systemMap[data.student_qualification_verify.system_id - 1],
 			identity: identityMap[data.student_qualification_verify.identity - 1],

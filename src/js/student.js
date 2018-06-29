@@ -393,6 +393,17 @@ const student = (() => {
 		})
 	}
 
+	function SecondPlacementSelectionOrder(data) {
+		return fetch(baseUrl + `/students/storeConfirm`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	function getOrderResultList(url) {
 		return fetch(baseUrl + url, {
 			method: 'GET',
@@ -513,7 +524,8 @@ const student = (() => {
 		setReviewItem,
 		getReviewItem,
 		delReviewItem,
-		uploadAndSubmit
+		uploadAndSubmit,
+		SecondPlacementSelectionOrder
 	};
 
 })();

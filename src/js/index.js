@@ -57,10 +57,26 @@
 			}
 		})
 		.then((json) => {
-			console.log(!!json.student_misc_data.confirmed_at);
-			if (!!json.student_misc_data.confirmed_at) {
+			console.log(json);
+			if( typeof(json.student_qualification_verify) === 'undefined')
+				location.href = './systemChoose.html';
+
+			if( (json.student_qualification_verify.identity=== 6 &&
+					json.student_misc_data.join_admission_selection=== 1 &&
+					json.student_misc_data.confirmed_at !=null &&
+					json.can_admission_placement == true) ||
+				(json.student_qualification_verify.identity === 7 &&
+					json.student_misc_data.confirmed_at != null &&
+					json.student_misc_data.confirmed_placement_at === null) ||
+				(json.student_misc_data.admission_placement_apply_way_data.code == "23" &&
+					json.student_misc_data.confirmed_at != null &&
+					json.student_misc_data.confirmed_placement_at === null) ){
+				location.href = './placementSelection.html';
+			}
+			else if (!!json.student_misc_data.confirmed_at) {
 				location.href = './downloadDocs.html';
-			} else {
+			}
+			else {
 				location.href = './systemChoose.html';
 			}
 			loading.complete();

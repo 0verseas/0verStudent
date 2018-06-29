@@ -115,8 +115,30 @@
 <hr>
 
 <div class="row">
-	<div class="col-12 text-center">
+	<div class="col-md text-center">
 		<button id="btn-save" class="btn btn-primary" role="button">儲存</button>
+	</div>
+	<div class="col-md hide" id="div-btn-confirmed">
+		<button id="btn-confirmed" class="btn btn-danger" role="button" >確認提交並鎖定志願</button>
+	</div>
+</div>
+
+
+<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<i class="fa fa-3x fa-exclamation-circle" style="color:crimson; margin: 0 auto;" aria-hidden="true"></i>
+				<br />
+			</div>
+			<div class="modal-body" style="color: royalblue; font-weight:600;" id="warningText">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">返回填滿 70 個志願</button>
+				<button type="button" id="secondConfirm" class="btn btn-primary" data-dismiss="modal">繼續</button>
+			</div>
+		</div>
 	</div>
 </div>
 

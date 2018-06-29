@@ -31,7 +31,8 @@
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 	const $saveBtn = $('#btn-save');
-
+	const $confirmedBtn = $('#btn-confirmed');
+	const $secondConfirm = $('#secondConfirm');
 	/**
 	*	init
 	*/
@@ -46,6 +47,8 @@
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
+	$confirmedBtn.on('click', _handleConfirmed);
+	$secondConfirm.on('click', _handleSecondConfirmed);
 
 	async function _init() {
 		try {
@@ -109,6 +112,30 @@
 			}
 			loading.complete();
 		}
+		//僑先部＆＆已填報＆＆後填志願時間期內，要顯示確認鎖定志願按鈕
+		student.getStudentRegistrationProgress()
+			.then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then((data) => {
+				if ((data.student_qualification_verify.identity === 6 &&
+					data.student_misc_data.confirmed_at != null &&
+					data.can_admission_placement == true &&
+					data.student_misc_data.join_admission_selection === 1) ||
+					(data.student_qualification_verify.identity === 7 &&
+					data.student_misc_data.confirmed_at != null &&
+                    data.student_misc_data.confirmed_placement_at === null) ||
+					(data.student_misc_data.admission_placement_apply_way_data.code == "23" &&
+					data.student_misc_data.confirmed_at != null &&
+                    data.student_misc_data.confirmed_placement_at === null) ) {
+					$('#div-btn-confirmed').show();
+					_checkconfirm(data);
+				}
+			})
 	}
 
 	function _addWish() { // 增加志願
@@ -352,6 +379,66 @@
 			})
 		} else {
 			alert('沒有選擇志願。');
+		}
+	}
+
+	function _handleConfirmed() {
+		var order= _wishList.length;
+		if(_wishList.length < 70 ) {
+			var text= `提醒您 <br />
+				您僅選擇 ${order}  個志願，尚未填滿 70 個志願。 <br/>
+				依簡章規定，屆時如分發分數已達大學最低錄取標準，但所填志願已無名額可供分發，一律分發師大僑先部。填滿 70 個志願但未獲分發者，本會將提供二次分發機會。`;
+			$("#warningModal").modal();
+			document.getElementById("warningText").innerHTML = text;
+		}
+		else
+			_handleSecondConfirmed();
+	}
+
+	function _handleSecondConfirmed() {
+		setTimeout(function(){
+			var isAllSet = confirm("確認後就「無法再次更改志願」，您真的確認送出嗎？");
+			if (isAllSet === true) {
+				let order = [];
+				if (_wishList.length > 0) {
+					_wishList.forEach((value, index) => {
+						order.push(value.id);
+					});
+					const data = {
+						order
+					}
+					loading.start();
+					student.SecondPlacementSelectionOrder(data)
+						.then((res) => {
+							if (res.ok) {
+								return res.json();
+							} else {
+								throw res;
+							}
+						})
+						.then((json) => {
+							alert("儲存成功並已鎖定，系統已寄送志願選填通知信至您的 email。");
+							window.location.reload();
+							loading.complete();
+							location.href = "./downloadDocs.html";
+						})
+						.catch((err) => {
+							err.json && err.json().then((data) => {
+								console.error(data);
+								alert(`ERROR: \n${data.messages[0]}`);
+							})
+							loading.complete();
+						})
+				} else {
+					alert('沒有選擇志願。');
+				}
+			}
+		}, 500);
+	}
+
+	function _checkconfirm(data) {
+		if (!!data.student_misc_data.confirmed_placement_at) {
+			$('#btn-confirmed').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定志願') && $afterConfirmZone.show();
 		}
 	}
 

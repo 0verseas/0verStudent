@@ -45,7 +45,7 @@
 			if (_systemId === 1) {
 				_hasOlympia = !!progressJson.student_olympia_aspiration_order && progressJson.student_misc_data.has_olympia_aspiration;
 				_hasAdmission = !!progressJson.student_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
-				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way && progressJson.student_misc_data.admission_placement_apply_way !== 79;
+				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way ;
 			} else if (_systemId === 2) {
 				_hasAdmission = !!progressJson.student_two_year_tech_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
 			} else {
@@ -104,7 +104,7 @@
 					}
 					// XXX: id 可能會變動
 					// 如果 apply_way id 是 1, 11 ,79 （以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請、以僑先部結業成績申請），就不顯示分發志願。
-					if (_hasPlacement && (progressJson.student_misc_data.admission_placement_apply_way != 1 && progressJson.student_misc_data.admission_placement_apply_way != 11 && progressJson.student_misc_data.admission_placement_apply_way != 79)) {
+					if (_hasPlacement && (progressJson.student_misc_data.admission_placement_apply_way != 1 )) {
 						const url = '/students/admission-placement-order';
 						const placementResponse = await student.getOrderResultList(url);
 						if (!placementResponse.ok) { throw placementResponse; }
@@ -159,7 +159,7 @@
 			
 			// XXX: id 可能會變動
 			// 如果 apply_way id 是 1, 11 ,79 （以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請、以僑先部結業成績申請），就不讓按鈕運作。
-			if ((progressJson.student_misc_data.admission_placement_apply_way == 1) || (progressJson.student_misc_data.admission_placement_apply_way == 11) || (progressJson.student_misc_data.admission_placement_apply_way == 79)) {
+			if ((progressJson.student_misc_data.admission_placement_apply_way == 1) ) {
 				$previewPlacementListBtn.attr('onclick', 'event.preventDefault();');
 			} else {
 				$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');

@@ -23,7 +23,10 @@
 	async function _init() {
 		try {
 			const response = await student.getStudentRegistrationProgress();
-			if (!response.ok) { throw response; }
+
+			if (!response.ok) {
+				throw response;
+			}
 			const json = await response.json();
 
 			if (json.student_qualification_verify) {
@@ -33,6 +36,7 @@
 		} catch (error) {
 			console.log(error);
 		}
+
 		loading.complete();
 	}
 
