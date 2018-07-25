@@ -58,7 +58,7 @@
 		})
 		.then((json) => {
 			console.log(json);
-			if( typeof(json.student_qualification_verify) === 'undefined')
+			if( json.student_qualification_verify === null)
 				location.href = './systemChoose.html';
 
 			if( (json.student_qualification_verify.identity=== 6 &&
