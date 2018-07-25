@@ -117,7 +117,7 @@
 						<td colspan="4">
 							<h6>繳交狀況：</h6>
 							<blockquote class="blockquote">
-							`
+							`;
 				value.uploaded_file_list.forEach((doc, docIndex) => {
 					const requiredBadge = (doc.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
 					let filesNum = '';
@@ -163,14 +163,13 @@
 		let requiredBadge = '';
 
 		_wishList[_orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
-			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>'
+			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
 			if (fileListItem.type.name === "作品集") {
 				_hasWorks = true;
 				_worksRequired  = fileListItem.required;
 				_workTypeId = fileListItem.type_id;
 				_workUrls = (fileListItem.work_urls !== "") ? fileListItem.work_urls : [];
 
-				let authorizationHTML = _getFileAreaHTML(fileListItem, "authorization_files");
 				let worksHTML = _getFileAreaHTML(fileListItem, "work_files");
 
 				reviewItemHTML += `
@@ -217,32 +216,6 @@
 										<ul id="workUrls"></ul>
 										<hr />
 									</div>
-
-									<h4 style="margin-bottom: 15px;">作品授權書</h4>
-									<div class="row" style="margin-bottom: 15px;">
-										<div class="col-12">
-											<div>
-												<a href="${env.baseUrl + '/forms/作品著作權切結書.pdf'}" class="btn btn-info" target="_blank">
-													<i class="fa fa-download" aria-hidden="true"></i> 作品著作權切結書
-												</a>
-											</div>
-											<div>
-												<small class="text-danger">請下載作品著作權切結書填妥後親自簽名，並掃描成圖檔上傳作品及目錄中備查。</small>
-											</div>
-										</div>
-									</div>
-									<div class="row" style="margin-bottom: 15px;">
-										<div class="col-12">
-											<input type="file" class="filestyle file-certificate" data-workstype="authorization" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-block">
-											<h4 class="card-title"><span>已上傳授權書</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-											${authorizationHTML}
-										</div>
-									</div>
-									<hr />
 
 									<h4 style="margin-bottom: 15px;">作品集檔案</h4>
 									<div class="row" style="margin-bottom: 15px;">
@@ -330,7 +303,7 @@
 					<hr>
 				`
 			}
-		})
+		});
 
 		$reviewItemsArea.html(reviewItemHTML);
 
@@ -417,7 +390,7 @@
 					</button>
 				</li>
 			`
-		})
+		});
 		$('#workUrls').html(workUrlHTML);
 		$('.btn-removeWorkUrl').on('click', _handleRemoveUrl);
 	}
@@ -511,7 +484,7 @@
 						e.json && e.json().then((data) => {
 							console.error(data);
 							alert(`ERROR: \n${data.messages[0]}`);
-						})
+						});
 						loading.complete();
 					}
 				} else {
@@ -537,7 +510,7 @@
 					e.json && e.json().then((data) => {
 						console.error(data);
 						alert(`ERROR: \n${data.messages[0]}`);
-					})
+					});
 					loading.complete();
 				}
 			}
@@ -573,12 +546,8 @@
 			const responseJson = await response.json();
 
 			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson.type_id ));
-			if (!!workType) {
-				if (workType === "authorization") {
-					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = responseJson.authorization_files;
-				} else if (workType === "works") {
-					_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson.work_files;
-				}
+			if (!!workType && workType === "works") {
+				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson.work_files;
 			} else {
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(responseJson.files);
 			}
@@ -588,7 +557,7 @@
 			e.json && e.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
-			})
+			});
 			loading.complete();
 		}
 	}
@@ -627,7 +596,7 @@
 			`);
 		}
 		const fileListIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === parseInt(type));
-		const isWork = (_wishList[_orderIndex].uploaded_file_list[fileListIndex].type.name === "作品集") // 是不是作品集
+		const isWork = (_wishList[_orderIndex].uploaded_file_list[fileListIndex].type.name === "作品集"); // 是不是作品集
 
 		$('.btn-delImg').attr({
 			'data-type': type,
@@ -654,7 +623,6 @@
 
 			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson[0].type_id ));
 			if ($(this).attr('data-iswork') === "true") {
-				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].authorization_files = responseJson[0].authorization_files;
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson[0].work_files;
 			} else {
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = responseJson[0].files;
@@ -666,7 +634,7 @@
 			e.json && e.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
-			})
+			});
 			loading.complete();
 		}
 	}
