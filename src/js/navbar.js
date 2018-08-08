@@ -23,7 +23,7 @@
 	})
 	.then((json) => {
 		!!json.student_misc_data || location.replace('./');
-		_setGreet(json.name || json.email);
+		_setGreet(json.name || json.email, json.student_misc_data.overseas_student_id);
 		_setEmailVerifyAlert(json.student_misc_data);
 		_setProgress(json);
 		_setHeader(json);
@@ -334,8 +334,12 @@
 		}
 	}
 	
-	function _setGreet(name) {
-		$('.greet').text(`歡迎 ${name} 登入！`)
+	function _setGreet(name, overseas_student_id) {
+		if (overseas_student_id !== null) {
+            $('.greet').text(`歡迎 ${name} 登入！您的僑生編號為 ${overseas_student_id} `)
+        } else {
+            $('.greet').text(`歡迎 ${name} 登入！`)
+		}
 	}
 
 	function  _checkConfirm(json) {
