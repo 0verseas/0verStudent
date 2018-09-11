@@ -44,11 +44,6 @@
 	const $birthday = $('#birthday'); // 生日
 	const $birthContinent = $('#birthContinent'); // 出生地（州）
 	const $birthLocation = $('#birthLocation'); // 出生地（國）
-	const $homeTownForm = $('#form-homeTown'); // 籍貫表單
-	const $homeTownProvince = $('#homeTownProvince'); // 籍貫-省
-	const $homeTownCity = $('#homeTownCity'); // 籍貫-市
-	const $whenToResident = $('#whenToResident'); // 籍貫搬遷年份
-	const $whereToResident = $('#whereToResident'); // 籍貫搬遷來源地
 	const $specail = $personalInfoForm.find('.specail'); // 是否為「身心障礙」或「特殊照護」或「特殊教育」者
 	const $specialForm = $('#specialForm'); // 身心障礙表單
 	const $disabilityCategory = $('#disabilityCategory'); // 障礙類別
@@ -111,7 +106,6 @@
 	const $dadName = $('#dadName'); // 姓名（中）
 	const $dadEngName = $('#dadEngName'); // 姓名（英）
 	const $dadBirthday = $('#dadBirthday'); // 生日
-	const $dadHometown = $('#dadHometown'); // 籍貫
 	const $dadJob = $('#dadJob'); // 職業
 	// 母親
 	const $momStatus = $('.momStatus'); // 存歿
@@ -119,14 +113,12 @@
 	const $momName = $('#momName'); // 姓名（中）
 	const $momEngName = $('#momEngName'); // 姓名（英）
 	const $momBirthday = $('#momBirthday'); // 生日
-	const $momHometown = $('#momHometown'); // 籍貫
 	const $momJob = $('#momJob'); // 職業
 	// 監護人（父母皆不詳才需要填寫）
 	const $guardianForm = $('#form-guardian'); // 資料表單
 	const $guardianName = $('#guardianName'); // 姓名（中）
 	const $guardianEngName = $('#guardianEngName'); // 姓名（英）
 	const $guardianBirthday = $('#guardianBirthday'); // 生日
-	const $guardianHometown = $('#guardianHometown'); // 籍貫
 	const $guardianJob = $('#guardianJob'); // 職業
 
 	// 在台聯絡人
@@ -208,18 +200,15 @@
 					"dad_name": "",
 					"dad_eng_name": "",
 					"dad_birthday": "",
-					"dad_hometown": "",
 					"dad_job": "",
 					"mom_status": "alive",
 					"mom_name": "",
 					"mom_eng_name": "",
 					"mom_birthday": "",
-					"mom_hometown": "",
 					"mom_job": "",
 					"guardian_name": "",
 					"guardian_eng_name": "",
 					"guardian_birthday": "",
-					"guardian_hometown": "",
 					"guardian_job": "",
 					"tw_contact_name": "",
 					"tw_contact_relation": "",
@@ -228,9 +217,6 @@
 					"tw_contact_workplace_name": "",
 					"tw_contact_workplace_phone": "",
 					"tw_contact_workplace_address": "",
-					"home_town": "省市",
-					"when_to_resident": null,
-					"where_to_resident": null,
 					"two_year_tech_diploma": "",
 					"two_year_tech_class_name": "",
 					"two_year_tech_class_start": "",
@@ -247,14 +233,6 @@
 			$birthday.val(formData.birthday);
 			$birthContinent.val(_findContinent(formData.birth_location)).change();
 			$birthLocation.val(formData.birth_location);
-
-			if (_identityId === 3) {
-				$homeTownForm.show();
-				$homeTownProvince.val(_splitHomeTown(formData.home_town)[0]);
-				$homeTownCity.val(_splitHomeTown(formData.home_town)[1]);
-				$whenToResident.val(formData.when_to_resident);
-				$whereToResident.val(formData.where_to_resident);
-			}
 
 			_specailStatus = formData.special;
 			$("input[name=special][value='"+ _specailStatus +"']").prop("checked",true).change();
@@ -330,7 +308,6 @@
 			$dadName.val(formData.dad_name);
 			$dadEngName.val(formData.dad_eng_name);
 			$dadBirthday.val(formData.dad_birthday);
-			$dadHometown.val(formData.dad_hometown);
 			$dadJob.val(formData.dad_job);
 			// 母
 			_currentMomStatus = formData.mom_status;
@@ -338,13 +315,11 @@
 			$momName.val(formData.mom_name);
 			$momEngName.val(formData.mom_eng_name);
 			$momBirthday.val(formData.mom_birthday);
-			$momHometown.val(formData.mom_hometown);
 			$momJob.val(formData.mom_job);
 			// 監護人
 			$guardianName.val(formData.guardian_name);
 			$guardianEngName.val(formData.guardian_eng_name);
 			$guardianBirthday.val(formData.guardian_birthday);
-			$guardianHometown.val(formData.guardian_hometown);
 			$guardianJob.val(formData.guardian_job);
 
 			// init 在台聯絡人
@@ -1031,24 +1006,7 @@
 			require: false,
 			type: 'string',
 			dbKey: 'tw_contact_workplace_address'
-		}]
-
-		// 海外僑生要填寫籍貫
-		if (_identityId === 3) {
-			formValidateList.push(
-				{el: $homeTownProvince, require: true, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市', colName: '籍貫(省)'},
-				{el: $homeTownCity, require: true, type: 'string', colName: '籍貫(市)'},
-				{el: $whenToResident, require: false, type: 'string', dbKey: 'when_to_resident'},
-				{el: $whereToResident, require: false, type: 'string', dbKey: 'where_to_resident'}
-				);
-		} else {
-			formValidateList.push(
-				{el: $homeTownProvince, require: false, type: 'string', dbKey: 'home_town', dbData: $homeTownProvince.val() + '省' + $homeTownCity.val() + '市'},
-				{el: $homeTownCity, require: false, type: 'string'},
-				{el: $whenToResident, require: false, type: 'string', dbKey: 'when_to_resident'},
-				{el: $whereToResident, require: false, type: 'string', dbKey: 'where_to_resident'}
-				);
-		}
+		}];
 
 		// 身心障礙選項
 		if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
@@ -1069,7 +1027,6 @@
 				{el: $dadName, require: true, type: 'string', dbKey: 'dad_name', colName: '父親姓名（中）'},
 				{el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name', colName: '父親姓名（英）'},
 				{el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday', colName: '父親生日'},
-				{el: $dadHometown, require: false, type: 'string', dbKey: 'dad_hometown'},
 				{el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業'}
 				);
 		}
@@ -1080,7 +1037,6 @@
 				{el: $momName, require: true, type: 'string', dbKey: 'mom_name', colName: '母親姓名（中）'},
 				{el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name', colName: '母親姓名（英）'},
 				{el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday', colName: '母親生日'},
-				{el: $momHometown, require: false, type: 'string', dbKey: 'mom_hometown'},
 				{el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業'}
 				);
 		}
@@ -1091,7 +1047,6 @@
 				{el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）'},
 				{el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）'},
 				{el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日'},
-				{el: $guardianHometown, require: false, type: 'string', dbKey: 'guardian_hometown'},
 				{el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業'}
 				);
 		}
