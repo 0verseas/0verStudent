@@ -238,7 +238,7 @@
 				const $addWish = $optionalWishList.find('.add-wish');
 				$addWish.on("click", _addWish);
 			}
-		})
+		});
 
 		if (_filterOptionalWish.length === 0) {
 			$optionalWishList.html(`
@@ -306,7 +306,7 @@
 				const data = {
 					has_olympia_aspiration: _hasOlympia,
 					order
-				}
+				};
 				loading.start();
 				student.setOlympiaAspirationOrder(data)
 				.then((res) => {
@@ -326,7 +326,7 @@
 					err.json && err.json().then((data) => {
 						console.error(data);
 						alert(`ERROR: \n${data.messages[0]}`);
-					})
+					});
 					loading.complete();
 				})
 			} else {
@@ -335,7 +335,7 @@
 		} else {
 			const data = {
 				has_olympia_aspiration: _hasOlympia,
-			}
+			};
 			loading.start();
 			student.setOlympiaAspirationOrder(data)
 			.then((res) => {
@@ -355,7 +355,7 @@
 				err.json && err.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
-				})
+				});
 				loading.complete();
 			})
 		}
