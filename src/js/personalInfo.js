@@ -20,12 +20,12 @@
 	let _currentSchoolName = "";
 	let _schoolList = [];
 	let _schoolType = { // 有類別的地區
-		"106": ["國際學校", "華校", "緬校"], // 緬甸
-		"115": ["印尼當地中學", "海外臺灣學校"], // 印尼
+		"105": ["國際學校", "華校", "緬校"], // 緬甸
+		"109": ["印尼當地中學", "海外臺灣學校"], // 印尼
 		"128": ["國民型或國民中學；或持 O-Level、A-Level 文憑者", "馬來西亞華文獨立中學", "海外臺灣學校", "馬來西亞國際學校"], // 馬來西亞
-		"140": ["海外臺灣學校", "越南當地中學"], // 越南
-		"143": ["泰北未立案之華文中學", "泰國當地中學"] // 泰國
-	}
+		"133": ["海外臺灣學校", "越南當地中學"], // 越南
+		"130": ["泰北未立案之華文中學", "泰國當地中學"] // 泰國
+	};
 	const _disabilityCategoryList = ["視覺障礙", "聽覺障礙", "肢體障礙", "語言障礙", "腦性麻痺", "自閉症", "學習障礙"];
 	let _errormsg = [];
 
@@ -55,6 +55,7 @@
 	const $residenceContinent = $('#residenceContinent'); // 州
 	const $residentLocation = $('#residentLocation'); // 國
 	const $residentId = $('#residentId'); // 身分證號碼（ID no.）
+    const $residentIdLabel = $('#residentIdLabel'); // 身分證號碼（ID no.）的那個字
 	const $residentPassportNo = $('#residentPassportNo'); // 護照號碼
 	const $residentPhoneCode = $('#residentPhoneCode'); // 電話國碼
 	const $residentPhone = $('#residentPhone'); // 電話號碼
@@ -152,6 +153,7 @@
 	$dadStatus.on('change', _chDadStatus);
 	$momStatus.on('change', _chMomStatus);
 	$saveBtn.on('click', _handleSave);
+	$residentLocation.on('change', _showResidentIDExample);
 
 	function _init() {
 		student.getStudentPersonalData()
@@ -392,7 +394,7 @@
 			let stateHTML = '<option value="-1" data-continentIndex="-1">Continent</option>';
 			json.forEach((obj, index) => {
 				stateHTML += `<option value="${index}" data-continentIndex="${index}">${obj.continent}</option>`
-			})
+			});
 			$birthContinent.html(stateHTML);
 			$residenceContinent.html(stateHTML);
 			$schoolContinent.html(stateHTML);
@@ -443,8 +445,8 @@
 	function _reRenderResidenceCountry() {
 		const continent = $(this).find(':selected').data('continentindex');
 		const identity124Rule = ["113", "127"]; // 港澳生、港澳具外國國籍之華裔學生、在臺港澳生，只能選到香港、澳門
-		const identity3Rule = ["113", "127", "147", "148"]; // 海外不能選到香港、澳門、臺灣跟大陸
-        const identity6Rule = ["147"]; // 僑先部結業生不能選到臺灣
+		const identity35Rule = ["113", "127", "134", "135"]; // 海外僑生、在台僑生不能選到香港、澳門、臺灣跟大陸
+        const identity6Rule = ["134"]; // 僑先部結業生不能選到臺灣
 
 		let countryHTML = '<option value="">Country</option>';
 		if (continent !== -1) {
@@ -452,7 +454,7 @@
 				if (_identityId === 1 || _identityId === 2 || _identityId === 4) {
 					if (identity124Rule.indexOf(obj.id) === -1) { return; }
 				} else if (_identityId === 3 || _identityId === 5) {
-					if (identity3Rule.indexOf(obj.id) > -1) { return; }
+					if (identity35Rule.indexOf(obj.id) > -1) { return; }
 				} else {
 					if (identity6Rule.indexOf(obj.id) > -1) { return; }
 				}
@@ -463,6 +465,16 @@
 		}
 		$residentLocation.html(countryHTML);
 	}
+
+	function _showResidentIDExample() {
+		if ($residentLocation.val() === '113') { //香港
+            $residentIdLabel.html('* 身分證號碼（ID no.）<br /> 格式範例：A123456(7)');
+		} else if ($residentLocation.val() === '127') { // 澳門
+            $residentIdLabel.html('* 身分證號碼（ID no.）<br /> 格式範例：1234567');
+		} else {
+            $residentIdLabel.html('* 身分證號碼（ID no.）');
+		}
+    }
 
 	function _reRenderSchoolCountry() {
 		const continent = $(this).find(':selected').data('continentindex');
@@ -724,7 +736,7 @@
 				err.json && err.json().then((data) => {
 					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
-				})
+				});
 				loading.complete();
 			})
 		} else {
@@ -841,7 +853,7 @@
 			require: true,
 			type: 'string',
 			dbKey: 'resident_id',
-			colName: '身分證號碼'
+			colName: '僑居地身分證號碼'
 		},
 		{
 			el: $residentPassportNo,
@@ -1174,7 +1186,7 @@
 					obj.el.removeClass('invalidInput');
 				}
 			}
-		})
+		});
 
 		if (_correct) {
 			return sendData;
