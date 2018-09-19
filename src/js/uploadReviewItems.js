@@ -101,7 +101,7 @@
 				<tr class="table-warning">
 					<td>${index + 1}</td>
 					<td>${showId}</td>
-					<td>${value.department_data.school.title} ${value.department_data.title}</td>
+					<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
 					<td class="text-right">
 						<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
 							<i class="fa fa-upload" aria-hidden="true"></i>
@@ -109,7 +109,7 @@
 						</button>
 					</td>
 				</tr>
-			`
+			`;
 
 			if (_isDocumentLock) {
 				wishHTML += `
@@ -164,6 +164,15 @@
 
 		_wishList[_orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
 			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
+
+			let descriptionBlock;
+
+			if (!!!fileListItem.description.trim() && !!!fileListItem.eng_description.trim()) {
+                descriptionBlock = ``;
+			} else {
+                descriptionBlock = `<blockquote class="blockquote">${fileListItem.description}<br />${fileListItem.eng_description}</blockquote>`;
+			}
+
 			if (fileListItem.type.name === "作品集") {
 				_hasWorks = true;
 				_worksRequired  = fileListItem.required;
@@ -177,13 +186,9 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header bg-primary text-white">
-									${fileListItem.type.name} ${requiredBadge}
+									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
-								<div class="card-block">
-									<blockquote class="blockquote">
-										說明：${fileListItem.description}
-									</blockquote>
-
+								<div class="card-block">` + descriptionBlock + `
 									<div>
 										<div class="form-group">
 											<label class="text-danger" for="workName">* 作品名稱</label>
@@ -218,6 +223,9 @@
 									</div>
 
 									<h4 style="margin-bottom: 15px;">作品集檔案</h4>
+									<div class="alert alert-warning">
+										可接受副檔名為 <strong class="text-danger">pdf、jpg、png、mp3、mp4、avi</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
+									</div>
 									<div class="row" style="margin-bottom: 15px;">
 										<div class="col-12">
 											<input type="file" class="filestyle file-certificate" data-workstype="works" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
@@ -242,13 +250,9 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header bg-primary text-white">
-									${fileListItem.type.name} ${requiredBadge}
+									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
-								<div class="card-block">
-									<blockquote class="blockquote">
-										說明：${fileListItem.description}
-									</blockquote>
-
+								<div class="card-block">` + descriptionBlock + `
 									<div class="card">
 										<div class="card-block">
 											<p>只接受紙本，請於 <span class="text-danger">${fileListItem.paper.deadline}</span> 前逕行寄送到下列地址</p>
@@ -277,13 +281,12 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header bg-primary text-white">
-									${fileListItem.type.name} ${requiredBadge}
+									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
-								<div class="card-block">
-									<blockquote class="blockquote">
-										說明：${fileListItem.description}
-									</blockquote>
-
+								<div class="card-block">` + descriptionBlock + `
+									<div class="alert alert-warning">
+										可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+									</div>
 									<div class="row" style="margin-bottom: 15px;">
 										<div class="col-12">
 											<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
