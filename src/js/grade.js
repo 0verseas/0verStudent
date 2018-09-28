@@ -51,7 +51,7 @@
 
 		let data = {
 			apply_way: id
-		}
+		};
 
 		if (+code === 1) {
 			data.my_admission_ticket_no = $('.my_admission_ticket_no').val();
@@ -74,7 +74,7 @@
 		.then((json) => {
 			console.log(json);
 			alert("儲存成功");
-			if (id === "79") { // 不參加聯分，原地 reload
+			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999') { // 不參加聯分，原地 reload
 				window.location.reload();
 			} else { // 其餘導向下一頁
 				location.href = "./placementSelection.html"
@@ -89,7 +89,7 @@
 			err.json && err.json().then((data) => {
 				console.error(data.messages[0]);
 				alert(data.messages[0]);
-			})
+			});
 			loading.complete();
 		});
 	}
