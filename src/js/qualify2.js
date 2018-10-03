@@ -82,6 +82,8 @@
 	const $KA_hasBeenTaiwanRadio = $signUpForm.find('.kangAo_radio-hasBeenTaiwan');
 	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan');
 	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan');
+	const $kangAo2EthnicChineseRadio = $signUpForm.find('.kangAo2_radio-ethnicChinese');
+    const $identityRadio = $signUpForm.find('.radio-identity');
 
 	/**
 	*	bind event
@@ -100,6 +102,8 @@
 	$KA_hasBeenTaiwanRadio.on('change', _checkKAHasBeenTaiwanValidation);
 	$KA1_whyHasBeenTaiwan.on('change', _checkKA1WhyHasBeenTaiwanValidation);
 	$KA2_whyHasBeenTaiwan.on('change', _checkKA2WhyHasBeenTaiwanValidation);
+	$kangAo2EthnicChineseRadio.on('change',_checkEthnicChineseValidation);
+    $identityRadio.on('change', _handleChangeIdentity);
 
 	/**
 	*	event handler
@@ -114,6 +118,8 @@
 		const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
 		const passportCountry = $passportCountrySelect.val();
 		const isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
+		if (_typeOfKangAo == 2)
+			var ethnicChinese = +$signUpForm.find('.kangAo2_radio-ethnicChinese:checked').val();
 		const distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
 		const distributionOption = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
 		const stayLimitOption = +$signUpForm.find('.kangAo_radio-stayLimit:checked').val();
@@ -123,6 +129,7 @@
 		const invalidDistributionOption = [3, 4, 5, 6];
 		if (!graduated) return alert('您未在香港是否修習全日制副學士學位或高級文憑課程，並已取得畢業證書');
 		if (!idCard) return alert('未擁有香港或澳門永久性居民身分證');
+		if (ethnicChinese === 0 && _typeOfKangAo == 2) return alert('非華裔者不具報名資格');
 		if (!_typeOfKangAo) return alert('請確保上方問題皆已選填');
 		if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
 		if (!!isDistribution && invalidDistributionOption.includes(distributionOption)) return alert('分發來台選項不具報名資格');
@@ -145,6 +152,8 @@
 		console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
 		console.log(`請就下列選項，擇一勾選，並檢附證明文件： {{type 1}} ${KA1_whyHasBeenTaiwanOption}`);
 		console.log(`請就下列選項，擇一勾選，並檢附證明文件： {{type 2}} ${KA2_whyHasBeenTaiwanOption}`);
+		console.log(`是否為華裔者： ${ethnicChinese}`);
+		console.log(`${ethnicChinese} ${_typeOfKangAo}`);
 		if ((_savedSystem !== null && _savedIdentity !== null) &&
 			(+_savedSystem !== 2 || +_savedIdentity !== +_typeOfKangAo)) {
 			if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
@@ -158,6 +167,7 @@
 			identity: _typeOfKangAo,
 			associate_degree_or_higher_diploma_graduated: !!graduated,
 			HK_Macao_permanent_residency: !!idCard,
+			is_ethnic_Chinese: ethnicChinese,
 			except_HK_Macao_passport: !!holdpassport,
 			taiwan_census: !!taiwanHousehold,
 			portugal_passport: !!portugalPassport,
@@ -192,6 +202,18 @@
 		});
 	}
 
+	// 選擇身份別
+	// 1: 港澳 2: 港澳具外國
+	function _handleChangeIdentity () {
+		_currentIdentity = $(this).val();
+		_typeOfKangAo = _currentIdentity
+		$signUpForm.find('.question').hide();
+		switch(_currentIdentity) {
+			case '2':
+				$signUpForm.find('.question.kangAo2').fadeIn();
+				break;
+		}
+	}
 	// 請問您在香港是否修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程，並已取得畢業證書（應屆畢業者得檢附在學證明）？
 	function _checkGraduated() {
 		const $this = $(this);
@@ -207,6 +229,14 @@
 		!!idCard && $signUpForm.find('.idCardAlert.invalid').fadeOut();
 		!!idCard || $signUpForm.find('.idCardAlert.invalid').fadeIn();
 	}
+
+	// 是否為華裔學生
+	function _checkEthnicChineseValidation() {
+		const $this = $(this);
+		const ethnicChinese = +$this.val();
+		!!ethnicChinese && $signUpForm.find('.ethnicChineseAlert.invalid').fadeOut();
+		!!ethnicChinese || $signUpForm.find('.ethnicChineseAlert.invalid').fadeIn();
+    }
 
 	// 是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照
 	function _checkHoldpassport() {

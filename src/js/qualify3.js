@@ -92,6 +92,7 @@
 	const $stayLimitRadio = $signUpForm.find('.radio-stayLimit');
 	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
 	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
+	const $overseasEthnicChineseRadio = $signUpForm.find('.overseas_radio-ethnicChinese');
 	// 港澳生
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
@@ -106,6 +107,7 @@
 	const $KA_hasBeenTaiwanRadio = $signUpForm.find('.question.kangAo .kangAo_radio-hasBeenTaiwan');
 	const $KA1_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType1_radio-whyHasBeenTaiwan');
 	const $KA2_whyHasBeenTaiwan = $signUpForm.find('.question.kangAo .kangAoType2_radio-whyHasBeenTaiwan');
+	const $kangAo2EthnicChineseRadio = $signUpForm.find('.kangAo2_radio-ethnicChinese');
 
 	/**
 	* bind event
@@ -133,6 +135,8 @@
 	$KA_hasBeenTaiwanRadio.on('change', _checkKAHasBeenTaiwanValidation);
 	$KA1_whyHasBeenTaiwan.on('change', _checkKA1WhyHasBeenTaiwanValidation);
 	$KA2_whyHasBeenTaiwan.on('change', _checkKA2WhyHasBeenTaiwanValidation);
+	$overseasEthnicChineseRadio.on('change',_checkEthnicChineseValidation);
+	$kangAo2EthnicChineseRadio.on('change',_checkEthnicChineseValidation);
 
 	/**
 	* event handler
@@ -142,10 +146,15 @@
 		$signUpForm.find('.question').hide();
 		switch (identity) {
 			case 1:
-			case 2:
 				_setTypeOfKangAo(1);
 				$signUpForm.find('.question.kangAo').fadeIn()[0].reset();
-				$signUpForm.find('.question.kangAo .hide').hide();
+				$signUpForm.find('.question.kangAo.hide').hide();
+				break;
+			case 2:
+				_setTypeOfKangAo(2);
+				$signUpForm.find('.question.kangAo').fadeIn()[0].reset();
+				$signUpForm.find('.question.kangAo.hide').hide();
+				$signUpForm.find('.question.kangAo2').fadeIn();
 				break;
 			case 3:
 				$signUpForm.find('.question.overseas').fadeIn()[0].reset();
@@ -177,7 +186,10 @@
 			const hasBeenTaiwan = +$signUpForm.find('.kangAo_radio-hasBeenTaiwan:checked').val();
 			const KA1_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
 			const KA2_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
+			if(_typeOfKangAo == 2)
+				var ethnicChinese = +$signUpForm.find('.kangAo2_radio-ethnicChinese:checked').val();
 			if (!idCard) return alert('未擁有香港或澳門永久性居民身分證');
+			if (ethnicChinese === 0 && _typeOfKangAo == 2) return alert('非華裔者不具報名資格');
 			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
 			if (!!isDistribution && distributionOption > 2) return alert('分發來台選項不具報名資格')
 			if (stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
@@ -199,6 +211,7 @@
 			console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
 			console.log(`請就下列選項，擇一勾選，並檢附證明文件：{{type 1}} ${KA1_whyHasBeenTaiwan}`);
 			console.log(`請就下列選項，擇一勾選，並檢附證明文件：{{type 2}} ${KA2_whyHasBeenTaiwan}`);
+			console.log(`是否為華裔者： ${ethnicChinese}`);
 			if ((_savedSystem !== null && _savedIdentity !== null) &&
 				(+_savedSystem !== +_systemID || +_savedIdentity !== +_typeOfKangAo)) {
 				if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
@@ -222,7 +235,8 @@
 				overseas_residence_time: stayLimitOption,
 				stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
 				reason_selection_of_stay_over_120_days_in_taiwan: _typeOfKangAo === 1 ? KA1_whyHasBeenTaiwan : KA2_whyHasBeenTaiwan,
-				force_update: true
+				force_update: true,
+				is_ethnic_Chinese: ethnicChinese
 			})
 			.then((res) => {
 				if (res.ok) {
@@ -251,7 +265,9 @@
 			const stayLimitOption = +$signUpForm.find('.radio-stayLimit:checked').val();
 			const hasBeenTaiwan = +$signUpForm.find('.radio-hasBeenTaiwan:checked').val();
 			const whyHasBeenTaiwan = +$signUpForm.find('.radio-whyHasBeenTaiwan:checked').val();
+			const ethnicChinese = +$signUpForm.find('.overseas_radio-ethnicChinese:checked').val();
 			const invalidDistributionOption = [3, 4, 5, 6];
+			if (ethnicChinese === 0 ) return alert('非華裔者不具報名資格');
 			if (!!isDistribution && invalidDistributionOption.includes(distributionOption)) return alert('分發來台選項不具報名資格');
 			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
 			if (stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
@@ -274,6 +290,7 @@
 			student.verifyQualification({
 				system_id: _systemID,
 				identity: 3,
+				is_ethnic_Chinese: ethnicChinese,
 				has_come_to_taiwan: !!isDistribution,
 				come_to_taiwan_at: distributionTime,
 				reason_selection_of_come_to_taiwan: distributionOption,
@@ -281,6 +298,7 @@
 				stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
 				reason_selection_of_stay_over_120_days_in_taiwan: whyHasBeenTaiwan,
 				force_update: true // TODO:
+
 			})
 			.then((res) => {
 				if (res.ok) {
@@ -349,7 +367,8 @@
 				same_grade_course: !!applyPeer,
 				same_grade_course_apply_year: applyPeerYear,
 				same_grade_course_selection: applyPeerStatus,
-				force_update: true // TODO
+				force_update: true, // TODO
+				is_ethnic_Chinese: ethnicChinese
 			})
 			.then((res) => {
 				if (res.ok) {
@@ -371,6 +390,14 @@
 				loading.complete();
 			});
 		}
+	}
+
+	// 是否為華裔學生
+	function _checkEthnicChineseValidation() {
+	const $this = $(this);
+	const ethnicChinese = +$this.val();
+	!!ethnicChinese && $signUpForm.find('.ethnicChineseAlert.invalid').fadeOut();
+	!!ethnicChinese || $signUpForm.find('.ethnicChineseAlert.invalid').fadeIn();
 	}
 
 	// 請問您是否曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過？
