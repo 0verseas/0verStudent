@@ -154,6 +154,7 @@
 	$momStatus.on('change', _chMomStatus);
 	$saveBtn.on('click', _handleSave);
 	$residentLocation.on('change', _showResidentIDExample);
+	$taiwanIdType.on('change', _showTaiwanIdExample);
 
 	function _init() {
 		student.getStudentPersonalData()
@@ -519,6 +520,17 @@
 			$specialForm.fadeIn();
 		} else {
 			$specialForm.hide();
+		}
+	}
+
+	function _showTaiwanIdExample() {
+		if ($taiwanIdType.val() == '居留證') {
+			document.getElementById("taiwanIdExample1").style.display = "block";
+            document.getElementById("taiwanIdExample2").style.display = "none";
+		}
+		if ($taiwanIdType.val() == '身分證') {
+			document.getElementById("taiwanIdExample2").style.display = "block";
+            document.getElementById("taiwanIdExample1").style.display = "none";
 		}
 	}
 
