@@ -161,7 +161,7 @@
 			except_HK_Macao_passport: !!holdpassport,
 			taiwan_census: !!taiwanHousehold,
 			portugal_passport: !!portugalPassport,
-			first_get_portugal_passport_at: portugalPassportTime,
+			first_get_portugal_passport_at: portugalPassportTime.replace(/-/g, '/'),
 			which_nation_passport: passportCountry,
 			has_come_to_taiwan: !!isDistribution,
 			come_to_taiwan_at: distributionTime,
