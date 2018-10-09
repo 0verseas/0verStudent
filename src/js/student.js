@@ -32,7 +32,11 @@ const student = (() => {
 	}
 
 	async function getCountryList() {
-		if (localStorage.countryList && localStorage.countryList !== "") {
+		if (localStorage.countryList
+			&& localStorage.countryList !== ""
+			&& localStorage.countryListExpiration
+			&& localStorage.countryListExpiration
+			&& localStorage.countryListExpiration > new Date().getTime()) {
 			return JSON.parse(localStorage.countryList);
 		} else {
 			try {
@@ -42,7 +46,7 @@ const student = (() => {
 						'Content-Type': 'application/json'
 					},
 					credentials: 'include'
-				})
+				});
 				if (!response.ok) { throw response; }
 				const json = await response.json();
 
@@ -57,6 +61,7 @@ const student = (() => {
 				});
 
 				localStorage.countryList = JSON.stringify(groups);
+                localStorage.countryListExpiration = new Date().getTime() + (1440 * 60 * 1000);
 				return groups;
 			} catch (e) {
 				console.log('Boooom!!');
