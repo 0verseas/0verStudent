@@ -108,7 +108,7 @@
 			let fieldSetHTML = '';
 
 			json.forEach((file, index) => {
-				fieldSetHTML += '<div class="form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" data-id="' + file.id + '" value=' + file.code + '>' + file.description + '</label></div>';
+				fieldSetHTML += '<div class="form-group form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" data-id="' + file.id + '" value=' + file.code + '>' + file.description + '</label></div>';
 			});
 
 			$applyWaysFieldSet.html(fieldSetHTML);

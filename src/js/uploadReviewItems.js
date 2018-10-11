@@ -188,7 +188,7 @@
 								<div class="card-header bg-primary text-white">
 									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
-								<div class="card-block">` + descriptionBlock + `
+								<div class="card-body">` + descriptionBlock + `
 									<div>
 										<div class="form-group">
 											<label class="text-danger" for="workName">* 作品名稱</label>
@@ -232,7 +232,7 @@
 										</div>
 									</div>
 									<div class="card">
-										<div class="card-block">
+										<div class="card-body">
 											<h4 class="card-title"><span>已上傳作品檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
 											${worksHTML}
 										</div>
@@ -254,7 +254,7 @@
 								</div>
 								<div class="card-block">` + descriptionBlock + `
 									<div class="card">
-										<div class="card-block">
+										<div class="card-body">
 											<p>只接受紙本，請於 <span class="text-danger">${fileListItem.paper.deadline}</span> 前逕行寄送到下列地址</p>
 											<dl class="row">
 												<dt class="col-md-3 col-lg-2">收件人：</dt>
@@ -283,7 +283,7 @@
 								<div class="card-header bg-primary text-white">
 									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
-								<div class="card-block">` + descriptionBlock + `
+								<div class="card-body">` + descriptionBlock + `
 									<div class="alert alert-warning">
 										可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
 									</div>
@@ -294,7 +294,7 @@
 									</div>
 
 									<div class="card">
-										<div class="card-block">
+										<div class="card-body">
 											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
 											${filesHtml}
 										</div>
