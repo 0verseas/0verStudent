@@ -3,6 +3,7 @@
 	*	private variable
 	*/
 	let _currentIdentity = 1;
+	let _globalIdentity = 1;
 	let _typeOfKangAo = 1;
 	let _savedIdentity = null;
 	let _savedSystem = null;
@@ -135,6 +136,7 @@
 	// 1: 港澳 2: 海外 3: 港澳具外國
 	function _handleChangeIdentity () {
 		_currentIdentity = $(this).val();
+		_globalIdentity = $(this).val();
 		$signUpForm.find('.question').hide();
 		$KA_hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
 		$hasBeenTaiwanRadio.last().prop('checked', true).trigger('change');
@@ -157,7 +159,12 @@
 
 	// 儲存
 	function _handleSave() {
-		console.log(_currentIdentity);
+		// 1: 港澳 2: 海外 3: 港澳具外國
+		// 2017年報名會根據同學回答問題自動轉換身份別，現直接看他選擇哪個身份別，送到後端再做檢查。
+		if( _globalIdentity == 1)
+			_typeOfKangAo = 1;
+		if( _globalIdentity == 3)
+			_typeOfKangAo = 2;
 		if (+_currentIdentity === 2) {
 			// 海外僑生
 			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
