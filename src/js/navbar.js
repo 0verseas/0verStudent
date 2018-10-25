@@ -240,11 +240,18 @@
 			$('.nav-placementSelection').click(function(e){e.preventDefault();});
 		} else {
 			// 學生有填聯合分發採計方式，但沒有在聯合分發期間期間時，「聯合分發志願」出現提示訊息（聯合分發已截止）
-			if (!data.can_admission_placement) {
-				$('.nav-placementSelection').addClass('disabled');
-				$('.nav-placementSelection').addClass('show-placement-deadline');
-				$('.nav-placementSelection').click(function(e){e.preventDefault();});
+			if( data.student_misc_data.admission_placement_apply_way_data.code == '23' ||
+				data.student_misc_data.admission_placement_apply_way_data.code == '18' ||
+				( data.student_qualification_verify.identity === 7 && data.student_misc_data.admission_placement_apply_way_data.code == '22') )
+				;
+			else {
+				if (!data.can_admission_placement) {
+					$('.nav-placementSelection').addClass('disabled');
+					$('.nav-placementSelection').addClass('show-placement-deadline');
+					$('.nav-placementSelection').click(function(e){e.preventDefault();});
+				}
 			}
+
 		}
 
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
