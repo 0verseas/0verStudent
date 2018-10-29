@@ -292,7 +292,7 @@
 		];
 		if (!qualificationVerifyStatus) {
 			if (!(doNotVerifyPages.indexOf(currentPathName) > -1)) {
-				alert("請先完成資格驗證");
+				alert("請先完成資格檢視");
 				location.href = "./systemChoose.html"
 			}
 		}
