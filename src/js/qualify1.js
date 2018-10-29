@@ -500,7 +500,7 @@
 
 		student.getCountryList().then((data) => {
 			data[order].country.forEach((val, i) => {
-				if (val.id !== "113" && val.id !== "127" && val.id !== "147") {
+				if (val.id !== "113" && val.id !== "127" && val.id !== "134" && val.id !== "135") { // 外國護照不能出現 香港、澳門、台灣、大陸
 					$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
 				}
 			});
