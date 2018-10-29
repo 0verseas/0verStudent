@@ -107,21 +107,25 @@
 					if (_hasPlacement && (progressJson.student_misc_data.admission_placement_apply_way != 1 )) {
 						const url = '/students/admission-placement-order';
 						const placementResponse = await student.getOrderResultList(url);
-						if (!placementResponse.ok) { throw placementResponse; }
-						const placementJson = await placementResponse.json();
-						const placementList = placementJson.student_department_admission_placement_order;
-						let placementHTML = '';
-						placementList.forEach((val, index) => {
-							placementHTML += `
+						if (!placementResponse.ok) {
+							$('#block-previewPlacementList').hide();
+						}
+						else{
+							const placementJson = await placementResponse.json();
+							const placementList = placementJson.student_department_admission_placement_order;
+							let placementHTML = '';
+							placementList.forEach((val, index) => {
+								placementHTML += `
 							<tr>
 							<td>` + val.order + `</td>
 							<td>` + val.department_data.card_code + `</td>
 							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
 							</tr>
 							`
-						})
-						$placementTbody.html(placementHTML);
-						$placementForm.show();
+							})
+							$placementTbody.html(placementHTML);
+							$placementForm.show();
+						}
 					}
 				} else { // 其他學制，只需判斷個人申請
 					if (_hasAdmission) {
