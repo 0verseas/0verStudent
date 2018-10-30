@@ -416,7 +416,7 @@
 				if ($('#workType').val() !== "") { isEmpty = false; }
 				if ($('#workMemo').val() !== "") { isEmpty = false; }
 				if (_workUrls.length > 0) { isEmpty = false; }
-				if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].authorization_files.length > 0) { isEmpty = false; }
+				//if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].authorization_files.length > 0) { isEmpty = false; }
 				if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].work_files.length > 0) { isEmpty = false; }
 
 				if (isEmpty) {
