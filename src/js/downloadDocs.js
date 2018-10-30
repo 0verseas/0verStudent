@@ -6,6 +6,8 @@
 
 	const $memo = $('#memo');
 
+	let personalData='';
+
 	/**
 	*	init
 	*/
