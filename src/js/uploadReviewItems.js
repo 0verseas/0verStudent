@@ -460,6 +460,14 @@
 					$('#workUrl').removeClass('invalidInput');
 				}
 
+				// 怕是同學填了作品連結，但是沒有按 “＋” 來新增
+				if ( $('#workUrl').val() != '') {
+					correct = false;
+					$('#workUrl').addClass('invalidInput');
+				} else {
+					$('#workUrl').removeClass('invalidInput');
+				}
+
 				if (correct) {
 					let data = new FormData();
 					data.append('name', $('#workName').val());
@@ -491,7 +499,11 @@
 						loading.complete();
 					}
 				} else {
-					alert(errorMsg.join('、') + " 欄位必填");
+					if ( $('#workUrl').val() != '') {
+						alert("請點選作品連結右邊藍色“＋” 新增作品連結");
+					}
+					else
+						alert(errorMsg.join('、') + " 欄位必填");
 				}
 			} else if (sendType === 'empty') {
 				let data = new FormData();
