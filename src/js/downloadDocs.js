@@ -38,9 +38,12 @@
 						}
 					})
 					.then((data) => {
-						if( personalData.resident_location === '113' && data.student_misc_data.admission_placement_apply_way_data.code === '16' ){
-							$('#alert-hk-order').show();
+						if(data.student_misc_data.admission_placement_apply_way_data != null) {
+							if( personalData.resident_location === '113' && data.student_misc_data.admission_placement_apply_way_data.code === '16' ){
+								$('#alert-hk-order').show();
+							}
 						}
+
 						if ((data.student_qualification_verify.system_id === 1 || data.student_qualification_verify.system_id === 2)
 							&& (data.student_misc_data.admission_placement_apply_way === 6 || data.student_misc_data.admission_placement_apply_way === 16)) { // 參加澳門學科測驗
 							$('#alert-cost').show();
