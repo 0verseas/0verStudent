@@ -60,7 +60,7 @@
 				"student_two_year_tech_department_admission_selection_order",
 				"student_graduate_department_admission_selection_order",
 				"student_graduate_department_admission_selection_order"
-				]
+				];
 				
 				if (_systemId === 1) { // 學士班，三種都有可能
 					if (_hasOlympia) {
@@ -78,7 +78,7 @@
 							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
 							</tr>
 							`
-						})
+						});
 						$olympiaTbody.html(olympiaHTML);
 						$olympiaForm.show();
 					}
@@ -98,19 +98,18 @@
 							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
 							</tr>
 							`
-						})
+						});
 						$admissionTbody.html(admissionHTML);
 						$admissionForm.show();
 					}
 					// XXX: id 可能會變動
 					// 如果 apply_way id 是 1, 11 ,79 （以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請、以僑先部結業成績申請），就不顯示分發志願。
-					if (_hasPlacement && (progressJson.student_misc_data.admission_placement_apply_way != 1 )) {
+					if (_hasPlacement && ( progressJson.student_misc_data.admission_placement_apply_way != 1 )) {
 						const url = '/students/admission-placement-order';
 						const placementResponse = await student.getOrderResultList(url);
 						if (!placementResponse.ok) {
 							$('#block-previewPlacementList').hide();
-						}
-						else{
+						} else {
 							const placementJson = await placementResponse.json();
 							const placementList = placementJson.student_department_admission_placement_order;
 							let placementHTML = '';
@@ -122,7 +121,7 @@
 							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
 							</tr>
 							`
-							})
+							});
 							$placementTbody.html(placementHTML);
 							$placementForm.show();
 						}
@@ -144,7 +143,7 @@
 							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
 							</tr>
 							`
-						})
+						});
 						$admissionTbody.html(admissionHTML);
 						$admissionForm.show();
 					}
@@ -152,10 +151,9 @@
 			}
 
 			//尚未報名，僑先部 則 不會顯示下載文件按鈕
-			if ((progressJson.student_misc_data.confirmed_at === null) && (progressJson.student_qualification_verify.identity !=6 ) && (progressJson.can_admission_selection) === false && (progressJson.can_admission_placement)===false){
+			if ((progressJson.student_misc_data.confirmed_at === null) && ( progressJson.student_qualification_verify.identity !=6 ) && (progressJson.can_admission_selection) === false && (progressJson.can_admission_placement) === false){
 				$('#div-previewData').hide();
-			}
-			else{
+			} else {
 				$previewPersonalDataBtn.attr('href', env.baseUrl + '/students/admission-paper/department-apply-form');
 			}
 			

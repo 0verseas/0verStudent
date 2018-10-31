@@ -465,10 +465,16 @@
 		const holdpassport = +$signUpForm.find('.radio-holdpassport:checked').val();
 		const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
 		if( _globalIdentity == 1 && holdpassport == 1 && taiwanHousehold == 1 ) {
-			if( portugalPassportTime !='' && portugalPassportTime <= '1999-12-19')
-				$signUpForm.find('.holePassportholdTaiwanAddress').fadeOut();
-			else
-				$signUpForm.find('.holePassportholdTaiwanAddress').fadeIn();
+            var portugalPassportDT = portugalPassportTime;
+            portugalPassportDT = portugalPassportDT.replace(/-/g,"/");
+
+            var portugalPassportLimitDT = "1999/12/19";
+
+			if( portugalPassportTime !='' && Date.parse(portugalPassportDT)-Date.parse(portugalPassportLimitDT) <= 0) {
+                $signUpForm.find('.holePassportholdTaiwanAddress').fadeOut();
+            } else {
+                $signUpForm.find('.holePassportholdTaiwanAddress').fadeIn();
+            }
 		}
 		else
 			$signUpForm.find('.holePassportholdTaiwanAddress').fadeOut();
@@ -608,23 +614,37 @@
 		console.log("是否持葡萄牙護照",portugalPassport);
 		console.log("持葡萄牙護照時間",portugalPassportTime);
 		console.log("在台設有戶籍",taiwanHousehold);
-		// 港澳生
-		if( _globalIdentity == 1 ){
-			if( holdpassport == 1 && portugalPassport == 0 && taiwanHousehold == 0)
-				alert("提醒您，您的身份別為 『港澳具外國國籍之華裔學生』!     請至上方「申請身份別」項目重新選擇身份別。");
-			if( holdpassport == 1 && portugalPassport == 1 && portugalPassportTime > '1999-12-19' && portugalPassportTime > '' && taiwanHousehold == 0)
-				alert("提醒您，您的身份別為 『港澳具外國國籍之華裔學生』!     請至上方「申請身份別」項目重新選擇身份別。");
+
+        var portugalPassportDT = portugalPassportTime;
+        portugalPassportDT = portugalPassportDT.replace(/-/g,"/");
+
+        var portugalPassportLimitDT = "1999/12/19";
+
+        // 港澳生
+		if( _globalIdentity == 1 ) {
+			if( holdpassport == 1 && portugalPassport == 0 && taiwanHousehold == 0 ) {
+                alert("提醒您，您的身份別為 『港澳具外國國籍之華裔學生』!     請至上方「申請身份別」項目重新選擇身份別。");
+            }
+
+			if( holdpassport == 1 && portugalPassport == 1 && Date.parse(portugalPassportDT)-Date.parse(portugalPassportLimitDT) > 0 && portugalPassportTime > '' && taiwanHousehold == 0 ) {
+                alert("提醒您，您的身份別為 『港澳具外國國籍之華裔學生』!     請至上方「申請身份別」項目重新選擇身份別。");
+            }
 		}
 		// 港澳具外國國籍學生
-		if( _globalIdentity == 3){
-			if( holdpassport == 0 )
-				alert("提醒您，「港澳具外國國籍之華裔學生」係依據「僑生回國就學及輔導辦法」第23-1條規定：「具外國國籍，兼具香港或澳門永久居留資格，" +
-					"未曾在臺設有戶籍，且最近連續居留香港、澳門或海外六年以上之華裔學生」定義，故您的身分別非此身分，請至上方「申請身份別」項目重新選擇。");
-			if( holdpassport == 1 && portugalPassport == 1 && portugalPassportTime <= '1999-12-19' && portugalPassportTime != '')
-				alert("提醒您，您的身份別為 『港澳生』!     請至上方「申請身份別」項目重新選擇身份別。");
-			if( holdpassport == 1 && taiwanHousehold == 1)
-				alert("提醒您，「港澳具外國國籍之華裔學生」係依據「僑生回國就學及輔導辦法」第23-1條規定：「具外國國籍，兼具香港或澳門永久居留資格，" +
-					"未曾在臺設有戶籍，且最近連續居留香港、澳門或海外六年以上之華裔學生」定義，故您的身分別非此身分，請至上方「申請身份別」項目重新選擇。");
+		if( _globalIdentity == 3) {
+			if( holdpassport == 0 ) {
+                alert("提醒您，「港澳具外國國籍之華裔學生」係依據「僑生回國就學及輔導辦法」第23-1條規定：「具外國國籍，兼具香港或澳門永久居留資格，" +
+                    "未曾在臺設有戶籍，且最近連續居留香港、澳門或海外六年以上之華裔學生」定義，故您的身分別非此身分，請至上方「申請身份別」項目重新選擇。");
+            }
+
+			if( holdpassport == 1 && portugalPassport == 1 && Date.parse(portugalPassportDT)-Date.parse(portugalPassportLimitDT) <= 0 && portugalPassportTime != '' ) {
+                alert("提醒您，您的身份別為 『港澳生』!     請至上方「申請身份別」項目重新選擇身份別。");
+            }
+
+			if( holdpassport == 1 && taiwanHousehold == 1 ) {
+                alert("提醒您，「港澳具外國國籍之華裔學生」係依據「僑生回國就學及輔導辦法」第23-1條規定：「具外國國籍，兼具香港或澳門永久居留資格，" +
+                    "未曾在臺設有戶籍，且最近連續居留香港、澳門或海外六年以上之華裔學生」定義，故您的身分別非此身分，請至上方「申請身份別」項目重新選擇。");
+            }
 		}
 	}
 
