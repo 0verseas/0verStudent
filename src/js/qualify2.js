@@ -3,6 +3,7 @@
 	*	private variable
 	*/
 	let _typeOfKangAo = 1;
+	let _globalIdentity = 1;
 	let _savedIdentity = null;
 	let _savedSystem = null;
 	let _countryList = [];
@@ -118,7 +119,7 @@
 		const portugalPassportTime = $signUpForm.find('.input-portugalPassportTime').val();
 		const passportCountry = $passportCountrySelect.val();
 		const isDistribution = +$signUpForm.find('.kangAo_radio-isDistribution:checked').val();
-		if (_typeOfKangAo == 2)
+		if (_globalIdentity == 2)
 			var ethnicChinese = +$signUpForm.find('.kangAo2_radio-ethnicChinese:checked').val();
 		const distributionTime = $signUpForm.find('.kangAo_input-distributionTime').val();
 		const distributionOption = +$signUpForm.find('.kangAo_distributionMoreQuestion:checked').val();
@@ -129,13 +130,13 @@
 		const invalidDistributionOption = [3, 4, 5, 6];
 		if (!graduated) return alert('您未在香港是否修習全日制副學士學位或高級文憑課程，並已取得畢業證書');
 		if (!idCard) return alert('未擁有香港或澳門永久性居民身分證');
-		if (ethnicChinese === 0 && _typeOfKangAo == 2) return alert('非華裔者不具報名資格');
+		if (ethnicChinese === 0 && _globalIdentity == 2) return alert('非華裔者不具報名資格');
 		if (!_typeOfKangAo) return alert('請確保上方問題皆已選填');
 		if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
 		if (!!isDistribution && invalidDistributionOption.includes(distributionOption)) return alert('分發來台選項不具報名資格');
 		if (stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
-		if (!!hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwanOption === 11) return alert('在台停留選項不具報名資格');
-		if (!!hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwanOption === 8) return alert('在台停留選項不具報名資格');
+		if (!!hasBeenTaiwan && _globalIdentity === 1 && KA1_whyHasBeenTaiwanOption === 11) return alert('在台停留選項不具報名資格');
+		if (!!hasBeenTaiwan && _globalIdentity === 2 && KA2_whyHasBeenTaiwanOption === 8) return alert('在台停留選項不具報名資格');
 		if (!!holdpassport && !portugalPassport && +passportCountry === -1) return alert('護照之國家未選填');
 
 		console.log(`請問您在香港是否修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程，並已取得畢業證書（應屆畢業者得檢附在學證明）？ ${!!graduated}`);
@@ -155,7 +156,7 @@
 		console.log(`是否為華裔者： ${ethnicChinese}`);
 		console.log(`${ethnicChinese} ${_typeOfKangAo}`);
 		if ((_savedSystem !== null && _savedIdentity !== null) &&
-			(+_savedSystem !== 2 || +_savedIdentity !== +_typeOfKangAo)) {
+			(+_savedSystem !== 2 || +_savedIdentity !== +_globalIdentity)) {
 			if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
 				return;
 			}
@@ -164,7 +165,7 @@
 		loading.start();
 		student.verifyQualification({
 			system_id: 2,
-			identity: _typeOfKangAo,
+			identity: _globalIdentity,
 			associate_degree_or_higher_diploma_graduated: !!graduated,
 			HK_Macao_permanent_residency: !!idCard,
 			is_ethnic_Chinese: ethnicChinese,
@@ -178,7 +179,7 @@
 			reason_selection_of_come_to_taiwan: distributionOption,
 			overseas_residence_time: stayLimitOption,
 			stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
-			reason_selection_of_stay_over_120_days_in_taiwan: _typeOfKangAo === 1 ? KA1_whyHasBeenTaiwanOption : KA2_whyHasBeenTaiwanOption,
+			reason_selection_of_stay_over_120_days_in_taiwan: _globalIdentity === 1 ? KA1_whyHasBeenTaiwanOption : KA2_whyHasBeenTaiwanOption,
 			force_update: true
 		})
 		.then((res) => {
@@ -206,6 +207,7 @@
 	// 1: 港澳 2: 港澳具外國
 	function _handleChangeIdentity () {
 		_currentIdentity = $(this).val();
+		_globalIdentity = $(this).val();
 		_typeOfKangAo = _currentIdentity
 		$signUpForm.find('.question').hide();
 		switch(_currentIdentity) {

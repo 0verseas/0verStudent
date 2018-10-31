@@ -4,6 +4,7 @@
 	*/
 	let _identity = 1;
 	let _typeOfKangAo = 1;
+	let _globalIdentity = 1;
 	const _systemID = _getParam('systemid', window.location.href);
 	let _savedIdentity = null;
 	let _savedSystem = null;
@@ -143,6 +144,7 @@
 	*/
 	function _handleChangeIdentity() {
 		const identity = _identity = +$(this).val();
+		_globalIdentity = $(this).val();
 		$signUpForm.find('.question').hide();
 		switch (identity) {
 			case 1:
@@ -170,7 +172,6 @@
 
 	// 儲存
 	function _handleSave() {
-		console.log(_identity);
 		if (_identity < 3) {
 			// 港澳生
 			const idCard = +$signUpForm.find('.radio-idCard:checked').val();
@@ -186,18 +187,17 @@
 			const hasBeenTaiwan = +$signUpForm.find('.kangAo_radio-hasBeenTaiwan:checked').val();
 			const KA1_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType1_radio-whyHasBeenTaiwan:checked').val();
 			const KA2_whyHasBeenTaiwan = +$signUpForm.find('.kangAoType2_radio-whyHasBeenTaiwan:checked').val();
-			if(_typeOfKangAo == 2)
+			if(_globalIdentity == 2)
 				var ethnicChinese = +$signUpForm.find('.kangAo2_radio-ethnicChinese:checked').val();
 			if (!idCard) return alert('未擁有香港或澳門永久性居民身分證');
-			if (ethnicChinese === 0 && _typeOfKangAo == 2) return alert('非華裔者不具報名資格');
+			if (ethnicChinese === 0 && _globalIdentity == 2) return alert('非華裔者不具報名資格');
 			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
 			if (!!isDistribution && distributionOption > 2) return alert('分發來台選項不具報名資格')
 			if (stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
 			if (_typeOfKangAo === null) return alert('請確保上方問題皆已選填');
-			if (!!hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwan === 11) return alert('在台停留選項不具報名資格');
-			if (!!hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwan === 8) return alert('在台停留選項不具報名資格');
+			if (!!hasBeenTaiwan && _globalIdentity === 1 && KA1_whyHasBeenTaiwan === 11) return alert('在台停留選項不具報名資格');
+			if (!!hasBeenTaiwan && _globalIdentity === 2 && KA2_whyHasBeenTaiwan === 8) return alert('在台停留選項不具報名資格');
 			if (!!holdpassport && !portugalPassport && +passportCountry === -1) return alert('護照之國家未選填');
-
 			console.log(`請問您是否擁有香港或澳門永久性居民身分證？ ${!!idCard}`);
 			console.log(`是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？ ${!!holdpassport}`);
 			console.log(`是否曾在臺設有戶籍？ ${!!taiwanHousehold}`);
@@ -213,7 +213,7 @@
 			console.log(`請就下列選項，擇一勾選，並檢附證明文件：{{type 2}} ${KA2_whyHasBeenTaiwan}`);
 			console.log(`是否為華裔者： ${ethnicChinese}`);
 			if ((_savedSystem !== null && _savedIdentity !== null) &&
-				(+_savedSystem !== +_systemID || +_savedIdentity !== +_typeOfKangAo)) {
+				(+_savedSystem !== +_systemID || +_savedIdentity !== +_globalIdentity)) {
 				if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
 					return;
 				}
@@ -222,7 +222,7 @@
 			loading.start();
 			student.verifyQualification({
 				system_id: _systemID,
-				identity: _typeOfKangAo,
+				identity: _globalIdentity,
 				HK_Macao_permanent_residency: !!idCard,
 				except_HK_Macao_passport: !!holdpassport,
 				taiwan_census: !!taiwanHousehold,
@@ -234,7 +234,7 @@
 				reason_selection_of_come_to_taiwan: distributionOption,
 				overseas_residence_time: stayLimitOption,
 				stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
-				reason_selection_of_stay_over_120_days_in_taiwan: _typeOfKangAo === 1 ? KA1_whyHasBeenTaiwan : KA2_whyHasBeenTaiwan,
+				reason_selection_of_stay_over_120_days_in_taiwan: _globalIdentity === 1 ? KA1_whyHasBeenTaiwan : KA2_whyHasBeenTaiwan,
 				force_update: true,
 				is_ethnic_Chinese: ethnicChinese
 			})
