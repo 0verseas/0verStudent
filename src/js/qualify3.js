@@ -812,6 +812,9 @@
 
 		if (+data.identity === 3) {
 			// 海外僑生
+
+			// 是否華裔學生
+			!!data.is_ethnic_Chinese && $signUpForm.find('.radio-ethnicChinese[value=1]').trigger('click');
 			// 曾分發來臺
 			!!data.has_come_to_taiwan &&
 			$signUpForm.find('.isDistribution[value=1]').trigger('click') &&
@@ -831,6 +834,9 @@
 			// 港澳具外國國籍之華裔學生
 			// 是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？
 			!!data.except_HK_Macao_passport && $signUpForm.find('.radio-holdpassport[value=1]').trigger('click');
+
+			// 是否華裔學生
+			!!data.is_ethnic_Chinese && $signUpForm.find('.radio-ethnicChinese[value=1]').trigger('click');
 
 			// 是否曾在臺設有戶籍？
 			!!data.except_HK_Macao_passport && !!data.taiwan_census && $signUpForm.find('.radio-taiwanHousehold[value=1]').trigger('click');

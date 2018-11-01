@@ -514,6 +514,11 @@
 		// 身分別
 		$signUpForm.find(`.radio-identity[value=${data.identity}]`).trigger('click');
 
+		if (+data.identity == 2) {
+			// 是否華裔學生
+			!!data.is_ethnic_Chinese && $signUpForm.find('.radio-ethnicChinese[value=1]').trigger('click');
+		}
+
 		// 是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？
 		!!data.except_HK_Macao_passport && $signUpForm.find('.radio-holdpassport[value=1]').trigger('click');
 

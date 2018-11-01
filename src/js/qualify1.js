@@ -729,6 +729,9 @@
 			$signUpForm.find('.input-distributionTime').val(data.come_to_taiwan_at).trigger('change') &&
 			$signUpForm.find(`.distributionMoreQuestion[value=${data.reason_selection_of_come_to_taiwan}]`).trigger('click');
 
+			// 是否華裔學生
+			!!data.is_ethnic_Chinese && $signUpForm.find('.radio-ethnicChinese[value=1]').trigger('click');
+
 			// 海外居留年限
 			$signUpForm.find(`.radio-stayLimit[value=${data.overseas_residence_time}]`).trigger('click');
 
@@ -742,6 +745,9 @@
 			// 港澳具外國國籍之華裔學生
 			// 是否另持有「香港護照或英國國民（海外）護照」以外之旅行證照，或持有澳門護照以外之旅行證照？
 			!!data.except_HK_Macao_passport && $signUpForm.find('.radio-holdpassport[value=1]').trigger('click');
+
+			// 是否華裔學生
+			!!data.is_ethnic_Chinese && $signUpForm.find('.radio-ethnicChinese[value=1]').trigger('click');
 			
 			// 是否曾在臺設有戶籍？
 			!!data.except_HK_Macao_passport && !!data.taiwan_census && $signUpForm.find('.radio-taiwanHousehold[value=1]').trigger('click');
