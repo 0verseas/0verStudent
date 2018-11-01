@@ -113,6 +113,7 @@
 			buttonsStyling: false
 		})
 		.then(function () {
+            loading.start();
 			student.uploadAndSubmit().then((res) => {
 				if (res.ok) {
 					return res.json();
@@ -155,7 +156,7 @@
 					showCloseButton: true,
 				})
 				*/
-				.then(() => { location.href = './uploadReviewItems.html' });
+				.then(() => { loading.complete(); location.href = './uploadReviewItems.html' });
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
