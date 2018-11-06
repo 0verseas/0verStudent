@@ -23,11 +23,17 @@
 		} catch (e) {
             e.json && e.json().then((data) => {
                 console.error(data);
-                alert(`${data.messages[0]}`);
 
                 if (e.status && e.status === 400) {
                     $('#alert-invalid').show();
-                }
+                } else {
+                    $('#alert-invalid').innerHTML = `${data.messages[0]}`;
+                    $('#alert-invalid').show();
+				}
+
+                setTimeout(() => {
+                    location.href = './index.html';
+                }, 3000);
 
                 loading.complete();
             });
