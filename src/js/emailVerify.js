@@ -26,14 +26,17 @@
 
                 if (e.status && e.status === 400) {
                     $('#alert-invalid').show();
-                } else {
-                    $('#alert-invalid').innerHTML = `${data.messages[0]}`;
-                    $('#alert-invalid').show();
-				}
 
-                setTimeout(() => {
-                    location.href = './index.html';
-                }, 3000);
+                    setTimeout(() => {
+                        location.href = './index.html';
+                    }, 3000);
+                } else {
+                    alert(`${data.messages[0]}`);
+
+                    setTimeout(() => {
+                        location.href = './index.html';
+                    }, 0);
+				}
 
                 loading.complete();
             });
