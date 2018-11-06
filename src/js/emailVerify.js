@@ -20,18 +20,17 @@
 				location.href = './index.html';
 			}, 3000);
 			loading.complete();
-
 		} catch (e) {
-			let errorMsg = '';
-			if (e.status && e.status === 400) {
-				errorMsg = 'Email 格式錯誤。';
-			} else if (e.status && e.status === 403) {
-				errorMsg = '驗證錯誤。';
-			}
-			console.error(data);
-			alert(errorMsg);
-			$('#alert-invalid').show();
-			loading.complete();
+            e.json && e.json().then((data) => {
+                console.error(data);
+                alert(`${data.messages[0]}`);
+
+                if (e.status && e.status === 400) {
+                    $('#alert-invalid').show();
+                }
+
+                loading.complete();
+            });
 		}
 	}
 
