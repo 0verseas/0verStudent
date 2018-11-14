@@ -39,7 +39,7 @@
 					})
 					.then((data) => {
 						if(data.student_misc_data.admission_placement_apply_way_data != null) {
-							if( personalData.resident_location === '113' && data.student_misc_data.admission_placement_apply_way_data.code === '16' ){
+							if( personalData.resident_location === '113' && data.student_qualification_verify.identity < 3 ){
 								$('#alert-hk-order').show();
 							}
 						}
