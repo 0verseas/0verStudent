@@ -368,6 +368,12 @@
 			// 還沒有提交上傳資料，且不在上傳備審資料的期間，不能點提交按鈕
 			$('#btn-uploadAndSubmit').prop('disabled', true).text('目前不是可上傳備審資料時間');
 		}
+
+		if (json.student_misc_data.join_admission_selection !== 1) {
+            $('#btn-uploadAndSubmit').hide();
+            $('#btn-uploadAndSubmit-hint').hide();
+            $('.nav-uploadReviewItems').hide();
+		}
 	}
 
 })();
