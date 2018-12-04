@@ -369,7 +369,7 @@
 			$('#btn-uploadAndSubmit').prop('disabled', true).text('目前不是可上傳備審資料時間');
 		}
 
-		if (json.student_misc_data.join_admission_selection !== 1) {
+		if (json.student_misc_data.join_admission_selection == 2) {
             $('#btn-uploadAndSubmit').hide();
             $('#btn-uploadAndSubmit-hint').hide();
             $('.nav-uploadReviewItems').hide();
