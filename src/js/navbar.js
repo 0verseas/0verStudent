@@ -358,6 +358,33 @@
 		} else if (!json.can_admission_selection && !json.can_admission_placement) {
 			// 還沒有填報，且不在報名個人申請、聯合分發的期間，不能點送出填報按鈕
 			$('#btn-all-set').prop('disabled', true).text('目前不是可報名時間');
+		} else {
+            var all_set_hover = 0;
+            $('#btn-all-set')
+                .mouseover(function() {
+                    if (all_set_hover < 2) {
+                        var move = ['+', '-'];
+
+                        var moveTop, moveLeft;
+
+                        var btn_height = $(this).height();
+                        var btn_width = $(this).width();
+
+                        if (move[all_set_hover] === '+') {
+                            moveTop = $(this).position().top + ($(this).height() * 4);
+                            moveLeft = $(this).position().left;
+                        } else {
+                            moveTop = $(this).position().top - ($(this).height() * 4);
+                            moveLeft = $(this).position().left;
+                        }
+
+                        $(this).css({top: moveTop, left: moveLeft, position:'absolute'});
+                        $(this).height(btn_height);
+                        $(this).width(btn_width);
+
+                        all_set_hover += 1;
+                    }
+                })
 		}
 	}
 
