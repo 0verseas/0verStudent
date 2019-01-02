@@ -15,6 +15,7 @@
 	let _hasEduType = false; // 有無學校類別
 	let _hasSchoolLocate = false; // 有無學校所在地列表，true 則採用 $schoolNameSelect，否則採用 $schoolNameText
 	let _schoolCountryId = "";
+	let _originSchoolCountryId = "";
 	let _currentSchoolType = "";
 	let _currentSchoolLocate = "";
 	let _currentSchoolName = "";
@@ -260,6 +261,7 @@
 			$residentCellphone.val(_splitWithSemicolon(formData.resident_cellphone)[1]);
 			$residentAddress.val(_splitWithSemicolon(formData.resident_address)[0]);
 			$residentOtherLangAddress.val(_splitWithSemicolon(formData.resident_address)[1]);
+			_showResidentIDExample();
 
 			// init 在台資料
 			$taiwanIdType.val(formData.taiwan_id_type);
@@ -278,6 +280,7 @@
 			$schoolCountry.val(formData.school_country);
 
 			_schoolCountryId = formData.school_country;
+			_originSchoolCountryId = formData.school_country;
 			_currentSchoolType = (formData.school_type !== null) ? formData.school_type : "";
 			_currentSchoolLocate = (formData.school_locate !== null) ? formData.school_locate : "";
 			_currentSchoolName = formData.school_name;
@@ -542,6 +545,12 @@
 		_currentSchoolLocate = "";
 		_currentSchoolName = "";
 		_reRenderSchoolType();
+
+		if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId) {
+			$('.alert-schoolCountry').show();
+		} else {
+			$('.alert-schoolCountry').hide();
+		}
 	}
 
 	function _reRenderSchoolType() {
@@ -552,7 +561,7 @@
 				let typeHTML = '';
 				_schoolType[_schoolCountryId].forEach((value, index) => {
 					typeHTML += `<option value="${value}">${value}</option>`;
-				})
+				});
 				$schoolType.html(typeHTML);
 				if (_currentSchoolType !== "") {
 					$schoolType.val(_currentSchoolType);
@@ -620,7 +629,7 @@
 						// 渲染學校所在地、隱藏學校名稱輸入
 						_schoolList.forEach((value, index) => {
 							schoolLocationHTML += `<option value="${value.locate}">${value.locate}</option>`;
-						})
+						});
 						$schoolLocation.html(schoolLocationHTML);
 						if (_currentSchoolLocate !== "") {
 							$schoolLocation.val(_currentSchoolLocate);
@@ -672,7 +681,7 @@
 			let schoolListHTML = '';
 			_schoolList[locateIndex].school.forEach((value, index) => {
 				schoolListHTML += `<option value="${value.name}">${value.name}</option>`;
-			})
+			});
 			$schoolNameSelect.html(schoolListHTML);
 			if (_currentSchoolName !== "") {
 				$schoolNameSelect.val(_currentSchoolName);
