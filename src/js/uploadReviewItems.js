@@ -123,7 +123,7 @@
 					let filesNum = '';
 
 					if (doc.type.name === "作品集") { // 作品集檔案
-						filesNum = (doc.work_files.length + ' 份檔案');
+						filesNum = (doc.work_files.length + doc.work_urls.length + ' 份檔案');
 					} else if (doc.paper === null) { // 非紙本資料
 						filesNum = (doc.files.length + ' 份檔案');
 					} else { // 紙本資料
