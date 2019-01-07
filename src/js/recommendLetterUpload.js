@@ -60,14 +60,16 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    function previewFile(){
+    async function previewFile(){
         const fileList = this.files;
         let data = new FormData();
+        var files = [];
         for (let i = 0; i < fileList.length; i++) {
-            data.append('files[]', fileList[i]);
+            data.append('files[]', fileList[i].name);
             console.log(fileList[i].name);
-            localStorage.setItem();
+            files.push(fileList[i].name); //update array data
         }
-        //document.getElementById('preview').innerHTML= fileList[i].name;
+        var  myjson = JSON.stringify(files);
+        localStorage.setItem('upload',myjson);
     }
 })();
