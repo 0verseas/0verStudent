@@ -77,7 +77,7 @@
 
     //檢查檔案類型
     function checkFile(sender){
-        var extension = new Array(".jpg", ".png", ".pdf");// 可接受的附檔名
+        var extension = new Array(".jpg", ".png", ".pdf,.jpeg");// 可接受的附檔名
         var fileExtension = sender.value;
         fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.'));
         if (extension.indexOf(fileExtension) < 0) {
