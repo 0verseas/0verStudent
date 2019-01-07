@@ -69,7 +69,8 @@
             console.log(fileList[i].name);
             files.push(fileList[i].name); //update array data
         }
-        var  myjson = JSON.stringify(files);
-        localStorage.setItem('upload',myjson);
+        var  fileJSON = JSON.stringify(files); //file name (base64) file list
+        localStorage.setItem('recommendLetterFile',fileJSON);
     }
+    //localStorage.removeItem("recommendLetterFile"); //清除localStorage
 })();
