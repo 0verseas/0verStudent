@@ -63,7 +63,8 @@
     async function previewFile(){
         const fileList = this.files;
         let data = new FormData();
-        var files = [];
+        checkFile(this); //檢查檔案類型
+        var files = []; //等等要生成JSON用
         for (let i = 0; i < fileList.length; i++) {
             data.append('files[]', fileList[i].name);
             console.log(fileList[i].name);
@@ -71,6 +72,21 @@
         }
         var  fileJSON = JSON.stringify(files); //file name (base64) file list
         localStorage.setItem('recommendLetterFile',fileJSON);
+        document.getElementById('preview').innerHTML = fileJSON;
+    }
+
+    //檢查檔案類型
+    function checkFile(sender){
+        var extension = new Array(".jpg", ".png", ".pdf");// 可接受的附檔名
+        var fileExtension = sender.value;
+        fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.'));
+        if (extension.indexOf(fileExtension) < 0) {
+            alert("非可接受的檔案類型，可接受的副檔名有：" + extension.toString());
+            sender.value = null;
+            return false;
+        } else {
+            return true;
+        }
     }
     //localStorage.removeItem("recommendLetterFile"); //清除localStorage
 })();
