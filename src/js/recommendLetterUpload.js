@@ -5,6 +5,12 @@
     _verify();
 
     /**
+     *	bind event
+     */
+
+    $('body').on('change.upload', '.file-certificate', previewFile);
+
+    /**
      * private method
      */
     async function _verify(){
@@ -52,5 +58,16 @@
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function previewFile(){
+        const fileList = this.files;
+        let data = new FormData();
+        for (let i = 0; i < fileList.length; i++) {
+            data.append('files[]', fileList[i]);
+            console.log(fileList[i].name);
+            localStorage.setItem();
+        }
+        //document.getElementById('preview').innerHTML= fileList[i].name;
     }
 })();
