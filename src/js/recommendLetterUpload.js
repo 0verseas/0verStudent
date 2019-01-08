@@ -63,6 +63,15 @@
     async function previewFile(){
         const fileList = this.files;
         let data = new FormData();
+        $("#uploadfile").change(function(){
+            var v = $(this).val();
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[0]);
+            reader.onload = function(e){
+                console.log(e.target.result);
+                $('#file_base64').val(e.target.result);
+            };
+        });
         checkFile(this); //檢查檔案類型
         var filesJ = []; //等等要生成JSON用
         for (let i = 0; i < fileList.length; i++) {
