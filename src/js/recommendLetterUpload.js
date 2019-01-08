@@ -61,26 +61,28 @@
     }
 
     async function previewFile(){
-        //base 64
-        var v = $(this).val();
-        var reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.onload = function(e){
-            console.log(e.target.result);
-            $('#file_base64').val(e.target.result);
-        };
         const fileList = this.files;
         let data = new FormData();
         //checkFile(this); //檢查檔案類型
         var filesJ = []; //等等要生成JSON用
+        var fileB64 = []; //to storage file base64 results
         for (let i = 0; i < fileList.length; i++) {
+            //base 64
+            var v = $(this).val();
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[0]);
+            reader.onload = function(e){
+                console.log(e.target.result);
+                $('#file_base64').val(e.target.result);
+                localStorage.setItem('recommendLetterFile',e.target.result); //多檔案未寫
+            };
             data.append('files[]', fileList[i].name);
             console.log(fileList[i]);
             filesJ.push(fileList[i].name); //update array data
         }
-        var  fileJSON = JSON.stringify(filesJ); //JSON file of file name (base64) file list
-        localStorage.setItem('recommendLetterFile',fileJSON);
-        document.getElementById('preview').innerHTML = fileJSON;
+        var fileJSON = JSON.stringify(filesJ); //JSON file of file name (base64) file list
+        //localStorage.setItem('recommendLetterFile',fileB64JSON);
+        document.getElementById('preview').innerHTML = fileB64JSON;
     }
 
     //檢查檔案類型
