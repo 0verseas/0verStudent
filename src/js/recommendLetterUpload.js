@@ -64,13 +64,13 @@
         const fileList = this.files;
         let data = new FormData();
         checkFile(this); //檢查檔案類型
-        var files = []; //等等要生成JSON用
+        var filesJ = []; //等等要生成JSON用
         for (let i = 0; i < fileList.length; i++) {
             data.append('files[]', fileList[i].name);
-            console.log(fileList[i].name);
-            files.push(fileList[i].name); //update array data
+            console.log(fileList[i]);
+            filesJ.push(fileList[i].name); //update array data
         }
-        var  fileJSON = JSON.stringify(files); //file name (base64) file list
+        var  fileJSON = JSON.stringify(filesJ); //JSON file of file name (base64) file list
         localStorage.setItem('recommendLetterFile',fileJSON);
         document.getElementById('preview').innerHTML = fileJSON;
     }
