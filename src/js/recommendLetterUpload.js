@@ -80,8 +80,7 @@
     }
 
     async function previewFile(){
-        const type_id = $(this).data('type');
-        const dept_id = $(this).data('deptid');
+        const type_id = $(this).data('type'); //上傳文件種類
         const fileList = this.files;
         let data = new FormData();
         for (let i = 0; i < fileList.length; i++) {
@@ -95,14 +94,12 @@
         }
         try {
             loading.start();
-            const response = await student.setReviewItem({data, type_id, dept_id, student_id: _studentID});
+            //TODO: 等後端驗證
+            const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
             if (!response.ok) { throw response; }
-            const responseJson = await response.json();
-
-            const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson.type_id ));
-            wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(responseJson.files);
-            handleEditForm();
+            alert('儲存完成');
             loading.complete();
+            window.location.reload();
         } catch(e) {
             e.json && e.json().then((data) => {
                 console.error(data);
@@ -110,7 +107,8 @@
             });
             loading.complete();
         }
-
+        let fileView = _getFileAreaHTML(fileListItem, fileListKey);  //preview the uploaded files
+        document.getElementById("preview").innerHTML = fileView;
     }
 
     function _getFileAreaHTML(fileListItem, fileListKey) {
@@ -152,7 +150,7 @@
     async function _handleSave() {
         loading.start();
         //TODO: 通知後端 delete token
-
+        setTimeout('', 3000);
         alert('儲存完成');
         $recommendationLetterUploadBtn.remove(); //remove upload button
         $recommendationLetterUpload.remove(); //remove recommend letter upload form page
