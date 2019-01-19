@@ -5,10 +5,9 @@
     _verify();
 
     /**
-     *	private variable
+     * private variable
      */
 
-    let _hasWorks = false; // 項目中是否有作品集，有的話要儲存作品集文字
 
     /**
      *	cache DOM
@@ -31,6 +30,8 @@
 
 
 
+
+    // copy from emailVerify.js
 
     async function _verify(){
         loading.complete();
@@ -85,16 +86,16 @@
         let data = new FormData();
         for (let i = 0; i < fileList.length; i++) {
             //檢查檔案類型
-            if(!checkFile(this)){
-                //有不可接受的副檔名存在
+            if(!checkFile(this)){ //有不可接受的副檔名存在
                 break;
-            };
+            }
             data.append('files[]', fileList[i]);
             console.log(fileList[i]);
         }
         try {
             loading.start();
             //TODO: 等後端驗證
+
             const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
             if (!response.ok) { throw response; }
             alert('儲存完成');
@@ -107,6 +108,7 @@
             });
             loading.complete();
         }
+        //TODO: 修改參數及函數等等的
         let fileView = _getFileAreaHTML(fileListItem, fileListKey);  //preview the uploaded files
         document.getElementById("preview").innerHTML = fileView;
     }
@@ -149,13 +151,15 @@
     //按下『確認並上傳按鈕』
     async function _handleSave() {
         loading.start();
-        //TODO: 通知後端 delete token
-        setTimeout('', 3000);
+        //TODO: 通知後端 delete/destroy token
+
+        // 如果跑太快看要不要讓它轉圈圈幾秒鐘製造上傳的假象
+        // 點下按鈕&後端事情做完後
         alert('儲存完成');
         $recommendationLetterUploadBtn.remove(); //remove upload button
         $recommendationLetterUpload.remove(); //remove recommend letter upload form page
-        let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已經上傳完成，可關閉此頁面。</h4></div>'; //按下按鈕後要顯示的內容
-        document.getElementById("temp").innerHTML = html;
+        let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。</h4></div>'; //按下按鈕後要顯示的內容
+        document.getElementById("temp").innerHTML = html; //替換畫面上的內容
         loading.complete();
     }
 
@@ -172,4 +176,15 @@
             return true;
         }
     }
+
+    //讓程式睡著用
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds){
+                break;
+            }
+        }
+    }
+
 })();
