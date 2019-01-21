@@ -26,7 +26,7 @@
 	*/
 
 	async function _init() {
-		TaiwanTimeClock();
+		serverTime();
 		try {
             $downloadLinks.append(
             	'<a href="' + env.baseUrl + '/forms/2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用).pdf" target="_blank" class="list-group-item list-group-item-action">2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用)</a>' +
@@ -98,7 +98,7 @@
 		})*/location.href = './downloadDocs.html';
 	}
 
-	//台灣時間時鐘
+	//台灣時間時鐘(會跟著系統跑Orz)
 	function TaiwanTimeClock(){
 		var today = new Date();
 		var hh = today.getHours();
@@ -115,6 +115,39 @@
 			i = "0" + i;
 		}
 		return i;
+	}
+
+	//聽說是伺服器時間
+	function serverTime(){
+		var xhr = null;
+		if(window.XMLHttpRequest){
+			xhr = new window.XMLHttpRequest();
+		}else{ // ie
+			xhr = new ActiveObject("Microsoft")
+		}
+		// 通過get的方式請求
+		xhr.open("get","/");
+		xhr.send(null);
+		// 監聽請求狀態變化
+		xhr.onreadystatechange = function(){
+			var time = null,
+				curDate = null;
+			if(xhr.readyState===2){
+				/**
+				 * 0->尚未初始化
+				 * 1->準備好傳送一個request但還沒傳送
+				 * 2->已經傳送request至伺服器，並可讀取回應的header
+				 * 3->正在接收回應（已經接收完header但訊息部份尚未接收完成）
+				 * 4->載入完成，回應已經被完全接收
+				 */
+				// 抓出回應頭裡的時間戳記
+				time = xhr.getResponseHeader("Date");
+				console.log(xhr.getAllResponseHeaders())
+				curDate = new Date(time);
+				document.getElementById("clock").innerHTML = "臺灣當地時間GTM+8<small>(參考伺服器)</small>："+curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate()+"  "+curDate.getHours()+" : "+curDate.getMinutes()+" : "+curDate.getSeconds();
+			}
+		}
+		setTimeout(serverTime, 500); //0.5秒更新一次
 	}
 
 })();
