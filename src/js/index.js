@@ -134,11 +134,16 @@
 				curDate = null;
 			if(xhr.readyState===2){
 				/**
-				 * 0->尚未初始化
-				 * 1->準備好傳送一個request但還沒傳送
-				 * 2->已經傳送request至伺服器，並可讀取回應的header
-				 * 3->正在接收回應（已經接收完header但訊息部份尚未接收完成）
-				 * 4->載入完成，回應已經被完全接收
+				 * XMLHttpRequest.readyState值->說明
+				 *
+				 * 0->XMLHttpRequest請求物件已建立但尚未初始化
+				 * 1->已與伺服器連線，準備好傳送一個request但還沒傳送
+				 * 2->傳送request至伺服器且伺服器已接收，並可讀取回應的header
+				 * 3->請求處理中，正在接收回應（已經接收完header但訊息部份尚未接收完成）
+				 * 4->請求載入完成，回應已經被完全接收並就緒
+				 * ==以下為失敗狀態==
+				 * 200->"OK"
+				 * 404->page not found
 				 */
 				// 抓出回應頭裡的時間戳記
 				time = xhr.getResponseHeader("Date");
