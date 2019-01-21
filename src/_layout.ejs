@@ -72,7 +72,7 @@
 	%>
 
 	<% include components/_loading %>
-
+	<div id="clock" align="center"></div><!-- 台灣時間時鐘 -->
 	<div id="app" class="container">
 		<nav class="navbar header navbar-expand-lg navbar-light">
 			<span class="navbar-brand" style="height: 35px">
@@ -85,6 +85,7 @@
 					<span class="hidden-sm-down">海外聯合招生委員會 -</span> 申請資料填報系統
 				</a>
 			</span>
+
 			<% if (_processPageList.indexOf(current.source) > -1 || current.source === 'uploadReviewItems') { %>
 				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>

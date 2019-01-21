@@ -26,6 +26,7 @@
 	*/
 
 	async function _init() {
+		TaiwanTimeClock();
 		try {
             $downloadLinks.append(
             	'<a href="' + env.baseUrl + '/forms/2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用).pdf" target="_blank" class="list-group-item list-group-item-action">2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用)</a>' +
@@ -50,7 +51,7 @@
 	}
 
 	function _handleLogin() {
-		const email = $email.val();
+		/*const email = $email.val();
 		const pass = $pass.val();
 
 		const loginData = {
@@ -94,7 +95,26 @@
 		.catch((err) => {
 			err === 401 && alert('帳號或密碼輸入錯誤。');
 			loading.complete();
-		})
+		})*/location.href = './downloadDocs.html';
+	}
+
+	//台灣時間時鐘
+	function TaiwanTimeClock(){
+		var today = new Date();
+		var hh = today.getHours();
+		var mm = today.getMinutes();
+		var ss = today.getSeconds();
+		mm = checkTime(mm);
+		ss = checkTime(ss);
+		document.getElementById('clock').innerHTML = "臺灣當地時間GTM+8<small>(參考)</small>：" + hh + " : " + mm + " : " + ss;
+		setTimeout(TaiwanTimeClock, 500);
+	}
+
+	function checkTime(i){
+		if(i < 10) {
+			i = "0" + i;
+		}
+		return i;
 	}
 
 })();
