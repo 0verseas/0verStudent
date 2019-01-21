@@ -51,7 +51,7 @@
 	}
 
 	function _handleLogin() {
-		/*const email = $email.val();
+		const email = $email.val();
 		const pass = $pass.val();
 
 		const loginData = {
@@ -95,7 +95,7 @@
 		.catch((err) => {
 			err === 401 && alert('帳號或密碼輸入錯誤。');
 			loading.complete();
-		})*/location.href = './downloadDocs.html';
+		});
 	}
 
 	//台灣時間時鐘(會跟著系統跑Orz)
@@ -150,6 +150,8 @@
 				console.log(xhr.getAllResponseHeaders())
 				curDate = new Date(time);
 				document.getElementById("clock").innerHTML = "臺灣當地時間GTM+8<small>(參考伺服器)</small>："+curDate.getFullYear()+"-"+(curDate.getMonth()+1)+"-"+curDate.getDate()+"  "+curDate.getHours()+" : "+curDate.getMinutes()+" : "+curDate.getSeconds();
+			} else {
+				console.log(xhr.readyState);
 			}
 		}
 		setTimeout(serverTime, 500); //0.5秒更新一次
