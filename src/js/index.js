@@ -149,12 +149,12 @@
 				time = xhr.getResponseHeader("Date");
 				console.log(xhr.getAllResponseHeaders())
 				curDate = new Date(time);
-				document.getElementById("clock").innerHTML = "臺灣當地時間UTC+8<small>(參考伺服器)</small>："+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+curDate.getHours()+" : "+curDate.getMinutes()+" : "+curDate.getSeconds();
+				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+curDate.getHours()+" : "+curDate.getMinutes()/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
 			} else {
 				console.log(xhr.readyState);
 			}
 		}
-		setTimeout(serverTime, 500); //0.5秒更新一次
+		setTimeout(serverTime, 15000); //多少毫秒更新一次
 	}
 
 })();
