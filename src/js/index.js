@@ -98,7 +98,7 @@
 		});
 	}
 
-	//台灣時間時鐘(會跟著系統跑Orz)
+	//時鐘(會跟著client端的時間跑Orz)
 	function TaiwanTimeClock(){
 		var today = new Date();
 		var hh = today.getHours();
@@ -147,7 +147,7 @@
 				 */
 				// 抓出回應頭裡的時間戳記
 				time = xhr.getResponseHeader("Date");
-				console.log(xhr.getAllResponseHeaders())
+				console.log(xhr.getAllResponseHeaders());
 				curDate = new Date(time);
 				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+curDate.getHours()+" : "+curDate.getMinutes()/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
 			} else {
