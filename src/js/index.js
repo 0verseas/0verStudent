@@ -99,18 +99,19 @@
 	}
 
 	//時鐘(會跟著client端的時間跑Orz)
-	function TaiwanTimeClock(){
+	function timeClock(){
 		var today = new Date();
 		var hh = today.getHours();
 		var mm = today.getMinutes();
 		var ss = today.getSeconds();
-		mm = checkTime(mm);
-		ss = checkTime(ss);
-		document.getElementById('clock').innerHTML = "臺灣當地時間GTM+8<small>(參考)</small>：" + hh + " : " + mm + " : " + ss;
+		mm = fillZero(mm);
+		ss = fillZero(ss);
+		document.getElementById('clock').innerHTML = "當地時間<small>(參考)</small>：" + hh + " : " + mm + " : " + ss;
 		setTimeout(TaiwanTimeClock, 500);
 	}
 
-	function checkTime(i){
+	//補零
+	function fillZero(i){
 		if(i < 10) {
 			i = "0" + i;
 		}
@@ -149,7 +150,7 @@
 				time = xhr.getResponseHeader("Date");
 				console.log(xhr.getAllResponseHeaders());
 				curDate = new Date(time);
-				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+curDate.getHours()+" : "+curDate.getMinutes()/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
+				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+fillZero(curDate.getHours())+" : "+fillZero(curDate.getMinutes())/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
 			} else {
 				console.log(xhr.readyState);
 			}
