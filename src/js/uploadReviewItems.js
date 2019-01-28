@@ -66,14 +66,14 @@
 			switch (_system) {
 				case 1:
 					key = 'student_department_admission_selection_order';
-				break;
+					break;
 				case 2:
 					key = 'student_two_year_tech_department_admission_selection_order';
-				break;
+					break;
 				case 3:
 				case 4:
 					key = 'student_graduate_department_admission_selection_order';
-				break;
+					break;
 			}
 			_wishList = orderJson[key];
 
