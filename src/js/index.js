@@ -107,7 +107,7 @@
 		mm = fillZero(mm);
 		ss = fillZero(ss);
 		document.getElementById('clock').innerHTML = "當地時間<small>(參考)</small>：" + hh + " : " + mm + " : " + ss;
-		setTimeout(TaiwanTimeClock, 500);
+		setTimeout(timeClock, 500);
 	}
 
 	//補零
@@ -151,11 +151,65 @@
 				console.log(xhr.getAllResponseHeaders());
 				curDate = new Date(time);
 				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+fillZero(curDate.getHours())+" : "+fillZero(curDate.getMinutes())/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
+				timeS(time); //讓前端自己算時間
 			} else {
 				console.log(xhr.readyState);
 			}
 		}
-		setTimeout(serverTime, 15000); //多少毫秒更新一次
+	}
+
+	//前湍自己算＋更新時間
+	function timeS(time) {
+		var curDate = new Date(time);
+		var year = curDate.getFullYear();
+		var month = curDate.getMonth()+1; //我也不知道為什麼顯示出來就是會少1，只好把它補回去了
+		var day = curDate.getDate();
+		var hour = curDate.getHours();
+		var min = curDate.getMinutes();
+		var sec = curDate.getSeconds();
+		timeGo();
+		function timeGo(){ //as time go by
+			sec = sec + 1;
+			if(sec == 60){ //在非洲，每60秒就有一分鐘過去
+				sec = 0;
+				min++;
+				if(min == 60){ //靜止的時針，刻下了時間  ──〈Starlight〉
+					min = 0;
+					hour++;
+					if(hour == 24){ //大學畢業後就很少看到的時刻（活力的一天，從睡覺開始）
+						hour = 0;
+						day++;
+						if(day >= 29){ //孟仲季+"季節"
+							if(month == 2){
+								//TODO: 閏年的話2月有29天
+								//      目前只考慮28天的情況
+								day = 1;
+								month++;
+							}else if(month==4 || month==6 || month==9 || month==11){ //小月
+								if(day == 31){
+									day = 1;
+									month++;
+								}
+							}else{ //大月
+								if(day == 32){
+									day = 1;
+									month++;
+								}
+							}
+
+							if(month == 13){ //一元復始，萬象更新。Happy New Year!
+								month = 1;
+								year++;
+							}
+						}
+					}
+				}
+			}
+			document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
+			console.log(sec);
+			setTimeout(timeGo,1000);
+		}
+
 	}
 
 })();
