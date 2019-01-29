@@ -205,7 +205,7 @@
 					}
 				}
 			}
-			document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
+			document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)/*+" : "+fillZero(sec)*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
 			console.log(sec);
 			setTimeout(timeGo,1000);
 		}
