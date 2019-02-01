@@ -253,7 +253,7 @@
 	function _checkTaiwanHousehold() {
 		$portugalPassportTime.val('').trigger('change');
 		$signUpForm.find('.radio-portugalPassport:checked').trigger('change');
-		_setTypeOfKangAo(null);
+		//_setTypeOfKangAo(null);
 		checkIdentity();
 	}
 
