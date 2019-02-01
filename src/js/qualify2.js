@@ -206,7 +206,7 @@
 	// 選擇身份別
 	// 1: 港澳 2: 港澳具外國
 	function _handleChangeIdentity () {
-		_currentIdentity = $(this).val();
+		var _currentIdentity = $(this).val();
 		_globalIdentity = $(this).val();
 		_typeOfKangAo = _currentIdentity
 		$signUpForm.find('.question').hide();
