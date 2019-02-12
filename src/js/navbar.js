@@ -263,12 +263,14 @@
 			data.student_misc_data.confirmed_at != null && data.can_admission_placement == true) ||
             (data.student_qualification_verify.identity === 7 &&
             data.student_misc_data.confirmed_at != null &&
-            data.student_misc_data.confirmed_placement_at === null) ||
-			(data.student_misc_data.admission_placement_apply_way != null &&
-			data.student_misc_data.admission_placement_apply_way_data.code == "23" &&
-			data.student_misc_data.confirmed_at != null &&
-			data.student_misc_data.confirmed_placement_at === null &&
-			data.can_admission_placement == true)){
+            data.student_misc_data.confirmed_placement_at === null)
+			// ||
+			// (data.student_misc_data.admission_placement_apply_way != null &&
+			// data.student_misc_data.admission_placement_apply_way_data.code == "23" &&
+			// data.student_misc_data.confirmed_at != null &&
+			// data.student_misc_data.confirmed_placement_at === null &&
+			// data.can_admission_placement == true)
+			){
 			$('.nav-lalalalalala').addClass('disabled');
 			$('.nav-lalalalalala').addClass('show-deadline');
 			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
