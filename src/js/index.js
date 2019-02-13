@@ -98,18 +98,6 @@
 		});
 	}
 
-	//時鐘(會跟著client端的時間跑Orz)
-	function timeClock(){
-		var today = new Date();
-		var hh = today.getHours();
-		var mm = today.getMinutes();
-		var ss = today.getSeconds();
-		mm = fillZero(mm);
-		ss = fillZero(ss);
-		document.getElementById('clock').innerHTML = "當地時間<small>(參考)</small>：" + hh + " : " + mm + " : " + ss;
-		setTimeout(timeClock, 500);
-	}
-
 	//補零
 	function fillZero(i){
 		if(i < 10) {
@@ -162,7 +150,7 @@
 	function timeS(time) {
 		var curDate = new Date(time);
 		var year = curDate.getFullYear();
-		var month = curDate.getMonth()+1; //我也不知道為什麼顯示出來就是會少1，只好把它補回去了
+		var month = curDate.getMonth()+1; //陣列的月份是以數列的方式表示，只有月份會使用 0~11 的方式顯示
 		var day = curDate.getDate();
 		var hour = curDate.getHours();
 		var min = curDate.getMinutes();
