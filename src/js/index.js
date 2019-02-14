@@ -140,8 +140,6 @@
 				curDate = new Date(time);
 				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+fillZero(curDate.getHours())+" : "+fillZero(curDate.getMinutes())/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
 				timeS(time); //讓前端自己算時間
-			} else {
-				console.log(xhr.readyState);
 			}
 		}
 	}
@@ -161,7 +159,7 @@
 			if(sec == 60){ //在非洲，每60秒就有一分鐘過去
 				sec = 0;
 				min++;
-				if(min == 60){ //靜止的時針，刻下了時間  ──〈Starlight〉
+				if(min == 60){ //靜止的時針，刻下了時間  ──山崎エリイ〈Starlight〉
 					min = 0;
 					hour++;
 					if(hour == 24){ //大學畢業後就很少看到的時刻（活力的一天，從睡覺開始）
@@ -207,7 +205,6 @@
 				}
 			}
 			document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)/*+" : "+fillZero(sec)*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
-			console.log(sec);
 			setTimeout(timeGo,1000);
 		}
 
