@@ -34,12 +34,12 @@
     // copy from emailVerify.js
 
     async function _verify(){
-        loading.complete();
-        /*try {
-            const email = _getParam('email', window.location.href);
+        loading.complete(); //測試用，這行記得刪除，否則不會跑驗證
+        try {
+            const email = _getParam('email', window.location.href); //teacher's email
             const token = _getParam('token', window.location.href);
 
-            const response = await student.verifyEmail(email, token);
+            const response = await student.teacherVerify(email, token);
             if (!response.ok) { throw response; }
 
             $('#alert-valid').show();
@@ -67,7 +67,7 @@
 
                 loading.complete();
             });
-        }*/
+        }
     }
 
     function _getParam(name, url) {

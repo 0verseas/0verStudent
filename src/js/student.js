@@ -487,6 +487,17 @@ const student = (() => {
 		})
 	}
 
+	function teacherVerify(email, token) {
+		return fetch(baseUrl + `/teachers/verify/${email}/${token}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify({ token })
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -530,7 +541,8 @@ const student = (() => {
 		getReviewItem,
 		delReviewItem,
 		uploadAndSubmit,
-		SecondPlacementSelectionOrder
+		SecondPlacementSelectionOrder,
+		teacherVerify
 	};
 
 })();
