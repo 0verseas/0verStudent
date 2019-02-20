@@ -3,8 +3,12 @@
 	// private variable
 
 	const _keyNameMapping = [
-	{ key: "hk", name: "香港開通帳號註冊人數" },
-	{ key: "hk_confirmed", name: "香港提交人數" },
+	{ key: "hk", name: "香港個人申請開通帳號註冊人數" },
+	{ key: "hk_confirmed", name: "香港個人申請提交人數" },
+	{ key: "hk_placement", name: "香港聯合分發開通帳號註冊人數" },
+	{ key: "hk_placement_confirmed", name: "香港聯合分發提交人數" },
+	{ key: "two_year", name: "港二技開通帳號註冊人數" },
+	{ key: "two_year_confirmed", name: "港二技提交人數" },
 	{ key: "hk_master_fromtw", name: "在臺香港學生碩士班開通帳號註冊人數" },
 	{ key: "hk_master_fromtw_confirmed", name: "在臺香港學生碩士班提交人數" },
 	{ key: "hk_phd_fromtw", name: "在臺香港學生博士班開通帳號註冊人數" },
