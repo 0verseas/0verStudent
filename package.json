@@ -25,6 +25,8 @@
   "homepage": "https://github.com/0verseas/0verStudent",
   "dependencies": {
     "harp": "^0.26.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.23",
     "print-js": "^1.0.45"
   },
   "devDependencies": {

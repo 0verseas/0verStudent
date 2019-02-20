@@ -26,7 +26,7 @@
 	*/
 
 	async function _init() {
-		serverTime();
+		momentMOD();
 		try {
             $downloadLinks.append(
             	'<a href="' + env.baseUrl + '/forms/2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用).pdf" target="_blank" class="list-group-item list-group-item-action">2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用)</a>' +
@@ -208,6 +208,15 @@
 			setTimeout(timeGo,1000);
 		}
 
+	}
+	
+	function momentMOD() {
+		console.log(moment().valueOf());
+		var t = moment();
+		console.log(t);
+
+		document.getElementById("clock").innerHTML = t.tz('Asia/Tokyo');
+		//setTimeout(momentMOD,1000);
 	}
 
 })();
