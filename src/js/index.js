@@ -203,9 +203,10 @@
 	}
 	
 	function momentMOD() {
+		moment.locale('zh-tw'); //momentjs 的語言設定，參見該module的locale資料夾
 		var client_time = moment(); //使用 momentjs 套件從client端取得時間
 		console.log(client_time);
-		document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Taipei').format("YYYY年MM月DD日dddd HH:mm:ss  UTCZ"); //2019年02月20日Wednesday 17:11:25 UTC+08:00
+		document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Taipei').format("YYYY年MM月DD日(dd) HH:mm:ss  UTCZ"); //2019年02月20日(三) 17:11:25 UTC+08:00
 		setTimeout(momentMOD,1000);
 	}
 
