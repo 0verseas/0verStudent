@@ -205,8 +205,7 @@
 	function momentMOD() {
 		var client_time = moment(); //使用 momentjs 套件從client端取得時間
 		console.log(client_time);
-		//TODO: 增加時區轉換，轉換成台灣時區
-		document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Tokyo').format("YYYY年MM月DD日dddd HH:mm:ss  UTCZ"); //2019年02月20日Wednesday 17:11:25 UTC+08:00
+		document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Taipei').format("YYYY年MM月DD日dddd HH:mm:ss  UTCZ"); //2019年02月20日Wednesday 17:11:25 UTC+08:00
 		setTimeout(momentMOD,1000);
 	}
 
