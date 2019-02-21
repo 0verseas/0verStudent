@@ -98,14 +98,6 @@
 		});
 	}
 
-	//補零
-	function fillZero(i){
-		if(i < 10) {
-			i = "0" + i;
-		}
-		return i;
-	}
-
 	//聽說是伺服器時間
 	function serverTime(){
 		var xhr = null;
@@ -211,12 +203,11 @@
 	}
 	
 	function momentMOD() {
-		console.log(moment().valueOf());
-		var t = moment();
-		console.log(t);
-
-		document.getElementById("clock").innerHTML = t.tz('Asia/Tokyo');
-		//setTimeout(momentMOD,1000);
+		var client_time = moment(); //使用 momentjs 套件從client端取得時間
+		console.log(client_time);
+		//TODO: 增加時區轉換，轉換成台灣時區
+		document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Tokyo').format("YYYY年MM月DD日dddd HH:mm:ss  UTCZ"); //2019年02月20日Wednesday 17:11:25 UTC+08:00
+		setTimeout(momentMOD,1000);
 	}
 
 })();
