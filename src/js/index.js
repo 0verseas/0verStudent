@@ -26,7 +26,6 @@
 	*/
 
 	async function _init() {
-		momentMOD();
 		try {
             $downloadLinks.append(
             	'<a href="' + env.baseUrl + '/forms/2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用).pdf" target="_blank" class="list-group-item list-group-item-action">2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用)</a>' +
@@ -96,118 +95,6 @@
 			err === 401 && alert('帳號或密碼輸入錯誤。');
 			loading.complete();
 		});
-	}
-
-	//聽說是伺服器時間
-	function serverTime(){
-		var xhr = null;
-		if(window.XMLHttpRequest){
-			xhr = new window.XMLHttpRequest();
-		}else{ // ie
-			xhr = new ActiveObject("Microsoft")
-		}
-		// 通過get的方式請求
-		xhr.open("get","/");
-		xhr.send(null);
-		// 監聽請求狀態變化
-		xhr.onreadystatechange = function(){
-			var time = null,
-				curDate = null;
-			if(xhr.readyState===2){
-				/**
-				 * XMLHttpRequest.readyState值->說明
-				 *
-				 * 0->XMLHttpRequest請求物件已建立但尚未初始化
-				 * 1->已與伺服器連線，準備好傳送一個request但還沒傳送
-				 * 2->傳送request至伺服器且伺服器已接收，並可讀取回應的header
-				 * 3->請求處理中，正在接收回應（已經接收完header但訊息部份尚未接收完成）
-				 * 4->請求載入完成，回應已經被完全接收並就緒
-				 * ==以下為失敗狀態==
-				 * 200->"OK"
-				 * 404->page not found
-				 */
-				// 抓出回應頭裡的時間戳記
-				time = xhr.getResponseHeader("Date");
-				console.log(xhr.getAllResponseHeaders());
-				curDate = new Date(time);
-				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+fillZero(curDate.getHours())+" : "+fillZero(curDate.getMinutes())/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
-				timeS(time); //讓前端自己算時間
-			}
-		}
-	}
-
-	//前湍自己算＋更新時間
-	function timeS(time) {
-		var curDate = new Date(time);
-		var year = curDate.getFullYear();
-		var month = curDate.getMonth()+1; //陣列的月份是以數列的方式表示，只有月份會使用 0~11 的方式顯示
-		var day = curDate.getDate();
-		var hour = curDate.getHours();
-		var min = curDate.getMinutes();
-		var sec = curDate.getSeconds();
-		timeGo();
-		function timeGo(){ //as time go by
-			sec = sec + 1;
-			if(sec == 60){ //在非洲，每60秒就有一分鐘過去
-				sec = 0;
-				min++;
-				if(min == 60){ //靜止的時針，刻下了時間  ──山崎エリイ〈Starlight〉
-					min = 0;
-					hour++;
-					if(hour == 24){ //大學畢業後就很少看到的時刻（活力的一天，從睡覺開始）
-						hour = 0;
-						day++;
-						if(day >= 29){ //孟仲季+春夏秋冬
-							if(month == 2){
-								/**
-								 * 〔格里曆閏年規則〕
-								 *
-								 * 西元年份除以4不可整除，為平年。
-								 * 西元年份除以4可整除，且除以100不可整除，為閏年。
-								 * 西元年份除以100可整除，且除以400不可整除，為平年。
-								 * 西元年份除以400可整除，為閏年。
-								 */
-								if((year%4==0 && year%100!=0) || year%400==0){ //閏年 leap year
-									if(day == 30){ //閏年的2月有29天
-										day = 1;
-										month++;
-									}
-								}else { //平年
-									day = 1;
-									month++;
-								}
-							}else if(month==4 || month==6 || month==9 || month==11){ //小月
-								if(day == 31){
-									day = 1;
-									month++;
-								}
-							}else{ //大月
-								if(day == 32){
-									day = 1;
-									month++;
-								}
-							}
-
-							if(month == 13){ //一元復始，萬象更新。Happy New Year!
-								month = 1;
-								year++;
-							}
-						}
-					}
-				}
-			}
-			document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)/*+" : "+fillZero(sec)*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
-			setTimeout(timeGo,1000);
-		}
-
-	}
-	
-	function momentMOD() {
-		moment.locale('zh-tw'); //momentjs 的語言設定，參見該module的locale資料夾
-		var client_time = moment(); //使用 momentjs 套件從client端取得時間
-		console.log(client_time);
-		document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Taipei').format("YYYY年MM月DD日(dd) HH:mm:ss  UTCZ"); //2019年02月20日(三) 17:11:25 UTC+08:00
-		setTimeout(momentMOD,1000);
 	}
 
 })();
