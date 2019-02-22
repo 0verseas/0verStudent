@@ -132,7 +132,7 @@
 			var hour = curDate.getHours();
 			var min = curDate.getMinutes();
 			var sec = curDate.getSeconds();
-			timeGo();
+			setInterval(timeGo,1000); //定時1秒
 			function timeGo(){ //as time go by
 				sec = sec + 1;
 				if(sec == 60){ //在非洲，每60秒就有一分鐘過去
@@ -183,8 +183,7 @@
 						}
 					}
 				}
-				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)/*+" : "+fillZero(sec)*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
-				setTimeout(timeGo,1000);
+				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)+" : "+fillZero(sec)+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
 			}
 
 		}
