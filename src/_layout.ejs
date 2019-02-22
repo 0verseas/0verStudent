@@ -78,17 +78,6 @@
 
 	<% include components/_loading %>
 	<div id="clock" align="center"></div><!-- 台灣時間時鐘 -->
-	<script>
-		//時鐘
-		momentMOD();
-		function momentMOD() {
-			moment.locale('zh-tw'); //momentjs 的語言設定，參見該module的locale資料夾
-			var client_time = moment(); //使用 momentjs 套件從client端取得時間
-			console.log(client_time);
-			document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Taipei').format("YYYY年MM月DD日(dd) HH:mm:ss  UTCZ"); //2019年02月20日(三) 17:11:25 UTC+08:00
-			setTimeout(momentMOD,1000);
-		}
-	</script>
 	<div id="app" class="container">
 		<nav class="navbar header navbar-expand-lg navbar-light">
 			<span class="navbar-brand" style="height: 35px">
@@ -122,6 +111,17 @@
 		<hr>
 
 		<% if (_processPageList.indexOf(current.source) > -1) { %>
+		<script>
+			//時鐘
+			momentMOD();
+			function momentMOD() {
+				moment.locale('zh-tw'); //momentjs 的語言設定，參見該module的locale資料夾
+				var client_time = moment(); //使用 momentjs 套件從client端取得時間
+				console.log(client_time);
+				document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Taipei').format("YYYY年MM月DD日(dd) HH:mm:ss  UTCZ"); //2019年02月20日(三) 17:11:25 UTC+08:00
+				setTimeout(momentMOD,1000);
+			}
+		</script>
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="list-group">
