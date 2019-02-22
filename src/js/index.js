@@ -26,7 +26,6 @@
 	*/
 
 	async function _init() {
-		serverTime();
 		try {
             $downloadLinks.append(
             	'<a href="' + env.baseUrl + '/forms/2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用).pdf" target="_blank" class="list-group-item list-group-item-action">2018志願選填系統操作說明書(香港DSE、CEE、ALE學生適用)</a>' +

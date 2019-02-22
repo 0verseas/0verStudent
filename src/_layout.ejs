@@ -46,6 +46,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.2/sweetalert2.min.js"></script>
 	<script src="./js/student.js"></script>
+	<!-- momentjs 時間套件 -->
+	<script src="http://momentjs.com/downloads/moment.js"></script>
+	<script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+	<script src="https://momentjs.com/downloads/moment-timezone.js"></script>
+	<script src="http://momentjs.com/downloads/moment-timezone-with-data-2012-2022.js"></script>
 	<script>
 		if (env.isProduction === true) {
 			console.log = function() {}
@@ -73,7 +78,55 @@
 
 	<% include components/_loading %>
 	<div id="clock" align="center"></div><!-- 台灣時間時鐘 -->
+	<script>
+		//聽說是伺服器時間
+		function serverTime(){
+			var xhr = null;
+			if(window.XMLHttpRequest){
+				xhr = new window.XMLHttpRequest();
+			}else{ // ie
+				xhr = new ActiveObject("Microsoft")
+			}
+			// 通過get的方式請求
+			xhr.open("get","/");
+			xhr.send(null);
+			// 監聽請求狀態變化
+			xhr.onreadystatechange = function(){
+				var time = null,
+						curDate = null;
+				if(xhr.readyState===2){
+					/**
+					 * XMLHttpRequest.readyState值->說明
+					 *
+					 * 0->XMLHttpRequest請求物件已建立但尚未初始化
+					 * 1->已與伺服器連線，準備好傳送一個request但還沒傳送
+					 * 2->傳送request至伺服器且伺服器已接收，並可讀取回應的header
+					 * 3->請求處理中，正在接收回應（已經接收完header但訊息部份尚未接收完成）
+					 * 4->請求載入完成，回應已經被完全接收並就緒
+					 * ==以下為失敗狀態==
+					 * 200->"OK"
+					 * 404->page not found
+					 */
+					// 抓出回應頭裡的時間戳記
+					time = xhr.getResponseHeader("Date");
+					console.log(xhr.getAllResponseHeaders());
+					curDate = new Date(time);
+					document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+fillZero(curDate.getHours())+" : "+fillZero(curDate.getMinutes())/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
+					timeS(time); //讓前端自己算時間
+				}
+			}
+		}
 
+		//時鐘
+		momentMOD();
+		function momentMOD() {
+			moment.locale('zh-tw'); //momentjs 的語言設定，參見該module的locale資料夾
+			var client_time = moment(); //使用 momentjs 套件從client端取得時間
+			console.log(client_time);
+			document.getElementById("clock").innerHTML = "臺灣時間："+client_time.tz('Asia/Taipei').format("YYYY年MM月DD日(dd) HH:mm:ss  UTCZ"); //2019年02月20日(三) 17:11:25 UTC+08:00
+			setTimeout(momentMOD,1000);
+		}
+	</script>
 	<div id="app" class="container">
 		<nav class="navbar header navbar-expand-lg navbar-light">
 			<span class="navbar-brand" style="height: 35px">
