@@ -73,121 +73,7 @@
 
 	<% include components/_loading %>
 	<div id="clock" align="center"></div><!-- 台灣時間時鐘 -->
-	<script>
-		//時鐘
-		serverTime();
 
-		//補零
-		function fillZero(i){
-			if(i < 10) {
-				i = "0" + i;
-			}
-			return i;
-		}
-
-		//聽說是伺服器時間
-		function serverTime(){
-			var xhr = null;
-			if(window.XMLHttpRequest){
-				xhr = new window.XMLHttpRequest();
-			}else{ // ie
-				xhr = new ActiveObject("Microsoft")
-			}
-			// 通過get的方式請求
-			xhr.open("get","/");
-			xhr.send(null);
-			// 監聽請求狀態變化
-			xhr.onreadystatechange = function(){
-				var time = null,
-						curDate = null;
-				if(xhr.readyState===2){
-					/**
-					 * XMLHttpRequest.readyState值->說明
-					 *
-					 * 0->XMLHttpRequest請求物件已建立但尚未初始化
-					 * 1->已與伺服器連線，準備好傳送一個request但還沒傳送
-					 * 2->傳送request至伺服器且伺服器已接收，並可讀取回應的header
-					 * 3->請求處理中，正在接收回應（已經接收完header但訊息部份尚未接收完成）
-					 * 4->請求載入完成，回應已經被完全接收並就緒
-					 * ==以下為失敗狀態==
-					 * 200->"OK"
-					 * 404->page not found
-					 */
-					// 抓出回應頭裡的時間戳記
-					time = xhr.getResponseHeader("Date");
-					console.log(xhr.getAllResponseHeaders());
-					curDate = new Date(time);
-					document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+curDate.getFullYear()+" / "+(curDate.getMonth()+1)+" / "+curDate.getDate()+"&nbsp;&nbsp;&nbsp;"+fillZero(curDate.getHours())+" : "+fillZero(curDate.getMinutes())/*+" : "+curDate.getSeconds()*/+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
-					timeS(time); //讓前端自己算時間
-				}
-			}
-		}
-
-		//前端自己算＋更新時間
-		function timeS(time) {
-			var curDate = new Date(time);
-			var year = curDate.getFullYear();
-			var month = curDate.getMonth()+1; //陣列的月份是以數列的方式表示，只有月份會使用 0~11 的方式顯示
-			var day = curDate.getDate();
-			var hour = curDate.getHours();
-			var min = curDate.getMinutes();
-			var sec = curDate.getSeconds();
-			setInterval(timeGo,1000); //定時1秒
-			function timeGo(){ //as time go by
-				sec = sec + 1;
-				if(sec == 60){ //在非洲，每60秒就有一分鐘過去
-					sec = 0;
-					min++;
-					if(min == 60){ //靜止的時針，刻下了時間  ──山崎エリイ〈Starlight〉
-						min = 0;
-						hour++;
-						if(hour == 24){ //大學畢業後就很少看到的時刻（活力的一天，從睡覺開始）
-							hour = 0;
-							day++;
-							if(day >= 29){ //孟仲季+春夏秋冬
-								if(month == 2){
-									/**
-									 * 〔格里曆閏年規則〕
-									 *
-									 * 西元年份除以4不可整除，為平年。
-									 * 西元年份除以4可整除，且除以100不可整除，為閏年。
-									 * 西元年份除以100可整除，且除以400不可整除，為平年。
-									 * 西元年份除以400可整除，為閏年。
-									 */
-									if((year%4==0 && year%100!=0) || year%400==0){ //閏年 leap year
-										if(day == 30){ //閏年的2月有29天
-											day = 1;
-											month++;
-										}
-									}else { //平年
-										day = 1;
-										month++;
-									}
-								}else if(month==4 || month==6 || month==9 || month==11){ //小月
-									if(day == 31){
-										day = 1;
-										month++;
-									}
-								}else{ //大月
-									if(day == 32){
-										day = 1;
-										month++;
-									}
-								}
-
-								if(month == 13){ //一元復始，萬象更新。Happy New Year!
-									month = 1;
-									year++;
-								}
-							}
-						}
-					}
-				}
-				document.getElementById("clock").innerHTML = "臺灣當地時間(<strong>UTC+8</strong>)現在是"+year+" / "+month+" / "+day+"&nbsp;&nbsp;&nbsp;"+fillZero(hour)+" : "+fillZero(min)+" : "+fillZero(sec)+"<br/><small>(僅供參考，可能因網路延遲等因素產生誤差)</small>";
-			}
-
-		}
-	</script>
 	<div id="app" class="container">
 		<nav class="navbar header navbar-expand-lg navbar-light">
 			<span class="navbar-brand" style="height: 35px">
@@ -221,6 +107,10 @@
 		<hr>
 
 		<% if (_processPageList.indexOf(current.source) > -1) { %>
+			<script>
+				//時鐘
+				
+			</script>
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="list-group">
