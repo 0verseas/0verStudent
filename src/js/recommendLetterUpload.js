@@ -34,36 +34,28 @@
     // copy from emailVerify.js
 
     async function _verify(){
-        loading.complete(); //測試用，這行記得刪除，否則不會跑驗證
         try {
-            const email = _getParam('email', window.location.href); //teacher's email
+            const id = _getParam('id', window.location.href);
+            //const email = _getParam('email', window.location.href); //teacher's email
             const token = _getParam('token', window.location.href);
 
-            const response = await student.teacherVerify(email, token);
-            if (!response.ok) { throw response; }
+            const response = await student.teacherVerify(id, token);
+            if (!response.ok) { //http response status code
+                throw response;
+            }
 
-            $('#alert-valid').show();
-            setTimeout(() => {
-                location.href = './index.html';
-            }, 3000);
+            //驗證通過後執行剩下的code
+            console.log('あのね (≧д≦) あのね');
             loading.complete();
         } catch (e) {
             e.json && e.json().then((data) => {
                 console.error(data);
 
-                if (e.status && e.status === 400) {
-                    $('#alert-invalid').show();
+                alert(`${data.messages[0]}`);
 
-                    setTimeout(() => {
-                        location.href = './index.html';
-                    }, 3000);
-                } else {
-                    alert(`${data.messages[0]}`);
-
-                    setTimeout(() => {
-                        location.href = './index.html';
-                    }, 0);
-                }
+                setTimeout(() => {
+                    location.href = './index.html';
+                }, 0);
 
                 loading.complete();
             });

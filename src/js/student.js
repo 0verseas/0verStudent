@@ -487,8 +487,8 @@ const student = (() => {
 		})
 	}
 
-	function teacherVerify(email, token) {
-		return fetch(baseUrl + `/teachers/verify/${email}/${token}`, {
+	function teacherVerify(id, token) {
+		return fetch(baseUrl + `/teachers/recommendation-letters/${id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
