@@ -143,8 +143,11 @@
     //按下『確認並上傳按鈕』
     async function _handleSave() {
         loading.start();
-        //TODO: 通知後端 delete/destroy token
-
+        //通知後端 delete/destroy token
+        const id = _getParam('id', window.location.href);
+        //const email = _getParam('email', window.location.href); //teacher's email
+        const token = _getParam('token', window.location.href);
+        student.teacherBye(id, token);
         // 如果跑太快看要不要讓它轉圈圈幾秒鐘製造上傳的假象
         // 點下按鈕&後端事情做完後
         alert('儲存完成');

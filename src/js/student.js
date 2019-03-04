@@ -487,9 +487,22 @@ const student = (() => {
 		})
 	}
 
+	//驗證老師的 token
 	function teacherVerify(id, token) {
 		return fetch(baseUrl + `/teachers/invitation-token/${id}`, {
 			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify({ token })
+		})
+	}
+
+	//老師上傳完成囉
+	function teacherBye(id, token) {
+		return fetch(baseUrl + `/teachers/invitation-token/${id}`, {
+			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -542,7 +555,8 @@ const student = (() => {
 		delReviewItem,
 		uploadAndSubmit,
 		SecondPlacementSelectionOrder,
-		teacherVerify
+		teacherVerify,
+		teacherBye
 	};
 
 })();
