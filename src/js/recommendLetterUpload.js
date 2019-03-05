@@ -150,12 +150,13 @@
         student.teacherBye(id, token);
         //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)『你什麼時候產生了點了「上傳」卻沒上傳的錯覺』(O)
         alert('感謝您的使用！');
-        loading.complete();
-        $recommendationLetterUploadBtn.remove(); //remove upload button
-        $recommendationLetterUpload.remove(); //remove recommend letter upload form page
-        let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。</h4></div>'; //按下按鈕後要顯示的內容
-        document.getElementById("temp").innerHTML = html; //替換畫面上的內容
-        sleep(3000); //『幫我撐10秒』
+        setTimeout(function() {
+            loading.complete();
+            $recommendationLetterUploadBtn.remove(); //remove upload button
+            $recommendationLetterUpload.remove(); //remove recommend letter upload form page
+            let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。</h4></div>'; //按下按鈕後要顯示的內容
+            document.getElementById("final-page").innerHTML = html; //替換畫面上的內容
+        },3000); //『幫我撐10秒』
     }
 
     //檢查檔案類型
@@ -169,16 +170,6 @@
             return false;
         } else {
             return true;
-        }
-    }
-
-    //讓程式睡著用
-    function sleep(milliseconds) {
-        var start = new Date().getTime();
-        for (var i = 0; i < 1e7; i++) {
-            if ((new Date().getTime() - start) > milliseconds){
-                break;
-            }
         }
     }
 
