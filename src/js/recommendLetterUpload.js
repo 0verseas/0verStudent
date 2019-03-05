@@ -148,19 +148,19 @@
         //const email = _getParam('email', window.location.href); //teacher's email
         const token = _getParam('token', window.location.href);
         student.teacherBye(id, token);
-        // 如果跑太快看要不要讓它轉圈圈幾秒鐘製造上傳的假象
-        // 點下按鈕&後端事情做完後
-        alert('儲存完成');
+        //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)『你什麼時候產生了點了「上傳」卻沒上傳的錯覺』(O)
+        alert('感謝您的使用！');
+        loading.complete();
         $recommendationLetterUploadBtn.remove(); //remove upload button
         $recommendationLetterUpload.remove(); //remove recommend letter upload form page
         let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。</h4></div>'; //按下按鈕後要顯示的內容
         document.getElementById("temp").innerHTML = html; //替換畫面上的內容
-        loading.complete();
+        sleep(3000); //『幫我撐10秒』
     }
 
     //檢查檔案類型
     function checkFile(selectfile){
-        var extension = new Array(".jpg", ".png", ".pdf",".jpeg");// 可接受的附檔名
+        var extension = new Array(".jpg", ".png", ".pdf",".jpeg"); //可接受的附檔名
         var fileExtension = selectfile.value; //fakepath
         fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')); //看副檔名是否在可接受名單
         if (extension.indexOf(fileExtension) < 0) {
