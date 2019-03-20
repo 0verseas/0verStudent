@@ -5,8 +5,10 @@
      */
 
     const id = _getParam('id', window.location.href); //student_id
-    //const email = _getParam('email', window.location.href); //teacher's email
+    const email = _getParam('email', window.location.href); //teacher's email
     const token = _getParam('token', window.location.href);
+    let dept_id;
+    let system_id;
 
     /**
      * init
@@ -44,8 +46,9 @@
             if (!response.ok) { //http response status code
                 throw response;
             }
-
-            //驗證通過後執行剩下的code
+            const orderJson = await response.json();
+            system_id = orderJson.system_id;
+            dept_id = orderJson.dept_id;
             console.log('あのね (≧д≦) あのね');
             loading.complete();
         } catch (e) {
