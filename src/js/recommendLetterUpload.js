@@ -1,14 +1,14 @@
 (() => {
 
     /**
-     * private variable
+     * private variable & constant
      */
 
-    const id = _getParam('id', window.location.href); //student_id
-    const email = _getParam('email', window.location.href); //teacher's email
-    const token = _getParam('token', window.location.href);
-    let dept_id;
-    let system_id;
+    const _id = _getParam('id', window.location.href); //student_id
+    const _email = _getParam('email', window.location.href); //teacher's email
+    const _token = _getParam('token', window.location.href);
+    let _dept_id;
+    let _system_id;
 
     /**
      * init
@@ -42,13 +42,13 @@
 
     async function _verify(){
         try {
-            const response = await student.teacherVerify(id, token);
+            const response = await student.teacherVerify(_id, _token);
             if (!response.ok) { //http response status code
                 throw response;
             }
             const orderJson = await response.json();
-            system_id = orderJson.system_id;
-            dept_id = orderJson.dept_id;
+            _system_id = orderJson.system_id;
+            _dept_id = orderJson.dept_id;
             console.log('あのね (≧д≦) あのね');
             loading.complete();
         } catch (e) {
@@ -147,7 +147,7 @@
     //按下『確認並上傳按鈕』
     async function _handleSave() {
         loading.start();
-        student.teacherBye(id, token); //通知後端 delete token
+        student.teacherBye(_id, _token); //通知後端 delete token
         //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)『你什麼時候產生了點了「上傳」卻沒上傳的錯覺』(O)
         alert('感謝您的使用！');
         setTimeout(function() {
