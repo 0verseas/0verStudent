@@ -511,6 +511,15 @@ const student = (() => {
 		})
 	}
 
+	//老師上傳推薦函
+	function teacherSetReviewItem({ student_id, dept_id, system_id, data }) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${system_id}/${dept_id}/recommendation-letters`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -556,7 +565,8 @@ const student = (() => {
 		uploadAndSubmit,
 		SecondPlacementSelectionOrder,
 		teacherVerify,
-		teacherBye
+		teacherBye,
+		teacherSetReviewItem
 	};
 
 })();

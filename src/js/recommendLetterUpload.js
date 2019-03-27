@@ -90,10 +90,10 @@
         }
         try {
             loading.start();
-            //TODO: 等後端驗證
-
-            const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
-            if (!response.ok) { throw response; }
+            const response = await student.teacherSetReviewItem({data, system_id: _system_id, dept_id: _dept_id, student_id: _id});
+            if (!response.ok) {
+                throw response;
+            }
             alert('儲存完成');
             loading.complete();
             window.location.reload();
@@ -105,8 +105,8 @@
             loading.complete();
         }
         //TODO: 修改參數及函數等等的
-        let fileView = _getFileAreaHTML(fileListItem, fileListKey);  //preview the uploaded files
-        document.getElementById("preview").innerHTML = fileView;
+        //let fileView = _getFileAreaHTML(fileListItem, fileListKey);  //preview the uploaded files
+        //document.getElementById("preview").innerHTML = fileView;
     }
 
     function _getFileAreaHTML(fileListItem, fileListKey) {
