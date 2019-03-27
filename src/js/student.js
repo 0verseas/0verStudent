@@ -512,8 +512,8 @@ const student = (() => {
 	}
 
 	//老師上傳推薦函
-	function teacherSetReviewItem({ student_id, dept_id, system_id, data }) {
-		return fetch(`${baseUrl}/teachers/${student_id}/${system_id}/${dept_id}/recommendation-letters`, {
+	function teacherSetReviewItem({ student_id, dept_id, token, data }) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters`, {
 			method: 'POST',
 			body: data,
 			credentials: 'include'

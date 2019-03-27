@@ -90,7 +90,7 @@
         }
         try {
             loading.start();
-            const response = await student.teacherSetReviewItem({data, system_id: _system_id, dept_id: _dept_id, student_id: _id});
+            const response = await student.teacherSetReviewItem({data, token: _token, dept_id: _dept_id, student_id: _id});
             if (!response.ok) {
                 throw response;
             }
