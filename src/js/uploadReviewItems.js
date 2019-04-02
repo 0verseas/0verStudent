@@ -274,6 +274,38 @@
 					</div>
 					<hr>
 				`
+			} else if(fileListItem.type.name === "師長推薦函"){
+				let filesHtml = _getFileAreaHTML(fileListItem, "files");
+				reviewItemHTML += `
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header bg-primary text-white">
+									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
+								</div>
+								<div class="card-body">` + descriptionBlock + `
+									<div class="alert alert-warning">
+										可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+									</div>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
+											或輸入師長資料以寄送邀請：<input type="text" id="teacherName" placeholder="師長姓名"><input type="text" id="teacherMail" placeholder="師長email"><input type="submit" value="送出邀請">
+										</div>
+									</div>
+
+									<div class="card">
+										<div class="card-body">
+											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											${filesHtml}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+				`
 			} else {
 				let filesHtml = _getFileAreaHTML(fileListItem, "files");
 				reviewItemHTML += `

@@ -94,7 +94,7 @@
             if (!response.ok) {
                 throw response;
             }
-            alert('儲存完成');
+            alert('檔案確認');
             loading.complete();
             window.location.reload();
         } catch(e) {
@@ -104,9 +104,9 @@
             });
             loading.complete();
         }
-        //TODO: 修改參數及函數等等的
-        //let fileView = _getFileAreaHTML(fileListItem, fileListKey);  //preview the uploaded files
-        //document.getElementById("preview").innerHTML = fileView;
+        //TODO: 前端顯示
+        let fileView = _getFileAreaHTML(fileListItem, fileListKey);  //preview the uploaded files
+        document.getElementById("preview").innerHTML = fileView;
     }
 
     function _getFileAreaHTML(fileListItem, fileListKey) {
