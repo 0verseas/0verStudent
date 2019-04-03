@@ -520,6 +520,19 @@ const student = (() => {
 		})
 	}
 
+	//學生邀請老師上傳推薦函
+	function studentInviteTeacher(department_id, teacherName, teacherMail) {
+		let teacherContactInfo  = {teacher_name:teacherName, teacher_mail:teacherMail};
+		return fetch(baseUrl + `/students/departments/${department_id}/recommendation-letter-invitations`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(teacherContactInfo),
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -566,7 +579,8 @@ const student = (() => {
 		SecondPlacementSelectionOrder,
 		teacherVerify,
 		teacherBye,
-		teacherSetReviewItem
+		teacherSetReviewItem,
+		studentInviteTeacher
 	};
 
 })();

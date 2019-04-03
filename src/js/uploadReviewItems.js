@@ -357,6 +357,8 @@
 		$wishListWrap.hide();
 		$uploadForm.fadeIn();
 
+		$('#btn-invite').on('click',_handleInviteTeacher); //按下「送出邀請」按鈕
+
 		loading.complete();
 	}
 
@@ -705,6 +707,36 @@
 
 			default:
 				return 'img';
+		}
+	}
+
+	//傳送師長資料以便寄送邀請信件
+	async function _handleInviteTeacher() {
+		console.log('鼓起勇氣送出邀請');
+		loading.start();
+		try{
+			//取得老師姓名和email
+			let tname = $('#teacherName').val(); //teacher's name
+			let tmail = $('#teacherMail').val(); //teacher's email
+			console.log(tname,tmail);
+			const response = await student.studentInviteTeacher(_deptID, tname, tmail);
+			if (!response.ok) {
+				throw response;
+			}
+			alert('邀請成功');
+			//清空欄位內的值
+			$("#teacherName").val("");
+			$("#teacherMail").val("");
+
+			loading.complete();
+		}catch (e) {
+			e.json && e.json().then((data) => {
+				console.error(data);
+
+				alert(`${data.messages[0]}`);
+
+				loading.complete();
+			});
 		}
 	}
 
