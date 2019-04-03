@@ -4,7 +4,7 @@
      * private variable & constant
      */
 
-    const _id = _getParam('id', window.location.href); //student_id
+    const _id = dropZero(_getParam('id', window.location.href)); //student_id
     const _email = _getParam('email', window.location.href); //teacher's email
     const _token = _getParam('token', window.location.href);
     let _dept_id;
@@ -171,6 +171,13 @@
         } else {
             return true;
         }
+    }
+
+    //去零
+    function dropZero(number){
+        let num = number;
+        var reg = new RegExp("([0]*)([1-9]+[0-9]+)", "g");
+        return num.replace(reg,"$2");
     }
 
 })();
