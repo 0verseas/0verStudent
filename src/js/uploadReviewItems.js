@@ -712,7 +712,7 @@
 
 	//傳送師長資料以便寄送邀請信件
 	async function _handleInviteTeacher() {
-		console.log('鼓起勇氣送出邀請');
+		//後端會檢查欄位內容因此原訂這邊要做檢查的部份就刪掉了
 		loading.start();
 		try{
 			//取得老師姓名和email
