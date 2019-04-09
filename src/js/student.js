@@ -533,6 +533,14 @@ const student = (() => {
 		})
 	}
 
+	//取得老師上傳的推薦函
+	function getTeacherSetReviewItem(student_id, dept_id, token) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -580,7 +588,8 @@ const student = (() => {
 		teacherVerify,
 		teacherBye,
 		teacherSetReviewItem,
-		studentInviteTeacher
+		studentInviteTeacher,
+		getTeacherSetReviewItem
 	};
 
 })();

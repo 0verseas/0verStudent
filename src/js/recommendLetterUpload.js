@@ -9,6 +9,7 @@
     const _token = _getParam('token', window.location.href);
     let _dept_id;
     let _system_id;
+    let count = 0; //已上傳的檔案數
 
     /**
      * init
@@ -50,6 +51,15 @@
             _system_id = orderJson.system_id;
             _dept_id = orderJson.dept_id;
             console.log('あのね (≧д≦) あのね');
+
+            //前端顯示已經上傳幾個檔案
+            const getresponse = await student.getTeacherSetReviewItem(_id, _dept_id, _token);
+            if(!getresponse.ok){
+                throw getresponse;
+            }
+            const numJson = await getresponse.json();
+            count = numJson.count;
+            document.getElementById("preview").innerHTML = count;
             loading.complete();
         } catch (e) {
             e.json && e.json().then((data) => {
@@ -104,9 +114,6 @@
             });
             loading.complete();
         }
-        //TODO: 前端顯示
-        let fileView = _getFileAreaHTML(fileListItem, fileListKey);  //preview the uploaded files
-        document.getElementById("preview").innerHTML = fileView;
     }
 
     function _getFileAreaHTML(fileListItem, fileListKey) {
