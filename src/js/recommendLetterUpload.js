@@ -10,6 +10,7 @@
     let _dept_id;
     let _system_id;
     let count = 0; //已上傳的檔案數
+    let sid; // 後端傳送回來的報名序號
 
     /**
      * init
@@ -59,7 +60,11 @@
             }
             const numJson = await getresponse.json();
             count = numJson.count;
+            const sid = numJson.sid;  // 後端送回來的報名序號，驗證資料正確性使用
+            const stu_name = numJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
             document.getElementById("preview").innerHTML = count;
+            document.getElementById("sid").innerHTML = sid;
+            document.getElementById("stu-name").innerHTML = stu_name;
             loading.complete();
         } catch (e) {
             e.json && e.json().then((data) => {
