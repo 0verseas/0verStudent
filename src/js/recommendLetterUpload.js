@@ -62,9 +62,17 @@
             count = numJson.count;
             const sid = numJson.sid;  // 後端送回來的報名序號，驗證資料正確性使用
             const stu_name = numJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
+            const dept_title = numJson.dept_title;  // 系所名稱
+            const school_title = numJson.school_title;  // 學校名稱
+            const dept_eng_title = numJson.dept_eng_title;
+            const school_eng_title = numJson.school_eng_title;
+            const dept_code = numJson.dept_code;  // card_code of department
             document.getElementById("preview").innerHTML = count;
             document.getElementById("sid").innerHTML = sid;
             document.getElementById("stu-name").innerHTML = stu_name;
+            document.getElementById("admission-school").innerHTML = school_title+"（"+school_eng_title+"）";
+            document.getElementById("admission-department").innerHTML = dept_title+"（"+dept_eng_title+"）";
+            document.getElementById("dept-code").innerHTML = dept_code;
             loading.complete();
         } catch (e) {
             e.json && e.json().then((data) => {
