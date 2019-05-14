@@ -201,6 +201,12 @@
 		// 奧林匹亞志願
 		!!data.student_olympia_aspiration_order && $('.nav-olympia').addClass('list-group-item-success');
 
+		if(!data.can_olympia){
+			$('.olympia-deadline').show();
+			$('.nav-olympia').addClass('disabled');
+			$('.nav-olympia').click(function(e){e.preventDefault();});
+		}
+
 		// 個人申請志願
 		+data.student_qualification_verify.system_id === 1 &&
 		!!data.student_department_admission_selection_order &&
