@@ -167,8 +167,12 @@
     //按下『確認並上傳按鈕』
     async function _handleSave() {
         loading.start();
-        student.teacherBye(_id, _token); //通知後端 delete token
-        //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)『你什麼時候產生了點了「上傳」卻沒上傳的錯覺』(O)
+        const token_bye = await student.teacherBye(_id, _token); //通知後端 delete token
+        if (!token_bye.ok) { //http response status code
+            throw token_bye;
+        }
+        const notify_stu = student.notifyStudentRecommendationLetterHadUploaded(_id, _dept_id, _token);  // 寄信通知學生
+        //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)「你什麼時候產生了點了『上傳』卻沒上傳的錯覺」(O)
         alert('感謝您的使用！');
         setTimeout(function() {
             loading.complete();
@@ -176,7 +180,7 @@
             $recommendationLetterUpload.remove(); //remove recommend letter upload form page
             let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。</h4></div>'; //按下按鈕後要顯示的內容
             document.getElementById("final-page").innerHTML = html; //替換畫面上的內容
-        },3000); //『幫我撐10秒』
+        },500); //『幫我撐50 0秒』
     }
 
     //檢查檔案類型

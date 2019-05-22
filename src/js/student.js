@@ -541,6 +541,18 @@ const student = (() => {
 		})
 	}
 
+	// 寄信通知學生老師上傳囉
+	function notifyStudentRecommendationLetterHadUploaded(student_id, dept_id, token) {
+		return fetch(`${baseUrl}/students/teacher-recommendation-letter/notification/${student_id}/${token}/had-uploaded`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({dept_id}),
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -589,7 +601,8 @@ const student = (() => {
 		teacherBye,
 		teacherSetReviewItem,
 		studentInviteTeacher,
-		getTeacherSetReviewItem
+		getTeacherSetReviewItem,
+		notifyStudentRecommendationLetterHadUploaded
 	};
 
 })();
