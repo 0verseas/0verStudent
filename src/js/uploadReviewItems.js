@@ -290,8 +290,8 @@
 									<div class="row" style="margin-bottom: 15px;">
 										<div class="col-12">
 											<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
-											或輸入師長資料以寄送邀請：<input type="text" id="teacherName" placeholder="師長姓名"><input type="email" id="teacherMail" placeholder="師長email"><button type="button" id="btn-invite" class="btn btn-primary">送出邀請</button>
-									</div>
+											或輸入師長資料以寄送邀請：<input type="text" id="teacherName" placeholder="師長姓名"><input type="email" id="teacherMail" placeholder="師長email"><button type="button" id="btn-invite" class="btn btn-info">送出邀請</button>
+										</div>
 									</div>
 
 									<div class="card">

@@ -60,7 +60,7 @@
             }
             const numJson = await getresponse.json();
             count = numJson.count;
-            const sid = numJson.sid;  // 後端送回來的報名序號，驗證資料正確性使用
+            const sid = paddingLeft(numJson.sid, 6);  // 後端送回來的報名序號，驗證資料正確性使用
             const stu_name = numJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
             const dept_title = numJson.dept_title;  // 系所名稱
             const school_title = numJson.school_title;  // 學校名稱
@@ -202,6 +202,15 @@
         let num = number;
         var reg = new RegExp("([0]*)([1-9]+[0-9]+)", "g");
         return num.replace(reg,"$2");
+    }
+
+    // 補零
+    function paddingLeft(str,lenght){
+        if(str.length >= lenght){
+            return str;
+        } else {
+            return paddingLeft("0" +str,lenght);
+        }
     }
 
 })();
