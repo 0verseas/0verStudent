@@ -44,14 +44,27 @@
 
     async function _verify(){
         try {
+            // 身份驗證（透過 token）
             const response = await student.teacherVerify(_id, _token);
             if (!response.ok) { //http response status code
                 throw response;
             }
-            const orderJson = await response.json();
-            _system_id = orderJson.system_id;
-            _dept_id = orderJson.dept_id;
+            const tokenJson = await response.json();
+            _system_id = tokenJson.system_id;
+            _dept_id = tokenJson.dept_id;
             console.log('あのね (≧д≦) あのね');
+            const sid = paddingLeft(tokenJson.sid, 6);  // 後端送回來的報名序號，驗證資料正確性使用
+            const stu_name = tokenJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
+            const dept_title = tokenJson.dept_title;  // 系所名稱
+            const school_title = tokenJson.school_title;  // 學校名稱
+            const dept_eng_title = tokenJson.dept_eng_title;
+            const school_eng_title = tokenJson.school_eng_title;
+            const dept_code = tokenJson.dept_code;  // card_code of department
+            document.getElementById("sid").innerHTML = sid;
+            document.getElementById("stu-name").innerHTML = stu_name;
+            document.getElementById("admission-school").innerHTML = school_title+"（"+school_eng_title+"）";
+            document.getElementById("admission-department").innerHTML = dept_title+"（"+dept_eng_title+"）";
+            document.getElementById("dept-code").innerHTML = dept_code;
 
             //前端顯示已經上傳幾個檔案
             const getresponse = await student.getTeacherSetReviewItem(_id, _dept_id, _token);
@@ -60,19 +73,7 @@
             }
             const numJson = await getresponse.json();
             count = numJson.count;
-            const sid = paddingLeft(numJson.sid, 6);  // 後端送回來的報名序號，驗證資料正確性使用
-            const stu_name = numJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
-            const dept_title = numJson.dept_title;  // 系所名稱
-            const school_title = numJson.school_title;  // 學校名稱
-            const dept_eng_title = numJson.dept_eng_title;
-            const school_eng_title = numJson.school_eng_title;
-            const dept_code = numJson.dept_code;  // card_code of department
             document.getElementById("preview").innerHTML = count;
-            document.getElementById("sid").innerHTML = sid;
-            document.getElementById("stu-name").innerHTML = stu_name;
-            document.getElementById("admission-school").innerHTML = school_title+"（"+school_eng_title+"）";
-            document.getElementById("admission-department").innerHTML = dept_title+"（"+dept_eng_title+"）";
-            document.getElementById("dept-code").innerHTML = dept_code;
             loading.complete();
         } catch (e) {
             e.json && e.json().then((data) => {
