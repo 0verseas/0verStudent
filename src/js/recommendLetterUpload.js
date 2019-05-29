@@ -11,6 +11,8 @@
     let _system_id;
     let count = 0; //已上傳的檔案數
     let sid; // 後端傳送回來的報名序號
+    let _type_id;
+    let uploaded_files = [];
 
     /**
      * init
@@ -67,13 +69,15 @@
             document.getElementById("dept-code").innerHTML = dept_code;
 
             //前端顯示已經上傳幾個檔案
-            const getresponse = await student.getTeacherSetReviewItem(_id, _dept_id, _token);
-            if(!getresponse.ok){
-                throw getresponse;
+            const fileResponse = await student.getTeacherSetReviewItem(_id, _dept_id, _token);
+            if(!fileResponse.ok){
+                throw fileResponse;
             }
-            const numJson = await getresponse.json();
+            const numJson = await fileResponse.json();
             count = numJson.count;
-            document.getElementById("preview").innerHTML = count;
+            _type_id = numJson.type_id;
+            document.getElementById("file-count").innerHTML = count;
+            document.getElementById("file-view").innerHTML = _getFileAreaHTML(fileNameObjectToArray(numJson.filename));
             loading.complete();
         } catch (e) {
             e.json && e.json().then((data) => {
@@ -100,6 +104,7 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+    // 上傳檔案
     async function previewFile(){
         const type_id = $(this).data('type'); //上傳文件種類
         const fileList = this.files;
@@ -130,18 +135,18 @@
         }
     }
 
-    function _getFileAreaHTML(fileListItem, fileListKey) {
+    function _getFileAreaHTML(fileNameArray) {
         let html = '';
-        fileListItem[fileListKey].forEach((fileName, index) => {
+        fileNameArray.forEach(function (fileName) {
             const fileType = _getFileType(fileName.split('.')[1]);
-            if (fileType === 'img') {
+            if (fileType === 'img') {  // 有圖放圖
                 html += `<img
 					class="img-thumbnail"
-					src="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+					src="${env.baseUrl}/students/${_id}/admission-selection-application-document/departments/${_dept_id}/types/${_type_id}/files/${fileName}"
 					data-toggle="modal"
 					data-target=".img-modal"
-					data-type="${fileListItem.type_id}"
-					data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+					data-type="${_type_id}"
+					data-filelink="${env.baseUrl}/students/${_id}/admission-selection-application-document/departments/${_dept_id}/types/${_type_id}/files/${fileName}"
 					data-filename="${fileName}"
 					data-filetype="img"
 				/> `;
@@ -151,8 +156,8 @@
 						class="img-thumbnail non-img-file-thumbnail"
 						data-toggle="modal"
 						data-target=".img-modal"
-						data-type="${fileListItem.type_id}"
-						data-filelink="${env.baseUrl}/students/${_studentID}/admission-selection-application-document/departments/${fileListItem.dept_id}/types/${fileListItem.type_id}/files/${fileName}"
+						data-type="${_type_id}"
+						data-filelink="${env.baseUrl}/students/${_id}/admission-selection-application-document/departments/${_dept_id}/types/${_type_id}/files/${fileName}"
 						data-filename="${fileName}"
 						data-filetype="${fileType}"
 						data-icon="fa-file-${fileType}-o"
@@ -212,6 +217,36 @@
         } else {
             return paddingLeft("0" +str,lenght);
         }
+    }
+
+    // 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
+    function _getFileType(fileNameExtension = '') {
+        switch (fileNameExtension) {
+            case 'doc':
+            case 'docx':
+                return 'word';
+
+            case 'mp3':
+                return 'audio';
+
+            case 'mp4':
+            case 'avi':
+                return 'video';
+
+            case 'pdf':
+                return 'pdf';
+
+            default:
+                return 'img';
+        }
+    }
+
+    function fileNameObjectToArray(fileNameObject) {
+        let fileNameArray = [];
+        for(let key in fileNameObject){
+            fileNameArray.push(fileNameObject[key].filename);
+        }
+        return fileNameArray;
     }
 
 })();
