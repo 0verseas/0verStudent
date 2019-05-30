@@ -27,6 +27,7 @@
     const $saveBtn = $('#btn-save');
     const $recommendationLetterUpload = $('#recommendation-letter-upload');
     const $recommendationLetterUploadBtn = $('#recommendation-letter-upload-btn');
+    const $imgModalBody= $('#img-modal-body'); // modal 本體
 
     /**
      *	bind event
@@ -34,6 +35,7 @@
 
     $('body').on('change.uploadfile', '.file-certificate', previewFile); //_handleUpload
     $saveBtn.on('click', _handleSave);
+    $('body').on('click.showOriImg', '.img-thumbnail', _showOriImg);
 
     /**
      * private method
@@ -142,13 +144,14 @@
             if (fileType === 'img') {  // 有圖放圖
                 html += `<img
 					class="img-thumbnail"
-					src="${env.baseUrl}/students/${_id}/admission-selection-application-document/departments/${_dept_id}/types/${_type_id}/files/${fileName}"
+					src="${env.baseUrl}/teachers/${_id}/${_dept_id}/${_token}/recommendation-letters/${fileName}"
 					data-toggle="modal"
 					data-target=".img-modal"
 					data-type="${_type_id}"
-					data-filelink="${env.baseUrl}/students/${_id}/admission-selection-application-document/departments/${_dept_id}/types/${_type_id}/files/${fileName}"
+					data-filelink="${env.baseUrl}/teachers/${_id}/${_dept_id}/${_token}/recommendation-letters/${fileName}"
 					data-filename="${fileName}"
 					data-filetype="img"
+					title="${fileName}"
 				/> `;
             } else {
                 html += `
@@ -157,10 +160,11 @@
 						data-toggle="modal"
 						data-target=".img-modal"
 						data-type="${_type_id}"
-						data-filelink="${env.baseUrl}/students/${_id}/admission-selection-application-document/departments/${_dept_id}/types/${_type_id}/files/${fileName}"
+						data-filelink="${env.baseUrl}/teachers/${_id}/${_dept_id}/${_token}/recommendation-letters/${fileName}"
 						data-filename="${fileName}"
 						data-filetype="${fileType}"
 						data-icon="fa-file-${fileType}-o"
+						title="${fileName}"
 					>
 						<i class="fa fa-file-${fileType}-o" aria-hidden="true"></i>
 					</div>
@@ -247,6 +251,47 @@
             fileNameArray.push(fileNameObject[key].filename);
         }
         return fileNameArray;
+    }
+
+    // 顯示檔案 modal
+    function _showOriImg() {
+        const type = this.dataset.type;
+        const fileName = this.dataset.filename;
+        const fileType = this.dataset.filetype;
+
+        // 清空 modal 內容
+        $imgModalBody.html('');
+
+        // 是圖放圖，非圖放 icon
+        if (fileType === 'img') {
+            const src = this.src;
+
+            $imgModalBody.html(`
+				<img
+					src="${src}"
+					class="img-fluid rounded img-ori"
+				>
+			`);
+        } else {
+            const icon = this.dataset.icon;
+            const fileLink = this.dataset.filelink;
+
+            $imgModalBody.html(`
+				<div>
+					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>
+				</div>
+
+				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
+					<i class="fa fa-download" aria-hidden="true"></i> 下載
+				</a>
+			`);
+        }
+
+        $('.btn-delImg').attr({
+            'data-type': type,
+            'data-filename': fileName,
+            'data-iswork': false
+        });
     }
 
 })();
