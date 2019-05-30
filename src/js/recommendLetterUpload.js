@@ -112,7 +112,7 @@
         for (let i = 0; i < fileList.length; i++) {
             //檢查檔案類型
             if(!checkFile(this)){ //有不可接受的副檔名存在
-                break;
+                return ;
             }
             data.append('files[]', fileList[i]);
             console.log(fileList[i]);
