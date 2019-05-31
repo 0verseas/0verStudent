@@ -278,8 +278,9 @@
             const fileLink = this.dataset.filelink;
 
             $imgModalBody.html(`
-				<div>
-					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>
+				<div id="pdf-container">
+<!--					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>-->
+                    <iframe src="${fileLink}" width="100%" height="700"> 您的瀏覽器不支援預覽，請點選「下載」檢視原始檔案。 </iframe>
 				</div>
 
 				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
