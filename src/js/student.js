@@ -553,6 +553,14 @@ const student = (() => {
 		})
 	}
 
+	// 老師可以刪除自己上傳的推薦函檔案
+	function teacherDeleteItem({student_id, dept_id, token, filename}) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters/${filename}`, {
+			method: 'DELETE',
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -602,7 +610,8 @@ const student = (() => {
 		teacherSetReviewItem,
 		studentInviteTeacher,
 		getTeacherSetReviewItem,
-		notifyStudentRecommendationLetterHadUploaded
+		notifyStudentRecommendationLetterHadUploaded,
+		teacherDeleteItem
 	};
 
 })();

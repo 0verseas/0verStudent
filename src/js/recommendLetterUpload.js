@@ -36,6 +36,7 @@
     $('body').on('change.uploadfile', '.file-certificate', previewFile); //_handleUpload
     $saveBtn.on('click', _handleSave);
     $('body').on('click.showOriImg', '.img-thumbnail', _showOriImg);
+    $('.btn-delImg').on('click', _handleDelImg);
 
     /**
      * private method
@@ -292,6 +293,35 @@
             'data-filename': fileName,
             'data-iswork': false
         });
+    }
+
+    async function _handleDelImg() {
+        if (!confirm('確定刪除？')) {
+            return;
+        }
+        console.log("back to end",_id,_dept_id,$(this).attr('data-type'),$(this).attr('data-filename'));
+        try {
+            loading.start();
+            const response = await student.teacherDeleteItem({
+                student_id: _id,
+                dept_id: _dept_id,
+                // type_id: $(this).attr('data-type'),
+                token: _token,
+                filename: $(this).attr('data-filename')
+            });
+            if (!response.ok) {
+                throw response;
+            }
+            _verify();
+            $('.img-modal').modal('hide');
+            loading.complete();
+        } catch(e) {
+            e.json && e.json().then((data) => {
+                console.error(data);
+                alert(`ERROR: \n${data.messages[0]}`);
+            });
+            loading.complete();
+        }
     }
 
 })();
