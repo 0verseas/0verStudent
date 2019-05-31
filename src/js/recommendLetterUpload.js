@@ -277,10 +277,12 @@
             const icon = this.dataset.icon;
             const fileLink = this.dataset.filelink;
 
+            let client_height = document.body.clientHeight * 0.8 ;  // 網頁可見區域高 * 0.8
+
             $imgModalBody.html(`
 				<div id="pdf-container">
 <!--					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>-->
-                    <iframe src="${fileLink}" width="100%" height="700"> 您的瀏覽器不支援預覽，請點選「下載」檢視原始檔案。 </iframe>
+                    <iframe src="${fileLink}" width="100%" height="${client_height}"> 您的瀏覽器不支援預覽，請點選並以「下載」的方式來檢視原始檔案。 </iframe>
 				</div>
 
 				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
