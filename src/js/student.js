@@ -487,6 +487,80 @@ const student = (() => {
 		})
 	}
 
+	//驗證老師的 token
+	function teacherVerify(id, token) {
+		return fetch(baseUrl + `/teachers/invitation-token/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify({ token })
+		})
+	}
+
+	//老師上傳完成囉
+	function teacherBye(id, token) {
+		return fetch(baseUrl + `/teachers/invitation-token/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify({ token })
+		})
+	}
+
+	//老師上傳推薦函
+	function teacherSetReviewItem({ student_id, dept_id, token, data }) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		})
+	}
+
+	//學生邀請老師上傳推薦函
+	function studentInviteTeacher(department_id, teacherName, teacherMail) {
+		let teacherContactInfo  = {teacher_name:teacherName, teacher_mail:teacherMail};
+		return fetch(baseUrl + `/students/departments/${department_id}/recommendation-letter-invitations`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(teacherContactInfo),
+			credentials: 'include'
+		})
+	}
+
+	//取得老師上傳的推薦函
+	function getTeacherSetReviewItem(student_id, dept_id, token) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
+	// 寄信通知學生老師上傳囉
+	function notifyStudentRecommendationLetterHadUploaded(student_id, dept_id, token) {
+		return fetch(`${baseUrl}/students/teacher-recommendation-letter/notification/${student_id}/${token}/had-uploaded`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({dept_id}),
+			credentials: 'include'
+		})
+	}
+
+	// 老師可以刪除自己上傳的推薦函檔案
+	function teacherDeleteItem({student_id, dept_id, token, filename}) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters/${filename}`, {
+			method: 'DELETE',
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -530,7 +604,14 @@ const student = (() => {
 		getReviewItem,
 		delReviewItem,
 		uploadAndSubmit,
-		SecondPlacementSelectionOrder
+		SecondPlacementSelectionOrder,
+		teacherVerify,
+		teacherBye,
+		teacherSetReviewItem,
+		studentInviteTeacher,
+		getTeacherSetReviewItem,
+		notifyStudentRecommendationLetterHadUploaded,
+		teacherDeleteItem
 	};
 
 })();

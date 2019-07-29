@@ -66,14 +66,14 @@
 			switch (_system) {
 				case 1:
 					key = 'student_department_admission_selection_order';
-				break;
+					break;
 				case 2:
 					key = 'student_two_year_tech_department_admission_selection_order';
-				break;
+					break;
 				case 3:
 				case 4:
 					key = 'student_graduate_department_admission_selection_order';
-				break;
+					break;
 			}
 			_wishList = orderJson[key];
 
@@ -274,6 +274,38 @@
 					</div>
 					<hr>
 				`
+			} else if(fileListItem.type.name === "師長推薦函"){
+				let filesHtml = _getFileAreaHTML(fileListItem, "files");
+				reviewItemHTML += `
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header bg-primary text-white">
+									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
+								</div>
+								<div class="card-body">` + descriptionBlock + `
+									<div class="alert alert-warning">
+										可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+									</div>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
+											或輸入師長資料以寄送邀請：<input type="text" id="teacherName" placeholder="師長姓名"><input type="email" id="teacherMail" placeholder="師長email"><button type="button" id="btn-invite" class="btn btn-info">送出邀請</button>
+										</div>
+									</div>
+
+									<div class="card">
+										<div class="card-body">
+											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											${filesHtml}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+				`
 			} else {
 				let filesHtml = _getFileAreaHTML(fileListItem, "files");
 				reviewItemHTML += `
@@ -324,6 +356,8 @@
 		});
 		$wishListWrap.hide();
 		$uploadForm.fadeIn();
+
+		$('#btn-invite').on('click',_handleInviteTeacher); //按下「送出邀請」按鈕
 
 		loading.complete();
 	}
@@ -673,6 +707,36 @@
 
 			default:
 				return 'img';
+		}
+	}
+
+	//傳送師長資料以便寄送邀請信件
+	async function _handleInviteTeacher() {
+		//後端會檢查欄位內容因此原訂這邊要做檢查的部份就刪掉了
+		loading.start();
+		try{
+			//取得老師姓名和email
+			let tname = $('#teacherName').val(); //teacher's name
+			let tmail = $('#teacherMail').val(); //teacher's email
+			console.log(tname,tmail);
+			const response = await student.studentInviteTeacher(_deptID, tname, tmail);
+			if (!response.ok) {
+				throw response;
+			}
+			alert('邀請成功');
+			//清空欄位內的值
+			$("#teacherName").val("");
+			$("#teacherMail").val("");
+
+			loading.complete();
+		}catch (e) {
+			e.json && e.json().then((data) => {
+				console.error(data);
+
+				alert(`${data.messages[0]}`);
+
+				loading.complete();
+			});
 		}
 	}
 
