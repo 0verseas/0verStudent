@@ -198,7 +198,8 @@
     function checkFile(selectfile){
         var extension = new Array(".jpg", ".png", ".pdf",".jpeg"); //可接受的附檔名
         var fileExtension = selectfile.value; //fakepath
-        fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')); //看副檔名是否在可接受名單
+        //看副檔名是否在可接受名單
+        fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')).toLowerCase();  // 副檔名通通轉小寫
         if (extension.indexOf(fileExtension) < 0) {
             alert("非可接受的檔案類型，可接受的副檔名有：" + extension.toString());
             selectfile.value = null;
