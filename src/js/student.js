@@ -561,6 +561,14 @@ const student = (() => {
 		})
 	}
 
+	// 老師想看看之前自己上傳的東西，但還是要驗證 token
+	function teacherWantReview(student_id, token) {
+		return fetch(`${baseUrl}/teachers/${student_id}/${token}/uploaded-review`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -611,7 +619,8 @@ const student = (() => {
 		studentInviteTeacher,
 		getTeacherSetReviewItem,
 		notifyStudentRecommendationLetterHadUploaded,
-		teacherDeleteItem
+		teacherDeleteItem,
+		teacherWantReview
 	};
 
 })();
