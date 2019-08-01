@@ -290,7 +290,26 @@
 									<div class="row" style="margin-bottom: 15px;">
 										<div class="col-12">
 											<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
-											或輸入師長資料以寄送邀請：<input type="text" id="teacherName" placeholder="師長姓名"><input type="email" id="teacherMail" placeholder="師長email"><button type="button" id="btn-invite" class="btn btn-info">送出邀請</button>
+										</div>
+									</div>
+									<!-- 師長推薦函邀請 -->
+									<div class="row col-11">
+										<div class="col-md-12">
+											<label>或輸入師長資料以寄送邀請：</label>
+										</div>
+										<div class="col-md-5 form-group">
+											<input type="text" id="teacherName" class="form-control" title="請輸入師長姓名（不需頭銜或職稱）" placeholder="師長姓名">
+										</div>
+										<div class="col-md-7 form-group">
+											<input type="email" id="teacherMail" class="form-control" title="請輸入師長的電子信箱地址" placeholder="師長email">
+										</div>
+									</div>
+									<div class="row col-12">
+										<div class="col-md-9 form-group">
+											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系的需求等的訊息" placeholder="給師長的訊息（非必填）">
+										</div>
+										<div class="col-md-3 form-group">
+											<button type="button" id="btn-invite" class="btn btn-info" title="邀請函中會提及您的email以供師長辨識及聯絡">送出邀請</button>
 										</div>
 									</div>
 
@@ -712,14 +731,15 @@
 
 	//傳送師長資料以便寄送邀請信件
 	async function _handleInviteTeacher() {
-		//後端會檢查欄位內容因此原訂這邊要做檢查的部份就刪掉了
+		// 後端會檢查欄位內容因此原訂這邊要做檢查的部份就刪掉了
 		loading.start();
 		try{
-			//取得老師姓名和email
-			let tname = $('#teacherName').val(); //teacher's name
-			let tmail = $('#teacherMail').val(); //teacher's email
+			// 取得學生輸入的資訊
+			let tname = $('#teacherName').val(); // teacher's name
+			let tmail = $('#teacherMail').val(); // teacher's email
+			let stu_message = $('#studentMessage').val(); // message from student
 			console.log(tname,tmail);
-			const response = await student.studentInviteTeacher(_deptID, tname, tmail);
+			const response = await student.studentInviteTeacher(_deptID, tname, tmail, stu_message);
 			if (!response.ok) {
 				throw response;
 			}
@@ -727,6 +747,7 @@
 			//清空欄位內的值
 			$("#teacherName").val("");
 			$("#teacherMail").val("");
+			$("#studentMessage").val("");
 
 			loading.complete();
 		}catch (e) {

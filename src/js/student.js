@@ -521,8 +521,8 @@ const student = (() => {
 	}
 
 	//學生邀請老師上傳推薦函
-	function studentInviteTeacher(department_id, teacherName, teacherMail) {
-		let teacherContactInfo  = {teacher_name:teacherName, teacher_mail:teacherMail};
+	function studentInviteTeacher(department_id, teacherName, teacherMail, studentMessage) {
+		let teacherContactInfo  = {teacher_name:teacherName, teacher_mail:teacherMail, student_message:studentMessage};
 		return fetch(baseUrl + `/students/departments/${department_id}/recommendation-letter-invitations`, {
 			method: 'POST',
 			headers: {
