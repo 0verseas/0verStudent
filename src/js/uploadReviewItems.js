@@ -276,6 +276,11 @@
 				`
 			} else if(fileListItem.type.name === "師長推薦函"){
 				let filesHtml = _getFileAreaHTML(fileListItem, "files");
+				let invite_list='';  // 邀請清單
+				// 如果有邀請紀錄
+				if(fileListItem.invites.length > 0){
+					invite_list = getTeacherRecommendationLetterInviteRecord(fileListItem);
+				}
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
@@ -306,12 +311,13 @@
 									</div>
 									<div class="row col-12">
 										<div class="col-md-9 form-group">
-											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系的需求等的訊息" placeholder="給師長的訊息（非必填）">
+											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系需求等的訊息" placeholder="給師長的訊息（非必填）">
 										</div>
 										<div class="col-md-3 form-group">
 											<button type="button" id="btn-invite" class="btn btn-info" title="邀請函中會提及您的email以供師長辨識及聯絡">送出邀請</button>
 										</div>
 									</div>
+									${invite_list}  <!--邀請紀錄-->
 
 									<div class="card">
 										<div class="card-body">
@@ -759,6 +765,39 @@
 				loading.complete();
 			});
 		}
+	}
+
+	// 取得邀請師長上傳推薦函的紀錄
+	function getTeacherRecommendationLetterInviteRecord(fileListItem) {
+		let invite_table = `
+			<div id="invitation-area" class="col-md-11" style=" margin:10px auto 28px;overflow-x:auto;">
+				<table id="invitation-list">
+					<tr>
+						<th>師長姓名</th>
+						<th>師長電子信箱地址</th>
+						<th>師長完成上傳時間（UTC+8）</th>
+					</tr>
+		`;
+		fileListItem.invites.forEach(function (invitation) {
+			if(invitation.deleted_at == null){  // 如果老師還沒鎖定上傳
+				invitation.deleted_at = '尚未完成上傳';  // 怕寫 null 有人看不懂
+			} else {
+			    // 直接拿出去有點難看所以把日期、時間抓出來就好，時區放在標題欄
+				invitation.deleted_at = invitation.deleted_at.substr(0,10) + '&nbsp;&nbsp;' + invitation.deleted_at.substr(11,8);
+			}
+			invite_table += `
+					<tr>
+						<td>${invitation.teacher_name}</td>
+						<td>${invitation.teacher_email}</td>
+						<td>${invitation.deleted_at}</td>
+					</tr>
+			`;
+		});
+		invite_table += `
+				</table>
+			</div>
+		`;  // 有始有終
+		return invite_table;
 	}
 
 })();

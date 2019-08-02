@@ -40,3 +40,37 @@
 .invalidInput {
 	border-color: #d9534f !important;
 }
+
+/*師長推薦函邀請列表*/
+#invitation-list {
+	width: 100%;
+}
+
+#invitation-list td, #invitation-list th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#invitation-list th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4A6CDF;
+	color: white;
+}
+
+/*師長推薦函邀請列表條紋*/
+#invitation-list tr:nth-child(even){
+	/*
+		odd：奇數
+		even：偶數
+	*/
+	background-color: #CFFAE0;
+}
+
+/*師長推薦函邀請列表滑鼠游標指到的列變色*/
+#invitation-list tr:hover {
+	background-color: #CF9ADD;
+	color: white;
+	font-weight: bold;
+}
