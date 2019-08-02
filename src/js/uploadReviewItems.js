@@ -288,7 +288,10 @@
 								<div class="card-header bg-primary text-white">
 									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
-								<div class="card-body">` + descriptionBlock + `
+								<div class="card-body">
+									<div class="alert alert-primary">
+										師長推薦函可依「自行上傳」或「邀請師長上傳」二擇一或併行。
+									</div>` + descriptionBlock + `
 									<div class="alert alert-warning">
 										可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
 									</div>
@@ -314,7 +317,7 @@
 									</div>
 									<div class="row col-12">
 										<div class="col-md-9 form-group">
-											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系需求等的訊息" placeholder="給師長的訊息（非必填）">
+											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系需求等的訊息" placeholder="給師長的訊息（請同學務必與推薦人先行聯絡，並預留時間供師長上傳）">
 										</div>
 										<div class="col-md-3 form-group">
 											<button type="button" id="btn-invite" class="btn btn-info" style="visibility: hidden" title="師長上傳成功後會有電子郵件通知">送出邀請</button>
