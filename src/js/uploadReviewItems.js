@@ -300,7 +300,10 @@
 									<!-- 師長推薦函邀請 -->
 									<div class="row col-11">
 										<div class="col-md-12">
-											<label>或輸入師長資料以寄送邀請：</label>
+											<label>或輸入師長資料以寄送電子郵件邀請師長上傳推薦函：</label><br />
+										</div>
+										<div class="col-md-12 form-group">
+											<input type="checkbox" id="agree_teacher_recommendation_pact">本人<b>同意系統提供</b>姓名、電子信箱地址、手機號碼、就讀學校名稱<b>等訊息至邀請函中</b>（<strong class="text-danger">如不同意將無法送出邀請</strong>）。
 										</div>
 										<div class="col-md-5 form-group">
 											<input type="text" id="teacherName" class="form-control" title="請輸入師長姓名（不需頭銜或職稱）" placeholder="師長姓名">
@@ -314,7 +317,7 @@
 											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系需求等的訊息" placeholder="給師長的訊息（非必填）">
 										</div>
 										<div class="col-md-3 form-group">
-											<button type="button" id="btn-invite" class="btn btn-info" title="邀請函中會提及您的email以供師長辨識及聯絡">送出邀請</button>
+											<button type="button" id="btn-invite" class="btn btn-info" style="visibility: hidden" title="師長上傳成功後會有電子郵件通知">送出邀請</button>
 										</div>
 									</div>
 									${invite_list}  <!--邀請紀錄-->
@@ -383,6 +386,7 @@
 		$uploadForm.fadeIn();
 
 		$('#btn-invite').on('click',_handleInviteTeacher); //按下「送出邀請」按鈕
+		$("#agree_teacher_recommendation_pact").on('change', teacherRecommendationPactChange);  // 是否同意師長推薦函邀請使用條件的核取方塊
 
 		loading.complete();
 	}
@@ -800,4 +804,12 @@
 		return invite_table;
 	}
 
+	// 透過是否勾選同意師長推薦函個資使用條件來控制「送出邀請按鈕」
+	function teacherRecommendationPactChange() {
+		if($("#agree_teacher_recommendation_pact").prop('checked')){
+			document.getElementById("btn-invite").style.visibility="";
+		} else {
+			document.getElementById("btn-invite").style.visibility="hidden";
+		}
+	}
 })();
