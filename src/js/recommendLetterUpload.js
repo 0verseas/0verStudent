@@ -60,16 +60,22 @@
             console.log('あのね (≧д≦) あのね');
             const sid = paddingLeft(tokenJson.sid, 6);  // 後端送回來的報名序號，驗證資料正確性使用
             const stu_name = tokenJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
+            const stu_eng_name = tokenJson.eng_s_name;  // 學生英文姓名
             const dept_title = tokenJson.dept_title;  // 系所名稱
             const school_title = tokenJson.school_title;  // 學校名稱
             const dept_eng_title = tokenJson.dept_eng_title;
             const school_eng_title = tokenJson.school_eng_title;
             const dept_code = tokenJson.dept_code;  // card_code of department
             document.getElementById("sid").innerHTML = sid;
+            document.getElementById("eng-sid").innerHTML = sid;
             document.getElementById("stu-name").innerHTML = stu_name;
-            document.getElementById("admission-school").innerHTML = school_title+"（"+school_eng_title+"）";
-            document.getElementById("admission-department").innerHTML = dept_title+"（"+dept_eng_title+"）";
+            document.getElementById("eng-stu-name").innerHTML = stu_eng_name;
+            document.getElementById("admission-school").innerHTML = school_title;
+            document.getElementById("eng-admission-school").innerHTML = school_eng_title;
+            document.getElementById("admission-department").innerHTML = dept_title;
+            document.getElementById("eng-admission-department").innerHTML = dept_eng_title;
             document.getElementById("dept-code").innerHTML = dept_code;
+            document.getElementById("eng-dept-code").innerHTML = dept_code;
 
             //前端顯示已經上傳幾個檔案
             const fileResponse = await student.getTeacherSetReviewItem(_id, _dept_id, _token);
@@ -80,6 +86,7 @@
             count = numJson.count;
             _type_id = numJson.type_id;
             document.getElementById("file-count").innerHTML = count;
+            document.getElementById("eng-file-count").innerHTML = count;
             document.getElementById("file-view").innerHTML = _getFileAreaHTML(fileNameObjectToArray(numJson.filename));
             loading.complete();
         } catch (e) {
@@ -190,7 +197,7 @@
             loading.complete();
             $recommendationLetterUploadBtn.remove(); //remove upload button
             $recommendationLetterUpload.remove(); //remove recommend letter upload form page
-            let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。</h4></div>'; //按下按鈕後要顯示的內容
+            let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。　Upload is completed, please close this page.</h4></div>'; //按下按鈕後要顯示的內容
             document.getElementById("final-page").innerHTML = html; //替換畫面上的內容
         },500); //『幫我撐50 0秒』
     }
@@ -288,7 +295,7 @@
 				</div>
 
 				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
-					<i class="fa fa-download" aria-hidden="true"></i> 下載
+					<i class="fa fa-download" aria-hidden="true"></i> 下載　Download
 				</a>
 			`);
         }

@@ -58,21 +58,28 @@
             console.log('あのね (≧д≦) あのね');
             const sid = paddingLeft(tokenJson.sid, 6);  // 後端送回來的報名序號，驗證資料正確性使用
             const stu_name = tokenJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
+            const stu_eng_name = tokenJson.eng_s_name;  // 學生英文姓名
             const dept_title = tokenJson.dept_title;  // 系所名稱
             const school_title = tokenJson.school_title;  // 學校名稱
             const dept_eng_title = tokenJson.dept_eng_title;
             const school_eng_title = tokenJson.school_eng_title;
             const dept_code = tokenJson.dept_code;  // card_code of department
             document.getElementById("sid").innerHTML = sid;
+            document.getElementById("eng-sid").innerHTML = sid;
             document.getElementById("stu-name").innerHTML = stu_name;
-            document.getElementById("admission-school").innerHTML = school_title+"（"+school_eng_title+"）";
-            document.getElementById("admission-department").innerHTML = dept_title+"（"+dept_eng_title+"）";
+            document.getElementById("eng-stu-name").innerHTML = stu_eng_name;
+            document.getElementById("admission-school").innerHTML = school_title;
+            document.getElementById("eng-admission-school").innerHTML = school_eng_title;
+            document.getElementById("admission-department").innerHTML = dept_title;
+            document.getElementById("eng-admission-department").innerHTML = dept_eng_title;
             document.getElementById("dept-code").innerHTML = dept_code;
+            document.getElementById("eng-dept-code").innerHTML = dept_code;
 
             //前端顯示已經上傳幾個檔案
             count = tokenJson.count;
             _type_id = tokenJson.type_id;
             document.getElementById("file-count").innerHTML = count;
+            document.getElementById("eng-file-count").innerHTML = count;
             document.getElementById("file-view").innerHTML = _getFileAreaHTML(fileNameObjectToArray(tokenJson.filename));
             loading.complete();
         } catch (e) {
@@ -235,11 +242,11 @@
             $imgModalBody.html(`
 				<div id="pdf-container">
 <!--					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>-->
-                    <iframe src="${fileLink}" width="100%" height="${client_height}"> 您的瀏覽器不支援預覽，請點選並以「下載」的方式來檢視原始檔案。 </iframe>
+                    <iframe src="${fileLink}" width="100%" height="${client_height}"> 您的瀏覽器不支援預覽，請點選並以「下載」的方式來檢視原始檔案。　Your web browser doesn't support, please click "Download" to view the file. </iframe>
 				</div>
 
 				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
-					<i class="fa fa-download" aria-hidden="true"></i> 下載
+					<i class="fa fa-download" aria-hidden="true"></i> 下載　Download
 				</a>
 			`);
         }

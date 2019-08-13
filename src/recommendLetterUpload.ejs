@@ -6,8 +6,17 @@
                 學生姓名：<b><span id="stu-name" style="background-color: #FFF509"></span></b>（報名序號：<strong><span id="sid" style="background-color: #FFD383"></span></strong>） <br />
                 志願代碼：<span id="dept-code"></span> <br/>
                 選填志願：<span id="admission-school"></span>　<span id="admission-department"></span>
+                <br />
+                <br />
+                <br />
+                <!--英文-->
+                Dear Teacher: Your upload has been completed, thank you for your use. Please refer to the information and files below which you have uploaded. If there is any problem, please feel free to contact:<br /><br />
+                Student name:<b><span id="eng-stu-name" style="background-color: #FFF509"></span></b>（Application No.<strong><span id="eng-sid" style="background-color: #FFD383"></span></strong>） <br />
+                Choice Code：<span id="eng-dept-code"></span> <br/>
+                Choice Filling：<span id="eng-admission-school"></span>　<span id="eng-admission-department"></span>
             </div>
         </div>
+
 
         <div class="card">
             <div class="card-header bg-primary text-white">
@@ -15,7 +24,8 @@
             </div>
             <div class="card-body">
                 <div class="alert alert-warning">
-                    可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+                    可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。<br />
+                    Please choose <strong class="text-danger">pdf, jpg or png</strong> as the format of a file; also, each single file size must be <strong class="text-danger">smaller than 4 Mbytes</strong>.
                 </div>
                 <div class="row" style="margin-bottom: 15px;">
                     <div class="col-12">
@@ -26,6 +36,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><span>共選擇 <span id="file-count" style="color:lightseagreen"></span> 個檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                        <h4 class="card-title"><span><span id="eng-file-count" style="color:lightseagreen"></span> files have been selected </span> <small class="text-muted">(click on the figure to zoom in or delete)</small></h4>
                         <div id="file-view"></div>
                     </div>
                 </div>
@@ -36,8 +47,8 @@
 <hr>
 <div class="row" id="recommendation-letter-upload-btn">
     <div class="col-12 text-center">
-        <button class="btn btn-primary" id="btn-save" title="確認後如欲再上傳其他檔案須請學生重新邀請">
-            <i class="fa fa-floppy-o" aria-hidden="true"></i> 確認並上傳
+        <button class="btn btn-primary" id="btn-save" title="確認後如欲再上傳其他檔案須請學生重新邀請　A re-invitation from your student is required if you intend to upload other files after clicking on Confirm.">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i> 確認並上傳　Confirm
         </button>
     </div>
 </div>
@@ -50,8 +61,8 @@
                 <img src="" class="img-fluid rounded img-ori">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-delImg"><i class="fa fa-trash" aria-hidden="true"></i> 刪除</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
+                <button type="button" class="btn btn-danger btn-delImg"><i class="fa fa-trash" aria-hidden="true"></i> 刪除　Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開　Close</button>
             </div>
         </div>
     </div>
