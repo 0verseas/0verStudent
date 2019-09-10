@@ -16,6 +16,7 @@
 	let _hasSchoolLocate = false; // 有無學校所在地列表，true 則採用 $schoolNameSelect，否則採用 $schoolNameText
 	let _schoolCountryId = "";
 	let _originSchoolCountryId = "";
+	let _originSchoolType = "";  // 原本的學校類型
 	let _currentSchoolType = "";
 	let _currentSchoolLocate = "";
 	let _currentSchoolName = "";
@@ -281,6 +282,7 @@
 
 			_schoolCountryId = formData.school_country;
 			_originSchoolCountryId = formData.school_country;
+			_originSchoolType = formData.school_type;  // 取得資料庫目前的「學校類型」資料
 			_currentSchoolType = (formData.school_type !== null) ? formData.school_type : "";
 			_currentSchoolLocate = (formData.school_locate !== null) ? formData.school_locate : "";
 			_currentSchoolName = formData.school_name;
@@ -586,6 +588,13 @@
 		_currentSchoolLocate = "";
 		_currentSchoolName = "";
 		_reRenderSchoolLocation();
+
+		// 如果學校類型改變了就讓善意的提醒浮出水面
+		if(_originSchoolType != _currentSchoolType){
+			$('.alert-schoolType').show();
+		} else {  // 學校類型改回原本的就讓善意的提醒沉到水底
+			$('.alert-schoolType').hide();
+		}
 	}
 
 	function _reRenderSchoolLocation() {
