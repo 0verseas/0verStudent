@@ -5,6 +5,7 @@
 	*/
 
 	const $applyWaysFieldSet = $('#apply-ways');
+	const $goToFF = $('#go-to-FF');  // 「可以被分發去僑先部」的核取方塊
 	
 	/**
 	*	init
@@ -38,7 +39,7 @@
 		}
 	}
 
-	function _handleSave() {
+	async function _handleSave() {
 
 		const id = $('.radio-option:checked').attr('data-id');
 		const code = $('.radio-option:checked').val();
@@ -46,6 +47,7 @@
 			alert('請選擇您欲申請的成績採計方式');
 			return;
 		}
+		const toFForNot = $goToFF.prop('checked');
 
 		console.log(id);
 
@@ -64,6 +66,22 @@
 		}
 
 		loading.start();
+		try {
+			const choseFF = await student.setStudentGoToFForNot(toFForNot);
+			if(!choseFF.ok){
+				throw choseFF;
+			}
+		} catch (e) {
+			e.json && e.json().then((data) => {
+				console.error(data);
+
+				alert(`${data.messages[0]}`);
+
+				loading.complete();
+			});
+			return;
+		}
+
 		student.setStudentAdmissionPlacementApplyWay(data).then((res) => {
 			if (res.ok) {
 				return res.json();
@@ -131,6 +149,28 @@
 				$('.year_of_hk_ale').val(year_of_hk_ale || '');
 				$('.year_of_hk_cee').val(year_of_hk_cee || '');
 				$('.my_admission_ticket_no').val(my_admission_ticket_no || '');
+			})
+		})
+		.then(() => {
+			// 取得學生是否願意去僑先部的資料
+			student.getStudentGoToFForNot()
+			.then((res) => {
+					if (res.ok) {
+						return res.json();
+					} else {
+						throw res;
+					}
+				})
+			.then((FF_or_not_json) => {
+				/*
+				 * 如果是假，代表願意分發到僑先部 => 打勾；
+				 * 反之，為真就代表不願意
+				 */
+				if(FF_or_not_json.not_to_FF){  // 抵死不想去
+					$goToFF.prop('checked', false);
+				} else {  // 我都可以
+					$goToFF.prop('checked', true);
+				}
 			})
 		})
 		.then(() => {
