@@ -37,6 +37,13 @@
 		} else {
 			$('.forCode01').hide();
 		}
+
+		// 如果是申請僑先部的採計方式，就沒有要不要分發僑先部的問題
+		if(+$(this).val() === 16){  // ∴當選擇申請僑先部的採計方式時，隱藏讓學生選擇去不去僑先部的選項
+			$('#go-to-FF-form').hide();
+		} else {  // 反之則顯示選項
+			$('#go-to-FF-form').show();
+		}
 	}
 
 	async function _handleSave() {
