@@ -569,6 +569,15 @@ const student = (() => {
 		})
 	}
 
+	//學生上傳澳門四校成績單
+	function MacauTranscriptsetReviewItem({ student_id,  data }) {
+		return fetch(`${baseUrl}/students/${student_id}/macau-transcript`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -620,7 +629,8 @@ const student = (() => {
 		getTeacherSetReviewItem,
 		notifyStudentRecommendationLetterHadUploaded,
 		teacherDeleteItem,
-		teacherWantReview
+		teacherWantReview,
+		MacauTranscriptsetReviewItem
 	};
 
 })();
