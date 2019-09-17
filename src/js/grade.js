@@ -18,6 +18,7 @@
 
 	$applyWaysFieldSet.on('change.chooseOption', '.radio-option', _handleChoose);
 	$('.btn-save').on('click', _handleSave);
+	$goToFF.on('change',toFFChange);
 
 	/**
 	* event handler
@@ -202,6 +203,17 @@
 		});
 	}
 
-
+	// 去不去僑先部的選項改變
+	function toFFChange() {
+		if(!$goToFF.prop('checked')){  // 變成沒勾的時候
+			// 跳出確認框
+			if(confirm("未勾選者，將視同放棄可能分發至「臺師大僑先部」之機會，且無法選填「臺師大僑先部」志願！")){  // 確定
+				// 學生心意已決
+				return;
+			} else {  // 取消
+				$goToFF.prop('checked', true);  // 幫學生勾回去
+			}
+		}
+	}
 
 })();
