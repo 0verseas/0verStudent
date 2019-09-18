@@ -160,6 +160,22 @@
 			})
 		})
 		.then(() => {
+			// 取得學生是否參加聯合分發
+			student.getStudentAdmissionPlacementApplyWay().then((res) => {
+				if(res.ok){
+					return res.json();
+				} else {
+					throw res;
+				}
+			}).then((placementJson) => {
+				const studentApplyWayCode = placementJson.student_misc_data.admission_placement_apply_way_data ? placementJson.student_misc_data.admission_placement_apply_way_data.code : null;
+				if(studentApplyWayCode == 99999){  // 不參加聯合分發
+					$('#not-join-placement-alert').show();  // 顯示不參加聯合分發的提示框
+					$("#choose-placement-apply-way").hide();  // 隱藏儲存按鈕和選擇採計方式的區塊
+				}
+			})
+		})
+		.then(() => {
 			// 取得學生是否願意去僑先部的資料
 			student.getStudentGoToFForNot()
 			.then((res) => {

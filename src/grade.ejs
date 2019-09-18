@@ -4,78 +4,84 @@
 
 <hr>
 
-<div class="row">
-	<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-		<div class="card">
-			<div class="card-header bg-primary text-white">請選擇您欲申請的成績採計方式。</div>
-			<div class="card-body">
-				<div class="form-group" id="apply-ways">
+<div class="alert alert-danger hide" role="alert" id="not-join-placement-alert">
+	由於您已選擇不參加聯合分發，因此將無法選填聯合分發志願。如欲修改請<a href="/admissionSelection.html">點這裡</a>並至畫面下方勾選同意。
+</div>
+
+<div id="choose-placement-apply-way">
+	<div class="row">
+		<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+			<div class="card">
+				<div class="card-header bg-primary text-white">請選擇您欲申請的成績採計方式。</div>
+				<div class="card-body">
+					<div class="form-group" id="apply-ways">
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="row mt-2 forCode23 hide">
-	<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-		<div class="card">
-			<div class="card-header bg-primary text-white">請填寫考試年份</div>
-			<div class="card-body">
-				<fieldset class="form-group">
-					<div class="form-group">
-						<label>香港中學文憑考試 (DSE)</label>
-						<input type="text" class="form-control year_of_hk_dse">
-					</div>
-					<div class="form-group">
-						<label>香港高級程度會考 (ALE)</label>
-						<input type="text" class="form-control year_of_hk_ale">
-					</div>
-					<div class="form-group">
-						<label>香港中學會考 (CEE)</label>
-						<input type="text" class="form-control year_of_hk_cee">
-					</div>
-				</fieldset>
+	<div class="row mt-2 forCode23 hide">
+		<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+			<div class="card">
+				<div class="card-header bg-primary text-white">請填寫考試年份</div>
+				<div class="card-body">
+					<fieldset class="form-group">
+						<div class="form-group">
+							<label>香港中學文憑考試 (DSE)</label>
+							<input type="text" class="form-control year_of_hk_dse">
+						</div>
+						<div class="form-group">
+							<label>香港高級程度會考 (ALE)</label>
+							<input type="text" class="form-control year_of_hk_ale">
+						</div>
+						<div class="form-group">
+							<label>香港中學會考 (CEE)</label>
+							<input type="text" class="form-control year_of_hk_cee">
+						</div>
+					</fieldset>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="row mt-2 forCode01 hide">
-	<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-		<div class="card">
-			<div class="card-header bg-primary text-white">請提供馬來西亞華文獨中統考准考證號碼</div>
-			<div class="card-body">
-				<fieldset class="form-group">
-					<div class="form-group">
-						<label>馬來西亞華文獨中統考准考證號碼</label>
-						<input type="text" class="form-control my_admission_ticket_no" placeholder="ex: s3706103, v1906010">
-						<div class="alert alert-info" role="alert">若參加多次考試請以逗點隔開准考證號碼</div>
-					</div>
-				</fieldset>
+	<div class="row mt-2 forCode01 hide">
+		<div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+			<div class="card">
+				<div class="card-header bg-primary text-white">請提供馬來西亞華文獨中統考准考證號碼</div>
+				<div class="card-body">
+					<fieldset class="form-group">
+						<div class="form-group">
+							<label>馬來西亞華文獨中統考准考證號碼</label>
+							<input type="text" class="form-control my_admission_ticket_no" placeholder="ex: s3706103, v1906010">
+							<div class="alert alert-info" role="alert">若參加多次考試請以逗點隔開准考證號碼</div>
+						</div>
+					</fieldset>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div id="go-to-FF-form" class="hide">
+	<div id="go-to-FF-form" class="hide">
+		<hr>
+		<div class="form-group">
+			<div class="row offset-md-2 form-check">
+				<input type="checkbox" id="go-to-FF" checked>如有下列情形之一者，本人同意分發至臺師大僑先部（勾選代表同意）
+			</div>
+			<br />
+			<div class="row offset-md-2">
+				<ol>
+					<li>分發分數未達大學最低錄取標準。</li>
+					<li>分發分數達大學最低錄取標準，但所填志願已無名額。</li>
+					<li>香港學生選擇以「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」成績申請，未於簡章規定期限完成線上提交「聯合分發校系志願表」者。</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+
 	<hr>
-	<div class="form-group">
-		<div class="row offset-md-2 form-check">
-			<input type="checkbox" id="go-to-FF" checked>如有下列情形之一者，本人同意分發至臺師大僑先部（勾選代表同意）
-		</div>
-		<br />
-		<div class="row offset-md-2">
-			<ol>
-				<li>分發分數未達大學最低錄取標準。</li>
-				<li>分發分數達大學最低錄取標準，但所填志願已無名額。</li>
-				<li>香港學生選擇以「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」成績申請，未於簡章規定期限完成線上提交「聯合分發校系志願表」者。</li>
-			</ol>
-		</div>
-	</div>
-</div>
 
-<hr>
-
-<div class="row">
-	<div class="col-12 text-center">
-		<a class="btn btn-primary btn-save" href="javascript:;" role="button">儲存</a>
+	<div class="row">
+		<div class="col-12 text-center">
+			<a class="btn btn-primary btn-save" href="javascript:;" role="button">儲存</a>
+		</div>
 	</div>
 </div>
