@@ -477,7 +477,7 @@
 	// 是否要流至聯合分發的 checkbox 改變
 	function joinPlacementChange() {
 		if(!$notJoinPlacement.prop('checked')){  // 沒勾選
-			if(confirm("未勾選者，將視同放棄「聯合分發」管道，且無法選填「聯合分發」志願。請問你是否不參加「聯合分發」？")){  // 確定
+			if(confirm("未勾選者，將視同放棄「聯合分發」管道，且無法選填「聯合分發」志願。\n如不參加聯合分發請按「確定」鍵！")){  // 確定
 				return;
 			} else {  // 取消
 				$notJoinPlacement.prop('checked', true);  // 幫學生勾回去

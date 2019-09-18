@@ -44,6 +44,11 @@
 			$('#go-to-FF-form').hide();
 		} else {  // 反之則顯示選項
 			$('#go-to-FF-form').show();
+			if(+$(this).val() === 23){  // 只有在選擇以香港DSE、ALE、CEE作為聯分成績採計方式時才會顯示
+				$('#hk-DSE-ALE-CEE').show();
+			} else {
+				$("#hk-DSE-ALE-CEE").hide();
+			}
 		}
 	}
 
@@ -223,7 +228,7 @@
 	function toFFChange() {
 		if(!$goToFF.prop('checked')){  // 變成沒勾的時候
 			// 跳出確認框
-			if(confirm("未勾選者，將視同放棄可能分發至「臺師大僑先部」之機會，且無法選填「臺師大僑先部」志願！")){  // 確定
+			if(confirm("未勾選者，將視同放棄可能分發至「臺師大僑先部」之機會，且無法選填「臺師大僑先部」志願！\n不願分發至臺師大僑先部者，請按「確認」鍵")){  // 確定
 				// 學生心意已決
 				return;
 			} else {  // 取消
