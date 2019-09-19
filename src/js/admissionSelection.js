@@ -137,7 +137,24 @@
 				$notJoinPlacement.prop('checked', false);
 			}
 
-			$quotaLinkBtn.attr('href', env.quotaUrl);
+			// 根據使用者的學制連過去的名額查詢系統自動帶去該學制
+			switch (_currentSystem) {
+				case 1:  // 學士班
+					$quotaLinkBtn.attr('href', env.quotaUrl);
+					break;
+				case 2:  // 港二技
+					$quotaLinkBtn.attr('href', env.quotaUrl+"/two-year.html");
+					break;
+				case 3:  // 碩士班
+					$quotaLinkBtn.attr('href', env.quotaUrl+"/master.html");
+					break;
+				case 4:  // 博士班
+					$quotaLinkBtn.attr('href', env.quotaUrl+"/phd.html");
+					break;
+				default:
+					$quotaLinkBtn.attr('href', env.quotaUrl);
+					break;
+			}
 
 			_generateOptionalWish();
 			_generateWishList();
