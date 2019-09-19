@@ -924,7 +924,7 @@
 			require: true,
 			type: 'string',
 			dbKey: 'resident_address',
-			dbData: $residentAddress.val() + ';' + $residentOtherLangAddress.val(),
+			dbData: $residentAddress.val() /*+ ';' + $residentOtherLangAddress.val()*/,  // 原本僑居地地址有兩欄，如果恢復其他語言地址欄位請記得取消這邊的註解
 			colName: '僑居地地址'
 		},
 		{
