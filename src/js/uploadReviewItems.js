@@ -162,6 +162,28 @@
 		let reviewItemHTML = '';
 		let requiredBadge = '';
 
+		// 如果有填寫審查費用就顯示
+		if(_wishList[_orderIndex].department_data.has_review_fee){
+			reviewItemHTML += `
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header bg-secondary text-white">
+								審查費用 (Review fee)
+							</div>
+							<div class="card-body">
+<!--								<blockquote class="blockquote">-->
+									${_wishList[_orderIndex].department_data.review_fee_detail} <br /><br />
+									${_wishList[_orderIndex].department_data.eng_review_fee_detail}
+<!--								</blockquote>-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+			`;
+		}
+
 		_wishList[_orderIndex].uploaded_file_list.forEach((fileListItem, index) => {
 			requiredBadge = (fileListItem.required === true) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
 
