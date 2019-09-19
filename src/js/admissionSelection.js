@@ -18,6 +18,8 @@
 	let _prevWishIndex = -1;
 	let _currentWishIndex = -1;
 
+	let studentApplyWayCode = null;  // 學生聯合分發採計方式 code
+
 	/**
 	*	cache DOM
 	*/
@@ -34,6 +36,7 @@
 	const $wishList = $('#wish-list'); // 已填選志願
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 	const $saveBtn = $('#btn-save');
+	const $notJoinPlacement = $('#notJoinPlacement');  // 是否要流至聯合分發的 checkbox
 
 	/**
 	*	init
@@ -50,6 +53,7 @@
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
+	$notJoinPlacement.on('change', joinPlacementChange);  // 監聽是否不參加聯合分發
 
 	async function _init() {
 		try {
@@ -121,6 +125,17 @@
 				_wishList.push(_optionalWish[orderIndex]);
 				_optionalWish.splice(orderIndex, 1);
 			});
+
+			// 取得學生是否不參加聯合分發
+            const resApplyWay = await student.getStudentAdmissionPlacementApplyWay();
+            if (!resApplyWay.ok) {
+            	throw resApplyWay;
+            }
+			const applyWayJson = await resApplyWay.json();
+            studentApplyWayCode = applyWayJson.student_misc_data.admission_placement_apply_way_data ? applyWayJson.student_misc_data.admission_placement_apply_way_data.code : null;
+			if(studentApplyWayCode == 99999){  // 不參加聯合分發
+				$notJoinPlacement.prop('checked', false);
+			}
 
 			$quotaLinkBtn.attr('href', env.quotaUrl);
 
@@ -355,6 +370,58 @@
 					order
 				}
 				loading.start();
+				// 先設定是否參加聯合分發
+				if(!$notJoinPlacement.prop('checked')) {  // 如果勾選不要的話
+					let data = {
+						apply_way: 1
+					};
+					student.setStudentAdmissionPlacementApplyWay(data).then((res) => {
+						if (res.ok) {
+							return res.json();
+						} else {
+							throw res;
+						}
+					}).then((json) => {
+						// console.log(json);
+					}).catch((err) => {
+						if (err.status && err.status === 401) {
+							alert('請登入。');
+							location.href = "./index.html";
+						}
+						err.json && err.json().then((data) => {
+							console.error(data.messages[0]);
+							alert(data.messages[0]);
+						});
+						loading.complete();
+					});
+				} else {  // 有勾選（預設情況）
+					// 如果學生已經選好採計方式就不處理（清成 null）=> 如果是不參加聯合分發卻又反悔勾選要才處理
+					if(studentApplyWayCode == 99999){
+						let data = {
+							apply_way: null
+						};
+						student.setStudentAdmissionPlacementApplyWay(data).then((res) => {
+							if (res.ok) {
+								return res.json();
+							} else {
+								throw res;
+							}
+						}).then((json) => {
+							// console.log(json);
+						}).catch((err) => {
+							if (err.status && err.status === 401) {
+								alert('請登入。');
+								location.href = "./index.html";
+							}
+							err.json && err.json().then((data) => {
+								console.error(data.messages[0]);
+								alert(data.messages[0]);
+							});
+							loading.complete();
+						});
+					}
+				}
+
 				student.setAdmissionSelectionOrder(data)
 				.then((res) => {
 					if (res.ok) {
@@ -404,6 +471,17 @@
 				})
 				loading.complete();
 			})
+		}
+	}
+
+	// 是否要流至聯合分發的 checkbox 改變
+	function joinPlacementChange() {
+		if(!$notJoinPlacement.prop('checked')){  // 沒勾選
+			if(confirm("未勾選者，將視同放棄「聯合分發」管道，且無法選填「聯合分發」志願。\n如不參加聯合分發請按「確定」鍵！")){  // 確定
+				return;
+			} else {  // 取消
+				$notJoinPlacement.prop('checked', true);  // 幫學生勾回去
+			}
 		}
 	}
 

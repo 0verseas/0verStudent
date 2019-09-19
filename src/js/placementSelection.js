@@ -33,6 +33,8 @@
 	const $saveBtn = $('#btn-save');
 	const $confirmedBtn = $('#btn-confirmed');
 	const $secondConfirm = $('#secondConfirm');
+	const $notToFFInfo = $('#not-to-FF');  // 提醒目前是不分發僑先部狀態的 alert
+
 	/**
 	*	init
 	*/
@@ -52,6 +54,16 @@
 
 	async function _init() {
 		try {
+		    // 先檢查學生願不願意去僑先部
+			const wantToFF_response = await student.getStudentGoToFForNot();
+			if(!wantToFF_response.ok){
+				throw wantToFF_response;
+			}
+			const wantToFF = await wantToFF_response.json();
+			if(wantToFF.not_to_FF){  // 如果學生不願意去僑先部的話就多個提示框
+				$notToFFInfo.removeClass('hide');
+			}
+
 			const response = await student.getPlacementSelectionOrder();
 			if (!response[0].ok) { throw response[0]; }
 

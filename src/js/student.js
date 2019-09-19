@@ -578,6 +578,26 @@ const student = (() => {
 		})
 	}
 
+	// 取得學生是否願意去僑先部的資料
+	function getStudentGoToFForNot(){
+		return fetch(`${baseUrl}/students/FF-or-not`,{
+			method: 'GET',
+			credentials: "include"
+		})
+	}
+
+	// 更新學生是否願意去僑先部
+	function setStudentGoToFForNot(data) {
+		return fetch(baseUrl + `/students/FF-or-not/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -630,7 +650,9 @@ const student = (() => {
 		notifyStudentRecommendationLetterHadUploaded,
 		teacherDeleteItem,
 		teacherWantReview,
-		MacauTranscriptsetReviewItem
+		MacauTranscriptsetReviewItem,
+		getStudentGoToFForNot,
+		setStudentGoToFForNot
 	};
 
 })();
