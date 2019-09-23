@@ -110,6 +110,8 @@
 	const $dadEngName = $('#dadEngName'); // 姓名（英）
 	const $dadBirthday = $('#dadBirthday'); // 生日
 	const $dadJob = $('#dadJob'); // 職業
+	const $dadPhoneCode = $('#dadPhoneCode');  // 聯絡電話國碼
+	const $dadPhone = $('#dadPhone');  // 聯絡電話
 	// 母親
 	const $momStatus = $('.momStatus'); // 存歿
 	const $momDataForm = $('#form-momData'); // 資料表單
@@ -117,12 +119,16 @@
 	const $momEngName = $('#momEngName'); // 姓名（英）
 	const $momBirthday = $('#momBirthday'); // 生日
 	const $momJob = $('#momJob'); // 職業
+	const $momPhoneCode = $('#momPhoneCode');  // 聯絡電話國碼
+	const $momPhone = $('#momPhone');  // 聯絡電話
 	// 監護人（父母皆不詳才需要填寫）
 	const $guardianForm = $('#form-guardian'); // 資料表單
 	const $guardianName = $('#guardianName'); // 姓名（中）
 	const $guardianEngName = $('#guardianEngName'); // 姓名（英）
 	const $guardianBirthday = $('#guardianBirthday'); // 生日
 	const $guardianJob = $('#guardianJob'); // 職業
+	const $guardianPhoneCode = $('#guardianPhoneCode');  // 聯絡電話國碼
+	const $guardianPhone = $('#guardianPhone');  // 聯絡電話
 
 	// 在台聯絡人
 	const $twContactName = $('#twContactName'); // 姓名
@@ -206,15 +212,18 @@
 					"dad_eng_name": "",
 					"dad_birthday": "",
 					"dad_job": "",
+					"dad_phone": "",
 					"mom_status": "alive",
 					"mom_name": "",
 					"mom_eng_name": "",
 					"mom_birthday": "",
 					"mom_job": "",
+					"mom_phone": "",
 					"guardian_name": "",
 					"guardian_eng_name": "",
 					"guardian_birthday": "",
 					"guardian_job": "",
+					"guardian_phone": "",
 					"tw_contact_name": "",
 					"tw_contact_relation": "",
 					"tw_contact_phone": "",
@@ -317,6 +326,11 @@
 			$dadEngName.val(formData.dad_eng_name);
 			$dadBirthday.val(formData.dad_birthday);
 			$dadJob.val(formData.dad_job);
+			// FIXME: 當雙親都是不詳的時候不這樣寫（判斷有無電話）渲染會出錯，懇請大神協助修改讓程式碼好看一點
+			if(formData.dad_phone !== null){
+				$dadPhoneCode.val(_splitWithSemicolon(formData.dad_phone)[0]);
+				$dadPhone.val(_splitWithSemicolon(formData.dad_phone)[1]);
+			}
 			// 母
 			_currentMomStatus = formData.mom_status;
 			$("input[name=momStatus][value='"+ formData.mom_status +"']").prop("checked",true);
@@ -324,11 +338,19 @@
 			$momEngName.val(formData.mom_eng_name);
 			$momBirthday.val(formData.mom_birthday);
 			$momJob.val(formData.mom_job);
+			if(formData.mom_phone !== null){
+				$momPhoneCode.val(_splitWithSemicolon(formData.mom_phone)[0]);
+				$momPhone.val(_splitWithSemicolon(formData.mom_phone)[1]);
+			}
 			// 監護人
 			$guardianName.val(formData.guardian_name);
 			$guardianEngName.val(formData.guardian_eng_name);
 			$guardianBirthday.val(formData.guardian_birthday);
 			$guardianJob.val(formData.guardian_job);
+			if(formData.guardian_phone !== null){
+				$guardianPhoneCode.val(_splitWithSemicolon(formData.guardian_phone)[0]);
+				$guardianPhone.val(_splitWithSemicolon(formData.guardian_phone)[1]);
+			}
 
 			// init 在台聯絡人
 			$twContactName.val(formData.tw_contact_name);
@@ -1069,7 +1091,9 @@
 				{el: $dadName, require: true, type: 'string', dbKey: 'dad_name', colName: '父親姓名（中）'},
 				{el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name', colName: '父親姓名（英）'},
 				{el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday', colName: '父親生日'},
-				{el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業'}
+				{el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業'},
+				{el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼'},
+				{el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + ';' + $dadPhone.val(), colName: '父親聯絡電話'}
 				);
 		}
 
@@ -1079,7 +1103,9 @@
 				{el: $momName, require: true, type: 'string', dbKey: 'mom_name', colName: '母親姓名（中）'},
 				{el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name', colName: '母親姓名（英）'},
 				{el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday', colName: '母親生日'},
-				{el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業'}
+				{el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業'},
+				{el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼'},
+				{el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + ';' + $momPhone.val(), colName: '母親聯絡電話'}
 				);
 		}
 
@@ -1089,7 +1115,9 @@
 				{el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）'},
 				{el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）'},
 				{el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日'},
-				{el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業'}
+				{el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業'},
+				{el: $guardianPhoneCode, require: true, type: 'string', colName: '監護人聯絡電話國碼'},
+				{el: $guardianPhone, require: true, type: 'string', dbKey: 'guardian_phone', dbData: $guardianPhoneCode.val() + ';' + $guardianPhone.val(), colName: '監護人聯絡電話'}
 				);
 		}
 
