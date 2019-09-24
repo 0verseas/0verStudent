@@ -314,7 +314,7 @@
 			if (_wishList[i].specialDeptType !== null && medicalList.indexOf(_wishList[i].specialDeptType) > -1) {
 				medicalHTML = ' class="bg-medical"';
 			}
-			if (_nupsList.indexOf(_wishList[i].id) > -1) {badgeNUPS = '<span class="badge badge-info">僑先部</span>';}
+			if (_nupsList.indexOf(_wishList[i].id) > -1) {badgeNUPS = '<span class="badge badge-info" title="請將此志願置於最後">僑先部</span>';}
 			rowHtml = rowHtml + `
 			<tr${medicalHTML} data-wishIndex="${i}">
 			<td>
@@ -341,7 +341,11 @@
 			</td>
 			</tr>
 			`;
-			if (hasNUPS === false && _nupsList.indexOf(_wishList[i].id) > -1) {invalidBadge = '<span class="badge badge-warning">無效志願</span>';}
+			if (hasNUPS === false && _nupsList.indexOf(_wishList[i].id) > -1) {
+				invalidBadge =
+					'<span class="badge badge-warning" title="志願序在僑生先修部之後的志願將不會被分發">無效志願</span>' +
+					'&nbsp;<span class="badge badge-pill badge-danger" title="志願序在僑生先修部之後的志願將不會被分發！\n請將志願序調整至僑生先修部之前">?</span>';
+			}
 		}
 		wishList.innerHTML = rowHtml;
 
