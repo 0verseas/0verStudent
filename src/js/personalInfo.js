@@ -269,7 +269,8 @@
 			$residentPhone.val(_splitWithSemicolon(formData.resident_phone)[1]);
 			$residentCellphoneCode.val(_splitWithSemicolon(formData.resident_cellphone)[0]);
 			$residentCellphone.val(_splitWithSemicolon(formData.resident_cellphone)[1]);
-			$residentAddress.val(_splitWithSemicolon(formData.resident_address)[0]);
+			// $residentAddress.val(_splitWithSemicolon(formData.resident_address)[0]);
+			$residentAddress.val(formData.resident_address);  // 原本僑居地地址有兩欄，如果恢復其他語言地址欄位請記得取消這邊的註解
 			$residentOtherLangAddress.val(_splitWithSemicolon(formData.resident_address)[1]);
 			_showResidentIDExample();
 
