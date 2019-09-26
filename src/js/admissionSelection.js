@@ -127,15 +127,20 @@
 			});
 
 			// 取得學生是否不參加聯合分發
-            const resApplyWay = await student.getStudentAdmissionPlacementApplyWay();
-            if (!resApplyWay.ok) {
-            	throw resApplyWay;
-            }
-			const applyWayJson = await resApplyWay.json();
-            studentApplyWayCode = applyWayJson.student_misc_data.admission_placement_apply_way_data ? applyWayJson.student_misc_data.admission_placement_apply_way_data.code : null;
-			if(studentApplyWayCode == 99999){  // 不參加聯合分發
-				$notJoinPlacement.prop('checked', false);
+			if(_currentSystem === 1){  // 學士班才有聯合分發
+				const resApplyWay = await student.getStudentAdmissionPlacementApplyWay();
+				if (!resApplyWay.ok) {
+					throw resApplyWay;
+				}
+				const applyWayJson = await resApplyWay.json();
+				studentApplyWayCode = applyWayJson.student_misc_data.admission_placement_apply_way_data ? applyWayJson.student_misc_data.admission_placement_apply_way_data.code : null;
+				if(studentApplyWayCode == 99999){  // 不參加聯合分發
+					$notJoinPlacement.prop('checked', false);
+				}
+			} else {  // 沒有聯合分發管道的學制就隱藏要不要流去聯合分發的選項
+				$('#joinPlacementForm').addClass('hide');
 			}
+
 
 			// 根據使用者的學制連過去的名額查詢系統自動帶去該學制
 			switch (_currentSystem) {
