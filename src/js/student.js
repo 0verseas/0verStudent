@@ -570,10 +570,25 @@ const student = (() => {
 	}
 
 	//學生上傳澳門四校成績單
-	function MacauTranscriptsetReviewItem({ student_id,  data }) {
-		return fetch(`${baseUrl}/students/${student_id}/macau-transcript`, {
+	function MacauTranscriptsetReviewItem({ student_id, data, subject }) {
+		return fetch(`${baseUrl}/students/${student_id}/macau-transcript/subject/${subject}/file`, {
 			method: 'POST',
 			body: data,
+			credentials: 'include'
+		})
+	}
+
+	//撈出學生傳澳門四校聯考成績檔案名
+	function getMacauTranscriptsetItem({student_id, subject}) {
+		return fetch(`${baseUrl}/students/${student_id}/macau-transcript/subject/${subject}/file`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
+	function delMacauTranscriptItem({ student_id, subject, filename }) {
+		return fetch(`${baseUrl}/students/${student_id}/macau-transcript/subject/${subject}/file/${filename}`, {
+			method: 'Delete',
 			credentials: 'include'
 		})
 	}
@@ -593,8 +608,8 @@ const student = (() => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(data),
 			credentials: 'include'
+			body: JSON.stringify(data),
 		})
 	}
 
@@ -650,9 +665,7 @@ const student = (() => {
 		notifyStudentRecommendationLetterHadUploaded,
 		teacherDeleteItem,
 		teacherWantReview,
-		MacauTranscriptsetReviewItem,
-		getStudentGoToFForNot,
-		setStudentGoToFForNot
+		MacauTranscriptsetReviewItem
 	};
 
 })();
