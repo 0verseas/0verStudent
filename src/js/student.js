@@ -608,7 +608,7 @@ const student = (() => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			credentials: 'include'
+			credentials: 'include',
 			body: JSON.stringify(data),
 		})
 	}
@@ -665,7 +665,9 @@ const student = (() => {
 		notifyStudentRecommendationLetterHadUploaded,
 		teacherDeleteItem,
 		teacherWantReview,
-		MacauTranscriptsetReviewItem
+		MacauTranscriptsetReviewItem,
+		getStudentGoToFForNot,
+		setStudentGoToFForNot
 	};
 
 })();
