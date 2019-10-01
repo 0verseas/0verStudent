@@ -33,3 +33,8 @@
 	border-style: solid;
 	border-color: rgba(0, 0, 0, 0.15);;
 }
+
+/* jQuery 的 Tooltip */
+.ui-tooltip {
+	font: bold 14px Helvetica Neue, Nimbus Sans, Sans-Serif;
+}

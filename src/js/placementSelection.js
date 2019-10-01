@@ -64,6 +64,11 @@
 				$notToFFInfo.removeClass('hide');
 			}
 
+			// 使用 jQuery 的 Tooltip
+			$(document).tooltip({
+				track: true,  // 提示框會隨著滑鼠游標移動
+			});
+
 			const response = await student.getPlacementSelectionOrder();
 			if (!response[0].ok) { throw response[0]; }
 
@@ -344,7 +349,7 @@
 			if (hasNUPS === false && _nupsList.indexOf(_wishList[i].id) > -1) {
 				invalidBadge =
 					'<span class="badge badge-warning" title="志願序在僑生先修部之後的志願將不會被分發">無效志願</span>' +
-					'&nbsp;<span class="badge badge-pill badge-danger" title="志願序在僑生先修部之後的志願將不會被分發！\n請將志願序調整至僑生先修部之前">?</span>';
+					'&nbsp;<span class="badge badge-pill badge-danger" title="志願序在僑生先修部之後的志願將不會被分發！\n請將志願序調整至僑生先修部之前。" data-toggle="tooltip">?</span>';
 			}
 		}
 		wishList.innerHTML = rowHtml;
