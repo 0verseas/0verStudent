@@ -53,7 +53,7 @@
 		const passConfirm = $passwordConfirm.val();
 
 		// 判斷密碼長度
-		if (oriPass.length >= 6) {
+		if (oriPass.length >= 8) {
 			$password.removeClass('invalidInput');
 			$passwordWarning.hide();
 			_passValid = true;
@@ -64,7 +64,7 @@
 		}
 
 		// 判斷確認密碼長度與以及是否與密碼相同
-		if ((passConfirm.length >= 6) && (passConfirm === oriPass)) {
+		if ((passConfirm.length >= 8) && (passConfirm === oriPass)) {
 			$passwordConfirm.removeClass('invalidInput');
 			_passValid = true;
 		} else {
