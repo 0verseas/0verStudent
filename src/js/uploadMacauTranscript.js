@@ -117,6 +117,7 @@
 	function _checkScore(para_subject) {
 
 		const data_subject =  $(this).data('subject') ;
+		var subject;
 		if( typeof(data_subject) == 'undefined')
 			subject = para_subject;
 		else
@@ -354,9 +355,9 @@
 			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: $(this).data('subject')});
 			if (!response.ok) { throw response; }
 			const fileNameOfSubject = await response.json();
-			_filename = fileNameOfSubject.files[0];
+			var _filename = fileNameOfSubject.files[0];
 
-			console.log(fileNameOfSubject);
+			//console.log(fileNameOfSubject);
 
 			loading.complete();
 		} catch(e) {
@@ -493,10 +494,10 @@
 		if (checkIllegalScore != 1) {
 			let sendData = {};
 
-			scoreA = ($("input[name='radio1']:checked").val() == 'none_Chinese') ? -1 : document.getElementById('chineseScore').value;
-			scoreB = ($("input[name='radio3']:checked").val() == 'none_English') ? -1 : document.getElementById('englishScore').value;
-			scoreC = ($("input[name='radio5']:checked").val() == 'none_Math') ? -1 : document.getElementById('MathScore').value;
-			scoreD = ($("input[name='radio7']:checked").val() == 'none_ViceMath') ? -1 : document.getElementById('ViceMathScore').value;
+			var scoreA = ($("input[name='radio1']:checked").val() == 'none_Chinese') ? -1 : document.getElementById('chineseScore').value;
+			var scoreB = ($("input[name='radio3']:checked").val() == 'none_English') ? -1 : document.getElementById('englishScore').value;
+			var scoreC = ($("input[name='radio5']:checked").val() == 'none_Math') ? -1 : document.getElementById('MathScore').value;
+			var scoreD = ($("input[name='radio7']:checked").val() == 'none_ViceMath') ? -1 : document.getElementById('ViceMathScore').value;
 
 
 			sendData["user_id"] = _studentID;
@@ -562,10 +563,10 @@
 		if (checkIllegalScore != 1) {
 			let sendData = {};
 
-			scoreA = ($("input[name='radio1']:checked").val() == 'none_Chinese') ? -1 : document.getElementById('chineseScore').value;
-			scoreB = ($("input[name='radio3']:checked").val() == 'none_English') ? -1 : document.getElementById('englishScore').value;
-			scoreC = ($("input[name='radio5']:checked").val() == 'none_Math') ? -1 : document.getElementById('MathScore').value;
-			scoreD = ($("input[name='radio7']:checked").val() == 'none_ViceMath') ? -1 : document.getElementById('ViceMathScore').value;
+			var scoreA = ($("input[name='radio1']:checked").val() == 'none_Chinese') ? -1 : document.getElementById('chineseScore').value;
+			var scoreB = ($("input[name='radio3']:checked").val() == 'none_English') ? -1 : document.getElementById('englishScore').value;
+			var scoreC = ($("input[name='radio5']:checked").val() == 'none_Math') ? -1 : document.getElementById('MathScore').value;
+			var scoreD = ($("input[name='radio7']:checked").val() == 'none_ViceMath') ? -1 : document.getElementById('ViceMathScore').value;
 
 
 			sendData["user_id"] = _studentID;
