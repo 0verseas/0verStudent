@@ -124,7 +124,7 @@
 			subject = data_subject;
 
 		if(subject == '01'){
-			if( $chinsesScore.val() <= 1000 && $chinsesScore.val() >= 300 && typeof($chinsesScore.val()) != 'undefiend'){
+			if( $chinsesScore.val() <= 1000 && $chinsesScore.val() >= 350 && typeof($chinsesScore.val()) != 'undefiend'){
 				document.getElementById('uploadFileArea_01').style.display ="block";
 				document.getElementById('reviewItemsArea_01').style.display ='block';
 			}else{
@@ -132,7 +132,7 @@
 			}
 		}
 		else if(subject == '02'){
-			if( $englishScore.val() <= 1000 && $englishScore.val() >= 300){
+			if( $englishScore.val() <= 1000 && $englishScore.val() >= 350){
 				document.getElementById('uploadFileArea_02').style.display ="block";
 				document.getElementById('reviewItemsArea_02').style.display ='block';
 			}else{
@@ -140,7 +140,7 @@
 			}
 		}
 		else if(subject == '03'){
-			if( $MathScore.val() <= 1000 && $MathScore.val() >= 300){
+			if( $MathScore.val() <= 1000 && $MathScore.val() >= 350){
 				document.getElementById('uploadFileArea_03').style.display ="block";
 				document.getElementById('reviewItemsArea_03').style.display ='block';
 			}else{
@@ -148,7 +148,7 @@
 			}
 		}
 		else if(subject == '04'){
-			if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 300){
+			if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 350){
 				document.getElementById('uploadFileArea_04').style.display ="block";
 				document.getElementById('reviewItemsArea_04').style.display ='block';
 			}else{
@@ -474,19 +474,19 @@
 	async function _handleSave() {
 
 		checkIllegalScore = 0;
-		if ( ($chinsesScore.val() > 1000 || $chinsesScore.val() < 300) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
+		if ( ($chinsesScore.val() > 1000 || $chinsesScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
 			alert("中文成績輸入有誤");
 			checkIllegalScore = 1;
 		}
-		if (($englishScore.val() > 1000 || $englishScore.val() < 300) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
+		if (($englishScore.val() > 1000 || $englishScore.val() < 350) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
 			alert("英文成績輸入有誤");
 			checkIllegalScore = 1;
 		}
-		if (($MathScore.val() > 1000 || $MathScore.val() < 300) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
+		if (($MathScore.val() > 1000 || $MathScore.val() < 350) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
 			alert("數學成績輸入有誤");
 			checkIllegalScore = 1;
 		}
-		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 300) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
+		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 350) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
 			alert("數學附加卷成績輸入有誤");
 			checkIllegalScore = 1;
 		}
@@ -543,19 +543,19 @@
 	//檢查成績區間
 	async function _handleConfirm() {
 		checkIllegalScore = 0;
-		if ( ($chinsesScore.val() > 1000 || $chinsesScore.val() < 300) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
+		if ( ($chinsesScore.val() > 1000 || $chinsesScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
 			alert("中文成績輸入有誤");
 			checkIllegalScore = 1;
 		}
-		if (($englishScore.val() > 1000 || $englishScore.val() < 300) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
+		if (($englishScore.val() > 1000 || $englishScore.val() < 350) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
 			alert("英文成績輸入有誤");
 			checkIllegalScore = 1;
 		}
-		if (($MathScore.val() > 1000 || $MathScore.val() < 300) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
+		if (($MathScore.val() > 1000 || $MathScore.val() < 350) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
 			alert("數學成績輸入有誤");
 			checkIllegalScore = 1;
 		}
-		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 300) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
+		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 350) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
 			alert("數學附加卷成績輸入有誤");
 			checkIllegalScore = 1;
 		}
