@@ -1,175 +1,284 @@
 <% include components/_studentInfo %>
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
 
 <h2 class="text-center title">上傳四校聯考成績單</h2>
 
 <hr>
 
-<div class="card border-info" style="border-width: thick">
-    <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-        中文
-    </div>
-    <div class="card-body">
-        <div class="column">
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio1" id="radio1" value="option1"  data-subject="01" onclick="document.getElementById('chineseScore').disabled = true; document.getElementById('chineseScore').value = '';" >
-                    <label for="radio1">
-                        我沒有考此科目。
-                    </label>
+<div class="alert alert-danger hide" role="alert" id="have_confirm_text">
+    您已確認送出並鎖定成績及成績檔案。
+</div>
+
+<div id = "fill_transcript_page">
+    <div class="card border-info" style="border-width: thick">
+        <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
+            中文
+        </div>
+        <div class="card-body">
+            <div class="column">
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio1" id="radio1" value="none_Chinese"  data-subject="01"
+                               onclick="document.getElementById('chineseScore').disabled = true;
+                                        document.getElementById('chineseScore').value = '';
+                                        document.getElementById('uploadFileArea_01').style.display ='none';
+                                        document.getElementById('reviewItemsArea_01').style.display ='none';" checked>
+                        <label for="radio1">
+                            我沒有考此科目。
+                        </label>
+                    </div>
                 </div>
+                <hr/>
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio1" id="radio2" value="exist_Chinese"
+                               onclick="document.getElementById('chineseScore').disabled = false;
+                                         ">
+                        <label for="radio2" style="margin-top: 5%">
+                            我有考此科目，成績為
+                        </label>
+                    </div>
+                    <div><input type="number" class="form-control" id="chineseScore" data-subject='01' style="" min="300" max="1000"></div>
+                    <div id = "uploadFileArea_01" style=""></div>
+                </div>
+                <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 300 ～ 1000 之間)</div>
             </div>
-            <hr/>
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio1" id="radio2" value="option2" onclick="document.getElementById('chineseScore').disabled = false;" checked>
-                    <label for="radio2" style="margin-top: 5%">
-                        我有考此科目，成績為
-                    </label>
-                </div>
-                <div><input type="number" class="form-control" id="chineseScore" style=""></div>
-                <div id = "uploadFileArea_01" style=""></div>
+            <div id="reviewItemsArea_01">
             </div>
         </div>
-        <div id="reviewItemsArea_01">
+    </div>
+
+    <br>
+
+    <div class="card border-info" style="border-width: thick">
+        <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
+            英文
+        </div>
+        <div class="card-body">
+            <div class="column">
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio3" id="radio3" value="none_English" data-subject="02"
+                               onclick="document.getElementById('englishScore').disabled = true;
+                                        document.getElementById('englishScore').value = '';
+                                        document.getElementById('uploadFileArea_02').style.display ='none';
+                                        document.getElementById('reviewItemsArea_02').style.display ='none';" checked>
+                        <label for="radio3">
+                            我沒有考此科目。
+                        </label>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio3" id="radio4" value="exist_English"
+                               onclick="document.getElementById('englishScore').disabled = false;
+                                         " >
+                        <label for="radio4" style="margin-top: 5%">
+                            我有考此科目，成績為
+                        </label>
+                    </div>
+                    <div><input type="number" class="form-control" id="englishScore" style="" data-subject='02' min="300" max="1000"></div>
+                    <div id = "uploadFileArea_02" style=""></div>
+                </div>
+                <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 300 ～ 1000 之間)</div>
+            </div>
+            <div id="reviewItemsArea_02">
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="card border-info" style="border-width: thick">
+        <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
+            數學
+        </div>
+        <div class="card-body">
+            <div class="column">
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio5" id="radio5" value="none_Math" data-subject="03"
+                               onclick="document.getElementById('MathScore').disabled = true;
+                                        document.getElementById('MathScore').value = '';
+                                        document.getElementById('uploadFileArea_03').style.display ='none';
+                                        document.getElementById('reviewItemsArea_03').style.display ='none';" checked>
+                        <label for="radio5">
+                            我沒有考此科目。
+                        </label>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio5" id="radio6" value="exist_Math"
+                               onclick="document.getElementById('MathScore').disabled = false;
+                                         " >
+                        <label for="radio6" style="margin-top: 5%">
+                            我有考此科目，成績為
+                        </label>
+                    </div>
+                    <div><input type="number" class="form-control" id="MathScore" style="" data-subject='03' min="300" max="1000"></div>
+                    <div id = "uploadFileArea_03" style=""></div>
+                </div>
+                <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 300 ～ 1000 之間)</div>
+            </div>
+            <div id="reviewItemsArea_03">
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="card border-info" style="border-width: thick">
+        <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
+            數學（附加卷）
+        </div>
+        <div class="card-body">
+            <div class="column">
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio7" id="radio7" value="none_ViceMath" data-subject="04"
+                               onclick="document.getElementById('ViceMathScore').disabled = true;
+                                        document.getElementById('ViceMathScore').value = '';
+                                        document.getElementById('uploadFileArea_04').style.display ='none';
+                                        document.getElementById('reviewItemsArea_04').style.display ='none';" checked>
+                        <label for="radio7">
+                            我沒有考此科目。
+                        </label>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row" style="padding-left:5%">
+                    <div class="radio radio-primary">
+                        <input type="radio" name="radio7" id="radio8" value="exist_ViceMath"
+                               onclick="document.getElementById('ViceMathScore').disabled = false;
+     " >
+                        <label for="radio8" style="margin-top: 5%">
+                            我有考此科目，成績為
+                        </label>
+                    </div>
+                    <div><input type="number" class="form-control" id="ViceMathScore" style="" data-subject='04' min="300" max="1000"></div>
+                    <div id = "uploadFileArea_04" style=""></div>
+                </div>
+                <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 300 ～ 1000 之間)</div>
+            </div>
+            <div id="reviewItemsArea_04">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:3%;">
+        <div class="col-md text-center">
+            <button class="btn btn-primary" id="btn-save" role="button">儲存</button>
+        </div>
+
+        <div class="col-md text-center">
+            <button class="btn btn-danger" id="btn-go-summary" role="button">至確定鎖定頁面</button>
         </div>
     </div>
 </div>
 
-<br>
 
-<div class="card border-info" style="border-width: thick">
-    <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-        英文
-    </div>
-    <div class="card-body">
-        <div class="column">
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio3" id="radio3" value="option3"  onclick="document.getElementById('EngScore').disabled = true; document.getElementById('EngScore').value = '';" >
-                    <label for="radio3">
-                        我沒有考此科目。
-                    </label>
-                </div>
+
+<div class="hide" id="have_confirmed_page">
+    <div id="accordion">
+        <!--中文-->
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" id="Confirmed_Chinese_score" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+
+                    </button>
+                </h5>
             </div>
-            <hr/>
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio3" id="radio4" value="option4" onclick="document.getElementById('EngScore').disabled = false;" checked>
-                    <label for="radio4" style="margin-top: 5%">
-                        我有考此科目，成績為
-                    </label>
+
+            <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body" id="Confirmed_Chinese_file">
+
                 </div>
-                <div><input type="number" class="form-control" id="chineseScore" style=""></div>
-                <div id = "uploadFileArea_02" style=""></div>
             </div>
         </div>
-        <div id="reviewItemsArea_02">
-        </div>
-    </div>
-</div>
+        <!--英文-->
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" id="Confirmed_English_score" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 
-<br>
+                    </button>
+                </h5>
+            </div>
 
-<div class="card border-info" style="border-width: thick">
-    <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-        數學
-    </div>
-    <div class="card-body">
-        <div class="column">
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio5" id="radio5" value="option5"  onclick="document.getElementById('MathScore').disabled = true; document.getElementById('MathScore').value = '';" >
-                    <label for="radio5">
-                        我沒有考此科目。
-                    </label>
+            <div id="collapseTwo" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body" id="Confirmed_English_file">
+
                 </div>
             </div>
-            <hr/>
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio5" id="radio6" value="option6" onclick="document.getElementById('MathScore').disabled = false;" checked>
-                    <label for="radio6" style="margin-top: 5%">
-                        我有考此科目，成績為
-                    </label>
-                </div>
-                <div><input type="number" class="form-control" id="MathScore" style=""></div>
-                <div id = "uploadFileArea_03" style=""></div>
-            </div>
         </div>
-        <div id="reviewItemsArea_03">
-        </div>
-    </div>
-</div>
+        <!--數學-->
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" id="Confirmed_Math_score" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
 
-<br>
-
-<div class="card border-info" style="border-width: thick">
-    <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-        數學（附加卷）
-    </div>
-    <div class="card-body">
-        <div class="column">
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio7" id="radio7" value="option7"  onclick="document.getElementById('ViceMathScore').disabled = true; document.getElementById('ViceMathScore').value = '';" >
-                    <label for="radio7">
-                        我沒有考此科目。
-                    </label>
-                </div>
+                    </button>
+                </h5>
             </div>
-            <hr/>
-            <div class="row" style="padding-left:5%">
-                <div class="radio radio-primary">
-                    <input type="radio" name="radio7" id="radio8" value="option8" onclick="document.getElementById('ViceMathScore').disabled = false;" checked>
-                    <label for="radio8" style="margin-top: 5%">
-                        我有考此科目，成績為
-                    </label>
+
+            <div id="collapseThree" class="collapse dispose" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body" id="Confirmed_Math_file">
+
                 </div>
-                <div><input type="number" class="form-control" id="ViceMathScore" style=""></div>
-                <div id = "uploadFileArea_04" style=""></div>
             </div>
         </div>
-        <div id="reviewItemsArea_04">
+        <!--數學（附加卷）-->
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" id="Confirmed_ViceMath_score" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseFour" class="collapse " aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="card-body" id="Confirmed_ViceMath_file">
+
+                </div>
+            </div>
+        </div>
+
+        <div class=" row" style="padding-top:3%;">
+            <div class="col-md text-center">
+                <button type="button" class="btn btn-secondary" id="goback" data-dismiss="modal">回上一頁繼續修改</button>
+            </div>
+            <div class="col-md text-center">
+                <button type="button" id="secondConfirm" class="btn btn-danger" data-dismiss="modal">確定鎖定並不再更正</button>
+            </div>
         </div>
     </div>
 </div>
 
+<!--準備鎖定前跳提示文字-->
+<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-3x fa-exclamation-circle" style="color:crimson; margin: 0 auto;" aria-hidden="true"></i>
+                <br />
+            </div>
+            <div class="modal-body" style="color: royalblue; font-weight:600;" id="warningText">
 
-
-<!--<dl class="row">-->
-<!--    <dt class="col-md-3">-->
-<!--            中文-->
-<!--    </dt>-->
-<!--    <dd class="col-md-9">-->
-<!--        <div class="row">-->
-<!--            <div class="">-->
-<!--                <div class="radio radio-primary">-->
-<!--                    <input type="radio" name="radio1" id="radio1" value="option1"  onclick="document.getElementById('chineseScore').disabled = true; document.getElementById('chineseScore').value = '';" >-->
-<!--                    <label for="radio1">-->
-<!--                        我沒有考此科目。-->
-<!--                    </label>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="row">-->
-<!--                    <div class="radio radio-primary">-->
-<!--                        <input type="radio" name="radio1" id="radio2" value="option2" onclick="document.getElementById('chineseScore').disabled = false;" checked>-->
-<!--                        <label for="radio2">-->
-<!--                            我有考此科目，成績為-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                        <input type="number" class="form-control" id="chineseScore" >-->
-<!--                    </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </dd>-->
-<!--</dl>-->
-<!--<div id="reviewItemsArea_01">-->
-<!--</div>-->
-
-
-
-
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">我還要再檢查一便</button>
+                <button type="button" id="thirdConfirm" class="btn btn-danger" data-dismiss="modal">是的</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--conflict with original-->
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.umd.min.js"> </script>-->
 <!--Doc：http://flatlogic.github.io/awesome-bootstrap-checkbox/demo/1.0.0/ -->

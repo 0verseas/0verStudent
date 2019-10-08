@@ -8,6 +8,8 @@
 	const $checkBtn = $('#btn-all-set');
 	const $afterConfirmZone = $('#afterConfirmZone');
 	const $uploadAndSubmit = $('#btn-uploadAndSubmit');
+	const $macautranscript = $('#btn-uploadMacauTranscript');
+	const $macauTranscriptAlert = $('#macauTranscriptAlert');
 
 	/**
 	* init
@@ -280,6 +282,13 @@
 			$('.nav-lalalalalala').addClass('disabled');
 			$('.nav-lalalalalala').addClass('show-deadline');
 			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
+		}
+
+		// 澳門上傳四校聯考成績單  採計方式代碼代訂
+		// data.student_misc_data.admission_placement_apply_way_data.code == '23'
+		if( data.student_misc_data.overseas_student_id != null){
+			$macautranscript.show();
+			$macauTranscriptAlert.show();
 		}
 	}
 
