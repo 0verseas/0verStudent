@@ -228,11 +228,11 @@
 	function toFFChange() {
 		if(!$goToFF.prop('checked')){  // 變成沒勾的時候
 			// 跳出確認框
-			if(confirm("未勾選者，將視同放棄可能分發至「臺師大僑先部」之機會，且無法選填「臺師大僑先部」志願！\n不願分發至臺師大僑先部者，請按「確認」鍵")){  // 確定
+			if(confirm("未勾選者，將視同放棄可能分發至「臺師大僑先部」之機會，且無法選填「臺師大僑先部」志願！\n願意分發至臺師大僑先部者，請按「確認」鍵")){  // 確定
+				$goToFF.prop('checked', true);  // 幫學生勾回去
+			} else {  // 取消
 				// 學生心意已決
 				return;
-			} else {  // 取消
-				$goToFF.prop('checked', true);  // 幫學生勾回去
 			}
 		}
 	}
