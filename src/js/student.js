@@ -586,12 +586,34 @@ const student = (() => {
 		})
 	}
 
+	// 刪除澳門四校聯考成績單檔案
 	function delMacauTranscriptItem({ student_id, subject, filename }) {
 		return fetch(`${baseUrl}/students/${student_id}/macau-transcript/subject/${subject}/file/${filename}`, {
 			method: 'Delete',
 			credentials: 'include'
 		})
 	}
+
+	//撈出學生登打澳門四校聯考成績
+	function getMacauTranscriptScore({student_id}) {
+		return fetch(`${baseUrl}/students/${student_id}/macau-transcript-all-score`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
+	//儲存學生登打澳門四校聯考成績
+	function storeMacauTranscriptScore(sendData) {
+		return fetch(`${baseUrl}/students/store-macau-transcript-all-score`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body:  JSON.stringify(sendData),
+			credentials: 'include'
+		})
+	}
+
 
 	// 取得學生是否願意去僑先部的資料
 	function getStudentGoToFForNot(){
@@ -666,8 +688,12 @@ const student = (() => {
 		teacherDeleteItem,
 		teacherWantReview,
 		MacauTranscriptsetReviewItem,
+		getMacauTranscriptsetItem,
+		delMacauTranscriptItem,
 		getStudentGoToFForNot,
-		setStudentGoToFForNot
+		setStudentGoToFForNot,
+		getMacauTranscriptScore,
+		storeMacauTranscriptScore
 	};
 
 })();
