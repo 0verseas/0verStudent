@@ -286,10 +286,12 @@
 
 		// 澳門上傳四校聯考成績單  採計方式代碼代訂
 		//
-		if( data.student_misc_data.admission_placement_apply_way_data.code == '05' ||
-			data.student_misc_data.overseas_student_id != null ){
-			$macautranscript.show();
-			$macauTranscriptAlert.show();
+		if(data.student_misc_data.admission_placement_apply_way_data){  // 如果沒資料就跑裡面會卡住
+			if( data.student_misc_data.admission_placement_apply_way_data.code == '05' ||
+				data.student_misc_data.overseas_student_id != null ){
+				$macautranscript.show();
+				$macauTranscriptAlert.show();
+			}
 		}
 	}
 
