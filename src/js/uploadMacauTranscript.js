@@ -125,34 +125,34 @@
 
 		if(subject == '01'){
 			if( $chinsesScore.val() <= 1000 && $chinsesScore.val() >= 350 && typeof($chinsesScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_01').style.display ="block";
+				//document.getElementById('uploadFileArea_01').style.display ="block";
 				document.getElementById('reviewItemsArea_01').style.display ='block';
 			}else{
-				document.getElementById('uploadFileArea_01').style.display ="none";
+				//document.getElementById('uploadFileArea_01').style.display ="none";
 			}
 		}
 		else if(subject == '02'){
 			if( $englishScore.val() <= 1000 && $englishScore.val() >= 350){
-				document.getElementById('uploadFileArea_02').style.display ="block";
+				//document.getElementById('uploadFileArea_02').style.display ="block";
 				document.getElementById('reviewItemsArea_02').style.display ='block';
 			}else{
-				document.getElementById('uploadFileArea_02').style.display ="none";
+				//document.getElementById('uploadFileArea_02').style.display ="none";
 			}
 		}
 		else if(subject == '03'){
 			if( $MathScore.val() <= 1000 && $MathScore.val() >= 350){
-				document.getElementById('uploadFileArea_03').style.display ="block";
+				//document.getElementById('uploadFileArea_03').style.display ="block";
 				document.getElementById('reviewItemsArea_03').style.display ='block';
 			}else{
-				document.getElementById('uploadFileArea_03').style.display ="none";
+				//document.getElementById('uploadFileArea_03').style.display ="none";
 			}
 		}
 		else if(subject == '04'){
 			if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 350){
-				document.getElementById('uploadFileArea_04').style.display ="block";
+				//document.getElementById('uploadFileArea_04').style.display ="block";
 				document.getElementById('reviewItemsArea_04').style.display ='block';
 			}else{
-				document.getElementById('uploadFileArea_04').style.display ="none";
+				//document.getElementById('uploadFileArea_04').style.display ="none";
 			}
 		}
 	}
@@ -215,6 +215,8 @@
 							data-toggle="modal"
 							data-target=".img-modal"
 							data-filetype="img"
+							width="350"
+							height="800"
 							
 							/> 
 				</div>
@@ -315,7 +317,8 @@
 		}
 		//document.getElementById("badge").src=`${env.baseUrl}` + "/students/2305/macau-transcript/subject/01/file/011002_04.jpg";
 
-		window.location.reload();
+		//window.location.reload();
+		window.location = window.location.href+'?eraseCache=true';
 	}
 
 	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
@@ -406,50 +409,50 @@
 			if (allScore[0].scoreA == '-1') {
 				$('input:radio[name="radio1"]').filter('[value="none_Chinese"]').attr('checked', true);
 				document.getElementById('chineseScore').disabled = true;
-				document.getElementById('uploadFileArea_01').style.display = "none";
+				//document.getElementById('uploadFileArea_01').style.display = "none";
 				document.getElementById('reviewItemsArea_01').style.display = "none";
 
 			} else {
 				$('input:radio[name="radio1"]').filter('[value="exist_Chinese"]').attr('checked', true);
 				document.getElementById('chineseScore').value = allScore[0].scoreA;
-				document.getElementById('uploadFileArea_01').style.display = "block";
+				//document.getElementById('uploadFileArea_01').style.display = "block";
 				document.getElementById('reviewItemsArea_01').style.display = "block";
 			}
 
 			if (allScore[0].scoreB == '-1') {
 				$('input:radio[name="radio3"]').filter('[value="none_English"]').attr('checked', true);
 				document.getElementById('englishScore').disabled = true;
-				document.getElementById('uploadFileArea_02').style.display = "none";
+				//document.getElementById('uploadFileArea_02').style.display = "none";
 				document.getElementById('reviewItemsArea_02').style.display = "none";
 			} else {
 				$('input:radio[name="radio3"]').filter('[value="exist_English"]').attr('checked', true);
 				document.getElementById('englishScore').value = allScore[0].scoreB;
-				document.getElementById('uploadFileArea_02').style.display = "block";
+				//document.getElementById('uploadFileArea_02').style.display = "block";
 				document.getElementById('reviewItemsArea_02').style.display = "block";
 			}
 
 			if (allScore[0].scoreC == '-1') {
 				$('input:radio[name="radio5"]').filter('[value="none_Math"]').attr('checked', true);
 				document.getElementById('MathScore').disabled = true;
-				document.getElementById('uploadFileArea_03').style.display = "none";
+				//document.getElementById('uploadFileArea_03').style.display = "none";
 				document.getElementById('reviewItemsArea_03').style.display = "none";
 			} else {
 				$('input:radio[name="radio5"]').filter('[value="exist_Math"]').attr('checked', true);
 				document.getElementById('MathScore').value = allScore[0].scoreC;
-				document.getElementById('uploadFileArea_03').style.display = "block";
+				//document.getElementById('uploadFileArea_03').style.display = "block";
 				document.getElementById('reviewItemsArea_03').style.display = "block";
 			}
 
 			if (allScore[0].scoreD == '-1') {
 				$('input:radio[name="radio7"]').filter('[value="none_ViceMath"]').attr('checked', true);
 				document.getElementById('ViceMathScore').disabled = true;
-				document.getElementById('uploadFileArea_04').style.display = "none";
+				//document.getElementById('uploadFileArea_04').style.display = "none";
 				document.getElementById('reviewItemsArea_04').style.display = "none";
 
 			} else {
 				$('input:radio[name="radio7"]').filter('[value="exist_ViceMath"]').attr('checked', true);
 				document.getElementById('ViceMathScore').value = allScore[0].scoreD;
-				document.getElementById('uploadFileArea_04').style.display = "block";
+				//document.getElementById('uploadFileArea_04').style.display = "block";
 				document.getElementById('reviewItemsArea_04').style.display = "block";
 			}
 
@@ -607,7 +610,7 @@
 				alert("填寫格式錯誤，請檢查以下表單：\n———————————————\n" + _errormsg.join('、'));
 			}
 		}
-		summarize_page();
+
 	}
 
 	 function _handleSecondConfirmed(){
