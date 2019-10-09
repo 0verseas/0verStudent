@@ -346,7 +346,7 @@
 											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系需求等的訊息" placeholder="給師長的訊息（請同學務必與推薦人先行聯絡，並預留時間供師長上傳）">
 										</div>
 										<div class="col-md-3 form-group">
-											<button type="button" id="btn-invite" class="btn btn-info" style="visibility: hidden" title="師長上傳成功後會有電子郵件通知">送出邀請</button>
+											<button type="button" id="btn-invite" class="btn btn-info" style="visibility: hidden" title="師長上傳成功後會有電子郵件通知"><i class="fa fa-envelope"></i> 送出邀請</button>
 										</div>
 									</div>
 									${invite_list}  <!--邀請紀錄-->
