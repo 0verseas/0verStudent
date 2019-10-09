@@ -241,6 +241,10 @@
 										</div>
 										<div>已填寫連結：</div>
 										<ul id="workUrls"></ul>
+										<br />
+										<div class="form-group">
+											<button type="button" id="btn-save-works" class="btn btn-outline-warning btn-block"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;儲存已輸入的作品集文字&nbsp;&nbsp;<i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+										</div>
 										<hr />
 									</div>
 
@@ -413,6 +417,8 @@
 		$('#btn-invite').on('click',_handleInviteTeacher); //按下「送出邀請」按鈕
 		$("#agree_teacher_recommendation_pact").on('change', teacherRecommendationPactChange);  // 是否同意師長推薦函邀請使用條件的核取方塊
 
+		$('#btn-save-works').on('click',_handleSaveWorks);  // 「儲存已輸入的作品集文字」按鈕
+
 		loading.complete();
 	}
 
@@ -486,7 +492,7 @@
 		$('.btn-removeWorkUrl').on('click', _handleRemoveUrl);
 	}
 
-	async function _handleSave() {
+	async function _handleSave() {  // 這邊邏輯有改變記得 _handleSaveWorks() 的內容也要一起改
 		// 儲存按鈕在有作品集的狀況下才會作動，否則直接 pass
 		if (_hasWorks) {
 			const workTypeIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+_workTypeId));
@@ -835,6 +841,143 @@
 			document.getElementById("btn-invite").style.visibility="";
 		} else {
 			document.getElementById("btn-invite").style.visibility="hidden";
+		}
+	}
+
+	// 和 _handleSave() 內容差不多，只差 alert 的文字和頁面不會 reload
+	// 用在先行儲存一次作品集文字，以免上傳檔案就被清掉。
+	async function _handleSaveWorks() {
+		// 儲存按鈕在有作品集的狀況下才會作動，否則直接 pass
+		if (_hasWorks) {
+			const workTypeIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+_workTypeId));
+			// sendType: 判斷是否需要送資料、送的方式。
+			// complete: 完整資料, empty: 傳送空資料（選繳清空資料用）。
+			let sendType = '';
+			if (_worksRequired) {
+				// 必填的話，要填，要檢驗
+				sendType = 'complete';
+			} else {
+				// 選填的話，檢查作品集欄位如果有填任何資料，要進行檢驗，否則傳送空值清資料
+				let isEmpty = true; // 資料是不是空的
+				if ($('#workName').val() !== "") { isEmpty = false; }
+				if ($('#workPosition').val() !== "") { isEmpty = false; }
+				if ($('#workType').val() !== "") { isEmpty = false; }
+				if ($('#workMemo').val() !== "") { isEmpty = false; }
+				if (_workUrls.length > 0) { isEmpty = false; }
+				//if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].authorization_files.length > 0) { isEmpty = false; }
+				if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].work_files.length > 0) { isEmpty = false; }
+
+				if (isEmpty) {
+					sendType = 'empty';
+				} else {
+					sendType = 'complete';
+				}
+			}
+
+			if (sendType === 'complete') {
+				let correct = true;
+				let errorMsg = [];
+				if ($('#workName').val() === "") {
+					correct = false;
+					$('#workName').addClass('invalidInput');
+					errorMsg.push('作品名稱');
+				} else {
+					$('#workName').removeClass('invalidInput');
+				}
+				if ($('#workPosition').val() === "") {
+					correct = false;
+					$('#workPosition').addClass('invalidInput');
+					errorMsg.push('個人參與的職位或項目');
+				} else {
+					$('#workPosition').removeClass('invalidInput');
+				}
+				if ($('#workType').val() === "") {
+					correct = false;
+					$('#workType').addClass('invalidInput');
+					errorMsg.push('術科類型');
+				} else {
+					$('#workType').removeClass('invalidInput');
+				}
+
+				// 作品連結、檔案擇一上傳。沒檔案，才強制上傳 url
+				if (_wishList[_orderIndex].uploaded_file_list[workTypeIndex].work_files.length === 0 && _workUrls.length === 0) {
+					correct = false;
+					$('#workUrl').addClass('invalidInput');
+					errorMsg.push('作品連結');
+				} else {
+					$('#workUrl').removeClass('invalidInput');
+				}
+
+				// 怕是同學填了作品連結，但是沒有按 “＋” 來新增
+				if ( $('#workUrl').val() != '') {
+					correct = false;
+					$('#workUrl').addClass('invalidInput');
+				} else {
+					$('#workUrl').removeClass('invalidInput');
+				}
+
+				if (correct) {
+					let data = new FormData();
+					data.append('name', $('#workName').val());
+					data.append('position', $('#workPosition').val());
+					data.append('work_type', $('#workType').val());
+					data.append('memo', $('#workMemo').val());
+
+					if (_workUrls.length === 0) {
+						data.append('urls', '');
+					} else {
+						_workUrls.forEach((val, index) => {
+							data.append('urls[]', val);
+						})
+					}
+
+					try {
+						loading.start();
+						const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
+						if (!response.ok) { throw response; }
+
+						alert('作品集文字已儲存，請記得上傳其他備審資料');
+						loading.complete();
+					} catch(e) {
+						e.json && e.json().then((data) => {
+							console.error(data);
+							alert(`ERROR: \n${data.messages[0]}`);
+						});
+						loading.complete();
+					}
+				} else {
+					if ( $('#workUrl').val() != '') {
+						alert("請點選作品連結右邊藍色“＋” 新增作品連結");
+					}
+					else
+						alert(errorMsg.join('、') + " 欄位必填");
+				}
+			} else if (sendType === 'empty') {
+				let data = new FormData();
+				data.append('name', '');
+				data.append('position', '');
+				data.append('work_type', '');
+				data.append('memo', '');
+				data.append('urls', '');
+
+				try {
+					loading.start();
+					const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
+					if (!response.ok) { throw response; }
+
+					alert('作品集文字已儲存，請記得上傳其他備審資料');
+					loading.complete();
+				} catch(e) {
+					e.json && e.json().then((data) => {
+						console.error(data);
+						alert(`ERROR: \n${data.messages[0]}`);
+					});
+					loading.complete();
+				}
+			}
+		} else {
+			alert('作品集文字已儲存，請記得上傳其他備審資料');
+			loading.complete();
 		}
 	}
 })();
