@@ -453,6 +453,70 @@
 				</div>
 			</div>
 
+			<!--香港學生報名學士班持有香港副學士學位或高級文憑-->
+			<div id="HK-ADorHD" class="row hide">
+				<div class="col-md-9">
+					<fieldset class="form-group">
+						<label><span class="text-danger">* </span>請問您是否曾經修讀或正在修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程？</label><br>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-HK-ADorHD" type="radio" name="radio-HK-ADorHD" value="1"> 是
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-HK-ADorHD" type="radio" name="radio-HK-ADorHD" value="0" checked> 否
+							</label>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-9 hide" id="has-HK-ADorHD-diploma">
+					<fieldset class="form-group">
+						<label><span class="text-danger">* </span>請問您是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書？</label><br>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-HK-ADorHD-diploma" type="radio" name="HK-ADorHD-diploma" value="1"> 是
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-HK-ADorHD-diploma" type="radio" name="HK-ADorHD-diploma" value="0"> 否
+							</label>
+						</div>
+					</fieldset>
+				</div>
+				<div class="col-md-9 hide" id="had-HK-ADorHD">
+					<div class="row">
+						<div class="col-md-9">
+							<div class="form-group">
+								<label class="text-danger" for="HK_ADorHD_Diploma">* 文憑類別</label>
+								<select class="form-control" id="HK_ADorHD_Diploma">
+									<option value="">請選擇</option>
+									<option value="1">副學士學位</option>
+									<option value="2">高級文憑</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-9">
+							<div class="form-group">
+								<label class="text-danger" for="HK_ADorHD_SchoolName">* 學校名稱</label>
+								<input class="form-control" type="text" id="HK_ADorHD_SchoolName">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-9">
+							<div class="form-group">
+								<label class="text-danger" for="HK_ADorHD_ClassName">* 課程名稱</label>
+								<input class="form-control" type="text" id="HK_ADorHD_ClassName">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</dd>
 	</dl>
 

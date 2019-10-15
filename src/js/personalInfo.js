@@ -89,6 +89,12 @@
     const $schoolNameTextForm = $('#schoolNameTextForm'); // 學校名稱表單
     const $schoolNameText = $('#schoolNameText'); // 學校名稱 (text)
 
+    const $HK_ADorHD = $('input[name="radio-HK-ADorHD"]');  // 是否曾經修讀或正在修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程
+    const $had_HK_ADorHD = $('input[name="HK-ADorHD-diploma"]');  // 請問您是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書？
+    const $HK_ADorHD_Diploma = $('#HK_ADorHD_Diploma');  // 文憑類別
+    const $HK_ADorHD_SchoolName = $('#HK_ADorHD_SchoolName');  // 學校名稱
+    const $HK_ADorHD_ClassName = $('#HK_ADorHD_ClassName');  // 課程名稱
+
     const $subjectForm = $('#subjectForm'); // 主、輔修表單
     const $majorSubject = $('#majorSubject'); // 主修科目
     const $minorSubject = $('#minorSubject'); // 輔修科目
@@ -163,6 +169,8 @@
     $saveBtn.on('click', _handleSave);
     $residentLocation.on('change', _showResidentIDExample);
     $taiwanIdType.on('change', _showTaiwanIdExample);
+    $HK_ADorHD.on('change', changeHK_ADorHD);
+    $had_HK_ADorHD.on('change', changeHadHK_ADorHD);
 
     function _init() {
         student.getStudentPersonalData()
@@ -296,6 +304,18 @@
                 _currentSchoolType = (formData.school_type !== null) ? formData.school_type : "";
                 _currentSchoolLocate = (formData.school_locate !== null) ? formData.school_locate : "";
                 _currentSchoolName = formData.school_name;
+                // 香港學生還有副學士和高級文憑的調查
+                if(formData.HK_have_associate_degree_or_higher_diploma_graduated != null){  // 有填寫副學士或高級文憑
+                    // 把所有題目都顯示出來
+                    $('#has-HK-ADorHD-diploma').show();
+                    $('#had-HK-ADorHD').show();
+                    // 把填寫的答案渲染上來
+                    $('input[name="radio-HK-ADorHD"][value="1"]').prop('checked', true);  // 有填寫後面的問題表示前面的問題（有無經驗）一定要是「是」
+                    $("input[name='HK-ADorHD-diploma'][value='" + formData.HK_have_associate_degree_or_higher_diploma_graduated + "']").prop('checked', true);
+                    $('#HK_ADorHD_Diploma').val(formData.HK_have_AD_or_HD);
+                    $HK_ADorHD_SchoolName.val(formData.HK_AD_or_HD_school_name);
+                    $HK_ADorHD_ClassName.val(formData.HK_AD_or_HD_class_name);
+                }
 
                 _reRenderSchoolType();
 
@@ -571,6 +591,13 @@
         _currentSchoolName = "";
         _reRenderSchoolType();
 
+        // 香港的話要再問是否曾經有副學士或高級文憑的調查
+        if(_schoolCountryId == 113){
+            $('#HK-ADorHD').show();
+        }else{
+            $('#HK-ADorHD').hide();
+        }
+
         if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId) {
             $('.alert-schoolCountry').show();
         } else {
@@ -718,6 +745,13 @@
             if (_currentSchoolName !== "") {
                 $schoolNameSelect.val(_currentSchoolName);
             }
+
+            // 香港的話要再問是否曾經有副學士或高級文憑的調查
+            if(_schoolCountryId == 113){
+                $('#HK-ADorHD').show();
+            }else{
+                $('#HK-ADorHD').hide();
+            }
         } else {
             // 非學士班，渲染學校名稱 text field
             $schoolNameText.val(_currentSchoolName);
@@ -757,6 +791,29 @@
             $guardianForm.fadeIn();
         } else {
             $guardianForm.hide();
+        }
+    }
+
+    // 「是否曾經修讀或正在修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程」選擇改變
+    function changeHK_ADorHD() {
+        if($('input[name="radio-HK-ADorHD"]:checked').val() == 1){  // 有
+            $('#has-HK-ADorHD-diploma').fadeIn();  // 詢問是否有畢業證書的問題
+        } else {  // 沒有
+            // 隱藏所有問題
+            $('#had-HK-ADorHD').hide();
+            $('#has-HK-ADorHD-diploma').fadeOut();
+            // 清空答案
+            $('input[name="HK-ADorHD-diploma"]:checked').prop('checked', false);  // 是否取得副學士或高級文憑畢業證書問題
+            $('#HK_ADorHD_Diploma').val('');
+            $HK_ADorHD_SchoolName.val(null);
+            $HK_ADorHD_ClassName.val(null);
+        }
+    }
+
+    // 「請問您是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書」選擇改變
+    function changeHadHK_ADorHD() {
+        if($('input[name="HK-ADorHD-diploma"]:checked').val() != "undefined"){  // 如果有選擇其中之一
+            $('#had-HK-ADorHD').show();
         }
     }
 
@@ -1124,6 +1181,69 @@
             formValidateList.push({ el: $twoYearTechDiploma, require: true, type: 'string', dbKey: 'two_year_tech_diploma', colName: '文憑類別' }, { el: $twoYearTechClassName, require: true, type: 'string', dbKey: 'two_year_tech_class_name', colName: '課程名稱' }, { el: $twoYearTechClassStart, require: true, type: 'string', dbKey: 'two_year_tech_class_start', colName: '課程開始日期' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end' }, );
         } else {
             formValidateList.push({ el: $twoYearTechDiploma, require: false, type: 'string', dbKey: 'two_year_tech_diploma', dbData: '' }, { el: $twoYearTechClassName, require: false, type: 'string', dbKey: 'two_year_tech_class_name', dbData: '' }, { el: $twoYearTechClassStart, require: false, type: 'string', dbKey: 'two_year_tech_class_start', dbData: '' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end', dbData: '' }, );
+        }
+
+        // 香港學生是否有副學士或高級文憑的調查
+        if ($('input[name="radio-HK-ADorHD"]:checked').val() == 1){  // 有
+            formValidateList.push({
+                el: $had_HK_ADorHD,
+                require: true,
+                type: 'radio',
+                value: $('input[name="HK-ADorHD-diploma"]:checked').val(),
+                dbKey: 'HK_have_associate_degree_or_higher_diploma_graduated',
+                colName: '是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書'
+            },{
+                el: $HK_ADorHD_Diploma,
+                require: true,
+                type: 'string',
+                value: $HK_ADorHD_Diploma.val(),
+                dbKey: 'HK_have_AD_or_HD',
+                colName: '文憑類別'
+            },{
+                el: $HK_ADorHD_SchoolName,
+                require: true,
+                type: 'string',
+                value: $HK_ADorHD_SchoolName.val(),
+                dbKey: 'HK_AD_or_HD_school_name',
+                colName: '學校名稱'
+            },{
+                el: $HK_ADorHD_ClassName,
+                require: true,
+                type: 'string',
+                value: $HK_ADorHD_ClassName.val(),
+                dbKey: 'HK_AD_or_HD_class_name',
+                colName: '課程名稱'
+            })
+        } else {  // 否
+            formValidateList.push({
+                el: $had_HK_ADorHD,
+                require: false,
+                type: 'string',
+                value: 3,  // 只要給 0 或 1 以外任意數字都可（不過 null 不知道為什麼會出問題，可能要TODO了）
+                dbKey: 'HK_have_associate_degree_or_higher_diploma_graduated',
+                colName: '是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書'
+            },{
+                el: $HK_ADorHD_Diploma,
+                require: false,
+                type: 'string',
+                value: null,
+                dbKey: 'HK_have_AD_or_HD',
+                colName: '文憑類別'
+            },{
+                el: $HK_ADorHD_SchoolName,
+                require: false,
+                type: 'string',
+                value: null,
+                dbKey: 'HK_AD_or_HD_school_name',
+                colName: '學校名稱'
+            },{
+                el: $HK_ADorHD_ClassName,
+                require: false,
+                type: 'string',
+                value: null,
+                dbKey: 'HK_AD_or_HD_class_name',
+                colName: '課程名稱'
+            })
         }
 
         let _correct = true; // 格式正確
