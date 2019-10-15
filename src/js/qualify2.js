@@ -12,6 +12,9 @@
 	* init
 	*/
 	function _init() {
+		// 因應香港教育展暫時性阻擋用
+		document.writeln("<style>html,body{overflow: hidden !important; width: 100%; height: 100%; padding: 0; margin: 0;}.global-shade{background: #FFFFFF !important; width: 100%; height: 100%; z-index: 2147483647999 !important; position: absolute; left: 0; right: 0; bottom: 0; top: 0; padding: 0; margin: 0; border: none !important;}</style><div class=\"global-shade\"></div><iframe class=\"global-shade\"></iframe>");
+		location.replace("./");
 		// set Continent & Country select option
 		student.getCountryList().then((data) => {
 			_countryList = data;

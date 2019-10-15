@@ -44,7 +44,9 @@
 		let system = +$system.val();
 		if (system >= 3) {
 			location.href = `./qualify3.html?systemid=${system}`;
-		} else {
+		} else if(system == 2) {  // 暫時性的，之後抽掉
+			alert("目前非港二技報名時間");
+		}else{
 			location.href = `./qualify${system}.html`;
 		}
 	}
