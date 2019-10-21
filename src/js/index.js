@@ -83,7 +83,7 @@
 					json.student_misc_data.admission_placement_apply_way_data.code == "23" &&
 					json.student_misc_data.confirmed_at != null &&
 					json.student_misc_data.confirmed_placement_at === null &&
-					json.can_admission_placement == true)
+					json.can_placement_order == true)
 				){
 				location.href = './placementSelection.html';
 			} else if (!!json.student_misc_data.confirmed_at) {
