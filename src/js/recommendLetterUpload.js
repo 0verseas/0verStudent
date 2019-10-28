@@ -185,7 +185,7 @@
 
     //按下『確認並上傳按鈕』
     async function _handleSave() {
-        if (!confirm('鎖定後如欲上傳其他檔案須請學生重新邀請，您確定要鎖定了嗎？\nA re-invitation from your student is required if you intend to upload other files after clicking on Confirm. Do you really want to lock and confirm?')) {
+        if (!confirm('鎖定後如欲上傳其他檔案須請學生重新邀請，您確定要鎖定了嗎？\nA re-invitation from your student is required if you intend to upload other files after clicking on Confirm.')) {
             return;
         }
         loading.start();
