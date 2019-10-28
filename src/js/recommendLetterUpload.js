@@ -185,6 +185,9 @@
 
     //按下『確認並上傳按鈕』
     async function _handleSave() {
+        if (!confirm('鎖定後如欲上傳其他檔案須請學生重新邀請，您確定要鎖定了嗎？\nA re-invitation from your student is required if you intend to upload other files after clicking on Confirm. Do you really want to lock and confirm?')) {
+            return;
+        }
         loading.start();
         const token_bye = await student.teacherBye(_id, _token); //通知後端 delete token
         if (!token_bye.ok) { //http response status code
