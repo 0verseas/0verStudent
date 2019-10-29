@@ -32,7 +32,7 @@
 			if (json.student_qualification_verify) {
 				$system.val(json.student_qualification_verify.system_id);
 			}
-
+			window.location.hash = "#selectSystem";
 		} catch (error) {
 			console.log(error);
 		}
