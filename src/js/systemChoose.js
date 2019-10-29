@@ -10,7 +10,7 @@
 	*	bind event
 	*/
 	_init();
-	
+
 	/**
 	*	bind event
 	*/
@@ -51,7 +51,6 @@
 			if (json.student_qualification_verify) {
 				$system.val(json.student_qualification_verify.system_id);
 			}
-			console.log(document.body.scrollHeight);
 			ScrollTop(document.body.scrollHeight/2.2,800);
 		} catch (error) {
 			console.log(error);
