@@ -92,7 +92,7 @@
 			}
 			loading.complete();
 		});
-		ScrollTop(document.body.scrollHeight/3.6,800);
+		ScrollTop(document.body.scrollHeight/2.0,800);
 	}
 
 	/**
