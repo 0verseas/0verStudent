@@ -82,6 +82,7 @@
 			}
 			loading.complete();
 		});
+		if(document.body.scrollweight<768)
 		ScrollTop(document.body.scrollHeight/2.2,800);
 	}
 
