@@ -95,10 +95,17 @@
 
                 alert(`${data.messages[0]}`);
 
-                // 上傳過了就去只能看不能摸的頁面
-                setTimeout(() => {
-                    location.replace('./recommendLetterReader.html?id=' + _id + '&email=' + _email + '&token=' + _token);
-                }, 0);
+                // 分類帽會依情況決定使用者去什麼地方
+                if (e.status !== 423){
+                    setTimeout(() => {
+                        location.replace('https://cmn-hant.overseas.ncnu.edu.tw/');
+                    }, 0);
+                } else {
+                    // 上傳過了就去只能看不能摸的頁面
+                    setTimeout(() => {
+                        location.replace('./recommendLetterReader.html?id=' + _id + '&email=' + _email + '&token=' + _token);
+                    }, 0);
+                }
 
                 loading.complete();
             });
