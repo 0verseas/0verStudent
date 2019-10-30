@@ -60,7 +60,7 @@
 								"按下『確認上傳資料並提交』。");
 						}
 						else if (data.student_qualification_verify.identity === 6) {
-                            $memo.html("請在簡章規定之期限內列印並繳交至國立台灣師範大學僑先部教務處。");
+                            $memo.html("請在簡章規定之期限內列印並繳交至國立台灣師範大學僑先部教務組。");
 						}
 						else {
 							$memo.html("1、 請在簡章規定之期限內列印並繳交至駐外機構。<br />" +
