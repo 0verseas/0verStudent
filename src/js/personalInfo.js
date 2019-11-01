@@ -516,9 +516,12 @@
     }
 
     function _showResidentIDExample() {
-        if ($residentLocation.val() === '113' || $residentLocation.val() === '127') { //香港
+        if ($residentLocation.val() === '113') { //香港
             $residentIdLabel.html('* 身分證號碼（ID no.）<br /> 格式範例：A123456(7)');
-        }  else {
+        } else if($residentLocation.val() === '127'){  // 澳門
+            // 7碼+檢核
+            $residentIdLabel.html('* 身分證號碼（ID no.）<br /> 格式範例：1234567(8)');
+        } else {
             $residentIdLabel.html('* 身分證號碼（ID no.）');
         }
     }
