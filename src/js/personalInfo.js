@@ -776,6 +776,8 @@
             $dadPhoneForm.fadeIn();
         } else {
             $dadPhoneForm.hide();
+            document.getElementById('dadPhoneCode').value="";
+            document.getElementById('dadPhone').value="";
         }
         _switchGuardianForm();
     }
@@ -795,6 +797,8 @@
             $momPhoneForm.fadeIn();
         } else {
             $momPhoneForm.hide();
+            document.getElementById('momPhoneCode').value="";
+            document.getElementById('momPhone').value="";
         }
         _switchGuardianForm();
     }
