@@ -118,6 +118,7 @@
     const $dadJob = $('#dadJob'); // 職業
     const $dadPhoneCode = $('#dadPhoneCode'); // 聯絡電話國碼
     const $dadPhone = $('#dadPhone'); // 聯絡電話
+    const $dadPhoneForm = $('#dad-phone');// 父親電話欄位
     // 母親
     const $momStatus = $('.momStatus'); // 存歿
     const $momDataForm = $('#form-momData'); // 資料表單
@@ -127,6 +128,7 @@
     const $momJob = $('#momJob'); // 職業
     const $momPhoneCode = $('#momPhoneCode'); // 聯絡電話國碼
     const $momPhone = $('#momPhone'); // 聯絡電話
+    const $momPhoneForm = $('#mom-phone');// 母親電話欄位
     // 監護人（父母皆不詳才需要填寫）
     const $guardianForm = $('#form-guardian'); // 資料表單
     const $guardianName = $('#guardianName'); // 姓名（中）
@@ -767,6 +769,11 @@
         } else {
             $dadDataForm.fadeIn();
         }
+        if(_currentDadStatus === 'alive'){
+            $dadPhoneForm.fadeIn();
+        } else {
+            $dadPhoneForm.hide();
+        }
         _switchGuardianForm();
     }
 
@@ -780,6 +787,11 @@
             $momDataForm.hide();
         } else {
             $momDataForm.fadeIn();
+        }
+        if(_currentMomStatus === 'alive'){
+            $momPhoneForm.fadeIn();
+        } else {
+            $momPhoneForm.hide();
         }
         _switchGuardianForm();
     }
@@ -1137,12 +1149,22 @@
 
         // 父親不為「不詳」時增加的驗證
         if (_currentDadStatus !== "undefined") {
-            formValidateList.push({ el: $dadName, require: true, type: 'string', dbKey: 'dad_name', colName: '父親姓名（中）' }, { el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name', colName: '父親姓名（英）' }, { el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday', colName: '父親生日' }, { el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業' }, { el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' }, { el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + ';' + $dadPhone.val(), colName: '父親聯絡電話' });
+            formValidateList.push({ el: $dadName, require: true, type: 'string', dbKey: 'dad_name', colName: '父親姓名（中）' }, { el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name', colName: '父親姓名（英）' }, { el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday', colName: '父親生日' }, { el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業' });
+        }
+
+        //父親為「存」時增加的驗證
+        if(_currentDadStatus == "alive"){
+            formValidateList.push({ el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' },{ el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + ';' + $dadPhone.val(), colName: '父親聯絡電話' });
         }
 
         // 母親不為「不詳」時增加的驗證
         if (_currentMomStatus !== "undefined") {
-            formValidateList.push({ el: $momName, require: true, type: 'string', dbKey: 'mom_name', colName: '母親姓名（中）' }, { el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name', colName: '母親姓名（英）' }, { el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday', colName: '母親生日' }, { el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業' }, { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + ';' + $momPhone.val(), colName: '母親聯絡電話' });
+            formValidateList.push({ el: $momName, require: true, type: 'string', dbKey: 'mom_name', colName: '母親姓名（中）' }, { el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name', colName: '母親姓名（英）' }, { el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday', colName: '母親生日' }, { el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業' });
+        }
+
+        //母親為「存」時增加的驗證
+        if(_currentMomStatus == "alive"){
+            formValidateList.push( { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + ';' + $momPhone.val(), colName: '母親聯絡電話' });
         }
 
         // 父母皆為「不詳」時，增加「監護人」驗證
