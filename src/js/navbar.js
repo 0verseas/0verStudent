@@ -102,8 +102,8 @@
 
 	function _handleUploadAndSubmit() {
 		swal({
-			title: '確認提交',
-			text: "注意：按下確認提交後，上傳的檔案就無法再做任何變更。",
+			title: '提交確認',
+			text: "如您有志願校系要求繳交【師長推薦函】，請務必至各志願【上傳備審項目頁面】檢查邀請之師長是否完成上傳。提醒您，若點選【確認上傳資料並提交】後，師長將無法為您上傳推薦信。",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
@@ -114,66 +114,81 @@
 			cancelButtonClass: 'btn btn-danger',
 			buttonsStyling: false
 		})
-		.then(function () {
-            loading.start();
-			student.uploadAndSubmit().then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((data) => {
+		.then( (result)	=>{
+			//console.log(result);
+			if(result){
 				swal({
-					title: '<i>提交成功！</i>',
-					type: 'success',
+					title: '確認提交',
+					text: "注意：按下確認提交後，上傳的檔案就無法再做任何變更。",
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '確認提交',
+					cancelButtonText: '取消',
 				})
-				/*
-				var html = ``;
-				for (var i = 0; i < data.length; i++) {
-					html += `
-						<h4>${data[i].name}</h4><br />
-					`;
-					for (var j = 0; j < data[i].docs_result.length; j++) {
-						html += `
-							<div style="text-align: left">
-							${data[i].docs_result[j].doc_name}
-						`;
-						if (data[i].docs_result[j].doc_required) {
-							html += ` (必繳)`;
+				.then(function () {
+					loading.start();
+					student.uploadAndSubmit().then((res) => {
+						if (res.ok) {
+							return res.json();
 						} else {
-							html += ` (選繳)`;
+							throw res;
 						}
-						html += `
-							, 已上傳 ${data[i].docs_result[j].doc_count} 個檔案。
-							</div><br />
-						`;
-					}
-					html += `<br />`;
-				}
-				swal({
-					title: '<i>提交成功！</i>',
-					type: 'info',
-					html: html,
-					showCloseButton: true,
+					})
+					.then((data) => {
+						swal({
+							title: '<i>提交成功！</i>',
+							type: 'success',
+						})
+						/*
+						var html = ``;
+						for (var i = 0; i < data.length; i++) {
+							html += `
+								<h4>${data[i].name}</h4><br />
+							`;
+							for (var j = 0; j < data[i].docs_result.length; j++) {
+								html += `
+									<div style="text-align: left">
+									${data[i].docs_result[j].doc_name}
+								`;
+								if (data[i].docs_result[j].doc_required) {
+									html += ` (必繳)`;
+								} else {
+									html += ` (選繳)`;
+								}
+								html += `
+									, 已上傳 ${data[i].docs_result[j].doc_count} 個檔案。
+									</div><br />
+								`;
+							}
+							html += `<br />`;
+						}
+						swal({
+							title: '<i>提交成功！</i>',
+							type: 'info',
+							html: html,
+							showCloseButton: true,
+						})
+						*/
+						.then(() => { loading.complete(); location.href = './uploadReviewItems.html' });
+					})
+					.catch((err) => {
+						err.json && err.json().then((data) => {
+							console.error(data.messages[0]);
+							swal(
+								'提交失敗！',
+								data.messages[0],
+								'error'
+							);
+						});
+						loading.complete();
+					})
+				}, function (dismiss) {
+					return;
 				})
-				*/
-				.then(() => { loading.complete(); location.href = './uploadReviewItems.html' });
-			})
-			.catch((err) => {
-				err.json && err.json().then((data) => {
-					console.error(data.messages[0]);
-					swal(
-						'提交失敗！',
-						data.messages[0],
-						'error'
-					);
-				});
-				loading.complete();
-			})
-		}, function (dismiss) {
-			return;
-		})
+		}})
+		.catch(swal.noop)
 	}
 	
 	function _setEmailVerifyAlert(miscData) {
