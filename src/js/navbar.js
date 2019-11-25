@@ -103,7 +103,7 @@
 	function _handleUploadAndSubmit() {
 		swal({
 			title: '提交確認',
-			text: "如您有志願校系要求繳交【師長推薦函】，請務必至各志願【上傳備審項目頁面】檢查邀請之師長是否完成上傳。提醒您，若點選【確認上傳資料並提交】後，師長將無法為您上傳推薦信。",
+			html: "如您有志願校系要求繳交【師長推薦函】，請務必至各志願【上傳備審項目頁面】檢查邀請之師長是否完成上傳。提醒您，若點選【確認上傳資料並提交】後，<span style='color : #FF0000'>師長將無法為您上傳推薦信。</span>",
 			type: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
