@@ -806,7 +806,7 @@
 	function getTeacherRecommendationLetterInviteRecord(fileListItem) {
 		let invite_table = `
 			<div id="invitation-area" class="col-md-11" style=" margin:10px auto 28px;overflow-x:auto;">
-				<div class="alert alert-danger"><b>小心！ </b><strong>提交後師長即無法再上傳或更動推薦函</strong>，請確認上傳情況後再提交備審資料！</div>
+				<div class="alert alert-danger"><b>注意！ </b><strong>提交備審資料後，師長即無法再上傳推薦函或更新檔案。</strong> <br/>請務必確認上傳情形後再提交備審資料！</div>
 				<table id="invitation-list">
 					<tr>
 						<th>師長姓名</th>
