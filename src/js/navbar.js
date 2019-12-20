@@ -32,6 +32,7 @@
 		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
 		_checkConfirm(json);
 		_checkDocumentLock(json);
+		_checkMacauTranscrip(json);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -408,6 +409,18 @@
             $('#btn-uploadAndSubmit').hide();
             $('#btn-uploadAndSubmit-hint').hide();
             $('.nav-uploadReviewItems').hide();
+		}
+	}
+
+	function _checkMacauTranscrip(json){
+		/* 聯合分發成績採計方式不為參加學科測驗，並登錄及上傳四校聯考成績者 隱藏按鈕 */
+		if(json.student_misc_data.admission_placement_apply_way !==6){
+			$('#btn-uploadMacauTranscript').hide();
+			$('#macauTranscriptAlert').hide();
+		}else if(!json.can_macau_upload_time){ //確認現在時間是否在開放時間內  不是就改變按鈕狀態
+			$('#btn-uploadMacauTranscript').show().prop('disabled', true).text('目前不是登錄四校聯考成績時間');
+			$('#macauTranscriptAlert').show().text('開放時間：2020年 5月1日 00:00:00');
+			//$('#macauTranscriptAlert').hide();
 		}
 	}
 
