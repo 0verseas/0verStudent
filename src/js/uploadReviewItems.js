@@ -211,6 +211,24 @@
 									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
 								<div class="card-body">` + descriptionBlock + `
+									<h4 style="margin-bottom: 15px;">作品集檔案</h4>
+									<div class="alert alert-warning">
+										可接受副檔名為 <strong class="text-danger">pdf、jpg、png、mp3、mp4、avi</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
+									</div>
+									<div class="row" style="margin-bottom: 15px;">
+										<div class="col-12">
+											<input type="file" class="filestyle file-certificate" data-workstype="works" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-body">
+											<h4 class="card-title"><span>已上傳作品檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+											${worksHTML}
+										</div>
+									</div>
+									<hr />
+									<!--作品集文字-->
+									<h4 style="margin-bottom: 15px;">作品集資訊</h4>
 									<div>
 										<div class="form-group">
 											<label class="text-danger" for="workName">* 作品名稱</label>
@@ -244,23 +262,6 @@
 										<br />
 										<div class="form-group">
 											<button type="button" id="btn-save-works" class="btn btn-outline-warning btn-block"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;儲存已輸入的作品集文字&nbsp;&nbsp;<i class="fa fa-floppy-o" aria-hidden="true"></i></button>
-										</div>
-										<hr />
-									</div>
-
-									<h4 style="margin-bottom: 15px;">作品集檔案</h4>
-									<div class="alert alert-warning">
-										可接受副檔名為 <strong class="text-danger">pdf、jpg、png、mp3、mp4、avi</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
-									</div>
-									<div class="row" style="margin-bottom: 15px;">
-										<div class="col-12">
-											<input type="file" class="filestyle file-certificate" data-workstype="works" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
-										</div>
-									</div>
-									<div class="card">
-										<div class="card-body">
-											<h4 class="card-title"><span>已上傳作品檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-											${worksHTML}
 										</div>
 									</div>
 								</div>
