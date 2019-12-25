@@ -301,10 +301,10 @@
 		}
 
 		// 澳門上傳四校聯考成績單  採計方式代碼代訂
-		// 
+		//
 		if(data.student_misc_data.admission_placement_apply_way_data){  // 如果沒資料就跑裡面會卡住
 			if( data.student_misc_data.admission_placement_apply_way_data.code == '05' &&
-				data.student_misc_data.confirmed_at != null ){
+				data.student_misc_data.overseas_student_id != null ){
 				$macautranscript.show();
 				$macauTranscriptAlert.show();
 			}
@@ -414,13 +414,13 @@
 
 	function _checkMacauTranscrip(json){
 		/* 聯合分發成績採計方式不為參加學科測驗，並登錄及上傳四校聯考成績者 隱藏按鈕 */
-		if(json.student_misc_data.admission_placement_apply_way_data.code !=='05'){
-			$macautranscript.hide();
-			$macauTranscriptAlert.hide();
+		if(json.student_misc_data.admission_placement_apply_way !==6){
+			$('#btn-uploadMacauTranscript').hide();
+			$('#macauTranscriptAlert').hide();
 		}else if(!json.can_macau_upload_time){ //確認現在時間是否在開放時間內  不是就改變按鈕狀態
-			$macautranscript.show().prop('disabled', true).text('目前不是登錄四校聯考成績時間');
-			//$macauTranscriptAlert.show().text('開放時間：2020年 5月1日 00:00:00');
-			$macauTranscriptAlert.hide();
+			$('#btn-uploadMacauTranscript').show().prop('disabled', true).text('目前不是登錄四校聯考成績時間');
+			$('#macauTranscriptAlert').show().text('開放時間：2020年 5月1日 00:00:00');
+			//$('#macauTranscriptAlert').hide();
 		}
 	}
 
