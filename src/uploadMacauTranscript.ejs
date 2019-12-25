@@ -23,7 +23,8 @@
                         <input type="radio" name="radio1" id="radio1" value="none_Chinese"  data-subject="01"
                                onclick="document.getElementById('chineseScore').disabled = true;
                                         document.getElementById('chineseScore').value = '';
-                                        document.getElementById('reviewItemsArea_01').style.display ='none';" checked >
+
+                                        document.getElementById('reviewItemsArea_01').style.display ='none';" >
                         <label for="radio1">
                             我沒有考此科目。
                         </label>
@@ -33,12 +34,13 @@
                 <div class="row" style="padding-left:5%">
                     <div class="radio radio-primary">
                         <input type="radio" name="radio1" id="radio2" value="exist_Chinese"
-                               onclick="document.getElementById('chineseScore').disabled = false;" >
+                               onclick="document.getElementById('chineseScore').disabled = false;
+                                         " checked>
                         <label for="radio2" style="margin-top: 5%">
                             我有考此科目，成績為
                         </label>
                     </div>
-                    <div><input type="number" class="form-control" id="chineseScore" data-subject='01' style="" min="350" max="1000" disabled = 'true'></div>
+                    <div><input type="number" class="form-control" id="chineseScore" data-subject='01' style="" min="350" max="1000"></div>
                     <div id = "uploadFileArea_01" style=""></div>
                 </div>
                 <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 350 ～ 1000 之間)</div>
@@ -61,7 +63,8 @@
                         <input type="radio" name="radio3" id="radio3" value="none_English" data-subject="02"
                                onclick="document.getElementById('englishScore').disabled = true;
                                         document.getElementById('englishScore').value = '';
-                                        document.getElementById('reviewItemsArea_02').style.display ='none';" checked>
+
+                                        document.getElementById('reviewItemsArea_02').style.display ='none';" >
                         <label for="radio3">
                             我沒有考此科目。
                         </label>
@@ -71,12 +74,13 @@
                 <div class="row" style="padding-left:5%">
                     <div class="radio radio-primary">
                         <input type="radio" name="radio3" id="radio4" value="exist_English"
-                               onclick="document.getElementById('englishScore').disabled = false" >
+                               onclick="document.getElementById('englishScore').disabled = false;
+                                         " checked>
                         <label for="radio4" style="margin-top: 5%">
                             我有考此科目，成績為
                         </label>
                     </div>
-                    <div><input type="number" class="form-control" id="englishScore" style="" data-subject='02' min="350" max="1000" disabled = 'true'></div>
+                    <div><input type="number" class="form-control" id="englishScore" style="" data-subject='02' min="350" max="1000"></div>
                     <div id = "uploadFileArea_02" style=""></div>
                 </div>
                 <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 350 ～ 1000 之間)</div>
@@ -99,7 +103,8 @@
                         <input type="radio" name="radio5" id="radio5" value="none_Math" data-subject="03"
                                onclick="document.getElementById('MathScore').disabled = true;
                                         document.getElementById('MathScore').value = '';
-                                        document.getElementById('reviewItemsArea_03').style.display ='none';" checked>
+
+                                        document.getElementById('reviewItemsArea_03').style.display ='none';" >
                         <label for="radio5">
                             我沒有考此科目。
                         </label>
@@ -109,12 +114,13 @@
                 <div class="row" style="padding-left:5%">
                     <div class="radio radio-primary">
                         <input type="radio" name="radio5" id="radio6" value="exist_Math"
-                               onclick="document.getElementById('MathScore').disabled = false;">
+                               onclick="document.getElementById('MathScore').disabled = false;
+                                         " checked>
                         <label for="radio6" style="margin-top: 5%">
                             我有考此科目，成績為
                         </label>
                     </div>
-                    <div><input type="number" class="form-control" id="MathScore" style="" data-subject='03' min="350" max="1000" disabled = 'true'></div>
+                    <div><input type="number" class="form-control" id="MathScore" style="" data-subject='03' min="350" max="1000"></div>
                     <div id = "uploadFileArea_03" style=""></div>
                 </div>
                 <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 350 ～ 1000 之間)</div>
@@ -137,6 +143,7 @@
                         <input type="radio" name="radio7" id="radio7" value="none_ViceMath" data-subject="04"
                                onclick="document.getElementById('ViceMathScore').disabled = true;
                                         document.getElementById('ViceMathScore').value = '';
+
                                         document.getElementById('reviewItemsArea_04').style.display ='none';" checked>
                         <label for="radio7">
                             我沒有考此科目。
@@ -153,7 +160,7 @@
                             我有考此科目，成績為
                         </label>
                     </div>
-                    <div><input type="number" class="form-control" id="ViceMathScore" style="" data-subject='04' min="350" max="1000" disabled = 'true'></div>
+                    <div><input type="number" class="form-control" id="ViceMathScore" style="" data-subject='04' min="350" max="1000"></div>
                     <div id = "uploadFileArea_04" style=""></div>
                 </div>
                 <div style="padding-left:5%" class="text-muted"> (成績輸入應介於 350 ～ 1000 之間)</div>
