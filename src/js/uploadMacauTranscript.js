@@ -528,8 +528,6 @@
 	}
 
 	function  _handleUploadButton(name,value){
-
-		console.log(name,value);
 		if(name == 'radio1'){
 			if(value == 'none_Chinese'){
 				document.getElementById('uploadFileArea_01').style.display = "none";
@@ -555,7 +553,6 @@
 				document.getElementById('uploadFileArea_04').style.display = "block";
 			}
 		}
-
 	}
 
 	async function _handleSave() {
