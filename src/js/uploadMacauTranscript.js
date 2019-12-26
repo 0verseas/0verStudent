@@ -16,17 +16,17 @@
 	const $reviewItemsArea_03 = $('#reviewItemsArea_03');
 	const $reviewItemsArea_04 = $('#reviewItemsArea_04');
 
-	const uploadFileArea_01 = $('#uploadFileArea_01');
-	const uploadFileArea_02 = $('#uploadFileArea_02');
-	const uploadFileArea_03 = $('#uploadFileArea_03');
-	const uploadFileArea_04 = $('#uploadFileArea_04');
+	const $uploadFileArea_01 = $('#uploadFileArea_01');
+	const $uploadFileArea_02 = $('#uploadFileArea_02');
+	const $uploadFileArea_03 = $('#uploadFileArea_03');
+	const $uploadFileArea_04 = $('#uploadFileArea_04');
 
 	const $ChineseRadio = $('#radio1');
 	const $EnglishRadio = $('#radio3');
 	const $MathRadio = $('#radio5');
 	const $ViceMathRadio = $('#radio7');
 	const $saveBtn = $('#btn-save');
-	const $chinsesScore = $('#chineseScore');
+	const $chineseScore = $('#chineseScore');
 	const $englishScore = $('#englishScore');
 	const $MathScore = $('#MathScore');
 	const $ViceMathScore = $('#ViceMathScore');
@@ -60,12 +60,20 @@
 
 	$('body').on('change.upload', '.file-certificate', _handleUpload);
 	$('body').on('click', '.fileDelBtn', _handleDelImg);
+	$('body').on('change','radio',_handleUploadButton);
+	$('input:radio').on('click', function(e) {
+		_handleUploadButton(e.currentTarget.name,e.currentTarget.value);
+	});
 	$saveBtn.on('click', _handleSave);
 	$GoSummaryBtn.on('click', _handleConfirm);
-	$chinsesScore.on('keyup', _checkScore);
+	$chineseScore.on('keyup', _checkScore);
 	$englishScore.on('keyup', _checkScore);
 	$MathScore.on('keyup', _checkScore);
 	$ViceMathScore.on('keyup', _checkScore);
+	$chineseScore.on('change',_setScoreButton);
+	$englishScore.on('change',_setScoreButton);
+	$MathScore.on('change',_setScoreButton);
+	$ViceMathScore.on('change',_setScoreButton);
 	// $ChineseRadio.on('change',_handleDelImg);
 	// $EnglishRadio.on('change',_handleDelImg);
 	// $MathRadio.on('change',_handleDelImg);
@@ -101,7 +109,7 @@
 			// }
 		}
 		loading.complete();
-
+		
         _getSubjectFileName("01");
 		_getSubjectFileName("02");
 		_getSubjectFileName("03");
@@ -111,6 +119,45 @@
 		//_handleDelImg(2318, '011001_01.pdf');
 
 
+	}
+
+	function _setScoreButton(){
+		if($("input[name='radio1']:checked").val() == 'exist_Chinese'){
+			if( $chineseScore.val() <= 1000 && $chineseScore.val() >= 350 && typeof($chineseScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_01').style.display ="block";
+			}else{
+				document.getElementById('uploadFileArea_01').style.display ="none";
+			}
+		}else{
+			document.getElementById('uploadFileArea_01').style.display ="none";
+		}
+		if($("input[name='radio3']:checked").val() == 'exist_English'){
+			if( $englishScore.val() <= 1000 && $englishScore.val() >= 350 && typeof($englishScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_02').style.display ="block";
+			}else{
+				document.getElementById('uploadFileArea_02').style.display ="none";
+			}
+		}else{
+			document.getElementById('uploadFileArea_02').style.display ="none";
+		}
+		if($("input[name='radio5']:checked").val() == 'exist_Math'){
+			if( $MathScore.val() <= 1000 && $MathScore.val() >= 350 && typeof($MathScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_03').style.display ="block";
+			}else{
+				document.getElementById('uploadFileArea_03').style.display ="none";
+			}
+		}else{
+			document.getElementById('uploadFileArea_03').style.display ="none";
+		}
+		if($("input[name='radio7']:checked").val() == 'exist_ViceMath'){
+			if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 350 && typeof($ViceMathScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_04').style.display ="block";
+			}else{
+				document.getElementById('uploadFileArea_04').style.display ="none";
+			}
+		}else{
+			document.getElementById('uploadFileArea_04').style.display ="none";
+		}
 	}
 
 	// 先確定成績在合理範圍，再出現上傳檔案按鈕
@@ -124,7 +171,7 @@
 			subject = data_subject;
 
 		if(subject == '01'){
-			if( $chinsesScore.val() <= 1000 && $chinsesScore.val() >= 350 && typeof($chinsesScore.val()) != 'undefiend'){
+			if( $chineseScore.val() <= 1000 && $chineseScore.val() >= 350 && typeof($chineseScore.val()) != 'undefiend'){
 				//document.getElementById('uploadFileArea_01').style.display ="block";
 				document.getElementById('reviewItemsArea_01').style.display ='block';
 			}else{
@@ -310,7 +357,7 @@
 			loading.complete();
 		} catch(e) {
 			e.json && e.json().then((data) => {
-				console.error(data);
+				console.error("error",data);
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
 			loading.complete();
@@ -408,51 +455,58 @@
 
 			if (allScore[0].scoreA == '-1') {
 				$('input:radio[name="radio1"]').filter('[value="none_Chinese"]').attr('checked', true);
-				document.getElementById('chineseScore').disabled = true;
-				//document.getElementById('uploadFileArea_01').style.display = "none";
-				document.getElementById('reviewItemsArea_01').style.display = "none";
+				document.getElementById('chineseScore').style.display ='none';
+				document.getElementById('chineseScore-tip').style.display ='none';
+				document.getElementById('uploadFileArea_01').style.display = "none";
+				document.getElementById('reviewItemsArea_01').style.display ='none';
+				document.getElementById('chineseScore-text').innerText = '我有考此科目。'
 
 			} else {
 				$('input:radio[name="radio1"]').filter('[value="exist_Chinese"]').attr('checked', true);
 				document.getElementById('chineseScore').value = allScore[0].scoreA;
-				//document.getElementById('uploadFileArea_01').style.display = "block";
+				document.getElementById('uploadFileArea_01').style.display = "block";
 				document.getElementById('reviewItemsArea_01').style.display = "block";
 			}
 
 			if (allScore[0].scoreB == '-1') {
 				$('input:radio[name="radio3"]').filter('[value="none_English"]').attr('checked', true);
-				document.getElementById('englishScore').disabled = true;
-				//document.getElementById('uploadFileArea_02').style.display = "none";
-				document.getElementById('reviewItemsArea_02').style.display = "none";
+				document.getElementById('englishScore').style.display ='none';
+				document.getElementById('englishScore-tip').style.display ='none';
+				document.getElementById('uploadFileArea_02').style.display = "none";
+				document.getElementById('reviewItemsArea_02').style.display ='none';
+				document.getElementById('englishScore-text').innerText = '我有考此科目。' 
 			} else {
 				$('input:radio[name="radio3"]').filter('[value="exist_English"]').attr('checked', true);
 				document.getElementById('englishScore').value = allScore[0].scoreB;
-				//document.getElementById('uploadFileArea_02').style.display = "block";
+				document.getElementById('uploadFileArea_02').style.display = "block";
 				document.getElementById('reviewItemsArea_02').style.display = "block";
 			}
 
 			if (allScore[0].scoreC == '-1') {
 				$('input:radio[name="radio5"]').filter('[value="none_Math"]').attr('checked', true);
-				document.getElementById('MathScore').disabled = true;
-				//document.getElementById('uploadFileArea_03').style.display = "none";
-				document.getElementById('reviewItemsArea_03').style.display = "none";
+				document.getElementById('MathScore').style.display ='none';
+				document.getElementById('MathScore-tip').style.display ='none';
+				document.getElementById('uploadFileArea_03').style.display = "none";
+				document.getElementById('reviewItemsArea_03').style.display ='none';
+				document.getElementById('MathScore-text').innerText = '我有考此科目。' 
 			} else {
 				$('input:radio[name="radio5"]').filter('[value="exist_Math"]').attr('checked', true);
 				document.getElementById('MathScore').value = allScore[0].scoreC;
-				//document.getElementById('uploadFileArea_03').style.display = "block";
+				document.getElementById('uploadFileArea_03').style.display = "block";
 				document.getElementById('reviewItemsArea_03').style.display = "block";
 			}
 
 			if (allScore[0].scoreD == '-1') {
 				$('input:radio[name="radio7"]').filter('[value="none_ViceMath"]').attr('checked', true);
-				document.getElementById('ViceMathScore').disabled = true;
-				//document.getElementById('uploadFileArea_04').style.display = "none";
-				document.getElementById('reviewItemsArea_04').style.display = "none";
-
+				document.getElementById('ViceMathScore').style.display ='none';
+				document.getElementById('ViceMathScore-tip').style.display ='none';
+				document.getElementById('uploadFileArea_04').style.display = "none";
+				document.getElementById('reviewItemsArea_04').style.display ='none';
+				document.getElementById('ViceMathScore-text').innerText = '我有考此科目。' 
 			} else {
 				$('input:radio[name="radio7"]').filter('[value="exist_ViceMath"]').attr('checked', true);
 				document.getElementById('ViceMathScore').value = allScore[0].scoreD;
-				//document.getElementById('uploadFileArea_04').style.display = "block";
+				document.getElementById('uploadFileArea_04').style.display = "block";
 				document.getElementById('reviewItemsArea_04').style.display = "block";
 			}
 
@@ -471,13 +525,43 @@
 			}
 		} catch (e) {
 		}
+	}
+
+	function  _handleUploadButton(name,value){
+
+		console.log(name,value);
+		if(name == 'radio1'){
+			if(value == 'none_Chinese'){
+				document.getElementById('uploadFileArea_01').style.display = "none";
+			}else if( $chineseScore.val() <= 1000 && $chineseScore.val() >= 350 && typeof($chineseScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_01').style.display = "block";
+			}
+		}else if(name == 'radio3'){
+			if(value == 'none_English'){
+				document.getElementById('uploadFileArea_02').style.display = "none";
+			}else if( $englishScore.val() <= 1000 && $englishScore.val() >= 350 && typeof($englishScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_02').style.display = "none";
+			}
+		}else if(name == 'radio5'){
+			if(value == 'none_Math'){
+				document.getElementById('uploadFileArea_03').style.display = "none";
+			}else if( $MathScore.val() <= 1000 && $MathScore.val() >= 350 && typeof($MathScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_03').style.display = "block";
+			}
+		}else if(name == 'radio7'){
+			if(value == 'none_ViceMath'){
+				document.getElementById('uploadFileArea_04').style.display = "none";
+			}else if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 350 && typeof($ViceMathScore.val()) != 'undefiend'){
+				document.getElementById('uploadFileArea_04').style.display = "block";
+			}
+		}
 
 	}
 
 	async function _handleSave() {
 
 		checkIllegalScore = 0;
-		if ( ($chinsesScore.val() > 1000 || $chinsesScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
+		if ( ($chineseScore.val() > 1000 || $chineseScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
 			alert("中文成績輸入有誤");
 			checkIllegalScore = 1;
 		}
@@ -546,7 +630,7 @@
 	//檢查成績區間
 	async function _handleConfirm() {
 		checkIllegalScore = 0;
-		if ( ($chinsesScore.val() > 1000 || $chinsesScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
+		if ( ($chineseScore.val() > 1000 || $chineseScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
 			alert("中文成績輸入有誤");
 			checkIllegalScore = 1;
 		}
