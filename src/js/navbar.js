@@ -32,6 +32,7 @@
 		_checkQualificationVerify(window.location.pathname, json.student_qualification_verify);
 		_checkConfirm(json);
 		_checkDocumentLock(json);
+		_checkMacauTranscrip(json);
 	})
 	.catch((err) => {
 		console.error(err);
