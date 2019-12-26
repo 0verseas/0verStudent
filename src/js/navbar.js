@@ -413,9 +413,11 @@
 	}
 
 	function _checkMacauTranscrip(json){
-		console.log(json);
 		/* 聯合分發成績採計方式不為參加學科測驗，並登錄及上傳四校聯考成績者 隱藏按鈕 */
-		if(json.student_misc_data.admission_placement_apply_way_data.code !=='05'){
+		if(json.student_misc_data.admission_placement_apply_way_data == null || json.student_misc_data.confirmed_at == null ){
+			$macautranscript.hide();
+			$macauTranscriptAlert.hide();
+		}else if(json.student_misc_data.admission_placement_apply_way_data.code != '05'){
 			$macautranscript.hide();
 			$macauTranscriptAlert.hide();
 		}else if(!json.can_macau_upload_time){ //確認現在時間是否在開放時間內  不是就改變按鈕狀態
