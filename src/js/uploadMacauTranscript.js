@@ -60,7 +60,7 @@
 
 	$('body').on('change.upload', '.file-certificate', _handleUpload);
 	$('body').on('click', '.fileDelBtn', _handleDelImg);
-	$('body').on('change','radio',_handleUploadButton);
+	//radio button 改變事件
 	$('input:radio').on('click', function(e) {
 		_handleUploadButton(e.currentTarget.name,e.currentTarget.value);
 	});
@@ -121,6 +121,7 @@
 
 	}
 
+	//分數改變時確認是否顯示上傳按鈕
 	function _setScoreButton(){
 		if($("input[name='radio1']:checked").val() == 'exist_Chinese'){
 			if( $chineseScore.val() <= 1000 && $chineseScore.val() >= 350 && typeof($chineseScore.val()) != 'undefiend'){
@@ -160,7 +161,7 @@
 		}
 	}
 
-	// 先確定成績在合理範圍，再出現上傳檔案按鈕
+	// 確定成績是否在合理範圍
 	function _checkScore(para_subject) {
 
 		const data_subject =  $(this).data('subject') ;
@@ -527,6 +528,7 @@
 		}
 	}
 
+	//根據傳入的radio_name與radio_value來處理顯示或隱藏的部份
 	function  _handleUploadButton(name,value){
 		if(name == 'radio1'){
 			if(value == 'none_Chinese'){
@@ -538,7 +540,7 @@
 			if(value == 'none_English'){
 				document.getElementById('uploadFileArea_02').style.display = "none";
 			}else if( $englishScore.val() <= 1000 && $englishScore.val() >= 350 && typeof($englishScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_02').style.display = "none";
+				document.getElementById('uploadFileArea_02').style.display = "block";
 			}
 		}else if(name == 'radio5'){
 			if(value == 'none_Math'){
