@@ -91,6 +91,17 @@
 			const progressJson = await progressResponse.json();
 			_studentID= progressJson.id;
 
+			//location.orgin 不支援IE11以下版本  所以用 location.protocol +location.host取代
+			if(!progressJson.can_macau_upload_time){
+				alert('開放時間未到或條件不符，即將返回志願檢視。');
+				window.location  = window.location.protocol+'//'+window.location.host+'/result.html';
+			}
+
+			//沒有僑生編號就返回志願檢視頁面
+			if(progressJson.student_misc_data.overseas_student_id == null){
+				alert('請先繳交報名表件並等待審核完畢，即將返回志願檢視。');
+				window.location  =  window.location.protocol+'//'+window.location.host+'/result.html';
+			}
 		}
 		catch(e) {
 			// if (e.status && e.status === 401) {

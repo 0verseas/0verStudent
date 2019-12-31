@@ -422,7 +422,7 @@
 			$macauTranscriptAlert.hide();
 		}else if(!json.can_macau_upload_time){ //確認現在時間是否在開放時間內  不是就改變按鈕狀態
 			$macautranscript.show().prop('disabled', true).text('目前不是登錄四校聯考成績時間');
-			$macauTranscriptAlert.show().text('開放時間：2020年 5月1日 00:00:00');
+			$macauTranscriptAlert.show().text('開放時間：2020 年 5 月 1 日 00：00：00');
 			//$macauTranscriptAlert.hide();
 		}else if( json.student_misc_data.overseas_student_id == null){ //確認是否有僑生編號 沒有就請學生等待審核
 			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績');
