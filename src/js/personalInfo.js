@@ -599,6 +599,11 @@
             $('#HK-ADorHD').show();
         }else{
             $('#HK-ADorHD').hide();
+            // 隱藏之餘也別忘記要清空已經填寫的答案
+            $('input[name="HK-ADorHD-diploma"]:checked').prop('checked', false);  // 是否取得副學士或高級文憑畢業證書問題
+            $('#HK_ADorHD_Diploma').val('');
+            $HK_ADorHD_SchoolName.val(null);
+            $HK_ADorHD_ClassName.val(null);
         }
 
         if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId) {
