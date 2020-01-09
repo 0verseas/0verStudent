@@ -19,6 +19,8 @@
 	{ key: "hk_phd_confirmed", name: "海外香港學生博士班提交人數" },
 	{ key: "mo", name: "澳門開通帳號註冊人數" },
 	{ key: "mo_confirmed", name: "澳門提交人數" },
+	{ key: "mo_placement", name: "澳門聯合分發開通帳號註冊人數" },
+	{ key: "mo_placement_confirmed", name: "澳門聯合分發提交人數" },
 	{ key: "my", name: "馬來西亞開通帳號註冊人數" },
 	{ key: "my_confirmed", name:  "馬來西亞提交人數" },
 	{ key: "id", name: "印尼開通帳號註冊人數" },
