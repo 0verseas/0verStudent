@@ -839,7 +839,72 @@
         }
     }
 
+    function _handleReplace(){
+        console.log($name.val());
+        // 申請人資料表
+        $name.val($name.val().replace(/[~'!<>@#$%^&*()-_=:"a-zA-Z0-9]/g, "")); // 姓名（中）
+        $engName.val($engName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
+        $otherDisabilityCategory.val($otherDisabilityCategory.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 其他障礙說明
+
+        // 僑居地資料
+        $residentPassportNo.val($residentPassportNo.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 護照號碼
+        $residentPhoneCode.val($residentPhoneCode.val().replace(/[^\d.-]/g, '')); // 電話國碼
+        $residentPhone.val($residentPhone.val().replace(/[^\d.-]/g, '')); // 電話號碼
+        $residentCellphoneCode.val($residentCellphoneCode.val().replace(/[^\d.-]/g, '')); // 手機國碼
+        $residentCellphone.val($residentCellphone .val().replace(/[^\d.-]/g, ''));// 手機號碼
+        $residentAddress.val($residentAddress.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 地址（中 / 英）
+        $residentOtherLangAddress.val($residentOtherLangAddress.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 地址（其他語言）
+
+        // 在台資料 (選填)
+        $taiwanPassport.val($taiwanPassport.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 臺灣護照號碼
+        $taiwanPhone.val($taiwanPhone.val().replace(/[^\d.-]/g, '')); // 臺灣電話
+        $taiwanAddress.val($taiwanAddress.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 臺灣地址
+
+        // 學歷
+        $educationSystemDescription.val($educationSystemDescription.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 學制描述
+
+        $schoolNameText.val($schoolNameText.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 學校名稱 (text)
+
+        $HK_ADorHD_SchoolName.val($HK_ADorHD_SchoolName.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, ""));  // 學校名稱
+        $HK_ADorHD_ClassName.val($HK_ADorHD_ClassName.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, ""));  // 課程名稱
+
+        $majorSubject.val($majorSubject.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 主修科目
+        $minorSubject.val($minorSubject.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 輔修科目
+
+        $twoYearTechClassName.val($twoYearTechClassName.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 課程名稱（港二技）
+
+        // 家長資料
+        // 父親
+        $dadName.val($dadName.val().replace(/[~'!<>@#$%^&*()-_=:"a-zA-Z0-9]/g, "")); // 姓名（中）
+        $dadEngName.val($dadEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
+        $dadJob.val($dadJob.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 職業
+        $dadPhoneCode.val($dadPhoneCode.val().replace(/[^\d.-]/g, '')); // 聯絡電話國碼
+        $dadPhone.val($dadPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+        // 母親
+        $momName.val($momName.val().replace(/[~'!<>@#$%^&*()-_=:"a-zA-Z0-9]/g, "")); // 姓名（中）
+        $momEngName.val($momEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
+        $momJob.val($momJob.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 職業
+        $momPhoneCode.val($momPhoneCode.val().replace(/[^\d.-]/g, '')); // 聯絡電話國碼
+        $momPhone.val($momPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+        // 監護人（父母皆不詳才需要填寫）
+        $guardianName.val($guardianName.val().replace(/[~'!<>@#$%^&*()-_=:"a-zA-Z0-9]/g, "")); // 姓名（中）
+        $guardianEngName.val($guardianEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
+        $guardianJob.val($guardianJob.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 職業
+        $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d.-]/g, '')); // 聯絡電話國碼
+        $guardianPhone.val($guardianPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+
+        // 在台聯絡人
+        $twContactName.val($twContactName.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 姓名
+        $twContactRelation.val($twContactRelation.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 關係
+        $twContactPhone.val($twContactPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+        $twContactAddress.val($twContactAddress.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 地址
+        $twContactWorkplaceName.val($twContactWorkplaceName.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 服務機關名稱
+        $twContactWorkplacePhone.val($twContactWorkplacePhone.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 服務機關電話
+        $twContactWorkplaceAddress.val($twContactWorkplaceAddress.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, "")); // 服務機關地址   
+    }
+
     function _handleSave() {
+        _handleReplace();
         let sendData = {};
         if (sendData = _validateForm()) {
             for (let i in sendData) {
@@ -921,6 +986,10 @@
          *	dbKey: 資料送往後端的 key，不需送出則不填。
          *	dbData: 送往後端的資料，預設為 value，其次為 el.val()。如果有特殊需求（像是電話要和國碼合併），則填寫在 dbData 中。
          */
+
+         console.log($name.val());
+         console.log($name.val().replace(/[~'!<>@#$%^&*()-_=:"]/g, ""));
+
         let formValidateList = [{
                 el: $backupEmail,
                 require: false,
