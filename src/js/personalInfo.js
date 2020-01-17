@@ -845,28 +845,31 @@
         /*
         *   3400～4DFF：中日韓認同表意文字擴充A區，總計收容6,582個中日韓漢字。
         *   4E00～9FFF：中日韓認同表意文字區，總計收容20,902個中日韓漢字。 
-        *   002d ： -
+        *   002d： -
+        *   00b7：半形音界號
+        *   2027：全形音界號
         *   \s ： 空白
-        *   00c0~9FFF：基本包含全國家的文字
+        *   \d：數字
+        *   00c0~33FF：包含大部分國家的文字
         */
 
         // 申請人資料表
-        $name.val($name.val().replace(/[^\u3400-\u9fff]/g, "")); // 姓名（中
+        $name.val($name.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中)
         $engName.val($engName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
         $otherDisabilityCategory.val($otherDisabilityCategory.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 其他障礙說明
 
         // 僑居地資料
         $residentPassportNo.val($residentPassportNo.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 護照號碼
-        $residentPhoneCode.val($residentPhoneCode.val().replace(/[^\d.-]/g, '')); // 電話國碼
-        $residentPhone.val($residentPhone.val().replace(/[^\d.-]/g, '')); // 電話號碼
-        $residentCellphoneCode.val($residentCellphoneCode.val().replace(/[^\d.-]/g, '')); // 手機國碼
-        $residentCellphone.val($residentCellphone .val().replace(/[^\d.-]/g, ''));// 手機號碼
+        $residentPhoneCode.val($residentPhoneCode.val().replace(/[^\d-]/g, '')); // 電話國碼
+        $residentPhone.val($residentPhone.val().replace(/[^\d-]/g, '')); // 電話號碼
+        $residentCellphoneCode.val($residentCellphoneCode.val().replace(/[^\d-]/g, '')); // 手機國碼
+        $residentCellphone.val($residentCellphone .val().replace(/[^\d-]/g, ''));// 手機號碼
         $residentAddress.val($residentAddress.val().replace(/[^\u3400-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 地址（中 / 英）
         // $residentOtherLangAddress.val($residentOtherLangAddress.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 地址（其他語言）
 
         // 在台資料 (選填)
         $taiwanPassport.val($taiwanPassport.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 臺灣護照號碼
-        $taiwanPhone.val($taiwanPhone.val().replace(/[^\d.-]/g, '')); // 臺灣電話
+        $taiwanPhone.val($taiwanPhone.val().replace(/[^\d-]/g, '')); // 臺灣電話
         $taiwanAddress.val($taiwanAddress.val().replace(/[^\u3400-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 臺灣地址
 
         // 學歷
@@ -880,31 +883,31 @@
 
         // 家長資料
         // 父親
-        $dadName.val($dadName.val().replace(/[^\u3400-\u9fff]/g, "")); // 姓名（中）
+        $dadName.val($dadName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
         $dadEngName.val($dadEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
         $dadJob.val($dadJob.val().replace(/[^\u3400-\u9fffa-zA-Z]/g, "")); // 職業
-        $dadPhoneCode.val($dadPhoneCode.val().replace(/[^\d.-]/g, '')); // 聯絡電話國碼
-        $dadPhone.val($dadPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+        $dadPhoneCode.val($dadPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
+        $dadPhone.val($dadPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         // 母親
-        $momName.val($momName.val().replace(/[^\u3400-\u9fff]/g, "")); // 姓名（中）
+        $momName.val($momName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
         $momEngName.val($momEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
         $momJob.val($momJob.val().replace(/[^\u3400-\u9fffa-zA-Z]/g, "")); // 職業
-        $momPhoneCode.val($momPhoneCode.val().replace(/[^\d.-]/g, '')); // 聯絡電話國碼
-        $momPhone.val($momPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+        $momPhoneCode.val($momPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
+        $momPhone.val($momPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         // 監護人（父母皆不詳才需要填寫）
-        $guardianName.val($guardianName.val().replace(/[^\u3400-\u9fff]/g, "")); // 姓名（中）
+        $guardianName.val($guardianName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
         $guardianEngName.val($guardianEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
         $guardianJob.val($guardianJob.val().replace(/[^\u3400-\u9fffa-zA-Z]/g, "")); // 職業
-        $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d.-]/g, '')); // 聯絡電話國碼
-        $guardianPhone.val($guardianPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+        $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
+        $guardianPhone.val($guardianPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
 
         // 在台聯絡人 
-        $twContactName.val($twContactName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 姓名
+        $twContactName.val($twContactName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\u00b7\s]/g, "")); // 姓名
         $twContactRelation.val($twContactRelation.val().replace(/[^\u00c0-\u9fffa-zA-Z]/g, "")); // 關係
-        $twContactPhone.val($twContactPhone.val().replace(/[^\d.-]/g, '')); // 聯絡電話
+        $twContactPhone.val($twContactPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         $twContactAddress.val($twContactAddress.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 地址
         $twContactWorkplaceName.val($twContactWorkplaceName.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 服務機關名稱
-        $twContactWorkplacePhone.val($twContactWorkplacePhone.val().replace(/[^\d.-]/g, '')); // 服務機關電話
+        $twContactWorkplacePhone.val($twContactWorkplacePhone.val().replace(/[^\d-]/g, '')); // 服務機關電話
         $twContactWorkplaceAddress.val($twContactWorkplaceAddress.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 服務機關地址   
     }
 
