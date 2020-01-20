@@ -68,8 +68,8 @@
             const dept_code = tokenJson.dept_code;  // card_code of department
             document.getElementById("sid").innerHTML = sid;
             document.getElementById("eng-sid").innerHTML = sid;
-            document.getElementById("stu-name").innerHTML = stu_name;
-            document.getElementById("eng-stu-name").innerHTML = stu_eng_name;
+            document.getElementById("stu-name").innerHTML = encodeHTML(stu_name);
+            document.getElementById("eng-stu-name").innerHTML = encodeHTML(stu_eng_name);
             document.getElementById("admission-school").innerHTML = school_title;
             document.getElementById("eng-admission-school").innerHTML = school_eng_title;
             document.getElementById("admission-department").innerHTML = dept_title;
@@ -344,6 +344,15 @@
             });
             loading.complete();
         }
+    }
+
+    // 轉換一些敏感符號避免 XSS
+    function encodeHTML(bareString) {
+        return bareString.replace(/&/g, "&amp;")  // 轉換 &
+            .replace(/</g, "&lt;").replace(/>/g, "&gt;")  // 轉換 < 及 >
+            .replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號
+            .replace(/ /g, " &nbsp;")
+            ;
     }
 
 })();
