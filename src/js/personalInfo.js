@@ -1215,8 +1215,8 @@
             formValidateList.push({ el: $twoYearTechDiploma, require: false, type: 'string', dbKey: 'two_year_tech_diploma', dbData: '' }, { el: $twoYearTechClassName, require: false, type: 'string', dbKey: 'two_year_tech_class_name', dbData: '' }, { el: $twoYearTechClassStart, require: false, type: 'string', dbKey: 'two_year_tech_class_start', dbData: '' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end', dbData: '' }, );
         }
 
-        // 香港學生是否有副學士或高級文憑的調查
-        if ($('input[name="radio-HK-ADorHD"]:checked').val() == 1){  // 有
+        // 香港報名學士班同學是否有副學士或高級文憑的調查
+        if ($('input[name="radio-HK-ADorHD"]:checked').val() == 1 && _systemId === 1 && _schoolCountryId == 113){  // 有
             formValidateList.push({
                 el: $had_HK_ADorHD,
                 require: true,
