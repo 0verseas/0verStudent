@@ -4,6 +4,7 @@
 	*/
 	let _emailValid = false;
 	let _passValid = false;
+	let _identityValid = false;
 
 	/**
 	*	cache DOM
@@ -15,7 +16,7 @@
 	const $registerBtn = $Register.find('.Register__btnRegister');
 	const $passwordWarning = $('#password-warning');
 	const $identifyingCanvas = $('#identifyingCanvas')
-	const $identifyingCode = $('#identifyingCode')
+	const $identifyingCode = $('#Register__identifyingCode')
 	var identifyingCode = '';
 
 	/**
@@ -30,6 +31,7 @@
 	$email.on('blur', _checkEmail);
 	$password.on('blur', _checkPassword);
 	$passwordConfirm.on('blur', _checkPassword);
+	$identifyingCode.on('blur',_checkIdentifyCode);
 	$registerBtn.on('click', _handleSubmit);
 	$identifyingCanvas.on('click',generateCode);
 
@@ -78,19 +80,28 @@
 		}
 	}
 
-	function _handleSubmit() {
-		const email = $email.val();
-		const oriPass = $password.val();
-		const passConfirm = $passwordConfirm.val();
+	function _checkIdentifyCode(){
 		const code = $identifyingCode.val();
 
 		//確認驗證碼是否一致  不區分大小寫
 		if(code.toUpperCase() !== identifyingCode){
+			$identifyingCode.addClass('invalidInput');
+			_identityValid = false;
+		} else{
+			$identifyingCode.removeClass('invalidInput');
+			_identityValid = true;
+		}
+	}
+
+	function _handleSubmit() {
+		const email = $email.val();
+		const oriPass = $password.val();
+		const passConfirm = $passwordConfirm.val();
+
+		if(!_identityValid){
 			alert('驗證碼不正確');
-			generateCode();
 			return;
 		}
-		generateCode();
 
 		if (!_emailValid) {
 			alert('信箱格式錯誤。');
@@ -101,7 +112,7 @@
 			alert('密碼格式錯誤，或「確認密碼」與「密碼」內容不符。');
 			return;
 		}
-
+		
 		const data = {
 			email: email,
 			password: sha256(oriPass),
@@ -129,6 +140,7 @@
 			loading.complete();
 		})
 	}
+
 	function generateCode(){
 
 		//隨機產生數字
