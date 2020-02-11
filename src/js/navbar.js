@@ -243,6 +243,9 @@
 			$('.nav-admissionSelection').addClass('disabled');
 			$('.nav-admissionSelection').addClass('show-personal-info-first');
 			$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+			$('.nav-result').addClass('disabled');
+			$('.nav-result').addClass('show-personal-info-first');
+			$('.nav-result').click(function(e){e.preventDefault();});
 		} else {
 			// 學生有填個人資料，但沒有在可報名期間內時，「個人申請志願」出現提示訊息（個人申請已截止）
 			if (!data.can_admission_selection) {

@@ -40,6 +40,11 @@
 			if (!progressResponse.ok) { throw progressResponse; }
 			const progressJson = await progressResponse.json();
 
+			if(!progressJson.student_personal_data){
+				alert('請先完成個人基本資料填寫！')
+				location.href = "./personalInfo.html";
+			}
+
 			_systemId = progressJson.student_qualification_verify.system_id;
 
 			if (_systemId === 1) {
