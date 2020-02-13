@@ -42,6 +42,7 @@
 		// 如果是申請僑先部的採計方式或是僑先部結業生，就沒有要不要分發僑先部的問題
 		if(+$(this).val() === 16 || +$(this).val() === 18){
 			$('#go-to-FF-form').hide();  // 隱藏讓學生選擇去不去僑先部的選項
+			$goToFF.prop('checked', true);  // 把選項勾回來
 		} else {  // 反之則顯示選項
 			$('#go-to-FF-form').show();
 			if(+$(this).val() === 23){  // 只有在選擇以香港DSE、ALE、CEE作為聯分成績採計方式時才會顯示
