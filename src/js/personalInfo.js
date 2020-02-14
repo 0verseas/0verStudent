@@ -873,7 +873,7 @@
         $taiwanAddress.val($taiwanAddress.val().replace(/[^\u3400-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 臺灣地址
 
         // 學歷
-        $educationSystemDescription.val($educationSystemDescription.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 學制描述
+        $educationSystemDescription.val($educationSystemDescription.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 學制描述
         $schoolNameText.val($schoolNameText.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 學校名稱 (text)
         $HK_ADorHD_SchoolName.val($HK_ADorHD_SchoolName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, ""));  // 學校名稱
         $HK_ADorHD_ClassName.val($HK_ADorHD_ClassName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, ""));  // 課程名稱
