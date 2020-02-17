@@ -864,16 +864,16 @@
         $residentPhone.val($residentPhone.val().replace(/[^\d-]/g, '')); // 電話號碼
         $residentCellphoneCode.val($residentCellphoneCode.val().replace(/[^\d-]/g, '')); // 手機國碼
         $residentCellphone.val($residentCellphone .val().replace(/[^\d-]/g, ''));// 手機號碼
-        $residentAddress.val($residentAddress.val().replace(/[\/\\\<\>\:\"\s]/g, "")); // 地址（中 / 英）
+        $residentAddress.val($residentAddress.val().replace(/[\<\>\"]/g, "")); // 地址（中 / 英）
         // $residentOtherLangAddress.val($residentOtherLangAddress.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 地址（其他語言）
 
         // 在台資料 (選填)
         $taiwanPassport.val($taiwanPassport.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 臺灣護照號碼
         $taiwanPhone.val($taiwanPhone.val().replace(/[^\d-]/g, '')); // 臺灣電話
-        $taiwanAddress.val($taiwanAddress.val().replace(/[\/\\\<\>\:\"\s]/g, "")); // 臺灣地址
+        $taiwanAddress.val($taiwanAddress.val().replace(/[\<\>\"]/g, "")); // 臺灣地址
 
         // 學歷
-        $educationSystemDescription.val($educationSystemDescription.val().replace(/[\/\\\<\>\:\"\s]/g, "")); // 學制描述
+        $educationSystemDescription.val($educationSystemDescription.val().replace(/[\<\>\"]/g, "")); // 學制描述
         $schoolNameText.val($schoolNameText.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 學校名稱 (text)
         $HK_ADorHD_SchoolName.val($HK_ADorHD_SchoolName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, ""));  // 學校名稱
         $HK_ADorHD_ClassName.val($HK_ADorHD_ClassName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, ""));  // 課程名稱
@@ -905,10 +905,10 @@
         $twContactName.val($twContactName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\u00b7\s]/g, "")); // 姓名
         $twContactRelation.val($twContactRelation.val().replace(/[^\u00c0-\u9fffa-zA-Z]/g, "")); // 關係
         $twContactPhone.val($twContactPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
-        $twContactAddress.val($twContactAddress.val().replace(/[\/\\\<\>\:\"\s]/g, "")); // 地址
+        $twContactAddress.val($twContactAddress.val().replace(/[\<\>\"]/g, "")); // 地址
         $twContactWorkplaceName.val($twContactWorkplaceName.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 服務機關名稱
         $twContactWorkplacePhone.val($twContactWorkplacePhone.val().replace(/[^\d-]/g, '')); // 服務機關電話
-        $twContactWorkplaceAddress.val($twContactWorkplaceAddress.val().replace(/[\/\\\<\>\:\"\s]/g, "")); // 服務機關地址   
+        $twContactWorkplaceAddress.val($twContactWorkplaceAddress.val().replace(/[\<\>\"]/g, "")); // 服務機關地址   
     }
 
     function _handleSave() {
