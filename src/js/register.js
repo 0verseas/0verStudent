@@ -133,10 +133,17 @@
 			loading.complete();
 		})
 		.catch((err) => {
-			err.json && err.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-			})
+			if (err.status === 429){  // 註冊太多次啦 Too Many Requests
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`${data.message}`);
+				})
+			} else {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				})
+			}
 			loading.complete();
 		})
 	}
