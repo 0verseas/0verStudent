@@ -856,7 +856,7 @@
         // 申請人資料表
         $name.val($name.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中)
         $engName.val($engName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
-        $otherDisabilityCategory.val($otherDisabilityCategory.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 其他障礙說明
+        $otherDisabilityCategory.val($otherDisabilityCategory.val().replace(/[\<\>\"]/g, "")); // 其他障礙說明
 
         // 僑居地資料
         $residentPassportNo.val($residentPassportNo.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 護照號碼
@@ -874,39 +874,39 @@
 
         // 學歷
         $educationSystemDescription.val($educationSystemDescription.val().replace(/[\<\>\"]/g, "")); // 學制描述
-        $schoolNameText.val($schoolNameText.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 學校名稱 (text)
-        $HK_ADorHD_SchoolName.val($HK_ADorHD_SchoolName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, ""));  // 學校名稱
-        $HK_ADorHD_ClassName.val($HK_ADorHD_ClassName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, ""));  // 課程名稱
-        $majorSubject.val($majorSubject.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 主修科目
-        $minorSubject.val($minorSubject.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 輔修科目
-        $twoYearTechClassName.val($twoYearTechClassName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\s]/g, "")); // 課程名稱（港二技）
+        $schoolNameText.val($schoolNameText.val().replace(/[\<\>\"]/g, "")); // 學校名稱 (text)
+        $HK_ADorHD_SchoolName.val($HK_ADorHD_SchoolName.val().replace(/[\<\>\"]/g, ""));  // 學校名稱
+        $HK_ADorHD_ClassName.val($HK_ADorHD_ClassName.val().replace(/[\<\>\"]/g, ""));  // 課程名稱
+        $majorSubject.val($majorSubject.val().replace(/[\<\>\"]/g, "")); // 主修科目
+        $minorSubject.val($minorSubject.val().replace(/[\<\>\"]/g, "")); // 輔修科目
+        $twoYearTechClassName.val($twoYearTechClassName.val().replace(/[\<\>\"]/g, "")); // 課程名稱（港二技）
 
         // 家長資料
         // 父親
         $dadName.val($dadName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
         $dadEngName.val($dadEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
-        $dadJob.val($dadJob.val().replace(/[^\u3400-\u9fffa-zA-Z]/g, "")); // 職業
+        $dadJob.val($dadJob.val().replace(/[\<\>\"]/g, "")); // 職業
         $dadPhoneCode.val($dadPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $dadPhone.val($dadPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         // 母親
         $momName.val($momName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
         $momEngName.val($momEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
-        $momJob.val($momJob.val().replace(/[^\u3400-\u9fffa-zA-Z]/g, "")); // 職業
+        $momJob.val($momJob.val().replace(/[\<\>\"]/g, "")); // 職業
         $momPhoneCode.val($momPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $momPhone.val($momPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         // 監護人（父母皆不詳才需要填寫）
         $guardianName.val($guardianName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
         $guardianEngName.val($guardianEngName.val().replace(/[^a-zA-Z\s]/g, "")); // 姓名（英）
-        $guardianJob.val($guardianJob.val().replace(/[^\u3400-\u9fffa-zA-Z]/g, "")); // 職業
+        $guardianJob.val($guardianJob.val().replace(/[\<\>\"]/g, "")); // 職業
         $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $guardianPhone.val($guardianPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
 
         // 在台聯絡人 
         $twContactName.val($twContactName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\u00b7\s]/g, "")); // 姓名
-        $twContactRelation.val($twContactRelation.val().replace(/[^\u00c0-\u9fffa-zA-Z]/g, "")); // 關係
+        $twContactRelation.val($twContactRelation.val().replace(/[\<\>\"]/g, "")); // 關係
         $twContactPhone.val($twContactPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         $twContactAddress.val($twContactAddress.val().replace(/[\<\>\"]/g, "")); // 地址
-        $twContactWorkplaceName.val($twContactWorkplaceName.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 服務機關名稱
+        $twContactWorkplaceName.val($twContactWorkplaceName.val().replace(/[\<\>\"]/g, "")); // 服務機關名稱
         $twContactWorkplacePhone.val($twContactWorkplacePhone.val().replace(/[^\d-]/g, '')); // 服務機關電話
         $twContactWorkplaceAddress.val($twContactWorkplaceAddress.val().replace(/[\<\>\"]/g, "")); // 服務機關地址   
     }
