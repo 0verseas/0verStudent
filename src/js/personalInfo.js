@@ -855,7 +855,7 @@
 
         // 申請人資料表
         $name.val($name.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中)
-        $engName.val($engName.val().replace(/[^a-zA-Z.,\s]/g, "")); // 姓名（英）
+        $engName.val($engName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
         $otherDisabilityCategory.val($otherDisabilityCategory.val().replace(/[\<\>\"]/g, "")); // 其他障礙說明
 
         // 僑居地資料
@@ -884,19 +884,19 @@
         // 家長資料
         // 父親
         $dadName.val($dadName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
-        $dadEngName.val($dadEngName.val().replace(/[^a-zA-Z.,\s]/g, "")); // 姓名（英）
+        $dadEngName.val($dadEngName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
         $dadJob.val($dadJob.val().replace(/[\<\>\"]/g, "")); // 職業
         $dadPhoneCode.val($dadPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $dadPhone.val($dadPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         // 母親
         $momName.val($momName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
-        $momEngName.val($momEngName.val().replace(/[^a-zA-Z.,\s]/g, "")); // 姓名（英）
+        $momEngName.val($momEngName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
         $momJob.val($momJob.val().replace(/[\<\>\"]/g, "")); // 職業
         $momPhoneCode.val($momPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $momPhone.val($momPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
         // 監護人（父母皆不詳才需要填寫）
         $guardianName.val($guardianName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
-        $guardianEngName.val($guardianEngName.val().replace(/[^a-zA-Z.,\s]/g, "")); // 姓名（英）
+        $guardianEngName.val($guardianEngName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
         $guardianJob.val($guardianJob.val().replace(/[\<\>\"]/g, "")); // 職業
         $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $guardianPhone.val($guardianPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
