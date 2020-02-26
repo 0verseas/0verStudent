@@ -15,8 +15,9 @@
 	const $passwordConfirm = $Register.find('#Register__inputPasswordConfirm');
 	const $registerBtn = $Register.find('.Register__btnRegister');
 	const $passwordWarning = $('#password-warning');
-	const $identifyingCanvas = $('#identifyingCanvas')
-	const $identifyingCode = $('#Register__identifyingCode')
+	const $identifyingCanvas = $('#identifyingCanvas');
+	const $identifyingCode = $('#Register__identifyingCode');
+	const $agreePersonalProtectionLaw = $('#agreePersonalProtectionLaw');
 	var identifyingCode = '';
 
 	/**
@@ -34,6 +35,7 @@
 	$identifyingCode.on('blur',_checkIdentifyCode);
 	$registerBtn.on('click', _handleSubmit);
 	$identifyingCanvas.on('click',generateCode);
+	$agreePersonalProtectionLaw.on('change',agreeBoxChange);
 
 	/**
 	*	private method
@@ -146,6 +148,15 @@
 			}
 			loading.complete();
 		})
+	}
+
+	// 是否同意個資法
+	function agreeBoxChange() {
+		if(!$agreePersonalProtectionLaw[0].checked){  // 沒勾選
+			$registerBtn[0].disabled = true;
+		} else {
+			$registerBtn[0].disabled = false;
+		}
 	}
 
 	function generateCode(){
