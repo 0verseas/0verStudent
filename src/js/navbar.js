@@ -225,6 +225,9 @@
 			$('.nav-olympia').click(function(e){e.preventDefault();});
 		}
 
+		// 上傳學歷證件
+		!!data.student_education_document && $('.nav-uploadEducation').addClass('list-group-item-success');
+
 		// 個人申請志願
 		+data.student_qualification_verify.system_id === 1 &&
 		!!data.student_department_admission_selection_order &&
@@ -240,6 +243,10 @@
 
 		if (!data.student_personal_data) {
 			// 學生沒有填個人資料時，「個人申請志願」出現提示訊息（請先填寫個人基本資料）
+			$('.nav-uploadEducation').addClass('disabled');
+			$('.nav-uploadEducation').addClass('show-personal-info-first');
+			$('.nav-uploadEducation').click(function(e){e.preventDefault();});
+
 			$('.nav-admissionSelection').addClass('disabled');
 			$('.nav-admissionSelection').addClass('show-personal-info-first');
 			$('.nav-admissionSelection').click(function(e){e.preventDefault();});
@@ -248,7 +255,7 @@
 			$('.nav-result').click(function(e){e.preventDefault();});
 		} else {
 			// 學生有填個人資料，但沒有在可報名期間內時，「個人申請志願」出現提示訊息（個人申請已截止）
-			if (!data.can_admission_selection) {
+			if (!data.can_admission_selection) {				
 				$('.nav-admissionSelection').addClass('disabled');
 				$('.nav-admissionSelection').addClass('show-deadline');
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
