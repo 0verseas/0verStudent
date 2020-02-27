@@ -638,12 +638,29 @@
 		window.location.reload();
 	}
 
+	//檔案大小計算是否超過8MB
+	function sizeConversion(size) {
+		let maxSize = 8*1024*1024;
+
+		if(size < maxSize){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	async function _handleUpload() {
 		const type_id = $(this).data('type');
 		const dept_id = $(this).data('deptid');
 		const workType = ($(this).attr('data-workstype')) ? $(this).data('workstype') : false;
 
 		const fileList = this.files;
+
+		//偵測是否超過8MB (8MB以下用後端偵測)
+		if(sizeConversion(fileList[0].size)){
+			alert('檔案過大！')
+			return;
+		}		
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
