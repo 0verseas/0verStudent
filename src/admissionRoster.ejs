@@ -10,7 +10,7 @@
                 <select id="stage" class="form-control">
                     <option value="">--請選擇--</option>
                     <option value="0">個人申請</option>
-                    <option value="R">研究所</option>
+                    <option value="N">研究所</option>
                     <option value="1">第一梯次</option>
                     <option value="2">第二梯次</option>
                     <option value="3">第三梯次</option>
@@ -61,13 +61,13 @@
 </div>
 
 <!--查詢結果-->
-<div id="form-result" class="hide">
+<div id="form-result" class="hide accepted no-result result">
     <hr />
     <div class="title">
         <h3>查詢結果</h3>
     </div>
     <!--金榜題名-->
-    <div id="accepted" class="hide">
+    <div id="accepted" class="hide accepted result">
         <table class="table">
             <tr>
                 <th>報名序號</th>
@@ -84,7 +84,7 @@
         </table>
     </div>
     <!--查無結果-->
-    <div id="no-result" class="alert alert-secondary mt-2 hide" role="alert">
+    <div id="no-result" class="alert alert-secondary mt-2 hide no-result result" role="alert">
         查無結果，可能未獲錄取或輸入的資料有誤
     </div>
 </div>
