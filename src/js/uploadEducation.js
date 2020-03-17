@@ -123,6 +123,12 @@
 		const uploadtype = $(this).data('uploadtype');
 		const fileList = this.files;
 		let sendData = new FormData();
+		//偵測是否超過4MB
+		if(sizeConversion(fileList[0].size)){
+			alert('檔案過大，大小不能超過4MB！')
+			return;
+		}	
+
 		for (let i = 0; i < fileList.length; i++) {
 			sendData.append('files[]', fileList[i]);
 		}
@@ -204,6 +210,17 @@
 				})
 				loading.complete();
 			})
+		}
+	}
+
+	//檔案大小計算是否超過4MB
+	function sizeConversion(size) {
+		let maxSize = 4*1024*1024;
+
+		if(size < maxSize){
+			return false;
+		} else {
+			return true;
 		}
 	}
 
