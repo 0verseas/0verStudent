@@ -227,6 +227,10 @@
 
 		// 上傳學歷證件
 		!!data.student_education_document && $('.nav-uploadEducation').addClass('list-group-item-success');
+		const malaysiaStage2ApplyWayId = [22, 23, 25, 26, 28, 29, 30, 31, 80, 83];  // 馬來西亞第二梯次聯合分發 apply way id
+		if (malaysiaStage2ApplyWayId.indexOf(data.student_misc_data.admission_placement_apply_way_data.id) == -1){  // 目前僅馬來西亞第二梯次聯合分發需要
+			$('.nav-uploadEducation').hide();  // 不是馬來西亞第二梯次聯合分發的學生就隱藏
+		}
 
 		// 個人申請志願
 		+data.student_qualification_verify.system_id === 1 &&
