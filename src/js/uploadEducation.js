@@ -146,10 +146,12 @@
 		residentCertificateImgArea.innerHTML = residentCertificateAreaHTML;
 
 		// 畢業證書、學歷證明等
+		console.log(_academicCertificateFiles);
 		let academicCertificateAreaHTML = '';
 		_academicCertificateFiles.forEach((file, index) => {
 			academicCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/academic-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="academic-certificate" data-filename="' + file + '">';
 		});
+		console.log(academicCertificateAreaHTML);
 		academicCertificateImgArea.innerHTML = academicCertificateAreaHTML;
 
 		let othersAreaHTML = '';
