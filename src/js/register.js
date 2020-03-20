@@ -5,6 +5,7 @@
 	let _emailValid = false;
 	let _passValid = false;
 	let _identityValid = false;
+	let _passwordComplex = false;  // 密碼複雜度檢查
 
 	/**
 	*	cache DOM
@@ -15,8 +16,9 @@
 	const $passwordConfirm = $Register.find('#Register__inputPasswordConfirm');
 	const $registerBtn = $Register.find('.Register__btnRegister');
 	const $passwordWarning = $('#password-warning');
-	const $identifyingCanvas = $('#identifyingCanvas')
-	const $identifyingCode = $('#Register__identifyingCode')
+	const $identifyingCanvas = $('#identifyingCanvas');
+	const $identifyingCode = $('#Register__identifyingCode');
+	const $agreePersonalProtectionLaw = $('#agreePersonalProtectionLaw');
 	var identifyingCode = '';
 
 	/**
@@ -34,6 +36,7 @@
 	$identifyingCode.on('blur',_checkIdentifyCode);
 	$registerBtn.on('click', _handleSubmit);
 	$identifyingCanvas.on('click',generateCode);
+	$agreePersonalProtectionLaw.on('change',agreeBoxChange);
 
 	/**
 	*	private method
@@ -59,15 +62,17 @@
 		const oriPass = $password.val();
 		const passConfirm = $passwordConfirm.val();
 
-		// 判斷密碼長度
-		if (oriPass.length >= 8) {
+		// 判斷密碼長度和複雜度
+		if (oriPass.length >= 8 && checkPasswordComplex(oriPass)) {
 			$password.removeClass('invalidInput');
 			$passwordWarning.hide();
 			_passValid = true;
+			_passwordComplex = true;
 		} else {
 			$password.addClass('invalidInput');
 			$passwordWarning.show();
 			_passValid = false;
+			_passwordComplex = false
 		}
 
 		// 判斷確認密碼長度與以及是否與密碼相同
@@ -105,6 +110,11 @@
 
 		if (!_emailValid) {
 			alert('信箱格式錯誤。');
+			return;
+		}
+
+		if (!_passwordComplex){
+			alert('密碼複雜度不足');
 			return;
 		}
 
@@ -146,6 +156,15 @@
 			}
 			loading.complete();
 		})
+	}
+
+	// 是否同意個資法
+	function agreeBoxChange() {
+		if(!$agreePersonalProtectionLaw[0].checked){  // 沒勾選
+			$registerBtn[0].disabled = true;
+		} else {
+			$registerBtn[0].disabled = false;
+		}
 	}
 
 	function generateCode(){
@@ -228,6 +247,14 @@
 
 		//紀錄驗證碼
 		identifyingCode = codeString;
+	}
+
+	// 確認密碼複雜度
+	function checkPasswordComplex(input) {
+		// 至少8碼且大寫、小寫、數字或特殊符號（數字那一排不含反斜線和豎線）至少兩種
+		// ^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!@#$%^&*()_+\-=]).{8,}$
+		const reg = /^((?=.*\d)(?=.*[A-Z])|(?=.*[a-z])(?=.*[A-Z])|(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[~!@#$%^&*()_+\-=])|(?=.*[a-z])(?=.*[~!@#$%^&*()_+\-=])|(?=.*[A-Z])(?=.*[~!@#$%^&*()_+\-=])).{8,}$/;
+		return !!reg.test(input);
 	}
 
 })();
