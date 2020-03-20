@@ -1,30 +1,103 @@
 <% include components/_studentInfo %>
 
-<h2 class="text-center title">上傳證明文件</h2>
+<h2 class="text-center title">上傳簡章規定文件</h2>
+
+<div class="alert alert-primary" role="alert">  <!--因應武漢肺炎疫情，讓馬來西亞第二梯次聯合分發學生可以線上上傳各項證明文件-->
+	請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_109%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf" target="_blank">《馬來西亞地區簡章》</a>）：
+	<br /><br />
+	<ul style="font-weight: bold">
+		<li>僑居地居留證件（身分證或護照影本）</li>
+		<li>在學證明 / 畢業證書 / 修業證明 / 離校證明</li>
+		<li>中學成績單</li>
+		<li>會考文憑（含成績單，例：STPM / A-LEVEL / SPM / O-LEVEL）</li>
+	</ul>
+</div>
 
 <hr>
 
 <div id="form-uploadEducation">
+	<div id="form-resident-certificate" class="card">
+		<div class="card-header bg-primary text-white">
+			僑居地居留證件（身分證或護照影本）
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="alert alert-warning" role="alert">
+						<blockquote id="blockquote-resident-certificate" class="blockquote" style="display: none;">
+							<p class="mb-0 text-danger">副學士或高級文憑歷年成績單</p>
+						</blockquote>
+						可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 15px;">
+				<div class="col-12">
+					<input id="file-resident-certificate" type="file" class="filestyle file-upload" data-uploadtype="resident-certificate" multiple>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title"><span id="title-resident-certificate">已上傳的僑居地居留證件</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+							<div id="residentCertificateImgArea">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<div id="form-academic-certificate" class="card">
+		<div class="card-header bg-primary text-white">
+			在學證明 / 畢業證書 / 修業證明 / 離校證明
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="alert alert-warning" role="alert">
+						<blockquote id="blockquote-academic-certificate" class="blockquote" style="display: none;">
+							<p class="mb-0 text-danger">副學士或高級文憑歷年成績單</p>
+						</blockquote>
+						可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 15px;">
+				<div class="col-12">
+					<input id="file-resident-academic-certificate" type="file" class="filestyle file-upload" data-uploadtype="resident-academic-certificate" multiple>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title"><span id="title-academic-certificate">已上傳的學歷證明</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+							<div id="academiccertificateImgArea">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
 	<div id="form-diploma" class="card">
 <!--		<div class="card-header bg-primary text-white">-->
 <!--			學歷證明-->
 <!--		</div>-->
 		<div class="card-header bg-primary text-white">
-			各項證明文件
+			已上傳會考文憑（含成績單）
 		</div>
 		<div class="card-body">
 			<div class="row">
 				<div class="col-12">
-					<div class="alert alert-primary" role="alert">  <!--因應武漢肺炎疫情，讓馬來西亞第二梯次聯合分發學生可以線上上傳各項證明文件-->
-						請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_109%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf" target="_blank">《馬來西亞地區簡章》</a>）：
-						<br /><br />
-						<ul style="font-weight: bold">
-							<li>僑居地居留證件（身分證或護照影本）</li>
-							<li>在學證明 / 畢業證書 / 修業證明 / 離校證明</li>
-							<li>中學成績單</li>
-							<li>會考文憑（含成績單，例：STPM / A-LEVEL / SPM / O-LEVEL）</li>
-						</ul>
-					</div>
 					<div class="alert alert-warning" role="alert">
 						<blockquote id="blockquote-diploma" class="blockquote" style="display: none;">
 							<p class="mb-0 text-danger">畢業證書或在學證明 (學生證)</p>
@@ -42,7 +115,7 @@
 				<div class="col-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title"><span id="title-diploma">已上傳的證明文件</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+							<h4 class="card-title"><span id="title-diploma">已上傳的會考文憑</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
 							<div id="diplomaImgArea">
 							</div>
 						</div>
@@ -54,7 +127,7 @@
 
 	<hr>
 
-	<div id="form-transcripts" class="card hide">
+	<div id="form-transcripts" class="card">
 		<div class="card-header bg-primary text-white">
 			成績單
 		</div>
@@ -80,6 +153,42 @@
 						<div class="card-body">
 							<h4 class="card-title"><span id="title-transcripts">已上傳成績單</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
 							<div id="transcriptsImgArea">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<div id="form-others" class="card">
+		<div class="card-header bg-primary text-white">
+			其他
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="alert alert-warning" role="alert">
+						<blockquote id="blockquote-others" class="blockquote" style="display: none;">
+							<p class="mb-0 text-danger">副學士或高級文憑歷年成績單</p>
+						</blockquote>
+						可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 15px;">
+				<div class="col-12">
+					<input id="file-others" type="file" class="filestyle file-upload" data-uploadtype="others" multiple>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title"><span id="title-others">已上傳的檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+							<div id="othersImgArea">
 							</div>
 						</div>
 					</div>

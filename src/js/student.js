@@ -256,7 +256,10 @@ const student = (() => {
 		var urls = [
 		baseUrl + '/students/diploma',
 		baseUrl + '/students/transcripts',
-		baseUrl + '/students/registration-progress'
+		baseUrl + '/students/registration-progress',
+		baseUrl + '/students/resident-certificate',
+		baseUrl + '/students/academic-certificate',
+		baseUrl + '/students/others'
 		]
 		const grabContent = url => fetch(url, {
 			method: 'GET',

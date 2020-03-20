@@ -4,6 +4,9 @@
 
 	let _diplomaFiles = [];
 	let _transcriptsFiles = [];
+	let _residentCertificateFiles = [];
+	let _academicCertificateFiles = [];
+	let _othersFiles = [];
 	let _modalFiletype = "";
 	let _modalFilename = "";
 
@@ -14,7 +17,7 @@
 	const $uploadEducationForm = $('#form-uploadEducation');
 	const $fileUpload = $uploadEducationForm.find('.file-upload');
 
-	// 學歷證明
+	// 各項文憑考試
 	const $diplomaBlockquote = $('#blockquote-diploma');
 	const $diplomaFrom = $('#form-diploma');
 	const $diplomaTitle = $('#title-diploma');
@@ -25,6 +28,10 @@
 	const $transcriptsForm = $('#form-transcripts');
 	const $transcriptsTitle = $('#title-transcripts');
 	const transcriptsImgArea = document.getElementById('transcriptsImgArea');
+
+	const residentCertificateImgArea = document.getElementById('residentCertificateImgArea');  // 僑居地居留證件
+	const academicCertificateImgArea = document.getElementById('academicCertificateImgArea');  // 畢業證書、學歷證明文件
+	const othersImgArea = document.getElementById('othersImgArea');  // 其他
 
 	// Modal
 	const $imgModal = $('#imgModal');
@@ -52,8 +59,8 @@
 	function _init() {
 		let files = student.getEducationFile()
 		.then((res) => {
-			if (res[0].ok && res[1].ok && res[2].ok) {
-				return [res[0].json(), res[1].json(), res[2].json()];
+			if (res[0].ok && res[1].ok && res[2].ok && res[3].ok && res[4].ok && res[5].ok) {
+				return [res[0].json(), res[1].json(), res[2].json(), res[3].json(), res[4].json(), res[5].json()];
 			} else {
 				throw res[0];
 			}
@@ -67,16 +74,30 @@
 				_transcriptsFiles = data.student_transcripts;
 			});
 
-			Promise.all([json[0], json[1]]).then(() => {
+			// 僑居地居留證件
+			json[3].then((data) => {
+				_residentCertificateFiles = data.student_resident_certificate;
+			});
+
+			// 畢業證書
+			json[4].then((data) => {
+				_academicCertificateFiles = data.student_academic_certificate;
+			});
+
+			json[5].then((data) => {
+				_othersFiles = data.student_others;
+			});
+
+			Promise.all([json[0], json[1], json[3], json[4], json[5]]).then(() => {
 				_renderImgArea();
 			});
 
-			json[2].then((data) => {
-				if (data.student_qualification_verify.system_id === 2) {
-					$diplomaBlockquote.show();
-					$transcriptsBlockquote.show();
-				}
-			});
+			// json[2].then((data) => {
+			// 	if (data.student_qualification_verify.system_id === 2) {
+			// 		$diplomaBlockquote.show();
+			// 		$transcriptsBlockquote.show();
+			// 	}
+			// });
 		})
 		.then(() => {
 			loading.complete();
@@ -103,17 +124,39 @@
 	}
 
 	function _renderImgArea() {
+		// 各類會考文憑
 		let diplomaAreaHTML = '';
 		_diplomaFiles.forEach((file, index) => {
 			diplomaAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="diploma" data-filename="' + file + '">';
 		})
 		diplomaImgArea.innerHTML = diplomaAreaHTML;
 
+		// 成績單
 		let transcriptsAreaHTML = '';
 		_transcriptsFiles.forEach((file, index) => {
 			transcriptsAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="transcripts" data-filename="' + file + '">';
 		})
 		transcriptsImgArea.innerHTML = transcriptsAreaHTML;
+
+		// 僑居地居留證件
+		let residentCertificateAreaHTML = '';
+		_residentCertificateFiles.forEach((file, index) => {
+			residentCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/resident-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="resident-certificate" data-filename="' + file + '">';
+		});
+		residentCertificateImgArea.innerHTML = residentCertificateAreaHTML;
+
+		// 畢業證書、學歷證明等
+		let academicCertificateAreaHTML = '';
+		_academicCertificateFiles.forEach((file, index) => {
+			academicCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/academic-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="academic-certificate" data-filename="' + file + '">';
+		});
+		academicCertificateImgArea.innerHTML = academicCertificateAreaHTML;
+
+		let othersAreaHTML = '';
+		_othersFiles.forEach((file, index) => {
+			othersAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/others/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="others" data-filename="' + file + '">';
+		});
+		othersImgArea.innerHTML = othersAreaHTML;
 
 		const $eduImg = $uploadEducationForm.find('.img-edu');
 		$eduImg.on("click", _showDetail);
@@ -146,6 +189,12 @@
 				_diplomaFiles = _diplomaFiles.concat(json.student_diploma);
 			} else if (uploadtype == "transcripts") {
 				_transcriptsFiles = _transcriptsFiles.concat(json.student_transcripts);
+			} else if (uploadtype == "resident-certificate") {
+				_residentCertificateFiles = _residentCertificateFiles.concat(json.student_resident_certificate);
+			} else if (uploadtype == "academic-certificate") {
+				_academicCertificateFiles = _academicCertificateFiles.concat(json.student_academic_certificate);
+			} else if (uploadtype == "others") {
+				_othersFiles = _othersFiles.concat(json.student_others);
 			}
 		})
 		.then(() => {
@@ -191,6 +240,12 @@
 					_diplomaFiles = json.student_diploma;
 				} else if (_modalFiletype === "transcripts") {
 					_transcriptsFiles = json.student_transcripts;
+				} else if (uploadtype == "resident-certificate") {
+					_residentCertificateFiles = _residentCertificateFiles.concat(json.student_resident_certificate);
+				} else if (uploadtype == "academic-certificate") {
+					_academicCertificateFiles = _academicCertificateFiles.concat(json.student_academic_certificate);
+				} else if (uploadtype == "others") {
+					_othersFiles = _othersFiles.concat(json.student_others);
 				}
 			})
 			.then(() => {
