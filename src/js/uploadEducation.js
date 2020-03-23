@@ -41,6 +41,9 @@
 	// 重整按鈕
 	const $saveBtn = $('#btn-save');
 
+	//已審核按鈕
+	const $LockBtn = $('#btn-lock');
+
 	/**
 	*	init
 	*/
@@ -66,6 +69,14 @@
 			}
 		})
 		.then((json) => {
+			json[2].then((data) => {
+				//有僑編的就是已審核 就把儲存按鈕隱藏
+				if(data.student_misc_data.overseas_student_id != null){
+					$saveBtn.hide();
+					$LockBtn.show();
+				}
+			});
+
 			json[0].then((data) => {
 				_diplomaFiles = data.student_diploma;
 			});
