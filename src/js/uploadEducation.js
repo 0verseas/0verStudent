@@ -16,6 +16,11 @@
 
 	const $uploadEducationForm = $('#form-uploadEducation');
 	const $fileUpload = $uploadEducationForm.find('.file-upload');
+	const $residentUploadArea = $('#resident-upload-area');
+	const $academicUploadArea = $('#academic-upload-area');
+	const $diplomaUploadArea = $('#diploma-upload-area');
+	const $transcriptsUploadArea = $('#transcripts-upload-area');
+	const $othersUploadArea = $('#others-upload-area');
 
 	// 各項文憑考試
 	const $diplomaBlockquote = $('#blockquote-diploma');
@@ -70,8 +75,14 @@
 		})
 		.then((json) => {
 			json[2].then((data) => {
-				//有僑編的就是已審核 就把儲存按鈕隱藏
+				//有僑編的就是已審核 就把儲存 上傳  刪除按鈕通通隱藏
 				if(data.student_misc_data.overseas_student_id != null){
+					$residentUploadArea.hide();
+					$academicUploadArea.hide();
+					$diplomaUploadArea.hide();
+					$transcriptsUploadArea.hide();
+					$othersUploadArea.hide();
+					$modalDeleteBtn.hide();
 					$saveBtn.hide();
 					$LockBtn.show();
 				}
