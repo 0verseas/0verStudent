@@ -146,12 +146,10 @@
 		residentCertificateImgArea.innerHTML = residentCertificateAreaHTML;
 
 		// 畢業證書、學歷證明等
-		console.log(_academicCertificateFiles);
 		let academicCertificateAreaHTML = '';
 		_academicCertificateFiles.forEach((file, index) => {
 			academicCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/academic-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="academic-certificate" data-filename="' + file + '">';
 		});
-		console.log(academicCertificateAreaHTML);
 		academicCertificateImgArea.innerHTML = academicCertificateAreaHTML;
 
 		let othersAreaHTML = '';
@@ -242,12 +240,12 @@
 					_diplomaFiles = json.student_diploma;
 				} else if (_modalFiletype === "transcripts") {
 					_transcriptsFiles = json.student_transcripts;
-				} else if (uploadtype == "resident-certificate") {
-					_residentCertificateFiles = _residentCertificateFiles.concat(json.student_resident_certificate);
-				} else if (uploadtype == "academic-certificate") {
-					_academicCertificateFiles = _academicCertificateFiles.concat(json.student_academic_certificate);
-				} else if (uploadtype == "others") {
-					_othersFiles = _othersFiles.concat(json.student_others);
+				} else if (_modalFiletype == "resident-certificate") {
+					_residentCertificateFiles =  json.student_resident_certificate;
+				} else if (_modalFiletype == "academic-certificate") {
+					_academicCertificateFiles = json.student_academic_certificate;
+				} else if (_modalFiletype == "others") {
+					_othersFiles = json.student_others;
 				}
 			})
 			.then(() => {
