@@ -47,7 +47,7 @@
 		})
 		.catch((err) => {
 			err.json && err.json().then((data) => {
-				console.log(data.messages[0]);
+				// console.log(data.messages[0]);
 				alert('您並無重設密碼之請求。');
 				location.href="./index.html";
 			})

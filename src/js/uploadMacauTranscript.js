@@ -350,7 +350,7 @@
 	async function _handleUpload() {
 
 		const subject =  $(this).data('subject') ;
-		console.log(subject);
+		// console.log(subject);
 		const fileList = this.files;
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
@@ -362,7 +362,7 @@
 		try {
 			loading.start();
 			const response = await student.MacauTranscriptsetReviewItem({data, student_id: _studentID, subject: subject});
-			console.log("_handleUpload",subject);
+			// console.log("_handleUpload",subject);
 			if (!response.ok) { throw response; }
 			const responseJson = await response.json();
 
@@ -412,8 +412,8 @@
 		// 用subjectID 取得檔案名
 		try {
 			loading.start();
-			console.log(_studentID);
-			console.log($(this).data('subject'));
+			// console.log(_studentID);
+			// console.log($(this).data('subject'));
 			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: $(this).data('subject')});
 			if (!response.ok) { throw response; }
 			const fileNameOfSubject = await response.json();
@@ -603,7 +603,7 @@
 			sendData["scoreC"] = scoreC;
 			sendData["scoreD"] = scoreD;
 			sendData["confirmed_macau_transcript_at"] = 0;
-			console.log(sendData);
+			// console.log(sendData);
 
 
 			if (1) {
@@ -618,7 +618,7 @@
 						}
 					})
 					.then((json) => {
-						console.log(json);
+						// console.log(json);
 						alert('儲存成功');
 						window.location.reload();
 						loading.complete();
@@ -672,7 +672,7 @@
 			sendData["scoreC"] = scoreC;
 			sendData["scoreD"] = scoreD;
 			sendData["confirmed_macau_transcript_at"] = 1;
-			console.log(sendData);
+			// console.log(sendData);
 
 
 			if (1) {
@@ -686,7 +686,7 @@
 						}
 					})
 					.then((json) => {
-						console.log(json);
+						// console.log(json);
 						// alert('已鎖定');
 						// window.location.reload();
 						summarize_page();
@@ -890,7 +890,7 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
+				// console.log(json);
 				 alert('已鎖定');
 				// window.location.reload();
 				//summarize_page();

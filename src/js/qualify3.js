@@ -67,7 +67,6 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
 			if (json && json.student_qualification_verify && json.student_qualification_verify.identity) {
 				_savedIdentity = json.student_qualification_verify.identity;
 				if (json.student_qualification_verify.system_data && json.student_qualification_verify.system_data.id) {
@@ -267,7 +266,6 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
 				window.location.href = './personalInfo.html';
 				loading.complete();
 			})
@@ -329,7 +327,6 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
 				window.location.href = './personalInfo.html';
 				loading.complete();
 			})
@@ -399,7 +396,6 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
 				window.location.href = './personalInfo.html';
 				loading.complete();
 			})

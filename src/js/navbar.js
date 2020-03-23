@@ -232,6 +232,10 @@
 		if (data.student_misc_data.admission_placement_apply_way_data === null ||
 			malaysiaStage2ApplyWayId.indexOf(data.student_misc_data.admission_placement_apply_way_data.id) == -1){
 			$('.nav-uploadEducation').hide();  // 不是馬來西亞第二梯次聯合分發的學生就隱藏
+		} 
+		//若是有僑編就是收件完成 就讓上傳簡章規定文件變綠色完成狀態
+		if(data.student_misc_data.overseas_student_id !== null){
+			$('.nav-uploadEducation').addClass('list-group-item-success');
 		}
 
 		// 個人申請志願
@@ -367,7 +371,6 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
 				alert("成功確認資料。\n如果需要再修改資料請利用「資料修正表」，或是重新申請一組新的帳號。");
 				location.href = "./downloadDocs.html";
 				loading.complete();

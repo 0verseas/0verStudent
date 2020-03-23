@@ -133,7 +133,6 @@
                 return ;
             }
             data.append('files[]', fileList[i]);
-            console.log(fileList[i]);
         }
         try {
             loading.start();
@@ -321,7 +320,7 @@
         if (!confirm('確定刪除？')) {
             return;
         }
-        console.log("back to end",_id,_dept_id,$(this).attr('data-type'),$(this).attr('data-filename'));
+        // console.log("back to end",_id,_dept_id,$(this).attr('data-type'),$(this).attr('data-filename'));
         try {
             loading.start();
             const response = await student.teacherDeleteItem({

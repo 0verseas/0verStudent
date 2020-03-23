@@ -138,7 +138,6 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
 			location.href="./systemChoose.html";
 			loading.complete();
 		})

@@ -81,7 +81,6 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
 			if( json.student_qualification_verify === null) {
                 location.href = './systemChoose.html';
             } else if(json.student_misc_data.admission_placement_apply_way_data.stage == 2 &&
