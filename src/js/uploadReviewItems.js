@@ -70,7 +70,7 @@
 					break;
 				case 2:
 					key = 'student_two_year_tech_department_admission_selection_order';
-					admission_doc_upload_time_limit = '西元 2020 年 3 月 21 日（星期六）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（港二技）
+					admission_doc_upload_time_limit = '西元 2020 年 3 月 28 日（星期六）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（港二技）
 					break;
 				case 3:
 				case 4:
