@@ -83,7 +83,8 @@
 		.then((json) => {
 			if( json.student_qualification_verify === null) {
                 location.href = './systemChoose.html';
-            } else if(json.student_misc_data.admission_placement_apply_way_data.stage == 2 &&
+            } else if(json.student_misc_data.admission_placement_apply_way_data && 
+				json.student_misc_data.admission_placement_apply_way_data.stage == 2 &&
 				json.student_misc_data.admission_placement_apply_way_data.last_graduated_school_country == '馬來西亞' &&
 				json.student_misc_data.overseas_student_id === null){
 				// 因應武漢肺炎，馬來西亞第二梯次學生改採線上上傳簡章規定文件
