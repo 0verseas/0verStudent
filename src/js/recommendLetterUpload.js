@@ -134,6 +134,14 @@
             }
             data.append('files[]', fileList[i]);
         }
+
+        //偵測是否超過4MB
+		if(student.sizeConversion(fileList[0].size,4)){
+			alert('檔案過大，大小不能超過4MB！')
+			$(this).val('');//清除檔案路徑
+			return;
+		}	
+
         try {
             loading.start();
             const response = await student.teacherSetReviewItem({data, token: _token, dept_id: _dept_id, student_id: _id});

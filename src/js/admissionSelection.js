@@ -380,7 +380,7 @@
 	}
 
 	function _handleSave() {
-		console.log(_isJoin);
+		// console.log(_isJoin);
 		if (_isJoin === true) {
 			let order = [];
 			if (_wishList.length > 0) {

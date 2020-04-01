@@ -357,6 +357,13 @@
 			data.append('files[]', fileList[i]);
 		}
 
+		//偵測是否超過4MB
+		if(student.sizeConversion(fileList[0].size,4)){
+			alert('檔案過大，大小不能超過4MB！')
+			$(this).val('');//清除檔案路徑
+			return;
+		}	
+
 		_handleSave();
 
 		try {
@@ -365,15 +372,17 @@
 			// console.log("_handleUpload",subject);
 			if (!response.ok) { throw response; }
 			const responseJson = await response.json();
-
+			$(this).val('');//清除檔案路徑
 			loading.complete();
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error("error",data);
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
+			$(this).val('');//清除檔案路徑
 			loading.complete();
 		}
+		$(this).val('');//清除檔案路徑
 		//document.getElementById("badge").src=`${env.baseUrl}` + "/students/2305/macau-transcript/subject/01/file/011002_04.jpg";
 
 		//window.location.reload();
@@ -906,11 +915,6 @@
 			})
 
 	}
-
-
-
-
-
 
 	function _validateForm() {
 

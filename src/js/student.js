@@ -646,6 +646,13 @@ const student = (() => {
 		})
 	}
 
+	//檔案大小計算是否超過 limit MB
+	function sizeConversion(size,limit) {
+		let maxSize = limit*1024*1024;
+
+		return size >=maxSize;
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -706,6 +713,7 @@ const student = (() => {
 		getMacauTranscriptScore,
 		storeMacauTranscriptScore,
 		getAdmissionRoster,
+		sizeConversion,
 	};
 
 })();
