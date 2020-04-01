@@ -358,7 +358,7 @@
 		}
 
 		//偵測是否超過4MB
-		if(sizeConversion(fileList[0].size)){
+		if(student.sizeConversion(fileList[0].size,4)){
 			alert('檔案過大，大小不能超過4MB！')
 			$(this).val('');//清除檔案路徑
 			return;
@@ -915,20 +915,6 @@
 			})
 
 	}
-
-
-//檔案大小計算是否超過4MB
-function sizeConversion(size) {
-	let maxSize = 4*1024*1024;
-
-	if(size < maxSize){
-		return false;
-	} else {
-		return true;
-	}
-}
-
-
 
 	function _validateForm() {
 
