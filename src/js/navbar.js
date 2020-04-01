@@ -354,7 +354,7 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
+				// console.log(json);
 				alert("成功確認資料。\n如果需要再修改資料請利用「資料修正表」，或是重新申請一組新的帳號。");
 				location.href = "./downloadDocs.html";
 				loading.complete();

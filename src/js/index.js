@@ -81,7 +81,7 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
+			// console.log(json);
 			if( json.student_qualification_verify === null) {
                 location.href = './systemChoose.html';
             } else if( (json.student_qualification_verify.identity=== 6 &&

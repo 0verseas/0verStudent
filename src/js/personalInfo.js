@@ -932,7 +932,7 @@
                     }
                 })
                 .then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     alert('儲存成功');
                     window.location.reload();
                     loading.complete();

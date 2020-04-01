@@ -350,30 +350,39 @@
 	async function _handleUpload() {
 
 		const subject =  $(this).data('subject') ;
-		console.log(subject);
+		// console.log(subject);
 		const fileList = this.files;
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
 		}
 
+		//偵測是否超過4MB
+		if(sizeConversion(fileList[0].size)){
+			alert('檔案過大，大小不能超過4MB！')
+			$(this).val('');//清除檔案路徑
+			return;
+		}	
+
 		_handleSave();
 
 		try {
 			loading.start();
 			const response = await student.MacauTranscriptsetReviewItem({data, student_id: _studentID, subject: subject});
-			console.log("_handleUpload",subject);
+			// console.log("_handleUpload",subject);
 			if (!response.ok) { throw response; }
 			const responseJson = await response.json();
-
+			$(this).val('');//清除檔案路徑
 			loading.complete();
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error("error",data);
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
+			$(this).val('');//清除檔案路徑
 			loading.complete();
 		}
+		$(this).val('');//清除檔案路徑
 		//document.getElementById("badge").src=`${env.baseUrl}` + "/students/2305/macau-transcript/subject/01/file/011002_04.jpg";
 
 		//window.location.reload();
@@ -412,8 +421,8 @@
 		// 用subjectID 取得檔案名
 		try {
 			loading.start();
-			console.log(_studentID);
-			console.log($(this).data('subject'));
+			// console.log(_studentID);
+			// console.log($(this).data('subject'));
 			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: $(this).data('subject')});
 			if (!response.ok) { throw response; }
 			const fileNameOfSubject = await response.json();
@@ -603,7 +612,7 @@
 			sendData["scoreC"] = scoreC;
 			sendData["scoreD"] = scoreD;
 			sendData["confirmed_macau_transcript_at"] = 0;
-			console.log(sendData);
+			// console.log(sendData);
 
 
 			if (1) {
@@ -618,7 +627,7 @@
 						}
 					})
 					.then((json) => {
-						console.log(json);
+						// console.log(json);
 						alert('儲存成功');
 						window.location.reload();
 						loading.complete();
@@ -672,7 +681,7 @@
 			sendData["scoreC"] = scoreC;
 			sendData["scoreD"] = scoreD;
 			sendData["confirmed_macau_transcript_at"] = 1;
-			console.log(sendData);
+			// console.log(sendData);
 
 
 			if (1) {
@@ -686,7 +695,7 @@
 						}
 					})
 					.then((json) => {
-						console.log(json);
+						// console.log(json);
 						// alert('已鎖定');
 						// window.location.reload();
 						summarize_page();
@@ -890,7 +899,7 @@
 				}
 			})
 			.then((json) => {
-				console.log(json);
+				// console.log(json);
 				 alert('已鎖定');
 				// window.location.reload();
 				//summarize_page();
@@ -908,7 +917,16 @@
 	}
 
 
+//檔案大小計算是否超過4MB
+function sizeConversion(size) {
+	let maxSize = 4*1024*1024;
 
+	if(size < maxSize){
+		return false;
+	} else {
+		return true;
+	}
+}
 
 
 

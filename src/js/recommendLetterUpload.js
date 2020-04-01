@@ -133,7 +133,7 @@
                 return ;
             }
             data.append('files[]', fileList[i]);
-            console.log(fileList[i]);
+            // console.log(fileList[i]);
         }
         try {
             loading.start();

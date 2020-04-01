@@ -41,7 +41,7 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
+			// console.log(json);
 			_initForm(json.student_education_background_data);
 		})
 		.then(() => {
@@ -80,7 +80,7 @@
 	function _handleSave() {
 		let sendData = {};
 		if (sendData = _validateForm()) {
-			console.log(sendData);
+			// console.log(sendData);
 			loading.start();
 			student.setStudentEducationInfoData(sendData)
 			.then((res) => {
@@ -299,9 +299,9 @@
 		if (_correct) {
 			return sendData;
 		} else {
-			console.log('==== validate failed ====');
-			console.log(sendData);
-			console.log("=========================");
+			// console.log('==== validate failed ====');
+			// console.log(sendData);
+			// console.log("=========================");
 			return false;
 		}
 	}

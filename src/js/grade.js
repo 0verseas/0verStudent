@@ -63,7 +63,7 @@
 		}
 		const toFForNot = $goToFF.prop('checked');
 
-		console.log(id);
+		// console.log(id);
 
 		let data = {
 			apply_way: id
@@ -104,7 +104,7 @@
 			}
 		})
 		.then((json) => {
-			console.log(json);
+			// console.log(json);
 			alert("儲存成功");
 			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999') { // 不參加聯分，原地 reload
 				window.location.reload();

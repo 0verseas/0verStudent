@@ -800,7 +800,7 @@
 			let tname = $('#teacherName').val(); // teacher's name
 			let tmail = $('#teacherMail').val(); // teacher's email
 			let stu_message = $('#studentMessage').val(); // message from student
-			console.log(tname,tmail);
+			// console.log(tname,tmail);
 			const response = await student.studentInviteTeacher(_deptID, tname, tmail, stu_message);
 			if (!response.ok) {
 				throw response;
