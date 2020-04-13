@@ -23,7 +23,8 @@
 	*/
 	$identifyingCanvas.on('click',generateCode);
 	$loginBtn.on('click', _handleLogin);
-	$pass.keyup((e) => { e.keyCode == 13 && _handleLogin(); });
+	// $pass.keyup((e) => { e.keyCode == 13 && _handleLogin(); }); //原本沒驗證碼 所以就密碼輸入欄位判斷是否有按enter的鍵盤事件
+	$identifyingCode.keydown((e) => { e.keyCode == 13 && _handleLogin(); }); //驗證碼輸入欄位  判斷是否有按enter的鍵盤事件
 
 	/**
 	*	event handlet
