@@ -86,7 +86,6 @@
 			if( json.student_qualification_verify === null) {
                 location.href = './systemChoose.html';
             } else if( (json.student_qualification_verify.identity=== 6 &&
-					json.student_misc_data.join_admission_selection=== 1 &&
 					json.student_misc_data.confirmed_at !=null &&
 					json.can_admission_placement == true) ||
 				(json.student_qualification_verify.identity === 7 &&
