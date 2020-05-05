@@ -406,6 +406,8 @@
 		} else if (!json.can_upload_papers || json.student_misc_data.join_admission_selection == 0 ){
 			// 還沒有提交上傳資料，且不在上傳備審資料的期間，不能點提交按鈕
 			$('#btn-uploadAndSubmit').prop('disabled', true).text('目前不是可上傳備審資料時間');
+			$('#btn-uploadAndSubmit').prop('disabled', true).removeClass('btn-danger').addClass('btn-secondary');
+			$('#btn-uploadAndSubmit-hint').removeClass('text-danger').addClass('text-secondary');
 		}
 
 		if (json.student_misc_data.join_admission_selection == 2) {
