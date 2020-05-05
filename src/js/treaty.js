@@ -3,15 +3,15 @@
 	/**
 	*	cache DOM
 	*/
-	$chechBox2 = $('#agreeLawCheck2');
-	$chechBox3 = $('#agreeLawCheck3');
-	$chechBox4 = $('#agreeLawCheck4');
-	$chechBox5 = $('#agreeLawCheck5');
-	$chechBox6 = $('#agreeLawCheck6');
-	$chechBox7 = $('#agreeLawCheck7');
-	$chechBox8 = $('#agreeLawCheck8');
-	$chechBox9 = $('#agreeLawCheck9');
-	$chechBox10 = $('#agreeLawCheck10');
+	const $checkBox2 = $('#agreeLawCheck2');
+	const $checkBox3 = $('#agreeLawCheck3');
+	const $checkBox4 = $('#agreeLawCheck4');
+	const $checkBox5 = $('#agreeLawCheck5');
+	const $checkBox6 = $('#agreeLawCheck6');
+	const $checkBox7 = $('#agreeLawCheck7');
+	const $checkBox8 = $('#agreeLawCheck8');
+	const $checkBox9 = $('#agreeLawCheck9');
+	const $checkBox10 = $('#agreeLawCheck10');
 	
 	/**
 	*	init
@@ -22,15 +22,15 @@
 	/**
 	*	bind event
 	*/
-	$chechBox2.on('change',_handleCheck);
-	$chechBox3.on('change',_handleCheck);
-	$chechBox4.on('change',_handleCheck);
-	$chechBox5.on('change',_handleCheck);
-	$chechBox6.on('change',_handleCheck);
-	$chechBox7.on('change',_handleCheck);
-	$chechBox8.on('change',_handleCheck);
-	$chechBox9.on('change',_handleCheck);
-	$chechBox10.on('change',_handleCheck);
+	$checkBox2.on('change',_handleCheck);
+	$checkBox3.on('change',_handleCheck);
+	$checkBox4.on('change',_handleCheck);
+	$checkBox5.on('change',_handleCheck);
+	$checkBox6.on('change',_handleCheck);
+	$checkBox7.on('change',_handleCheck);
+	$checkBox8.on('change',_handleCheck);
+	$checkBox9.on('change',_handleCheck);
+	$checkBox10.on('change',_handleCheck);
 
 	function _init() {
 		loading.complete();
