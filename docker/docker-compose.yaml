@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  #Laravel App
+  app:
+    image: node:8.12.0
+    container_name: app_0verStudent
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    #working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html/0verStudent/
+    ports:
+      - "8081:9000"
+    networks:
+      - mynet
+  
+  #Nginx Service
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_0verStudent
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      #- ./nginx/conf.d/:/etc/nginx/conf.d/
+      #- ./nginx/ssl/:/etc/nginx/ssl/
+      - ./nginx/:/etc/nginx/
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/log/nginx:/var/log/nginx
+      - ./app:/var/www/html/0verStudent/
+    networks:
+      - mynet
+    depends_on:
+      - app
+
+
+#Docker Networks
+networks:
+  mynet:
+    driver: bridge
+
