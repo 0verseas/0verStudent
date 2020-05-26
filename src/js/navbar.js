@@ -225,6 +225,12 @@
 			$('.nav-olympia').click(function(e){e.preventDefault();});
 		}
 
+		if(data.student_qualification_verify.identity>5){
+			$('.nav-systemChoose').addClass('disabled');
+			$('.nav-systemChoose').click(function(e){e.preventDefault();});
+			$('.overseas-student-tip').show();
+		}
+
 		// 個人申請志願
 		+data.student_qualification_verify.system_id === 1 &&
 		!!data.student_department_admission_selection_order &&

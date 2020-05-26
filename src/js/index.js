@@ -102,7 +102,9 @@
 				location.href = './placementSelection.html';
 			} else if (!!json.student_misc_data.confirmed_at) {
 				location.href = './downloadDocs.html';
-			} else {
+			} else if(json.student_qualification_verify.identity=== 6){
+				location.href = './personalInfo.html';
+			}else {
 				location.href = './systemChoose.html';
 			}
 			loading.complete();
