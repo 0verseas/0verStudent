@@ -91,6 +91,12 @@
 			const progressJson = await progressResponse.json();
 			_studentID= progressJson.id;
 
+			//已經錄取了  就不要上傳資料 增加我們的負擔
+			if(progressJson.student_misc_data.stage_of_deptid != null || progressJson.student_misc_data.stage_of_admit != null || progressJson.student_misc_data.distribution_date != null || progressJson.student_misc_data.distribution_no != null){
+				alert('已有分發結果，不需上傳登錄成績，即將返回志願檢視。');
+				window.location  = window.location.protocol+'//'+window.location.host+'/result.html';
+			}
+
 			//location.orgin 不支援IE11以下版本  所以用 location.protocol +location.host取代
 			if(!progressJson.can_macau_upload_time){
 				alert('開放時間未到或條件不符，即將返回志願檢視。');
