@@ -118,8 +118,13 @@
 				location.href = "./index.html";
 			} else if (e.status && e.status === 403) {
 				e.json && e.json().then((data) => {
-					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
-					window.history.back();
+					if(window.history.length>1){
+						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
+						window.history.back();
+					}else{
+						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回聯合分發成績採計方式頁面');
+						location.href = './grade.html';
+					}
 				})
 			} else {
 				e.json && e.json().then((data) => {
