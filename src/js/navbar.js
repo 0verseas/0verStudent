@@ -288,6 +288,12 @@
 
 		}
 
+		//DSE 後填志願學生 個申已獲錄取或資格不符 不能選填
+		if(data.student_misc_data.admission_placement_apply_way_data.code == '23' && (data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null)){
+			$('.nav-placementSelection').addClass('disabled');
+			$('.nav-placementSelection').click(function(e){e.preventDefault();});
+		}
+
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
 		!data.can_upload_papers && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
 

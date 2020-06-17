@@ -121,9 +121,12 @@
 					if(window.history.length>1){
 						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
 						window.history.back();
-					}else{
+					} else if(data.messages[0].includes('採計')){
 						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回聯合分發成績採計方式頁面');
 						location.href = './grade.html';
+					} else {
+						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回志願檢視頁面');
+						location.href = './result.html';
 					}
 				})
 			} else {
