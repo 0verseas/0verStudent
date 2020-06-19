@@ -162,6 +162,7 @@
 		$schoolName.text(_wishList[_orderIndex].department_data.school.title);
 		$deptName.text(_wishList[_orderIndex].department_data.title);
 
+		let uploadMethod = _wishList[_orderIndex].department_data.recommendation_letter_upload_method;
 		let reviewItemHTML = '';
 		let requiredBadge = '';
 
@@ -289,6 +290,17 @@
 				if(fileListItem.invites.length > 0){
 					invite_list = getTeacherRecommendationLetterInviteRecord(fileListItem);
 				}
+				let uploadMethodDescription = '';
+				switch(uploadMethod){
+					case 1:
+						uploadMethodDescription = '「自行上傳」師長推薦函。'
+						break;
+					case 2:
+						uploadMethodDescription = '透過電子郵件「邀請師長上傳」推薦函。'
+						break;
+					default:
+						uploadMethodDescription = '師長推薦函可依「自行上傳」或「邀請師長上傳」二擇一或併行。';
+				}
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
@@ -298,42 +310,49 @@
 								</div>
 								<div class="card-body">
 									<div class="alert alert-primary">
-										師長推薦函可依「自行上傳」或「邀請師長上傳」二擇一或併行。
+									`+uploadMethodDescription+`
 									</div>` + descriptionBlock + `
-									<div class="alert alert-warning">
-										可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
-									</div>
-									<div class="row" style="margin-bottom: 15px;">
-										<div class="col-12">
-											<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
+									<div class = "upload-form hide" id = 'uploadArea'>
+										<div class="col-md-12">
+											<label>自行上傳推薦函電子檔：</label><br />
+										</div>
+										<div class="alert alert-warning">
+											可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+										</div>
+										<div class="row" style="margin-bottom: 15px;">
+											<div class="col-12">
+												<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
+											</div>
 										</div>
 									</div>
 									<!-- 師長推薦函邀請 -->
-									<div class="row col-11">
-										<div class="col-md-12">
-											<label>或輸入師長資料以寄送電子郵件邀請師長上傳推薦函：</label><br />
+									<div class = "invite-form hide" id = 'inviteArea'>
+										<div class="row col-11">
+											<div class="col-md-12">
+												<label>請輸入師長資料以寄送電子郵件邀請師長上傳推薦函：</label><br />
+											</div>
+											<div class="col-md-12 form-group">
+												<input type="checkbox" id="agree_teacher_recommendation_pact">本人<b>同意系統提供</b>姓名、電子信箱地址、手機號碼、就讀學校名稱<b>等訊息至邀請函中</b>（<strong class="text-danger">如不同意將無法送出邀請</strong>）。
+											</div>
+											<div class="col-md-5 form-group">
+												<input type="text" id="teacherName" class="form-control" title="請輸入師長姓名（不需頭銜或職稱）" placeholder="師長姓名">
+											</div>
+											<div class="col-md-7 form-group">
+												<input type="email" id="teacherMail" class="form-control" title="請輸入師長的電子信箱地址" placeholder="師長email">
+											</div>
 										</div>
-										<div class="col-md-12 form-group">
-											<input type="checkbox" id="agree_teacher_recommendation_pact">本人<b>同意系統提供</b>姓名、電子信箱地址、手機號碼、就讀學校名稱<b>等訊息至邀請函中</b>（<strong class="text-danger">如不同意將無法送出邀請</strong>）。
-										</div>
-										<div class="col-md-5 form-group">
-											<input type="text" id="teacherName" class="form-control" title="請輸入師長姓名（不需頭銜或職稱）" placeholder="師長姓名">
-										</div>
-										<div class="col-md-7 form-group">
-											<input type="email" id="teacherMail" class="form-control" title="請輸入師長的電子信箱地址" placeholder="師長email">
-										</div>
-									</div>
-									<div class="row col-12">
-										<div class="col-md-9 form-group">
-											<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系需求等的訊息" placeholder="給師長的訊息（請同學務必與推薦人先行聯絡，並預留時間供師長上傳）">
-										</div>
-										<div class="col-md-3 form-group">
-											<button type="button" id="btn-invite" class="btn btn-info" style="visibility: hidden" title="師長上傳成功後會有電子郵件通知"><i class="fa fa-envelope"></i> 送出邀請</button>
+										<div class="row col-12">
+											<div class="col-md-9 form-group">
+												<input type="text" id="studentMessage" class="form-control" title="可以輸入讓師長足以辨識您身份或志願科系需求等的訊息" placeholder="給師長的訊息（請同學務必與推薦人先行聯絡，並預留時間供師長上傳）">
+											</div>
+											<div class="col-md-3 form-group">
+												<button type="button" id="btn-invite" class="btn btn-info" style="visibility: hidden" title="師長上傳成功後會有電子郵件通知"><i class="fa fa-envelope"></i> 送出邀請</button>
+											</div>
 										</div>
 									</div>
 									${invite_list}  <!--邀請紀錄-->
 
-									<div class="card">
+									<div class="card hide" id = "uploadFileArea">
 										<div class="card-body">
 											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
 											${filesHtml}
@@ -400,6 +419,20 @@
 		$("#agree_teacher_recommendation_pact").on('change', teacherRecommendationPactChange);  // 是否同意師長推薦函邀請使用條件的核取方塊
 
 		$('#btn-save-works').on('click',_handleSaveWorks);  // 「儲存已輸入的作品集文字」按鈕
+
+		switch(uploadMethod){
+			case 1:
+				$('#uploadArea').show();
+				$('#uploadFileArea').show();
+				break;
+			case 2:
+				$('#inviteArea').show();
+				break;
+			default:
+				$('#uploadArea').show();
+				$('#inviteArea').show();
+				$('#uploadFileArea').show();
+		}
 
 		loading.complete();
 	}
