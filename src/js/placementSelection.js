@@ -118,8 +118,16 @@
 				location.href = "./index.html";
 			} else if (e.status && e.status === 403) {
 				e.json && e.json().then((data) => {
-					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
-					window.history.back();
+					if(window.history.length>1){
+						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
+						window.history.back();
+					} else if(data.messages[0].includes('採計')){
+						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回聯合分發成績採計方式頁面');
+						location.href = './grade.html';
+					} else {
+						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回志願檢視頁面');
+						location.href = './result.html';
+					}
 				})
 			} else {
 				e.json && e.json().then((data) => {
@@ -139,10 +147,17 @@
 				}
 			})
 			.then((data) => {
-				if (
+				if (  // 僑先部個人申請未獲錄取算後填
+					(data.student_qualification_verify.identity === 6 &&
+					data.student_misc_data.confirmed_at != null &&
+					data.can_admission_placement == true  &&
+					data.student_misc_data.stage_of_deptid === null &&
+					data.student_misc_data.join_admission_selection === 1) ||
+					// 印輔班
 					(data.student_qualification_verify.identity === 7 &&
 					data.student_misc_data.confirmed_at != null &&
                     data.student_misc_data.confirmed_placement_at === null) ||
+					// 香港 DSE
 					(data.student_misc_data.admission_placement_apply_way_data.code == "23" &&
 					data.student_misc_data.confirmed_at != null &&
                     data.student_misc_data.confirmed_placement_at === null) ) {

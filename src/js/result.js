@@ -48,7 +48,7 @@
 			_systemId = progressJson.student_qualification_verify.system_id;
 
 			if (_systemId === 1) {
-				_hasOlympia = !!progressJson.student_olympia_aspiration_order && progressJson.student_misc_data.has_olympia_aspiration;
+				_hasOlympia = !!progressJson.student_olympia_aspiration_order && progressJson.student_misc_data.has_olympia_aspiration && progressJson.can_olympia;
 				_hasAdmission = !!progressJson.student_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
 				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way ;
 			} else if (_systemId === 2) {

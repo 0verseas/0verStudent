@@ -1,13 +1,13 @@
 /*輸入查詢資料處*/
 #form-studentInfo {
     /*外邊框*/
-    border: #FFAA33 3px dashed;
-    padding: 50px 320px 20px;  /*上 左右 下*/
+    border: #FFAA33 medium dashed;
+    padding: 2%;  /*上 左右 下*/
 }
 
 /*查詢結果*/
 #form-result {
-    padding-top: 10px;
+    padding-top: 2%;
     text-align: center;
     vertical-align: middle;
 }

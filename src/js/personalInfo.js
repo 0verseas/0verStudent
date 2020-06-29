@@ -175,10 +175,28 @@
     $had_HK_ADorHD.on('change', changeHadHK_ADorHD);
 
     function _init() {
+        //先初始化國家列表
+        student.getCountryList()
+            .then((json) => {
+                _countryList = json;
+                let stateHTML = '<option value="-1" data-continentIndex="-1">Continent</option>';
+                json.forEach((obj, index) => {
+                    stateHTML += `<option value="${index}" data-continentIndex="${index}">${obj.continent}</option>`
+                });
+                $birthContinent.html(stateHTML);
+                $residenceContinent.html(stateHTML);
+                $schoolContinent.html(stateHTML);
+            })
+            .then(()=>{
+                //再初始化個人資訊
+                _initPersonalInfo();
+            })
+    }
+
+    function _initPersonalInfo() {
         student.getStudentPersonalData()
             .then((res) => {
                 if (res.ok) {
-                    _initCountryList();
                     return res.json();
                 } else {
                     throw res;
@@ -436,20 +454,6 @@
             returnArr[1] = homeTown.slice(provinceIndex + 1, cityIndex);
         }
         return returnArr;
-    }
-
-    function _initCountryList() {
-        student.getCountryList()
-            .then((json) => {
-                _countryList = json;
-                let stateHTML = '<option value="-1" data-continentIndex="-1">Continent</option>';
-                json.forEach((obj, index) => {
-                    stateHTML += `<option value="${index}" data-continentIndex="${index}">${obj.continent}</option>`
-                });
-                $birthContinent.html(stateHTML);
-                $residenceContinent.html(stateHTML);
-                $schoolContinent.html(stateHTML);
-            })
     }
 
     function _setResidenceContinent() {

@@ -236,6 +236,11 @@
 		//若是有僑編就是收件完成 就讓上傳簡章規定文件變綠色完成狀態
 		if(data.student_misc_data.overseas_student_id !== null){
 			$('.nav-uploadEducation').addClass('list-group-item-success');
+
+		if(data.student_qualification_verify.identity>5){
+			$('.nav-systemChoose').addClass('disabled');
+			$('.nav-systemChoose').click(function(e){e.preventDefault();});
+			$('.overseas-student-tip').show();
 		}
 
 		// 個人申請志願
@@ -297,6 +302,12 @@
 				}
 			}
 
+		}
+
+		//DSE 後填志願學生 個申已獲錄取或資格不符 不能選填
+		if(data.student_misc_data.admission_placement_apply_way_data.code == '23' && (data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null)){
+			$('.nav-placementSelection').addClass('disabled');
+			$('.nav-placementSelection').click(function(e){e.preventDefault();});
 		}
 
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
@@ -422,6 +433,8 @@
 		} else if (!json.can_upload_papers || json.student_misc_data.join_admission_selection == 0 ){
 			// 還沒有提交上傳資料，且不在上傳備審資料的期間，不能點提交按鈕
 			$('#btn-uploadAndSubmit').prop('disabled', true).text('目前不是可上傳備審資料時間');
+			$('#btn-uploadAndSubmit').prop('disabled', true).removeClass('btn-danger').addClass('btn-secondary');
+			$('#btn-uploadAndSubmit-hint').removeClass('text-danger').addClass('text-secondary');
 		}
 
 		if (json.student_misc_data.join_admission_selection == 2) {
@@ -440,8 +453,8 @@
 			$macautranscript.hide();
 			$macauTranscriptAlert.hide();
 		}else if(!json.can_macau_upload_time){ //確認現在時間是否在開放時間內  不是就改變按鈕狀態
-			$macautranscript.show().prop('disabled', true).text('目前不是登錄四校聯考成績時間');
-			$macauTranscriptAlert.show().text('開放時間：2020 年 5 月 1 日 00：00：00');
+			$macautranscript.show().prop('disabled', true).text('非四校聯考成績登錄開放時間');
+			$macauTranscriptAlert.show().text('');
 			//$macauTranscriptAlert.hide();
 		}else if( json.student_misc_data.overseas_student_id == null){ //確認是否有僑生編號 沒有就請學生等待審核
 			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績');

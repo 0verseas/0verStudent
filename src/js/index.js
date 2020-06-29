@@ -102,12 +102,17 @@
 					json.student_misc_data.admission_placement_apply_way_data.code == "23" &&
 					json.student_misc_data.confirmed_at != null &&
 					json.student_misc_data.confirmed_placement_at === null &&
-					json.can_placement_order == true)
-				){
+					json.can_placement_order == true  &&
+					json.student_misc_data.stage_of_admit === null &&
+					json.student_misc_data.qualification_to_distribute === null
+				)
+				) {
 				location.href = './placementSelection.html';
 			} else if (!!json.student_misc_data.confirmed_at) {
 				location.href = './downloadDocs.html';
-			} else {
+			} else if(json.student_qualification_verify.identity=== 6){
+				location.href = './personalInfo.html';
+			}else {
 				location.href = './systemChoose.html';
 			}
 			loading.complete();

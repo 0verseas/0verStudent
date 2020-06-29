@@ -145,7 +145,7 @@
 			if (err.status === 429){  // 註冊太多次啦 Too Many Requests
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`${data.message}`);
+					alert('註冊次數過多！請稍後再試。');
 				})
 			} else {
 				err.json && err.json().then((data) => {
