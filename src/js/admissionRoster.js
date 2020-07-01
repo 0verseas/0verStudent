@@ -89,6 +89,12 @@
             schoolTitle = admissionInfo.student_misc_data.two_year_tech_department_data.school.title;
         }
 
+        // 檢查有無特殊註記
+        const distribution_list_memo = admissionInfo.student_misc_data.distribution_list_memo;
+        if (/特輔班/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
+            deptTitle += '（特輔班）';  // 特輔班要在系所名稱上註記
+        }
+
         let roster = '';
         roster += `<td class="align-middle">${admissionInfo.id}</td>  <!--報名序號-->
                 <td class="align-middle">${admissionInfo.student_misc_data.overseas_student_id}</td>  <!--僑生編號-->
