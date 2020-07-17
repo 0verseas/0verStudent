@@ -294,6 +294,12 @@
 				$('.nav-placementSelection').addClass('disabled');
 				$('.nav-placementSelection').click(function(e){e.preventDefault();});
 			}
+			//如果是DSE後填要confirmed_placement_at 有值才算完成聯合分發志願填寫
+			if(data.student_misc_data.admission_placement_apply_way_data.code == '23'){
+				if(data.student_misc_data.confirmed_placement_at ==null && !!data.student_department_admission_placement_order){
+					data.student_department_admission_placement_order && $('.nav-placementSelection').removeClass('list-group-item-success');
+				}
+			}
 		}
 
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
