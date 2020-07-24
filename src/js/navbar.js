@@ -288,11 +288,17 @@
 
 		}
 
-		//如果有採計方式且是 DSE 後填志願學生 個申已獲錄取或資格不符 不能選填
+		//如果有採計方式且是 DSE 後填志願學生 個申已獲錄取或資格不符 沒有僑生編號 不能選填
 		if(data.student_misc_data.admission_placement_apply_way_data !=null){
 			if(data.student_misc_data.admission_placement_apply_way_data.code == '23' && (data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null)){
 				$('.nav-placementSelection').addClass('disabled');
 				$('.nav-placementSelection').click(function(e){e.preventDefault();});
+				$('.nav-placementSelection').addClass('show-no-qualified');
+			}
+			if(data.student_misc_data.admission_placement_apply_way_data.code == '23' && data.student_misc_data.overseas_student_id == null){
+				$('.nav-placementSelection').addClass('disabled');
+				$('.nav-placementSelection').click(function(e){e.preventDefault();});
+				$('.nav-placementSelection').addClass('show-no-qualified');
 			}
 			//如果是DSE後填要confirmed_placement_at 有值才算完成聯合分發志願填寫
 			if(data.student_misc_data.admission_placement_apply_way_data.code == '23'){
