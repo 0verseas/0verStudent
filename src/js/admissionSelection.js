@@ -72,7 +72,8 @@
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
 					specialDeptType: value.special_dept_type, // 特殊系所
-					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
+					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料
+					docs: value.application_docs
 				};
 				if (_currentSystem === 1) {
 					add.mainGroup = value.main_group_data.title; // 學群名稱
@@ -290,6 +291,10 @@
 			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-info btn-sm add-wish">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			</button>
+			<hr>
+			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-info btn-sm docs-info" data-toggle="tooltip" title="點擊查看備審項目資訊">
+			<i class="fa fa-info-circle" aria-hidden="true"></i>
+			</button>
 			</td>
 			</tr>
 			`;
@@ -317,6 +322,8 @@
 				$optionalWishList.html(html);
 				const $addWish = $optionalWishList.find('.add-wish');
 				$addWish.on("click", _addWish);
+				const $docsInfo = $optionalWishList.find('.docs-info');
+				$docsInfo.on("click",_showInfo);
 			}
 		})
 
@@ -507,4 +514,51 @@
 		}
 	}
 
+	function _showInfo(){
+		const sortNum = $(this).data("sortnum");
+		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
+		const docsList = _optionalWish[optionalIndex].docs;
+		const title = _optionalWish[optionalIndex].school+_optionalWish[optionalIndex].dept;
+		const departmentID = docsList[0].dept_id;
+		const schoolID = departmentID.substr(1,2);
+		let quotaUrl = env.quotaUrl;
+
+		$('#modal-title').text(title+"—"+'個人申請審查項目');
+
+		switch (_currentSystem) {
+			case 1:  // 學士班
+				quotaUrl += '/bachelor-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+			case 2:  // 港二技
+				quotaUrl += '/two-year-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+			case 3:  // 碩士班
+				quotaUrl += '/master-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+			case 4:  // 博士班
+				quotaUrl += '/phd-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+		}
+
+		$('#btn-info').on('click' , function () {window.open(quotaUrl, '_blank');});
+
+		let docsHtml = '';	
+
+		docsList.forEach((value, index) => { // 審查項目整理
+			let requiredBadge = (value.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
+			docsHtml+=`
+				<div>
+					<tr class="table-warning">
+						<td>${index + 1}. </td>
+						<td>${requiredBadge}</td>
+						<td>${value.type.name}<br />${value.type.eng_name}</td>
+					</tr>
+				</div>
+				<br/>
+			`;
+		})
+		
+		$('#modal-body').html(docsHtml);
+		$('#docs-modal').modal('show');
+	}
 })();
