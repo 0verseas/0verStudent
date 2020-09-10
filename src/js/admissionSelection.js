@@ -72,7 +72,11 @@
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
 					specialDeptType: value.special_dept_type, // 特殊系所
-					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
+					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料
+					docs: value.application_docs,
+					birth_limit_after: value.birth_limit_after,
+					birth_limit_before: value.birth_limit_before,
+					gender_limit: value.gender_limit
 				};
 				if (_currentSystem === 1) {
 					add.mainGroup = value.main_group_data.title; // 學群名稱
@@ -290,6 +294,11 @@
 			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-info btn-sm add-wish">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			</button>
+			<br/>
+			<br/>
+			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-secondary btn-sm docs-info" data-toggle="tooltip" title="點擊查看系所招生資訊">
+			<i class="fa fa-list-ul" aria-hidden="true"></i>
+			</button>
 			</td>
 			</tr>
 			`;
@@ -317,6 +326,8 @@
 				$optionalWishList.html(html);
 				const $addWish = $optionalWishList.find('.add-wish');
 				$addWish.on("click", _addWish);
+				const $docsInfo = $optionalWishList.find('.docs-info');
+				$docsInfo.on("click",_showInfo);
 			}
 		})
 
@@ -507,4 +518,94 @@
 		}
 	}
 
+	function _showInfo(){
+		const sortNum = $(this).data("sortnum");
+		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
+		let docsList = _optionalWish[optionalIndex].docs;
+		const title = _optionalWish[optionalIndex].school+_optionalWish[optionalIndex].dept;
+		const departmentID = docsList[0].dept_id;
+		const schoolID = departmentID.substr(1,2);
+		let quotaUrl = env.quotaUrl;
+		let genderLimit = _optionalWish[optionalIndex].gender_limit;
+		let beforeBirthLimit = _optionalWish[optionalIndex].birth_limit_before;
+		let afterBirthLimit = _optionalWish[optionalIndex].birth_limit_after;
+		let birthLimit;
+
+		switch(genderLimit){
+			case 'M':
+				genderLimit = '只收男性'
+				break;
+			case 'F':
+				genderLimit = '只收女性'
+				break;
+			default:
+				genderLimit = '無'
+		}
+
+		if(beforeBirthLimit == null && afterBirthLimit == null){
+			birthLimit = '無'
+		} else if(beforeBirthLimit == null){
+			birthLimit = '需在  ' +  afterBirthLimit +'  之後出生';
+		} else if(afterBirthLimit == null){
+			birthLimit = '需在  ' +  beforeBirthLimit +'  之前出生';
+		} else{
+			birthLimit = '需在  ' + afterBirthLimit +'  ~  '+beforeBirthLimit +'  之間出生';
+		}
+
+		$('#modal-title').text(title+"—"+'招生資訊');
+
+		switch (_currentSystem) {
+			case 1:  // 學士班
+				quotaUrl += '/bachelor-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+			case 2:  // 港二技
+				quotaUrl += '/two-year-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+			case 3:  // 碩士班
+				quotaUrl += '/master-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+			case 4:  // 博士班
+				quotaUrl += '/phd-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-shenchaItem';
+				break;
+		}
+
+		$('#btn-info').on('click' , function () {window.open(quotaUrl, '_blank');});
+
+		let docsHtml = '<h5>個人申請審查項目</h5>';	
+
+		docsList = docsList.sort(function(a,b){return b.required - a.required;});
+
+		docsList.forEach((value, index) => { // 審查項目整理
+			let requiredBadge = (value.required) ? '<span class="badge badge-danger">必繳</span>' : '<span class="badge badge-warning">選繳</span>';
+			docsHtml+=`
+				<div>
+					<tr class="table-warning">
+						<td>${index + 1}. </td>
+						<td>${requiredBadge}</td>
+						<td>${value.type.name}<br />${value.type.eng_name}</td>
+					</tr>
+				</div>
+				<br/>
+			`;
+		})
+
+		docsHtml+=`
+			<h5>系所年齡或性別要求</h5>
+			<div>
+				<tr class="table-warning">
+					<td>性別要求：${genderLimit}</td>
+				</tr>
+			</div>
+			<br/>
+			<div>
+				<tr class="table-warning">
+					<td>年齡要求：${birthLimit}</td>
+				</tr>
+			</div>
+		`;
+		
+		
+		$('#modal-body').html(docsHtml);
+		$('#docs-modal').modal('show');
+	}
 })();
