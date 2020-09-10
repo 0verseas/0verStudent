@@ -86,7 +86,10 @@
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
 					specialDeptType: value.special_dept_type, // 特殊系所
-					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
+					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料					
+					birth_limit_after: value.birth_limit_after,
+					birth_limit_before: value.birth_limit_before,
+					gender_limit: value.gender_limit
 				};
 				_optionalWish.push(add);
 			})
@@ -258,6 +261,11 @@
 			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-info btn-sm add-wish">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			</button>
+			<br/>
+			<br/>
+			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-secondary btn-sm docs-info" data-toggle="tooltip" title="點擊查看系所招生資訊">
+			<i class="fa fa-list-ul" aria-hidden="true"></i>
+			</button>
 			</td>
 			</tr>
 			`;
@@ -310,6 +318,8 @@
 				$optionalWishList.html(html);
 				const $addWish = $optionalWishList.find('.add-wish');
 				$addWish.on("click", _addWish);
+				const $docsInfo = $optionalWishList.find('.docs-info');
+				$docsInfo.on("click",_showInfo);
 			}
 		});
 
@@ -473,6 +483,62 @@
 		if (!!data.student_misc_data.confirmed_placement_at) {
 			$('#btn-confirmed').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定志願') && $afterConfirmZone.show();
 		}
+	}
+	
+	function _showInfo(){
+		const sortNum = $(this).data("sortnum");
+		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
+		const title = _optionalWish[optionalIndex].school+_optionalWish[optionalIndex].dept;
+		const departmentID = _optionalWish[optionalIndex].id;
+		const schoolID = departmentID.substr(1,2);
+		let quotaUrl = env.quotaUrl + '/bachelor-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-deptInfo';
+		let genderLimit = _optionalWish[optionalIndex].gender_limit;
+		let beforeBirthLimit = _optionalWish[optionalIndex].birth_limit_before;
+		let afterBirthLimit = _optionalWish[optionalIndex].birth_limit_after;
+		let birthLimit;
+
+		switch(genderLimit){
+			case 'M':
+				genderLimit = '只收男性'
+				break;
+			case 'F':
+				genderLimit = '只收女性'
+				break;
+			default:
+				genderLimit = '無'
+		}
+
+		if(beforeBirthLimit == null && afterBirthLimit == null){
+			birthLimit = '無'
+		} else if(beforeBirthLimit == null){
+			birthLimit = '需在  ' +  afterBirthLimit +'  之後出生';
+		} else if(afterBirthLimit == null){
+			birthLimit = '需在  ' +  beforeBirthLimit +'  之前出生';
+		} else{
+			birthLimit = '需在  ' + afterBirthLimit +'  ~  '+beforeBirthLimit +'  之間出生';
+		}
+
+		$('#modal-title').text(title+"—"+'招生資訊');
+
+		$('#btn-info').on('click' , function () {window.open(quotaUrl, '_blank');});
+
+		let docsHtml =`
+			<h5>系所年齡或性別要求</h5>
+			<div>
+				<tr class="table-warning">
+					<td>性別要求：${genderLimit}</td>
+				</tr>
+			</div>
+			<br/>
+			<div>
+				<tr class="table-warning">
+					<td>年齡要求：${birthLimit}</td>
+				</tr>
+			</div>
+		`;
+		
+		$('#modal-body').html(docsHtml);
+		$('#docs-modal').modal('show');
 	}
 
 })();
