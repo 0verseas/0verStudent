@@ -768,7 +768,7 @@
 			!!data.except_HK_Macao_passport && $signUpForm.find('.radio-holdpassport[value=1]').trigger('click');
 
 			// 是否華裔學生
-			!!data.is_ethnic_Chinese && $signUpForm.find('.radio-ethnicChinese[value=1]').trigger('click');
+			!!data.is_ethnic_Chinese && $signUpForm.find('.kangAo2_radio-ethnicChinese[value=1]').trigger('click');
 			
 			// 是否曾在臺設有戶籍？
 			!!data.except_HK_Macao_passport && !!data.taiwan_census && $signUpForm.find('.radio-taiwanHousehold[value=1]').trigger('click');
