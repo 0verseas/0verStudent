@@ -315,6 +315,20 @@
                 } else {
                     $educationSystemDescriptionDiv.hide();
                 }
+                switch(_systemId){
+                    case 1:
+                        $('#educationLevel').text('高中（form6／year12）學歷')
+                        break;
+                    case 2:
+                        $('#educationLevel').text('副學士或高級文憑學歷')
+                        break;
+                    case 3:
+                        $('#educationLevel').text('學士學歷')
+                        break;
+                    case 4:
+                        $('#educationLevel').text('碩士學歷')
+                        break;
+                }
                 $schoolContinent.val(_findContinent(formData.school_country)).change();
                 $schoolCountry.val(formData.school_country);
 
