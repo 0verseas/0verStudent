@@ -428,6 +428,9 @@
 	}
 
 	function _checkDocumentLock(json) {
+		if(json.student_qualification_verify.system_id != 1 || json.student_misc_data.admission_placement_apply_way == 1){
+			$('.admission-doc-identity').hide();
+		}
 		if (!!json.student_misc_data.admission_selection_document_lock_at) {
 			$('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
 		} else if (!json.can_upload_papers || json.student_misc_data.join_admission_selection == 0 ){
