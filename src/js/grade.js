@@ -108,6 +108,9 @@
 			alert("儲存成功");
 			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999') { // 不參加聯分，原地 reload
 				window.location.reload();
+			} else if(+code === 23){
+				alert("此項成績採計方式，聯合分發志願為後填機制，請按確定後，接續『志願檢視』步驟，若填報資料經檢視無誤，請按下方『完成填報』。")
+				location.href = "./result.html"
 			} else { // 其餘導向下一頁
 				location.href = "./placementSelection.html"
 			}
