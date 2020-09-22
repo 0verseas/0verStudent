@@ -121,7 +121,10 @@
 				location.href = "./index.html";
 			} else if (e.status && e.status === 403) {
 				e.json && e.json().then((data) => {
-					if(window.history.length>1){
+					if(data.messages[0].includes('持DSE、ALE、CEE者')){
+						alert(`${data.messages[0]}\n` + '即將返回志願檢視頁面');
+						location.href = './result.html';
+					}else if(window.history.length>1){
 						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
 						window.history.back();
 					} else if(data.messages[0].includes('採計')){
