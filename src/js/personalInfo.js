@@ -1096,7 +1096,7 @@
                 require: true,
                 type: 'string',
                 dbKey: 'resident_phone',
-                dbData: $residentPhoneCode.val() + ';' + $residentPhone.val(),
+                dbData: $residentPhoneCode.val() + '-' + $residentPhone.val(),
                 colName: '僑居地電話號碼'
             },
             { // 手機國碼，需驗證，合併在手機號碼一起送出。
@@ -1110,7 +1110,7 @@
                 require: true,
                 type: 'string',
                 dbKey: 'resident_cellphone',
-                dbData: $residentCellphoneCode.val() + ';' + $residentCellphone.val(),
+                dbData: $residentCellphoneCode.val() + '-' + $residentCellphone.val(),
                 colName: '僑居地手機號碼'
             },
             {
@@ -1259,7 +1259,7 @@
 
         //父親為「存」時增加的驗證
         if(_currentDadStatus == "alive"){
-            formValidateList.push({ el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' },{ el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + ';' + $dadPhone.val(), colName: '父親聯絡電話' });
+            formValidateList.push({ el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' },{ el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + '-' + $dadPhone.val(), colName: '父親聯絡電話' });
         }
 
         // 母親不為「不詳」時增加的驗證
@@ -1269,12 +1269,12 @@
 
         //母親為「存」時增加的驗證
         if(_currentMomStatus == "alive"){
-            formValidateList.push( { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + ';' + $momPhone.val(), colName: '母親聯絡電話' });
+            formValidateList.push( { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + '-' + $momPhone.val(), colName: '母親聯絡電話' });
         }
 
         // 父母皆為「不詳」時，增加「監護人」驗證
         if (_currentDadStatus === "undefined" && _currentMomStatus === "undefined") {
-            formValidateList.push({ el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）' }, { el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）' }, { el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日' }, { el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業' }, { el: $guardianPhoneCode, require: true, type: 'string', colName: '監護人聯絡電話國碼' }, { el: $guardianPhone, require: true, type: 'string', dbKey: 'guardian_phone', dbData: $guardianPhoneCode.val() + ';' + $guardianPhone.val(), colName: '監護人聯絡電話' });
+            formValidateList.push({ el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）' }, { el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）' }, { el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日' }, { el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業' }, { el: $guardianPhoneCode, require: true, type: 'string', colName: '監護人聯絡電話國碼' }, { el: $guardianPhone, require: true, type: 'string', dbKey: 'guardian_phone', dbData: $guardianPhoneCode.val() + '-' + $guardianPhone.val(), colName: '監護人聯絡電話' });
         }
 
         // 有證件類型再送 ID
