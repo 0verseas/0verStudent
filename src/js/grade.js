@@ -58,7 +58,7 @@
 		const id = $('.radio-option:checked').attr('data-id');
 		const code = $('.radio-option:checked').val();
 		if (!id || !code) {
-			alert('請選擇您欲申請的成績採計方式');
+			alert('請選擇您的成績採計方式');
 			return;
 		}
 		const toFForNot = $goToFF.prop('checked');

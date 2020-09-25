@@ -24,7 +24,7 @@
     let _schoolType = { // 有類別的地區
         "105": ["國際學校", "華校", "緬校", "參與緬甸師資培育專案之華校"], // 緬甸
         "109": ["印尼當地中學", "海外臺灣學校"], // 印尼
-        "128": ["國民型或國民中學；或持 O-Level、A-Level 文憑者", "馬來西亞華文獨立中學", "海外臺灣學校", "馬來西亞國際學校"], // 馬來西亞
+        "128": ["國民型或國民中學；或持 O-Level、A-Level 文憑者", "馬來西亞華文獨立中學", "海外臺灣學校", "馬來西亞國際學校（International School）"], // 馬來西亞
         "133": ["海外臺灣學校", "越南當地中學"], // 越南
         "130": ["泰北未立案之華文中學", "泰國當地中學"] // 泰國
     };
@@ -66,7 +66,7 @@
     const $residentAddress = $('#residentAddress'); // 地址（中 / 英）
     const $residentOtherLangAddress = $('#residentOtherLangAddress'); // 地址（其他語言）
 
-    // 在台資料 (選填)
+    // 在臺資料 (選填)
     const $taiwanIdType = $('#taiwanIdType'); // 證件類型
     const $taiwanIdNo = $('#taiwanIdNo'); // 該證件號碼
     const $taiwanPassport = $('#taiwanPassport'); // 臺灣護照號碼
@@ -138,7 +138,7 @@
     const $guardianPhoneCode = $('#guardianPhoneCode'); // 聯絡電話國碼
     const $guardianPhone = $('#guardianPhone'); // 聯絡電話
 
-    // 在台聯絡人
+    // 在臺聯絡人
     const $twContactName = $('#twContactName'); // 姓名
     const $twContactRelation = $('#twContactRelation'); // 關係
     const $twContactPhone = $('#twContactPhone'); // 聯絡電話
@@ -302,7 +302,7 @@
                 $residentOtherLangAddress.val(_splitWithSemicolon(formData.resident_address)[1]);
                 _showResidentIDExample();
 
-                // init 在台資料
+                // init 在臺資料
                 $taiwanIdType.val(formData.taiwan_id_type);
                 $taiwanIdNo.val(formData.taiwan_id);
                 $taiwanPassport.val(formData.taiwan_passport);
@@ -317,7 +317,7 @@
                 }
                 switch(_systemId){
                     case 1:
-                        $('#educationLevel').text('高中（form6／year12）學歷')
+                        $('#educationLevel').text('高中學歷')
                         break;
                     case 2:
                         $('#educationLevel').text('副學士或高級文憑學歷')
@@ -407,7 +407,7 @@
                     $guardianPhone.val(_splitWithSemicolon(formData.guardian_phone)[1]);
                 }
 
-                // init 在台聯絡人
+                // init 在臺聯絡人
                 $twContactName.val(formData.tw_contact_name);
                 $twContactRelation.val(formData.tw_contact_relation);
                 $twContactPhone.val(formData.tw_contact_phone);
@@ -514,7 +514,7 @@
     function _reRenderResidenceCountry() {
         const continent = $(this).find(':selected').data('continentindex');
         const identity124Rule = ["113", "127"]; // 港澳生、港澳具外國國籍之華裔學生、在臺港澳生，只能選到香港、澳門
-        const identity35Rule = ["113", "127", "134", "135"]; // 海外僑生、在台僑生不能選到香港、澳門、臺灣跟大陸
+        const identity35Rule = ["113", "127", "134", "135"]; // 海外僑生、在臺僑生不能選到香港、澳門、臺灣跟大陸
         const identity6Rule = ["134"]; // 僑先部結業生不能選到臺灣
 
         let countryHTML = '<option value="">Country</option>';
@@ -885,7 +885,7 @@
         $residentAddress.val($residentAddress.val().replace(/[\<\>\"]/g, "")); // 地址（中 / 英）
         // $residentOtherLangAddress.val($residentOtherLangAddress.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 地址（其他語言）
 
-        // 在台資料 (選填)
+        // 在臺資料 (選填)
         $taiwanPassport.val($taiwanPassport.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 臺灣護照號碼
         $taiwanPhone.val($taiwanPhone.val().replace(/[^\d-]/g, '')); // 臺灣電話
         $taiwanAddress.val($taiwanAddress.val().replace(/[\<\>\"]/g, "")); // 臺灣地址
@@ -919,7 +919,7 @@
         $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $guardianPhone.val($guardianPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
 
-        // 在台聯絡人 
+        // 在臺聯絡人 
         $twContactName.val($twContactName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\u00b7\s]/g, "")); // 姓名
         $twContactRelation.val($twContactRelation.val().replace(/[\<\>\"]/g, "")); // 關係
         $twContactPhone.val($twContactPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
