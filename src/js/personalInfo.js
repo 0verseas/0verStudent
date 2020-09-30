@@ -650,6 +650,13 @@
                 $schoolTypeForm.hide();
                 _hasEduType = false;
             }
+        } else if (_systemId === 2) {
+            let typeHTML = '';
+            _currentSchoolType = '副學士或高級文憑'
+            typeHTML += `<option value="副學士或高級文憑">副學士或高級文憑</option>`;  // 港二技只有一種
+            $schoolType.html(typeHTML);
+            $schoolTypeForm.hide();  // 藏起來
+            _hasEduType = true;
         } else {
             $schoolTypeForm.hide();
             _hasEduType = false;
@@ -677,7 +684,7 @@
         // 沒有選國家則不會出現學校名稱欄位
         if (!!_schoolCountryId) {
             // 學士班才需要出現學校所在地、名稱列表
-            if (_systemId === 1) {
+            if (_systemId === 1 || _systemId === 2) {
                 student.getSchoolList(_schoolCountryId)
                     .then((res) => {
                         if (res.ok) {
@@ -693,8 +700,14 @@
                             schoolWithType = json.filter((obj) => {
                                 return obj.type === _currentSchoolType;
                             })
+                        } else if(_systemId === 2) {
+                            schoolWithType = json.filter((obj) => {
+                                return obj.type === _currentSchoolType;
+                            })
                         } else {
-                            schoolWithType = json;
+                            schoolWithType = json.filter((obj) => {
+                                return obj.type === null;
+                            })
                         }
 
                         if (schoolWithType.length > 0) {
@@ -759,7 +772,7 @@
     }
 
     function _reRenderSchoolList() {
-        if (_systemId === 1) {
+        if (_systemId === 1 || _systemId === 2) {
             // 重新渲染學士班的學校列表
             let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
 
