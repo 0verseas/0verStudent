@@ -65,12 +65,12 @@
 							} else { //在個人申請時間內有三種情況  1.在台碩博  2.港二技  3.其他
 								if ( (data.student_qualification_verify.system_id === 3 || data.student_qualification_verify.system_id === 4) &&
 								data.student_qualification_verify.identity > 3 && data.student_qualification_verify.identity < 6) {
-									$memo.html("1、 請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。<br />"+
-									"2、 報名「個人申請」者，務必於西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
+									$memo.html("1、 請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會（54561 南投縣埔里鎮大學路1號）。<br />"+
+									"2、 請務必於西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
 									"按下『確認上傳資料並提交』。");
 								} else if (data.student_qualification_verify.system_id === 2) {
 									$memo.html("1、 請在簡章規定之期限內列印並繳交至受理報名單位。<br />" +
-									"2、 報名「港二技」者，務必於西元 2021 年 3 月 20 日（星期六）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
+									"2、 請務必於西元 2021 年 3 月 20 日（星期六）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
 									"按下『確認上傳資料並提交』。");
 								} else {
 									$memo.html("1、 請在簡章規定之期限內列印並繳交至受理報名單位。<br />"+
