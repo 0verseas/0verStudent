@@ -76,10 +76,10 @@
 					docs: value.application_docs,
 					birth_limit_after: value.birth_limit_after,
 					birth_limit_before: value.birth_limit_before,
-					gender_limit: value.gender_limit
+					gender_limit: value.gender_limit,
+					mainGroup: value.main_group_data.title // 學群名稱
 				};
 				if (_currentSystem === 1) {
-					add.mainGroup = value.main_group_data.title; // 學群名稱
 					add.cardCode = value.card_code; // 畫卡號碼
 				}
 				_optionalWish.push(add);
@@ -93,10 +93,9 @@
 			}
 			$quotaNumber.html(quotaNumber);
 
-
+			$optionFilterSelect.append('<option value="mainGroup">學群</option>');
 			if (_currentSystem === 1) { // 學士班志願顯示 cardCode，其餘 id
 				_showCodeId = "cardCode";
-				$optionFilterSelect.append('<option value="mainGroup">學群</option>');
 			} else {
 				_showCodeId = "id";
 			}
@@ -281,9 +280,8 @@
 			if (item.specialDeptType !== null && medicalList.indexOf(item.specialDeptType) > -1) {
 				medicalHTML = ' class="bg-medical"';
 			}
-			if (_currentSystem === 1) {
-				groupHTML += '｜ ' + item.mainGroup;
-			}
+			groupHTML += '｜ ' + item.mainGroup;
+
 			html += `
 			<tr${medicalHTML}>
 			<td>
@@ -349,9 +347,8 @@
 			if (_wishList[i].specialDeptType !== null && medicalList.indexOf(_wishList[i].specialDeptType) > -1) {
 				medicalHTML = ' class="bg-medical"';
 			}
-			if (_currentSystem === 1) {
-				groupHTML += '｜ ' + _wishList[i].mainGroup;
-			}
+			groupHTML += '｜ ' + _wishList[i].mainGroup;
+
 			rowHtml = rowHtml + `
 			<tr${medicalHTML} data-wishIndex="${i}">
 			<td>
