@@ -53,7 +53,7 @@
 						//Todo: identity 7 印輔班(S5) 8 僑先部春季班(S5)的條件判斷
 						//嘗試重構後  先判斷 是不是僑先部結業生
 						if(data.student_qualification_verify.identity === 6) {
-							$memo.html("請在簡章規定之期限內列印並繳交至國立台灣師範大學僑先部教務組。");
+							$memo.html("請在簡章規定之期限內列印並繳交至國立臺灣師範大學僑先部教務組。");
 						} else { //不是就先判斷是否在個人申請時間內
 							if(!data.can_admission_selection){ //非個人申請時間內有兩種情況 1. 在台碩博  2. 其他
 								if ( (data.student_qualification_verify.system_id === 3 || data.student_qualification_verify.system_id === 4) &&
