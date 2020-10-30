@@ -209,7 +209,7 @@
                 if (formData === null) {
                     formData = {
                         "backup_email": "",
-                        "gender": "F",
+                        "gender": "",
                         "birthday": "",
                         "birth_location": "",
                         "special": 0,
@@ -988,6 +988,12 @@
         return _checkValue !== "";
     }
 
+    // 驗證是否有選擇性別
+    function _valigengerNotEmpty(obj) {
+        let _checkValue = (obj.value) ? obj.value : "";
+        return _checkValue !== "";
+    }
+
     // 驗證 Email 格式是否正確
     function _validateEmail(obj) {
         let _checkValue = (obj.value) ? obj.value : obj.el.val();
@@ -1410,6 +1416,16 @@
                                 _errormsg.push(obj.colName);
                                 _correct = false;
                                 obj.el.addClass('invalidInput');
+                            }
+                            break;
+                        case 'radio':
+                            if(_valigengerNotEmpty(obj)){
+                                if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
+                                // obj.el.removeClass('invalidInput');
+                            } else {
+                                _errormsg.push(obj.colName);
+                                _correct = false;
+                                // obj.el.addClass('invalidInput');
                             }
                             break;
                         default:
