@@ -19,6 +19,7 @@
 	let _currentWishIndex = -1;
 
 	let studentApplyWayCode = null;  // 學生聯合分發採計方式 code
+	let linktoquotapageUrl = null; // 連結至名額查詢系統系所備審資料 link
 
 	/**
 	*	cache DOM
@@ -37,6 +38,7 @@
 	const wishList = document.getElementById('wish-list'); // 已填選志願，渲染用
 	const $saveBtn = $('#btn-save');
 	const $notJoinPlacement = $('#notJoinPlacement');  // 是否要流至聯合分發的 checkbox
+	const $deptMoreInfoUrl = $('#btn-info'); // 系所備審資料 連結至名額查詢系統
 
 	/**
 	*	init
@@ -54,6 +56,7 @@
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
 	$notJoinPlacement.on('change', joinPlacementChange);  // 監聽是否不參加聯合分發
+	$deptMoreInfoUrl.on('click' , _linktoQuotaPagefunction);
 
 	async function _init() {
 		try {
@@ -515,6 +518,7 @@
 		}
 	}
 
+	// 顯示系所審查項目
 	function _showInfo(){
 		const sortNum = $(this).data("sortnum");
 		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
@@ -566,7 +570,7 @@
 				break;
 		}
 
-		$('#btn-info').on('click' , function () {window.open(quotaUrl, '_blank');});
+		linktoquotapageUrl = quotaUrl;
 
 		let docsHtml = '<h5>個人申請審查項目</h5>';	
 
@@ -604,5 +608,10 @@
 		
 		$('#modal-body').html(docsHtml);
 		$('#docs-modal').modal('show');
+	}
+
+	// 連結至名額查詢系統 系所備審資料
+	function _linktoQuotaPagefunction() {
+		window.open(linktoquotapageUrl, '_blank');
 	}
 })();
