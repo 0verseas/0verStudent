@@ -14,6 +14,7 @@
 	// 序號調整志願序之參數
 	let _prevWishIndex = -1;
 	let _currentWishIndex = -1;
+	let linktoquotapageUrl = null; // 連結至名額查詢系統系所備審資料 link
 
 	/**
 	*	cache DOM
@@ -34,6 +35,7 @@
 	const $confirmedBtn = $('#btn-confirmed');
 	const $secondConfirm = $('#secondConfirm');
 	const $notToFFInfo = $('#not-to-FF');  // 提醒目前是不分發僑先部狀態的 alert
+	const $deptMoreInfoUrl = $('#btn-info'); // 系所資料 連結至名額查詢系統
 
 	/**
 	*	init
@@ -51,6 +53,8 @@
 	$saveBtn.on('click', _handleSave);
 	$confirmedBtn.on('click', _handleConfirmed);
 	$secondConfirm.on('click', _handleSecondConfirmed);
+	$deptMoreInfoUrl.on('click' , _linktoQuotaPagefunction);
+
 
 	async function _init() {
 		try {
@@ -500,6 +504,8 @@
 		let afterBirthLimit = _optionalWish[optionalIndex].birth_limit_after;
 		let birthLimit;
 
+		linktoquotapageUrl = quotaUrl;
+		
 		switch(genderLimit){
 			case 'M':
 				genderLimit = '只收男性'
@@ -523,7 +529,7 @@
 
 		$('#modal-title').text(title+"—"+'招生資訊');
 
-		$('#btn-info').on('click' , function () {window.open(quotaUrl, '_blank');});
+
 
 		let docsHtml =`
 			<h5>系所年齡或性別要求</h5>
@@ -542,6 +548,11 @@
 		
 		$('#modal-body').html(docsHtml);
 		$('#docs-modal').modal('show');
+	}
+
+	// 連結至名額查詢系統 系所備審資料
+	function _linktoQuotaPagefunction() {
+		window.open(linktoquotapageUrl, '_blank');
 	}
 
 })();
