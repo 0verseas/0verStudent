@@ -79,6 +79,11 @@
 			data.year_of_hk_cee = $('.year_of_hk_cee').val();
 		}
 
+		if(+id == 53 || +id == 59){
+			let check = confirm('選擇此採計方式者不能參加個人申請，點選確認後將清空你的個人申請志願，並儲存你的採計方式。')
+			if(!check) return;
+		}
+
 		loading.start();
 		try {
 			const choseFF = await student.setStudentGoToFForNot(toFForNot);
