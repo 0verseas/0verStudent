@@ -550,12 +550,18 @@
         const continent = $(this).find(':selected').data('continentindex');
         // 港二技學制只能選擇香港
         const system2Rule = ["113"];
+        // 非在台碩博不能選到臺灣
+        const countryFilterRule = ["134"];
 
         let countryHTML = '<option value="">Country</option>';
         if (continent !== -1) {
             _countryList[continent]['country'].forEach((obj, index) => {
                 if (_systemId === 2) {
                     if (system2Rule.indexOf(obj.id) === -1) { return; }
+                }
+                console.log(_identityId);   
+                if ((_systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
+                    if (countryFilterRule.indexOf(obj.id) !== -1) { return; }
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
