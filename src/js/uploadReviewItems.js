@@ -218,11 +218,11 @@
 										</div>
 										<div class="form-group">
 											<label class="text-danger" for="workPosition">* 個人參與的職位或項目</label>
-											<input type="text" class="form-control" id="workPosition" value="${fileListItem.position.replace(/"/g, '&quot;')}">
+											<input type="text" class="form-control" id="workPosition" placeholder="例如：作者、編劇、導演、攝影" value="${fileListItem.position.replace(/"/g, '&quot;')}">
 										</div>
 										<div class="form-group">
 											<label class="text-danger" for="workType">* 術科類型</label>
-											<input type="text" class="form-control" id="workType" value="${fileListItem.work_type.replace(/"/g, '&quot;')}">
+											<input type="text" class="form-control" id="workType" placeholder="例如：國畫、山水畫、書法、影片、微電影" value="${fileListItem.work_type.replace(/"/g, '&quot;')}">
 										</div>
 										<div class="form-group">
 											<label for="workMemo">備註</label>
