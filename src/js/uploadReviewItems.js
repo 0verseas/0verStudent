@@ -15,6 +15,7 @@
 	let _worksRequired = false;
 	let _workTypeId; // 作品集的項目編號
 	let _workUrls = [];
+	let _uploadFileSize; // 各系所的上傳檔案總和大小
 
 	/**
 	*	cache DOM
@@ -62,6 +63,7 @@
 			_studentID = orderJson.id;
 			_system = orderJson.student_qualification_verify.system_id;
 			_isDocumentLock = !!orderJson.student_misc_data.admission_selection_document_lock_at;
+			_uploadFileSize = orderJson.dept_upload_file_size;
 			let key = '';
 			let admission_doc_upload_time_limit = '西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（學士班、研究所）
 			switch (_system) {
@@ -153,6 +155,7 @@
 		_hasWorks = false;
 		const deptId = _deptID = $(this).data('deptid') || _deptID;
 		_orderIndex = _wishList.findIndex(i => i.dept_id === (deptId + ""));
+		_handleProgressBar();
 
 		if (_system === 1) {
 			$deptId.text(_wishList[_orderIndex].department_data.card_code);
@@ -653,14 +656,21 @@
 		const type_id = $(this).data('type');
 		const dept_id = $(this).data('deptid');
 		const workType = ($(this).attr('data-workstype')) ? $(this).data('workstype') : false;
-
 		const fileList = this.files;
+		const correntUploadSize = _uploadFileSize[dept_id] + fileList[0].size;
 
 		//偵測是否超過8MB (8MB以下用後端偵測)
 		if(student.sizeConversion(fileList[0].size,8)){
 			alert('檔案過大！')
 			return;
-		}		
+		}
+
+		//偵測上傳後總容量是否超過25MB
+		if(student.sizeConversion(correntUploadSize,25)){
+			alert('超過單一系所上傳檔案上限25MB！')
+			return;
+		}
+
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
@@ -681,6 +691,7 @@
 			} else {
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(responseJson.files);
 			}
+			_uploadFileSize[dept_id]+=fileList[0].size;
 			_handleEditForm();
 			loading.complete();
 		} catch(e) {
@@ -757,6 +768,7 @@
 			} else {
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = responseJson[0].files;
 			}
+			_uploadFileSize[_deptID]-=responseJson.deleteFileSize;
 			_handleEditForm();
 			$('.img-modal').modal('hide');
 			loading.complete();
@@ -1001,5 +1013,29 @@
 			alert('作品集文字已儲存，請記得上傳其他備審資料');
 			loading.complete();
 		}
+	}
+
+	// 進度條渲染
+	function _handleProgressBar(){
+		const deptId = _deptID = $(this).data('deptid') || _deptID;
+		let maxSize = 25 * 1024 * 1024;
+		let progressNumber = (_uploadFileSize[deptId] / maxSize) * 100; //計算百分比
+		progressNumber = Math.round(progressNumber*1000)/1000; //四捨五入到小數點後第三位
+
+		//按照百分比渲染顏色 百分比 <= 50 綠色 百分比 >=90 紅色 百分比 介於50~90 橘色
+		if(progressNumber<=50){
+			$("#upload-file-size-number").css('color','green');
+			$('#upload-file-size-bar').addClass('bg-success').removeClass('bg-danger').removeClass('bg-warning');
+		} else if(progressNumber>=90){
+			$("#upload-file-size-number").css('color','red');
+			$('#upload-file-size-bar').addClass('bg-danger').removeClass('bg-success').removeClass('bg-warning');
+		} else{
+			$("#upload-file-size-number").css('color','orange');
+			$('#upload-file-size-bar').addClass('bg-warning').removeClass('bg-success').removeClass('bg-danger');
+		}
+
+		//文字說明直接將數字渲染 進度條是將數字當作寬度渲染
+		document.getElementById("upload-file-size-number").innerText = progressNumber;
+		$('#upload-file-size-bar').width(progressNumber+'%');
 	}
 })();
