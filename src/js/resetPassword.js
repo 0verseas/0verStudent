@@ -35,7 +35,7 @@
 		const email = _getParameterByName('email');
 		const token = _getParameterByName('token');
 
-		student.checkResetPasswordToken(email, token)
+		student.checkResetPasswordToken(encodeURIComponent(email), token)
 		.then((res) => {
 			if (!res.ok) {
 				throw res;

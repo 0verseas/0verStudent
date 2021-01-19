@@ -58,7 +58,7 @@
 		const id = $('.radio-option:checked').attr('data-id');
 		const code = $('.radio-option:checked').val();
 		if (!id || !code) {
-			alert('請選擇您欲申請的成績採計方式');
+			alert('請選擇您的成績採計方式');
 			return;
 		}
 		const toFForNot = $goToFF.prop('checked');
@@ -75,6 +75,11 @@
 			data.year_of_hk_dse = $('.year_of_hk_dse').val();
 			data.year_of_hk_ale = $('.year_of_hk_ale').val();
 			data.year_of_hk_cee = $('.year_of_hk_cee').val();
+		}
+
+		if(+id == 53 || +id == 59){
+			let check = confirm('選擇此採計方式者不能參加個人申請，點選確認後將清空你的個人申請志願，並儲存你的採計方式。')
+			if(!check) return;
 		}
 
 		loading.start();
@@ -105,6 +110,9 @@
 			alert("儲存成功");
 			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999') { // 不參加聯分，原地 reload
 				window.location.reload();
+			} else if(+code === 23){
+				alert("持DSE、ALE、CEE者，此階段無須選填志願，請按「確定」後接續「志願檢視」步驟，若填報資料經檢視無誤，請按「完成填報」。")
+				location.href = "./result.html"
 			} else { // 其餘導向下一頁
 				location.href = "./placementSelection.html"
 			}

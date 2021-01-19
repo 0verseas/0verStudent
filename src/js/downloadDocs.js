@@ -38,10 +38,9 @@
 						}
 					})
 					.then((data) => {
-						if(data.student_misc_data.admission_placement_apply_way_data != null) {
-							if( personalData.resident_location === '113' && data.student_qualification_verify.identity < 3 ){
-								$('#alert-hk-order').show();
-							}
+						//在香港的同學，繳件需要跟海華預約
+						if( personalData.resident_location === '113' && data.student_qualification_verify.identity < 3 ){
+							$('#alert-hk-order').show();
 						}
 
 						if ((data.student_qualification_verify.system_id === 1 || data.student_qualification_verify.system_id === 2)
@@ -53,28 +52,28 @@
 						//Todo: identity 7 印輔班(S5) 8 僑先部春季班(S5)的條件判斷
 						//嘗試重構後  先判斷 是不是僑先部結業生
 						if(data.student_qualification_verify.identity === 6) {
-							$memo.html("請在簡章規定之期限內列印並繳交至國立台灣師範大學僑先部教務組。");
+							$memo.html("請在簡章規定之期限內列印並繳交至國立臺灣師範大學僑先部教務組。");
 						} else { //不是就先判斷是否在個人申請時間內
 							if(!data.can_admission_selection){ //非個人申請時間內有兩種情況 1. 在台碩博  2. 其他
 								if ( (data.student_qualification_verify.system_id === 3 || data.student_qualification_verify.system_id === 4) &&
 								data.student_qualification_verify.identity > 3 && data.student_qualification_verify.identity < 6) {
 									$memo.html("請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。<br />");
 								} else {
-									$memo.html("請在簡章規定之期限內列印並繳交至駐外機構。<br />");
+									$memo.html("請在簡章規定之期限內列印並繳交至受理報名單位。<br />");
 								}
 							} else { //在個人申請時間內有三種情況  1.在台碩博  2.港二技  3.其他
 								if ( (data.student_qualification_verify.system_id === 3 || data.student_qualification_verify.system_id === 4) &&
 								data.student_qualification_verify.identity > 3 && data.student_qualification_verify.identity < 6) {
-									$memo.html("1、 請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。<br />"+
-									"2、 報名「個人申請」者，務必於西元 2020 年 1 月 6 日（星期一）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
+									$memo.html("1、 請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會（54561 南投縣埔里鎮大學路1號）。<br />"+
+									"2、 請務必於西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
 									"按下『確認上傳資料並提交』。");
 								} else if (data.student_qualification_verify.system_id === 2) {
-									$memo.html("1、 請在簡章規定之期限內列印並繳交至駐外機構。<br />" +
-									"2、 報名「港二技」者，務必於西元 2020 年 3 月 28 日（星期六）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
+									$memo.html("1、 請在簡章規定之期限內列印並繳交至受理報名單位。<br />" +
+									"2、 請務必於西元 2021 年 3 月 20 日（星期六）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
 									"按下『確認上傳資料並提交』。");
 								} else {
-									$memo.html("1、 請在簡章規定之期限內列印並繳交至駐外機構。<br />"+
-									"2、 報名「個人申請」者，務必於西元 2020 年 1 月 6 日（星期一）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
+									$memo.html("1、 請在簡章規定之期限內列印並繳交至受理報名單位。<br />"+
+									"2、 報名「個人申請」者，務必於西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
 									"按下『確認上傳資料並提交』。");
 								}
 							}

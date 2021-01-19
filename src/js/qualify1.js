@@ -195,17 +195,17 @@
 			const hasBeenTaiwanOption = +$signUpForm.find('.radio-whyHasBeenTaiwan:checked').val();
 			const ethnicChinese = +$signUpForm.find('.radio-ethnicChinese:checked').val();
 			const invalidDistributionOption = [3, 4, 5, 6];
-			if (!!isDistribution && invalidDistributionOption.includes(distributionOption)) return alert('分發來台選項不具報名資格');
-			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來台年');
+			if (!!isDistribution && invalidDistributionOption.includes(distributionOption)) return alert('分發來臺選項不具報名資格');
+			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來臺年');
 			if (stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
-			if (!!hasBeenTaiwan && hasBeenTaiwanOption === 8) return alert('在台停留選項不具報名資格');
+			if (!!hasBeenTaiwan && hasBeenTaiwanOption === 9) return alert('在臺停留選項不具報名資格');
 			if (ethnicChinese === 0) return alert('非華裔者不具報名資格');
 			console.log(`是否曾經分發來臺就學過？ ${!!isDistribution}`);
-			console.log(`曾分發來臺於西元幾年分發來台？ ${distributionTime}`);
+			console.log(`曾分發來臺於西元幾年分發來臺？ ${distributionTime}`);
 			console.log(`曾分發來臺請就下列選項擇一勾選 ${distributionOption}`);
 			console.log(`海外居留年限 ${stayLimitOption}`);
 			console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!hasBeenTaiwan}`);
-			console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件： ${hasBeenTaiwanOption}`);
+			console.log(`在臺停留日期請就下列選項，擇一勾選，並檢附證明文件： ${hasBeenTaiwanOption}`);
 			console.log(`是否為華裔者： ${ethnicChinese}`);
 			if ((_savedSystem !== null && _savedIdentity !== null) &&
 				(+_savedSystem !== 1 || +_savedIdentity !== 3)) {
@@ -265,11 +265,11 @@
 			const invalidDistributionOption = [3, 4, 5, 6];
 			if (!idCard) return alert('未擁有香港或澳門永久性居民身分證');
 			if (!_typeOfKangAo) return alert('請確保上方問題皆已選填');
-			if (!!KA_isDistribution && KA_distributionTime === '') return alert('未填寫分發來台年');
-			if (!!KA_isDistribution && invalidDistributionOption.includes(KA_distributionMoreQuestion)) return alert('分發來台選項不具報名資格');
+			if (!!KA_isDistribution && KA_distributionTime === '') return alert('未填寫分發來臺年');
+			if (!!KA_isDistribution && invalidDistributionOption.includes(KA_distributionMoreQuestion)) return alert('分發來臺選項不具報名資格');
 			if (KA_stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
-			if (!!KA_hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwanOption === 11) return alert('在台停留選項不具報名資格');
-			if (!!KA_hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwanOption === 8) return alert('在台停留選項不具報名資格');
+			if (!!KA_hasBeenTaiwan && _typeOfKangAo === 1 && KA1_whyHasBeenTaiwanOption === 11) return alert('在臺停留選項不具報名資格');
+			if (!!KA_hasBeenTaiwan && _typeOfKangAo === 2 && KA2_whyHasBeenTaiwanOption === 9) return alert('在臺停留選項不具報名資格');
 			if (!!holdpassport && !portugalPassport && +passportCountry === -1) return alert('護照之國家未選填');
 			if (ethnicChinese === 0 && _typeOfKangAo === 2) return alert('非華裔者不具報名資格');
 			console.log(`請問您是否擁有香港或澳門永久性居民身分證？ ${!!idCard}`);
@@ -280,12 +280,12 @@
 			console.log(`於何時首次取得葡萄牙護照？ ${portugalPassportTime.replace(/-/g, '/')}`);
 			console.log(`您持有哪一個國家之護照？ ${passportCountry}`);
 			console.log(`曾分發來臺 ${!!KA_isDistribution}`);
-			console.log(`於西元幾年分發來台？ ${KA_distributionTime}`);
+			console.log(`於西元幾年分發來臺？ ${KA_distributionTime}`);
 			console.log(`曾分發來臺並請就下列選項擇一勾選 ${KA_distributionMoreQuestion}`);
 			console.log(`海外居留年限 ${KA_stayLimitOption}`);
 			console.log(`報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？ ${!!KA_hasBeenTaiwan}`);
-			console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type1 }}} ${KA1_whyHasBeenTaiwanOption}`);
-			console.log(`在台停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type2 }}} ${KA2_whyHasBeenTaiwanOption}`);
+			console.log(`在臺停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type1 }}} ${KA1_whyHasBeenTaiwanOption}`);
+			console.log(`在臺停留日期請就下列選項，擇一勾選，並檢附證明文件：{{{ type2 }}} ${KA2_whyHasBeenTaiwanOption}`);
 			if ((_savedSystem !== null && _savedIdentity !== null) &&
 				(+_savedSystem !== 1 || +_savedIdentity !== +_typeOfKangAo)) {
 				if(!confirm('若要更換身份別，將重填所有資料，是否確定？')) {
@@ -333,7 +333,7 @@
 		}
 	}
 
-	// 判斷是否分發來台就學的一推選項是否符合資格
+	// 判斷是否分發來臺就學的一推選項是否符合資格
 	function _checkDistributionValidation() {
 		const $this = $(this);
 		const option = +$this.val();
@@ -366,12 +366,12 @@
 		}
 	}
 
-	// 為何在台超過一百二十天
+	// 為何在臺超過一百二十天
 	function _checkWhyHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const option = +$this.val();
 		$('.whyHasBeenTaiwanAlert').hide();
-		if (option === 8) {
+		if (option === 9) {
 			$('.whyHasBeenTaiwanAlert.invalid').fadeIn();
 		} else {
 			$('.whyHasBeenTaiwanAlert.valid').fadeIn();
@@ -398,7 +398,7 @@
 	function _checkHoldpassport() {
 		const $this = $(this);
 		const holdpassport = +$this.val();
-		!!holdpassport && $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeIn() && _setTypeOfKangAo(null);
+		!!holdpassport && $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeIn() && _setTypeOfKangAo(2);
 		!!holdpassport || $signUpForm.find('.isTaiwanHousehold, .holdpassportThanShow').fadeOut() && _setTypeOfKangAo(1);
 		checkIdentity();
 	}
@@ -407,6 +407,10 @@
 	function _checkTaiwanHousehold() {
 		$portugalPassportTime.val('').trigger('change');
 		$signUpForm.find('.radio-portugalPassport:checked').trigger('change');
+		$portugalPassportRadio[0].checked = false;
+		$portugalPassportRadio[1].checked = false;
+		$signUpForm.find('.whichPassport').fadeOut();
+		$signUpForm.find('.portugalPassportMore').fadeOut();
 		_setTypeOfKangAo(null);
 		checkIdentity();
 	}
@@ -438,7 +442,7 @@
 				$signUpForm.find('.whichPassportAlert.valid2').fadeIn();
 			}
 		}
-		// 港澳生，持外國護照，在台設有戶籍，（撇除葡國護照回歸前者），需顯示 港澳關係條例第4條 並填切結書
+		// 港澳生，持外國護照，在臺設有戶籍，（撇除葡國護照回歸前者），需顯示 港澳關係條例第4條 並填切結書
 		const holdpassport = +$signUpForm.find('.radio-holdpassport:checked').val();
 		const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
 		if( _globalIdentity == 1 && holdpassport == 1 && taiwanHousehold == 1 && portugalPassport == 0 ) {
@@ -479,7 +483,7 @@
 				$signUpForm.find('.portugalPassportTimeAlert.valid3').fadeIn();
 			}
 		}
-		// 港澳生，持外國護照，在台設有戶籍，（撇除葡國護照回歸前者），需顯示 港澳關係條例第4條 並填切結書
+		// 港澳生，持外國護照，在臺設有戶籍，（撇除葡國護照回歸前者），需顯示 港澳關係條例第4條 並填切結書
 		const holdpassport = +$signUpForm.find('.radio-holdpassport:checked').val();
 		const taiwanHousehold = +$signUpForm.find('.radio-taiwanHousehold:checked').val();
 		if( _globalIdentity == 1 && holdpassport == 1 && taiwanHousehold == 1 ) {
@@ -524,14 +528,14 @@
 
 		student.getCountryList().then((data) => {
 			data[order].country.forEach((val, i) => {
-				if (val.id !== "113" && val.id !== "127" && val.id !== "134" && val.id !== "135") { // 外國護照不能出現 香港、澳門、台灣、大陸
+				if (val.id !== "113" && val.id !== "127" && val.id !== "134" && val.id !== "135") { // 外國護照不能出現 香港、澳門、臺灣、大陸
 					$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
 				}
 			});
 		});
 	}
 
-	// 港澳生 是否分發來台
+	// 港澳生 是否分發來臺
 	function _handleKAIsDistribution() {
 		const $this = $(this);
 		const isDistribution = +$this.val();
@@ -572,7 +576,7 @@
 		}
 	}
 
-	// 港澳生 在台停留日期
+	// 港澳生 在臺停留日期
 	function _checkKAHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const has = +$this.val();
@@ -595,7 +599,7 @@
 	}
 
 
-	// 港澳生 甲 為何在台停留一堆問題
+	// 港澳生 甲 為何在臺停留一堆問題
 	function _checkKA1WhyHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const option = +$this.val();
@@ -608,13 +612,13 @@
 		}
 	}
 
-	// 港澳生 乙 為何在台停留一堆問題
+	// 港澳生 乙 為何在臺停留一堆問題
 	function _checkKA2WhyHasBeenTaiwanValidation() {
 		const $this = $(this);
 		const option = +$this.val();
 		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').hide();
 		$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').hide();
-		if (option === 8) {
+		if (option === 9) {
 			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.invalid').fadeIn();
 		} else {
 			$signUpForm.find('.kangAoType2_whyHasBeenTaiwanAlert.valid').fadeIn();
@@ -631,7 +635,7 @@
 		console.log("是否持外國護照",holdpassport);
 		console.log("是否持葡萄牙護照",portugalPassport);
 		console.log("持葡萄牙護照時間",portugalPassportTime);
-		console.log("在台設有戶籍",taiwanHousehold);
+		console.log("在臺設有戶籍",taiwanHousehold);
 
         var portugalPassportDT = portugalPassportTime;
         portugalPassportDT = portugalPassportDT.replace(/-/g,"/");
@@ -732,7 +736,7 @@
 			// 海外居留年限
 			$signUpForm.find(`.kangAo_radio-stayLimit[value=${data.overseas_residence_time}]`).trigger('click');
 
-			// 在台停留日期
+			// 在臺停留日期
 			!!data.stay_over_120_days_in_taiwan &&
 			$signUpForm.find('.kangAo_radio-hasBeenTaiwan[value=1]').trigger('click');
 			const selector = data.identity === 1 ? '.kangAoType1_radio-whyHasBeenTaiwan' : '.kangAoType2_radio-whyHasBeenTaiwan';
@@ -753,7 +757,7 @@
 			// 海外居留年限
 			$signUpForm.find(`.radio-stayLimit[value=${data.overseas_residence_time}]`).trigger('click');
 
-			// 在台停留日期
+			// 在臺停留日期
 			!!data.stay_over_120_days_in_taiwan &&
 			$signUpForm.find('.radio-hasBeenTaiwan[value=1]').trigger('click') &&
 			$signUpForm.find(`.radio-whyHasBeenTaiwan[value=${data.reason_selection_of_stay_over_120_days_in_taiwan}]`).trigger('click');
@@ -765,7 +769,7 @@
 			!!data.except_HK_Macao_passport && $signUpForm.find('.radio-holdpassport[value=1]').trigger('click');
 
 			// 是否華裔學生
-			!!data.is_ethnic_Chinese && $signUpForm.find('.radio-ethnicChinese[value=1]').trigger('click');
+			!!data.is_ethnic_Chinese && $signUpForm.find('.kangAo2_radio-ethnicChinese[value=1]').trigger('click');
 			
 			// 是否曾在臺設有戶籍？
 			!!data.except_HK_Macao_passport && !!data.taiwan_census && $signUpForm.find('.radio-taiwanHousehold[value=1]').trigger('click');
@@ -797,7 +801,7 @@
 			// 海外居留年限
 			$signUpForm.find(`.kangAo_radio-stayLimit[value=${data.overseas_residence_time}]`).trigger('click');
 
-			// 在台停留日期
+			// 在臺停留日期
 			!!data.stay_over_120_days_in_taiwan &&
 			$signUpForm.find('.kangAo_radio-hasBeenTaiwan[value=1]').trigger('click');
 			const selector = data.identity === 1 ? '.kangAoType1_radio-whyHasBeenTaiwan' : '.kangAoType2_radio-whyHasBeenTaiwan';

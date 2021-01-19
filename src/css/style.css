@@ -124,11 +124,19 @@ footer { /* 令 footer 圖層置底，才不會蓋到其他元素 */
 	display: none;
 }
 
+.tip-no-qualified {
+	display: none;
+}
+
 .show-grade-first>.tip-grade-first {
 	display: block;
 }
 
 .show-placement-deadline>.tip-placement-deadline {
+	display: block;
+}
+
+.show-no-qualified>.tip-no-qualified {
 	display: block;
 }
 

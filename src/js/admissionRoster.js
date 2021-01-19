@@ -89,6 +89,12 @@
             schoolTitle = admissionInfo.student_misc_data.two_year_tech_department_data.school.title;
         }
 
+        // 檢查有無特殊註記
+        const distribution_list_memo = admissionInfo.student_misc_data.distribution_list_memo;
+        if (/特輔班/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
+            deptTitle += '（特輔班）';  // 特輔班要在系所名稱上註記
+        }
+
         let roster = '';
         roster += `<td class="align-middle">${admissionInfo.id}</td>  <!--報名序號-->
                 <td class="align-middle">${admissionInfo.student_misc_data.overseas_student_id}</td>  <!--僑生編號-->
@@ -105,6 +111,7 @@
 
     // 轉換一些敏感字元避免 XSS
     function encodeHtmlCharacters(bareString) {
+        if (bareString === null) return '';
         return bareString.replace(/&/g, "&amp;")  // 轉換 &
             .replace(/</g, "&lt;").replace(/>/g, "&gt;")  // 轉換 < 及 >
             .replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號

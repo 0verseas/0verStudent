@@ -63,14 +63,14 @@
 			_system = orderJson.student_qualification_verify.system_id;
 			_isDocumentLock = !!orderJson.student_misc_data.admission_selection_document_lock_at;
 			let key = '';
-			let admission_doc_upload_time_limit = '西元 2020 年 1 月 6 日（星期一）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（學士班、研究所）
+			let admission_doc_upload_time_limit = '西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（學士班、研究所）
 			switch (_system) {
 				case 1:
 					key = 'student_department_admission_selection_order';
 					break;
 				case 2:
 					key = 'student_two_year_tech_department_admission_selection_order';
-					admission_doc_upload_time_limit = '西元 2020 年 3 月 28 日（星期六）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（港二技）
+					admission_doc_upload_time_limit = '西元 2021 年 3 月 20 日（星期六）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（港二技）
 					break;
 				case 3:
 				case 4:
@@ -218,11 +218,11 @@
 										</div>
 										<div class="form-group">
 											<label class="text-danger" for="workPosition">* 個人參與的職位或項目</label>
-											<input type="text" class="form-control" id="workPosition" value="${fileListItem.position.replace(/"/g, '&quot;')}">
+											<input type="text" class="form-control" id="workPosition" placeholder="例如：作者、編劇、導演、攝影" value="${fileListItem.position.replace(/"/g, '&quot;')}">
 										</div>
 										<div class="form-group">
 											<label class="text-danger" for="workType">* 術科類型</label>
-											<input type="text" class="form-control" id="workType" value="${fileListItem.work_type.replace(/"/g, '&quot;')}">
+											<input type="text" class="form-control" id="workType" placeholder="例如：國畫、山水畫、書法、影片、微電影" value="${fileListItem.work_type.replace(/"/g, '&quot;')}">
 										</div>
 										<div class="form-group">
 											<label for="workMemo">備註</label>
@@ -231,7 +231,7 @@
 										<div class="form-group">
 											<label class="text-danger" for="workUrl">* 作品連結</label>
 											<div class="input-group">
-												<input type="text" class="form-control" id="workUrl">
+												<input type="text" class="form-control" id="workUrl" placeholder="已上傳檔案者免填">
 												<span class="input-group-btn">
 													<button class="btn btn-primary" type="button" id="btn-addWorkUrl">
 														<i class="fa fa-plus" aria-hidden="true"></i>

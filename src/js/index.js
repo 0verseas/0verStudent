@@ -104,7 +104,8 @@
 					json.student_misc_data.confirmed_placement_at === null &&
 					json.can_placement_order == true  &&
 					json.student_misc_data.stage_of_admit === null &&
-					json.student_misc_data.qualification_to_distribute === null
+					json.student_misc_data.qualification_to_distribute === null &&
+					json.student_misc_data.overseas_student_id !== null
 				)
 				) {
 				location.href = './placementSelection.html';

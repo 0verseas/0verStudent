@@ -43,14 +43,14 @@
 						<label class="text-danger" for="name">* 姓名（中）</label>
 						<input type="text" class="form-control" id="name" placeholder="姓名">
 						<small class="text-danger">「請以正體字書寫」 </small>
-						<small class="text-danger">範例：王大明</small>
+						<small class="text-danger">範例：張家華</small>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="engName">* 姓名（英）</label>
 						<input type="text" class="form-control" id="engName" placeholder="Name">
-						<small class="text-danger">範例：WANG DA MING</small>
+						<small class="text-danger">請注意與身分證件、畢業證書所載一致。</small>
 					</div>
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 						<label class="text-danger">* 性別</label><br>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
-								<input class="form-check-input gender" type="radio" name="gender" value="F" checked> 女
+								<input class="form-check-input gender" type="radio" name="gender" value="F"> 女
 							</label>
 						</div>
 						<div class="form-check form-check-inline">
@@ -200,10 +200,10 @@
 						<label class="text-danger" for="residentPhoneCode">* 電話</label>
 						<div class="row">
 							<div class="col-3">
-								<input type="text" class="form-control" id="residentPhoneCode" maxlength="5" placeholder="國碼">
+								<input type="text" class="form-control" id="residentPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 							<div class="col-9">
-								<input type="text" class="form-control" id="residentPhone" placeholder="電話號碼">
+								<input type="text" class="form-control" id="residentPhone" placeholder="電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 						</div>
 					</div>
@@ -215,10 +215,10 @@
 						<label class="text-danger" for="residentCellphoneCode">* 手機</label>
 						<div class="row">
 							<div class="col-3">
-								<input type="text" class="form-control" id="residentCellphoneCode" maxlength="5" placeholder="國碼">
+								<input type="text" class="form-control" id="residentCellphoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 							<div class="col-9">
-								<input type="text" class="form-control" id="residentCellphone" placeholder="手機電話號碼">
+								<input type="text" class="form-control" id="residentCellphone" placeholder="手機電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 						</div>
 					</div>
@@ -249,7 +249,7 @@
 
 	<dl class="row">
 		<dt class="col-md-3">
-			在台資料<span class="text-danger">（無者免填）</span>
+			在臺資料<span class="text-danger">（無者免填）</span>
 		</dt>
 		<dd class="col-md-9">
 			<div class="row">
@@ -285,7 +285,7 @@
 				<div class="col-md-8">
 					<div class="form-group">
 						<label for="taiwanPhone">臺灣電話</label>
-						<input type="text" class="form-control" id="taiwanPhone" placeholder="電話">
+						<input type="text" class="form-control" id="taiwanPhone" placeholder="電話" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 					</div>
 				</div>
 			</div>
@@ -303,7 +303,7 @@
 	<hr>
 
 	<dl class="row">
-		<dt class="col-md-3">
+		<dt class="col-md-3" id='educationLevel'>
 			最高學歷
 		</dt>
 		<dd class="col-md-9">
@@ -346,7 +346,7 @@
 						</select>
 					</div>
 					<div class="col-md-11 alert alert-danger mt-2 alert-schoolType hide" role="alert">
-						<strong>注意！</strong> 學校類型已被修改。<br />儲存後將移除已選擇的「個人申請志願」及「聯合分發成績採計方式」。
+						<strong>注意！</strong> 修改學校類型，儲存後，<br />將影響已選擇的「個人申請志願」、「聯合分發成績採計方式」及「聯合分發志願」，敬請留意。
 					</div>
 				</div>
 			</div>
@@ -561,13 +561,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="text-danger" for="dadName">* 姓名（中）</label>
-											<input type="text" class="form-control" id="dadName" placeholder="">
+											<input type="text" class="form-control" id="dadName" placeholder="姓名">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="text-danger" for="dadEngName">* 姓名（英）</label>
-											<input type="text" class="form-control" id="dadEngName" placeholder="">
+											<input type="text" class="form-control" id="dadEngName" placeholder="Name">
 										</div>
 									</div>
 								</div>
@@ -591,10 +591,10 @@
 											<label class="text-danger" for="dadPhoneCode">* 聯絡電話</label>
 											<div class="row">
 												<div class="col-3">
-													<input type="text" class="form-control" id="dadPhoneCode" maxlength="5" placeholder="國碼">
+													<input type="text" class="form-control" id="dadPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 												<div class="col-9">
-													<input type="text" class="form-control" id="dadPhone" placeholder="手機或電話號碼">
+													<input type="text" class="form-control" id="dadPhone" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 											</div>
 										</div>
@@ -636,13 +636,13 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="text-danger" for="momName">* 姓名（中）</label>
-											<input type="text" class="form-control" id="momName" placeholder="">
+											<input type="text" class="form-control" id="momName" placeholder="姓名">
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<label class="text-danger" for="momEngName">* 姓名（英）</label>
-											<input type="text" class="form-control" id="momEngName" placeholder="">
+											<input type="text" class="form-control" id="momEngName" placeholder="Name">
 										</div>
 									</div>
 								</div>
@@ -666,10 +666,10 @@
 											<label class="text-danger" for="momPhoneCode">* 聯絡電話</label>
 											<div class="row">
 												<div class="col-3">
-													<input type="text" class="form-control" id="momPhoneCode" maxlength="5" placeholder="國碼">
+													<input type="text" class="form-control" id="momPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 												<div class="col-9">
-													<input type="text" class="form-control" id="momPhone" placeholder="手機或電話號碼">
+													<input type="text" class="form-control" id="momPhone" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 											</div>
 										</div>
@@ -725,10 +725,10 @@
 											<label class="text-danger" for="guardianPhoneCode">* 聯絡電話</label>
 											<div class="row">
 												<div class="col-3">
-													<input type="text" class="form-control" id="guardianPhoneCode" maxlength="5" placeholder="國碼">
+													<input type="text" class="form-control" id="guardianPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 												<div class="col-9">
-													<input type="text" class="form-control" id="guardianPhone" placeholder="手機或電話號碼">
+													<input type="text" class="form-control" id="guardianPhone" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 											</div>
 										</div>
@@ -747,7 +747,7 @@
 
 	<dl class="row">
 		<dt class="col-md-3">
-			在台聯絡人
+			在臺聯絡人<span class="text-danger">（無者免填）</span>
 		</dt>
 		<dd class="col-md-9">
 			<div class="row">
@@ -766,7 +766,7 @@
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="twContactPhone">聯絡電話</label>
-						<input type="text" class="form-control" id="twContactPhone" placeholder="">
+						<input type="text" class="form-control" id="twContactPhone" placeholder="" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 					</div>
 				</div>
 			</div>
@@ -788,7 +788,7 @@
 				<div class="col-md-4">
 					<div class="form-group">
 						<label for="twContactWorkplacePhone">服務機關電話</label>
-						<input type="text" class="form-control" id="twContactWorkplacePhone" placeholder="">
+						<input type="text" class="form-control" id="twContactWorkplacePhone" placeholder="" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 					</div>
 				</div>
 			</div>

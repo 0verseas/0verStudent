@@ -24,7 +24,7 @@
     let _schoolType = { // 有類別的地區
         "105": ["國際學校", "華校", "緬校", "參與緬甸師資培育專案之華校"], // 緬甸
         "109": ["印尼當地中學", "海外臺灣學校"], // 印尼
-        "128": ["國民型或國民中學；或持 O-Level、A-Level 文憑者", "馬來西亞華文獨立中學", "海外臺灣學校", "馬來西亞國際學校"], // 馬來西亞
+        "128": ["國民型或國民中學；或持 O-Level、A-Level 文憑者", "馬來西亞華文獨立中學", "海外臺灣學校", "馬來西亞國際學校（International School）"], // 馬來西亞
         "133": ["海外臺灣學校", "越南當地中學"], // 越南
         "130": ["泰北未立案之華文中學", "泰國當地中學"] // 泰國
     };
@@ -66,7 +66,7 @@
     const $residentAddress = $('#residentAddress'); // 地址（中 / 英）
     const $residentOtherLangAddress = $('#residentOtherLangAddress'); // 地址（其他語言）
 
-    // 在台資料 (選填)
+    // 在臺資料 (選填)
     const $taiwanIdType = $('#taiwanIdType'); // 證件類型
     const $taiwanIdNo = $('#taiwanIdNo'); // 該證件號碼
     const $taiwanPassport = $('#taiwanPassport'); // 臺灣護照號碼
@@ -138,7 +138,7 @@
     const $guardianPhoneCode = $('#guardianPhoneCode'); // 聯絡電話國碼
     const $guardianPhone = $('#guardianPhone'); // 聯絡電話
 
-    // 在台聯絡人
+    // 在臺聯絡人
     const $twContactName = $('#twContactName'); // 姓名
     const $twContactRelation = $('#twContactRelation'); // 關係
     const $twContactPhone = $('#twContactPhone'); // 聯絡電話
@@ -209,7 +209,7 @@
                 if (formData === null) {
                     formData = {
                         "backup_email": "",
-                        "gender": "F",
+                        "gender": "",
                         "birthday": "",
                         "birth_location": "",
                         "special": 0,
@@ -302,7 +302,7 @@
                 $residentOtherLangAddress.val(_splitWithSemicolon(formData.resident_address)[1]);
                 _showResidentIDExample();
 
-                // init 在台資料
+                // init 在臺資料
                 $taiwanIdType.val(formData.taiwan_id_type);
                 $taiwanIdNo.val(formData.taiwan_id);
                 $taiwanPassport.val(formData.taiwan_passport);
@@ -314,6 +314,20 @@
                     $educationSystemDescription.val(formData.education_system_description);
                 } else {
                     $educationSystemDescriptionDiv.hide();
+                }
+                switch(_systemId){
+                    case 1:
+                        $('#educationLevel').text('高中學歷')
+                        break;
+                    case 2:
+                        $('#educationLevel').text('副學士或高級文憑學歷')
+                        break;
+                    case 3:
+                        $('#educationLevel').text('學士學歷')
+                        break;
+                    case 4:
+                        $('#educationLevel').text('碩士學歷')
+                        break;
                 }
                 $schoolContinent.val(_findContinent(formData.school_country)).change();
                 $schoolCountry.val(formData.school_country);
@@ -393,7 +407,7 @@
                     $guardianPhone.val(_splitWithSemicolon(formData.guardian_phone)[1]);
                 }
 
-                // init 在台聯絡人
+                // init 在臺聯絡人
                 $twContactName.val(formData.tw_contact_name);
                 $twContactRelation.val(formData.tw_contact_relation);
                 $twContactPhone.val(formData.tw_contact_phone);
@@ -441,7 +455,7 @@
     }
 
     function _splitWithSemicolon(phoneNum) {
-        let i = phoneNum.indexOf(";");
+        let i = phoneNum.indexOf("-");
         return [phoneNum.slice(0, i), phoneNum.slice(i + 1)];
     }
 
@@ -500,7 +514,7 @@
     function _reRenderResidenceCountry() {
         const continent = $(this).find(':selected').data('continentindex');
         const identity124Rule = ["113", "127"]; // 港澳生、港澳具外國國籍之華裔學生、在臺港澳生，只能選到香港、澳門
-        const identity35Rule = ["113", "127", "134", "135"]; // 海外僑生、在台僑生不能選到香港、澳門、臺灣跟大陸
+        const identity35Rule = ["113", "127", "134", "135"]; // 海外僑生、在臺僑生不能選到香港、澳門、臺灣跟大陸
         const identity6Rule = ["134"]; // 僑先部結業生不能選到臺灣
 
         let countryHTML = '<option value="">Country</option>';
@@ -536,12 +550,18 @@
         const continent = $(this).find(':selected').data('continentindex');
         // 港二技學制只能選擇香港
         const system2Rule = ["113"];
+        // 非在台碩博不能選到臺灣
+        const countryFilterRule = ["134"];
 
         let countryHTML = '<option value="">Country</option>';
         if (continent !== -1) {
             _countryList[continent]['country'].forEach((obj, index) => {
                 if (_systemId === 2) {
                     if (system2Rule.indexOf(obj.id) === -1) { return; }
+                }
+                console.log(_identityId);   
+                if ((_systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
+                    if (countryFilterRule.indexOf(obj.id) !== -1) { return; }
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
@@ -636,6 +656,13 @@
                 $schoolTypeForm.hide();
                 _hasEduType = false;
             }
+        } else if (_systemId === 2) {
+            let typeHTML = '';
+            _currentSchoolType = '副學士或高級文憑'
+            typeHTML += `<option value="副學士或高級文憑">副學士或高級文憑</option>`;  // 港二技只有一種
+            $schoolType.html(typeHTML);
+            $schoolTypeForm.hide();  // 藏起來
+            _hasEduType = true;
         } else {
             $schoolTypeForm.hide();
             _hasEduType = false;
@@ -663,7 +690,7 @@
         // 沒有選國家則不會出現學校名稱欄位
         if (!!_schoolCountryId) {
             // 學士班才需要出現學校所在地、名稱列表
-            if (_systemId === 1) {
+            if (_systemId === 1 || _systemId === 2) {
                 student.getSchoolList(_schoolCountryId)
                     .then((res) => {
                         if (res.ok) {
@@ -679,8 +706,14 @@
                             schoolWithType = json.filter((obj) => {
                                 return obj.type === _currentSchoolType;
                             })
+                        } else if(_systemId === 2) {
+                            schoolWithType = json.filter((obj) => {
+                                return obj.type === _currentSchoolType;
+                            })
                         } else {
-                            schoolWithType = json;
+                            schoolWithType = json.filter((obj) => {
+                                return obj.type === null;
+                            })
                         }
 
                         if (schoolWithType.length > 0) {
@@ -745,7 +778,7 @@
     }
 
     function _reRenderSchoolList() {
-        if (_systemId === 1) {
+        if (_systemId === 1 || _systemId === 2) {
             // 重新渲染學士班的學校列表
             let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
 
@@ -871,7 +904,7 @@
         $residentAddress.val($residentAddress.val().replace(/[\<\>\"]/g, "")); // 地址（中 / 英）
         // $residentOtherLangAddress.val($residentOtherLangAddress.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 地址（其他語言）
 
-        // 在台資料 (選填)
+        // 在臺資料 (選填)
         $taiwanPassport.val($taiwanPassport.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 臺灣護照號碼
         $taiwanPhone.val($taiwanPhone.val().replace(/[^\d-]/g, '')); // 臺灣電話
         $taiwanAddress.val($taiwanAddress.val().replace(/[\<\>\"]/g, "")); // 臺灣地址
@@ -905,7 +938,7 @@
         $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
         $guardianPhone.val($guardianPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
 
-        // 在台聯絡人 
+        // 在臺聯絡人 
         $twContactName.val($twContactName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\u00b7\s]/g, "")); // 姓名
         $twContactRelation.val($twContactRelation.val().replace(/[\<\>\"]/g, "")); // 關係
         $twContactPhone.val($twContactPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
@@ -940,6 +973,7 @@
                     alert('儲存成功');
                     window.location.reload();
                     loading.complete();
+                    scroll(0,0);
                 })
                 .catch((err) => {
                     err.json && err.json().then((data) => {
@@ -957,6 +991,12 @@
     // 驗證是否有值
     function _validateNotEmpty(obj) {
         let _checkValue = (obj.value) ? obj.value : obj.el.val();
+        return _checkValue !== "";
+    }
+
+    // 驗證是否有選擇性別
+    function _valigengerNotEmpty(obj) {
+        let _checkValue = (obj.value) ? obj.value : "";
         return _checkValue !== "";
     }
 
@@ -1081,7 +1121,7 @@
                 require: true,
                 type: 'string',
                 dbKey: 'resident_phone',
-                dbData: $residentPhoneCode.val() + ';' + $residentPhone.val(),
+                dbData: $residentPhoneCode.val() + '-' + $residentPhone.val(),
                 colName: '僑居地電話號碼'
             },
             { // 手機國碼，需驗證，合併在手機號碼一起送出。
@@ -1095,7 +1135,7 @@
                 require: true,
                 type: 'string',
                 dbKey: 'resident_cellphone',
-                dbData: $residentCellphoneCode.val() + ';' + $residentCellphone.val(),
+                dbData: $residentCellphoneCode.val() + '-' + $residentCellphone.val(),
                 colName: '僑居地手機號碼'
             },
             {
@@ -1244,7 +1284,7 @@
 
         //父親為「存」時增加的驗證
         if(_currentDadStatus == "alive"){
-            formValidateList.push({ el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' },{ el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + ';' + $dadPhone.val(), colName: '父親聯絡電話' });
+            formValidateList.push({ el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' },{ el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + '-' + $dadPhone.val(), colName: '父親聯絡電話' });
         }
 
         // 母親不為「不詳」時增加的驗證
@@ -1254,12 +1294,12 @@
 
         //母親為「存」時增加的驗證
         if(_currentMomStatus == "alive"){
-            formValidateList.push( { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + ';' + $momPhone.val(), colName: '母親聯絡電話' });
+            formValidateList.push( { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + '-' + $momPhone.val(), colName: '母親聯絡電話' });
         }
 
         // 父母皆為「不詳」時，增加「監護人」驗證
         if (_currentDadStatus === "undefined" && _currentMomStatus === "undefined") {
-            formValidateList.push({ el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）' }, { el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）' }, { el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日' }, { el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業' }, { el: $guardianPhoneCode, require: true, type: 'string', colName: '監護人聯絡電話國碼' }, { el: $guardianPhone, require: true, type: 'string', dbKey: 'guardian_phone', dbData: $guardianPhoneCode.val() + ';' + $guardianPhone.val(), colName: '監護人聯絡電話' });
+            formValidateList.push({ el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）' }, { el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）' }, { el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日' }, { el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業' }, { el: $guardianPhoneCode, require: true, type: 'string', colName: '監護人聯絡電話國碼' }, { el: $guardianPhone, require: true, type: 'string', dbKey: 'guardian_phone', dbData: $guardianPhoneCode.val() + '-' + $guardianPhone.val(), colName: '監護人聯絡電話' });
         }
 
         // 有證件類型再送 ID
@@ -1382,6 +1422,16 @@
                                 _errormsg.push(obj.colName);
                                 _correct = false;
                                 obj.el.addClass('invalidInput');
+                            }
+                            break;
+                        case 'radio':
+                            if(_valigengerNotEmpty(obj)){
+                                if (obj.dbKey) sendData[obj.dbKey] = _getDBData(obj);
+                                // obj.el.removeClass('invalidInput');
+                            } else {
+                                _errormsg.push(obj.colName);
+                                _correct = false;
+                                // obj.el.addClass('invalidInput');
                             }
                             break;
                         default:

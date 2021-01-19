@@ -290,10 +290,31 @@
 			$('.nav-placementSelection').click(function(e){e.preventDefault();});
 		} else {
 			// 學生有填聯合分發採計方式，但沒有在聯合分發期間期間時，「聯合分發志願」出現提示訊息（聯合分發已截止）
-			if( data.student_misc_data.admission_placement_apply_way_data.code == '23' ||
-				data.student_misc_data.admission_placement_apply_way_data.code == '18' ||
-				( data.student_qualification_verify.identity === 7 && data.student_misc_data.admission_placement_apply_way_data.code == '22') )
+			if( data.student_misc_data.admission_placement_apply_way_data.code == '18' ||
+				( data.student_qualification_verify.identity === 7 && data.student_misc_data.admission_placement_apply_way_data.code == '22') ){
 				;
+			}else if(data.student_misc_data.admission_placement_apply_way_data.code == '23'){
+				//如果是DSE後填要confirmed_placement_at 有值才算完成聯合分發志願填寫
+				if(data.student_misc_data.confirmed_placement_at ==null && !!data.student_department_admission_placement_order){
+					data.student_department_admission_placement_order && $('.nav-placementSelection').removeClass('list-group-item-success');
+				}				
+				//如果是DSE後填要confirmed_at 有值 才判斷是否在（開放時間）或（有收件或已穫錄取）
+				if(data.student_misc_data.confirmed_at != null ){
+					if(!data.can_admission_placement){
+						$('.nav-placementSelection').addClass('disabled');
+						$('.nav-placementSelection').addClass('show-placement-deadline');
+						$('.nav-placementSelection').click(function(e){e.preventDefault();});
+					}else if((data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null || data.student_misc_data.overseas_student_id == null)){
+						$('.nav-placementSelection').addClass('disabled');
+						$('.nav-placementSelection').click(function(e){e.preventDefault();});
+						$('.nav-placementSelection').addClass('show-no-qualified');
+					}
+				}
+				//完成填報前 聯合分發志願 sidebar 直接顯示為綠色打勾狀態
+				if(data.student_misc_data.confirmed_at == null){
+					$('.nav-placementSelection').addClass('list-group-item-success');
+				}
+			}
 			else {
 				if (!data.can_admission_placement) {
 					$('.nav-placementSelection').addClass('disabled');
@@ -302,12 +323,6 @@
 				}
 			}
 
-		}
-
-		//DSE 後填志願學生 個申已獲錄取或資格不符 不能選填
-		if(data.student_misc_data.admission_placement_apply_way_data.code == '23' && (data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null)){
-			$('.nav-placementSelection').addClass('disabled');
-			$('.nav-placementSelection').click(function(e){e.preventDefault();});
 		}
 
 		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
@@ -428,6 +443,9 @@
 	}
 
 	function _checkDocumentLock(json) {
+		if(json.student_qualification_verify.system_id != 1 || json.student_misc_data.admission_placement_apply_way == 1){
+			$('.admission-doc-identity').hide();
+		}
 		if (!!json.student_misc_data.admission_selection_document_lock_at) {
 			$('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
 		} else if (!json.can_upload_papers || json.student_misc_data.join_admission_selection == 0 ){
@@ -454,7 +472,7 @@
 			$macauTranscriptAlert.hide();
 		}else if(!json.can_macau_upload_time){ //確認現在時間是否在開放時間內  不是就改變按鈕狀態
 			$macautranscript.show().prop('disabled', true).text('非四校聯考成績登錄開放時間');
-			$macauTranscriptAlert.show().text('');
+			$macauTranscriptAlert.show().text('請於四校聯考成績公佈後，5個日曆天內完成登錄及上傳。');
 			//$macauTranscriptAlert.hide();
 		}else if( json.student_misc_data.overseas_student_id == null){ //確認是否有僑生編號 沒有就請學生等待審核
 			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績');
