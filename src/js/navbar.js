@@ -236,7 +236,7 @@
 		//若是有僑編就是收件完成 就讓上傳簡章規定文件變綠色完成狀態
 		if(data.student_misc_data.overseas_student_id !== null){
 			$('.nav-uploadEducation').addClass('list-group-item-success');
-
+		}
 		if(data.student_qualification_verify.identity>5){
 			$('.nav-systemChoose').addClass('disabled');
 			$('.nav-systemChoose').click(function(e){e.preventDefault();});
