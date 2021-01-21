@@ -1,48 +1,11 @@
 version: '3'
 services:
-
-  # 0verStudent
-  app:
-    image: node:8.12.0
-    container_name: app_0verStudent
+  nginx:
+    image: nginx:alpine
+    container_name: 0verStudent
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www/html/0verStudent
+      - TZ=Asia/Taipei
     volumes:
-      - ./app:/var/www/html/0verStudent/
-    command: /bin/bash -c "npm install && npm run build && node"
-    ports:
-      - "8081:9000"
-    networks:
-      - mynet
-  
-  # Nginx Service
-  nginx:
-    image: nginx:alpine
-    container_name: nginx_0verStudent
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      #- ./nginx/conf.d/:/etc/nginx/conf.d/
-      #- ./nginx/ssl/:/etc/nginx/ssl/
-      - ./nginx/:/etc/nginx/
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/log/nginx:/var/log/nginx
-      - ./app:/var/www/html/0verStudent/
-    networks:
-      - mynet
-    depends_on:
-      - app
-
-
-# Docker Networks
-networks:
-  mynet:
-    driver: bridge
-
+      - ./app/dist/:/usr/share/nginx/html/
