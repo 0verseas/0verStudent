@@ -44,7 +44,7 @@
 			// console.log(json);
 			_initForm(json.student_education_background_data);
 			let schoolType =json.student_personal_data.school_type;
-			if(schoolType.includes('馬來西亞國際學校')||schoolType.includes('國民型或國民中學')){
+			if(schoolType.includes('馬來西亞國際學校')||schoolType.includes('國民（型）中學')){
 				$('#educationHighSchool6NameTitleTip').show()
 			} else {
 				$('#educationHighSchool6NameTitleTip').hide()
