@@ -87,7 +87,7 @@
 					<p>
 						致：報名「聯合分發第2梯次」馬來西亞學生
 						<br /><br />
-						為因應全球疫情影響及爭取時效，本年馬來西亞「聯合分發」第2梯次<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件</span>，且紙本報名表件仍須送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="https://api.overseas.ncnu.edu.tw:8443/forms/簡易報名流程圖.pdf" target="_blank">點我看簡易報名流程圖</a>）
+						為因應全球疫情影響及爭取時效，本年馬來西亞「聯合分發」第2梯次<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件</span>，且紙本報名表件仍須送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="https://drive.google.com/file/d/1qlR0Yom9DxwRO5yY1lMzPbAqrUzdMaNA/view?usp=sharing" target="_blank">點我看簡易報名流程圖</a>）
 						<br />
 						<ul>
 							<li><b>步驟① 線上填報</b>：至2月28日（星期日）止；請於填報系統填寫個人基本資料及選填志願校系，檢視無誤後點選『完成填報』。</li>
@@ -98,7 +98,7 @@
 						<strong class="text-danger">*已繳交紙本報名表件者，仍請於本頁面補上傳簡章規定文件。</strong>
 					</p>
 					<hr>
-					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_109%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://api.overseas.ncnu.edu.tw:8443/img/photo_2020-03-20_16-57-34.jpg" target="_blank">點我看內容</a>）：
+					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/03_110%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E_2.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://drive.google.com/file/d/1ulFLXlFGGWi0jknjfctF65cW43UuA3QK/view?usp=sharing" target="_blank">點我看內容</a>）：
 					<br /><br />
 					<ul style="font-weight: bold">
 						<li>僑居地居留證件（身分證或護照影本）</li>
@@ -114,7 +114,7 @@
 					<p>
 						致：報名「聯合分發第5梯次」馬來西亞學生
 						<br /><br />
-						為因應全球疫情影響及爭取時效，本年馬來西亞「聯合分發」第5梯次<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件</span>，且紙本報名表件仍須送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="https://api.overseas.ncnu.edu.tw:8443/forms/簡易報名流程圖.pdf" target="_blank">點我看簡易報名流程圖</a>）
+						為因應全球疫情影響及爭取時效，本年馬來西亞「聯合分發」第5梯次<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件</span>，且紙本報名表件仍須送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="https://drive.google.com/file/d/14ovcQ3JhygxURZTLS86UWoE7Ha-0s74i/view?usp=sharing" target="_blank">點我看簡易報名流程圖</a>）
 						<br />
 						<ul>
 							<li><b>步驟① 線上填報</b>：至3月31日（星期三）止；請於填報系統填寫個人基本資料及選填志願校系，檢視無誤後點選『完成填報』。</li>
@@ -124,7 +124,7 @@
 						<br />
 					</p>
 					<hr>
-					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_109%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://api.overseas.ncnu.edu.tw:8443/img/photo_2020-03-20_16-57-34.jpg" target="_blank">點我看內容</a>）：
+					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/03_110%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E_2.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://drive.google.com/file/d/110tTtO5NUoZ6erywrUNT4QAizdr6kGPE/view?usp=sharing" target="_blank">點我看內容</a>）：
 					<br /><br />
 					<ul style="font-weight: bold">
 						<li>僑居地居留證件（身分證或護照影本）</li>
