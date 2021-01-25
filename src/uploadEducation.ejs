@@ -1,31 +1,8 @@
 <% include components/_studentInfo %>
 
-<h2 class="text-center title">上傳簡章規定文件</h2>
+<h2 class="text-center title">上傳簡章規定文件（2021年秋季入學適用）</h2>
 
-<div class="alert alert-primary" role="alert">  <!--因應武漢肺炎疫情，讓馬來西亞第二梯次聯合分發學生可以線上上傳各項證明文件-->
-	<p>
-		致：報名「聯合分發第2梯次」馬來西亞學生
-		<br /><br />
-		為因應馬來西亞政府於3月16日發布行動管制令，並為爭取時效，本年馬來西亞「聯合分發」第2梯次<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件，上傳期限放寬至4月7日（星期二）止。</span>紙本報名表件仍需送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="https://api.overseas.ncnu.edu.tw:8443/forms/簡易報名流程圖.pdf" target="_blank">點我看簡易報名流程圖</a>）
-		<br />
-		<ul>
-			<li><b>步驟① 線上填報</b>：延至3月31日（星期二）止；請於填報系統填寫個人基本資料及選填志願校系，檢視無誤後點選『完成填報』。</li>
-			<li><b class="text-danger">步驟② 上傳簡章規定文件（NEW）：延至4月7日（星期二）止；</b>請於本頁面上傳簡章規定文件。</li>
-			<li><b>步驟③ 紙本繳件</b>：延至4月7日（星期二）止，請於填報系統『下載報名表件』頁面列印系統產生的報名表件，並附上簡章規定文件，於期限內送交保薦單位（例：留台同學會、獨中）。</li>
-		</ul>
-		<br />
-		<strong class="text-danger">*已繳交紙本報名表件者，仍請於本頁面補上傳簡章規定文件。</strong>
-	</p>
-	<hr>
-	請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_109%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://api.overseas.ncnu.edu.tw:8443/img/photo_2020-03-20_16-57-34.jpg" target="_blank">點我看內容</a>）：
-	<br /><br />
-	<ul style="font-weight: bold">
-		<li>僑居地居留證件（身分證或護照影本）</li>
-		<li>在學證明 / 畢業證書 / 修業證明 / 離校證明</li>
-		<li>中學成績單</li>
-		<li>會考文憑（含成績單，例：STPM / A-LEVEL / SPM / O-LEVEL）</li>
-		<li>其它（例：系統產生切結書、資料修正表等，無則免附。）</li>
-	</ul>
+<div class="alert alert-primary" role="alert"  id="precaution">  <!--因應武漢肺炎疫情，讓馬來西亞第二梯次聯合分發學生可以線上上傳各項證明文件-->
 </div>
 
 <hr>
@@ -149,6 +126,8 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-12">
+					<div class="alert alert-info hide" role="alert" id="diploma-info-for-s5">
+					</div>
 					<div class="alert alert-warning" role="alert">
 						<blockquote id="blockquote-diploma" class="blockquote" style="display: none;">
 							<p class="mb-0 text-danger">畢業證書或在學證明 (學生證)</p>

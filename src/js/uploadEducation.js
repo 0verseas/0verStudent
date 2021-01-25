@@ -21,6 +21,8 @@
 	const $diplomaUploadArea = $('#diploma-upload-area');
 	const $transcriptsUploadArea = $('#transcripts-upload-area');
 	const $othersUploadArea = $('#others-upload-area');
+	const $precaution = document.getElementById('precaution');
+	const $diplomaPrecaution = document.getElementById('diploma-info-for-s5');
 
 	// 各項文憑考試
 	const $diplomaBlockquote = $('#blockquote-diploma');
@@ -75,6 +77,73 @@
 		})
 		.then((json) => {
 			json[2].then((data) => {
+				//讓國際學校需要重選採計方式的同學自動跳轉到成績採計頁面
+				if(!data.student_department_admission_placement_apply_way){
+					location.href = './grade.html';
+				}
+				const malaysiaStage2ApplyWayId = [28, 29, 30, 31];//因為疫情今年（2021秋季入學）的馬來西亞學生 只剩 國際學校（O Level除外）的還在 S2
+				if(malaysiaStage2ApplyWayId.indexOf(data.student_misc_data.admission_placement_apply_way) !== -1){
+					$precaution.innerHTML = `
+					<p>
+						致：報名「聯合分發第2梯次」馬來西亞學生
+						<br /><br />
+						為因應全球疫情影響及爭取時效，本年馬來西亞「聯合分發」第2梯次<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件</span>，且紙本報名表件仍須送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="https://api.overseas.ncnu.edu.tw:8443/forms/簡易報名流程圖.pdf" target="_blank">點我看簡易報名流程圖</a>）
+						<br />
+						<ul>
+							<li><b>步驟① 線上填報</b>：至2月28日（星期日）止；請於填報系統填寫個人基本資料及選填志願校系，檢視無誤後點選『完成填報』。</li>
+							<li><b class="text-danger">步驟② 上傳簡章規定文件（NEW）：</b>&nbsp;至2月28日（星期日）止；請於本頁面上傳簡章規定文件。</li>
+							<li><b>步驟③ 紙本繳件</b>：至2月28日（星期日）止，請於填報系統『下載報名表件』頁面列印系統產生的報名表件，並附上簡章規定文件，於期限內送交保薦單位（例：留台同學會、獨中）。</li>
+						</ul>
+						<br />
+						<strong class="text-danger">*已繳交紙本報名表件者，仍請於本頁面補上傳簡章規定文件。</strong>
+					</p>
+					<hr>
+					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_109%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://api.overseas.ncnu.edu.tw:8443/img/photo_2020-03-20_16-57-34.jpg" target="_blank">點我看內容</a>）：
+					<br /><br />
+					<ul style="font-weight: bold">
+						<li>僑居地居留證件（身分證或護照影本）</li>
+						<li>在學證明 / 畢業證書 / 修業證明 / 離校證明</li>
+						<li>中學成績單</li>
+						<li>會考文憑（含成績單，例：SAT Subject Test測驗成績、A Level文憑成績、IBDP國際文憑預科成績），以中學最後三年成績申請者免附。</li>
+						<li>其它（例：系統產生切結書、資料修正表等，無則免附。）</li>
+					</ul>
+					`;
+					$('#diploma-info-for-s5').hide();
+				} else {
+					$precaution.innerHTML = `
+					<p>
+						致：報名「聯合分發第5梯次」馬來西亞學生
+						<br /><br />
+						為因應全球疫情影響及爭取時效，本年馬來西亞「聯合分發」第5梯次<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件</span>，且紙本報名表件仍須送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="https://api.overseas.ncnu.edu.tw:8443/forms/簡易報名流程圖.pdf" target="_blank">點我看簡易報名流程圖</a>）
+						<br />
+						<ul>
+							<li><b>步驟① 線上填報</b>：至3月31日（星期三）止；請於填報系統填寫個人基本資料及選填志願校系，檢視無誤後點選『完成填報』。</li>
+							<li><b class="text-danger">步驟② 上傳簡章規定文件（NEW）：</b>&nbsp;至3月31日（星期三）止；請於本頁面上傳簡章規定文件。</li>
+							<li><b>步驟③ 紙本繳件</b>：至3月31日（星期三）止，請於填報系統『下載報名表件』頁面列印系統產生的報名表件，並附上簡章規定文件，於期限內送交保薦單位（例：留台同學會、獨中）。</li>
+						</ul>
+						<br />
+					</p>
+					<hr>
+					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_109%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://api.overseas.ncnu.edu.tw:8443/img/photo_2020-03-20_16-57-34.jpg" target="_blank">點我看內容</a>）：
+					<br /><br />
+					<ul style="font-weight: bold">
+						<li>僑居地居留證件（身分證或護照影本）</li>
+						<li>在學證明 / 畢業證書 / 修業證明 / 離校證明</li>
+						<li>中學成績單</li>
+						<li>會考文憑（含成績單，例：STPM / A-LEVEL / SPM / O-LEVEL / 獨中統考）</li>
+						<li>其它（例：系統產生切結書、資料修正表等，無則免附。）</li>
+					</ul>
+					`;
+					$diplomaPrecaution.innerHTML = `
+					<ul style="font-weight: bold">
+						<li>持STPM文憑或A-LEVEL文憑申請者，如具有SPM中文成績或「Malaysian University English Test（MUET）」測驗成績單併請檢附。</li>
+						<li>應屆畢業申請者，如因COVID-19疫情致報名時尚未取得STPM、SPM、Pernyataan文憑亦得申請，<b class="text-danger">惟須於文憑成績公布後10個日曆天內，於本頁面上傳提交會考文憑（含成績單），並將紙本文件送交原申請單位</b>，未完成上傳提交或未繳交紙本文件，一律不予分發。</li>
+						<li>以華文獨中統考成績申請第5梯次限分發僑先部。</li>
+					</ul>
+					`;
+					$('#diploma-info-for-s5').show();
+				}
+				// <strong class="text-danger">*已繳交紙本報名表件者，仍請於本頁面補上傳簡章規定文件。</strong>
 				//有僑編的就是已審核 就把儲存 上傳  刪除按鈕通通隱藏
 				if(data.student_misc_data.overseas_student_id != null){
 					$residentUploadArea.hide();
