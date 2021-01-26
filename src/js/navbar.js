@@ -233,6 +233,10 @@
 			malaysiaStage2ApplyWayId.indexOf(data.student_misc_data.admission_placement_apply_way_data.id) == -1){
 			$('.nav-uploadEducation').hide();  // 不是馬來西亞第二梯次聯合分發的學生就隱藏
 		} 
+		//不在報名期間不能上傳學歷證件
+		if(!data.can_admission_placement){
+			$('.nav-uploadEducation').hide();
+		}
 		//若是有僑編就是收件完成 就讓上傳簡章規定文件變綠色完成狀態
 		if(data.student_misc_data.overseas_student_id !== null){
 			$('.nav-uploadEducation').addClass('list-group-item-success');

@@ -22,12 +22,13 @@
 	const $transcriptsUploadArea = $('#transcripts-upload-area');
 	const $othersUploadArea = $('#others-upload-area');
 	const $precaution = document.getElementById('precaution');
+	const $diplomaTitle = document.getElementById('diploma-title');
 	const $diplomaPrecaution = document.getElementById('diploma-info-for-s5');
 
 	// 各項文憑考試
 	const $diplomaBlockquote = $('#blockquote-diploma');
 	const $diplomaFrom = $('#form-diploma');
-	const $diplomaTitle = $('#title-diploma');
+	// const $diplomaTitle = $('#title-diploma');
 	const diplomaImgArea = document.getElementById('diplomaImgArea');
 
 	// 成績單
@@ -77,6 +78,10 @@
 		})
 		.then((json) => {
 			json[2].then((data) => {
+				//不在開放期間直接跳轉回result頁面
+				if(!data.can_admission_placement){
+					location.href = './result.html';
+				}
 				//讓國際學校需要重選採計方式的同學自動跳轉到成績採計頁面
 				if(!data.student_department_admission_placement_apply_way){
 					location.href = './grade.html';
@@ -95,10 +100,9 @@
 							<li><b>步驟③ 紙本繳件</b>：至2月28日（星期日）止，請於填報系統『下載報名表件』頁面列印系統產生的報名表件，並附上簡章規定文件，於期限內送交保薦單位（例：留台同學會、獨中）。</li>
 						</ul>
 						<br />
-						<strong class="text-danger">*已繳交紙本報名表件者，仍請於本頁面補上傳簡章規定文件。</strong>
 					</p>
 					<hr>
-					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/03_110%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E_2.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://drive.google.com/file/d/1ulFLXlFGGWi0jknjfctF65cW43UuA3QK/view?usp=sharing" target="_blank">點我看內容</a>）：
+					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/04_110%E4%B8%80%E8%88%AC%E5%85%8D%E8%A9%A6_2.pdf" target="_blank">《一般地區招生簡章》</a>第三頁或<a href="https://drive.google.com/file/d/1ulFLXlFGGWi0jknjfctF65cW43UuA3QK/view?usp=sharing" target="_blank">點我看內容</a>）：
 					<br /><br />
 					<ul style="font-weight: bold">
 						<li>僑居地居留證件（身分證或護照影本）</li>
@@ -108,6 +112,8 @@
 						<li>其它（例：系統產生切結書、資料修正表等，無則免附。）</li>
 					</ul>
 					`;
+					console.log($diplomaUploadArea);
+					$diplomaTitle.innerText = '會考文憑（含成績單，例：SAT Subject Test測驗成績、A Level文憑成績、IBDP國際文憑預科成績），以中學最後三年成績申請者免附。';
 					$('#diploma-info-for-s5').hide();
 				} else {
 					$precaution.innerHTML = `
@@ -124,7 +130,7 @@
 						<br />
 					</p>
 					<hr>
-					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/03_110%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E_2.pdf" target="_blank">《馬來西亞地區簡章》</a>第三頁或<a href="https://drive.google.com/file/d/110tTtO5NUoZ6erywrUNT4QAizdr6kGPE/view?usp=sharing" target="_blank">點我看內容</a>）：
+					請同學上傳下列文件（詳請見<a href="https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/03_110%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E_2.pdf" target="_blank">《馬來西亞地區招生簡章》</a>第三頁或<a href="https://drive.google.com/file/d/110tTtO5NUoZ6erywrUNT4QAizdr6kGPE/view?usp=sharing" target="_blank">點我看內容</a>）：
 					<br /><br />
 					<ul style="font-weight: bold">
 						<li>僑居地居留證件（身分證或護照影本）</li>
@@ -141,6 +147,7 @@
 						<li>以華文獨中統考成績申請第5梯次限分發僑先部。</li>
 					</ul>
 					`;
+					$diplomaTitle.innerText = '會考文憑（含成績單，例：STPM / A-LEVEL / SPM / O-LEVEL / 獨中統考）';
 					$('#diploma-info-for-s5').show();
 				}
 				// <strong class="text-danger">*已繳交紙本報名表件者，仍請於本頁面補上傳簡章規定文件。</strong>
