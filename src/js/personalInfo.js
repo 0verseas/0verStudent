@@ -724,6 +724,11 @@
                                 return obj;
                             }, {});
 
+                            // 海外臺校 檳城的好像廢校了
+                            if(_currentSchoolType=='海外臺灣學校'){
+                                _currentSchoolLocate = "雪蘭莪";
+                            }
+
                             // group by 學校所在地
                             let groups = Object.keys(group_to_values).map(function(key) {
                                 return { locate: key, school: group_to_values[key] };
