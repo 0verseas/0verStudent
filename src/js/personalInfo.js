@@ -725,7 +725,7 @@
                             }, {});
 
                             // 海外臺校 檳城的好像廢校了
-                            if(_currentSchoolType=='海外臺灣學校'){
+                            if(_currentSchoolType=='海外臺灣學校' && _currentSchoolLocate == ''){
                                 _currentSchoolLocate = "雪蘭莪";
                             }
 
