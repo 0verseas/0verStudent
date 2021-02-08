@@ -51,7 +51,14 @@
 			if (json.student_qualification_verify) {
 				$system.val(json.student_qualification_verify.system_id);
 			}
-			if(document.body.scrollWidth<768)  // 判別網頁寬度 少於768會今入單欄模式
+
+			//只在港二技開放報名時間 顯示港二技相關物件 其餘時間皆隱藏
+			if(json.can_choose_two_year_system){
+				$('#two-year-systen-depiction').show();
+				$('#two-year-systen-option').show();
+			}
+
+			if(document.body.scrollWidth<768)  // 判別網頁寬度 少於768會進入單欄模式
 			smoothScroll(document.body.scrollHeight/2.2,800);  // 用整體長度去做計算  滑動到需要填寫欄位位置	
 		} catch (error) {
 			console.log(error);
