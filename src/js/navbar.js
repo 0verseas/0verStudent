@@ -305,17 +305,17 @@
 				//如果是DSE後填要confirmed_at 有值 才判斷是否在（開放時間）或（有收件或已穫錄取）
 				if(data.student_misc_data.confirmed_at != null ){
 					if(!data.can_admission_placement){
+						$('.nav-placementSelection').addClass('list-group-item-success');
 						$('.nav-placementSelection').addClass('disabled');
 						$('.nav-placementSelection').addClass('show-placement-deadline');
+						$('#placement-deadline-text').text('(目前為報名階段，無須填寫志願)');
 						$('.nav-placementSelection').click(function(e){e.preventDefault();});
 					}else if((data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null || data.student_misc_data.overseas_student_id == null)){
 						$('.nav-placementSelection').addClass('disabled');
 						$('.nav-placementSelection').click(function(e){e.preventDefault();});
 						$('.nav-placementSelection').addClass('show-no-qualified');
 					}
-				}
-				//完成填報前 聯合分發志願 sidebar 直接顯示為綠色打勾狀態
-				if(data.student_misc_data.confirmed_at == null){
+				} else { //完成填報前 聯合分發志願 sidebar 直接顯示為綠色打勾狀態
 					$('.nav-placementSelection').addClass('list-group-item-success');
 				}
 			}
