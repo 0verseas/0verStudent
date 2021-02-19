@@ -650,6 +650,18 @@ const student = (() => {
 		return size >=maxSize;
 	}
 
+	function fbLogin() {
+		return fetch(baseUrl + `/students/fb-login`, {
+			method: 'GET'
+		});
+	}
+
+	function fbLoginCallback(_code, _state) {
+		return fetch(baseUrl + `/students/fb-login-callback?code=${_code}&state=${_state}`, {
+			method: 'GET'
+		});
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -711,6 +723,8 @@ const student = (() => {
 		storeMacauTranscriptScore,
 		getAdmissionRoster,
 		sizeConversion,
+		fbLogin,
+		fbLoginCallback,
 	};
 
 })();
