@@ -656,9 +656,14 @@ const student = (() => {
 		});
 	}
 
-	function fbLoginCallback(_code, _state) {
-		return fetch(baseUrl + `/students/fb-login-callback?code=${_code}&state=${_state}`, {
-			method: 'GET'
+	function fbLoginCallback(data) {
+		return fetch(baseUrl + `/students/fb-login-callback`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
 		});
 	}
 

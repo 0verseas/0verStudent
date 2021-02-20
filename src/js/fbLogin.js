@@ -22,7 +22,13 @@
 
 	async function _init() {
 		loading.start();
-		student.fbLoginCallback(_code,_state)
+
+		const loginData = {
+			code: _code,
+			state: _state
+		};
+
+		student.fbLoginCallback(loginData)
 			.then((res) => {
 				if (res.ok){
 					return res.json();
