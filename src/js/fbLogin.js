@@ -4,6 +4,8 @@
 	*/
 	const _code = _getParam('code', window.location.href);
 	const _state = _getParam('state', window.location.href);
+	const _error_code = _getParam('error_code', window.location.href);
+	const _error_message = _getParam('error_message', window.location.href);
 
 	/**
 	*	init
@@ -22,6 +24,13 @@
 
 	async function _init() {
 		loading.start();
+
+		if (_error_code && _error_message){
+			console.error(_error_code + ' ' + _error_message)
+			alert(_error_message);
+			location.href = './index.html';
+			return;
+		}
 
 		const loginData = {
 			code: _code,
