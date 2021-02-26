@@ -7,6 +7,7 @@
 	const $email = $('#email');
 	const $pass = $('#password');
 	const $loginBtn = $('#btn-login');
+	const $fbLoginBtn = $('#btn-fb-login');
 	const $downloadLinks = $('#download-links');
 	const $identifyingCanvas = $('#identifyingCanvas')
 	const $identifyingCode = $('#identifyingCode')
@@ -23,6 +24,7 @@
 	*/
 	$identifyingCanvas.on('click',generateCode);
 	$loginBtn.on('click', _handleLogin);
+	$fbLoginBtn.on('click', _handleFbLogin);
 	// $pass.keyup((e) => { e.keyCode == 13 && _handleLogin(); }); //原本沒驗證碼 所以就密碼輸入欄位判斷是否有按enter的鍵盤事件
 	$identifyingCode.keydown((e) => { e.keyCode == 13 && _handleLogin(); }); //驗證碼輸入欄位  判斷是否有按enter的鍵盤事件
 
@@ -206,6 +208,28 @@
 
 		//紀錄驗證碼
 		identifyingCode = codeString;
+	}
+
+	function _handleFbLogin() {
+		loading.start();
+		student.fbLogin()
+			.then((res) => {
+				if (res.status === 302) {
+					return res.json();
+				} else {
+					throw res.status;
+				}
+			})
+			.then((json) => {
+				location.href = json.target[0];
+
+				loading.complete();
+			})
+			.catch((err) => {
+				err === 401 && alert('帳號或密碼輸入錯誤。');
+				err === 429 && alert('登入錯誤次數太多，請稍後再試。');
+				loading.complete();
+			})
 	}
 
 })();
