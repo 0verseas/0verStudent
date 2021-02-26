@@ -91,7 +91,13 @@
 			}).catch((e) => {
 				// TODO: get the response messages from api and show user them
 				console.error(e);
-				e === 401 ? alert('向 Facebook 取得資料時發生錯誤') : alert('發生未預期的錯誤，請稍候再嘗試');
+				if (e === 401) {
+					alert('向 Facebook 取得資料時發生錯誤');
+				}else if (e === 403){
+					alert('無法取得電子信箱地址，請更新 Facebook 註冊資料或改採一般方式註冊！');
+				}else{
+					alert('發生未預期的錯誤，請稍候再嘗試');
+				}
 				location.href = './index.html';
 			});
 		loading.complete();
