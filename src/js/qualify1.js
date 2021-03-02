@@ -712,7 +712,7 @@
 			!!data.taiwan_census && $signUpForm.find('.radio-taiwanHousehold[value=1]').trigger('click');
 
 			// 是否持有葡萄牙護照？
-			!data.portugal_passport && $signUpForm.find('.radio-portugalPassport[value=0]').trigger('click');
+			!!data.except_HK_Macao_passport && !data.portugal_passport && $signUpForm.find('.radio-portugalPassport[value=0]').trigger('click');
 
 			// 於何時首次取得葡萄牙護照？
 			!!data.portugal_passport && $signUpForm.find('.input-portugalPassportTime').val(data.first_get_portugal_passport_at.replace(/\//g, '-')).trigger('change');
