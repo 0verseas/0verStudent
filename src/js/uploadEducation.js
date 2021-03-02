@@ -24,6 +24,7 @@
 	const $precaution = document.getElementById('precaution');
 	const $diplomaTitle = document.getElementById('diploma-title');
 	const $diplomaPrecaution = document.getElementById('diploma-info-for-s5');
+	const $imgModalBody= $('#detail-modal-body'); // modal 本體
 
 	// 各項文憑考試
 	const $diplomaBlockquote = $('#blockquote-diploma');
@@ -225,39 +226,176 @@
 		// 各類會考文憑
 		let diplomaAreaHTML = '';
 		_diplomaFiles.forEach((file, index) => {
-			diplomaAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="diploma" data-filename="' + file + '">';
+			const fileType = _getFileType(file.split('.')[1]);
+			if(fileType === 'img'){
+				diplomaAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="diploma" data-filename="' + file + '">';
+			} else {
+				diplomaAreaHTML += `
+				<div
+					class="img-thumbnail non-img-file-thumbnail img-edu"
+					data-toggle="modal"
+					data-target=".img-modal"
+					data-filelink="${baseUrl}/diploma/${file}"
+					data-filename="${file}"
+					data-filetype="diploma"
+					data-icon="fa-file-${fileType}-o"
+				>
+					<i 
+						class="fa fa-file-${fileType}-o" aria-hidden="true"
+						data-filename="${file}"
+						data-filetype="diploma"
+						data-icon="fa-file-${fileType}-o"
+					>
+					</i>
+				</div>
+			`;
+			}
 		})
 		diplomaImgArea.innerHTML = diplomaAreaHTML;
 
 		// 成績單
 		let transcriptsAreaHTML = '';
 		_transcriptsFiles.forEach((file, index) => {
-			transcriptsAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="transcripts" data-filename="' + file + '">';
+			const fileType = _getFileType(file.split('.')[1]);
+			if(fileType === 'img'){
+				transcriptsAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="transcripts" data-filename="' + file + '">';
+			} else {
+				transcriptsAreaHTML += `
+				<div
+					class="img-thumbnail non-img-file-thumbnail img-edu"
+					data-toggle="modal"
+					data-target=".img-modal"
+					data-filelink="${baseUrl}/transcripts/${file}"
+					data-filename="${file}"
+					data-filetype="transcripts"
+					data-icon="fa-file-${fileType}-o"
+				>
+					<i 
+						class="fa fa-file-${fileType}-o" aria-hidden="true"
+						data-filename="${file}"
+						data-filetype="transcripts"
+						data-icon="fa-file-${fileType}-o"
+					>
+					</i>
+				</div>
+			`;
+			}
 		})
 		transcriptsImgArea.innerHTML = transcriptsAreaHTML;
 
 		// 僑居地居留證件
 		let residentCertificateAreaHTML = '';
 		_residentCertificateFiles.forEach((file, index) => {
-			residentCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/resident-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="resident-certificate" data-filename="' + file + '">';
+			const fileType = _getFileType(file.split('.')[1]);
+			if(fileType === 'img'){
+				residentCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/resident-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="resident-certificate" data-filename="' + file + '">';
+			} else {
+				residentCertificateAreaHTML += `
+				<div
+					class="img-thumbnail non-img-file-thumbnail img-edu"
+					data-toggle="modal"
+					data-target=".img-modal"
+					data-filelink="${baseUrl}/resident-certificate/${file}"
+					data-filename="${file}"
+					data-filetype="resident-certificate"
+					data-icon="fa-file-${fileType}-o"
+				>
+					<i 
+						class="fa fa-file-${fileType}-o" aria-hidden="true"
+						data-filename="${file}"
+						data-filetype="resident-certificate"
+						data-icon="fa-file-${fileType}-o"
+					>
+					</i>
+				</div>
+			`;
+			}
 		});
 		residentCertificateImgArea.innerHTML = residentCertificateAreaHTML;
 
 		// 畢業證書、學歷證明等
 		let academicCertificateAreaHTML = '';
 		_academicCertificateFiles.forEach((file, index) => {
-			academicCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/academic-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="academic-certificate" data-filename="' + file + '">';
+			const fileType = _getFileType(file.split('.')[1]);
+			if(fileType === 'img'){
+				academicCertificateAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/academic-certificate/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="academic-certificate" data-filename="' + file + '">';
+			} else {
+				academicCertificateAreaHTML += `
+				<div
+					class="img-thumbnail non-img-file-thumbnail img-edu"
+					data-toggle="modal"
+					data-target=".img-modal"
+					data-filelink="${baseUrl}/academic-certificate/${file}"
+					data-filename="${file}"
+					data-filetype="academic-certificate"
+					data-icon="fa-file-${fileType}-o"
+				>
+					<i 
+						class="fa fa-file-${fileType}-o" aria-hidden="true"
+						data-filename="${file}"
+						data-filetype="academic-certificate"
+						data-icon="fa-file-${fileType}-o"
+					>
+					</i>
+				</div>
+			`;
+			}
 		});
 		academicCertificateImgArea.innerHTML = academicCertificateAreaHTML;
 
 		let othersAreaHTML = '';
 		_othersFiles.forEach((file, index) => {
-			othersAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/others/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="others" data-filename="' + file + '">';
+			const fileType = _getFileType(file.split('.')[1]);
+			if(fileType === 'img'){
+				othersAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/others/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="others" data-filename="' + file + '">';
+			} else {
+				othersAreaHTML += `
+				<div
+					class="img-thumbnail non-img-file-thumbnail img-edu"
+					data-toggle="modal"
+					data-target=".img-modal"
+					data-filelink="${baseUrl}/others/${file}"
+					data-filename="${file}"
+					data-filetype="others"
+					data-icon="fa-file-${fileType}-o"
+				>
+					<i 
+						class="fa fa-file-${fileType}-o" aria-hidden="true"
+						data-filename="${file}"
+						data-filetype="others"
+						data-icon="fa-file-${fileType}-o"
+					>
+					</i>
+				</div>
+			`;
+			}
 		});
 		othersImgArea.innerHTML = othersAreaHTML;
 
 		const $eduImg = $uploadEducationForm.find('.img-edu');
 		$eduImg.on("click", _showDetail);
+	}
+
+	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
+	function _getFileType(fileNameExtension = '') {
+		switch (fileNameExtension) {
+			case 'doc':
+			case 'docx':
+				return 'word';
+
+			case 'mp3':
+				return 'audio';
+
+			case 'mp4':
+			case 'avi':
+				return 'video';
+
+			case 'pdf':
+				return 'pdf';
+
+			default:
+				return 'img';
+		}
 	}
 
 	function _addImg() {
@@ -317,7 +455,28 @@
 	function _showDetail() {
 		_modalFiletype = $(this).data('filetype');
 		_modalFilename = $(this).data('filename');
-		$modalDetailImg.attr("src", baseUrl + "/" + _modalFiletype + "/" +_modalFilename);
+		const fileType = _getFileType(_modalFilename.split('.')[1]);
+		// 先清空 modal 內容
+		$imgModalBody.html('');
+		if(fileType === 'img'){
+			$imgModalBody.html(`
+				<img
+					src="${baseUrl}/${_modalFiletype}/${_modalFilename}"
+					class="img-fluid rounded img-ori"
+				>
+			`)
+		} else {
+			const icon = $(this).data('icon');
+			$imgModalBody.html(`
+			<div>
+				<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>
+			</div>
+
+			<a class="btn btn-primary non-img-file-download" href="${baseUrl}/${_modalFiletype}/${_modalFilename}" target="_blank" >
+				<i class="fa fa-download" aria-hidden="true"></i> 下載
+			</a>
+		`);
+		}
 	}
 
 	function _deleteImg() {
