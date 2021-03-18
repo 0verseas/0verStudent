@@ -639,8 +639,8 @@ const student = (() => {
 	}
 
 	// 學生想要查榜，去後端看榜單
-	function getAdmissionRoster(stage, name, birthday, gender) {
-		return fetch(`${baseUrl}/students/search-admission-roster/${name}/${stage}/${birthday}/${gender}/result`, {
+	function getAdmissionRoster(stage, name, userId, birthday, gender) {
+		return fetch(`${baseUrl}/students/search-admission-roster/${name}/${stage}/${userId}/${birthday}/${gender}/result`, {
 			method: 'GET',
 			credentials: 'include'
 		})

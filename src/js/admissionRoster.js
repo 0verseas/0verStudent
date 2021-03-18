@@ -9,7 +9,8 @@
     const $admissionRoster = $('#admission-roster');  // 榜單資訊區
     const $searchBtn = $('#btn-search');  // 查榜按鈕
     const $stage = $('#stage');  // 分發類別
-    const $name = $('#name');
+    const $name = $('#name'); // 姓名
+    const $userId = $('#userId'); // 報名序號
     const $birthday = $('#birthday');  // YYYY-MM-DD
 
     /**
@@ -31,8 +32,19 @@
             alert("請選擇分發類別");
             return;
         }
-        if ($name.val() === ""){  // 沒填寫姓名
-            alert('請填寫姓名');
+        // if ($name.val() === ""){  // 沒填寫姓名
+        //     alert('請填寫姓名');
+        //     return;
+        // }
+        var $name1 ='';
+        if ($name.val() === ""){  // 姓名選填
+            $name1 = 'NONE';
+        }else {
+            $name1 = $name.val();
+        }
+
+        if ($userId.val() === ""){  // 沒填寫報名序號
+            alert('請填寫報名序號');
             return;
         }
         if ($("input[name='gender']:checked").val() === undefined){  // 沒填寫生理性別
@@ -46,7 +58,7 @@
 
         // 去後端查榜啦
         loading.start();
-        student.getAdmissionRoster($stage.val(), $name.val(), $birthday.val(), $("input[name='gender']:checked").val())
+        student.getAdmissionRoster($stage.val(), $name1, $userId.val(), $birthday.val(), $("input[name='gender']:checked").val())
             .then((res) => {
                 if (res.ok){
                     return res.json();
@@ -58,9 +70,16 @@
                 showAdmissionRoster(json);
             })
             .catch((err) => {
-                if (err.status && err.status === 404) {  // 找不到QQ
-                    console.log(err);
-                    $('.no-result').show("slow");  // 顯示查詢結果區（無資料）
+                if (err.status && err.status === 404) {  // 找不到QQ or 未獲錄取
+                    err.json().then((data) => {
+                        if (data.messages[0] == '未獲錄取' ) {
+                            $('#form-result').show();
+                            $('#no-result-case1').show("slow");  // 顯示查詢結果區（未獲錄取）
+                        } else {
+                            $('#form-result').show();
+                            $('#no-result-case2').show("slow");  // 顯示查詢結果區（無資料）
+                        }
+                    })
                 } else {
                     err.json && err.json().then((data) => {
                         console.error(data);
