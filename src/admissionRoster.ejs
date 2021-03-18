@@ -23,9 +23,16 @@
             </div>
             <!--姓名-->
             <div class="form-group form-inline col">
-                <label for="name" class="control-label"><i class="fa fa-address-card-o fa-fw" aria-hidden="true"></i>姓名：</label>
+                <label for="name" class="control-label text-muted"><i class="fa fa-user fa-fw" aria-hidden="true"></i>姓名(選填)：</label>
                 <div >
-                    <input type="text" class="form-control" id="name" placeholder="請輸入正體中文或英文姓名全名">
+                    <input type="text" class="form-control" id="name" placeholder="正體中文或英文姓名全名">
+                </div>
+            </div>
+            <!--報名序號-->
+            <div class="form-group form-inline col">
+                <label for="userId" class="control-label"><i class="fa fa-address-card-o fa-fw" aria-hidden="true"></i>報名序號：</label>
+                <div >
+                    <input type="text" class="form-control" id="userId" placeholder="">
                 </div>
             </div>
             <!--生日-->
@@ -84,7 +91,10 @@
         </table>
     </div>
     <!--查無結果-->
-    <div id="no-result" class="alert alert-secondary mt-2 hide no-result result" role="alert">
-        查無結果，可能未獲錄取或輸入的資料有誤
+    <div id="no-result-case1" class="alert alert-secondary mt-2 hide no-result result" role="alert">
+        未獲此梯次錄取
+    </div>
+    <div id="no-result-case2" class="alert alert-secondary mt-2 hide no-result result" role="alert">
+        查無結果，請檢查輸入資料是否有誤
     </div>
 </div>
