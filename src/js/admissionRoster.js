@@ -74,14 +74,16 @@
                     err.json().then((data) => {
                         if (data.messages[0] == '未獲錄取' ) {
                             $('#form-result').show();
+                            $('#no-result-case1').text('未獲此梯次錄取');
                             $('#no-result-case1').show("slow");  // 顯示查詢結果區（未獲錄取）
                         } else if(data.messages == '此梯次尚未放榜。') {
                             $('#form-result').show();
-                            $('#no-result-case2').text(data.messages);
-                            $('#no-result-case2').show("slow");  // 顯示查詢結果區（無資料）
+                            $('#no-result-case1').text(data.messages);
+                            $('#no-result-case1').show("slow");  // 顯示查詢結果區（尚未放榜）
                         } else {
                             $('#form-result').show();
-                            $('#no-result-case2').show("slow");  // 顯示查詢結果區（無資料）
+                            $('#no-result-case1').text('查無結果，請檢查輸入資料是否有誤');
+                            $('#no-result-case1').show("slow");  // 顯示查詢結果區（無資料）
                         }
                     })
                 } else {
