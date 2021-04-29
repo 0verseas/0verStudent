@@ -75,6 +75,10 @@
                         if (data.messages[0] == '未獲錄取' ) {
                             $('#form-result').show();
                             $('#no-result-case1').show("slow");  // 顯示查詢結果區（未獲錄取）
+                        } else if(data.messages == '此梯次尚未放榜。') {
+                            $('#form-result').show();
+                            $('#no-result-case2').text(data.messages);
+                            $('#no-result-case2').show("slow");  // 顯示查詢結果區（無資料）
                         } else {
                             $('#form-result').show();
                             $('#no-result-case2').show("slow");  // 顯示查詢結果區（無資料）
