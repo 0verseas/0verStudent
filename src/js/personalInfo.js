@@ -953,7 +953,10 @@
         $twContactWorkplaceAddress.val($twContactWorkplaceAddress.val().replace(/[\<\>\"]/g, "")); // 服務機關地址   
     }
 
-    function _handleSave() {
+    async function _handleSave() {
+        if((_identityId == 4 || _identityId == 5) && $taiwanAddress.val() == ''){
+            await swal({title:"在臺學生請注意", html:"如果沒有填寫<a class='text-danger' style='font-weight: bold;'>臺灣地址</a>，<br/>錄取後分發通知書將寄到僑居地地址。", type:"warning", confirmButtonText: '確定'});
+        }
         _handleReplace();
         let sendData = {};
         if (sendData = _validateForm()) {
@@ -965,7 +968,7 @@
             if (!_hasEduType) { sendData.school_type = ""; }
             if (!_hasSchoolLocate) { sendData.school_locate = ""; }
             loading.start();
-            student.setStudentPersonalData(sendData)
+            await student.setStudentPersonalData(sendData)
                 .then((res) => {
                     if (res.ok) {
                         return res.json();
@@ -973,9 +976,9 @@
                         throw res;
                     }
                 })
-                .then((json) => {
+                .then(async (json) => {
                     // console.log(json);
-                    alert('儲存成功');
+                    await swal({title:"儲存成功", type:"success", confirmButtonText: '確定'});
                     window.location.reload();
                     loading.complete();
                     scroll(0,0);
