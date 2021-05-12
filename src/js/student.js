@@ -667,6 +667,53 @@ const student = (() => {
 		});
 	}
 
+	function getMalaysiaTranscriptList() {
+		return fetch(baseUrl + `/students/malaysia-transcript`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
+	function getMalaysiaTranscriptInfo(transcriptInfo) {
+		return fetch(baseUrl + `/students/malaysia-transcript/${transcriptInfo.code}`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
+	function saveMalaysiaTranscriptInfo(data) {
+		return fetch(baseUrl + `/students/malaysia-transcript/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		});
+	}
+
+	function deleteMalaysiaTranscript(transcriptInfo) {
+		return fetch(baseUrl + `/students/malaysia-transcript/${transcriptInfo.code}`, {
+			method: 'DELETE',
+			credentials: 'include'
+		});
+	}
+
+	function updateMalaysiaTranscriptFile(transcriptInfo,data) {
+		return fetch(baseUrl + `/students/malaysia-transcript/${transcriptInfo.code}`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		});
+	}
+
+	function deleteMalaysiaTranscriptFile(transcriptInfo,fileName) {
+		return fetch(baseUrl + `/students/malaysia-transcript/${transcriptInfo.code}/${fileName}`, {
+			method: 'DELETE',
+			credentials: 'include'
+		});
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -730,6 +777,12 @@ const student = (() => {
 		sizeConversion,
 		fbLogin,
 		fbLoginCallback,
+		getMalaysiaTranscriptList,
+		getMalaysiaTranscriptInfo,
+		saveMalaysiaTranscriptInfo,
+		deleteMalaysiaTranscript,
+		updateMalaysiaTranscriptFile,
+		deleteMalaysiaTranscriptFile,
 	};
 
 })();
