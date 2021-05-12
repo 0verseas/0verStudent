@@ -64,7 +64,7 @@
                 // loading.start();
                 return res.json();
             } else {
-                throw res.status;
+                throw res;
             }
         }).then(function (json) {
             // console.log(json);
@@ -96,9 +96,17 @@
             loading.complete();
         }).catch(function (err) {
             loading.complete();
-            if (err == 401) {
+            if (err.status == 401) {
                 swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 window.location.href = './index.html';
+            } else {
+                err.json && err.json().then((data) => {
+                    console.error(data);
+                    swal({title: "即將返回上一頁", text: `ERROR：${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+                    .then(()=>{
+                        window.history.back();
+                    });
+                })
             }
         });
     }
@@ -141,7 +149,7 @@
             if (res.ok) {
                 return res.json();
             } else {
-                throw res.status;
+                throw res;
             }
         }).then(function (json) {
             // console.log(json);
@@ -356,7 +364,7 @@
         .catch((err) => {
             loading.complete();
             err.json && err.json().then((json) => {
-                swal({title:"儲存失敗",text: json, type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+                swal({title:"儲存失敗",text: json.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
             })
         })
     }
@@ -407,7 +415,7 @@
         .catch((err) => {
             loading.complete();
             err.json && err.json().then((json) => {
-                swal({title:"刪除失敗",text: json, type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+                swal({title:"刪除失敗",text: json.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
             })
         })
     }
