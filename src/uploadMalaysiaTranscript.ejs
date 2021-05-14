@@ -1,0 +1,316 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.0.8/pagination.css">
+
+<h2 class="text-center title">登錄及上傳文憑成績</h2>
+
+<hr>
+
+<div class="row" id="form-uploadMalaysiaTranscript">
+	<div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">注意事項</div>
+                    <div class="card-body">
+                        <p>
+                            請.....
+                        </p>
+                        <p>
+                            <strong>操作說明</strong>
+                            <ol>
+                                <li>
+                                    先.....................
+                                </li>
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>文憑類別</th>
+                    <th>考試年份</th>
+                    <th><th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <select id="diploma-selector">
+                            <option value="0" selected disabled hidden>請選擇</option>
+                            <option value="1">獨中統考</option>
+                            <option value="2">STPM</option>
+                            <option value="3">A Level</option>
+                            <option value="4">SPM</option>
+                            <option value="5">O Level</option>
+                        </select>
+                    </th>
+                    <th>
+                        <!-- <input type="text" id="exam-year" style="width: 20%;"> -->
+                        <input class="input-datepicker" data-provide="datepicker" data-date-format="yyyy" id="exam-year" style="text-align: center;">
+                    </th>
+                    <th>
+                        <button class="btn btn-success" id="btn-transcript-new">新增</button>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="transcript-list">
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-hover">
+                        <div id="pagination-container">
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </table>
+
+        <div class="modal fade" id="editTranscriptModal" tabindex="-1" role="dialog" aria-labelledby="editTranscriptTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" id="modal-transript">
+                    <div class="modal-header">
+                        <h5 id="transcriptModalHeader">編輯文憑成績</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <form>
+                                <div class="row">
+                                    <div id="diplomaForm" class="form-group col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    文憑類別
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" id="diploma" disabled>
+                                        </div>
+                                    </div>
+                                    <div id="yearForm" class="form-group col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    考試年度
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" id="year" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white">
+                                        文憑成績登記
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-6" id="chineseForm">
+                                                <label for="chinese">中文</label>
+                                                <input type="text" class="form-control" maxlength="5" id="chinese">
+                                            </div>
+
+                                            <div class="form-group col-6" id="englishForm">
+                                                <label for="english">英文</label>
+                                                <input type="text" class="form-control" maxlength="5" id="english">
+                                            </div>
+
+                                            <div class="form-group col-6" id="mathForm">
+                                                <label for="math">數學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="math">
+                                            </div>
+
+                                            <div class="form-group col-6" id="advancedMathForm">
+                                                <label for="advancedMath">高級數學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="advancedMath">
+                                            </div>
+
+                                            <div class="form-group col-6" id="advancedMath1Form">
+                                                <label for="advancedMath1">高級數學I</label>
+                                                <input type="text" class="form-control" maxlength="5" id="advancedMath1">
+                                            </div>
+
+                                            <div class="form-group col-6" id="advancedMath2Form">
+                                                <label for="advancedMath2">高級數學II</label>
+                                                <input type="text" class="form-control" maxlength="5" id="advancedMath2">
+                                            </div>
+
+                                            <div class="form-group col-6" id="historyForm">
+                                                <label for="history">歷史</label>
+                                                <input type="text" class="form-control" maxlength="5" id="history">
+                                            </div>
+
+                                            <div class="form-group col-6" id="geographyForm">
+                                                <label for="geography">地理</label>
+                                                <input type="text" class="form-control" maxlength="5" id="geography">
+                                            </div>
+
+                                            <div class="form-group col-6" id="bookkeepingForm">
+                                                <label for="bookkeeping">簿記</label>
+                                                <input type="text" class="form-control" maxlength="5" id="bookkeeping">
+                                            </div>
+
+                                            <div class="form-group col-6" id="businessForm">
+                                                <label for="business">商業學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="business">
+                                            </div>
+
+                                            <div class="form-group col-6" id="accountingForm">
+                                                <label for="accounting">會計學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="accounting">
+                                            </div>
+
+                                            <div class="form-group col-6" id="economicsForm">
+                                                <label for="economics">經濟學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="economics">
+                                            </div>
+
+                                            <div class="form-group col-6" id="introductionToBusineseForm">
+                                                <label for="introductionToBusinese">商業概論</label>
+                                                <input type="text" class="form-control" maxlength="5" id="introductionToBusinese">
+                                            </div>
+
+                                            <div class="form-group col-6" id="artForm">
+                                                <label for="art">美術</label>
+                                                <input type="text" class="form-control" maxlength="5" id="art">
+                                            </div>
+
+                                            <div class="form-group col-6" id="artDesignForm">
+                                                <label for="artDesign">美工</label>
+                                                <input type="text" class="form-control" maxlength="5" id="artDesign">
+                                            </div>
+
+                                            <div class="form-group col-6" id="artDesignPracticalForm">
+                                                <label for="artDesignPractical">美工實習</label>
+                                                <input type="text" class="form-control" maxlength="5" id="artDesignPractical">
+                                            </div>
+
+                                            <div class="form-group col-6" id="biologyForm">
+                                                <label for="biology">生物</label>
+                                                <input type="text" class="form-control" maxlength="5" id="biology">
+                                            </div>
+
+                                            <div class="form-group col-6" id="physicsForm">
+                                                <label for="physics">物理</label>
+                                                <input type="text" class="form-control" maxlength="5" id="physics">
+                                            </div>
+
+                                            <div class="form-group col-6" id="chemistryForm">
+                                                <label for="chemistry">化學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="chemistry">
+                                            </div>
+
+                                            <div class="form-group col-6" id="basicCircuitTheoryForm">
+                                                <label for="basicCircuitTheory">電學原理</label>
+                                                <input type="text" class="form-control" maxlength="5" id="basicCircuitTheory">
+                                            </div>
+
+                                            <div class="form-group col-6" id="principleElectronicsForm">
+                                                <label for="principleElectronics">電子學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="principleElectronics">
+                                            </div>
+
+                                            <div class="form-group col-6" id="fundamentalsOfElectricalEngineeringForm">
+                                                <label for="fundamentalsOfElectricalEngineering">電機學</label>
+                                                <input type="text" class="form-control" maxlength="5" id="fundamentalsOfElectricalEngineering">
+                                            </div>
+
+                                            <div class="form-group col-6" id="digitalLogicForm">
+                                                <label for="digitalLogic">數位邏輯</label>
+                                                <input type="text" class="form-control" maxlength="5" id="digitalLogic">
+                                            </div>
+
+                                            <div class="form-group col-6" id="SATChineseForm">
+                                                <label for="SATChinese">SAT Subject Test 中文(CL)成績</label>
+                                                <input type="text" class="form-control" maxlength="5" id="SATChinese">
+                                            </div>
+
+                                            <div class="form-group col-6" id="TOCFLChineseForm">
+                                                <label for="TOCFLChinese">TOCFL 進階級（LEVEL 3 或初等）以上之華語文能力測驗成績</label>
+                                                <input type="text" class="form-control" maxlength="5" id="TOCFLChinese">
+                                            </div>
+                                            
+                                            <div class="form-group col-6" id="MUETForm">
+                                                <label for="MUET">Malaysian University English Test （MUET）測驗成績單</label>
+                                                <input type="text" class="form-control" maxlength="5" id="MUET">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="card" id="uploadFileArea">
+                                    <div class="card-header bg-primary text-white">
+                                        文憑成績單上傳
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-warning">
+                                            可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+                                        </div>
+
+                                        <div class="row" style="margin-bottom: 15px;">
+                                            <div class="col-12">
+                                                <input type="file" class="filestyle file-upload" id="file-upload"
+                                                data-btnClass="btn-success"
+                                                data-input="false"
+                                                data-text=" 選取檔案"
+                                                data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                                                multiple>
+                                            </div>
+                                        </div>
+    
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                                                <div id="uploadedFileArea">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="btn-transcript-save"><i class="fa fa-save" aria-hidden="true"></i> 儲存</button>
+                        <button class="btn btn-danger" id="btn-transcript-delete"><i class="fa fa-trash" aria-hidden="true"></i> 刪除</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade img-modal" tabindex="-1" role="dialog" aria-labelledby="imgModal" aria-hidden="true" id="img-modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body text-center" id="img-modal-body">
+				<img src="" class="img-fluid rounded img-ori">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-delFile"><i class="fa fa-trash" aria-hidden="true"></i> 刪除</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.0.8/pagination.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.3.0/bootstrap-filestyle.min.js"> </script>

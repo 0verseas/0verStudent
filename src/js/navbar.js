@@ -358,6 +358,12 @@
 				$macautranscript.show();
 				$macauTranscriptAlert.show();
 			}
+			// 馬來西亞上傳並登記文憑成績 先列出所有可能要上傳的 apply_way 之後在根據承辦人要求調整
+			// const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,28,80,83,88];
+			// if(malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)==1
+			// && data.student_misc_data.confirmed_at != null){
+			// 	$('.nav-malaysiaTranscript').show();
+			// }
 		}
 	}
 
