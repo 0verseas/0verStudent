@@ -599,13 +599,13 @@
     }
 
     function _showTaiwanIdExample() {
+        document.getElementById("taiwanIdExample1").style.display = "none";
+        document.getElementById("taiwanIdExample2").style.display = "none";
         if ($taiwanIdType.val() == '居留證') {
             document.getElementById("taiwanIdExample1").style.display = "block";
-            document.getElementById("taiwanIdExample2").style.display = "none";
         }
         if ($taiwanIdType.val() == '身分證') {
             document.getElementById("taiwanIdExample2").style.display = "block";
-            document.getElementById("taiwanIdExample1").style.display = "none";
         }
     }
 
