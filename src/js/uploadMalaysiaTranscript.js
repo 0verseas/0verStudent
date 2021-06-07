@@ -78,7 +78,7 @@
                 pageSize: 10,
                 callback: function($transcriptAllList, pagination) {
                     _transcripttListTamplate($transcriptAllList,pagination.pageNumber);
-                    $editTranscriptInfoBtn = $('.btn-editTranscriptInfo'); // 新增學生資料編輯按鈕的觸發事件（開啟 Modal）
+                    const $editTranscriptInfoBtn = $('.btn-editTranscriptInfo'); // 新增學生資料編輯按鈕的觸發事件（開啟 Modal）
                     $editTranscriptInfoBtn.on('click', _handleEditModalShow);
                 }
             });
