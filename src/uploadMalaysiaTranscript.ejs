@@ -12,10 +12,13 @@
                     <div class="card-header bg-primary text-white">注意事項</div>
                     <div class="card-body">
                         <p>
-                            請依據本會馬來西亞地區簡章（2021年秋季入學適用）：
+                            據本會馬來西亞地區簡章（2021年秋季入學適用）：
                             <ol>
                                 <li>
-                                    應屆畢業申請者，如因COVID-19疫情致報名時尚未取得STPM、SPM、Pernyataan文憑亦得申請，惟須於文憑成績公布後10個日曆天內，至本會網頁上傳提交會考文憑（含成績單），並將紙本文件送交原申請單位。未完成上傳提交或未繳交紙本文件，一律不予分發。
+                                    應屆畢業申請者，如因COVID-應屆畢業申請者，如因COVID-19疫情致報名時尚未取得STPM、SPM、Pernyataan文憑亦得申請，惟須於文憑成績公布後10個日曆天內，至本會網頁上傳提交會考文憑（含成績單），並請於行動管制結束後將紙本文件送交原申請單位。
+                                </li>
+                                <li>
+                                    所繳各項證件有偽造、冒用或變造等情事，則撤銷錄取資格；已註冊入學者，撤銷其學籍，且不發給任何相關學業證明；畢業後始發現者，由學校撤銷畢業資格，並追繳或註銷學位證書。
                                 </li>
                                 <li>
                                     有關各類組採計科目及分發分數核計方式，請見以上簡章第6頁。
@@ -26,7 +29,7 @@
                             <strong>重要日期</strong>
                             <ol>
                                 <li>
-                                    SPM成績公布日：2020年6月10日（四）<br/>SPM成績上傳提交期限：2020年6月20日（日）
+                                    SPM成績公布日：2020年6月10日（四）<br/><a class="text-danger">SPM成績上傳提交期限：2020年6月21日（一）中午12時</a>
                                 </li>
                                 <li>
                                     STPM成績公布日：未公布
@@ -35,20 +38,6 @@
                         </p>
                         <p>
                             <strong>操作說明</strong>
-                            <ol>
-                                <li>
-                                    請選擇您的會考文憑類別（例：SPM），輸入考試年份（例：2020），再點選「新增」按鈕。
-                                </li>
-                                <li>
-                                    系統將依據您選填的會考文憑類別及考試年份，增列相關欄位，點選該欄位即可填寫各科成績（或點選編輯、刪除該欄位）。
-                                </li>
-                                <li>
-                                    填寫各科成績後，請點選「選取檔案」按鈕上傳會考文憑成績掃描檔案，再點選「儲存」按鈕完成上傳提交會考文憑。
-                                </li>
-                                <li>
-                                    若要編輯已填寫的資料，請重複以上步驟2~3；若要刪除已填寫的資料重新填寫，則請先參考步驟2，再重複步驟1~3。
-                                </li>
-                            </ol>
                         </p>
                     </div>
                 </div>
@@ -113,7 +102,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content" id="modal-transript">
                     <div class="modal-header">
-                        <h5 id="transcriptModalHeader">編輯文憑成績</h5>
+                        <h5 id="transcriptModalHeader">登錄及上傳文憑成績</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -144,9 +133,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div id="candidateForm" class="form-group col-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    考生編號
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" maxlength="20" id="candidateNo">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="card">
                                     <div class="card-header bg-primary text-white">
-                                        文憑成績登記
+                                        登錄文憑成績（未報考科目免填；請依文憑成績單登錄各科成績，例：A+、A...）
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
@@ -285,7 +286,7 @@
                                 <hr>
                                 <div class="card" id="uploadFileArea">
                                     <div class="card-header bg-primary text-white">
-                                        文憑成績單上傳
+                                        上傳文憑成績單（或上傳查詢網頁截圖；請確保頁面完整，含：個人基本資料、各科名稱及成績等…）
                                     </div>
                                     <div class="card-body">
                                         <div class="alert alert-warning">

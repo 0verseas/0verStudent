@@ -121,7 +121,7 @@
             listHtml += `<td>${index+1+((page-1)*10)}</td>`;
             listHtml += `<td>${(diploma_name)}</td>`;
             listHtml += `<td>${(data.exam_year)}</td>`;
-            listHtml += `<td></td><td></td></tr>`;
+            listHtml += `<td><button class="btn btn-info" id="btn-transcript-edit">點此編輯</button></td><td></td></tr>`;
             $transcriptList.append(listHtml);
         });
     }
@@ -170,6 +170,8 @@
             $('#SATChineseForm').show();
             $('#TOCFLChineseForm').show();
             $('#MUETForm').show();
+            // 考生編號欄位 渲染資料
+            $('#candidateNo').val(transcriptInfo.candidate_no);
             // 成績input欄位 渲染後端回傳的資料
             $('#chinese').val(transcriptInfo.chinese);
             $('#english').val(transcriptInfo.english);
@@ -248,6 +250,7 @@
                 const data = {
                     'diploma': diploma_code,
                     'exam_year': exam_year,
+                    'candidate_no': '請輸入你的考生編號', // 後端會驗證是否為空，但這是新增事件所以隨便給一個字串。
                     'chinese': null,
                     'english': null,
                     'math': null,
@@ -301,6 +304,7 @@
         const data = {
             'diploma': diploma,
             'exam_year': exam_year,
+            'candidate_no': $('#candidateNo').val(),
             'chinese': $('#chinese').val(),
             'english': $('#english').val(),
             'math': $('#math').val(),
