@@ -359,13 +359,20 @@
 				$macauTranscriptAlert.show();
 			}
 			// 完成填報後且在報名時間並只有符合馬來西亞需上傳並登記文憑成績的 apply_way 選單才會顯示選項
-			const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,28,83,88];
+			const malaysiaNeedUploadTranscriptApplyWay = [22,23,/*24,*/25,26,28,83,88];
 			if(malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=1
 			&& data.student_misc_data.confirmed_at != null
+			&& env.malaysiaCanUploadList.indexOf(data.id) != -1 //今年（2021）直接用user_id當作過濾條件，請記得去env.js設定變數 **臨時功能**
 			// && data.can_admission_placement
 			){
 				$('#btn-uploadMalaysiaTranscript').show();
 			}
+		}
+
+		// 報名序號不在名單內且當前頁面是上傳登記成績頁面時自動跳轉 **臨時功能**
+		if(env.malaysiaCanUploadList.indexOf(data.id) == -1 
+		&& location.pathname == '/uploadMalaysiaTranscript.html'){
+			location.href="./downloadDocs.html";
 		}
 	}
 
