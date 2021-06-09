@@ -112,7 +112,11 @@
 				) {
 				location.href = './placementSelection.html';
 			} else if (!!json.student_misc_data.confirmed_at) {
-				location.href = './downloadDocs.html';
+				if(env.malaysiaCanUploadList.indexOf(json.id) != -1){
+					location.href = './uploadMalaysiaTranscript.html';	
+				} else {
+					location.href = './downloadDocs.html';
+				}
 			} else if(json.student_qualification_verify.identity=== 6){
 				location.href = './personalInfo.html';
 			}else {
