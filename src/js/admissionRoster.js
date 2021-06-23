@@ -23,6 +23,22 @@
      */
     loading.complete();
 
+
+    // 啟用由網址帶參數功能
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var url_stage = url.searchParams.get("stage");
+    var url_userId = url.searchParams.get("userId");
+    var url_birthday = url.searchParams.get("birthday");
+    var url_gender = url.searchParams.get("gender");
+
+
+    $userId.val(url_userId);
+    $birthday.val(url_birthday);
+    $("input[name=gender][value='" + url_gender + "']").prop("checked", true);
+    $stage.val(url_stage).change();
+
+
     // 找找學生是不是有在榜上
     function getAdmissionRoster(){
         $('.result').hide();  // 重新點下查詢按鈕就要把之前的結果藏起來
