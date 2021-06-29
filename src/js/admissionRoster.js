@@ -23,6 +23,57 @@
      */
     loading.complete();
 
+    // 啟用由網址帶參數功能
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var url_data = url.searchParams.get("data"); // hash
+
+    // 驗證單位查詢
+    if(url_data){
+        $('.result').hide();  // 重新點下查詢按鈕就要把之前的結果藏起來
+
+        var data = encodeHtmlCharacters(url_data);
+
+        loading.start();
+        student.getAdmissionRoster2(data)
+            .then((res) => {
+                if (res.ok){
+                    return res.json();
+                } else {
+                    throw res;
+                }
+            })
+            .then((json) => {
+                showAdmissionRoster(json);
+            })
+            .catch((err) => {
+                if (err.status && err.status === 404) {  // 找不到QQ or 未獲錄取
+                    err.json().then((data) => {
+                        if (data.messages[0] == '未獲錄取' ) {
+                            $('#form-result').show();
+                            $('#no-result-case1').text('未獲此梯次錄取');
+                            $('#no-result-case1').show("slow");  // 顯示查詢結果區（未獲錄取）
+                        } else if(data.messages == '此梯次尚未放榜。') {
+                            $('#form-result').show();
+                            $('#no-result-case1').text(data.messages);
+                            $('#no-result-case1').show("slow");  // 顯示查詢結果區（尚未放榜）
+                        } else {
+                            $('#form-result').show();
+                            $('#no-result-case1').text('查無結果，請檢查輸入資料是否有誤');
+                            $('#no-result-case1').show("slow");  // 顯示查詢結果區（無資料）
+                        }
+                    })
+                } else {
+                    err.json && err.json().then((data) => {
+                        console.error(data);
+                        alert(`ERROR: \n${data.messages[0]}`);
+                    })
+                }
+                loading.complete();
+            });
+    }
+
+
     // 找找學生是不是有在榜上
     function getAdmissionRoster(){
         $('.result').hide();  // 重新點下查詢按鈕就要把之前的結果藏起來
