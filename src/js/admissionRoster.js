@@ -44,6 +44,7 @@
                 }
             })
             .then((json) => {
+                $('#form-studentInfo').hide();
                 showAdmissionRoster(json);
             })
             .catch((err) => {
