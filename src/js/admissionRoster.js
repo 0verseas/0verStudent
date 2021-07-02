@@ -45,6 +45,7 @@
             })
             .then((json) => {
                 $('#form-studentInfo').hide();
+                $('#google-form-for-papper').hide();
                 showAdmissionRoster(json);
             })
             .catch((err) => {
@@ -173,13 +174,13 @@
         }
 
         let roster = '';
-        roster += `<td class="align-middle">${admissionInfo.id}</td>  <!--報名序號-->
-                <td class="align-middle">${admissionInfo.student_misc_data.overseas_student_id}</td>  <!--僑生編號-->
-                <td class="align-middle">${studentName}<br />${studentEngName}</td>  <!--中、英文姓名-->
-                <td class="align-middle">${schoolTitle}<br />${deptTitle}</td>  <!--錄取的學校及系所-->
-                <td class="align-middle">${admissionInfo.student_personal_data.resident_location_data.country}</td>  <!--僑居地國別-->
-                <td class="align-middle">${admissionInfo.student_misc_data.distribution_date}</td>  <!--發文日期-->
-                <td class="align-middle">${admissionInfo.student_misc_data.distribution_no}</td>  <!--發文字號-->`;
+        roster += `<td class="align-middle" data-th="報名序號">${admissionInfo.id}</td>  <!--報名序號-->
+                <td class="align-middle" data-th="僑生編號">${admissionInfo.student_misc_data.overseas_student_id}</td>  <!--僑生編號-->
+                <td class="align-middle" data-th="中、英文姓名">${studentName}<br />${studentEngName}</td>  <!--中、英文姓名-->
+                <td class="align-middle" data-th="錄取校系">${schoolTitle}<br />${deptTitle}</td>  <!--錄取的學校及系所-->
+                <td class="align-middle" data-th="僑居地國別">${admissionInfo.student_personal_data.resident_location_data.country}</td>  <!--僑居地國別-->
+                <td class="align-middle" data-th="發文日期">${admissionInfo.student_misc_data.distribution_date}</td>  <!--發文日期-->
+                <td class="align-middle" data-th="發文字號">${admissionInfo.student_misc_data.distribution_no}</td>  <!--發文字號-->`;
         $admissionRoster.html(roster);
 
         $('.accepted').show("normal");  // 顯示查詢結果區（金榜題名）
