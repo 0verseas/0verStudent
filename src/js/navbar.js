@@ -490,6 +490,7 @@
 		else{
 			$printDistribution.show();
 			$('#btn-printDistribution').attr('href', env.baseUrl + '/students/print-distribution');
+			$('#printDistributionAlert').show();
 		}
 	}
 
