@@ -45,7 +45,7 @@
 
         // 檢查有沒有什麼地方不對的
         if ($stage.val() === ""){  // 沒選擇「分發類別」
-            alert("請選擇分發類別");
+            swal({title: `請選擇分發類別`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
         // if ($name.val() === ""){  // 沒填寫姓名
@@ -60,15 +60,15 @@
         }
 
         if ($userId.val() === ""){  // 沒填寫報名序號
-            alert('請填寫報名序號');
+            swal({title: `請填寫報名序號`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
         if ($("input[name='gender']:checked").val() === undefined){  // 沒填寫生理性別
-            alert('請選擇生理性別');
+            swal({title: `請選擇生理性別`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
         if ($birthday.val() === ""){  // 沒填寫生日
-            alert('請選擇生日');
+            swal({title: `請填寫生日`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
 
@@ -105,7 +105,7 @@
                 } else {
                     err.json && err.json().then((data) => {
                         console.error(data);
-                        alert(`ERROR: \n${data.messages[0]}`);
+                        swal({title: `ERROR: \n${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     })
                 }
                 loading.complete();
