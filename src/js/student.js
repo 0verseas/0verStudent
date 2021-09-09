@@ -714,6 +714,13 @@ const student = (() => {
 		});
 	}
 
+	function getOrderList() {
+		return fetch(baseUrl + `/students/application-fee`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -783,6 +790,7 @@ const student = (() => {
 		deleteMalaysiaTranscript,
 		updateMalaysiaTranscriptFile,
 		deleteMalaysiaTranscriptFile,
+		getOrderList,
 	};
 
 })();
