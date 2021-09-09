@@ -9,6 +9,7 @@
 	let _savedIdentity = null;
 	let _savedSystem = null;
 	let _countryList = [];
+	let _citizenshipList = [];
 
 	const smoothScroll = (number = 0, time) => {
 		if (!time) {
@@ -32,7 +33,7 @@
 	/**
 	* init
 	*/
-	function _init() {
+	async function _init() {
 		// validate system id
 		if (+_systemID !== 3 &&
 			+_systemID !== 4) {
@@ -43,15 +44,20 @@
 		}
 
 		// set Continent & Country select option
-		student.getCountryList().then((data) => {
+		await student.getCountryList().then((data) => {
 			_countryList = data;
 			$passportContinentSelect.empty();
 			$passportContinentSelect.append('<option value="-1">洲別</option>');
+			$citizenshipContinentSelect.empty();
+			$citizenshipContinentSelect.append('<option value="-1" hidden disabled selected>請選擇</option>');
 			data.forEach((val, i) => {
 				$passportContinentSelect.append(`<option value="${i}">${val.continent}</option>`);
+				$citizenshipContinentSelect.append(`<option value="${i}">${val.continent}</option>`);
 			});
 
 			$passportCountrySelect.append('<option value="-1">國家</option>');
+			$citizenshipSelect.empty();
+			$citizenshipSelect.append('<option value="-1" hidden disabled selected>請先選擇洲別</option>');
 			// $passportCountrySelect.empty();
 			// data[0].country.forEach((val, i) => {
 			// 	$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
@@ -59,7 +65,7 @@
 		});
 
 		// get data
-		student.getVerifyQualification().then((res) => {
+		await student.getVerifyQualification().then((res) => {
 			if (res.ok) {
 				return res.json();
 			} else {
@@ -115,6 +121,10 @@
 	const $hasBeenTaiwanRadio = $signUpForm.find('.radio-hasBeenTaiwan');
 	const $whyHasBeenTaiwanRadio = $signUpForm.find('.radio-whyHasBeenTaiwan');
 	const $overseasEthnicChineseRadio = $signUpForm.find('.overseas_radio-ethnicChinese');
+	const $citizenshipContinentSelect = $signUpForm.find('.select-citizenshipContinent');
+	const $citizenshipSelect = $signUpForm.find('.select-citizenshipCountry');
+	const $citizenshipList = $('#citizenshipList');
+	const citizenshipList = document.getElementById('citizenshipList');
 	// 港澳生
 	const $idCardRadio = $signUpForm.find('.radio-idCard');
 	const $holdpassportRadio = $signUpForm.find('.radio-holdpassport');
@@ -159,6 +169,8 @@
 	$KA2_whyHasBeenTaiwan.on('change', _checkKA2WhyHasBeenTaiwanValidation);
 	$overseasEthnicChineseRadio.on('change',_checkEthnicChineseValidation);
 	$kangAo2EthnicChineseRadio.on('change',_checkEthnicChineseValidation);
+	$citizenshipContinentSelect.on('change', _setCitizenshipCountryOption);
+	$citizenshipSelect.on('change', _addCitizenship);
 
 	/**
 	* event handler
@@ -280,6 +292,11 @@
 			});
 		} else if (_identity === 3) {
 			// 海外僑生
+			let tmpString = '';
+			_citizenshipList.forEach(object => {
+				tmpString += object.id+',';
+			});
+			const citizenshipString = tmpString.substr(0,tmpString.length-1);
 			const isDistribution = +$signUpForm.find('.isDistribution:checked').val();
 			const distributionTime = $signUpForm.find('.input-distributionTime').val();
 			const distributionOption = +$signUpForm.find('.distributionMoreQuestion:checked').val();
@@ -293,6 +310,7 @@
 			if (!!isDistribution && distributionTime === '') return alert('未填寫分發來臺年');
 			if (stayLimitOption === 1) return alert('海外居留年限選項不具報名資格');
 			if (!!hasBeenTaiwan && whyHasBeenTaiwan === 9) return alert('在臺停留選項不具報名資格');
+			if (! citizenshipString.length>0) return alert('請先選取你的國籍');// 陣列長度 <= 0 代表沒有選取國籍
 
 			console.log(`是否曾經分發來臺就學過？ ${!!isDistribution}`);
 			console.log(`曾分發來臺於西元幾年分發來臺？ ${distributionTime}`);
@@ -318,6 +336,7 @@
 				overseas_residence_time: stayLimitOption,
 				stay_over_120_days_in_taiwan: !!hasBeenTaiwan,
 				reason_selection_of_stay_over_120_days_in_taiwan: whyHasBeenTaiwan,
+				citizenship: citizenshipString,
 				force_update: true
 
 			})
@@ -853,6 +872,9 @@
 			!!data.stay_over_120_days_in_taiwan &&
 			$signUpForm.find('.radio-hasBeenTaiwan[value=1]').trigger('click') &&
 			$signUpForm.find(`.radio-whyHasBeenTaiwan[value=${data.reason_selection_of_stay_over_120_days_in_taiwan}]`).trigger('click');
+
+			// 國籍
+			_initCitizenshipList(data.citizenship);
 		}
 
 		if (+data.identity === 2) {
@@ -955,6 +977,99 @@
 		});
 
 		return result;
+	}
+
+	// 初始化時渲染國籍列表
+	function _initCitizenshipList(data){
+		const citizenshipIdArray = data.split(',');
+		citizenshipIdArray.forEach(value=>{
+			let keep = true;
+			for(i=0;i<5 && keep;i++){
+				for(j=0;j<_countryList[i].country.length && keep;j++){
+					if(_countryList[i].country[j].id == value){
+						_citizenshipList.push( {'continent': i,'id' : value} );
+						keep=false;
+					}
+				}
+			}
+		});
+		_generateCitizenshipList();
+		return;
+	}
+
+	// 選洲，更換國家選項
+	function _setCitizenshipCountryOption() {
+		// 取得選取的洲代碼
+		const order = $(this).val();
+		// reset 國籍列表選單
+		$citizenshipSelect.empty();
+		// 預設選項為 "可選擇" 但設定為不可選且隱藏 讓他不會出現在下拉式選單中
+		$citizenshipSelect.append('<option value="-1" disabled selected hidden>請選擇</option>');
+		// 防止有人選取預設選項
+		if (+order === -1) {
+			return;
+		}
+		// 渲染選取洲別的國家到下拉式選單中
+		_countryList[order].country.forEach((val, i) => {
+			if(_citizenshipList.findIndex(order => order.id == val.id) === -1){ // 在已選擇國籍名單中 就不渲染避免重複選取
+				$citizenshipSelect.append(`<option value="${val.id}">${val.country}</option>`);
+			}
+		});
+	}
+
+	// 選擇國籍選項 新增至已選擇國籍列表
+	function _addCitizenship(){
+		// 目前暫定可選國籍上限 20 選超過直接出現提示訊息
+		if(_citizenshipList.length < 20 && $(this).val() > 0){
+			// 將選擇的洲別與國家代碼儲存
+			_citizenshipList.push( {'continent': $citizenshipContinentSelect.val(),'id' : $(this).val()} );
+			// 重新渲染已選擇國籍列表
+			_generateCitizenshipList();
+		} else {
+			swal({title: `國籍數量已達上限`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+		}
+	}
+
+	// 刪除已選擇國籍列表之國籍
+	function _removeCitizenship(){
+		// 先提取國家代碼
+		const id = $(this).data("id");
+		// 用國家代碼搜尋已選擇國籍列表找到Index
+		const citizenshipIndex = _citizenshipList.findIndex(order => order.id == id)
+		// 使用Index和splice來刪除已選擇國籍
+		_citizenshipList.splice(citizenshipIndex,1);
+		_generateCitizenshipList();
+	}
+
+	// 渲染已選擇國籍列表
+	function _generateCitizenshipList(){
+		// 每次都清空重新渲染
+		let rowHtml = '';
+		// 從已選擇國籍列表中處理資料渲染到畫面上
+		for(let i in _citizenshipList) {
+			// 用已選擇國籍列表中儲存的洲別與國家代碼從儲存的國家列表中找到國家名稱
+			let country = _countryList[_citizenshipList[i].continent].country.find(list => list.id == _citizenshipList[i].id).country;
+			// 將變數編寫成Html格式的字串
+			rowHtml = rowHtml + `
+			<tr data-wishIndex="${i}">
+				<td style="vertical-align:middle;">
+					${country}
+				</td>
+				<td>
+					<button type="button" data-continent="${_citizenshipList[i].continent}" data-id="${_citizenshipList[i].id}" class="btn btn-danger btn-sm remove-citizenship"><i class="fa fa-times" aria-hidden="true"></i></button>
+				</td>
+			</tr>
+			`;
+		}
+		// 將Html字串選染到已選擇國籍table中
+		citizenshipList.innerHTML = rowHtml;
+		// 宣告已選擇國籍table中的刪除按鈕並新增點選事件
+		const $removeCitizenship = $citizenshipList.find('.remove-citizenship');
+		$removeCitizenship.on("click", _removeCitizenship);
+		// reset 洲別與國家選項 並清空國家列表 避免重複選取到一樣國家
+		$citizenshipContinentSelect.append('<option value="-1" hidden disabled selected>請選擇</option>');
+		$citizenshipSelect.empty();
+		$citizenshipSelect.append('<option value="-1" hidden disabled selected>請先選擇洲別</option>');
 	}
 
 	_init();
