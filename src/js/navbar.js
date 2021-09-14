@@ -355,15 +355,18 @@
 			location.href="./downloadDocs.html";
 		}
 
-		// 今年港澳生要線上繳交報名費用
-		if(data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2){
-			// 顯示繳交報名費用
-			$('.nav-applicationFee').show();
-			// 還沒繳錢就不給學生按完成填報
-			if(data.student_order_list_trade_status == '1'){
-				$('.nav-applicationFee').addClass('list-group-item-success');
-			} else {
-				$checkBtn.prop('disabled', true);
+		// 今年只有港生要線上繳交報名費用 所以用apply_way ID做判斷
+		if((data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2) && data.student_personal_data){
+			const apllyWayIDforHK = [2,3,4,5,11,12,13,14,15,81];
+			if(apllyWayIDforHK.indexOf(data.admission_placement_apply_way)){
+				// 顯示繳交報名費用
+				$('.nav-applicationFee').show();
+				// 還沒繳錢就不給學生按完成填報
+				if(data.student_order_list_trade_status == '1'){
+					$('.nav-applicationFee').addClass('list-group-item-success');
+				} else {
+					$checkBtn.prop('disabled', true);
+				}
 			}
 		}
 	}
