@@ -319,6 +319,16 @@ const student = (() => {
 		})
 	}
 
+	function setAdmissionSelectionWishDelete(id) {
+		return fetch(baseUrl + `/students/admission-selection-order/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
 	// POST /students/verify-qualification
 	function verifyQualification(data) {
 		return fetch(`${baseUrl}/students/verify-qualification`, {
@@ -783,6 +793,7 @@ const student = (() => {
 		deleteMalaysiaTranscript,
 		updateMalaysiaTranscriptFile,
 		deleteMalaysiaTranscriptFile,
+		setAdmissionSelectionWishDelete
 	};
 
 })();

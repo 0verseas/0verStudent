@@ -1,5 +1,10 @@
+.table > thead > tr > th {
+	vertical-align: middle;
+	text-align: center;
+}
 .table > tbody > tr > td {
 	vertical-align: middle;
+	text-align: center;
 }
 
 .img-thumbnail {

@@ -46,6 +46,7 @@
 	*/
 
 	$wishListWrap.on('click.edit', '.btn-wishEdit', _handleEditForm);
+	$wishListWrap.on('click.delete', '.btn-wishDelete', _handleDeleteWish);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
 	$('body').on('change.upload', '.file-certificate', _handleUpload);
@@ -105,16 +106,34 @@
 					<td>${index + 1}</td>
 					<td>${showId}</td>
 					<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
-					<td class="text-right">
-						<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
-							<i class="fa fa-upload" aria-hidden="true"></i>
-							<span class="hidden-sm-down"> 上傳</span>
-						</button>
-					</td>
-				</tr>
 			`;
+			if(value.deleted_at === null){
+				wishHTML += `
+							<td class="text-right">
+							<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
+								<i class="fa fa-upload" aria-hidden="true"></i>
+								<span class="hidden-sm-down"> 上傳</span>
+							</button>
+							<button type="button" class="btn btn-danger btn-wishDelete" data-deptid="${value.dept_id}" data-title="${value.department_data.school.title}  ${value.department_data.title}">
+								<i class="fa fa-times" aria-hidden="true"></i>
+								<span class="hidden-sm-down"> 放棄</span>
+							</button>
+						</td>
+					</tr>
+				`
+			} else {
+				wishHTML += `
+							<td class="text-right">
+							<button type="button" class="btn btn-danger"disabled>
+								<i class="fa fa-ban" aria-hidden="true"></i>
+								<span class="hidden-sm-down"> 已放棄此志願</span>
+							</button>
+						</td>
+					</tr>
+				`
+			}
 
-			if (_isDocumentLock) {
+			if (_isDocumentLock && value.deleted_at === null) {
 				wishHTML += `
 					<tr>
 						<td colspan="4">
@@ -435,6 +454,45 @@
 		}
 
 		loading.complete();
+	}
+
+	function _handleDeleteWish(){
+		const deptId = $(this).data('deptid');
+		const title = $(this).data('title');
+
+		swal({
+            title: `確要定放棄個人申請志願：<br/>${title}？`,
+			html: `<p style="color:red;">注意：確認放棄後，不接受任何理由來恢復志願！<p/>`,
+            type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '確定',
+			cancelButtonText: '取消',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false
+        })
+        .then(async ()=>{
+            try {
+				loading.start();
+				const response = await student.setAdmissionSelectionWishDelete(deptId);
+				if (!response.ok) { throw response; }
+	
+				await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+				await loading.complete();
+				await window.location.reload();
+			} catch(e) {
+				loading.complete();
+				e.json && e.json().then((data) => {
+					console.error(data);
+					swal({title:"儲存失敗",text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				});
+			}
+        })
+        .catch(()=>{
+            return ;
+        })
 	}
 
 	function _getFileAreaHTML(fileListItem, fileListKey) {
