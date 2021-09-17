@@ -984,8 +984,8 @@
 		const citizenshipIdArray = data.split(',');
 		citizenshipIdArray.forEach(value=>{
 			let keep = true;
-			for(i=0;i<5 && keep;i++){
-				for(j=0;j<_countryList[i].country.length && keep;j++){
+			for(let i=0;i<5 && keep;i++){
+				for(let j=0;j<_countryList[i].country.length && keep;j++){
 					if(_countryList[i].country[j].id == value){
 						_citizenshipList.push( {'continent': i,'id' : value} );
 						keep=false;
