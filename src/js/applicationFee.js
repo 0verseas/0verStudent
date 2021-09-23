@@ -19,8 +19,22 @@
      */
 
     // 初始化事件
-    function init(){
-        student.getOrderList()
+    async function init(){
+        const progressResponse = await student.getStudentRegistrationProgress();
+        if (!progressResponse.ok) { throw progressResponse; }
+			const progressJson = await progressResponse.json();
+
+        if(!progressJson.student_personal_data){
+            await swal({title: "請先完成個人基本資料填寫！", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            location.href = "./personalInfo.html";
+        }
+
+        if(!progressJson.student_misc_data.admission_placement_apply_way_data){
+            await swal({title: "請先選擇成績採計方式！", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            location.href = "./grade.html";
+        }
+
+        await student.getOrderList()
         .then(function (res) {
             if (res.ok) {
                 return res.json();
