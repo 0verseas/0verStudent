@@ -114,7 +114,7 @@
 								<i class="fa fa-upload" aria-hidden="true"></i>
 								<span class="hidden-sm-down"> 上傳</span>
 							</button>
-							<button type="button" class="btn btn-danger btn-wishDelete" data-deptid="${value.dept_id}" data-title="${value.department_data.school.title}  ${value.department_data.title}">
+							<button type="button" class="btn btn-danger btn-wishDelete" data-deptid="${value.dept_id}" data-title="${value.department_data.school.title}<br/>${value.department_data.title}">
 								<i class="fa fa-times" aria-hidden="true"></i>
 								<span class="hidden-sm-down"> 放棄</span>
 							</button>
@@ -461,34 +461,50 @@
 		const title = $(this).data('title');
 
 		swal({
-            title: `確要定放棄個人申請志願：<br/>${title}？`,
-			html: `<p style="color:red;">注意：確認放棄後，不接受任何理由來恢復志願！<p/>`,
-            type: 'warning',
+            title: `確定放棄上傳<br/>${title}<br/>備審資料？`,
+			html: `<p style="color:red;font-weight=bold;">注意：確認放棄後，不接受任何理由來恢復志願！<p/>`,
+            type: 'question',
 			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
 			confirmButtonClass: 'btn btn-success',
 			cancelButtonClass: 'btn btn-danger',
 			buttonsStyling: false
         })
-        .then(async ()=>{
-            try {
-				loading.start();
-				const response = await student.setAdmissionSelectionWishDelete(deptId);
-				if (!response.ok) { throw response; }
-	
-				await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
-				await loading.complete();
-				await window.location.reload();
-			} catch(e) {
-				loading.complete();
-				e.json && e.json().then((data) => {
-					console.error(data);
-					swal({title:"儲存失敗",text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-				});
-			}
+        .then(()=>{
+			swal({
+				title: `確定要放棄上傳<br/>備審資料？`,
+				html: `<p style="color:red;font-weight=bold;">注意：確認放棄後，不接受任何理由來恢復志願！<p/>`,
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: '確定',
+				cancelButtonText: '取消',
+				confirmButtonClass: 'btn btn-success',
+				cancelButtonClass: 'btn btn-danger',
+				buttonsStyling: false,
+				onOpen: function () {
+					swal.showLoading();
+					setTimeout(swal.hideLoading, 3000);
+				}
+			}).then(async ()=>{
+				try {
+					loading.start();
+					const response = await student.setAdmissionSelectionWishDelete(deptId);
+					if (!response.ok) { throw response; }
+		
+					await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+					await loading.complete();
+					await window.location.reload();
+				} catch(e) {
+					loading.complete();
+					e.json && e.json().then((data) => {
+						console.error(data);
+						swal({title:"儲存失敗",text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+					});
+				}	
+			}).catch(()=>{
+				return ;
+			})
         })
         .catch(()=>{
             return ;
