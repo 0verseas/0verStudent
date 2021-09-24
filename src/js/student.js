@@ -319,9 +319,9 @@ const student = (() => {
 		})
 	}
 
-	function setAdmissionSelectionWishDelete(id) {
-		return fetch(baseUrl + `/students/admission-selection-order/${id}`, {
-			method: 'DELETE',
+	function setAdmissionSelectionWishGiveUpCange(id, action) {
+		return fetch(baseUrl + `/students/admission-selection-order/${id}/${action}`, {
+			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -793,7 +793,7 @@ const student = (() => {
 		deleteMalaysiaTranscript,
 		updateMalaysiaTranscriptFile,
 		deleteMalaysiaTranscriptFile,
-		setAdmissionSelectionWishDelete
+		setAdmissionSelectionWishGiveUpCange
 	};
 
 })();

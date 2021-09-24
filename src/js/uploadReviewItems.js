@@ -46,7 +46,7 @@
 	*/
 
 	$wishListWrap.on('click.edit', '.btn-wishEdit', _handleEditForm);
-	$wishListWrap.on('click.delete', '.btn-wishDelete', _handleDeleteWish);
+	$wishListWrap.on('click.delete', '.btn-wishGiveUpChange', _handleWishGiveUpChange);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
 	$('body').on('change.upload', '.file-certificate', _handleUpload);
@@ -101,36 +101,45 @@
 		let wishHTML = '';
 		_wishList.forEach((value, index) => {
 			let showId = (_system === 1) ? value.department_data.card_code : value.department_data.id;
-			wishHTML += `
-				<tr class="table-warning">
-					<td>${index + 1}</td>
-					<td>${showId}</td>
-					<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
-			`;
-			if(value.deleted_at === null){
+
+			if(value.give_up === 0){
 				wishHTML += `
-							<td class="text-right">
-							<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
-								<i class="fa fa-upload" aria-hidden="true"></i>
-								<span class="hidden-sm-down"> 上傳</span>
-							</button>
-							<button type="button" class="btn btn-danger btn-wishDelete" data-deptid="${value.dept_id}" data-title="${value.department_data.school.title}<br/>${value.department_data.title}">
-								<i class="fa fa-times" aria-hidden="true"></i>
-								<span class="hidden-sm-down"> 放棄</span>
-							</button>
-						</td>
-					</tr>
-				`
+						<tr>
+							<td>${index + 1}</td>
+							<td>${showId}</td>
+							<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
+							<td>
+								<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
+									<i class="fa fa-upload" aria-hidden="true"></i>
+									<span class="hidden-sm-down"> 上傳</span>
+								</button>
+							</td>
+							<td>
+								<button type="button" class="btn btn-danger btn-wishGiveUpChange" data-deptid="${value.dept_id}" data-action="true">
+									<i class="fa fa-times" aria-hidden="true"></i>
+								</button>
+							</td>
+						</tr>
+					`
 			} else {
 				wishHTML += `
-							<td class="text-right">
-							<button type="button" class="btn btn-danger"disabled>
-								<i class="fa fa-ban" aria-hidden="true"></i>
-								<span class="hidden-sm-down"> 已放棄此志願</span>
-							</button>
-						</td>
-					</tr>
-				`
+						<tr>
+							<td>${index + 1}</td>
+							<td>${showId}</td>
+							<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
+							<td colspan="">
+								<button type="button" class="btn btn-danger"disabled>
+									<i class="fa fa-ban" aria-hidden="true"></i>
+									<span class="hidden-sm-down"> 已放棄上傳</span>
+								</button>
+							</td>
+							<td>
+								<button type="button" class="btn btn-success btn-wishGiveUpChange" data-deptid="${value.dept_id}" data-action="false">
+									<i class="fa fa-repeat" aria-hidden="true"></i>
+								</button>
+							</td>
+						</tr>
+					`
 			}
 
 			if (_isDocumentLock && value.deleted_at === null) {
@@ -456,59 +465,50 @@
 		loading.complete();
 	}
 
-	function _handleDeleteWish(){
+	function _handleWishGiveUpChange(){
 		const deptId = $(this).data('deptid');
-		const title = $(this).data('title');
-
+		const action = $(this).data('action');
+		console.log(deptId);
+		console.log(action);
+		let alertTitle = '';
+		if(action == true){
+			alertTitle = `確定要放棄上傳備審資料？`
+		} else {
+			alertTitle = `確定要繼續上傳備審資料？`
+		}
 		swal({
-            title: `確定放棄上傳<br/>${title}<br/>備審資料？`,
-			html: `<p style="color:red;font-weight=bold;">注意：確認放棄後，不接受任何理由來恢復志願！<p/>`,
-            type: 'question',
+			title: alertTitle,
+			html: `<p style="color:red;font-weight=bold;">注意：確認上傳資料並提交後，就無法再做任何變更！<p/>`,
+			type: 'warning',
 			showCancelButton: true,
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
 			confirmButtonClass: 'btn btn-success',
 			cancelButtonClass: 'btn btn-danger',
-			buttonsStyling: false
-        })
-        .then(()=>{
-			swal({
-				title: `確定要放棄上傳<br/>備審資料？`,
-				html: `<p style="color:red;font-weight=bold;">注意：確認放棄後，不接受任何理由來恢復志願！<p/>`,
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonText: '確定',
-				cancelButtonText: '取消',
-				confirmButtonClass: 'btn btn-success',
-				cancelButtonClass: 'btn btn-danger',
-				buttonsStyling: false,
-				onOpen: function () {
-					swal.showLoading();
-					setTimeout(swal.hideLoading, 3000);
-				}
-			}).then(async ()=>{
-				try {
-					loading.start();
-					const response = await student.setAdmissionSelectionWishDelete(deptId);
-					if (!response.ok) { throw response; }
-		
-					await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
-					await loading.complete();
-					await window.location.reload();
-				} catch(e) {
-					loading.complete();
-					e.json && e.json().then((data) => {
-						console.error(data);
-						swal({title:"儲存失敗",text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-					});
-				}	
-			}).catch(()=>{
-				return ;
-			})
-        })
-        .catch(()=>{
-            return ;
-        })
+			buttonsStyling: false,
+			onOpen: function () {
+				swal.showLoading();
+				setTimeout(swal.hideLoading, 3000);
+			}
+		}).then(async ()=>{
+			try {
+				loading.start();
+				const response = await student.setAdmissionSelectionWishGiveUpCange(deptId, action);
+				if (!response.ok) { throw response; }
+	
+				await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+				await loading.complete();
+				await window.location.reload();
+			} catch(e) {
+				loading.complete();
+				e.json && e.json().then((data) => {
+					console.error(data);
+					swal({title:"儲存失敗",text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				});
+			}	
+		}).catch(()=>{
+			return ;
+		})
 	}
 
 	function _getFileAreaHTML(fileListItem, fileListKey) {
