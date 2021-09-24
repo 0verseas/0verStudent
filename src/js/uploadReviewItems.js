@@ -145,7 +145,7 @@
 			if (_isDocumentLock && value.deleted_at === null) {
 				wishHTML += `
 					<tr>
-						<td colspan="4">
+						<td colspan="5" class="table-light">
 							<h6>繳交狀況：</h6>
 							<blockquote class="blockquote">
 							`;
