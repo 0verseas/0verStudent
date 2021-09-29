@@ -81,7 +81,9 @@
 			_wishList = orderJson[key];
 			document.getElementById("admission-doc-time-limit").innerText=admission_doc_upload_time_limit;
 
-			_renderWishList();
+			await _renderWishList();
+			if(_isDocumentLock)
+				await $('.column-wishGiveUpChange').addClass('hide');
 			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
@@ -114,7 +116,7 @@
 									<span class="hidden-sm-down"> 上傳</span>
 								</button>
 							</td>
-							<td>
+							<td class="column-wishGiveUpChange">
 								<button type="button" class="btn btn-danger btn-wishGiveUpChange" data-deptid="${value.dept_id}" data-action="true">
 									<i class="fa fa-times" aria-hidden="true"></i>
 								</button>
@@ -133,7 +135,7 @@
 									<span class="hidden-sm-down"> 已放棄上傳</span>
 								</button>
 							</td>
-							<td>
+							<td class="column-wishGiveUpChange">
 								<button type="button" class="btn btn-success btn-wishGiveUpChange" data-deptid="${value.dept_id}" data-action="false">
 									<i class="fa fa-repeat" aria-hidden="true"></i>
 								</button>
@@ -468,27 +470,23 @@
 	function _handleWishGiveUpChange(){
 		const deptId = $(this).data('deptid');
 		const action = $(this).data('action');
-		console.log(deptId);
-		console.log(action);
-		let alertTitle = '';
-		if(action == true){
-			alertTitle = `確定要放棄上傳備審資料？`
-		} else {
-			alertTitle = `確定要繼續上傳備審資料？`
-		}
+
 		swal({
-			title: alertTitle,
+			title: (action)?'確定要放棄上傳備審資料？':'確定要繼續上傳備審資料？',
 			html: `<p style="color:red;font-weight=bold;">注意：確認上傳資料並提交後，就無法再做任何變更！<p/>`,
-			type: 'warning',
+			type: (action)?'warning':'question',
 			showCancelButton: true,
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
-			confirmButtonClass: 'btn btn-success',
-			cancelButtonClass: 'btn btn-danger',
-			buttonsStyling: false,
+			cancelButtonClass: 'swal-cancel',
+			confirmButtonColor: '#5cb85c',
+			cancelButtonColor: '#d9534f',
 			onOpen: function () {
-				swal.showLoading();
-				setTimeout(swal.hideLoading, 3000);
+				if(action){
+					swal.showLoading();
+					$('.swal-cancel').hide().delay(3000).show(0);
+					setTimeout(swal.hideLoading, 3000);
+				}
 			}
 		}).then(async ()=>{
 			try {
