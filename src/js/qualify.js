@@ -564,7 +564,7 @@
                 if(!inputTime) return;
                 // 回歸前沒事 出現提示訊息即可
                 if(isTimeBefore){
-                    $alertPortugalPassportTimeBefore.show();
+                    $alertHoldPassportAndTaiwanHousehold.show();
                 } else {
                     // 回歸後取得 如果在台設有戶籍 出現提示訊息
                     if(choosenTaiwanHousehold == "1"){
@@ -626,7 +626,7 @@
         {
             await swal({
                 title: `提醒您，您的身份別為<br/>『港澳生』!<br/>請至上方「申請身份別」項目<br/>重新選擇身份別。`,
-                html: `提醒您，「港澳具外國國籍之華裔學生」係依據「僑生回國就學及輔導辦法」第23-1條規定：「具外國國籍，兼具香港或澳門永久居留資格，未曾在臺設有戶籍，且最近連續居留香港、澳門或海外六年以上之華裔學生」定義。`,
+                html: `「港澳具外國國籍之華裔學生」係依據「僑生回國就學及輔導辦法」第23-1條規定：「具外國國籍，兼具香港或澳門永久居留資格，未曾在臺設有戶籍，且最近連續居留香港、澳門或海外六年以上之華裔學生」定義。`,
                 type:"warning",
                 confirmButtonText: '確定',
                 allowOutsideClick: false
