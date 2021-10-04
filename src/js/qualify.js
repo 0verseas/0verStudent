@@ -528,6 +528,8 @@
         $questionPortugalPassportMore.hide();
         $questionWhichPassport.hide();
         if(choosenRadioValue == "1"){
+            $questionTaiwanHouseHold.show();
+            $questionPortugalPassport.show();
             _handleWhichPassportCheck();
         } else if(choosenRadioValue == "0"){
             if(choosenIdentity == "2"){
@@ -543,8 +545,6 @@
         let flag = true;
 
         $alertHoldpassport.hide();
-        $questionTaiwanHouseHold.show();
-        $questionPortugalPassport.show();
         $alertHoldPassportAndTaiwanHousehold.hide();
         $questionPortugalPassportMore.hide();
         $alertPortugalPassportTimeBefore.hide();
@@ -564,11 +564,11 @@
                 if(!inputTime) return;
                 // 回歸前沒事 出現提示訊息即可
                 if(isTimeBefore){
-                    $alertHoldPassportAndTaiwanHousehold.show();
+                    $alertPortugalPassportTimeBefore.show();
                 } else {
                     // 回歸後取得 如果在台設有戶籍 出現提示訊息
                     if(choosenTaiwanHousehold == "1"){
-                        $alertPortugalPassportTimeAfter.show();
+                        $alertHoldPassportAndTaiwanHousehold.show();
                     } else if(choosenTaiwanHousehold == "0"){
                         // 回歸後取得 如果未在台設有戶籍 出現提示訊息 並請學生切換身份別
                         flag = _alertForHKAOIdentity(2);
