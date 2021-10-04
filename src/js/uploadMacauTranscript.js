@@ -361,14 +361,13 @@
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
+			//偵測是否超過4MB
+			if(student.sizeConversion(fileList[i].size,4)){
+				alert(fileList[i].name + ' 檔案過大，大小不能超過4MB！')
+				$(this).val('');//清除檔案路徑
+				return;
+			}
 		}
-
-		//偵測是否超過4MB
-		if(student.sizeConversion(fileList[0].size,4)){
-			alert('檔案過大，大小不能超過4MB！')
-			$(this).val('');//清除檔案路徑
-			return;
-		}	
 
 		_handleSave();
 

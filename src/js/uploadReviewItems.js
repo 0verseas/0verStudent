@@ -728,14 +728,14 @@
 
 		const fileList = this.files;
 
-		//偵測是否超過8MB (8MB以下用後端偵測)
-		if(student.sizeConversion(fileList[0].size,8)){
-			alert('檔案過大！')
-			return;
-		}		
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
+			//偵測是否超過8MB (8MB以下用後端偵測)
+			if(await student.sizeConversion(fileList[i].size,4)){
+				await alert(fileList[i].name+' 檔案過大！')
+				return;
+			}
 		}
 		if (!!workType) {
 			data.append('file_type', workType);
