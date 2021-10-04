@@ -57,8 +57,7 @@
     const $systemArea = $('#system-area');
     const $systemChooseOption = $('#system-choose');
     // 身份別選項
-    const $identityAreaHr = $('#identity-area-hr');
-    const $identityArea = $('#identity-area');
+    const $identityArea = $('.identity-area');
     const $identityOverseasDescription = $('#identity-overseas-description');
     const $identityInTaiwanDescription = $('#identity-in-taiwan-description');
     const $identityRadio = $qualifyForm.find('.radio-identity');
@@ -120,7 +119,7 @@
     const $alertHasBeenTaiwan = $qualifyForm.find('.alert-hasBeenTaiwan');
     // 儲存按鈕
     const $saveBtn = $qualifyForm.find('.btn-save');
-
+    // 滑動動畫事件
     const smoothScroll = (number = 0, time) => {
 		if (!time) {
 			document.body.scrollTop = document.documentElement.scrollTop = number;
@@ -181,7 +180,7 @@
     /**
 	*	event handler
 	*/
-
+    // 初始化事件
     async function _init() {
 		try {
 			const response = await student.getStudentRegistrationProgress();
@@ -275,8 +274,7 @@
 
                 // render 請照順序來
                 await _handleSystemChoose();
-                if(data.citizenship)
-                {
+                if(data.citizenship){
                     await _initCitizenshipList(data.citizenship);
                 }
                 await _handleWhichPassportCheck();
@@ -302,26 +300,30 @@
     
     // 學制選擇事件
     function _handleSystemChoose(){
+        // 取得所選的學制 還有身份別
         const choosenSystem = $systemChooseOption.val();
         const choosenIdentity = $identityRadio.filter(":checked").val();
         const systemIdentytyMap = {'1':['1','2','3'],'2':['1','2'],'3':['1','2','3','4','5'],'4':['1','2','3','4','5']}
+        // 如果選過身份別 需要判斷當前學制是否有這個身份別
         if(choosenIdentity != null){
+            // 如果沒有就把已選擇的身份別選項disabled
             if(systemIdentytyMap[choosenSystem].indexOf(choosenIdentity) === -1){
                 $qualifyForm.find(`.radio-identity`).prop('checked',false);
             }
         }
+        // 身份別如果是在台海外居留年限不需要 第4項和第5項
         const $stayLimitOption4 = $qualifyForm.find(`.radio-stayLimit[value=4]`).parent();
         const $stayLimitOption5 = $qualifyForm.find(`.radio-stayLimit[value=5]`).parent();
-
+        // 不同的學制會顯示不同的身份別說明文字
         $identityOverseasDescription.hide();
         $identityInTaiwanDescription.hide();
         $('.identity-option-overseas').show();
         $('.identity-option-inTaiwan').show();
-
+        // 海外居留選項跟警示訊息都預設是開啟的
         $alertStayLimitWarning.show();
         $stayLimitOption4.show();
         $stayLimitOption5.show();
-
+        // 根據學制要顯示與隱藏不同的物件
         switch(choosenSystem){
             case '1':
                 $identityOverseasDescription.show();
@@ -340,16 +342,9 @@
                 $alertStayLimitWarning.hide();
                 break;
         }
-        document.getElementById('identity-overseas-description').style.display ="none";
-        document.getElementById('identity-in-taiwan-description').style.display ="none";
-        if(choosenSystem != 2){
-            document.getElementById('identity-overseas-description').style.display ="";
-            if(choosenSystem != 1){
-                document.getElementById('identity-in-taiwan-description').style.display ="";
-            }
-        }
-        $identityAreaHr.show();
-        $identityArea.removeClass('hide');
+        // 顯示身份別選項區域
+        $identityArea.show();
+        // 處理身份別選擇事件
         _handleIdentityChange();
     }
 
@@ -557,35 +552,42 @@
         $questionWhichPassport.hide();
         $alertWhichPassport.hide();
 
+        // 身份別是港澳生的判別
         if(choosenIdentity == "1"){
+            // 先判斷是否持葡萄牙護照
             if(choosenPortugalPassport == "1"){
+                // 持有葡萄牙護照要判斷是回歸前還是回歸後
                 const inputTime= $inputPortugalPassportTime.val();
                 const isTimeBefore = moment(inputTime).isBefore('1999-12-20')
-
                 $questionPortugalPassportMore.show();
+                // 還沒輸入取得時間 直接return
                 if(!inputTime) return;
+                // 回歸前沒事 出現提示訊息即可
                 if(isTimeBefore){
                     $alertPortugalPassportTimeBefore.show();
                 } else {
+                    // 回歸後取得 如果在台設有戶籍 出現提示訊息
                     if(choosenTaiwanHousehold == "1"){
                         $alertPortugalPassportTimeAfter.show();
                     } else if(choosenTaiwanHousehold == "0"){
-                        
+                        // 回歸後取得 如果未在台設有戶籍 出現提示訊息 並請學生切換身份別
                         flag = _alertForHKAOIdentity(2);
                     }
                 }
             } else if(choosenPortugalPassport == "0"){
                 $questionWhichPassport.show();
+                // 沒有持葡萄牙護照 如果在台設有戶籍 出現提示訊息
                 if(choosenTaiwanHousehold == "1"){
                     $alertHoldPassportAndTaiwanHousehold.show();
                 } else if(choosenTaiwanHousehold == "0"){
-                    
+                    // 沒有持葡萄牙護照 在台沒設有戶籍 出現提示訊息 並請學生切換身份別
                     flag = _alertForHKAOIdentity(2);
                 }
             }
         } else if(choosenIdentity == "2"){
+            // 身份別是港澳具外國國籍學生的判別
             if(choosenTaiwanHousehold == "1"){
-                
+                // 在台設有戶籍 有沒有持葡萄牙護照一律請它切換身份別
                 if(choosenPortugalPassport == "1"){
                     $questionPortugalPassportMore.show();
                 } else if(choosenPortugalPassport == "0"){
@@ -593,19 +595,22 @@
                 }
                 flag = _alertForHKAOIdentity(1);
             } else if(choosenTaiwanHousehold == "0"){
+                // 在台設有戶籍 持葡萄牙護照要判斷是回歸前還後
                 if(choosenPortugalPassport == "1"){
                     const inputTime= $inputPortugalPassportTime.val();
                     const isTimeBefore = moment(inputTime).isBefore('1999-12-20')
-
                     $questionPortugalPassportMore.show();
+                    // 還沒輸入取得時間 直接return
                     if(!inputTime) return;
                     if(isTimeBefore){
-                        
+                        // 回歸前取得 出現提示訊息 並請學生切換身份別
                         flag = _alertForHKAOIdentity(1);   
                     } else {
+                        // 回歸後沒事 出現提示訊息即可
                         $alertPortugalPassportTimeAfter.show();
                     }
                 } else if(choosenPortugalPassport == "0"){
+                    // 沒有持葡萄牙護照 出現提示訊息即可
                     $questionWhichPassport.show();
                     $alertWhichPassport.show();
                 }
@@ -682,11 +687,9 @@
 
         $questionInTaiwanMore.hide();
         $alertInTaiwan.hide();
-        console.log($alertInTaiwan);
         if(choosenOptionValue == "1"){
             $questionInTaiwanMore.show();
         } else if(choosenOptionValue == "0"){
-            console.log(choosenIdentity);
             $alertInTaiwan.find('i').text('');
             if(choosenIdentity == "4"){
                 $alertInTaiwan.find('i').text('身份別不符，請切換身份別到『港澳生』或『港澳具外國國籍之華裔學生』。');
@@ -700,7 +703,7 @@
     // 曾分發來台選項
     function _handleIsDistributionChange(){
         const choosenRadioValue = $isDistributionRadio.filter(":checked").val();
-        
+
         if(choosenRadioValue == "1"){
             $isDistributionOptionList.fadeIn();
         } else {
@@ -834,49 +837,47 @@
     }
     // 儲存
     async function _handleSave() {
+        // 先把學生選取的選項宣告成變數
+        // 處理海外僑生國籍用暫存字串
         let tmpString = '';
         _citizenshipList.forEach(object => {
             tmpString += object.id+',';
         });
-        const choosenSystem = +$systemChooseOption.val();
-        const choosenIdentity = +$identityRadio.filter(":checked").val();
-        const choosenEthnicChinese = +$ethnicChineseRadio.filter(":checked").val();
-        const choosenIdCard = +$idCardRadio.filter(":checked").val();
-		const citizenshipString = tmpString.substr(0,tmpString.length-1);
-        const choosenHoldPassport = +$holdpassportRadio.filter(":checked").val();
-        const choosenTaiwanHousehold = +$taiwanHouseholdRadio.filter(":checked").val();
-        const choosenPortugalPassport = +$portugalPassportRadio.filter(":checked").val();
-        const inputPortugalPassportTime = $inputPortugalPassportTime.val();
-        const choosenPassportCountry = $passportCountrySelect.val();
-        const choosenIsDistribution = +$isDistributionRadio.filter(":checked").val();
-        const inputIsDistributionTime = $qualifyForm.find('.input-distributionTime').val();
-        const choosenIsDistributionOption = +$isDistributionOption.filter(":checked").val();
-        const choosenStayLimit = +$stayLimitRadio.filter(":checked").val();
-        const choosenHasBeenTaiwan = +$hasBeenTaiwanRadio.filter(":checked").val();
-        const choosenHasBeenTaiwanOption = +$hasBeenTaiwanOption.filter(":checked").val();
-        const choosenTaiwanUniversity = +$taiwanUniversityRadio.filter(":checked").val();
-        const inputDistributionWay = $qualifyForm.find('.input-distributionWay').val();
-        const inputDistributionYear = $qualifyForm.find('.input-distributionYear').val();
-        const inputDistributionSchool = $qualifyForm.find('.input-distributionSchool').val();
-        const inputDistributionDept = $qualifyForm.find('.input-distributionDept').val();
-        const inputDistributionNo = $qualifyForm.find('.input-distributionNo').val();
+        const choosenSystem = +$systemChooseOption.val(); // 學制
+        const choosenIdentity = +$identityRadio.filter(":checked").val(); // 身份別
+        const choosenEthnicChinese = +$ethnicChineseRadio.filter(":checked").val(); // 是否為華裔學生
+        const choosenIdCard = +$idCardRadio.filter(":checked").val(); // 是否有港澳永久身份證
+		const citizenshipString = tmpString.substr(0,tmpString.length-1); // 國籍字串
+        const choosenHoldPassport = +$holdpassportRadio.filter(":checked").val(); // 是否持有除港澳之外的護照
+        const choosenTaiwanHousehold = +$taiwanHouseholdRadio.filter(":checked").val(); // 是否在台設有戶籍
+        const choosenPortugalPassport = +$portugalPassportRadio.filter(":checked").val(); // 是否持有葡萄牙護照
+        const inputPortugalPassportTime = $inputPortugalPassportTime.val();// 獲得葡萄牙護照之時間
+        const choosenPassportCountry = $passportCountrySelect.val(); // 持有那一國家的護照
+        const choosenIsDistribution = +$isDistributionRadio.filter(":checked").val(); // 是否曾分發來台
+        const inputIsDistributionTime = $qualifyForm.find('.input-distributionTime').val(); // 曾分發來台時間
+        const choosenIsDistributionOption = +$isDistributionOption.filter(":checked").val(); // 曾分發來台原因
+        const choosenStayLimit = +$stayLimitRadio.filter(":checked").val(); // 海外居留年限
+        const choosenHasBeenTaiwan = +$hasBeenTaiwanRadio.filter(":checked").val(); // 是否來台停留
+        const choosenHasBeenTaiwanOption = +$hasBeenTaiwanOption.filter(":checked").val(); // 來台停留原因
+        const choosenTaiwanUniversity = +$taiwanUniversityRadio.filter(":checked").val(); // 是否經由聯招或單招來台註冊入學
+        const inputDistributionWay = $qualifyForm.find('.input-distributionWay').val(); // 分發管道
+        const inputDistributionYear = $qualifyForm.find('.input-distributionYear').val(); // 分發年份
+        const inputDistributionSchool = $qualifyForm.find('.input-distributionSchool').val(); // 分發學校
+        const inputDistributionDept = $qualifyForm.find('.input-distributionDept').val(); // 分發系所
+        const inputDistributionNo = $qualifyForm.find('.input-distributionNo').val(); // 分發文號
 
+        // 檢查學制代碼
         if([1,2,3,4].indexOf(choosenSystem) == -1){
             swal({title: `請確認選擇的學制`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
-
+        // 根據學制檢查身份別代碼
         const systemIdentytyMap = {1:[1,2,3],2:[1,2],3:[1,2,3,4,5],4:[1,2,3,4,5]}
         if(systemIdentytyMap[choosenSystem].indexOf(choosenIdentity) === -1){
             swal({title: `請確認選擇的身份別`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
-
-        if(choosenEthnicChinese == 0){
-            swal({title: `非華裔者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-            return;
-        }
-
+        // 檢查分發來台選項
         const unqualifiedIsDistributionOptionMap = [3,4,5,6];
         if(choosenIsDistribution == 1){
             if(unqualifiedIsDistributionOptionMap.indexOf(choosenIsDistributionOption) !== -1){
@@ -888,13 +889,14 @@
                 return
             }
         }
-
+        // 宣告要傳送到後端的資料物件
         let sendData = {
             system_id: choosenSystem,
             identity: choosenIdentity,
             force_update: true // TODO ?
         };
-
+        // 根據身份別將需要傳遞的資料放進物件當中
+        // 海外僑生與港澳據外國國籍需要是否為華裔選項
         if(choosenIdentity == 2 || choosenIdentity == 3){
             if(choosenEthnicChinese !== 1){
                 await swal({title: `非華裔者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
@@ -902,7 +904,7 @@
             }
             sendData["is_ethnic_Chinese"] = choosenEthnicChinese;
         }
-
+        // 港澳生相關
         if(choosenIdentity == 1 || choosenIdentity == 2){
             if(choosenIdCard == 0){
                 await swal({title: `未擁有香港或澳門永久性居民身分證者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
@@ -922,7 +924,7 @@
             sendData["first_get_portugal_passport_at"] = inputPortugalPassportTime;
             sendData["which_nation_passport"] = choosenPassportCountry;
         }
-
+        // 海外僑生相關
         if(choosenIdentity == 3){
             if(!citizenshipString.length>0){
                 await swal({title: `請先選取你擁有的國籍`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
@@ -930,7 +932,7 @@
             }
             sendData["citizenship"] = citizenshipString;
         }
-
+        // 非在台申請相關
         if(choosenIdentity == 1 || choosenIdentity == 2 || choosenIdentity == 3){
             sendData["has_come_to_taiwan"] = choosenIsDistribution;
             sendData["come_to_taiwan_at"] = inputIsDistributionTime;
@@ -948,7 +950,7 @@
             sendData["stay_over_120_days_in_taiwan"] = choosenHasBeenTaiwan;
             sendData["reason_selection_of_stay_over_120_days_in_taiwan"] = choosenHasBeenTaiwanOption;
         }
-
+        // 在台申請相關
         if(choosenIdentity == 4 || choosenIdentity == 5){
             if(choosenTaiwanUniversity !== 1){
                 let titleString = (choosenTaiwanUniversity == 0) ?`未曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過，請重選身份別。` : `未選擇曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過選項。`
@@ -956,7 +958,6 @@
                 return;
             }
             sendData["register_and_admission_at_taiwan"] = choosenTaiwanUniversity;
-            console.log(inputDistributionWay);
             if(inputDistributionWay === "" || inputDistributionWay == null){
                 await swal({title: `請選擇入學管道`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
@@ -982,7 +983,7 @@
             sendData["same_grade_course_apply_year"] = inputIsDistributionTime;
             sendData["same_grade_course_selection"] = choosenIsDistributionOption;
         }
-        
+        // 開始把處理好的資料傳送到後端
         await loading.start();
         await student.verifyQualification(sendData)
         .then((res) => {
@@ -992,16 +993,18 @@
                 throw res;
             }
         })
-        .then((json) => {
-            // console.log(json);
+        .then(async (json) => {
+            // 成功
+            swal({title:`儲存成功，即將跳轉。`, type:"warning", showConfirmButton: false, allowOutsideClick: false});
             window.location.href = './personalInfo.html';
             loading.complete();
         })
         .catch((err) => {
+            // 失敗
             err.json && err.json().then((data) => {
-                console.error(data);
-                alert(`ERROR: \n${data.messages[0]}`);
-            })
+				console.error(data.messages[0]);
+                swal({title:data.messages[0], type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+			})
             loading.complete();
         });
     }
