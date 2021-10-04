@@ -78,10 +78,7 @@
 	<!-- End Google Tag Manager (noscript) -->
 	<%
 	const _processPageList = [ // 填寫資料頁面列表
-	'systemChoose',
-	'qualify1',
-	'qualify2',
-	'qualify3',
+	'qualify',
 	'personalInfo',
 	'educationInfo',
 	'olympia',
@@ -137,7 +134,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="list-group">
-					<a href="systemChoose.html" class="nav-item list-group-item list-group-item-action nav-systemChoose <%= 'qualify1qualify2qualify3systemChoose'.includes(current.source) ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　資格檢視 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i><div class="overseas-student-tip" style="display:none">&emsp;<small class="text-danger">(僑先部結業生不需填寫)</small></div></a>
+					<a href="qualify.html" class="nav-item list-group-item list-group-item-action nav-qualify <%= 'qualify'.includes(current.source) ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　資格檢視 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i><div class="overseas-student-tip" style="display:none">&emsp;<small class="text-danger">(僑先部結業生不需填寫)</small></div></a>
 					<a href="personalInfo.html" class="nav-item list-group-item list-group-item-action nav-personalInfo <%= current.source === 'personalInfo' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　個人基本資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
 					<a href="educationInfo.html" class="nav-item list-group-item list-group-item-action nav-educationInfo hide <%= current.source === 'educationInfo' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　入學資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
 					<a href="olympia.html" class="nav-item list-group-item list-group-item-action nav-olympia hide <%= current.source === 'olympia' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　奧林匹亞志願 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i> <div class="olympia-deadline" style="display:none">&emsp;<small class="text-danger">(非開放時間)</small></div></a>

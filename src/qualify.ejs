@@ -1,0 +1,625 @@
+<div class="qualify pb-5">
+
+	<dl class="row" id="system-area">
+		<dt class="col-md-3">選擇報名學制</dt>
+		<dd class="col-md-9">
+			<div class="row">
+				<div class="col-12">
+					<div class="alert alert-info" role="alert">
+						<strong>申請類別說明：</strong><br>
+						<span class="text-danger">學士班(含僑先部)：</span>申請就讀大學部	(亦可選填僑先部志願)。<br />
+						<span class="text-danger hide" id="two-year-systen-depiction">港二技：</span>申請就讀技術校院二年制學士班(限在香港取得副學士學位或高級文憑者)。<br />
+						<span class="text-danger">碩士班：</span>申請就讀碩士班。<br />
+						<span class="text-danger">博士班：</span>申請就讀博士班。
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="system-choose" class="col-xs-4 col-lg-2 col-form-label">申請類別</label>
+				<div class="col-xs-8 col-lg-10">
+					<select class="form-control" id="system-choose">
+                        <option value="" selected style="display:none;">請選擇報名學制</option>>
+						<option value="1">學士班(含僑先部)</option>
+						<option value="2" id="two-year-systen-option" class="hide">港二技</option>
+						<option value="3">碩士班</option>
+						<option value="4">博士班</option>
+					</select>
+				</div>
+			</div>
+		</dd>
+	</dl>
+
+    <hr class="hide" id="identity-area-hr"/>
+	<dl class="row identity-area hide" id="identity-area">
+		<dt class="col-md-3">身分別</dt>
+		<dd class="col-md-9">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="alert alert-info" role="alert">
+						<strong>身分別說明：</strong><br>
+						<span class="text-danger">港澳生：</span>持有香港或澳門永久性居民身分證，且最近連續居留臺灣地區<span class="text-danger"> 以外 </span>之國家或地區6年以上。<br />
+						<span class="text-danger">港澳具外國國籍之華裔學生：</span>具外國國籍(不含大陸、港澳及臺灣)與持有香港或澳門永久性居民身份證，未曾在臺設有戶籍，且最近連續居留臺灣地區及大陸地區<span class="text-danger"> 以外 </span>之國家或地區6年以上。 須持「外國護照」(含1999年12月20日後首次取得之葡萄牙護照)來臺就學、申請入境簽證及辦理在臺居留手續.<br />
+                        <div style="display: none;"id="identity-overseas-description"><span class="text-danger">海外僑生：</span>最近連續居留海外(不含大陸、港澳及臺灣)6年以上，並取得僑居地永久或長期居留證件之華裔學生。<br /></div>
+                        <div style="display: none;"id="identity-in-taiwan-description">
+                            <span class="text-danger">在臺港澳生：</span>在臺灣取得學士或碩士學位的港澳生。<br />
+						    <span class="text-danger">在臺僑生：</span>在臺灣取得學士或碩士學位的僑生。
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<fieldset class="form-group identity-option" id="identity-option-form">
+						<label>申請身份別</label><br>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="1"> 港澳生
+							</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="2"> 港澳具外國國籍之華裔學生
+							</label>
+						</div>
+                        <div class="form-check form-check-inline identity-option-overseas">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="3"> 海外僑生
+							</label>
+						</div>
+                        <div class="form-check form-check-inline identity-option-inTaiwan">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="4"> 在臺港澳生
+							</label>
+						</div>
+						<div class="form-check form-check-inline identity-option-inTaiwan">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="5"> 在臺僑生
+							</label>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</dd>
+	</dl>
+
+	<hr class="question-kangAoIdCard hide"/>
+	<div class="question-kangAoIdCard hide">
+		<div class="row questionRow">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label><strong>請問您是否擁有香港或澳門永久性居民身分證？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-idCard" type="radio" name="idCard" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-idCard" type="radio" name="idCard" value="0"> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="col-md-12 alert-idCard hide">
+				<div class="alert alert-danger" role="alert">
+					<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <hr class="question-ethnicChinese hide"/>
+    <div class="question-ethnicChinese hide">
+		<div class="row questionRow">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label><strong>請問您是否為華裔學生？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-ethnicChinese" type="radio" name="ethnicChinese" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-ethnicChinese" type="radio" name="ethnicChinese" value="0"> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="col-md-12 alert-ethnicChinese hide">
+				<div class="alert alert-danger" role="alert">
+					<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="question-citizenship hide" >
+	<div class="question-citizenship hide">
+		<div class="row questionRow">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label><strong>請問您擁有哪些國家之國籍（護照）？ </strong><small>※可複選</small></label><br>
+				</fieldset>
+			</div>
+			<div class="col-6">
+				<fieldset class="form-group">
+					<label>洲別</label><br>
+					<select class="form-control select-citizenshipContinent">
+					</select>
+				</fieldset>
+				<fieldset class="form-group">
+					<label>國家</label><br>
+					<select class="form-control select-citizenshipCountry">
+					</select>
+				</fieldset>
+			</div>
+			<div class="col-6">
+				<fieldset class="form-group">
+					<div class="card card-bottom">
+						<div class="card-header">擁有之國籍</div>
+						<div class="card-body">
+							<table class="table table-hover">
+								<tbody id="citizenshipList">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+
+	<hr class="question-holdpassport hide"/>
+	<div class="question-holdpassport hide">
+		<div class="row questionRow">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label><strong>是否另持有「香港護照或英國國民（海外）護照」<span class="text-danger"> 以外 </span>之旅行證照，或持有澳門護照<span class="text-danger"> 以外 </span>之旅行證照？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-holdpassport" type="radio" name="holdpassport" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-holdpassport" type="radio" name="holdpassport" value="0"> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="col-md-12 alert-holdpassport hide">
+				<div class="alert alert-warning" role="alert">
+					<i class="fa fa-exclamation-circle" aria-hidden="true">身份別不符，請切換身份別。</i>
+				</div>
+			</div>
+
+			<div class="col-md-12 question-taiwanHousehold hide">
+				<fieldset class="form-group">
+					<label><strong>是否曾在臺設有戶籍？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-taiwanHousehold" type="radio" name="taiwanHousehold" value="1" > 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-taiwanHousehold" type="radio" name="taiwanHousehold" value="0"> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+
+			<div class="col-md-12 question-portugalPassport hide">
+				<hr/>
+				<fieldset class="form-group">
+					<label><strong>是否持有葡萄牙護照？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-portugalPassport" type="radio" name="portugalPassport" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-portugalPassport" type="radio" name="portugalPassport" value="0"> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="question-portugalPassportMore hide">
+				<div class="col-md-12">
+					<fieldset class="form-group">
+						<label><strong>於何時首次取得葡萄牙護照？</strong></label>
+						<input class="form-control input-portugalPassportTime" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
+					</fieldset>
+				</div>
+				<div class="col-md-12 alert-portugalPassportTimeBefore hide">
+					<div class="alert alert-warning" role="alert">
+						<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 需填寫聲明書，並同意於錄取後需檢附澳門特區政府身份證明局開立之「個人資料證明書」始得申辦赴臺就學簽證。
+					</div>
+				</div>
+				<div class="col-md-12 alert-portugalPassportTimeAfter hide">
+					<div class="alert alert-warning" role="alert">
+						<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 需填寫切結書，同意依僑輔法23-1條規定辦理，並具結未曾在臺設有戶籍
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 alert-holdPassportAndTaiwanHousehold  hide">
+				<div class="alert alert-warning" role="alert">
+					<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 需填寫切結書，同意於入學前符合「港澳關係條例第4條」規定
+				</div>
+			</div>
+
+			<div class="col-md-12 question-whichPassport hide">
+				<fieldset class="form-group">
+					<label><strong>您持有哪一個國家之護照？</strong></label><br>
+					<label>洲別</label><br>
+					<select class="form-control select-passportContinent">
+					</select>
+				</fieldset>
+				<fieldset class="form-group">
+					<label>國家</label><br>
+					<select class="form-control select-passportCountry">
+					</select>
+				</fieldset>
+			</div>
+			<div class="col-md-12 alert-whichPassport hide">
+					<div class="alert alert-warning" role="alert">
+						<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 需填寫切結書，同意依僑輔法23-1條規定辦理，並具結未曾在臺設有戶籍
+					</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="question-inTaiwan hide"/>
+	<div class="question-inTaiwan hide">
+		<div class="row questionRow">
+			<div class="col-md-12">
+				<fieldset class="form-group">
+					<label><strong>請問您是否曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-taiwanUniversity" type="radio" name="taiwanUniversity" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-taiwanUniversity" type="radio" name="taiwanUniversity" value="0"> 否
+						</label>
+					</div>
+				</fieldset>
+			</div>
+
+			<div class="col-md-12 alert-inTaiwan hide">
+				<div class="alert alert-warning" role="alert">
+					<i class="fa fa-exclamation-circle" aria-hidden="true">身份別不符，請切換身份別。</i>
+				</div>
+			</div>
+
+			<div class="col-md-12 question-inTaiwanMore hide">
+				<div class="form-group">
+					<label>入學管道：</label>
+					<select class="form-control input-distributionWay">
+						<option value="" hidden selected disabled>請選擇</option>
+						<option value="海外聯合招生委員會">海外聯合招生委員會</option>
+						<option value="各校單獨招生">各校單獨招生</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>首度分發至臺灣各大學之年份：</label>
+					<input class="form-control input-distributionYear" data-provide="datepicker" data-date-format="yyyy" data-date-min-view-mode="2" data-date-end-date="yyyy">
+				</div>
+				<div class="form-group">
+					<label>分發學校：</label>
+					<input type="text" class="form-control input-distributionSchool">
+				</div>
+				<div class="form-group">
+					<label>分發學系：</label>
+					<input type="text" class="form-control input-distributionDept">
+				</div>
+				<div class="form-group">
+					<label>分發文字號： </label>
+					<input type="text" class="form-control input-distributionNo" placeholder="如經海外聯招會分發者，建議提供分發文字號（選填）">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="question-isDistribution hide"/>
+	<div class="question-isDistribution hide">
+		<dl class="row questionRow">
+			<dt class="col-md-3">
+				曾分發來臺
+			</dt>
+			<dd class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<fieldset class="form-group">
+							<label class="title-isDistribution"></label><br>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input radio-isDistribution" name="isDistribution" type="radio" value="1"> 是
+								</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input radio-isDistribution" name="isDistribution" type="radio" value="0"> 否
+								</label>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="row hide" id="distributionMore">
+					<div class="col-12">
+						<fieldset class="form-group">
+							<label>於西元幾年分發來臺？</label>
+							<input class="form-control input-distributionTime" type="text" placeholder="請填寫西元年份，若多個請用「，」隔開。EX：2013">
+						</fieldset>
+						<fieldset class="form-group">
+							<label>請就下列選項擇一勾選</label><br>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="1">
+									<a></a>
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="2">
+									<a></a>
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="3">
+									<a></a>
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="4">
+									<a></a>
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="5">
+									<a></a>
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="6">
+									<a></a>
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="7">
+									<a></a>
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input option-isDistribution" name="distributionMore" type="radio" value="8">
+									<a></a>
+								</label>
+							</div>
+						</fieldset>
+						<div class="alert alert-danger hide alert-isDistribution" role="alert">
+							<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+						</div>
+					</div>
+				</div>
+			</dd>
+		</dl>
+	</div>
+
+	<hr class="question-stayLimit hide"/>
+	<div class="question-stayLimit hide">
+		<dl class="row questionRow">
+			<dt class="col-md-3">
+				海外居留年限
+			</dt>
+			<dd class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-info alert-stayLimitInfo" role="alert">
+							<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 居留年限日期起訖可至
+							<a href="https://cmn-hant.overseas.ncnu.edu.tw/chapters" target="_blank">官網各地區簡章</a> 查詢
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-warning alert-stayLimitWarning" role="alert">
+							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 醫、牙及中醫學系需連續居留僑居地8年以上才可申請
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<fieldset class="form-group">
+							<label class="title-stayLimit"></label><br>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="1"> 報名時未滿六年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="2"> 報名時未滿六年，但至入學當年度8月31日前滿六年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="3"> 報名時已滿六年，但未滿八年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="4"> 報名時未滿八年，但至入學當年度8月31日前滿八年
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="5"> 報名時已滿八年
+								</label>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-danger alert-stayLimitUnqualified" role="alert">
+							<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="alert alert-warning alert-stayLimiCertif hide" role="alert">
+							<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 需填寫切結書
+						</div>
+					</div>
+				</div>
+			</dd>
+		</dl>
+	</div>
+
+	<hr class="question-hasBeenTaiwan hide"/>
+	<div class="question-hasBeenTaiwan hide">
+		<dl class="row questionRow">
+			<dt class="col-md-3">
+				在臺停留日期
+			</dt>
+			<dd class="col-md-9">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-info" role="alert">
+							<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 報名截止日可至
+							<a href="https://cmn-hant.overseas.ncnu.edu.tw/chapters" target="_blank">官網各地區簡章</a> 查詢
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<fieldset class="form-group">
+							<label>報名截止日往前推算僑居地居留期間內，是否曾在某一年來臺停留超過 120 天？</label><br>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input radio-hasBeenTaiwan" type="radio" name="hasBeenTaiwan" value="1"> 是
+								</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input class="form-check-input radio-hasBeenTaiwan" type="radio" name="hasBeenTaiwan" value="0"> 否
+								</label>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="hide" id ="question-hasBeenTaiwan">
+					<div class="row">
+						<div class="col-md-12">
+							<fieldset class="form-group">
+								<label>請就下列選項，擇一勾選，<a class="font-weight-bold text-danger">並檢附證明文件</a>：</label>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="1">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="2">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="3">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="4">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="5">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="6">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="7">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="8">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="9">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="10">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="11">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="12">
+										<a></a>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input class="form-check-input option-hasBeenTaiwan" type="radio" name="whyHasBeenTaiwan" value="13">
+										<a></a>
+									</label>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="alert alert-danger alert-hasBeenTaiwan hide" role="alert">
+								<i class="fa fa-times" aria-hidden="true"></i> 不具有報名資格
+							</div>
+						</div>
+					</div>
+				</div>
+			</dd>
+		</dl>
+	</div>
+
+	<hr/>
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<a href="javascript:;" class="btn btn-primary btn-save">儲存</a>
+		</div>
+	</div>
+
+</div>

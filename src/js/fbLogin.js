@@ -118,7 +118,7 @@
 
 	function _handleRedirect(json){
 		if( json.student_qualification_verify === null) {
-			location.href = './systemChoose.html';
+			location.href = './qualify.html';
 		} else if( (json.student_qualification_verify.identity=== 6 &&
 			json.student_misc_data.join_admission_selection=== 1 &&
 			json.student_misc_data.confirmed_at !=null &&
@@ -143,7 +143,7 @@
 		} else if(json.student_qualification_verify.identity=== 6){
 			location.href = './personalInfo.html';
 		}else {
-			location.href = './systemChoose.html';
+			location.href = './qualify.html';
 		}
 	}
 

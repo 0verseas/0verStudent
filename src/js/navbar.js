@@ -201,7 +201,7 @@
 	function _setProgress(data) {
 		// 資格驗證
 		if (!!data.student_qualification_verify) {
-			$('.nav-systemChoose').addClass('list-group-item-success');
+			$('.nav-qualify').addClass('list-group-item-success');
 			const systemID = data.student_qualification_verify.system_id;
 			if (+systemID === 1) {
 				$('.nav-educationInfo, .nav-olympia, .nav-grade, .nav-placementSelection').show();
@@ -226,8 +226,8 @@
 		}
 
 		if(data.student_qualification_verify.identity>5){
-			$('.nav-systemChoose').addClass('disabled');
-			$('.nav-systemChoose').click(function(e){e.preventDefault();});
+			$('.nav-qualify').addClass('disabled');
+			$('.nav-qualify').click(function(e){e.preventDefault();});
 			$('.overseas-student-tip').show();
 		}
 
@@ -367,16 +367,10 @@
 	}
 
 	function _checkQualificationVerify(currentPathName, qualificationVerifyStatus) {
-		const doNotVerifyPages = [ // 不需檢查資格驗證的頁面
-		"/systemChoose.html",
-		"/qualify1.html",
-		"/qualify2.html",
-		"/qualify3.html"
-		];
 		if (!qualificationVerifyStatus) {
-			if (!(doNotVerifyPages.indexOf(currentPathName) > -1)) {
+			if (currentPathName != "/qualify.html") {
 				alert("請先完成資格檢視");
-				location.href = "./systemChoose.html"
+				location.href = "./qualify.html"
 			}
 		}
 	}
