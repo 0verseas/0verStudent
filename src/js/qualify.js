@@ -2,6 +2,8 @@
 	/**
 	*	private variable
 	*/
+    let _savedSystem = 0;
+    let _savedIdentity = 0;
     let _countryList = [];
 	let _citizenshipList = [];
     const isDistributionOptionsString = [
@@ -220,8 +222,10 @@
                 // set data
                 // 學制
 				await $systemChooseOption.val(data.system_id);
+                _savedSystem = data.system_id;
                 // 身份別
                 await $qualifyForm.find(`.radio-identity[value=${data.identity}]`).prop('checked',true);
+                _savedIdentity = data.identity;
                 // 是否持港澳身份證
                 if(data.HK_Macao_permanent_residency){
                     await $qualifyForm.find(`.radio-idCard[value=1]`).prop('checked',true);
@@ -941,11 +945,11 @@
             if(!await _handleWhichPassportCheck()){
                 return;
             }
-            if(isNaN(choosenTaiwanHousehold)){
+            if(choosenHoldPassport === 1 && isNaN(choosenTaiwanHousehold)){
                 await swal({title: `請選擇是否曾在臺設有戶籍選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return
             }
-            if(isNaN(choosenPortugalPassport)){
+            if(choosenHoldPassport === 1 && isNaN(choosenPortugalPassport)){
                 await swal({title: `請選擇是否持有葡萄牙護照選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return
             }
@@ -1035,6 +1039,26 @@
             sendData["same_grade_course_apply_year"] = inputIsDistributionTime;
             sendData["same_grade_course_selection"] = choosenIsDistributionOption;
         }
+
+        if(_savedSystem !== 0  && _savedIdentity !== 0){
+            if(_savedSystem != choosenSystem || _savedIdentity != choosenIdentity){
+                await swal({
+                    title: `若要更換身份別，將重填所有資料，是否確定？`,
+                    type:"warning",
+                    showCancelButton: true,
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消',
+                    confirmButtonColor: '#5cb85c',
+                    cancelButtonColor: '#d9534f',
+                    allowOutsideClick: false
+                }, function(isConfirm){
+                    if(!isConfirm){
+                        return;
+                    }
+                });
+            }
+        }
+
         // 開始把處理好的資料傳送到後端
         await loading.start();
         await student.verifyQualification(sendData)
