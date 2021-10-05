@@ -350,9 +350,11 @@
 
     // 身份別選擇事件
     async function _handleIdentityChange(){
+        // 取得目前選擇的學制與身份別
         const choosenSystem = $systemChooseOption.val();
         const choosenIdentity = $identityRadio.filter(":checked").val();
 
+        // 下方問題先全部隱藏
         $questionKangAoIdCard.hide();
         $questionEthnicChinese.hide();
         $questionCitizenship.hide();
@@ -366,12 +368,13 @@
         _renderIsDistributionOptions(choosenIdentity);
         _renderHasBeenTaiwanOptions(choosenIdentity);
         
+        // 針對在台碩博的改變先還原
         $questionIsDistributionTitle.removeClass('font-weight-bold');
         $questionIsDistribution.find('dt').show();
         let questionIsDistributionText = '是否曾經分發來臺就學過？';
         let questionStayLimitTitleHtml = '請問自報名截止日往前推算，已在僑居地連續居留多少年？';
 
-        // 按照身份別顯示不同的問題選項
+        // 按照身份別顯示不同的問題選項及文字
         switch(choosenIdentity){
             case '2':
                 $questionEthnicChinese.show();
@@ -382,7 +385,7 @@
                 $questionStayLimit.show();
                 $questionHasBeenTaiwan.show();
                 questionStayLimitTitleHtml = `最近連續居留境外（指臺灣地區<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
-                _handleWhichPassportCheck();
+                _handleWhichPassportCheck(); // 切換成港澳生時要檢查持外國護照項目
                 break;
             case '3':
                 $questionEthnicChinese.show();
@@ -398,7 +401,7 @@
                 $questionIsDistribution.show();
                 $questionIsDistribution.find('dt').hide();
                 $questionIsDistributionTitle.addClass('font-weight-bold');
-                _handleTaiwanUniversityChange();
+                _handleTaiwanUniversityChange(); // 切換成在台僑港澳生要檢查分發管道選項
                 break;
         }
         $questionIsDistributionTitle.text(questionIsDistributionText);
@@ -532,6 +535,7 @@
             $questionPortugalPassport.show();
             _handleWhichPassportCheck();
         } else if(choosenRadioValue == "0"){
+            // 港澳具外國國籍學生一定要有港澳外護照
             if(choosenIdentity == "2"){
                 _alertForHKAOIdentity(1);
             }
@@ -687,6 +691,8 @@
 
         $questionInTaiwanMore.hide();
         $alertInTaiwan.hide();
+
+        // 依照選項顯示接下來的問題或依照身份別顯示不同的提示訊息
         if(choosenOptionValue == "1"){
             $questionInTaiwanMore.show();
         } else if(choosenOptionValue == "0"){
@@ -725,34 +731,32 @@
             
             // 文字區域先清空
             optionTextArea.text('');
-            // 選項全部先隱藏
-            option.parent().hide();
-            // 按照身份別渲染選項文字 及 顯示不同的問題選項
+            // 選項全部先顯示
+            option.parent().show();
+            // 按照身份別渲染選項文字 及 隱藏不同的問題選項
             switch(choosenIdentity){
                 case '1':
                 case '2':
                     // 分發來台選項只顯示前七個
-                    if(order < 8){
-                        optionTextArea.text(' '+order+'. '+optionText);
-                        option.parent().show()
-                    }                        
-                    break;
+                    if(order > 7){
+                        option.parent().hide();
+                    }
                 case '3':
-                    optionTextArea.text(' '+order+'. '+optionText);
-                    option.parent().show()
+                    optionText = ' '+order+'. '+optionText;
                     break;
                 case '4':
                 case '5':
+                    // 分發來台選項6 文字跟別人不一樣
+                    if(order == 6){
+                        optionText = '非因故自願退學（如勒令退學）。'
+                    }
                     // 分發來台選項只顯示前6個 第2個也不顯示
-                    if(order < 7 && order != 2){
-                        if(order == 6){
-                            optionText = '非因故自願退學（如勒令退學）。'
-                        }
-                        optionTextArea.text(optionText);
-                        option.parent().show()
+                    if(order > 6 || order == 2){
+                        option.parent().hide();
                     }
                     break;
             }
+            optionTextArea.text(optionText);
         });
         _handleIsDistributionOptionChange();
     }
@@ -776,18 +780,16 @@
         $alertStayLimitCertif.hide();
         let alertStayLimitCertifText = '';
 
-        // 按照海外居留年限選項別顯示不同的alert
+        // 按照海外居留年限選項別顯示不同的alert與文字
         switch(choosenRadioValue){
             default:
                 $alertStayLimitUnqualified.show();
                 break;
-            case '2':
-                $alertStayLimitCertif.show()
-                alertStayLimitCertifText = '需填寫切結書';
-                break;
             case '4':
-                $alertStayLimitCertif.show()
-                alertStayLimitCertifText = '欲申請醫牙學系者需填寫切結書';
+                alertStayLimitCertifText += '欲申請醫牙學系者';
+            case '2':
+                alertStayLimitCertifText += '需填寫切結書';
+                $alertStayLimitCertif.show();
                 break;
             case '3':
             case '5':
@@ -906,15 +908,17 @@
         }
         // 港澳生相關
         if(choosenIdentity == 1 || choosenIdentity == 2){
-            if(choosenIdCard == 0){
+            if(choosenIdCard !== 1){
                 await swal({title: `未擁有香港或澳門永久性居民身分證者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["HK_Macao_permanent_residency"] = choosenIdCard;
+            // 港澳具外國國籍者需持有外國護照
             if(choosenHoldPassport !== 1 && choosenIdentity == 2){
                 await _alertForHKAOIdentity(1);
                 return;
             }
+            // 持有外國護照直接呼叫函式檢查
             sendData["except_HK_Macao_passport"] = choosenHoldPassport;
             if(!await _handleWhichPassportCheck()){
                 return;
@@ -993,7 +997,7 @@
                 throw res;
             }
         })
-        .then(async (json) => {
+        .then((json) => {
             // 成功
             swal({title:`儲存成功，即將跳轉。`, type:"warning", showConfirmButton: false, allowOutsideClick: false});
             window.location.href = './personalInfo.html';
