@@ -562,10 +562,10 @@
             if(choosenPortugalPassport == "1"){
                 // 持有葡萄牙護照要判斷是回歸前還是回歸後
                 const inputTime= $inputPortugalPassportTime.val();
-                const isTimeBefore = moment(inputTime).isBefore('1999-12-20')
+                const isTimeBefore = moment(inputTime, 'YYYY/MM/DD').isBefore('1999-12-20');
                 $questionPortugalPassportMore.show();
                 // 還沒輸入取得時間 直接return
-                if(!inputTime) return;
+                if(!inputTime) return flag;
                 // 回歸前沒事 出現提示訊息即可
                 if(isTimeBefore){
                     $alertPortugalPassportTimeBefore.show();
@@ -602,10 +602,10 @@
                 // 在台設有戶籍 持葡萄牙護照要判斷是回歸前還後
                 if(choosenPortugalPassport == "1"){
                     const inputTime= $inputPortugalPassportTime.val();
-                    const isTimeBefore = moment(inputTime).isBefore('1999-12-20')
+                    const isTimeBefore = moment(inputTime, 'YYYY/MM/DD').isBefore('1999-12-20');
                     $questionPortugalPassportMore.show();
                     // 還沒輸入取得時間 直接return
-                    if(!inputTime) return;
+                    if(!inputTime) return flag;
                     if(isTimeBefore){
                         // 回歸前取得 出現提示訊息 並請學生切換身份別
                         flag = _alertForHKAOIdentity(1);   
@@ -839,12 +839,12 @@
     }
     // 儲存
     async function _handleSave() {
-        // 先把學生選取的選項宣告成變數
         // 處理海外僑生國籍用暫存字串
         let tmpString = '';
         _citizenshipList.forEach(object => {
             tmpString += object.id+',';
         });
+        // 先把學生選取的選項宣告成變數
         const choosenSystem = +$systemChooseOption.val(); // 學制
         const choosenIdentity = +$identityRadio.filter(":checked").val(); // 身份別
         const choosenEthnicChinese = +$ethnicChineseRadio.filter(":checked").val(); // 是否為華裔學生
@@ -867,27 +867,37 @@
         const inputDistributionSchool = $qualifyForm.find('.input-distributionSchool').val(); // 分發學校
         const inputDistributionDept = $qualifyForm.find('.input-distributionDept').val(); // 分發系所
         const inputDistributionNo = $qualifyForm.find('.input-distributionNo').val(); // 分發文號
+        console.log(inputPortugalPassportTime);
 
         // 檢查學制代碼
         if([1,2,3,4].indexOf(choosenSystem) == -1){
-            swal({title: `請確認選擇的學制`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            await swal({title: `請確認選擇的學制`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
         // 根據學制檢查身份別代碼
         const systemIdentytyMap = {1:[1,2,3],2:[1,2],3:[1,2,3,4,5],4:[1,2,3,4,5]}
         if(systemIdentytyMap[choosenSystem].indexOf(choosenIdentity) === -1){
-            swal({title: `請確認選擇的身份別`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            await swal({title: `請確認選擇的身份別`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
         // 檢查分發來台選項
+        if(isNaN(choosenIsDistribution)){
+            await swal({title: `請選擇分發來臺選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            return
+        }
+        // 檢查分發來台原因選項
         const unqualifiedIsDistributionOptionMap = [3,4,5,6];
         if(choosenIsDistribution == 1){
             if(unqualifiedIsDistributionOptionMap.indexOf(choosenIsDistributionOption) !== -1){
-                swal({title: `分發來臺選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `分發來臺選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return
             }
             if(inputIsDistributionTime == ''){
-                swal({title: `未填寫分發來臺年份`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `未填寫分發來臺年份`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
+            }
+            if((choosenIdentity > 3 && choosenIsDistributionOption > 6) || (choosenIdentity < 3 && choosenIsDistributionOption > 7) || !choosenIsDistributionOption){
+                await swal({title: `請選擇分發來臺原因選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return
             }
         }
@@ -900,6 +910,10 @@
         // 根據身份別將需要傳遞的資料放進物件當中
         // 海外僑生與港澳據外國國籍需要是否為華裔選項
         if(choosenIdentity == 2 || choosenIdentity == 3){
+            if(isNaN(choosenEthnicChinese)){
+                await swal({title: `請選擇是否為華裔選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
+            }
             if(choosenEthnicChinese !== 1){
                 await swal({title: `非華裔者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
@@ -913,6 +927,10 @@
                 return;
             }
             sendData["HK_Macao_permanent_residency"] = choosenIdCard;
+            if(isNaN(choosenHoldPassport)){
+                await swal({title: `請選擇是否持有香港或澳門地區外護照`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
+            }
             // 港澳具外國國籍者需持有外國護照
             if(choosenHoldPassport !== 1 && choosenIdentity == 2){
                 await _alertForHKAOIdentity(1);
@@ -922,6 +940,22 @@
             sendData["except_HK_Macao_passport"] = choosenHoldPassport;
             if(!await _handleWhichPassportCheck()){
                 return;
+            }
+            if(isNaN(choosenTaiwanHousehold)){
+                await swal({title: `請選擇是否曾在臺設有戶籍選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
+            }
+            if(isNaN(choosenPortugalPassport)){
+                await swal({title: `請選擇是否持有葡萄牙護照選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
+            }
+            if(choosenPortugalPassport === 1 && inputPortugalPassportTime == ''){
+                await swal({title: `未填寫於何時首次取得葡萄牙護照`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
+            }
+            if(choosenPortugalPassport === 0 && !choosenPassportCountry){
+                await swal({title: `未選擇持有護照之國家選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
             }
             sendData["taiwan_census"] = choosenTaiwanHousehold;
             sendData["portugal_passport"] = choosenPortugalPassport;
@@ -945,11 +979,25 @@
                 await swal({title: `海外居留年限選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
-            sendData["overseas_residence_time"] = choosenStayLimit;
-            const unqualifiedHasBeenTaiwanOptionMap = [13,10,10];
-            if(choosenHasBeenTaiwan == 1 && choosenHasBeenTaiwanOption == unqualifiedHasBeenTaiwanOptionMap[choosenIdentity-1]){
-                await swal({title: `在臺停留選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            if(!choosenStayLimit){
+                await swal({title: `請選擇海外居留年限選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
+            }
+            sendData["overseas_residence_time"] = choosenStayLimit;
+            if(isNaN(choosenHasBeenTaiwan)){
+                await swal({title: `請選擇是否在臺停留選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return;
+            }
+            const unqualifiedHasBeenTaiwanOptionMap = [13,10,10];
+            if(choosenHasBeenTaiwan == 1 ){
+                if(!choosenHasBeenTaiwanOption){
+                    await swal({title: `請選擇在臺停留因選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    return;
+                }
+                if(choosenHasBeenTaiwanOption == unqualifiedHasBeenTaiwanOptionMap[choosenIdentity-1]){
+                    await swal({title: `在臺停留選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    return;
+                }
             }
             sendData["stay_over_120_days_in_taiwan"] = choosenHasBeenTaiwan;
             sendData["reason_selection_of_stay_over_120_days_in_taiwan"] = choosenHasBeenTaiwanOption;
