@@ -354,6 +354,19 @@
 		&& location.pathname == '/uploadMalaysiaTranscript.html'){
 			location.href="./downloadDocs.html";
 		}
+
+		// 今年只有港生要線上繳交報名費用 如果不是香港學生後湍傳過來的 trade_status 會是null
+		if((data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2) 
+		&& data.student_personal_data && data.student_order_list_trade_status !== null){
+			// 顯示繳交報名費用
+			$('.nav-applicationFee').show();
+			// 還沒繳錢就不給學生按完成填報
+			if(data.student_order_list_trade_status == '1'){
+				$('.nav-applicationFee').addClass('list-group-item-success');
+			} else {
+				$checkBtn.prop('disabled', true);
+			}
+		}
 	}
 
 	function _setHeader(data) {
