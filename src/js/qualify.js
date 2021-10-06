@@ -997,15 +997,18 @@
                 await swal({title: `海外居留年限選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
-            if(!choosenStayLimit){
+            // 如果沒有值 或是 原本選了 4 or 5 切到碩博沒有重選
+            if(!choosenStayLimit || (choosenSystem > 2 && choosenStayLimit > 3)){
                 await swal({title: `請選擇海外居留年限選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["overseas_residence_time"] = choosenStayLimit;
+            // 檢查在台停留選項
             if(isNaN(choosenHasBeenTaiwan)){
                 await swal({title: `請選擇是否在臺停留選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
+            // 檢查在台停留原因
             const unqualifiedHasBeenTaiwanOptionMap = [13,10,10];
             if(choosenHasBeenTaiwan == 1 ){
                 if(!choosenHasBeenTaiwanOption){
