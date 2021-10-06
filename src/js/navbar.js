@@ -6,6 +6,7 @@
 	const $logoutBtn = $('#btn-logout');
 	const $mailResendBtn = $('#btn-mailResend');
 	const $checkBtn = $('#btn-all-set');
+	const $payBtn = $('#btn-pay');
 	const $afterConfirmZone = $('#afterConfirmZone');
 	const $uploadAndSubmit = $('#btn-uploadAndSubmit');
 	const $macautranscript = $('#btn-uploadMacauTranscript');
@@ -54,6 +55,7 @@
 	$mailResendBtn.on('click', _handleResendMail);
 	$checkBtn.on('click', _checkAllSet);
 	$uploadAndSubmit.on('click', _handleUploadAndSubmit);
+	$payBtn.on('click', _checkPay);
 
 	function _handleLogout() {
 		loading.start();
@@ -202,7 +204,7 @@
 		//console.log(data);
 		// 資格驗證
 		if (!!data.student_qualification_verify) {
-			$('.nav-systemChoose').addClass('list-group-item-success');
+			$('.nav-qualify').addClass('list-group-item-success');
 			const systemID = data.student_qualification_verify.system_id;
 			if (+systemID === 1) {
 				$('.nav-educationInfo, .nav-olympia, .nav-grade, .nav-placementSelection').show();
@@ -227,8 +229,8 @@
 		}
 
 		if(data.student_qualification_verify.identity>5){
-			$('.nav-systemChoose').addClass('disabled');
-			$('.nav-systemChoose').click(function(e){e.preventDefault();});
+			$('.nav-qualify').addClass('disabled');
+			$('.nav-qualify').click(function(e){e.preventDefault();});
 			$('.overseas-student-tip').show();
 		}
 
@@ -360,6 +362,19 @@
 		&& location.pathname == '/uploadMalaysiaTranscript.html'){
 			location.href="./downloadDocs.html";
 		}
+
+		// 今年只有港生要線上繳交報名費用 如果不是香港學生後湍傳過來的 trade_status 會是null
+		if((data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2) 
+		&& data.student_personal_data && data.student_order_list_trade_status !== null){
+			// 還沒繳錢就不給學生按完成填報
+			if(data.student_order_list_trade_status == '1'){
+				$payBtn.hide();
+				$checkBtn.show();
+			} else {
+				$payBtn.show();
+				$checkBtn.hide();
+			}
+		}
 	}
 
 	function _setHeader(data) {
@@ -373,18 +388,30 @@
 	}
 
 	function _checkQualificationVerify(currentPathName, qualificationVerifyStatus) {
-		const doNotVerifyPages = [ // 不需檢查資格驗證的頁面
-		"/systemChoose.html",
-		"/qualify1.html",
-		"/qualify2.html",
-		"/qualify3.html"
-		];
 		if (!qualificationVerifyStatus) {
-			if (!(doNotVerifyPages.indexOf(currentPathName) > -1)) {
+			if (currentPathName != "/qualify.html") {
 				alert("請先完成資格檢視");
-				location.href = "./systemChoose.html"
+				location.href = "./qualify.html"
 			}
 		}
+	}
+	function _checkPay(){
+		// 詢問使用者是否要確認資料並前往付款頁面
+		swal({
+			title: `確認後就「無法再次更改資料」<br/>您真的確認送出嗎？`,
+			html:`按下確認後，即將前往付款頁面繳交報名費`,
+			type:"question",
+			showCancelButton: true,
+			confirmButtonText: '確定',
+			cancelButtonText: '取消',
+			confirmButtonColor: '#5cb85c',
+			cancelButtonColor: '#d9534f',
+			allowOutsideClick: false
+		}).then(()=>{
+            // 按下確定後就呼叫我們的API跳轉到綠界的付款頁面
+            location.href = env.baseUrl + `/students/application-fee/create`;
+        }).catch(()=>{
+        });
 	}
 
 	function _checkAllSet() {

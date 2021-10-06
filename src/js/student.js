@@ -319,6 +319,16 @@ const student = (() => {
 		})
 	}
 
+	function setAdmissionSelectionWishGiveUpCange(id, action) {
+		return fetch(baseUrl + `/students/admission-selection-order/${id}/${action}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
 	// POST /students/verify-qualification
 	function verifyQualification(data) {
 		return fetch(`${baseUrl}/students/verify-qualification`, {
@@ -738,6 +748,13 @@ const student = (() => {
 		});
 	}
 
+	function getOrderList() {
+		return fetch(baseUrl + `/students/application-fee`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -809,7 +826,9 @@ const student = (() => {
 		deleteMalaysiaTranscriptFile,
 		uploadIdentityVerificationItem,
 		getIdentityVerificationItem,
-		delIdentityVerificationItem
+		delIdentityVerificationItem,
+		setAdmissionSelectionWishGiveUpCange,
+		getOrderList,
 	};
 
 })();

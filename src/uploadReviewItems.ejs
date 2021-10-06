@@ -4,18 +4,19 @@
 <div class="alert alert-info">
 	<ul>
 		<li>請於<span id="admission-doc-time-limit" style="color:red"></span>完成志願校系審查資料上傳作業並提交。</li>
-		<li><strong>所有志願的必繳項目都至少要上傳一個檔案</strong>，<span style="color:red">否則無法完成提交</span>。</li>
-		<li>一經按下「確認上傳資料並提交」按鍵後，上傳的檔案就無法再做任何變更。請務必檢視各志願校系上傳之檔案項目、內容及數量無誤後再提交。</li>
-		<li>按下『確認上傳資料並提交』按鍵後，系統將產生「志願校系審查資料上傳確認頁」，並發送電郵供留存參考。</li>
-		<li>未完成線上提交者，一律不予分發。</li>
+		<li><strong>所有未放棄上傳資料的志願，其必繳項目都至少要上傳一個檔案</strong>，<span style="color:red">否則無法完成提交</span>。</li>
+		<li>申請人如欲放棄上傳部份志願校系資料，可點選選單最後方按鈕，<span style="color:red">放棄上傳審查資料</span>。</li>
+		<li>一經按下<span style="color:red">「確認上傳資料並提交」</span>按鍵後，上傳的檔案就無法再做任何變更。請務必檢視各志願校系上傳之檔案項目、內容及數量無誤後再提交。</li>
+		<li>按下『確認上傳資料並提交』，系統將產生<span style="color:red">「志願校系審查資料上傳確認信」</span>，<strong>並發送電郵供留存參考</strong>。</li>
+		<li><span style="color:red">未按下『確認上傳資料並提交』按鍵，完成線上提交者，<strong>一律不予分發</strong>。</span></li>
 	</ul>
 </div>
 <div class="alert alert-warning">
 	<ul>
 		常用文書軟體轉換 PDF 方式說明如下：
-		<li>LibreOffice: <a href="https://help.libreoffice.org/Common/Export_as_PDF/zh-TW" target="_blank">https://help.libreoffice.org/Common/Export_as_PDF/zh-TW</a></li>
-		<li>Microsoft Office: <a href="https://support.office.com/zh-tw/article/儲存或轉換為-pdf-或-xps-d85416c5-7d77-4fd6-a216-6f4bf7c7c110" target="_blank">https://support.office.com/zh-tw/article/儲存或轉換為-pdf-或-xps-d85416c5-7d77-4fd6-a216-6f4bf7c7c110</a></li>
-		<li>Apple Pages: <a href="https://support.apple.com/zh-tw/HT202227" target="_blank">https://support.apple.com/zh-tw/HT202227</a></li>
+		<li>LibreOffice：<br/><a href="https://help.libreoffice.org/Common/Export_as_PDF/zh-TW" target="_blank">https://help.libreoffice.org/Common/Export_as_PDF/zh-TW</a></li>
+		<li>Microsoft Office：<br/><a href="https://support.office.com/zh-tw/article/儲存或轉換為-pdf-或-xps-d85416c5-7d77-4fd6-a216-6f4bf7c7c110" target="_blank">https://support.office.com/zh-tw/article/儲存或轉換為-pdf-或-xps-d85416c5-7d77-4fd6-a216-6f4bf7c7c110</a></li>
+		<li>Apple Pages：<br/><a href="https://support.apple.com/zh-tw/HT202227" target="_blank">https://support.apple.com/zh-tw/HT202227</a></li>
 	</ul>
 </div>
 <div id="wrap-wishList">
@@ -27,10 +28,11 @@
 						<th>志願序</th>
 						<th>志願代碼</th>
 						<th>學系名稱</th>
-						<th></th>
+						<th>上傳資料</th>
+						<th class="column-wishGiveUpChange">放棄上傳<br/>備審資料</th>
 					</tr>
 				</thead>
-				<tbody id="wishList">
+				<tbody id="wishList" class="table-warning">
 				</tbody>
 			</table>
 		</div>

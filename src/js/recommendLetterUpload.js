@@ -132,16 +132,15 @@
             if(!checkFile(this)){ //有不可接受的副檔名存在
                 return ;
             }
+            //偵測是否超過4MB
+            if(student.sizeConversion(fileList[i].size,4)){
+                alert(fileList[i].name+' 檔案過大，大小不能超過4MB！')
+                $(this).val('');//清除檔案路徑
+                return;
+            }	
             data.append('files[]', fileList[i]);
             // console.log(fileList[i]);
         }
-
-        //偵測是否超過4MB
-		if(student.sizeConversion(fileList[0].size,4)){
-			alert('檔案過大，大小不能超過4MB！')
-			$(this).val('');//清除檔案路徑
-			return;
-		}	
 
         try {
             loading.start();

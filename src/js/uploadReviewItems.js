@@ -46,6 +46,7 @@
 	*/
 
 	$wishListWrap.on('click.edit', '.btn-wishEdit', _handleEditForm);
+	$wishListWrap.on('click.delete', '.btn-wishGiveUpChange', _handleWishGiveUpChange);
 	$saveBtn.on('click', _handleSave);
 	$exitBtn.on('click', _handleExit);
 	$('body').on('change.upload', '.file-certificate', _handleUpload);
@@ -80,7 +81,9 @@
 			_wishList = orderJson[key];
 			document.getElementById("admission-doc-time-limit").innerText=admission_doc_upload_time_limit;
 
-			_renderWishList();
+			await _renderWishList();
+			if(_isDocumentLock)
+				await $('.column-wishGiveUpChange').addClass('hide');
 			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
@@ -100,24 +103,51 @@
 		let wishHTML = '';
 		_wishList.forEach((value, index) => {
 			let showId = (_system === 1) ? value.department_data.card_code : value.department_data.id;
-			wishHTML += `
-				<tr class="table-warning">
-					<td>${index + 1}</td>
-					<td>${showId}</td>
-					<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
-					<td class="text-right">
-						<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
-							<i class="fa fa-upload" aria-hidden="true"></i>
-							<span class="hidden-sm-down"> 上傳</span>
-						</button>
-					</td>
-				</tr>
-			`;
 
-			if (_isDocumentLock) {
+			if(value.give_up === 0){
+				wishHTML += `
+						<tr>
+							<td>${index + 1}</td>
+							<td>${showId}</td>
+							<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
+							<td>
+								<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
+									<i class="fa fa-upload" aria-hidden="true"></i>
+									<span class="hidden-sm-down"> 上傳</span>
+								</button>
+							</td>
+							<td class="column-wishGiveUpChange">
+								<button type="button" class="btn btn-danger btn-wishGiveUpChange" data-deptid="${value.dept_id}" data-action="true">
+									<i class="fa fa-times" aria-hidden="true"></i>
+								</button>
+							</td>
+						</tr>
+					`
+			} else {
+				wishHTML += `
+						<tr>
+							<td>${index + 1}</td>
+							<td>${showId}</td>
+							<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
+							<td colspan="">
+								<button type="button" class="btn btn-danger"disabled>
+									<i class="fa fa-ban" aria-hidden="true"></i>
+									<span class="hidden-sm-down"> 已放棄上傳</span>
+								</button>
+							</td>
+							<td class="column-wishGiveUpChange">
+								<button type="button" class="btn btn-success btn-wishGiveUpChange" data-deptid="${value.dept_id}" data-action="false">
+									<i class="fa fa-repeat" aria-hidden="true"></i>
+								</button>
+							</td>
+						</tr>
+					`
+			}
+
+			if (_isDocumentLock && value.deleted_at === null) {
 				wishHTML += `
 					<tr>
-						<td colspan="4">
+						<td colspan="5" class="table-light">
 							<h6>繳交狀況：</h6>
 							<blockquote class="blockquote">
 							`;
@@ -437,6 +467,48 @@
 		loading.complete();
 	}
 
+	function _handleWishGiveUpChange(){
+		const deptId = $(this).data('deptid');
+		const action = $(this).data('action');
+
+		swal({
+			title: (action)?'確定要放棄上傳備審資料？':'確定要繼續上傳備審資料？',
+			html: `<p style="color:red;font-weight=bold;">注意：確認上傳資料並提交後，就無法再做任何變更！<p/>`,
+			type: (action)?'warning':'question',
+			showCancelButton: true,
+			confirmButtonText: '確定',
+			cancelButtonText: '取消',
+			cancelButtonClass: 'swal-cancel',
+			confirmButtonColor: '#5cb85c',
+			cancelButtonColor: '#d9534f',
+			onOpen: function () {
+				if(action){
+					swal.showLoading();
+					$('.swal-cancel').hide().delay(3000).show(0);
+					setTimeout(swal.hideLoading, 3000);
+				}
+			}
+		}).then(async ()=>{
+			try {
+				loading.start();
+				const response = await student.setAdmissionSelectionWishGiveUpCange(deptId, action);
+				if (!response.ok) { throw response; }
+	
+				await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+				await loading.complete();
+				await window.location.reload();
+			} catch(e) {
+				loading.complete();
+				e.json && e.json().then((data) => {
+					console.error(data);
+					swal({title:"儲存失敗",text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				});
+			}	
+		}).catch(()=>{
+			return ;
+		})
+	}
+
 	function _getFileAreaHTML(fileListItem, fileListKey) {
 		let html = '';
 		fileListItem[fileListKey].forEach((fileName, index) => {
@@ -656,14 +728,14 @@
 
 		const fileList = this.files;
 
-		//偵測是否超過8MB (8MB以下用後端偵測)
-		if(student.sizeConversion(fileList[0].size,8)){
-			alert('檔案過大！')
-			return;
-		}		
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
+			//偵測是否超過8MB (8MB以下用後端偵測)
+			if(await student.sizeConversion(fileList[i].size,4)){
+				await alert(fileList[i].name+' 檔案過大！')
+				return;
+			}
 		}
 		if (!!workType) {
 			data.append('file_type', workType);
