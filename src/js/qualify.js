@@ -951,26 +951,29 @@
                 await _alertForHKAOIdentity(1);
                 return;
             }
-            // 持有外國護照直接呼叫函式檢查
+            // 持有外國護照直接呼叫函式檢查是否要切換身份別
             sendData["except_HK_Macao_passport"] = choosenHoldPassport;
             if(!await _handleWhichPassportCheck()){
                 return;
             }
-            if(choosenHoldPassport === 1 && isNaN(choosenTaiwanHousehold)){
-                await swal({title: `請選擇是否曾在臺設有戶籍選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
-            }
-            if(choosenHoldPassport === 1 && isNaN(choosenPortugalPassport)){
-                await swal({title: `請選擇是否持有葡萄牙護照選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
-            }
-            if(choosenPortugalPassport === 1 && inputPortugalPassportTime == ''){
-                await swal({title: `未填寫於何時首次取得葡萄牙護照`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
-            }
-            if(choosenPortugalPassport === 0 && !choosenPassportCountry){
-                await swal({title: `未選擇持有護照之國家選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
+            // 持有外國護照確認選項數值
+            if(choosenHoldPassport === 1){
+                if(isNaN(choosenTaiwanHousehold)){
+                    await swal({title: `請選擇是否曾在臺設有戶籍選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    return
+                }
+                if(isNaN(choosenPortugalPassport)){
+                    await swal({title: `請選擇是否持有葡萄牙護照選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    return
+                }
+                if(choosenPortugalPassport === 1 && inputPortugalPassportTime == ''){
+                    await swal({title: `未填寫於何時首次取得葡萄牙護照`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    return
+                }
+                if(choosenPortugalPassport === 0 && !choosenPassportCountry){
+                    await swal({title: `未選擇持有護照之國家選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    return
+                }   
             }
             sendData["taiwan_census"] = choosenTaiwanHousehold;
             sendData["portugal_passport"] = choosenPortugalPassport;
