@@ -9,30 +9,37 @@
   */
 
  // 初始化事件
- function init(){
-     student.getOrderList()
-     .then(function (res) {
-         if (res.ok) {
-             return res.json();
-         } else {
-             throw res;
+ async function init(){
+     loading.start();
+     const response = await student.getOrderList();
+     const data = await response.json();
+     if(response.ok){
+         if(data.trade_status == "1"){
+            const lockResponse = await student.dataConfirmation({"confirmed": true});
+            const lockdata = await lockResponse.json();
+            if(lockResponse.ok){
+                await swal({title: `成功完成填報。`, html:`如果需要再修改資料請利用「資料修正表」，或是重新申請一組新的帳號。`,type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                location.href = "./downloadDocs.html";
+            } else {
+                if(lockResponse.status == 401){
+                    await swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    location.href="./index.html";
+                } else {
+                    console.error(lockdata);
+                    await swal({title: `Error: ${lockdata.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    location.href="./result.html";
+                }
+            }
          }
-     })
-     .then(function () {
-         loading.complete();
-         location.href="./applicationFee.html";
-     })
-     .catch(function (res) {
-         loading.complete();
-         if(res.status == 401){
-             swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-             location.href="./index.html";
-         } else {
-             res.json && res.json().then((data) => {
-                 console.error(data);
-                 swal({title: `Error: ${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-             })
-             location.href="./result.html";
-         }
-     });
+     } else {
+        if(response.status == 401){
+            await swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            location.href="./index.html";
+        } else {
+            console.error(data);
+            await swal({title: `Error: ${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            location.href="./result.html";
+        }
+     }
+     await loading.complete();
  }
