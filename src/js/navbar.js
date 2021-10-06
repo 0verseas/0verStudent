@@ -199,6 +199,7 @@
 	}
 
 	function _setProgress(data) {
+		//console.log(data);
 		// 資格驗證
 		if (!!data.student_qualification_verify) {
 			$('.nav-systemChoose').addClass('list-group-item-success');
@@ -328,6 +329,11 @@
 			$('.nav-lalalalalala').addClass('disabled');
 			$('.nav-lalalalalala').addClass('show-deadline');
 			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
+		}
+
+		// 僑居地是香港的，因為沒有海華幫忙收件了，要開上傳身份證件區
+		if(data.student_personal_data_detail.resident_location == '113'){
+			document.getElementById('uploadIdentityVerification').style.display = 'block';
 		}
 
 		// 澳門上傳四校聯考成績單  採計方式代碼代訂

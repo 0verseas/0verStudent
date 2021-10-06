@@ -614,6 +614,30 @@ const student = (() => {
 		})
 	}
 
+	// 學生(香港)上傳審查身份文件
+	function uploadIdentityVerificationItem({ user_id, data, item }) {
+		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${item}/file`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		})
+	}
+
+	// 撈出學生(香港)傳審查身份文件
+	function getIdentityVerificationItem({user_id, item}) {
+		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${item}/file`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
+	// 刪除學生(香港)傳審查身份文件
+	function delIdentityVerificationItem({ user_id, itemId }) {
+		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${itemId}/file/none`, {
+			method: 'Delete',
+			credentials: 'include'
+		})
+	}
 
 	// 取得學生是否願意去僑先部的資料
 	function getStudentGoToFForNot(){
@@ -783,6 +807,9 @@ const student = (() => {
 		deleteMalaysiaTranscript,
 		updateMalaysiaTranscriptFile,
 		deleteMalaysiaTranscriptFile,
+		uploadIdentityVerificationItem,
+		getIdentityVerificationItem,
+		delIdentityVerificationItem
 	};
 
 })();
