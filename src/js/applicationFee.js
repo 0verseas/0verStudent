@@ -67,18 +67,22 @@
         });
     }
 
-    function _handlePay(){
-        // 使用者確認
-        swal({
+    async function _handlePay(){
+        await loading.start();
+        // 詢問使用者是否確認要前往付款頁面
+        await swal({
             title: '即將前往付款頁面',
             type: 'warning',
             showCancelButton: true,
             confirmButtonText: '確認',
-            cancelButtonText: '取消'
+            cancelButtonText: '取消',
+            confirmButtonColor: '#5cb85c',
+            cancelButtonColor: '#d9534f',
         }).then(()=>{
-            // 
+            // 按下確定後就呼叫我們的API跳轉到綠界的付款頁面
             location.href = env.baseUrl + `/students/application-fee/create`;
         }).catch(()=>{
         });
+        await loading.complete();
     }
 })();
