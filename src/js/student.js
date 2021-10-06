@@ -731,6 +731,13 @@ const student = (() => {
 		});
 	}
 
+	function checkOrderListCanCreate() {
+		return fetch(baseUrl + `/students/application-fee/check`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -802,6 +809,7 @@ const student = (() => {
 		deleteMalaysiaTranscriptFile,
 		setAdmissionSelectionWishGiveUpCange,
 		getOrderList,
+		checkOrderListCanCreate,
 	};
 
 })();
