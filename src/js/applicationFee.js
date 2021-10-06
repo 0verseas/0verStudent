@@ -29,7 +29,7 @@
             location.href = "./personalInfo.html";
         }
 
-        if(!progressJson.student_misc_data.admission_placement_apply_way_data){
+        if(progressJson.student_qualification_verify.system_id == 1 && !progressJson.student_misc_data.admission_placement_apply_way_data){
             await swal({title: "請先選擇成績採計方式！", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             location.href = "./grade.html";
         }
