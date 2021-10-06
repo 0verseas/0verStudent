@@ -559,7 +559,6 @@
                 if (_systemId === 2) {
                     if (system2Rule.indexOf(obj.id) === -1) { return; }
                 }
-                console.log(_identityId);   
                 if ((_systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
                     if (countryFilterRule.indexOf(obj.id) !== -1) { return; }
                 }

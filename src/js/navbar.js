@@ -408,8 +408,29 @@
 			cancelButtonColor: '#d9534f',
 			allowOutsideClick: false
 		}).then(()=>{
-            // 按下確定後就呼叫我們的API跳轉到綠界的付款頁面
-            location.href = env.baseUrl + `/students/application-fee/create`;
+			student.checkOrderListCanCreate()
+			.then(function (res) {
+				if (res.ok) {
+					// 確認可以就直接呼叫我們的API跳轉到綠界的付款頁面
+					location.href = env.baseUrl + `/students/application-fee/create`;
+				} else {
+					throw res;
+				}
+			})
+			.then(function () {
+				loading.complete();
+			})
+			.catch(function (res) {
+				loading.complete();
+				if(res.status == 401){
+					swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+				} else {
+					res.json && res.json().then((data) => {
+						console.error(data);
+						swal({title: `Error: ${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+					})
+				}
+			});
         }).catch(()=>{
         });
 	}

@@ -63,6 +63,10 @@
     const $identityOverseasDescription = $('#identity-overseas-description');
     const $identityInTaiwanDescription = $('#identity-in-taiwan-description');
     const $identityRadio = $qualifyForm.find('.radio-identity');
+    // 港二技的文憑取得選項
+    const $questionKangADHDgraduated = $('.question-ADHDgraduated');
+    const $ADHDgraduatedRadio = $('.radio-ADHDgraduated');
+    const $alertADHDgraduated = $qualifyForm.find('.alert-ADHDgraduated');
     // 港澳身份證選項
     const $questionKangAoIdCard = $('.question-kangAoIdCard');
     const $idCardRadio = $('.radio-idCard');
@@ -153,6 +157,8 @@
     $systemChooseOption.on('change',_handleSystemChoose);
     // 身份別
     $identityRadio.on('change',_handleIdentityChange);
+    // 是否有副學士學位或高級文憑
+    $ADHDgraduatedRadio.on('change',_handleADHDgraduatedChange);
     // 是否有港澳永久身份證
     $idCardRadio.on('change',_handleIdCardRadioChange);
     // 是否為華裔
@@ -226,6 +232,8 @@
                 // 身份別
                 await $qualifyForm.find(`.radio-identity[value=${data.identity}]`).prop('checked',true);
                 _savedIdentity = data.identity;
+                // 是否有取得副學士或高級文憑
+                await $qualifyForm.find(`.radio-ADHDgraduated[value=${data.associate_degree_or_higher_diploma_graduated}]`).prop('checked',true);
                 // 是否持港澳身份證
                 if(data.HK_Macao_permanent_residency){
                     await $qualifyForm.find(`.radio-idCard[value=1]`).prop('checked',true);
@@ -315,6 +323,8 @@
                 $qualifyForm.find(`.radio-identity`).prop('checked',false);
             }
         }
+        // 只有港二技有這選項 直接先隱藏
+        $questionKangADHDgraduated.hide();
         // 身份別如果是在台海外居留年限不需要 第4項和第5項
         const $stayLimitOption4 = $qualifyForm.find(`.radio-stayLimit[value=4]`).parent();
         const $stayLimitOption5 = $qualifyForm.find(`.radio-stayLimit[value=5]`).parent();
@@ -383,6 +393,9 @@
             case '2':
                 $questionEthnicChinese.show();
             case '1':
+                if(choosenSystem == "2"){
+                    $questionKangADHDgraduated.show();
+                }
                 $questionKangAoIdCard.show();
                 $questionHoldpassport.show();
                 $questionIsDistribution.show();
@@ -410,6 +423,16 @@
         }
         $questionIsDistributionTitle.text(questionIsDistributionText);
         $questionStayLimitTitle.html(questionStayLimitTitleHtml);
+    }
+
+    // 是否有副學士學位或高級文憑
+    function _handleADHDgraduatedChange(){
+        const choosenRadioValue = $ADHDgraduatedRadio.filter(":checked").val();
+        if(choosenRadioValue !== '1'){
+            $alertADHDgraduated.show();
+        } else {
+            $alertADHDgraduated.hide();
+        }
     }
 
     // 是否持有港澳身份證
@@ -863,6 +886,7 @@
         const choosenSystem = +$systemChooseOption.val(); // 學制
         const choosenIdentity = +$identityRadio.filter(":checked").val(); // 身份別
         const choosenEthnicChinese = +$ethnicChineseRadio.filter(":checked").val(); // 是否為華裔學生
+        const choosenADHDgraduated = +$ADHDgraduatedRadio.filter(":checked").val(); // 是否有副學士學位或高級文憑
         const choosenIdCard = +$idCardRadio.filter(":checked").val(); // 是否有港澳永久身份證
 		const citizenshipString = tmpString.substr(0,tmpString.length-1); // 國籍字串
         const choosenHoldPassport = +$holdpassportRadio.filter(":checked").val(); // 是否持有除港澳之外的護照
@@ -923,6 +947,18 @@
             force_update: true // TODO ?
         };
         // 根據身份別將需要傳遞的資料放進物件當中
+        // 是否有副學士學位或高級文憑
+        if(choosenSystem === 2){
+            if(isNaN(choosenADHDgraduated)){
+                await swal({title: `請選擇在香港是否修習副學士學位或高級文憑課程，並已取得畢業證書選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return
+            }
+            if(choosenADHDgraduated !== 1){
+                await swal({title: `未在香港是否修習副學士學位或高級文憑課程，並已取得畢業證書者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return;
+            }
+            sendData["associate_degree_or_higher_diploma_graduated"] = choosenADHDgraduated;
+        }
         // 海外僑生與港澳據外國國籍需要是否為華裔選項
         if(choosenIdentity == 2 || choosenIdentity == 3){
             if(isNaN(choosenEthnicChinese)){
