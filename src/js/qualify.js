@@ -534,6 +534,11 @@
         $questionPortugalPassport.hide();
         $questionPortugalPassportMore.hide();
         $questionWhichPassport.hide();
+        $alertHoldpassport.hide();
+        $alertHoldPassportAndTaiwanHousehold.hide();
+        $alertPortugalPassportTimeBefore.hide();
+        $alertPortugalPassportTimeAfter.hide();
+        $alertWhichPassport.hide();
         if(choosenRadioValue == "1"){
             $questionTaiwanHouseHold.show();
             $questionPortugalPassport.show();
@@ -548,6 +553,7 @@
     // 港澳持外國護照細項互相影響所以事件寫一起
     async function _handleWhichPassportCheck(){
         const choosenIdentity = $identityRadio.filter(":checked").val();
+        const choosenHoldpassportValue = $holdpassportRadio.filter(":checked").val();
         const choosenTaiwanHousehold = $taiwanHouseholdRadio.filter(":checked").val();
         const choosenPortugalPassport = $portugalPassportRadio.filter(":checked").val();
         let flag = true;
@@ -559,6 +565,11 @@
         $alertPortugalPassportTimeAfter.hide();
         $questionWhichPassport.hide();
         $alertWhichPassport.hide();
+
+        // 如果沒有持外國護照就return;
+        if(choosenHoldpassportValue !== "1"){
+            return flag;
+        }
 
         // 身份別是港澳生的判別
         if(choosenIdentity == "1"){
