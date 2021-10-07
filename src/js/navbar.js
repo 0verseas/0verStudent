@@ -262,6 +262,18 @@
 				$('.nav-admissionSelection').addClass('show-deadline');
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
 			}
+			// 僑居地是香港的，因為沒有海華幫忙收件了，要開上傳身份證件區，要線上繳交報名費用 
+			if(data.student_personal_data_detail == '香港'){
+				document.getElementById('uploadIdentityVerification').style.display = 'block';
+				// 還沒繳錢就不給學生按完成填報
+				if(data.student_order_list_trade_status == '1'){
+					$payBtn.hide();
+					$checkBtn.show();
+				} else {
+					$payBtn.show();
+					$checkBtn.hide();
+				}
+			}
 		}
 
 		// 聯合分發成績採計方式
@@ -333,11 +345,6 @@
 			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
 		}
 
-		// 僑居地是香港的，因為沒有海華幫忙收件了，要開上傳身份證件區
-		if(data.student_personal_data_detail.resident_location == '113'){
-			document.getElementById('uploadIdentityVerification').style.display = 'block';
-		}
-
 		// 澳門上傳四校聯考成績單  採計方式代碼代訂
 		//
 		if(data.student_misc_data.admission_placement_apply_way_data){  // 如果沒資料就跑裡面會卡住
@@ -361,19 +368,6 @@
 		if(env.malaysiaCanUploadList.indexOf(data.id) == -1 
 		&& location.pathname == '/uploadMalaysiaTranscript.html'){
 			location.href="./downloadDocs.html";
-		}
-
-		// 今年只有港生要線上繳交報名費用 如果不是香港學生後湍傳過來的 trade_status 會是null
-		if((data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2) 
-		&& data.student_personal_data && data.student_order_list_trade_status !== null){
-			// 還沒繳錢就不給學生按完成填報
-			if(data.student_order_list_trade_status == '1'){
-				$payBtn.hide();
-				$checkBtn.show();
-			} else {
-				$payBtn.show();
-				$checkBtn.hide();
-			}
 		}
 	}
 
