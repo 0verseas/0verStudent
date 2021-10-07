@@ -1251,6 +1251,7 @@
 		// 	return;
 		// }
 
+		let item;
 		try {
 			loading.start();
 			item =  $(this).data('item') ;
