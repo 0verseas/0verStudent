@@ -319,7 +319,7 @@ const student = (() => {
 		})
 	}
 
-	function setAdmissionSelectionWishGiveUpCange(id, action) {
+	function setAdmissionSelectionWishGiveUpChange(id, action) {
 		return fetch(baseUrl + `/students/admission-selection-order/${id}/${action}`, {
 			method: 'PUT',
 			headers: {
@@ -834,7 +834,7 @@ const student = (() => {
 		uploadIdentityVerificationItem,
 		getIdentityVerificationItem,
 		delIdentityVerificationItem,
-		setAdmissionSelectionWishGiveUpCange,
+		setAdmissionSelectionWishGiveUpChange,
 		getOrderList,
 		checkOrderListCanCreate,
 	};

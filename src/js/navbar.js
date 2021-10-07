@@ -487,6 +487,9 @@
 		} else if (!json.can_admission_selection && !json.can_admission_placement) {
 			// 還沒有填報，且不在報名個人申請、聯合分發的期間，不能點送出填報按鈕
 			$('#btn-all-set').prop('disabled', true).text('目前不是可報名時間');
+		} else if(json.student_order_list_trade_status === "1"){
+			// 還沒有填報，但完成繳費的人自動去跳轉頁面讓它鎖定
+			location.href = "./ecpayRedirect.html";
 		}
 	}
 

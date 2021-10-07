@@ -491,7 +491,7 @@
 		}).then(async ()=>{
 			try {
 				loading.start();
-				const response = await student.setAdmissionSelectionWishGiveUpCange(deptId, action);
+				const response = await student.setAdmissionSelectionWishGiveUpChange(deptId, action);
 				if (!response.ok) { throw response; }
 	
 				await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
