@@ -291,7 +291,7 @@
     */
     async function setIDCard(){
 		let item_id = '01';
-        cardHtml01= `
+        let cardHtml01= `
         <div class="card border-info" style="border-width: thick;margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
                 香港永久居民身份證正面
@@ -320,9 +320,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML('01','uploadArea_IDCard');
+				$('#uploadArea_IDCard_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_IDCard_file').hide();
 			}
 			
 			// 上傳 button 樣式
@@ -350,7 +352,7 @@
     async function setQuitSchool(){
 		let item_id = '02';
 			
-		cardHtml02 = `
+		let cardHtml02 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 				自願退學證明
@@ -379,9 +381,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_quitSchool');
+				$('#uploadArea_quitSchool_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_quitSchool_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -409,7 +413,7 @@
     async function setOverseasStayYears(){
 		let item_id = '03';
 			
-		cardHtml03 = `
+		let cardHtml03 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			海外居留年限切結書
@@ -438,9 +442,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_overseasStayYears');
+				$('#uploadArea_overseasStayYears_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_overseasStayYears_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -468,7 +474,7 @@
     async function setTaiwanStayDates(){
 		let item_id = '04';
 			
-		cardHtml04 = `
+		let cardHtml04 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			在台停留日期
@@ -497,9 +503,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_TaiwanStayDates');
+				$('#uploadArea_TaiwanStayDates_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_TaiwanStayDates_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -527,7 +535,7 @@
     async function setHKorMOGuarantee(){
 		let item_id = '05';
 			
-		cardHtml05 = `
+		let cardHtml05 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			港澳聲聲明書 / 港澳具外國國籍之華裔學生切結書
@@ -556,9 +564,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_HKorMOGuarantee');
+				$('#uploadArea_HKorMOGuarantee_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_HKorMOGuarantee_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -586,7 +596,7 @@
     async function setheadshot(){
 		let item_id = '06';
 			
-		cardHtml06 = `
+		let cardHtml06 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			2吋相片
@@ -615,9 +625,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_headshot');
+				$('#uploadArea_headshot_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_headshot_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -645,7 +657,7 @@
     async function sethomeReturnPermit(){
 		let item_id = '07';
 			
-		cardHtml07 = `
+		let cardHtml07 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			回鄉證
@@ -674,9 +686,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_homeReturnPermit');
+				$('#uploadArea_homeReturnPermit_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_homeReturnPermit_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -704,7 +718,7 @@
     async function setChangeOfName(){
 		let item_id = '08';
 			
-		cardHtml08 = `
+		let cardHtml08 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			改名契
@@ -733,9 +747,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_changeOfName');
+				$('#uploadArea_changeOfName_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_changeOfName_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -763,7 +779,7 @@
     async function setDiploma(){
 		let item_id = '09';
 			
-		cardHtml09 = `
+		let cardHtml09 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			畢業證書/在學證明/學生證
@@ -792,9 +808,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_diploma');
+				$('#uploadArea_diploma_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_diploma_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -834,7 +852,7 @@
 			description = '經驗證之學士/碩士歷年成績單（應屆當學期可免附）';
 		}
 			
-		cardHtml10 = `
+		let cardHtml10 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			${description}
@@ -863,9 +881,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_schollTranscript');
+				$('#uploadArea_schollTranscript_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_schollTranscript_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -893,7 +913,7 @@
     async function setAuthorizeCheckDiploma(){
 		let item_id = '11';
 			
-		cardHtml11 = `
+		let cardHtml11 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			學歷屬實及授權查證切結書
@@ -922,9 +942,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_authorizeCheckDiploma');
+				$('#uploadArea_authorizeCheckDiploma_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_authorizeCheckDiploma_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -952,7 +974,7 @@
     async function setOlympia(){
 		let item_id = '12';
 			
-		cardHtml12 = `
+		let cardHtml12 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			國際數理奧林匹亞競賽或美國國際科展僅像證明
@@ -981,9 +1003,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_olympia');
+				$('#uploadArea_olympia_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_olympia_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -1011,7 +1035,7 @@
     async function setPlacementTranscript(){
 		let item_id = '13';
 			
-		cardHtml13 = `
+		let cardHtml13 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			採計文憑成績證書
@@ -1040,9 +1064,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_placementTranscript');
+				$('#uploadArea_placementTranscript_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_placementTranscript_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -1070,7 +1096,7 @@
     async function setTranscriptReferenceTable(){
 		let item_id = '14';
 			
-		cardHtml14 = `
+		let cardHtml14 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
 			成績採計資料參考表
@@ -1099,9 +1125,11 @@
 			if( ifhasfile == "true"){
 				// 有檔案
                 _getFileAreaHTML(item_id,'uploadArea_transcriptReferenceTable');
+				$('#uploadArea_transcriptReferenceTable_file').show();
 			}
 			else{
                 // 沒檔案
+				$('#uploadArea_transcriptReferenceTable_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -1177,11 +1205,8 @@
 
 		try {
 			loading.start();
-            //alert('ready _handleUpload');
 			const response = await student.uploadIdentityVerificationItem({data, user_id: _userID, item: item});
-            //alert('_handleUpload');
 
-			// console.log("_handleUpload",subject);
 			if (!response.ok) { throw response; }
 			const responseJson = await response.json();
 			$(this).val('');//清除檔案路徑
@@ -1197,18 +1222,15 @@
 		}
 		$(this).val('');//清除檔案路徑
 		
-		//window.location = window.location.href+'?eraseCache=true';
 		
-		nowUrl = window.location.href;
-		numofpoundsign = nowUrl.indexOf("#",1);
+		// nowUrl = window.location.href;
+		// numofpoundsign = nowUrl.indexOf("#",1);
 		
-
 		/* anchor failed */
 		// if(numofpoundsign == '-1'){
 		// 	redirectUrl = nowUrl+ '#'+itemIdConvertToBlockName(item);
 
 		// 	//window.location.reload();
-		// 	//window.location.assign(redirectUrl);
 		// 	window.location.href = redirectUrl;
 		// }
 		// else{
@@ -1217,8 +1239,9 @@
 		// 	window.location.href = redirectUrl;
 		// 	window.location.reload();
 		// }
-		
-		window.location.reload();
+
+		// 重新渲染
+		eval(itemIdConvertTofunctionName(item));
 	}
 
 	// 刪除指定成績單檔案 (會抓取 data-item 看現在要刪除什麼檔案)
@@ -1237,7 +1260,6 @@
 			const fileNameOfSubject = await response.json();
 			var _filename = fileNameOfSubject.files[0];
 
-			//console.log(fileNameOfSubject);
 
 			loading.complete();
 		} catch(e) {
@@ -1264,29 +1286,57 @@
 		// 	window.location.href = redirectUrl;
 		// 	window.location.reload();
 		// }
-		window.location.reload();
+		//  window.location.reload();
+		//  smoothscroll(itemIdConvertToBlockName(item));
+
+		// 重新渲染
+		eval(itemIdConvertTofunctionName(item));
 	}
 
-	// for anchor use
-	function itemIdConvertToBlockName(itemId){
+	// for re-render use
+	function itemIdConvertTofunctionName(itemId){
+		// var arrayName = {
+		// 	'01':"uploadArea_IDCard",
+		// 	'02':"uploadArea_quitSchool",
+		// 	"03":"uploadArea_overseasStayYears",
+		// 	"04":"uploadArea_TaiwanStayDates",
+		// 	"05":"uploadArea_HKorMOGuarantee",
+		// 	"06":"uploadArea_headshot",
+		// 	"07":"uploadArea_homeReturnPermit",
+		// 	"08":"uploadArea_changeOfName",
+		// 	"09":"uploadArea_diploma",
+		// 	"10":"uploadArea_schollTranscript",
+		// 	"11":"uploadArea_authorizeCheckDiploma",
+		// 	"12":"uploadArea_olympia",
+		// 	"13":"uploadArea_placementTranscript",
+		// 	"14":"uploadArea_transcriptReferenceTable"
+		// };
 		var arrayName = {
-			'01':"uploadArea_IDCard",
-			'02':"uploadArea_quitSchool",
-			"03":"uploadArea_overseasStayYears",
-			"04":"uploadArea_TaiwanStayDates",
-			"05":"uploadArea_HKorMOGuarantee",
-			"06":"uploadArea_headshot",
-			"07":"uploadArea_homeReturnPermit",
-			"08":"uploadArea_changeOfName",
-			"09":"uploadArea_diploma",
-			"10":"uploadArea_schollTranscript",
-			"11":"uploadArea_authorizeCheckDiploma",
-			"12":"uploadArea_olympia",
-			"13":"uploadArea_placementTranscript",
-			"14":"uploadArea_transcriptReferenceTable"
-		};       
+			'01':'setIDCard()',
+			'02':'setQuitSchool()',
+			'03':'setOverseasStayYears()',
+			'04':'setTaiwanStayDates()',
+			'05':'setHKorMOGuarantee()',
+			'06':'setheadshot()',
+			'07':'sethomeReturnPermit()',
+			'08':'setChangeOfName()',
+			'09':'setDiploma()',
+			'10':'setSchollTranscript()',
+			'11':'setAuthorizeCheckDiploma()',
+			'12':'setOlympia()',
+			'13':'setPlacementTranscript()',
+			'14':'setTranscriptReferenceTable()'
+		};
 		return arrayName[itemId];
 	}
+
+	function smoothscroll(id){
+		alert(id);
+		$('html, body').animate({
+			scrollTop: $('#'+id).offset().top
+		}, 2000);
+	}
+
 
 
 })();
