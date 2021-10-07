@@ -96,7 +96,7 @@
 			}
 			// 學士班 && 僑居地為香港
 			else if(progressJson.student_qualification_verify.system_id == 1 && 
-				progressJson.student_personal_data_detail.resident_location == '113'){
+				progressJson.student_personal_data_detail == '香港'){
 				
 				// (必填)香港永久居民身份證正面
 				setIDCard();
@@ -167,7 +167,7 @@
 			if(
 				(progressJson.student_qualification_verify.system_id == 3 || 
 					progressJson.student_qualification_verify.system_id == 4 ) &&
-				progressJson.student_personal_data_detail.resident_location == '113'){
+				progressJson.student_personal_data_detail == '香港'){
 				
 				// (必填)香港永久居民身份證正面
 				setIDCard();
