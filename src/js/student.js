@@ -762,6 +762,13 @@ const student = (() => {
 		});
 	}
 
+	function generateAdminssionPaper() {
+		return fetch(baseUrl + `/students/admission-paper`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -837,6 +844,7 @@ const student = (() => {
 		setAdmissionSelectionWishGiveUpChange,
 		getOrderList,
 		checkOrderListCanCreate,
+		generateAdminssionPaper
 	};
 
 })();
