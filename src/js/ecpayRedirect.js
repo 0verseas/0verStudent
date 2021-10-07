@@ -30,6 +30,9 @@
                     location.href="./result.html";
                 }
             }
+         } else {
+            await swal({title: `尚未完成付款`, html:`即將跳轉回志願檢視頁面`,type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+            location.href = "./result.html";
          }
      } else {
         if(response.status == 401){
