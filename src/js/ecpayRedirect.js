@@ -18,6 +18,7 @@
             const lockResponse = await student.dataConfirmation({"confirmed": true});
             const lockdata = await lockResponse.json();
             if(lockResponse.ok){
+                await student.generateAdminssionPaper(); // 鎖定成功就幫學生call API 在server產生報名表件
                 await swal({title: `成功完成填報。`, html:`如果需要再修改資料請利用「資料修正表」，或是重新申請一組新的帳號。`,type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 location.href = "./downloadDocs.html";
             } else {
