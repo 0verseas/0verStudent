@@ -474,7 +474,7 @@
 
 	function  _checkConfirm(json) {
 		if (!!json.student_misc_data.confirmed_at) {
-			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已填報') && $afterConfirmZone.show();
+			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定並確認填報資料') && $afterConfirmZone.show();
 		} else if (!json.student_qualification_verify) {
 			// 沒有輸入資格驗證的狀況下，隱藏提交按鈕
 			$('#btn-all-set').addClass('hide');
