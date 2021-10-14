@@ -325,9 +325,11 @@
         }
         // 只有港二技有這選項 直接先隱藏
         $questionKangADHDgraduated.hide();
-        // 身份別如果是在台海外居留年限不需要 第4項和第5項
+        // 學制如果是碩博海外居留年限不需要 第4項和第5項 第3項文字要更改
+        const $stayLimitOption3 = $qualifyForm.find(`.radio-stayLimit[value=3]`).parent();
         const $stayLimitOption4 = $qualifyForm.find(`.radio-stayLimit[value=4]`).parent();
         const $stayLimitOption5 = $qualifyForm.find(`.radio-stayLimit[value=5]`).parent();
+        $stayLimitOption3.html(`<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="3"> 報名時已滿六年，但未滿八年`)
         // 不同的學制會顯示不同的身份別說明文字
         $identityOverseasDescription.hide();
         $identityInTaiwanDescription.hide();
@@ -349,6 +351,7 @@
                 break;
             case '3':
             case '4':
+                $stayLimitOption3.html(`<input class="form-check-input radio-stayLimit" name="stayLimit" type="radio" value="3"> 報名時已滿六年`)
                 $stayLimitOption4.hide();
                 $stayLimitOption5.hide();
                 $identityOverseasDescription.show();
