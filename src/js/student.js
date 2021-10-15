@@ -253,23 +253,17 @@ const student = (() => {
 	}
 
 	function getEducationFile() {
-		var urls = [
-		baseUrl + '/students/diploma',
-		baseUrl + '/students/transcripts',
-		baseUrl + '/students/registration-progress'
-		]
-		const grabContent = url => fetch(url, {
+		return fetch(baseUrl + `/students/upload-education`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			credentials: 'include'
-		})
-		return Promise.all(urls.map(grabContent))
+		});
 	}
 
-	function uploadEducationFile(type, data) {
-		return fetch(baseUrl + `/students/` + type, {
+	function uploadEducationFile(data) {
+		return fetch(baseUrl + `/students/upload-education/`, {
 			method: 'POST',
 			body: data,
 			credentials: 'include'
@@ -277,7 +271,7 @@ const student = (() => {
 	}
 
 	function deleteEducationFile(type, fileName) {
-		return fetch(baseUrl + `/students/` + type + `/` + fileName, {
+		return fetch(baseUrl + `/students/upload-education/` + type + `-` + fileName, {
 			method: 'DELETE',
 			credentials: 'include'
 		});

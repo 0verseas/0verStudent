@@ -1,90 +1,207 @@
 <% include components/_studentInfo %>
 
-<h2 class="text-center title">上傳學歷證件</h2>
+<h2 class="text-center title">上傳簡章規定文件（2021年秋季入學適用）</h2>
+
+<div class="alert alert-primary alert-Precautions" role="alert">  <!--讓馬來西亞學生可以線上上傳各項證明文件-->
+	<p>
+		致：馬來西亞報名學生
+		<br /><br />
+		為因應全球疫情影響及爭取時效，本年馬來西亞報名學生<span class="text-danger" style="font-weight: bold">一律務必於填報系統上傳招生簡章規定之文件</span>，且紙本報名表件仍須送交我政府駐馬來西亞代表處或僑務主管機關指定之保薦單位，始完成報名。（<a href="" target="_blank">點我看簡易報名流程圖</a>）
+		<br />
+		<ul>
+			<li><b>步驟① 線上填報</b>：至2月28日（星期日）止；請於填報系統填寫個人基本資料及選填志願校系，檢視無誤後點選『完成填報』。</li>
+			<li><b class="text-danger">步驟② 上傳簡章規定文件（NEW）：</b>&nbsp;至2月28日（星期日）止；請於本頁面上傳簡章規定文件。</li>
+			<li><b>步驟③ 紙本繳件</b>：至2月28日（星期日）止，請於填報系統『下載報名表件』頁面列印系統產生的報名表件，並附上簡章規定文件，於期限內送交<a href="" target="_blank">保薦單位</a>（例：留台同學會、獨中）。</li>
+		</ul>
+		<br />
+	</p>
+	<hr>
+	請同學上傳下列文件（詳請見<a href="" target="_blank">《一般地區招生簡章》</a>第三頁或<a href="" target="_blank">點我看內容</a>）：
+	<br /><br />
+	<ul style="font-weight: bold">
+		<li>僑居地居留證件（身分證或護照影本）</li>
+		<li>在學證明 / 畢業證書 / 修業證明 / 離校證明<br/>※註：至少需修滿相當於台灣高中二年級下學期</li>
+		<li>中學成績單</li>
+		<li>准考證</li>
+		<li>其它（例：系統產生切結書、資料修正表等，無則免附。）</li>
+	</ul>
+</div>
 
 <hr>
+<div id="form-uploadArea">
+    <div class="card" id="upload-identity-area">
+        <div class="card-header bg-primary text-white">
+            僑居地居留證件（身分證或護照影本）
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔或 <strong class="text-danger">PDF</strong>，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+            </div>
 
-<div id="form-uploadEducation">
-	<div id="form-diploma" class="card">
-		<div class="card-header bg-primary text-white">
-			學歷證明
-		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-12">
-					<div class="alert alert-warning" role="alert">
-						<blockquote id="blockquote-diploma" class="blockquote" style="display: none;">
-							<p class="mb-0 text-danger">畢業證書或在學證明 (學生證)</p>
-						</blockquote>
-						可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
-					</div>
-				</div>
-			</div>
-			<div class="row" style="margin-bottom: 15px;">
-				<div class="col-12">
-					<input id="file-diploma" type="file" class="filestyle file-upload" data-uploadtype="diploma" multiple>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title"><span id="title-diploma">已上傳學歷證明</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-							<div id="diplomaImgArea">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="col-12">
+                    <input type="file" class="filestyle file-upload" id="identity-upload"
+                    data-btnClass="btn-success"
+                    data-input="false"
+                    data-type="identity"
+                    data-text=" 選取檔案"
+                    data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                    multiple>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                    <div id="identity-uploaded-files">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<hr>
 
-	<div id="form-transcripts" class="card">
-		<div class="card-header bg-primary text-white">
-			成績單
-		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-12">
-					<div class="alert alert-warning" role="alert">
-						<blockquote id="blockquote-transcripts" class="blockquote" style="display: none;">
-							<p class="mb-0 text-danger">副學士或高級文憑歷年成績單</p>
-						</blockquote>
-						可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
-					</div>
-				</div>
-			</div>
-			<div class="row" style="margin-bottom: 15px;">
-				<div class="col-12">
-					<input id="file-transcripts" type="file" class="filestyle file-upload" data-uploadtype="transcripts" multiple>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title"><span id="title-transcripts">已上傳成績單</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
-							<div id="transcriptsImgArea">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="card" id="upload-diploma-area">
+        <div class="card-header bg-primary text-white">
+            在學證明 / 畢業證書 / 修業證明 / 離校證明<br/>※註：至少需修滿相當於台灣高中二年級下學期
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔或 <strong class="text-danger">PDF</strong>，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+            </div>
+
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="col-12">
+                    <input type="file" class="filestyle file-upload" id="diploma-upload"
+                    data-btnClass="btn-success"
+                    data-input="false"
+                    data-type="diploma"
+                    data-text=" 選取檔案"
+                    data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                    multiple>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                    <div id="diploma-uploaded-files">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<hr>
+
+	<div class="card" id="upload-transcript-area">
+        <div class="card-header bg-primary text-white">
+            中學成績單
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔或 <strong class="text-danger">PDF</strong>，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+            </div>
+
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="col-12">
+                    <input type="file" class="filestyle file-upload" id="transcript-upload"
+                    data-btnClass="btn-success"
+                    data-input="false"
+                    data-type="transcript"
+                    data-text=" 選取檔案"
+                    data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                    multiple>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                    <div id="transcript-uploaded-files">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+	<div class="card" id="upload-entrypass-area">
+        <div class="card-header bg-primary text-white">
+            准考證
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                可接受副檔名為 <strong class="text-danger">.jpg、.png</strong> 的圖檔或 <strong class="text-danger">PDF</strong>，建議大小為 <strong class="text-danger">A4 Size 970px(寬) * 1100px(高)</strong> ，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+            </div>
+
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="col-12">
+                    <input type="file" class="filestyle file-upload" id="entrypass-upload"
+                    data-btnClass="btn-success"
+                    data-input="false"
+                    data-type="entrypass"
+                    data-text=" 選取檔案"
+                    data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                    multiple>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                    <div id="entrypass-uploaded-files">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+	<div class="card" id="upload-others-area">
+        <div class="card-header bg-primary text-white">
+            其它（例：系統產生切結書、資料修正表等，無則免附。）
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+            </div>
+
+            <div class="row" style="margin-bottom: 15px;">
+                <div class="col-12">
+                    <input type="file" class="filestyle file-upload" id="others-upload"
+                    data-btnClass="btn-success"
+                    data-input="false"
+                    data-type="others"
+                    data-text=" 選取檔案"
+                    data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                    multiple>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                    <div id="others-uploaded-files">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div id="imgModal" class="modal fade img-modal" tabindex="-1" role="dialog" aria-labelledby="imgModal" aria-hidden="true">
+<div class="modal fade img-modal" tabindex="-1" role="dialog" aria-labelledby="imgModal" aria-hidden="true" id="img-modal">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-body text-center">
-				<img id="img-modalDetail" src="" class="img-fluid rounded">
+			<div class="modal-body text-center" id="img-modal-body">
+				<img src="" class="img-fluid rounded img-ori">
 			</div>
 			<div class="modal-footer">
-				<button id="btn-modalDelete" type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
-				<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> Exit</button>
+				<button type="button" class="btn btn-danger btn-delFile"><i class="fa fa-trash" aria-hidden="true"></i> 刪除</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
 			</div>
 		</div>
 	</div>
@@ -94,7 +211,7 @@
 
 <div class="row">
 	<div class="col-12 text-center">
-		<button class="btn btn-primary" id="btn-save">儲存</button>
+		<button class="btn btn-primary btn-save">儲存</button>
 	</div>
 </div>
 

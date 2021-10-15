@@ -1,38 +1,13 @@
 (() => {
-
-	const baseUrl = env.baseUrl + '/students';
-
-	let _diplomaFiles = [];
-	let _transcriptsFiles = [];
-	let _modalFiletype = "";
-	let _modalFilename = "";
-
 	/**
 	*	cache DOM
 	*/
 
-	const $uploadEducationForm = $('#form-uploadEducation');
-	const $fileUpload = $uploadEducationForm.find('.file-upload');
-
-	// 學歷證明
-	const $diplomaBlockquote = $('#blockquote-diploma');
-	const $diplomaFrom = $('#form-diploma');
-	const $diplomaTitle = $('#title-diploma');
-	const diplomaImgArea = document.getElementById('diplomaImgArea');
-
-	// 成績單
-	const $transcriptsBlockquote = $('#blockquote-transcripts');
-	const $transcriptsForm = $('#form-transcripts');
-	const $transcriptsTitle = $('#title-transcripts');
-	const transcriptsImgArea = document.getElementById('transcriptsImgArea');
-
-	// Modal
-	const $imgModal = $('#imgModal');
-	const $modalDetailImg = $('#img-modalDetail');
-	const $modalDeleteBtn = $('#btn-modalDelete');
-
-	// 重整按鈕
-	const $saveBtn = $('#btn-save');
+	const $saveButton = $('.btn-save'); // 儲存按鈕 安慰用 檔案成功上傳其實就儲存了
+	const $imgModal = $('#img-modal'); // 檔案編輯模板
+	const $imgModalBody= $('#img-modal-body');// 檔案編輯模板顯示檔案區域
+	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
+	let $uploadedFiles = [];// 已上傳檔案名稱陣列
 
 	/**
 	*	init
@@ -44,167 +19,302 @@
 	*	bind event
 	*/
 
-	$fileUpload.on("change", _addImg);
-	$modalDeleteBtn.on("click", _deleteImg);
-	$saveBtn.on("click", function() {alert('儲存成功。'); window.location.reload();});
+	$saveButton.on('click', _handleSave); // 儲存按鈕事件
+	$deleteFileBtn.on('click',_handleDeleteFile);// 刪除按鈕事件
+    $('body').on('change.upload', '.file-upload', _handleUpload);// 上傳按鈕事件
+	$('body').on('click', '.img-thumbnail', _showUploadedFile);// 點擊檔案呼叫編輯模板事件
 	
 
-	function _init() {
-		let files = student.getEducationFile()
-		.then((res) => {
-			if (res[0].ok && res[1].ok && res[2].ok) {
-				return [res[0].json(), res[1].json(), res[2].json()];
-			} else {
-				throw res[0];
-			}
-		})
-		.then((json) => {
-			json[0].then((data) => {
-				_diplomaFiles = data.student_diploma;
-			});
+	async function _init() {
+		/* 可能需要按照梯次不同顯示不同的說明文字 */
+		// const registrationResponse = await student.getStudentRegistrationProgress();
+		// if(registrationResponse.ok){
+		// 	const studentData = await registrationResponse.json();
+		// 	console.log(studentData);
+		// } else {
+		// 	const data = await registrationResponse.json();
+		// 	const message = data.messages[0];
+		// 	await swal({
+		// 		title: `ERROR！`,
+		// 		html:`${message}`,
+		// 		type:"error",
+		// 		confirmButtonText: '確定',
+		// 		allowOutsideClick: false
+		// 	});
+		// }
 
-			json[1].then((data) => {  
-				_transcriptsFiles = data.student_transcripts;
-			});
-
-			Promise.all([json[0], json[1]]).then(() => {
-				_renderImgArea();
-			});
-
-			json[2].then((data) => {
-				if (data.student_qualification_verify.system_id === 2) {
-					$diplomaBlockquote.show();
-					$transcriptsBlockquote.show();
+		const response = await student.getEducationFile();
+		if(response.ok){
+			const data = await response.json();
+			for (const [type] of Object.entries(data)) {
+				// 先取得各類型的以上傳檔案名稱陣列
+				$uploadedFiles = data[type];
+				// 有檔案才渲染
+				if($uploadedFiles.length > 0){
+					await _renderUploadedArea(type);
 				}
-			});
-		})
-		.then(() => {
-			loading.complete();
-		})
-		.catch((err) => {
-			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
-			} else {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-				})
 			}
-			loading.complete();
-		})
-		
-		$(":file").filestyle({
-			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-			btnClass: "btn-success",
-			text: " 選擇圖片",
-			input: false
+		} else {
+			const data = await response.json();
+			const message = data.messages[0];
+			await swal({
+				title: `ERROR！`,
+				html:`${message}`,
+				type:"error",
+				confirmButtonText: '確定',
+				allowOutsideClick: false
+			});
+		}
+		await loading.complete();
+	}
+
+	// 儲存事件
+    async function _handleSave(){
+        await loading.start();
+        await swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+        await loading.complete();
+        await location.reload();
+    }
+
+	// 上傳事件
+    async function _handleUpload(){
+		// 先取得要上傳的檔案類型
+        const type = $(this).data('type');
+		// 取得學生欲上傳的檔案
+		const fileList = this.files;
+
+		// 沒有上傳檔案 直接return
+		if(fileList.length <= 0){
+			return;
+		}
+
+		// 檢查檔案大小 不超過4MB 在放進senData中
+		let sendData = new FormData();
+		sendData.set('fileType', type);
+		for (let i = 0; i < fileList.length; i++) {
+			//有不可接受的副檔名存在
+			if(! await checkFile(fileList[i])){
+                return ;
+            }
+			if(await student.sizeConversion(fileList[i].size,4)){
+				await swal({
+					title: `上傳失敗！`,
+					html:`${fileList[i].name}檔案過大，檔案大小不能超過4MB。`,
+					type:"error",
+					confirmButtonText: '確定',
+					allowOutsideClick: false
+				});
+				return;
+			}
+			await sendData.append('files[]', fileList[i]);
+		}
+
+		await loading.start();
+		// 將檔案傳送到後端
+		const response = await student.uploadEducationFile(sendData);
+		if(response.ok){
+			await swal({
+				title: `上傳成功！`,
+				type:"success",
+				confirmButtonText: '確定',
+				allowOutsideClick: false
+			});
+			// 後端會回傳上傳後該類型的已上傳檔案名稱陣列
+			const data = await response.json();
+			$uploadedFiles = data;
+			// 重新渲染已上傳檔案區域
+			await _renderUploadedArea(type);
+		} else {
+			const code = response.status;
+			const data = await response.json();
+			const message = data.messages[0];
+			await swal({
+				title: `上傳失敗！`,
+				html:`${message}`,
+				type:"error",
+				confirmButtonText: '確定',
+				allowOutsideClick: false
+			});
+		}
+
+		await loading.complete();
+		return;
+    }
+
+	// 渲染已上傳檔案區域事件
+	function _renderUploadedArea(type){
+		let uploadedAreaHtml = '';
+		const $uploadedFileArea = document.getElementById(`${type}-uploaded-files`)
+        $uploadedFiles.forEach((file) => {
+            const fileType = _getFileType(file.split('.')[1]);
+            if(fileType === 'img'){
+                uploadedAreaHtml += `
+                    <img
+                        class="img-thumbnail"
+                        src="${env.baseUrl}students/upload-education/${type}-${file}"
+                        data-toggle="modal"
+                        data-filename="${file}"
+						data-target=".img-modal"
+						data-type="${type}"
+                        data-filetype="img"
+                        data-filelink="${env.baseUrl}students/upload-education/${type}-${file}"
+                    />
+                `
+            } else {
+                uploadedAreaHtml += `
+					<div
+						class="img-thumbnail non-img-file-thumbnail"
+						data-toggle="modal"
+						data-target=".img-modal"
+						data-filelink="${env.baseUrl}students/upload-education/${type}-${file}"
+						data-filename="${file}"
+						data-type="${type}"
+                        data-filetype="${fileType}"
+						data-icon="fa-file-${fileType}-o"
+					>
+						<i class="fa fa-file-${fileType}-o" data-filename="${file}" data-icon="fa-file-${fileType}-o" aria-hidden="true"></i>
+					</div>
+				`;
+            }
+        })
+        $uploadedFileArea.innerHTML = uploadedAreaHtml;
+	}
+
+		// 顯示檔案 modal
+	function _showUploadedFile() {
+        // 取得點選的檔案名稱及類別
+		const type = $(this).data('type');
+		const fileName = $(this).data('filename');
+		const fileType = $(this).data('filetype');
+
+		// 清空 modal 內容
+		$imgModalBody.html('');
+
+		// 是圖放圖，非圖放 icon
+		if (fileType === 'img') {
+			const src = this.src;
+
+			$imgModalBody.html(`
+				<img
+					src="${src}"
+					class="img-fluid rounded img-ori"
+				>
+			`);
+		} else {
+			const icon = this.dataset.icon;
+			const fileLink = this.dataset.filelink;
+
+			$imgModalBody.html(`
+				<div>
+					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>
+				</div>
+
+				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
+					<i class="fa fa-download" aria-hidden="true"></i> 下載
+				</a>
+			`);
+		}
+        // 刪除檔案按鈕紀錄點選的檔案名稱及類別
+		$deleteFileBtn.attr({
+			'type': type,
+			'filetype': fileType,
+			'filename': fileName,
 		});
 	}
 
-	function _renderImgArea() {
-		let diplomaAreaHTML = '';
-		_diplomaFiles.forEach((file, index) => {
-			diplomaAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/diploma/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="diploma" data-filename="' + file + '">';
-		})
-		diplomaImgArea.innerHTML = diplomaAreaHTML;
+	// 確認是否刪除上傳檔案
+    function _handleDeleteFile(){
+        const fileName = $deleteFileBtn.attr('filename');
+		const type = $deleteFileBtn.attr('type');
+        swal({
+            title: '確要定刪除已上傳的檔案？',
+            type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#5cb85c',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '確定',
+			cancelButtonText: '取消',
+			buttonsStyling: true
+        }).then(()=>{
+            _deleteFile(type, fileName);
+        }).catch(()=>{
+            return;
+        });
+    }
 
-		let transcriptsAreaHTML = '';
-		_transcriptsFiles.forEach((file, index) => {
-			transcriptsAreaHTML += '<img class="img-thumbnail img-edu" src="' + baseUrl + '/transcripts/' + file + '" data-toggle="modal" data-target=".img-modal" data-filetype="transcripts" data-filename="' + file + '">';
-		})
-		transcriptsImgArea.innerHTML = transcriptsAreaHTML;
+	async function _deleteFile(type, fileName){
+		await loading.start();
 
-		const $eduImg = $uploadEducationForm.find('.img-edu');
-		$eduImg.on("click", _showDetail);
-	}
+		const response = await student.deleteEducationFile(type, fileName);
 
-	function _addImg() {
-		const uploadtype = $(this).data('uploadtype');
-		const fileList = this.files;
-		let sendData = new FormData();
-		for (let i = 0; i < fileList.length; i++) {
-			sendData.append('files[]', fileList[i]);
+		if(response.ok){
+			await swal({
+				title: `刪除成功！`,
+				type:"success",
+				confirmButtonText: '確定',
+				allowOutsideClick: false
+			});
+			const data = await response.json();
+			$uploadedFiles = data;
+			await $imgModal.modal('hide');
+			await _renderUploadedArea(type);
+		} else {
+			const code = response.status;
+			const data = await response.json();
+			const message = data.messages[0];
+			await swal({
+				title: `刪除失敗！`,
+				html:`${message}`,
+				type:"error",
+				confirmButtonText: '確定',
+				allowOutsideClick: false
+			});
 		}
-		loading.start();
-		student.uploadEducationFile(uploadtype, sendData)
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			if (uploadtype == "diploma") {
-				_diplomaFiles = _diplomaFiles.concat(json.student_diploma);
-			} else if (uploadtype == "transcripts") {
-				_transcriptsFiles = _transcriptsFiles.concat(json.student_transcripts);
-			}
-		})
-		.then(() => {
-			_renderImgArea();
-			loading.complete();
-		})
-		.catch((err) => {
-			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
-			} else if (err.status && err.status === 400) {
-				alert("圖片規格不符");
-			}
-			err.json && err.json().then((data) => {
-				console.error(data.messages[0]);
-				alert(data.messages[0]);
-			})
-			loading.complete();
-		})
+
+		await loading.complete();
 	}
 
-	function _showDetail() {
-		_modalFiletype = $(this).data('filetype');
-		_modalFilename = $(this).data('filename');
-		$modalDetailImg.attr("src", baseUrl + "/" + _modalFiletype + "/" +_modalFilename);
-	}
+	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
+	function _getFileType(fileNameExtension = '') {
+		switch (fileNameExtension) {
+			case 'doc':
+			case 'docx':
+				return 'word';
 
-	function _deleteImg() {
-		var deleteConfirm = confirm("確定要刪除嗎？");
-		if (deleteConfirm === true) {
-			$imgModal.modal('hide');
-			loading.start();
-			student.deleteEducationFile(_modalFiletype, _modalFilename)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				if (_modalFiletype === "diploma") {
-					_diplomaFiles = json.student_diploma;
-				} else if (_modalFiletype === "transcripts") {
-					_transcriptsFiles = json.student_transcripts;
-				}
-			})
-			.then(() => {
-				_renderImgArea();
-				loading.complete();
-			})
-			.catch((err) => {
-				if (err.status && err.status === 401) {
-					alert('請登入。');
-					location.href = "./index.html";
-				} else if (err.status && err.status === 404) {
-					alert("沒有這張圖片。");
-				}
-				err.json && err.json().then((data) => {
-					console.error(data.messages[0]);
-					alert(data.messages[0]);
-				})
-				loading.complete();
-			})
+			case 'mp3':
+				return 'audio';
+
+			case 'mp4':
+			case 'avi':
+				return 'video';
+
+			case 'pdf':
+				return 'pdf';
+
+			default:
+				return 'img';
 		}
 	}
+
+	//檢查檔案類型
+    function checkFile(selectfile){
+        var extension = new Array(".jpg", ".png", ".pdf",".jpeg"); //可接受的附檔名
+        var fileExtension = selectfile.name; //fakepath
+        //看副檔名是否在可接受名單
+        fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')).toLowerCase();  // 副檔名通通轉小寫
+        if (extension.indexOf(fileExtension) < 0) {
+			swal({
+				title: `上傳失敗`,
+				html:`${fileExtension} 非可接受的檔案類型副檔名。`,
+				type:"error",
+				confirmButtonText: '確定',
+				allowOutsideClick: false
+			});
+            selectfile.value = null;
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 })();
