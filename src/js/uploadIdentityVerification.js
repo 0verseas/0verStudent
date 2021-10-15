@@ -8,6 +8,7 @@
 	let nowUrl;
 	let numofpoundsign;
 	let redirectUrl;
+	let birth_location;
 
 
 	/**
@@ -40,10 +41,17 @@
             const progressResponse = await student.getStudentRegistrationProgress();
 			if (!progressResponse.ok) { throw progressResponse; }
 			const progressJson = await progressResponse.json();
+
+			// 專門只為了取出生地
+			const progressResponse2 = await student.getStudentPersonalData();
+        	if (!progressResponse2.ok) { throw progressResponse2; }
+			const progressJson2 = await progressResponse2.json();
+
 			studentdata = progressJson;
             _userID = progressJson.id;
+			birth_location = progressJson2.student_personal_data.birth_location;
             
-            //console.log(progressJson);
+            console.log(progressJson);
 
             // 自願申請僑先部
 			if(progressJson.student_qualification_verify.system_id == 1 &&  
@@ -78,7 +86,7 @@
 				setheadshot();
 
 				// 回鄉證，出生地為大陸
-				if (progressJson.student_personal_data_detail.birth_location == 135){
+				if (birth_location == 135){
 					sethomeReturnPermit();
 				}
 				
@@ -93,6 +101,17 @@
 
 				// (必填) 學歷屬實及授權查證切結書
 				setAuthorizeCheckDiploma();
+
+				// 符合港澳關係條例切結書 港澳生、在台設有戶籍、持外國護照（但不限回歸前葡萄牙護照）
+				if ( progressJson.student_qualification_verify.identity == 1 && 
+					progressJson.student_qualification_verify.taiwan_census == 1 && 
+					progressJson.student_qualification_verify.except_HK_Macao_passport ==1 && 
+					(
+						progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' || 
+						progressJson.student_qualification_verify.which_nation_passport != null
+					) ){
+					sethkmoRelationsOrdinance();
+				}
 			}
 			// 學士班 && 僑居地為香港
 			else if(progressJson.student_qualification_verify.system_id == 1 && 
@@ -127,7 +146,7 @@
 				setheadshot();
 
 				// 回鄉證，出生地為大陸
-				if (progressJson.student_personal_data_detail.birth_location == 135){
+				if (birth_location == 135){
 					sethomeReturnPermit();
 				}
 				
@@ -148,18 +167,33 @@
 					setOlympia();
 				}
 				
-				// 但凡非僅持 DSE 當年度者，皆需上傳採計文憑成績證書
-				if (! (progressJson.student_misc_data.year_of_hk_dse == env.year && 
+				// 但凡非僅持 DSE 當年度者、中學最後三年成績者，皆需上傳採計文憑成績證書
+				if ( ! ((progressJson.student_misc_data.year_of_hk_dse == env.year && 
 					progressJson.student_misc_data.year_of_hk_ale == null && 
-					progressJson.student_misc_data.year_of_hk_cee == null) ) {
+					progressJson.student_misc_data.year_of_hk_cee == null) || 
+						(progressJson.student_misc_data.admission_placement_apply_way_data.code == "26") )
+					) {
 						setPlacementTranscript();
 				}
 				
 				// 非 DSE、ALE、CEE 者，需上傳成績採計資料參考表
-				if (progressJson.student_misc_data.admission_placement_apply_way != 2 || 
-					progressJson.student_misc_data.admission_placement_apply_way != 12 ){
+				if (!(progressJson.student_misc_data.admission_placement_apply_way == '2' || 
+					progressJson.student_misc_data.admission_placement_apply_way == '12') ){
 					setTranscriptReferenceTable();
 				}
+
+
+				// 符合港澳關係條例切結書 港澳生、在台設有戶籍、持外國護照（但不限回歸前葡萄牙護照）
+				if ( progressJson.student_qualification_verify.identity == 1 && 
+					progressJson.student_qualification_verify.taiwan_census == 1 && 
+					progressJson.student_qualification_verify.except_HK_Macao_passport ==1 && 
+					(
+						progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' || 
+						progressJson.student_qualification_verify.which_nation_passport != null
+					) ){
+					sethkmoRelationsOrdinance();
+				}
+				
 				
 			}
 
@@ -198,7 +232,7 @@
 				setheadshot();
 
 				// 回鄉證，出生地為大陸
-				if (progressJson.student_personal_data_detail.birth_location == 135){
+				if (birth_location == 135){
 					sethomeReturnPermit();
 				}
 				
@@ -213,6 +247,17 @@
 
 				// (必填) 學歷屬實及授權查證切結書
 				setAuthorizeCheckDiploma();
+
+				// 符合港澳關係條例切結書 港澳生、在台設有戶籍、持外國護照（但不限回歸前葡萄牙護照）
+				if ( progressJson.student_qualification_verify.identity == 1 && 
+					progressJson.student_qualification_verify.taiwan_census == 1 && 
+					progressJson.student_qualification_verify.except_HK_Macao_passport ==1 && 
+					(
+						progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' || 
+						progressJson.student_qualification_verify.which_nation_passport != null
+					) ){
+					sethkmoRelationsOrdinance();
+				}
 			}
 
 			// 港二技
@@ -247,7 +292,7 @@
 				setheadshot();
 
 				// 回鄉證，出生地為大陸
-				if (progressJson.student_personal_data_detail.birth_location == 135){
+				if (birth_location == 135){
 					sethomeReturnPermit();
 				}
 				
@@ -260,8 +305,22 @@
 				// (選填) 經驗證之副學士或高級文憑歷年成績單（應屆當學期可免附）
 				setSchollTranscript();
 
+				// (必填) 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
+				setTechCoursePassedProof();
+
 				// (必填) 學歷屬實及授權查證切結書
 				setAuthorizeCheckDiploma();
+
+				// 符合港澳關係條例切結書 港澳生、在台設有戶籍、持外國護照（但不限回歸前葡萄牙護照）
+				if ( progressJson.student_qualification_verify.identity == 1 && 
+					progressJson.student_qualification_verify.taiwan_census == 1 && 
+					progressJson.student_qualification_verify.except_HK_Macao_passport ==1 && 
+					(
+						progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' || 
+						progressJson.student_qualification_verify.which_nation_passport != null
+					) ){
+					sethkmoRelationsOrdinance();
+				}
 			}
 
 
@@ -298,9 +357,9 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+				僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -359,9 +418,9 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -412,17 +471,29 @@
     */
     async function setOverseasStayYears(){
 		let item_id = '03';
+		let description ='';
+		let description_detail ='';
+
+		if (studentdata.student_qualification_verify.identity == 1){ // 港澳生
+			description = '境外居留年限切結書';
+			description_detail = '請下載「<a href="https://drive.google.com/file/d/1_OVM9tPL0dycOVj9M3Qxsu3gldgLI6-5/view" target="_blank">境外居留年限切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。';
+		}
+
+		if (studentdata.student_qualification_verify.identity == 2){ // 港澳生具外國國籍
+			description = '海外居留年限切結書';
+			description_detail = '請下載「<a href="https://drive.google.com/file/d/1Am6U_RAdio7E0UNY6gFMyccTENJS80Mo/view?usp=sharing" target="_blank">海外居留年限切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。';
+		}
 			
 		let cardHtml03 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-			海外居留年限切結書
+				${description}
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					${description_detail}
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -469,7 +540,7 @@
     }
 
 	/*
-    * 04: Taiwan-stay-dates 在台停留日期
+    * 04: Taiwan-stay-dates 在臺停留日期
     */
     async function setTaiwanStayDates(){
 		let item_id = '04';
@@ -477,13 +548,20 @@
 		let cardHtml04 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-			在台停留日期
+			在臺停留日期
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					<ol>
+						<li>
+							報名截止日往前推算僑居地居留期間內，如有某一年來臺停留超過 120 天，請上傳證明文件。
+						</li>
+						<li>
+							僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+						</li>
+					</ol>
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -534,17 +612,29 @@
     */
     async function setHKorMOGuarantee(){
 		let item_id = '05';
+		let description ='';
+		let description_detail ='';
+
+		if (studentdata.student_qualification_verify.identity == 1){ // 港澳生
+			description = '港澳生聲明書';
+			description_detail = '請下載「<a href="https://drive.google.com/file/d/1acUuHGK4iRYE5E1-y8ZJo4kCEN-AGi4T/view?usp=sharing" target="_blank">港澳生聲明書</a>」，列印並填寫後，掃描為 PDF 檔上傳。';
+		}
+
+		if (studentdata.student_qualification_verify.identity == 2){ // 港澳生具外國國籍
+			description = '港澳具外國國籍之華裔學生切結書';
+			description_detail = '請下載「<a href="https://drive.google.com/file/d/1XPxGDC-KaQRdn7YYWw4kx5z1ZeS-beAH/view?usp=sharing" target="_blank">港澳具外國國籍之華裔學生切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。';
+		}
 			
 		let cardHtml05 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-			港澳聲聲明書 / 港澳具外國國籍之華裔學生切結書
+				${description}
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					${description_detail}
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -603,9 +693,9 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					請上傳兩吋彩色正面半身脫帽白底近照 pdf 檔案，相片規格請參考<a href="https://reurl.cc/521KVz" target="_blank">香港特別行政區旅行證件規定</a>
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -660,13 +750,13 @@
 		let cardHtml07 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-			回鄉證
+			港澳居民來往內地通行證(回鄉證)
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -725,9 +815,16 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					<ol>
+						<li>
+							非必要文件，曾改名適用。
+						</li>
+						<li>
+							僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+						</li>
+					</ol>
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -778,17 +875,67 @@
     */
     async function setDiploma(){
 		let item_id = '09';
+
+		let description ='';
+		let description_detail ='';
+
+		if (studentdata.student_qualification_verify.system_id == 1){ // 學士班
+			description = '高中畢業證書/在學證明/學生證';
+			description_detail = `
+				<ol>
+					<li>
+						請上傳<font color="red">高中</font>畢業證書或修業證明書，如為應屆中六生，可先上傳本學期在學證明書或學生證。
+					</li>
+					<li>
+						香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。
+					</li>
+					<li>
+						僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+					</li>
+				</ol>
+			`;
+		}else if (studentdata.student_qualification_verify.system_id == 2){ // 港二技
+			description = '經驗證之全日制副學士或高級文憑畢業證書/在學證明/學生證';
+			description_detail = `
+				<ol>
+					<li>
+						請上傳<font color="red">經驗證之全日制副學士或高級文憑</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。
+					</li>
+					<li>
+						學歷證件應先經台北經濟文化辦事處（香港金鐘道89號力寶中心第一座11樓1106室）驗證，其以中、英文以外之語文製作者，應加附經驗證之中文譯本。
+					</li>
+					<li>
+						僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+					</li>
+				</ol>
+			`;
+		}else if (studentdata.student_qualification_verify.system_id == 3 || studentdata.student_qualification_verify.system_id == 4){ // 港二技
+			description = '經驗證之學士或碩士畢業證書/在學證明/學生證';
+			description_detail = `
+				<ol>
+					<li>
+						請上傳<font color="red">經驗證之學士或碩士</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。
+					</li>
+					<li>
+					經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。
+					</li>
+					<li>
+						僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+					</li>
+				</ol>
+			`;
+		}
 			
 		let cardHtml09 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-			畢業證書/在學證明/學生證
+				${description}
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+                    ${description_detail}
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -840,16 +987,50 @@
     async function setSchollTranscript(){
 		let item_id = '10';
 		let description ='';
+		let description_detail ='';
 
 		if (studentdata.student_qualification_verify.system_id == 1){
-			description = '高中最後三年成績單（應屆當學期可免附）';
+			description = '高中最後三年成績單';
+			description_detail = `
+				<ol>
+					<li>
+						請上傳<font color="red">高中</font>最後三年成績單，如為應屆中六生，當學期成績尚未取得，免附該學期成績單。
+					</li>
+					<li>
+						香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。
+					</li>
+					<li>
+						僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+					</li>
+				</ol>
+			`;
 		}
 		else if(studentdata.student_qualification_verify.system_id == 2){
-			description = '經驗證之副學士或高級文憑歷年成績單（應屆當學期可免附）';
+			description = '經驗證之副學士或高級文憑歷年成績單';
+			description_detail = `
+					<ol>
+						<li>
+							請上傳<font color="red">經驗證之全日制副學士或高級文憑</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。
+						</li>
+						<li>
+						學歷證件應先經台北經濟文化辦事處（香港金鐘道89號力寶中心第一座11樓1106室）驗證，其以中、英文以外之語文製作者，應加附經驗證之中文譯本。
+						</li>
+						<li>
+							僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+						</li>
+				</ol>
+			`;
 		}
 		else if(studentdata.student_qualification_verify.system_id == 3 || 
 			studentdata.student_qualification_verify.system_id == 4){
-			description = '經驗證之學士/碩士歷年成績單（應屆當學期可免附）';
+			description = '經驗證之學士或碩士成績單';
+			description_detail = `
+				<ol>
+					<li>請上傳<font color="red">經驗證之學士或碩士</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li>
+					<li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li>
+					<li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li>
+				</ol>
+			`;
 		}
 			
 		let cardHtml10 = `
@@ -859,9 +1040,9 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+                    ${description_detail}
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -920,9 +1101,9 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					請下載「<a href='https://drive.google.com/file/d/1Br77VQiBG5MwPDvIBQ4KLfCP77MLoYWg/view?usp=sharing' target='_blank'>學歷屬實及授權查證切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -969,7 +1150,7 @@
     }
 
 	/*
-    * 12: olympia: 國際數理奧林匹亞競賽或美國國際科展僅像證明
+    * 12: olympia: 國際數理奧林匹亞競賽或美國國際科展獎項證明
     */
     async function setOlympia(){
 		let item_id = '12';
@@ -977,13 +1158,13 @@
 		let cardHtml12 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-			國際數理奧林匹亞競賽或美國國際科展僅像證明
+			國際數理奧林匹亞競賽或美國國際科展獎項證明
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -1034,6 +1215,18 @@
     */
     async function setPlacementTranscript(){
 		let item_id = '13';
+		let description_detail ='';
+
+		description_detail = `
+			<ol>
+				<li>
+					請上傳「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。
+				</li>
+				<li>
+					僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+				</li>
+			</ol>
+		`;
 			
 		let cardHtml13 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
@@ -1042,9 +1235,9 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+                    ${description_detail}
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -1103,9 +1296,9 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-                    說明
+					請下載「<a href="https://drive.google.com/file/d/1X3ghIiT6h0j65ISPllcm5Ic77I9h8PFr/view?usp=sharing" target="_blank">成績採計資料參考表</a>」，列印並填寫後，掃描為PDF檔上傳。
                 </div>                
-                <div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
@@ -1130,6 +1323,135 @@
 			else{
                 // 沒檔案
 				$('#uploadArea_transcriptReferenceTable_file').hide();
+			}
+
+			// 上傳 button 樣式
+			$(".fileUploadBtn").filestyle({ //:file
+				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
+				btnClass: "btn-success",
+				text: "請上傳",
+				input: false
+			});
+			loading.complete();
+		} catch(e) {
+			e.json && e.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			});
+			loading.complete();
+		}
+        
+        
+    }
+
+	/*
+    * 15: hk-mo-relations-ordinance: 符合港澳關係條例切結書
+    */
+    async function sethkmoRelationsOrdinance(){
+		let item_id = '15';
+			
+		let cardHtml15 = `
+        <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
+            <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
+			符合港澳關係條例切結書
+            </div>
+            <div class="card-body">
+                <div class="row" style="padding-left:5%">
+				請下載「<a href='https://drive.google.com/file/d/18G7eW7x_m84FTaul6x5RN1fufcbc6ucg/view?usp=sharing' target='_blank'>符合港澳關係條例切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。
+                </div>                
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
+                    <div class="col-12"  >
+                        <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+
+        // 有檔案就渲染出來
+        try {
+			loading.start();
+			const response = await student.getIdentityVerificationItem({user_id: _userID, item: item_id});
+			if (!response.ok) { throw response; }
+
+            const ifhasfile = await response.json();
+			document.getElementById("uploadArea_hkmoRelationsOrdinance").innerHTML=eval("cardHtml"+item_id);
+			if( ifhasfile == "true"){
+				// 有檔案
+                _getFileAreaHTML(item_id,'uploadArea_hkmoRelationsOrdinance');
+				$('#uploadArea_hkmoRelationsOrdinance_file').show();
+			}
+			else{
+                // 沒檔案
+				$('#uploadArea_hkmoRelationsOrdinance_file').hide();
+			}
+
+			// 上傳 button 樣式
+			$(".fileUploadBtn").filestyle({ //:file
+				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
+				btnClass: "btn-success",
+				text: "請上傳",
+				input: false
+			});
+			loading.complete();
+		} catch(e) {
+			e.json && e.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			});
+			loading.complete();
+		}
+        
+        
+    }
+
+	/*
+    * 16: tech-course-passed-proof: 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
+    */
+    async function setTechCoursePassedProof(){
+		let item_id = '16';
+			
+		let cardHtml16 = `
+        <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
+            <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
+				就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
+            </div>
+            <div class="card-body">
+                <div class="row" style="padding-left:5%">
+					<ol>
+						<li>
+							請上傳至<a href="http://www.hkqr.gov.hk/" target="_blank">資歷名冊</a>網站查詢並下載就讀課程之資歷記錄詳情，或經香港當地政府權責機關、專業評鑑團體認可評審通過之證明文件。
+						</li>
+						<li>
+							僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。
+						</li>
+					</ol>
+                </div>                
+                <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
+                    <div class="col-12"  >
+                        <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+
+        // 有檔案就渲染出來
+        try {
+			loading.start();
+			const response = await student.getIdentityVerificationItem({user_id: _userID, item: item_id});
+			if (!response.ok) { throw response; }
+
+            const ifhasfile = await response.json();
+			document.getElementById("uploadArea_techCoursePassedProof").innerHTML=eval("cardHtml"+item_id);
+			if( ifhasfile == "true"){
+				// 有檔案
+                _getFileAreaHTML(item_id,'uploadArea_techCoursePassedProof');
+				$('#uploadArea_techCoursePassedProof_file').show();
+			}
+			else{
+                // 沒檔案
+				$('#uploadArea_techCoursePassedProof_file').hide();
 			}
 
 			// 上傳 button 樣式
@@ -1326,7 +1648,9 @@
 			'11':'setAuthorizeCheckDiploma()',
 			'12':'setOlympia()',
 			'13':'setPlacementTranscript()',
-			'14':'setTranscriptReferenceTable()'
+			'14':'setTranscriptReferenceTable()',
+			'15':'sethkmoRelationsOrdinance()',
+			'16':'setTechCoursePassedProof()'
 		};
 		return arrayName[itemId];
 	}

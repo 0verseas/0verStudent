@@ -8,3 +8,6 @@ label {
     /*margin-top: 5%;*/
     cursor: pointer
   }
+.card-body {
+  font-size: larger;
+}
