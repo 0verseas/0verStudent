@@ -68,6 +68,8 @@
 								if ( (data.student_qualification_verify.system_id === 3 || data.student_qualification_verify.system_id === 4) &&
 								data.student_qualification_verify.identity > 3 && data.student_qualification_verify.identity < 6) {
 									$memo.html("請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。<br />");
+								} else if( personalData.resident_location === '113' && data.student_qualification_verify.identity < 3 ) {
+									$memo.html("請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。<br />");
 								} else {
 									$memo.html("請在簡章規定之期限內列印並繳交至受理報名單位。<br />");
 								}
@@ -75,21 +77,21 @@
 								if ( (data.student_qualification_verify.system_id === 3 || data.student_qualification_verify.system_id === 4) &&
 								data.student_qualification_verify.identity > 3 && data.student_qualification_verify.identity < 6) {
 									$memo.html("1、 請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會（54561 南投縣埔里鎮大學路1號）。<br />"+
-									"2、 請務必於西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
+									`2、 請務必於西元 ${env.year} 年 1 月 6 日（星期三）臺灣時間下午 5 時前完成備審資料上傳作業，<br />` +
 									"按下『確認上傳資料並提交』。");
 								} else if( personalData.resident_location === '113' && data.student_qualification_verify.identity < 3 ) {
 									let memoHtml = `1、 請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。<br />`;
 									if(data.student_qualification_verify.system_id === 2){
-										memoHtml += `2、 報名「個人申請」者，務必於西元 2021 年 3 月 20 日（星期六）臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。<br />`;
+										memoHtml += `2、 報名「個人申請」者，務必於西元 ${env.year} 年 3 月 20 日（星期六）臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。<br />`;
 									} else {
-										memoHtml += `2、 報名「個人申請」者，務必於西元 2022 年 1 月 6 日（星期四）臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。<br />`;
+										memoHtml += `2、 報名「個人申請」者，務必於西元 ${env.year} 年 1 月 6 日（星期四）臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。<br />`;
 									}
 									memoHtml += `3、 所填志願校系之「必繳」項目皆須上傳檔案，於系統按下「確認上傳資料並提交」按鍵後，始能成功提交。<br />`;
 									memoHtml += `4、 如欲放棄上傳部分志願校系審查資料時，可於該志願上傳頁面點選「放棄上傳審查資料」按鍵，惟申請人一旦於系統完成「放棄上傳審查資料」作業並確認提交後，一律不得以任何理由要求撤回或修改，請審慎考量。`;
 									$memo.html(memoHtml);
 								} else {
 									$memo.html("1、 請在簡章規定之期限內列印並繳交至受理報名單位。<br />"+
-									"2、 報名「個人申請」者，務必於西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前完成備審資料上傳作業，<br />" +
+									`2、 報名「個人申請」者，務必於西元 ${env.year} 年 1 月 6 日（星期四）臺灣時間下午 5 時前完成備審資料上傳作業，<br />` +
 									"按下『確認上傳資料並提交』。");
 								}
 							}

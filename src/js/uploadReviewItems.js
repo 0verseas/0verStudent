@@ -64,14 +64,14 @@
 			_system = orderJson.student_qualification_verify.system_id;
 			_isDocumentLock = !!orderJson.student_misc_data.admission_selection_document_lock_at;
 			let key = '';
-			let admission_doc_upload_time_limit = '西元 2021 年 1 月 6 日（星期三）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（學士班、研究所）
+			let admission_doc_upload_time_limit = '西元 ' + env.year + ' 年 1 月 6 日（星期四）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（學士班、研究所）
 			switch (_system) {
 				case 1:
 					key = 'student_department_admission_selection_order';
 					break;
 				case 2:
 					key = 'student_two_year_tech_department_admission_selection_order';
-					admission_doc_upload_time_limit = '西元 2021 年 3 月 20 日（星期六）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（港二技）
+					admission_doc_upload_time_limit = '西元 ' + env.year + ' 年 3 月 20 日（星期六）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（港二技）
 					break;
 				case 3:
 				case 4:
