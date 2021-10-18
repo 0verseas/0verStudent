@@ -51,7 +51,7 @@
             _userID = progressJson.id;
 			birth_location = progressJson2.student_personal_data.birth_location;
             
-            console.log(progressJson);
+            //console.log(progressJson);
 
             // 自願申請僑先部
 			if(progressJson.student_qualification_verify.system_id == 1 &&  
@@ -96,7 +96,7 @@
 				// (必填) 畢業證書/在學證明/學生證
 				setDiploma();
 
-				// (選填) 高中最後三年成績單（應屆當學期可免附）
+				// (必填) 高中最後三年成績單
 				setSchollTranscript();
 
 				// (必填) 學歷屬實及授權查證切結書
@@ -156,7 +156,7 @@
 				// (必填) 畢業證書/在學證明/學生證
 				setDiploma();
 
-				// (選填) 高中最後三年成績單（應屆當學期可免附）
+				// (必填) 高中最後三年成績單
 				setSchollTranscript();
 
 				// (必填) 學歷屬實及授權查證切結書
@@ -242,7 +242,7 @@
 				// (必填) 畢業證書/在學證明/學生證
 				setDiploma();
 
-				// (選填) 學士/碩士成績單（應屆當學期可免附）
+				// (必填) 學士/碩士成績單
 				setSchollTranscript();
 
 				// (必填) 學歷屬實及授權查證切結書
@@ -302,7 +302,7 @@
 				// (必填) 畢業證書/在學證明/學生證
 				setDiploma();
 
-				// (選填) 經驗證之副學士或高級文憑歷年成績單（應屆當學期可免附）
+				// (必填) 經驗證之副學士或高級文憑歷年成績單
 				setSchollTranscript();
 
 				// (必填) 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
@@ -1093,6 +1093,19 @@
     */
     async function setAuthorizeCheckDiploma(){
 		let item_id = '11';
+
+		let description_detail ='';
+
+		if (studentdata.student_qualification_verify.system_id == 1 || studentdata.student_qualification_verify.system_id == 2){
+			description_detail = `
+			請下載「<a href='https://drive.google.com/file/d/1Br77VQiBG5MwPDvIBQ4KLfCP77MLoYWg/view?usp=sharing' target='_blank'>學歷屬實及授權查證切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。
+			`;
+		}
+		else if(studentdata.student_qualification_verify.system_id == 3 ||studentdata.student_qualification_verify.system_id == 4 ){
+			description_detail = `
+			請下載「<a href='https://drive.google.com/file/d/1cmp6MS6L-ESCH2q_Y1KZ8B7WtUmwvQSu/view?usp=sharing' target='_blank'>學歷屬實及授權查證切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。
+			`;
+		}
 			
 		let cardHtml11 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
@@ -1101,7 +1114,7 @@
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
-					請下載「<a href='https://drive.google.com/file/d/1Br77VQiBG5MwPDvIBQ4KLfCP77MLoYWg/view?usp=sharing' target='_blank'>學歷屬實及授權查證切結書</a>」，列印並填寫後，掃描為 PDF 檔上傳。
+					${description_detail}
                 </div>                
                 <div class="row fileUpload" style="margin-bottom: 3%; padding-top:3%; padding-left:5%" >
                     <div class="col-12"  >
