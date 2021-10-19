@@ -124,10 +124,18 @@
 				alert('請登入。');
 				location.href = "./index.html";
 			} else if (e.status && e.status === 403) {
-				e.json && e.json().then((data) => {
+				e.json && e.json().then(async (data) => {
 					if(data.messages[0].includes('持DSE、ALE、CEE者')){
-						alert(`${data.messages[0]}\n` + '即將返回志願檢視頁面');
-						location.href = './result.html';
+						// alert(`${data.messages[0]}\n` + '即將返回志願檢視頁面');
+						// location.href = './result.html';
+						await swal({
+							title: `持DSE、ALE、CEE者，此階段無須選填志願，請按「確定」後接續「上傳簡章規定應繳文件」步驟`,
+							html: `即將跳轉至「上傳簡章規定應繳文件」頁面`,
+							type:"info",
+							confirmButtonText: '確定',
+							allowOutsideClick: false
+						});
+						location.href = "./uploadIdentityVerification.html"
 					}else if(window.history.length>1){
 						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
 						window.history.back();
