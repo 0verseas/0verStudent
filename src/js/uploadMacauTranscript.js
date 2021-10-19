@@ -86,6 +86,7 @@
 	async function _init() {
 		try{
 			loading.complete();
+			$('.info-exam-year').text(env.year);
 			const progressResponse = await student.getStudentRegistrationProgress();
 			if (!progressResponse.ok) { throw progressResponse; }
 			const progressJson = await progressResponse.json();

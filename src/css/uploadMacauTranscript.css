@@ -8,3 +8,7 @@ label {
     /*margin-top: 5%;*/
     cursor: pointer
   }
+
+ul {
+	margin-bottom: 0;
+}
