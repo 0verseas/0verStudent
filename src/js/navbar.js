@@ -354,13 +354,15 @@
 				$macauTranscriptAlert.show();
 			}
 			// 完成填報後且在報名時間並只有符合馬來西亞需上傳並登記文憑成績的 apply_way 選單才會顯示選項
-			const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,28,29,30,31,80,83,88];
-			if(malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=1
+			const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,27,28,29,30,31,80,83,88];
+			if(malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
 			&& data.student_misc_data.confirmed_at != null
 			// && data.can_admission_placement
 			){
 				$('.nav-uploadEducation').show();
-				$('.nav-uploadMalaysiaTranscript').show();
+				if(data.student_misc_data.admission_placement_apply_way != 27){
+					$('.nav-uploadMalaysiaTranscript').show();
+				}
 			}
 		}
 	}
