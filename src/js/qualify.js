@@ -326,7 +326,7 @@
         // 只有港二技有這選項 直接先隱藏
         $questionKangADHDgraduated.hide();
         // 學制如果是碩博海外居留年限不需要 第4項和第5項 第3項文字要更改
-        const $stayLimitOption3Text = $qualifyForm.find(`.radio-stayLimit[value=3]`).find('a');
+        const $stayLimitOption3Text = $qualifyForm.find(`.radio-stayLimit[value=3]`).parent().find('a');
         const $stayLimitOption4 = $qualifyForm.find(`.radio-stayLimit[value=4]`).parent();
         const $stayLimitOption5 = $qualifyForm.find(`.radio-stayLimit[value=5]`).parent();
         $stayLimitOption3Text.text(`報名時已滿六年，但未滿八年`);
@@ -816,7 +816,6 @@
     // 海外居留年限選項
     function _handleStayLimitChange(){
         const choosenRadioValue = $stayLimitRadio.filter(":checked").val();
-        console.log(choosenRadioValue);
 
         $alertStayLimitUnqualified.hide();
         $alertStayLimitCertif.hide();
@@ -1134,9 +1133,13 @@
         })
         .catch((err) => {
             // 失敗
-            err.json && err.json().then((data) => {
+            err.json && err.json().then(async (data) => {
 				console.error(data.messages[0]);
-                swal({title:data.messages[0], type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title:data.messages[0], type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                if(err.status === 401){
+                    // 重新登入的部份，跳回登入頁面
+                    window.location.href = './index.html';
+                }
 			})
             loading.complete();
         });
