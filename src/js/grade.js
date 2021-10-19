@@ -108,14 +108,20 @@
 				throw res;
 			}
 		})
-		.then((json) => {
+		.then(async (json) => {
 			// console.log(json);
 			alert("儲存成功");
 			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999') { // 不參加聯分，原地 reload
 				window.location.reload();
 			} else if(+code === 23){
-				alert("持DSE、ALE、CEE者，此階段無須選填志願，請按「確定」後接續「志願檢視」步驟，若填報資料經檢視無誤，請按「完成填報」。")
-				location.href = "./result.html"
+				await swal({
+					title: `持DSE、ALE、CEE者，此階段無須選填志願，請按「確定」後接續「上傳簡章規定應繳文件」步驟`,
+					html: `即將跳轉至「上傳簡章規定應繳文件」頁面`,
+					type:"info",
+					confirmButtonText: '確定',
+					allowOutsideClick: false
+				});
+				location.href = "./uploadIdentityVerification.html"
 			} else { // 其餘導向下一頁
 				location.href = "./placementSelection.html"
 			}
