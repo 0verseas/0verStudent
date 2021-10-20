@@ -531,13 +531,14 @@
 
 	function _checkPrintDistribution(json) {
 		// 若有地區列印分發通知書限制，再加條件
-		if( json.student_misc_data.stage_of_admit == null || json.student_misc_data.stage_of_deptid == null) {
-			$printDistribution.hide();
-		}
-		else{
+		if( json.student_misc_data.stage_of_admit != null && json.student_misc_data.stage_of_deptid != null &&
+			(json.student_personal_data_detail == '香港' || json.student_personal_data_detail == '澳門')) {
 			$printDistribution.show();
 			$('#btn-printDistribution').attr('href', env.baseUrl + '/students/print-distribution');
 			$('#printDistributionAlert').show();
+		}
+		else{
+			$printDistribution.hide();
 		}
 	}
 
