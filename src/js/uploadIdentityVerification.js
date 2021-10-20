@@ -53,9 +53,15 @@
             
             //console.log(progressJson);
 
+			if(progressJson.student_qualification_verify.system_id == 1 && !progressJson.student_misc_data.admission_placement_apply_way_data){
+				await swal({title: "請先選擇成績採計方式！", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+				location.href = "./grade.html";
+			}
+
             // 自願申請僑先部
 			if(progressJson.student_qualification_verify.system_id == 1 &&  
-				progressJson.student_misc_data.admission_placement_apply_way_data.code ==16){
+				progressJson.student_personal_data_detail == '香港' &&
+				progressJson.student_misc_data.admission_placement_apply_way_data.code ==16 ){
 				
 				// (必填)香港永久居民身份證正面
 				setIDCard();
