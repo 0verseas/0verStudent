@@ -11,6 +11,7 @@
 	const $uploadAndSubmit = $('#btn-uploadAndSubmit');
 	const $macautranscript = $('#btn-uploadMacauTranscript');
 	const $macauTranscriptAlert = $('#macauTranscriptAlert');
+	const $printDistribution = $('#btn-printDistribution');
 
 	/**
 	* init
@@ -34,6 +35,7 @@
 		_checkConfirm(json);
 		_checkDocumentLock(json);
 		_checkMacauTranscrip(json);
+		_checkPrintDistribution(json);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -524,6 +526,18 @@
 		}else if( json.student_misc_data.overseas_student_id == null){ //確認是否有僑生編號 沒有就請學生等待審核
 			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績');
 			$macauTranscriptAlert.show().text('請先繳交報名表件並等待審核完畢');
+		}
+	}
+
+	function _checkPrintDistribution(json) {
+		// 若有地區列印分發通知書限制，再加條件
+		if( json.student_misc_data.stage_of_admit == null || json.student_misc_data.stage_of_deptid == null) {
+			$printDistribution.hide();
+		}
+		else{
+			$printDistribution.show();
+			$('#btn-printDistribution').attr('href', env.baseUrl + '/students/print-distribution');
+			$('#printDistributionAlert').show();
 		}
 	}
 
