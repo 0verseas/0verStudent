@@ -11,6 +11,7 @@
 	const $uploadAndSubmit = $('#btn-uploadAndSubmit');
 	const $macautranscript = $('#btn-uploadMacauTranscript');
 	const $macauTranscriptAlert = $('#macauTranscriptAlert');
+	const $printDistribution = $('#btn-printDistribution');
 
 	/**
 	* init
@@ -34,6 +35,7 @@
 		_checkConfirm(json);
 		_checkDocumentLock(json);
 		_checkMacauTranscrip(json);
+		_checkPrintDistribution(json);
 	})
 	.catch((err) => {
 		console.error(err);
@@ -354,13 +356,15 @@
 				$macauTranscriptAlert.show();
 			}
 			// 完成填報後且在報名時間並只有符合馬來西亞需上傳並登記文憑成績的 apply_way 選單才會顯示選項
-			const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,28,29,30,31,80,83,88];
-			if(malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=1
+			const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,27,28,29,30,31,80,83,88];
+			if(malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
 			&& data.student_misc_data.confirmed_at != null
 			// && data.can_admission_placement
 			){
 				$('.nav-uploadEducation').show();
-				$('.nav-uploadMalaysiaTranscript').show();
+				if(data.student_misc_data.admission_placement_apply_way != 27){
+					$('.nav-uploadMalaysiaTranscript').show();
+				}
 			}
 		}
 	}
@@ -522,6 +526,18 @@
 		}else if( json.student_misc_data.overseas_student_id == null){ //確認是否有僑生編號 沒有就請學生等待審核
 			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績');
 			$macauTranscriptAlert.show().text('請先繳交報名表件並等待審核完畢');
+		}
+	}
+
+	function _checkPrintDistribution(json) {
+		// 若有地區列印分發通知書限制，再加條件
+		if( json.student_misc_data.stage_of_admit == null || json.student_misc_data.stage_of_deptid == null) {
+			$printDistribution.hide();
+		}
+		else{
+			$printDistribution.show();
+			$('#btn-printDistribution').attr('href', env.baseUrl + '/students/print-distribution');
+			$('#printDistributionAlert').show();
 		}
 	}
 

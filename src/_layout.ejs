@@ -53,7 +53,7 @@
 	<link href="css/<%= current.source %>.css" rel="stylesheet">
 	<link rel="stylesheet" href="./css/loading.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js" integrity="sha256-WRc/eG3R84AverJv0zmqxAmdwQxstUpqkiE+avJ3WSo=" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/gh/CarlosBonetti/jquery-loading/dist/jquery.loading.min.js"></script>
@@ -95,7 +95,7 @@
 	];
 	%>
 
-	<% include components/_loading %>
+	<%- include ('components/_loading') %>
 
 	<div id="app" class="container">
 		<nav class="navbar header navbar-expand-lg navbar-light">
@@ -166,6 +166,13 @@
 					<button type="button" id="btn-uploadMacauTranscript" class="btn btn-info btn-block hide" onclick="location.href='uploadMacauTranscript.html'">登錄及上傳四校聯考成績單</button>
 					<small id="macauTranscriptAlert" class="text-danger hide"> 登錄及上傳截止時間：2021年5月10日（星期一）17:00。</br>
 					僅供需聯合分發者，個人申請已獲錄取者，不需要登錄及上傳四校聯考成績。</small>
+				</div>
+				<div>
+					<!--錄取學生下載分發通知書(目前僅開放特定對象)-->
+					<a href="#" class="btn btn-info  text-white btn-block hide" target="_blank" role="button" id="btn-printDistribution">
+						下載分發通知書
+					</a>
+					<small id="printDistributionAlert" class="text-danger hide"> 注意：分發通知書產生後請掃描右下角 QRCode 開啟網頁，確保頁面內容與分發通知書一致。</small>
 				</div>
 			</div>
 			<div class="col-lg-9">

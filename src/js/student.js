@@ -671,6 +671,14 @@ const student = (() => {
 		})
 	}
 
+	// 查榜，用於分發通知書驗證
+	function getAdmissionRoster2(data) {
+		return fetch(`${baseUrl}/students/search-admission-roster/${data}/result`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
 	//檔案大小計算是否超過 limit MB
 	function sizeConversion(size,limit) {
 		let maxSize = limit*1024*1024;
@@ -823,6 +831,7 @@ const student = (() => {
 		getMacauTranscriptScore,
 		storeMacauTranscriptScore,
 		getAdmissionRoster,
+		getAdmissionRoster2,
 		sizeConversion,
 		fbLogin,
 		fbLoginCallback,

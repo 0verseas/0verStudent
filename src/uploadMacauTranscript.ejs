@@ -1,4 +1,4 @@
-<% include components/_studentInfo %>
+<%- include ('components/_studentInfo') %>
 <!--<META HTTP-EQUIV="pragma" CONTENT="no-cache">-->
 <!--<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">-->
 <!--<META HTTP-EQUIV="expires" CONTENT="0">-->
@@ -6,6 +6,18 @@
 <h2 class="text-center title">上傳四校聯考成績單</h2>
 
 <hr>
+
+<div class="alert alert-info">
+	<ul>
+		<li>
+            請登錄 <a class="info-exam-year"></a> 年「澳門四校聯考」科目之<strong class="text-danger">原始成績</strong>（未加權）。
+        </li>
+
+		<li>
+            上傳並提交之成績證明：如成績報告或成績查詢網頁截圖需含「<strong class="text-danger">個人基本資料</strong>」（如姓名、身分證號碼等）。
+        </li>
+	</ul>
+</div>
 
 <div class="alert alert-danger hide" role="alert" id="have_confirm_text">
     <strong style="font-size: xx-large;">您已上傳並鎖定四校聯考成績資料。</strong>
@@ -26,7 +38,7 @@
                                         document.getElementById('chineseScore-tip').style.display ='none';
                                         document.getElementById('reviewItemsArea_01').style.display ='none';
                                         document.getElementById('chineseScore-text').innerText = '我有考此科目。' 
-                                    " checked >
+                                    " >
                         <label for="radio1">
                             我沒有考此科目。
                         </label>
@@ -72,7 +84,7 @@
                                         document.getElementById('englishScore-tip').style.display ='none';
                                         document.getElementById('reviewItemsArea_02').style.display ='none';
                                         document.getElementById('englishScore-text').innerText = '我有考此科目。' 
-                                    " checked>
+                                    ">
                         <label for="radio3">
                             我沒有考此科目。
                         </label>
@@ -89,11 +101,11 @@
                                     document.getElementById('englishScore-text').innerText = '我有考此科目，成績為：' 
                                 " >
                         <label for="radio4" style="margin-top: 5%" id = "englishScore-text">
-                            我有考此科目，成績為
+                            我有考此科目，成績為：
                         </label>
                     </div>
                     <div><input type="number" class="form-control" id="englishScore" style="" data-subject='02' min="350" max="1000"></div>
-                    <div id = "uploadFileArea_02" style=""></div>
+                    <div id = "uploadFileArea_02"></div>
                 </div>
                 <div style="padding-left:5%" class="text-muted" id = "englishScore-tip"> (成績輸入應介於 350 ～ 1000 之間)</div>
             </div>
@@ -118,7 +130,7 @@
                                     document.getElementById('MathScore-tip').style.display ='none';
                                     document.getElementById('reviewItemsArea_03').style.display ='none';
                                     document.getElementById('MathScore-text').innerText = '我有考此科目。' 
-                                " checked>
+                                ">
                         <label for="radio5">
                             我沒有考此科目。
                         </label>
@@ -135,7 +147,7 @@
                                     document.getElementById('MathScore-text').innerText = '我有考此科目，成績為：' 
                                 ">
                         <label for="radio6" style="margin-top: 5%" id="MathScore-text">
-                            我有考此科目，成績為
+                            我有考此科目，成績為：
                         </label>
                     </div>
                     <div><input type="number" class="form-control" id="MathScore" style="" data-subject='03' min="350" max="1000"></div>
@@ -164,7 +176,7 @@
                                     document.getElementById('ViceMathScore-tip').style.display ='none';
                                     document.getElementById('reviewItemsArea_04').style.display ='none';
                                     document.getElementById('ViceMathScore-text').innerText = '我有考此科目。' 
-                                " checked>
+                                ">
                         <label for="radio7">
                             我沒有考此科目。
                         </label>
@@ -181,7 +193,7 @@
                                     document.getElementById('ViceMathScore-text').innerText = '我有考此科目，成績為：' 
                                 " >
                         <label for="radio8" style="margin-top: 5%" id="ViceMathScore-text">
-                            我有考此科目，成績為
+                            我有考此科目，成績為：
                         </label>
                     </div>
                     <div><input type="number" class="form-control" id="ViceMathScore" style="" data-subject='04' min="350" max="1000"></div>
