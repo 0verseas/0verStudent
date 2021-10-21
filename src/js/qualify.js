@@ -391,6 +391,12 @@
         let questionIsDistributionText = '是否曾經分發來臺就學過？';
         let questionStayLimitTitleHtml = '請問自報名截止日往前推算，已在僑居地連續居留多少年？';
 
+        if(choosenIdentity == '2'){
+            questionStayLimitTitleHtml = `最近連續居留海外（指臺灣地區<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
+        } else if(choosenIdentity == '1'){
+            questionStayLimitTitleHtml = `最近連續居留境外（指臺灣地區<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
+        }
+
         // 按照身份別顯示不同的問題選項及文字
         switch(choosenIdentity){
             case '2':
@@ -404,7 +410,6 @@
                 $questionIsDistribution.show();
                 $questionStayLimit.show();
                 $questionHasBeenTaiwan.show();
-                questionStayLimitTitleHtml = `最近連續居留境外（指臺灣地區<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
                 _handleWhichPassportCheck(); // 切換成港澳生時要檢查持外國護照項目
                 break;
             case '3':
