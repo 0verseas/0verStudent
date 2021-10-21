@@ -392,7 +392,7 @@
         let questionStayLimitTitleHtml = '請問自報名截止日往前推算，已在僑居地連續居留多少年？';
 
         if(choosenIdentity == '2'){
-            questionStayLimitTitleHtml = `最近連續居留海外（指臺灣地區<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
+            questionStayLimitTitleHtml = `最近連續居留香港、澳門或海外（指除了臺灣、大陸<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
         } else if(choosenIdentity == '1'){
             questionStayLimitTitleHtml = `最近連續居留境外（指臺灣地區<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
         }
