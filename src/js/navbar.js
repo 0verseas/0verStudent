@@ -265,7 +265,9 @@
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
 			}
 			// 僑居地是香港的，因為沒有海華幫忙收件了，要開上傳身份證件區，要線上繳交報名費用 
-			if(data.student_personal_data_detail == '香港'){
+			if(data.student_personal_data_detail == '香港' && (
+				data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2)
+			){
 				document.getElementById('uploadIdentityVerification').style.display = 'block';
 				// 還沒繳錢就不給學生按完成填報
 				if(data.student_order_list_trade_status == '1'){
