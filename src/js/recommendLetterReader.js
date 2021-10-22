@@ -55,7 +55,7 @@
             const tokenJson = await response.json();
             _system_id = tokenJson.system_id;
             _dept_id = tokenJson.dept_id;
-            console.log('あのね (≧д≦) あのね');
+
             const sid = paddingLeft(tokenJson.sid, 6);  // 後端送回來的報名序號，驗證資料正確性使用
             const stu_name = tokenJson.s_name;  // 後端依據網址的報名序號抓出使用者姓名，驗證資料用
             const stu_eng_name = tokenJson.eng_s_name;  // 學生英文姓名

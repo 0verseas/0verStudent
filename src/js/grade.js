@@ -59,9 +59,6 @@
 		const code = $('.radio-option:checked').val();
 		const school_country = $('.radio-option:checked').attr('data-school_country');
 
-		console.log(id);
-		console.log(code);
-		console.log(school_country);
 		if (!id || !code) {
 			alert('請選擇您的成績採計方式');
 			return;

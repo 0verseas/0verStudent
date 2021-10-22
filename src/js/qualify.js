@@ -921,7 +921,6 @@
         const inputDistributionSchool = $qualifyForm.find('.input-distributionSchool').val(); // 分發學校
         const inputDistributionDept = $qualifyForm.find('.input-distributionDept').val(); // 分發系所
         const inputDistributionNo = $qualifyForm.find('.input-distributionNo').val(); // 分發文號
-        console.log(inputPortugalPassportTime);
 
         // 檢查學制代碼
         if([1,2,3,4].indexOf(choosenSystem) == -1){

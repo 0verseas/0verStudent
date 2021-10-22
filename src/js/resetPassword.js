@@ -39,7 +39,6 @@
 		.then((res) => {
 			if (!res.ok) {
 				throw res;
-				console.log('2');
 			}
 		})
 		.then(() => {

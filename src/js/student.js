@@ -64,7 +64,6 @@ const student = (() => {
                 localStorage.countryListExpiration = new Date().getTime() + (1440 * 60 * 1000);
 				return groups;
 			} catch (e) {
-				console.log('Boooom!!');
 				console.log(e);
 			}
 		}

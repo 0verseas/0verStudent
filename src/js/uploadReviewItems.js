@@ -283,7 +283,6 @@
 					<hr>
 				`
 			} else if (!!fileListItem.paper) {
-				console.log('paper');
 				reviewItemHTML += `
 					<div class="row">
 						<div class="col-12">
@@ -811,7 +810,6 @@
 		if (!confirm('確定刪除？')) {
 			return;
 		}
-		console.log("back to end",_studentID,_deptID,$(this).attr('data-type'),$(this).attr('data-filename'));
 		try {
 			loading.start();
 			const response = await student.delReviewItem({
