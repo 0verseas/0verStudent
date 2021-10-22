@@ -25,6 +25,7 @@
 	*/
 
 	function _handleChoose() {
+		const school_country = $(this).attr('data-school_country');
 		if (+$(this).val() === 23) {
 			// 以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請
 			$('.forCode23').fadeIn();
@@ -32,8 +33,8 @@
 			$('.forCode23').hide();
 		}
 
-		if (+$(this).val() === 1) {
-			// code = 01 (華文獨中統考文憑) 要驗證 馬來西亞華文獨中統考准考證號碼
+		if (school_country === '馬來西亞' && (+$(this).val() === 1 || +$(this).val() === 2 || +$(this).val() === 3 || +$(this).val() === 16)) {
+			// 馬來西亞地區 第1和5梯次的採計方式要填考生編號
 			$('.forCode01').fadeIn();
 		} else {
 			$('.forCode01').hide();
@@ -54,9 +55,10 @@
 	}
 
 	async function _handleSave() {
-
 		const id = $('.radio-option:checked').attr('data-id');
 		const code = $('.radio-option:checked').val();
+		const school_country = $('.radio-option:checked').attr('data-school_country');
+
 		if (!id || !code) {
 			alert('請選擇您的成績採計方式');
 			return;
@@ -69,7 +71,7 @@
 			apply_way: id
 		};
 
-		if (+code === 1) {
+		if (school_country === '馬來西亞' && (+code === 1 || +code === 2 || +code === 3 || +code === 16)) {
 			data.my_admission_ticket_no = $('.my_admission_ticket_no').val();
 		}
 
@@ -154,7 +156,7 @@
 			let fieldSetHTML = '';
 
 			json.forEach((file, index) => {
-				fieldSetHTML += '<div class="form-group form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" data-id="' + file.id + '" value=' + file.code + '>' + file.description + '</label></div>';
+				fieldSetHTML += '<div class="form-group form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" data-school_country =' + file.last_graduated_school_country +' data-id="' + file.id + '" value=' + file.code + '>' + file.description + '</label></div>';
 			});
 
 			$applyWaysFieldSet.html(fieldSetHTML);
