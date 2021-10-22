@@ -59,6 +59,9 @@
 		const code = $('.radio-option:checked').val();
 		const school_country = $('.radio-option:checked').attr('data-school_country');
 
+		console.log(id);
+		console.log(code);
+		console.log(school_country);
 		if (!id || !code) {
 			alert('請選擇您的成績採計方式');
 			return;
@@ -156,7 +159,8 @@
 			let fieldSetHTML = '';
 
 			json.forEach((file, index) => {
-				fieldSetHTML += '<div class="form-group form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" data-school_country =' + file.last_graduated_school_country +' data-id="' + file.id + '" value=' + file.code + '>' + file.description + '</label></div>';
+				let school_country =  (file.last_graduated_school_country)?file.last_graduated_school_country:'無';
+				fieldSetHTML += '<div class="form-group form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" data-school_country =' + school_country +' data-id="' + file.id + '" value=' + file.code + '>' + file.description + '</label></div>';
 			});
 
 			$applyWaysFieldSet.html(fieldSetHTML);
