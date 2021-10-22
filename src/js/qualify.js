@@ -110,6 +110,7 @@
     const $isDistributionOptionList = $qualifyForm.find('#distributionMore');
     const $isDistributionOption = $qualifyForm.find('.option-isDistribution');
     const $alertIsDistribution = $qualifyForm.find('.alert-isDistribution');
+    const $inputDistributionTime = $qualifyForm.find('.input-distributionTime')
     // 海外居留選項
     const $questionStayLimit = $('.question-stayLimit');
     const $questionStayLimitTitle = $('.title-stayLimit');
@@ -391,6 +392,10 @@
         let questionIsDistributionText = '是否曾經分發來臺就學過？';
         let questionStayLimitTitleHtml = '請問自報名截止日往前推算，已在僑居地連續居留多少年？';
 
+        // 在台學生的曾分發來台年份可輸入長度與提示訊息不一樣
+        $inputDistributionTime.attr("placeholder", "請填寫西元年份，若多個請用「，」隔開。EX：2013");
+        $inputDistributionTime.attr("maxlength", 191);
+
         if(choosenIdentity == '2'){
             questionStayLimitTitleHtml = `最近連續居留香港、澳門或海外（指除了臺灣、大陸<span class="text-danger"> 以外 </span>之國家或地區）之年限：`;
         } else if(choosenIdentity == '1'){
@@ -421,6 +426,8 @@
                 break;
             case '4':
             case '5':
+                $inputDistributionTime.attr("placeholder", "請填寫西元年份。");
+                $inputDistributionTime.attr("maxlength", 5);
                 questionIsDistributionText = (choosenSystem === '3')?'請問您是否曾經向本會申請碩士班同級學程，並經由本會分發？':'請問您是否曾經向本會申請博士班同級學程，並經由本會分發？';
                 $questionInTaiwan.show();
                 $questionIsDistribution.show();
