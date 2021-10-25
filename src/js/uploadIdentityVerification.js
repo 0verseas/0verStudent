@@ -60,7 +60,7 @@
 
             // 自願申請僑先部
 			if(progressJson.student_qualification_verify.system_id == 1 &&  
-				progressJson.student_personal_data_detail == '香港' &&
+				progressJson.student_personal_data_detail.resident_location == '香港' &&
 				progressJson.student_misc_data.admission_placement_apply_way_data.code ==16 ){
 				
 				// (必填)香港永久居民身份證正面
@@ -121,7 +121,7 @@
 			}
 			// 學士班 && 僑居地為香港
 			else if(progressJson.student_qualification_verify.system_id == 1 && 
-				progressJson.student_personal_data_detail == '香港'){
+				progressJson.student_personal_data_detail.resident_location == '香港'){
 				
 				// (必填)香港永久居民身份證正面
 				setIDCard();
@@ -207,7 +207,7 @@
 			if(
 				(progressJson.student_qualification_verify.system_id == 3 || 
 					progressJson.student_qualification_verify.system_id == 4 ) &&
-				progressJson.student_personal_data_detail == '香港'){
+				progressJson.student_personal_data_detail.resident_location == '香港'){
 				
 				// (必填)香港永久居民身份證正面
 				setIDCard();

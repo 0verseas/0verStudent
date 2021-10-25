@@ -249,6 +249,7 @@
 		!!data.student_graduate_department_admission_selection_order &&
 		$('.nav-admissionSelection').addClass('list-group-item-success');
 
+		console.log(data);
 		if (!data.student_personal_data) {
 			// 學生沒有填個人資料時，「個人申請志願」出現提示訊息（請先填寫個人基本資料）
 			$('.nav-admissionSelection').addClass('disabled');
@@ -265,7 +266,7 @@
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
 			}
 			// 僑居地是香港的，因為沒有海華幫忙收件了，要開上傳身份證件區，要線上繳交報名費用 
-			if(data.student_personal_data_detail == '香港' && (
+			if(data.student_personal_data_detail.resident_location == '香港' && (
 				data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2)
 			){
 				document.getElementById('uploadIdentityVerification').style.display = 'block';
@@ -357,14 +358,16 @@
 				$macautranscript.show();
 				$macauTranscriptAlert.show();
 			}
-			// 完成填報後且在報名時間並只有符合馬來西亞需上傳並登記文憑成績的 apply_way 選單才會顯示選項
-			const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,27,28,29,30,31,80,83,88];
-			if(malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
+			// 完成填報後且在報名時間並只有最高學歷完成地在馬來西亞的需要上傳簡章規定文件
+			if(data.student_personal_data_detail.school_country == '馬來西亞'
+			&& data.student_personal_data_detail.school_type !== '海外臺灣學校'
 			&& data.student_misc_data.confirmed_at != null
-			// && data.can_admission_placement
+			&& (data.can_admission_placement || data.can_admission_selection)
 			){
 				$('.nav-uploadEducation').show();
-				if(data.student_misc_data.admission_placement_apply_way != 27){
+				// 聯合分發只有部份採計方式需要上傳文憑成績
+				const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,80,83,88];
+				if( malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1){
 					$('.nav-uploadMalaysiaTranscript').show();
 				}
 			}
@@ -534,7 +537,7 @@
 	function _checkPrintDistribution(json) {
 		// 若有地區列印分發通知書限制，再加條件
 		if( json.student_misc_data.stage_of_admit != null && json.student_misc_data.stage_of_deptid != null &&
-			(json.student_personal_data_detail == '香港' || json.student_personal_data_detail == '澳門')) {
+			(json.student_personal_data_detail.resident_location == '香港' || json.student_personal_data_detail.resident_location == '澳門')) {
 			$printDistribution.show();
 			$('#btn-printDistribution').attr('href', env.baseUrl + '/students/print-distribution');
 			$('#printDistributionAlert').show();
