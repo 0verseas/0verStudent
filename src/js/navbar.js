@@ -298,6 +298,7 @@
 					if(!data.can_admission_placement){
 						$('.nav-placementSelection').addClass('list-group-item-success');
 						$('.nav-placementSelection').addClass('disabled');
+						$('.nav-placementSelection').click(function(e){e.preventDefault();});
 						$('.nav-placementSelection').addClass('show-placement-deadline');
 						$('#placement-deadline-text').text('(目前無須填寫志願)');
 					}
