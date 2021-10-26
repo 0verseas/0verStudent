@@ -8,6 +8,8 @@
 	const $imgModalBody= $('#img-modal-body');// 檔案編輯模板顯示檔案區域
 	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
 	let $uploadedFiles = [];// 已上傳檔案名稱陣列
+	const $uploadTranscriptStringArray = ['統考','所持會考文憑'];
+	const dateMap = {0:'2021年12月15日（星期三）', 1:'2022年1月15日（星期六）', 2:'2022年2月28日（星期一）', 5:'2021年3月31日（星期四）'}
 
 	/**
 	*	init
@@ -27,21 +29,60 @@
 
 	async function _init() {
 		/* 可能需要按照梯次不同顯示不同的說明文字 */
-		// const registrationResponse = await student.getStudentRegistrationProgress();
-		// if(registrationResponse.ok){
-		// 	const studentData = await registrationResponse.json();
-		// 	console.log(studentData);
-		// } else {
-		// 	const data = await registrationResponse.json();
-		// 	const message = data.messages[0];
-		// 	await swal({
-		// 		title: `ERROR！`,
-		// 		html:`${message}`,
-		// 		type:"error",
-		// 		confirmButtonText: '確定',
-		// 		allowOutsideClick: false
-		// 	});
-		// }
+		const registrationResponse = await student.getStudentRegistrationProgress();
+		if(registrationResponse.ok){
+			const studentData = await registrationResponse.json();
+			const apply_way = studentData.student_misc_data.admission_placement_apply_way;
+			const school_type = studentData.student_personal_data_detail.school_type;
+			let stepHtml = '';
+			if(apply_way != null && apply_way!=1){
+				const apply_way_data = studentData.student_misc_data.admission_placement_apply_way_data;
+				if(apply_way_data.stage != 2){
+					let tempString = (apply_way_data.id == 24)?$uploadTranscriptStringArray[0]:$uploadTranscriptStringArray[1];
+					let stageChineseChar = (apply_way_data.stage == 1)?'一':'五';
+					stepHtml = `
+						如因COVID-19疫情致報名時尚未取得文憑成績，請於
+						<b class="text-danger">${tempString}成績公布後5個日曆天內</b>，
+						至填報系統『登錄上傳文憑成績』頁面完成此報名步驟。
+						<br/>（未於「聯合分發」第${stageChineseChar}梯次分發作業前完成上傳提交者，一律不予分發。）
+					`;
+				}
+				$('.info-date').text(dateMap[apply_way_data.stage]);
+			}
+			if(studentData.student_misc_data.join_admission_selection == 1){
+				$('.info-date').text(dateMap[0]);
+				$('.step-4').show();
+				$('.step-4').html(`
+					<strong>步驟④ 上傳校系備審資料：</strong>至<b class="text-danger">2022年1月6日（星期四）臺灣時間下午5時</b>止，
+					請於填報系統的『上傳備審資料』頁面上傳「個人申請」各志願校系指定的審查項目，並按下『確認上傳資料並提交』。
+					<br/>（若未在期限内完成步驟④，則「個人申請」資格不符，建議在確認資料無誤後提早完成上傳提交。）
+				`);
+				if(stepHtml!=''){
+					$('.step-5').show();
+					$('.step-5').html(`<strong>步驟⑤ 登錄上傳文憑成績<b class="text-danger">（NEW）</b>：</strong>`+stepHtml);
+				}
+			} else if(studentData.can_admission_placement && stepHtml!=''){
+				$('.step-4').show();
+				$('.step-4').html(`<strong>步驟④ 登錄上傳文憑成績<b class="text-danger">（NEW）</b>：</strong>`+stepHtml);
+			}
+			if(school_type == '馬來西亞國際學校（International School）' && [83,88].indexOf(apply_way) == -1){
+				$('.link-pdf').text(`《一般地區簡章》`);
+				$('.transcript-info').text(`報名「聯合分發」所選『成績採計方式』相關文件（若有）`)
+			} else {
+				$('.link-pdf').text(`《馬來西亞地區簡章》`);
+				$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
+			}
+		} else {
+			const data = await registrationResponse.json();
+			const message = data.messages[0];
+			await swal({
+				title: `ERROR！`,
+				html:`${message}`,
+				type:"error",
+				confirmButtonText: '確定',
+				allowOutsideClick: false
+			});
+		}
 
 		const response = await student.getEducationFile();
 		if(response.ok){

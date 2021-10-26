@@ -249,7 +249,6 @@
 		!!data.student_graduate_department_admission_selection_order &&
 		$('.nav-admissionSelection').addClass('list-group-item-success');
 
-		console.log(data);
 		if (!data.student_personal_data) {
 			// 學生沒有填個人資料時，「個人申請志願」出現提示訊息（請先填寫個人基本資料）
 			$('.nav-admissionSelection').addClass('disabled');
@@ -358,11 +357,11 @@
 				$macautranscript.show();
 				$macauTranscriptAlert.show();
 			}
-			// 完成填報後且在報名時間並只有最高學歷完成地在馬來西亞的需要上傳簡章規定文件
+			// 只有學士班在完成填報後且只有最高學歷完成地在馬來西亞的學生需要上傳簡章規定文件 然後海外臺校的不需要看到
 			if(data.student_personal_data_detail.school_country == '馬來西亞'
 			&& data.student_personal_data_detail.school_type !== '海外臺灣學校'
 			&& data.student_misc_data.confirmed_at != null
-			&& (data.can_admission_placement || data.can_admission_selection)
+			&& data.student_qualification_verify.system_id == 1
 			){
 				$('.nav-uploadEducation').show();
 				// 聯合分發只有部份採計方式需要上傳文憑成績
