@@ -67,9 +67,13 @@
 			}
 			if(school_type == '馬來西亞國際學校（International School）' && [83,88].indexOf(apply_way) == -1){
 				$('.link-pdf').text(`《一般地區簡章》`);
+				$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/02_111%E4%B8%80%E8%88%AC%E5%85%8D%E8%A9%A6.pdf');
+				$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1qBbFmeGlCVBiwIVcfO9_oUDkkgfKsvPL/view?usp=sharing');
 				$('.transcript-info').text(`報名「聯合分發」所選『成績採計方式』相關文件（若有）`)
 			} else {
 				$('.link-pdf').text(`《馬來西亞地區簡章》`);
+				$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_111%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
+				$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1wPWXMeUPvGVQbOq285bIJsUT5N4ktqji/view?usp=sharing');
 				$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
 			}
 		} else {
