@@ -50,7 +50,7 @@
 						} else{
 							$alertPrint.html(`完成線上填寫個人資料後，請下載、列印並確認表件資料無誤。`);
 							$alertCorrect.html(`若資料有誤(含無法顯示特殊字)，請填寫「<a href="${env.baseUrl+'/admission-data-correction-form'}" target="_blank">資料修正表</a>」並連同申請資料繳交至受理報名單位，始完成報名程序。`);
-							$alertSubmit.html(`請將系統產生文件全數印出，並備齊簡章規定應繳資料於報名截止日前，至受理報名單位繳件。<a href="" target="_blank">報名日期資訊</a>`);
+							$alertSubmit.html(`請將系統產生文件全數印出，並備齊簡章規定應繳資料於報名截止日前，至受理報名單位繳件。<a href="https://cmn-hant.overseas.ncnu.edu.tw/node/23" target="_blank">報名日期資訊</a>`);
 						}
 
 						if ((data.student_qualification_verify.system_id === 1 || data.student_qualification_verify.system_id === 2)
