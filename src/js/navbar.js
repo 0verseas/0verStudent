@@ -295,6 +295,12 @@
 			// 學生有填聯合分發採計方式，但沒有在聯合分發期間期間時，「聯合分發志願」出現提示訊息（聯合分發已截止）
 			if( data.student_misc_data.admission_placement_apply_way_data.code == '18' ||
 				( data.student_qualification_verify.identity === 7 && data.student_misc_data.admission_placement_apply_way_data.code == '22') ){
+					if(!data.can_admission_placement){
+						$('.nav-placementSelection').addClass('list-group-item-success');
+						$('.nav-placementSelection').addClass('disabled');
+						$('.nav-placementSelection').addClass('show-placement-deadline');
+						$('#placement-deadline-text').text('(目前無須填寫志願)');
+					}
 				;
 			}else if(data.student_misc_data.admission_placement_apply_way_data.code == '23'){
 				//如果是DSE後填要confirmed_placement_at 有值才算完成聯合分發志願填寫
