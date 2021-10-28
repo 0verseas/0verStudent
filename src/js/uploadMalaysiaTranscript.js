@@ -21,9 +21,9 @@
     const diploma_array = ['','獨中統考','STPM','A Level','SPM','O Level']
     // 不同文憑需要隱藏不同的成績欄位
     const $diplomaHideArray = {
-        0: [],
-        1: ['SATChineseForm','TOCFLChineseForm','MUETForm'],
-        2: ['MUETForm']
+        0: ['advancedMath1Form'],
+        1: ['SATChineseForm','TOCFLChineseForm','MUETForm','SPMChineseForm'],
+        2: ['advancedMath1Form','MUETForm','SPMChineseForm']
     }
     // 不同類組需要隱藏不同的成績欄位
     const $gruopHideArray = {
@@ -170,8 +170,10 @@
             $('#SATChineseForm').show();
             $('#TOCFLChineseForm').show();
             $('#MUETForm').show();
+            $('#SPMChineseForm').show();
+            $('#mathForm').hide();
             $('#advancedMathForm').show();
-            $('#advancedMath1Form').hide();
+            $('#advancedMath1Form').show();
             $('#advancedMath2Form').hide();
             // 考生編號欄位 渲染資料
             $('#candidateNo').val(transcriptInfo.candidate_no);
@@ -202,17 +204,19 @@
             $('#SATChinese').val(transcriptInfo.SAT_chinese);
             $('#TOCFLChinese').val(transcriptInfo.TOCFL_chinese);
             $('#MUET').val(transcriptInfo.MUET);
+            $('#SPMChinese').val(transcriptInfo.SPMChinese);
         }).then(function () {
-            // 設定顯示的成績欄位 不同文憑 看到的不一樣
+            // 設定顯示的成績欄位 不同文憑與類組 看到的不一樣
             $diplomaHideArray[$studentDiplomaHideCode].forEach((value) => {
                 $('#'+value).hide();
             });
             if($studentDiplomaHideCode === 1){
-                $('#advancedMath1Form').show();
                 if($studentGruop === 2){
                     $('#advancedMathForm').hide();
                     $('#advancedMath2Form').show();
                 }
+            } else if($studentDiplomaHideCode == 0){
+                $('#mathForm').show();
             }
             loading.complete();
         }).catch(function (err) {
@@ -287,7 +291,8 @@
                     'digitalLogic': null,
                     'SATChinese': null,
                     'TOCFLChinese': null,
-                    'MUET': null
+                    'MUET': null,
+                    'SPMChinese': null
                 };
 
                 // 使用者確認
@@ -341,7 +346,8 @@
             'digitalLogic': $('#digitalLogic').val(),
             'SATChinese': $('#SATChinese').val(),
             'TOCFLChinese': $('#TOCFLChinese').val(),
-            'MUET': $('#MUET').val()
+            'MUET': $('#MUET').val(),
+            'SPMChinese': $('#SPMChinese').val()
         };
         
         // 使用者確認
