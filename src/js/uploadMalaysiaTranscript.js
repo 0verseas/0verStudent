@@ -210,16 +210,16 @@
             $diplomaHideArray[$studentDiplomaHideCode].forEach((value) => {
                 $('#'+value).hide();
             });
+            // 一類組的都顯示數學 二類組的獨中統考出現高數2不顯示高數 二類組的stpm 或 a level 顯示 數學
             if($studentGruop === 1){
                 $('#mathForm').show();
-            }
-            if($studentDiplomaHideCode === 1){
-                if($studentGruop === 2){
+            } else {
+                if($studentDiplomaHideCode === 1){
                     $('#advancedMathForm').hide();
-                    $('#advancedMath2Form').show();
+                    $('#advancedMath2Form').show();                    
+                } else if($studentDiplomaHideCode == 0){
+                    $('#mathForm').show();
                 }
-            } else if($studentDiplomaHideCode == 0){
-                $('#mathForm').show();
             }
             loading.complete();
         }).catch(function (err) {
