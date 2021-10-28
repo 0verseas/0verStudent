@@ -28,7 +28,7 @@
     // 不同類組需要隱藏不同的成績欄位
     const $gruopHideArray = {
         1: ['biologyForm','physicsForm','chemistryForm','basicCircuitTheoryForm','principleElectronicsForm','fundamentalsOfElectricalEngineeringForm','digitalLogicForm'],
-        2: ['mathForm','historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','introductionToBusineseForm','artForm','artDesignForm','artDesignPracticalForm']
+        2: ['historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','introductionToBusineseForm','artForm','artDesignForm','artDesignPracticalForm']
     }
     // 需要暫存之變數 學生的類組 學生的文憑列表 學生單一文憑的所有已上傳檔案名稱
     let $studentGruop = 0;
@@ -210,6 +210,9 @@
             $diplomaHideArray[$studentDiplomaHideCode].forEach((value) => {
                 $('#'+value).hide();
             });
+            if($studentGruop === 1){
+                $('#mathForm').show();
+            }
             if($studentDiplomaHideCode === 1){
                 if($studentGruop === 2){
                     $('#advancedMathForm').hide();
