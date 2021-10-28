@@ -38,3 +38,8 @@
 	/* 有點空間，比較好看 */
 	margin-top: 1rem;
 }
+
+li {
+	/*上下都留空增加行距*/
+	margin: 5px auto;
+}

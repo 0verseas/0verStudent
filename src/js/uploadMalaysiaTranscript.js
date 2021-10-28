@@ -27,8 +27,8 @@
     }
     // 不同類組需要隱藏不同的成績欄位
     const $gruopHideArray = {
-        1: ['advancedMath1Form','advancedMath2Form','biologyForm','physicsForm','chemistryForm','basicCircuitTheoryForm','principleElectronicsForm','fundamentalsOfElectricalEngineeringForm','digitalLogicForm'],
-        2: ['mathForm','advancedMathForm','historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','introductionToBusineseForm','artForm','artDesignForm','artDesignPracticalForm']
+        1: ['biologyForm','physicsForm','chemistryForm','basicCircuitTheoryForm','principleElectronicsForm','fundamentalsOfElectricalEngineeringForm','digitalLogicForm'],
+        2: ['mathForm','historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','introductionToBusineseForm','artForm','artDesignForm','artDesignPracticalForm']
     }
     // 需要暫存之變數 學生的類組 學生的文憑列表 學生單一文憑的所有已上傳檔案名稱
     let $studentGruop = 0;
@@ -170,6 +170,9 @@
             $('#SATChineseForm').show();
             $('#TOCFLChineseForm').show();
             $('#MUETForm').show();
+            $('#advancedMathForm').show();
+            $('#advancedMath1Form').hide();
+            $('#advancedMath2Form').hide();
             // 考生編號欄位 渲染資料
             $('#candidateNo').val(transcriptInfo.candidate_no);
             // 成績input欄位 渲染後端回傳的資料
@@ -204,6 +207,13 @@
             $diplomaHideArray[$studentDiplomaHideCode].forEach((value) => {
                 $('#'+value).hide();
             });
+            if($studentDiplomaHideCode === 1){
+                $('#advancedMath1Form').show();
+                if($studentGruop === 2){
+                    $('#advancedMathForm').hide();
+                    $('#advancedMath2Form').show();
+                }
+            }
             loading.complete();
         }).catch(function (err) {
             loading.complete();
@@ -218,6 +228,7 @@
             }
         });
     }
+
     // 新增文憑事件
     function _handleNew(){
         // 取得 選取的文憑類別及年度
