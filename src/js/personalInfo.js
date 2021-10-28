@@ -629,7 +629,7 @@
             $HK_ADorHD_ClassName.val(null);
         }
 
-        if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId) {
+        if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId && _systemId === 1) {
             $('.alert-schoolCountry').show();
         } else {
             $('.alert-schoolCountry').hide();
@@ -762,6 +762,10 @@
                         allowOutsideClick: false
                     });
                 }
+            } else {
+                await $schoolNameTextForm.show();
+                await $schoolNameText.val(_currentSchoolName);
+                _hasSchoolLocate = false;
             }
         }
     }
