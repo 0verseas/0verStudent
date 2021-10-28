@@ -608,14 +608,18 @@
         }
     }
 
-    function _chSchoolCountry() {
+    async function _chSchoolCountry() {
         // 更換學校國家時，取得國家 id 作為後續渲染使用
         // 並初始化相關變數，接下去觸發渲染學校類型事件
         _schoolCountryId = $(this).val();
         _currentSchoolType = "";
         _currentSchoolLocate = "";
         _currentSchoolName = "";
-        _reRenderSchoolType();
+        await _reRenderSchoolType();
+
+        if(_hasEduType){
+            await $schoolNameTextForm.hide();
+        }
 
         // 香港學士班的話要再問是否曾經有副學士或高級文憑的調查
         if(_schoolCountryId == 113 && _systemId == 1){
@@ -723,7 +727,7 @@
                         }, {});
 
                         // 海外臺校 檳城的好像廢校了
-                        if(_currentSchoolType=='海外臺灣學校' && _currentSchoolLocate == ''){
+                        if(_currentSchoolType=='海外臺灣學校' && _currentSchoolLocate == '' && _schoolCountryId == 128){
                             _currentSchoolLocate = "雪蘭莪";
                         }
 
@@ -746,7 +750,7 @@
                         await $schoolLocationForm.show();
                         await _reRenderSchoolList();
                         _hasSchoolLocate = true;
-                    } else if(!_hasEduType){
+                    } else {
                         // 沒有學校列表，則單純顯示學校名稱 text field
                         await $schoolNameTextForm.show();
                         await $schoolNameText.val(_currentSchoolName);
