@@ -791,7 +791,7 @@
             });
             $schoolNameSelect.html(schoolListHTML);
             if (_currentSchoolName !== "") {
-                $schoolNameSelect.find(`.option[value=${_currentSchoolName}]`).prop('selected',true);
+                $schoolNameSelect.val(_currentSchoolName);
             }
 
             // 香港學士班的話要再問是否曾經有副學士或高級文憑的調查
