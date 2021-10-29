@@ -202,7 +202,7 @@
 						data-target=".img-modal"
 						data-type="${type}"
                         data-filetype="img"
-                        data-filelink="${env.baseUrl}students/upload-education/${type}-${file}"
+                        data-filelink="${env.baseUrl}/students/upload-education/${type}-${file}"
                     />
                 `
             } else {
@@ -211,7 +211,7 @@
 						class="img-thumbnail non-img-file-thumbnail"
 						data-toggle="modal"
 						data-target=".img-modal"
-						data-filelink="${env.baseUrl}students/upload-education/${type}-${file}"
+						data-filelink="${env.baseUrl}/students/upload-education/${type}-${file}"
 						data-filename="${file}"
 						data-type="${type}"
                         data-filetype="${fileType}"
