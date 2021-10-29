@@ -96,6 +96,7 @@
 								}
 							}
 						}
+						$('.makao-schoo-list').text(env.year + ' 團體報名學校名單');
 					})
 					.then(() => {
 						$('#btn-smart').attr('href', env.baseUrl + '/students/print-admission-paper');
