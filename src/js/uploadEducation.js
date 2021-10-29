@@ -196,7 +196,7 @@
                 uploadedAreaHtml += `
                     <img
                         class="img-thumbnail"
-                        src="${env.baseUrl}students/upload-education/${type}-${file}"
+                        src="${env.baseUrl}/students/upload-education/${type}-${file}"
                         data-toggle="modal"
                         data-filename="${file}"
 						data-target=".img-modal"
