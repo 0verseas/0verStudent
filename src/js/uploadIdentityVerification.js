@@ -173,13 +173,14 @@
 					setOlympia();
 				}
 				
-				// 但凡非僅持 DSE 當年度者、中學最後三年成績者，皆需上傳採計文憑成績證書
+				// 但凡非 不參加聯合分發 或 僅持 DSE 當年度者、中學最後三年成績者，皆需上傳採計文憑成績證書
 				if ( ! ((progressJson.student_misc_data.year_of_hk_dse == env.year && 
 					progressJson.student_misc_data.year_of_hk_ale == null && 
 					progressJson.student_misc_data.year_of_hk_cee == null) || 
-						(progressJson.student_misc_data.admission_placement_apply_way_data.code == "26") )
-					) {
-						setPlacementTranscript();
+					(progressJson.student_misc_data.admission_placement_apply_way_data.code == "26")||
+					progressJson.student_misc_data.admission_placement_apply_way == "1"
+				)){
+					setPlacementTranscript();
 				}
 				
 				// 非 DSE、ALE、CEE 者，需上傳成績採計資料參考表
