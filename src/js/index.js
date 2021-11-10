@@ -1,4 +1,10 @@
 (() => {
+	// 引入 reCAPTCHA 的 JS 檔案
+    var s = document.createElement('script');
+    let src = 'https://www.google.com/recaptcha/api.js?render=' + env.reCAPTCHA_site_key;
+    s.setAttribute('src', src);
+    document.body.appendChild(s);
+
 	/**
 	*	cache DOM
 	*/
@@ -69,57 +75,67 @@
 		}
 		generateCode();
 
-		const loginData = {
+		var loginData = {
 			email: email,
-			password: sha256(pass)
-		};
+			password: sha256(pass),
+			google_recaptcha_token: ''
+		}
 
-		loading.start();
-		student.login(loginData)
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res.status;
-			}
-		})
-		.then((json) => {
-			// console.log(json);
-			if( json.student_qualification_verify === null) {
-                location.href = './qualify.html';
-            } else if( (json.student_qualification_verify.identity=== 6 &&
-					json.student_misc_data.join_admission_selection=== 1 &&
-					json.student_misc_data.confirmed_at !=null &&
-					json.can_admission_placement == true) ||
-				(json.student_qualification_verify.identity === 7 &&
-					json.student_misc_data.confirmed_at != null &&
-					json.student_misc_data.confirmed_placement_at === null)
-				||
-				(json.student_misc_data.admission_placement_apply_way != null &&
-					json.student_misc_data.admission_placement_apply_way_data.code == "23" &&
-					json.student_misc_data.confirmed_at != null &&
-					json.student_misc_data.confirmed_placement_at === null &&
-					json.can_placement_order == true  &&
-					json.student_misc_data.stage_of_admit === null &&
-					json.student_misc_data.qualification_to_distribute === null &&
-					json.student_misc_data.overseas_student_id !== null
-				)
-				) {
-				location.href = './placementSelection.html';
-			} else if (!!json.student_misc_data.confirmed_at) {
-				location.href = './downloadDocs.html';
-			} else if(json.student_qualification_verify.identity=== 6){
-				location.href = './personalInfo.html';
-			}else {
-				location.href = './qualify.html';
-			}
-			loading.complete();
-		})
-		.catch((err) => {
-			err === 401 && alert('帳號或密碼輸入錯誤。');
-			err === 429 && alert('登入錯誤次數太多，請稍後再試。');
-			loading.complete();
-		})
+		grecaptcha.ready(function() {
+            grecaptcha.execute(env.reCAPTCHA_site_key, {
+              action: 'StudentLogin'
+            }).then(function(token) {
+                // token = document.getElementById('btn-login').value
+                loginData.google_recaptcha_token=token;
+            }).then(function(){
+				loading.start();
+				student.login(loginData)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					} else {
+						throw res.status;
+					}
+				})
+				.then((json) => {
+					// console.log(json);
+					if( json.student_qualification_verify === null) {
+						location.href = './qualify.html';
+					} else if( (json.student_qualification_verify.identity=== 6 &&
+							json.student_misc_data.join_admission_selection=== 1 &&
+							json.student_misc_data.confirmed_at !=null &&
+							json.can_admission_placement == true) ||
+						(json.student_qualification_verify.identity === 7 &&
+							json.student_misc_data.confirmed_at != null &&
+							json.student_misc_data.confirmed_placement_at === null)
+						||
+						(json.student_misc_data.admission_placement_apply_way != null &&
+							json.student_misc_data.admission_placement_apply_way_data.code == "23" &&
+							json.student_misc_data.confirmed_at != null &&
+							json.student_misc_data.confirmed_placement_at === null &&
+							json.can_placement_order == true  &&
+							json.student_misc_data.stage_of_admit === null &&
+							json.student_misc_data.qualification_to_distribute === null &&
+							json.student_misc_data.overseas_student_id !== null
+						)
+						) {
+						location.href = './placementSelection.html';
+					} else if (!!json.student_misc_data.confirmed_at) {
+						location.href = './downloadDocs.html';
+					} else if(json.student_qualification_verify.identity=== 6){
+						location.href = './personalInfo.html';
+					}else {
+						location.href = './qualify.html';
+					}
+					loading.complete();
+				})
+				.catch((err) => {
+					err === 401 && alert('帳號或密碼輸入錯誤。');
+					err === 429 && alert('登入錯誤次數太多，請稍後再試。');
+					loading.complete();
+				})
+			});
+        });
 	}
 
 	//產生圖形驗證碼
