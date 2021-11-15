@@ -1,4 +1,10 @@
 (() => {
+	// 引入 reCAPTCHA 的 JS 檔案
+    var s = document.createElement('script');
+    let src = 'https://www.google.com/recaptcha/api.js?render=' + env.reCAPTCHA_site_key;
+    s.setAttribute('src', src);
+    document.body.appendChild(s);
+
 	/**
 	*	private variable
 	*/
@@ -122,40 +128,48 @@
 			alert('密碼格式錯誤，或「確認密碼」與「密碼」內容不符。');
 			return;
 		}
-		
-		const data = {
+		let data = {
 			email: email,
 			password: sha256(oriPass),
-			password_confirmation: sha256(passConfirm)
+			password_confirmation: sha256(passConfirm),
+			google_recaptcha_token: ''
 		}
 		loading.start();
-		student.register(data)
-		.then((res) => {
-			if (res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		})
-		.then((json) => {
-			// console.log(json);
-			location.href="./qualify.html";
-			loading.complete();
-		})
-		.catch((err) => {
-			if (err.status === 429){  // 註冊太多次啦 Too Many Requests
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert('註冊次數過多！請稍後再試。');
+		grecaptcha.ready(function() {
+            grecaptcha.execute(env.reCAPTCHA_site_key, {
+              action: 'StudentRegister'
+            }).then(function(token) {
+                data.google_recaptcha_token=token;
+            }).then(function(){
+				student.register(data)
+				.then((res) => {
+					if (res.ok) {
+						return res.json();
+					} else {
+						throw res;
+					}
 				})
-			} else {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+				.then((json) => {
+					// console.log(json);
+					location.href="./qualify.html";
+					loading.complete();
 				})
-			}
-			loading.complete();
-		})
+				.catch((err) => {
+					if (err.status === 429){  // 註冊太多次啦 Too Many Requests
+						err.json && err.json().then((data) => {
+							console.error(data);
+							alert('註冊次數過多！請稍後再試。');
+						})
+					} else {
+						err.json && err.json().then((data) => {
+							console.error(data);
+							alert(`ERROR: \n${data.messages[0]}`);
+						})
+					}
+					loading.complete();
+				});
+			});
+        });
 	}
 
 	// 是否同意個資法
