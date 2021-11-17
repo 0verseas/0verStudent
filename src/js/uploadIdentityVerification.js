@@ -184,7 +184,10 @@
 				
 				// 非 DSE、ALE、CEE 者，需上傳成績採計資料參考表
 				if (!(progressJson.student_misc_data.admission_placement_apply_way == '2' || 
-					progressJson.student_misc_data.admission_placement_apply_way == '12') ){
+					progressJson.student_misc_data.admission_placement_apply_way == '12' || 
+					progressJson.student_misc_data.admission_placement_apply_way == '1' || 
+					progressJson.student_misc_data.admission_placement_apply_way == '11' ||
+					progressJson.student_misc_data.admission_placement_apply_way == '81' ) ){
 					setTranscriptReferenceTable();
 				}
 
