@@ -179,7 +179,7 @@
         student.getCountryList()
             .then((json) => {
                 _countryList = json;
-                let stateHTML = '<option value="-1" data-continentIndex="-1">Continent</option>';
+                let stateHTML = '<option value="-1" data-continentIndex="-1" hidden disabled selected>Continent</option>';
                 json.forEach((obj, index) => {
                     stateHTML += `<option value="${index}" data-continentIndex="${index}">${obj.continent}</option>`
                 });
@@ -499,13 +499,13 @@
         const $row = $(this).closest('.row');
         const $countrySelect = $row.find('.country');
 
-        let countryHTML = '<option value="">Country</option>';
+        let countryHTML = '<option value="" hidden disabled selected>Country</option>';
         if (continent !== -1) {
             _countryList[continent]['country'].forEach((obj, index) => {
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
         } else {
-            countryHTML = '<option value="">Country</option>'
+            countryHTML = '<option value="" hidden disabled selected>Country</option>'
         }
         $countrySelect.html(countryHTML);
         $countrySelect.change();
@@ -517,7 +517,7 @@
         const identity35Rule = ["113", "127", "134", "135"]; // 海外僑生、在臺僑生不能選到香港、澳門、臺灣跟大陸
         const identity6Rule = ["134"]; // 僑先部結業生不能選到臺灣
 
-        let countryHTML = '<option value="">Country</option>';
+        let countryHTML = '<option value="" hidden disabled selected>Country</option>';
         if (continent !== -1) {
             _countryList[continent]['country'].forEach((obj, index) => {
                 if (_identityId === 1 || _identityId === 2 || _identityId === 4) {
@@ -530,7 +530,7 @@
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
         } else {
-            countryHTML = '<option value="">Country</option>'
+            countryHTML = '<option value="" hidden disabled selected>Country</option>'
         }
         $residentLocation.html(countryHTML);
     }
@@ -553,7 +553,7 @@
         // 非在台碩博不能選到臺灣
         const countryFilterRule = ["134"];
 
-        let countryHTML = '<option value="">Country</option>';
+        let countryHTML = '<option value="" hidden disabled selected>Country</option>';
         if (continent !== -1) {
             _countryList[continent]['country'].forEach((obj, index) => {
                 if (_systemId === 2) {
@@ -565,7 +565,7 @@
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
         } else {
-            countryHTML = '<option value="">Country</option>'
+            countryHTML = '<option value="" hidden disabled selected>Country</option>'
         }
         $schoolCountry.html(countryHTML);
         $schoolCountry.change();
@@ -608,14 +608,18 @@
         }
     }
 
-    function _chSchoolCountry() {
+    async function _chSchoolCountry() {
         // 更換學校國家時，取得國家 id 作為後續渲染使用
         // 並初始化相關變數，接下去觸發渲染學校類型事件
         _schoolCountryId = $(this).val();
         _currentSchoolType = "";
         _currentSchoolLocate = "";
         _currentSchoolName = "";
-        _reRenderSchoolType();
+        await _reRenderSchoolType();
+
+        if(_hasEduType){
+            await $schoolNameTextForm.hide();
+        }
 
         // 香港學士班的話要再問是否曾經有副學士或高級文憑的調查
         if(_schoolCountryId == 113 && _systemId == 1){
@@ -629,44 +633,47 @@
             $HK_ADorHD_ClassName.val(null);
         }
 
-        if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId) {
+        if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId && _systemId === 1) {
             $('.alert-schoolCountry').show();
         } else {
             $('.alert-schoolCountry').hide();
         }
     }
 
-    function _reRenderSchoolType() {
+    async function _reRenderSchoolType() {
         // 處理該國籍是否需要選擇學校類型，以及學校類型 select bar 渲染工作
         // 學士班才需要學校類別
         if (_systemId === 1) {
             if (_schoolCountryId in _schoolType) {
                 let typeHTML = '';
-                _schoolType[_schoolCountryId].forEach((value, index) => {
+                if(_currentSchoolType == ""){
+                    typeHTML = '<option value="-1" disabled selected hidden>請選擇</option>';
+                }
+                await _schoolType[_schoolCountryId].forEach((value, index) => {
                     typeHTML += `<option value="${value}">${value}</option>`;
                 });
-                $schoolType.html(typeHTML);
+                await $schoolType.html(typeHTML);
                 if (_currentSchoolType !== "") {
-                    $schoolType.val(_currentSchoolType);
+                    await $schoolType.val(_currentSchoolType);
                 }
-                $schoolTypeForm.fadeIn();
+                await $schoolTypeForm.fadeIn();
                 _hasEduType = true;
             } else {
-                $schoolTypeForm.hide();
+                await $schoolTypeForm.hide();
                 _hasEduType = false;
             }
         } else if (_systemId === 2) {
             let typeHTML = '';
             _currentSchoolType = '副學士或高級文憑'
             typeHTML += `<option value="副學士或高級文憑">副學士或高級文憑</option>`;  // 港二技只有一種
-            $schoolType.html(typeHTML);
-            $schoolTypeForm.hide();  // 藏起來
+            await $schoolType.html(typeHTML);
+            await $schoolTypeForm.hide();  // 藏起來
             _hasEduType = true;
         } else {
-            $schoolTypeForm.hide();
+            await $schoolTypeForm.hide();
             _hasEduType = false;
         }
-        _reRenderSchoolLocation();
+        await _reRenderSchoolLocation();
     }
 
     function _chSchoolType() {
@@ -685,93 +692,85 @@
         }
     }
 
-    function _reRenderSchoolLocation() {
+    async function _reRenderSchoolLocation() {
+        await $schoolNameTextForm.hide();
+        await $schoolLocationForm.hide();
         // 沒有選國家則不會出現學校名稱欄位
         if (!!_schoolCountryId) {
             // 學士班才需要出現學校所在地、名稱列表
             if (_systemId === 1 || _systemId === 2) {
-                student.getSchoolList(_schoolCountryId)
-                    .then((res) => {
-                        if (res.ok) {
-                            return res.json();
-                        } else {
-                            throw res;
-                        }
-                    })
-                    .then((json) => {
-                        // schoolWithType: 當前類別的學校列表
-                        let schoolWithType = [];
-                        if (_schoolCountryId in _schoolType) {
-                            schoolWithType = json.filter((obj) => {
-                                return obj.type === _currentSchoolType;
-                            })
-                        } else if(_systemId === 2) {
-                            schoolWithType = json.filter((obj) => {
-                                return obj.type === _currentSchoolType;
-                            })
-                        } else {
-                            schoolWithType = json.filter((obj) => {
-                                return obj.type === null;
-                            })
-                        }
-
-                        if (schoolWithType.length > 0) {
-                            // 當前類別有學校列表的話，渲染所在地、學校名稱列表
-                            let group_to_values = schoolWithType.reduce(function(obj, item) {
-                                obj[item.locate] = obj[item.locate] || [];
-                                obj[item.locate].push({ name: item.name });
-                                return obj;
-                            }, {});
-
-                            // 海外臺校 檳城的好像廢校了
-                            if(_currentSchoolType=='海外臺灣學校' && _currentSchoolLocate == ''){
-                                _currentSchoolLocate = "雪蘭莪";
-                            }
-
-                            // group by 學校所在地
-                            let groups = Object.keys(group_to_values).map(function(key) {
-                                return { locate: key, school: group_to_values[key] };
-                            });
-                            let schoolLocationHTML = '';
-                            _schoolList = groups;
-                            // 渲染學校所在地、隱藏學校名稱輸入
-                            _schoolList.forEach((value, index) => {
-                                schoolLocationHTML += `<option value="${value.locate}">${value.locate}</option>`;
-                            });
-                            $schoolLocation.html(schoolLocationHTML);
-                            if (_currentSchoolLocate !== "") {
-                                $schoolLocation.val(_currentSchoolLocate);
-                            } else {
-                                _currentSchoolLocate = _schoolList[0].locate;
-                            }
-                            $schoolLocationForm.fadeIn();
-                            $schoolNameTextForm.hide();
-                            _hasSchoolLocate = true;
-                        } else {
-                            // 沒有學校列表，則單純顯示學校名稱 text field
-                            $schoolLocationForm.hide();
-                            $schoolNameTextForm.fadeIn();
-                            $schoolNameText.val(_currentSchoolName);
-                            _hasSchoolLocate = false;
-                        }
-                    })
-                    .then(() => {
-                        setTimeout(_reRenderSchoolList(), 500);
-                    })
-                    .catch((err) => {
-                        err.json && err.json().then((data) => {
-                            console.error(data);
+                const getSchoolListresponse = await student.getSchoolList(_schoolCountryId);
+                const data = await getSchoolListresponse.json();
+                if(getSchoolListresponse.ok){
+                    // schoolWithType: 當前類別的學校列表
+                    let schoolWithType = [];
+                    if (_schoolCountryId in _schoolType) {
+                        schoolWithType = await data.filter((obj) => {
+                            return obj.type === _currentSchoolType;
                         })
-                    })
+                    } else if(_systemId === 2) {
+                        schoolWithType = await data.filter((obj) => {
+                            return obj.type === _currentSchoolType;
+                        })
+                    } else {
+                        schoolWithType = await data.filter((obj) => {
+                            return obj.type === null;
+                        })
+                    }
+
+                    if (schoolWithType.length > 0) {
+                        // 當前類別有學校列表的話，渲染所在地、學校名稱列表
+                        let group_to_values = await schoolWithType.reduce(function(obj, item) {
+                            obj[item.locate] = obj[item.locate] || [];
+                            obj[item.locate].push({ name: item.name });
+                            return obj;
+                        }, {});
+
+                        // 海外臺校 檳城的好像廢校了
+                        if(_currentSchoolType=='海外臺灣學校' && _currentSchoolLocate == '' && _schoolCountryId == 128){
+                            _currentSchoolLocate = "雪蘭莪";
+                        }
+
+                        // group by 學校所在地
+                        let groups = await Object.keys(group_to_values).map(function(key) {
+                            return { locate: key, school: group_to_values[key] };
+                        });
+                        let schoolLocationHTML = '';
+                        _schoolList = groups;
+                        // 渲染學校所在地、隱藏學校名稱輸入
+                        await _schoolList.forEach((value, index) => {
+                            schoolLocationHTML += `<option value="${value.locate}">${value.locate}</option>`;
+                        });
+                        await $schoolLocation.html(schoolLocationHTML);
+                        if (_currentSchoolLocate !== "") {
+                            await $schoolLocation.val(_currentSchoolLocate);
+                        } else {
+                            _currentSchoolLocate = _schoolList[0].locate;
+                        }
+                        await $schoolLocationForm.show();
+                        await _reRenderSchoolList();
+                        _hasSchoolLocate = true;
+                    } else {
+                        // 沒有學校列表，則單純顯示學校名稱 text field
+                        await $schoolNameTextForm.show();
+                        await $schoolNameText.val(_currentSchoolName);
+                        _hasSchoolLocate = false;
+                    }
+                } else {
+                    const message = data.messages[0];
+                    await swal({
+                        title: `ERROR！`,
+                        html:`${message}`,
+                        type:"error",
+                        confirmButtonText: '確定',
+                        allowOutsideClick: false
+                    });
+                }
             } else {
-                $schoolLocationForm.hide();
-                $schoolNameTextForm.fadeIn();
-                $schoolNameText.val(_currentSchoolName);
+                await $schoolNameTextForm.show();
+                await $schoolNameText.val(_currentSchoolName);
                 _hasSchoolLocate = false;
             }
-        } else {
-            $schoolLocationForm.hide();
-            $schoolNameTextForm.hide();
         }
     }
 
@@ -886,6 +885,7 @@
         /*
         *   3400～4DFF：中日韓認同表意文字擴充A區，總計收容6,582個中日韓漢字。
         *   4E00～9FFF：中日韓認同表意文字區，總計收容20,902個中日韓漢字。 
+        *   0023： #
         *   002d： -
         *   00b7：半形音界號
         *   2027：全形音界號
@@ -893,70 +893,208 @@
         *   \d：數字
         *   00c0~33FF：包含大部分國家的文字
         */
+        function regexChinese(str){
+            return str.replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "");
+        }
+        function regexEnglish(str){
+            return str.replace(/[\s]/g, "\u0020").replace(/[^\u0020a-zA-Z.,-]/g, "");
+        }
+        function regexGeneral(str){
+            return str.replace(/[\s]/g, "\u0020").replace(/[\<\>\"]/g, "");
+        }
+        function regexIdNumber(str){
+            return str.replace(/[^0-9A-Za-z\u002d]/g, "");
+        }
+        function regexNumber(str){
+            return str.replace(/[^\d\u0020\u0023]/g, "");
+        }
 
+        let value = '';
         // 申請人資料表
-        $name.val($name.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中)
-        $engName.val($engName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
-        $otherDisabilityCategory.val($otherDisabilityCategory.val().replace(/[\<\>\"]/g, "")); // 其他障礙說明
-
+        // 姓名（中)
+        value = $name.val();
+        value = regexChinese(value);
+        $name.val(value);
+        // 姓名（英）
+        value = $engName.val();
+        value = regexEnglish(value);
+        $engName.val(value);
+        // 其他障礙說明
+        value = $otherDisabilityCategory.val();
+        value = regexGeneral(value);
+        $otherDisabilityCategory.val(value);
         // 僑居地資料
-        $residentPassportNo.val($residentPassportNo.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 護照號碼
-        $residentPhoneCode.val($residentPhoneCode.val().replace(/[^\d-]/g, '')); // 電話國碼
-        $residentPhone.val($residentPhone.val().replace(/[^\d-]/g, '')); // 電話號碼
-        $residentCellphoneCode.val($residentCellphoneCode.val().replace(/[^\d-]/g, '')); // 手機國碼
-        $residentCellphone.val($residentCellphone .val().replace(/[^\d-]/g, ''));// 手機號碼
-        $residentAddress.val($residentAddress.val().replace(/[\<\>\"]/g, "")); // 地址（中 / 英）
-        // $residentOtherLangAddress.val($residentOtherLangAddress.val().replace(/[^\u00c0-\u9fffa-zA-Z0-9\u002d\s]/g, "")); // 地址（其他語言）
+        // 護照號碼
+        value = $residentPassportNo.val();
+        value = regexIdNumber(value);
+        $residentPassportNo.val(value);
+        // 電話國碼
+        value = $residentPhoneCode.val();
+        value = regexNumber(value);
+        $residentPhoneCode.val(value);
+        // 電話號碼
+        value = $residentPhone.val();
+        value = regexNumber(value);
+        $residentPhone.val(value);
+        // 手機國碼
+        value = $residentCellphoneCode.val();
+        value = regexNumber(value);
+        $residentCellphoneCode.val(value);
+        // 手機號碼
+        value = $residentCellphone.val();
+        value = regexNumber(value);
+        $residentCellphone.val(value);
+        // 地址（中 / 英）
+        value = $residentAddress.val();
+        value = regexGeneral(value);
+        $residentAddress.val(value);
+        // $residentOtherLangAddress.val(); // 地址（其他語言）
 
         // 在臺資料 (選填)
-        $taiwanPassport.val($taiwanPassport.val().replace(/[^0-9a-zA-Z\u002d]/g, "")); // 臺灣護照號碼
-        $taiwanPhone.val($taiwanPhone.val().replace(/[^\d-]/g, '')); // 臺灣電話
-        $taiwanAddress.val($taiwanAddress.val().replace(/[\<\>\"]/g, "")); // 臺灣地址
+        // 臺灣護照號碼
+        value = $taiwanPassport.val();
+        value = regexIdNumber(value);
+        $taiwanPassport.val(value);
+        // 臺灣電話
+        value = $taiwanPhone.val();
+        value = regexNumber(value);
+        $taiwanPhone.val(value);
+        // 臺灣地址
+        value = $taiwanAddress.val();
+        value = regexGeneral(value);
+        $taiwanAddress.val(value);
 
         // 學歷
-        $educationSystemDescription.val($educationSystemDescription.val().replace(/[\<\>\"]/g, "")); // 學制描述
-        $schoolNameText.val($schoolNameText.val().replace(/[\<\>\"]/g, "")); // 學校名稱 (text)
-        $HK_ADorHD_SchoolName.val($HK_ADorHD_SchoolName.val().replace(/[\<\>\"]/g, ""));  // 學校名稱
-        $HK_ADorHD_ClassName.val($HK_ADorHD_ClassName.val().replace(/[\<\>\"]/g, ""));  // 課程名稱
-        $majorSubject.val($majorSubject.val().replace(/[\<\>\"]/g, "")); // 主修科目
-        $minorSubject.val($minorSubject.val().replace(/[\<\>\"]/g, "")); // 輔修科目
-        $twoYearTechClassName.val($twoYearTechClassName.val().replace(/[\<\>\"]/g, "")); // 課程名稱（港二技）
+        // 學制描述
+        value = $educationSystemDescription.val();
+        value = regexGeneral(value);
+        $educationSystemDescription.val(value);
+        // 學校名稱 (text)
+        value = $schoolNameText.val();
+        value = regexGeneral(value);
+        $schoolNameText.val(value);
+        // 學校名稱
+        value = $HK_ADorHD_SchoolName.val();
+        value = regexGeneral(value);
+        $HK_ADorHD_SchoolName.val(value);
+        // 課程名稱
+        value = $HK_ADorHD_ClassName.val();
+        value = regexGeneral(value);
+        $HK_ADorHD_ClassName.val(value);
+        // 主修科目
+        value = $majorSubject.val();
+        value = regexGeneral(value);
+        $majorSubject.val(value);
+        // 輔修科目
+        value = $minorSubject.val();
+        value = regexGeneral(value);
+        $minorSubject.val(value);
+        // 課程名稱（港二技）
+        value = $twoYearTechClassName.val();
+        value = regexGeneral(value);
+        $twoYearTechClassName.val(value);
 
         // 家長資料
         // 父親
-        $dadName.val($dadName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
-        $dadEngName.val($dadEngName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
-        $dadJob.val($dadJob.val().replace(/[\<\>\"]/g, "")); // 職業
-        $dadPhoneCode.val($dadPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
-        $dadPhone.val($dadPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
+        // 姓名（中）
+        value = $dadName.val();
+        value = regexChinese(value);
+        $dadName.val(value);
+        // 姓名（英）
+        value = $dadEngName.val();
+        value = regexEnglish(value);
+        $dadEngName.val(value);
+        // 職業
+        value = $dadJob.val();
+        value = regexGeneral(value);
+        $dadJob.val(value);
+        // 聯絡電話國碼
+        value = $dadPhoneCode.val();
+        value = regexNumber(value);
+        $dadPhoneCode.val(value);
+        // 聯絡電話
+        value = $dadPhone.val();
+        value = regexNumber(value);
+        $dadPhone.val(value);
         // 母親
-        $momName.val($momName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
-        $momEngName.val($momEngName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
-        $momJob.val($momJob.val().replace(/[\<\>\"]/g, "")); // 職業
-        $momPhoneCode.val($momPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
-        $momPhone.val($momPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
+        // 姓名（中）
+        value = $momName.val();
+        value = regexChinese(value);
+        $momName.val(value);
+        // 姓名（英）
+        value = $momEngName.val();
+        value = regexEnglish(value);
+        $momEngName.val(value);
+        // 職業
+        value = $momJob.val();
+        value = regexGeneral(value);
+        $momJob.val(value);
+        // 聯絡電話國碼
+        value = $momPhoneCode.val();
+        value = regexNumber(value);
+        $momPhoneCode.val(value);
+        // 聯絡電話
+        value = $momPhone.val();
+        value = regexNumber(value);
+        $momPhone.val(value);
         // 監護人（父母皆不詳才需要填寫）
-        $guardianName.val($guardianName.val().replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")); // 姓名（中）
-        $guardianEngName.val($guardianEngName.val().replace(/[^a-zA-Z.,-\s]/g, "")); // 姓名（英）
-        $guardianJob.val($guardianJob.val().replace(/[\<\>\"]/g, "")); // 職業
-        $guardianPhoneCode.val($guardianPhoneCode.val().replace(/[^\d-]/g, '')); // 聯絡電話國碼
-        $guardianPhone.val($guardianPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
+        // 姓名（中）
+        value = $guardianName.val();
+        value = regexChinese(value);
+        $guardianName.val(value);
+        // 姓名（英）
+        value = $guardianEngName.val();
+        value = regexEnglish(value);
+        $guardianEngName.val(value);
+        // 職業
+        value = $guardianJob.val();
+        value = regexGeneral(value);
+        $guardianJob.val(value);
+        // 聯絡電話國碼
+        value = $guardianPhoneCode.val();
+        value = regexNumber(value);
+        $guardianPhoneCode.val(value);
+        // 聯絡電話
+        value = $guardianPhone.val();
+        value = regexNumber(value);
+        $guardianPhone.val(value);
 
         // 在臺聯絡人 
-        $twContactName.val($twContactName.val().replace(/[^\u00c0-\u9fffa-zA-Z\u002d\u00b7\s]/g, "")); // 姓名
-        $twContactRelation.val($twContactRelation.val().replace(/[\<\>\"]/g, "")); // 關係
-        $twContactPhone.val($twContactPhone.val().replace(/[^\d-]/g, '')); // 聯絡電話
-        $twContactAddress.val($twContactAddress.val().replace(/[\<\>\"]/g, "")); // 地址
-        $twContactWorkplaceName.val($twContactWorkplaceName.val().replace(/[\<\>\"]/g, "")); // 服務機關名稱
-        $twContactWorkplacePhone.val($twContactWorkplacePhone.val().replace(/[^\d-]/g, '')); // 服務機關電話
-        $twContactWorkplaceAddress.val($twContactWorkplaceAddress.val().replace(/[\<\>\"]/g, "")); // 服務機關地址   
+        // 姓名
+        value = $twContactName.val();
+        value = regexGeneral(value);
+        $twContactName.val(value);
+        // 關係
+        value = $twContactRelation.val();
+        value = regexGeneral(value);
+        $twContactRelation.val(value);
+        // 聯絡電話
+        value = $twContactPhone.val();
+        value = regexNumber(value);
+        $twContactPhone.val(value);
+        // 地址
+        value = $twContactAddress.val();
+        value = regexGeneral(value);
+        $twContactAddress.val(value);
+        // 服務機關名稱
+        value = $twContactWorkplaceName.val();
+        value = regexGeneral(value);
+        $twContactWorkplaceName.val(value);
+        // 服務機關電話
+        value = $twContactWorkplacePhone.val();
+        value = regexNumber(value);
+        $twContactWorkplacePhone.val(value);
+        // 服務機關地址
+        value = $twContactWorkplaceAddress.val();
+        value = regexGeneral(value);
+        $twContactWorkplaceAddress.val(value);  
     }
 
     async function _handleSave() {
         if((_identityId == 4 || _identityId == 5) && $taiwanAddress.val() == ''){
             await swal({title:"在臺學生請注意", html:"如果沒有填寫<a class='text-danger' style='font-weight: bold;'>臺灣地址</a>，<br/>錄取後分發通知書將寄到僑居地地址。", type:"warning", confirmButtonText: '確定'});
         }
-        _handleReplace();
+        await _handleReplace();
         let sendData = {};
         if (sendData = _validateForm()) {
             for (let i in sendData) {

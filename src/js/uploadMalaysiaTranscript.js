@@ -21,14 +21,14 @@
     const diploma_array = ['','獨中統考','STPM','A Level','SPM','O Level']
     // 不同文憑需要隱藏不同的成績欄位
     const $diplomaHideArray = {
-        0: [],
-        1: ['SATChineseForm','TOCFLChineseForm','MUETForm'],
-        2: ['MUETForm']
+        0: ['advancedMath1Form'],
+        1: ['SATChineseForm','TOCFLChineseForm','MUETForm','SPMChineseForm'],
+        2: ['advancedMath1Form','MUETForm','SPMChineseForm']
     }
     // 不同類組需要隱藏不同的成績欄位
     const $gruopHideArray = {
-        1: ['advancedMath1Form','advancedMath2Form','biologyForm','physicsForm','chemistryForm','basicCircuitTheoryForm','principleElectronicsForm','fundamentalsOfElectricalEngineeringForm','digitalLogicForm'],
-        2: ['mathForm','advancedMathForm','historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','introductionToBusineseForm','artForm','artDesignForm','artDesignPracticalForm']
+        1: ['biologyForm','physicsForm','chemistryForm','basicCircuitTheoryForm','principleElectronicsForm','fundamentalsOfElectricalEngineeringForm','digitalLogicForm'],
+        2: ['historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','introductionToBusineseForm','artForm','artDesignForm','artDesignPracticalForm']
     }
     // 需要暫存之變數 學生的類組 學生的文憑列表 學生單一文憑的所有已上傳檔案名稱
     let $studentGruop = 0;
@@ -170,6 +170,11 @@
             $('#SATChineseForm').show();
             $('#TOCFLChineseForm').show();
             $('#MUETForm').show();
+            $('#SPMChineseForm').show();
+            $('#mathForm').hide();
+            $('#advancedMathForm').show();
+            $('#advancedMath1Form').show();
+            $('#advancedMath2Form').hide();
             // 考生編號欄位 渲染資料
             $('#candidateNo').val(transcriptInfo.candidate_no);
             // 成績input欄位 渲染後端回傳的資料
@@ -199,11 +204,23 @@
             $('#SATChinese').val(transcriptInfo.SAT_chinese);
             $('#TOCFLChinese').val(transcriptInfo.TOCFL_chinese);
             $('#MUET').val(transcriptInfo.MUET);
+            $('#SPMChinese').val(transcriptInfo.SPMChinese);
         }).then(function () {
-            // 設定顯示的成績欄位 不同文憑 看到的不一樣
+            // 設定顯示的成績欄位 不同文憑與類組 看到的不一樣
             $diplomaHideArray[$studentDiplomaHideCode].forEach((value) => {
                 $('#'+value).hide();
             });
+            // 一類組的都顯示數學 二類組的獨中統考出現高數2不顯示高數 二類組的stpm 或 a level 顯示 數學
+            if($studentGruop === 1){
+                $('#mathForm').show();
+            } else {
+                if($studentDiplomaHideCode === 1){
+                    $('#advancedMathForm').hide();
+                    $('#advancedMath2Form').show();                    
+                } else if($studentDiplomaHideCode == 0){
+                    $('#mathForm').show();
+                }
+            }
             loading.complete();
         }).catch(function (err) {
             loading.complete();
@@ -218,6 +235,7 @@
             }
         });
     }
+
     // 新增文憑事件
     function _handleNew(){
         // 取得 選取的文憑類別及年度
@@ -276,7 +294,8 @@
                     'digitalLogic': null,
                     'SATChinese': null,
                     'TOCFLChinese': null,
-                    'MUET': null
+                    'MUET': null,
+                    'SPMChinese': null
                 };
 
                 // 使用者確認
@@ -330,7 +349,8 @@
             'digitalLogic': $('#digitalLogic').val(),
             'SATChinese': $('#SATChinese').val(),
             'TOCFLChinese': $('#TOCFLChinese').val(),
-            'MUET': $('#MUET').val()
+            'MUET': $('#MUET').val(),
+            'SPMChinese': $('#SPMChinese').val()
         };
         
         // 使用者確認
