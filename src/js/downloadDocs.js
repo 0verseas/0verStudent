@@ -54,7 +54,7 @@
 						}
 
 						if ((data.student_qualification_verify.system_id === 1 || data.student_qualification_verify.system_id === 2)
-							&& (data.student_misc_data.admission_placement_apply_way === 6 || data.student_misc_data.admission_placement_apply_way === 16)) { // 參加澳門學科測驗
+							&& (personalData.resident_location === '127')) { // 僑居地在澳門的學士班學生都要看到這兩行資訊
 							$('#alert-cost').show();
 							$('.alert-downloadMoFile').show();
 						}
