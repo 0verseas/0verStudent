@@ -727,21 +727,26 @@
 
 		const fileList = this.files;
 
+		// 沒有上傳檔案 直接return
+		if(fileList.length <= 0){
+			return;
+		}
+
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
-			data.append('files[]', fileList[i]);
 			//偵測是否超過8MB (8MB以下用後端偵測)
-			if(await student.sizeConversion(fileList[i].size,4)){
-				await alert(fileList[i].name+' 檔案過大！')
+			if(await student.sizeConversion(fileList[i].size,8)){
+				await alert(fileList[i].name+' 檔案過大！');
 				return;
 			}
+			await data.append('files[]', fileList[i]);
 		}
 		if (!!workType) {
-			data.append('file_type', workType);
+			await data.append('file_type', workType);
 		}
 
 		try {
-			loading.start();
+			await loading.start();
 			const response = await student.setReviewItem({data, type_id, dept_id, student_id: _studentID});
 			if (!response.ok) { throw response; }
 			const responseJson = await response.json();
@@ -753,13 +758,13 @@
 				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = _wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files.concat(responseJson.files);
 			}
 			_handleEditForm();
-			loading.complete();
+			await loading.complete();
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
 			});
-			loading.complete();
+			await loading.complete();
 		}
 	}
 
