@@ -880,7 +880,7 @@
     }
 
     //將輸入欄位資料過濾  避免xss攻擊
-    function _handleReplace(){
+    async function _handleReplace(){
 
         /*
         *   3400～4DFF：中日韓認同表意文字擴充A區，總計收容6,582個中日韓漢字。
@@ -912,182 +912,182 @@
         let value = '';
         // 申請人資料表
         // 姓名（中)
-        value = $name.val();
-        value = regexChinese(value);
-        $name.val(value);
+        value = await $name.val();
+        value = await regexChinese(value);
+        await $name.val(value);
         // 姓名（英）
-        value = $engName.val();
-        value = regexEnglish(value);
-        $engName.val(value);
+        value = await $engName.val();
+        value = await regexEnglish(value);
+        await $engName.val(value);
         // 其他障礙說明
-        value = $otherDisabilityCategory.val();
-        value = regexGeneral(value);
-        $otherDisabilityCategory.val(value);
+        value = await $otherDisabilityCategory.val();
+        value = await regexGeneral(value);
+        await $otherDisabilityCategory.val(value);
         // 僑居地資料
         // 護照號碼
-        value = $residentPassportNo.val();
-        value = regexIdNumber(value);
-        $residentPassportNo.val(value);
+        value = await $residentPassportNo.val();
+        value = await regexIdNumber(value);
+        await $residentPassportNo.val(value);
         // 電話國碼
-        value = $residentPhoneCode.val();
-        value = regexNumber(value);
-        $residentPhoneCode.val(value);
+        value = await $residentPhoneCode.val();
+        value = await regexNumber(value);
+        await $residentPhoneCode.val(value);
         // 電話號碼
-        value = $residentPhone.val();
-        value = regexNumber(value);
-        $residentPhone.val(value);
+        value = await $residentPhone.val();
+        value = await regexNumber(value);
+        await $residentPhone.val(value);
         // 手機國碼
-        value = $residentCellphoneCode.val();
-        value = regexNumber(value);
-        $residentCellphoneCode.val(value);
+        value = await $residentCellphoneCode.val();
+        value = await regexNumber(value);
+        await $residentCellphoneCode.val(value);
         // 手機號碼
-        value = $residentCellphone.val();
-        value = regexNumber(value);
-        $residentCellphone.val(value);
+        value = await $residentCellphone.val();
+        value = await regexNumber(value);
+        await $residentCellphone.val(value);
         // 地址（中 / 英）
-        value = $residentAddress.val();
-        value = regexGeneral(value);
-        $residentAddress.val(value);
+        value = await $residentAddress.val();
+        value = await regexGeneral(value);
+        await $residentAddress.val(value);
         // $residentOtherLangAddress.val(); // 地址（其他語言）
 
         // 在臺資料 (選填)
         // 臺灣護照號碼
-        value = $taiwanPassport.val();
-        value = regexIdNumber(value);
-        $taiwanPassport.val(value);
+        value = await $taiwanPassport.val();
+        value = await regexIdNumber(value);
+        await $taiwanPassport.val(value);
         // 臺灣電話
-        value = $taiwanPhone.val();
-        value = regexNumber(value);
-        $taiwanPhone.val(value);
+        value = await $taiwanPhone.val();
+        value = await regexNumber(value);
+        await $taiwanPhone.val(value);
         // 臺灣地址
-        value = $taiwanAddress.val();
-        value = regexGeneral(value);
-        $taiwanAddress.val(value);
+        value = await $taiwanAddress.val();
+        value = await regexGeneral(value);
+        await $taiwanAddress.val(value);
 
         // 學歷
         // 學制描述
-        value = $educationSystemDescription.val();
-        value = regexGeneral(value);
-        $educationSystemDescription.val(value);
+        value = await $educationSystemDescription.val();
+        value = await regexGeneral(value);
+        await $educationSystemDescription.val(value);
         // 學校名稱 (text)
-        value = $schoolNameText.val();
-        value = regexGeneral(value);
-        $schoolNameText.val(value);
+        value = await $schoolNameText.val();
+        value = await regexGeneral(value);
+        await $schoolNameText.val(value);
         // 學校名稱
-        value = $HK_ADorHD_SchoolName.val();
-        value = regexGeneral(value);
-        $HK_ADorHD_SchoolName.val(value);
+        value = await $HK_ADorHD_SchoolName.val();
+        value = await regexGeneral(value);
+        await $HK_ADorHD_SchoolName.val(value);
         // 課程名稱
-        value = $HK_ADorHD_ClassName.val();
-        value = regexGeneral(value);
-        $HK_ADorHD_ClassName.val(value);
+        value = await $HK_ADorHD_ClassName.val();
+        value = await regexGeneral(value);
+        await $HK_ADorHD_ClassName.val(value);
         // 主修科目
-        value = $majorSubject.val();
-        value = regexGeneral(value);
-        $majorSubject.val(value);
+        value = await $majorSubject.val();
+        value = await regexGeneral(value);
+        await $majorSubject.val(value);
         // 輔修科目
-        value = $minorSubject.val();
-        value = regexGeneral(value);
-        $minorSubject.val(value);
+        value = await $minorSubject.val();
+        value = await regexGeneral(value);
+        await $minorSubject.val(value);
         // 課程名稱（港二技）
-        value = $twoYearTechClassName.val();
-        value = regexGeneral(value);
-        $twoYearTechClassName.val(value);
+        value = await $twoYearTechClassName.val();
+        value = await regexGeneral(value);
+        await $twoYearTechClassName.val(value);
 
         // 家長資料
         // 父親
         // 姓名（中）
-        value = $dadName.val();
-        value = regexChinese(value);
-        $dadName.val(value);
+        value = await $dadName.val();
+        value = await regexChinese(value);
+        await $dadName.val(value);
         // 姓名（英）
-        value = $dadEngName.val();
-        value = regexEnglish(value);
-        $dadEngName.val(value);
+        value = await $dadEngName.val();
+        value = await regexEnglish(value);
+        await $dadEngName.val(value);
         // 職業
-        value = $dadJob.val();
-        value = regexGeneral(value);
-        $dadJob.val(value);
+        value = await $dadJob.val();
+        value = await regexGeneral(value);
+        await $dadJob.val(value);
         // 聯絡電話國碼
-        value = $dadPhoneCode.val();
-        value = regexNumber(value);
-        $dadPhoneCode.val(value);
+        value = await $dadPhoneCode.val();
+        value = await regexNumber(value);
+        await $dadPhoneCode.val(value);
         // 聯絡電話
-        value = $dadPhone.val();
-        value = regexNumber(value);
-        $dadPhone.val(value);
+        value = await $dadPhone.val();
+        value = await regexNumber(value);
+        await $dadPhone.val(value);
         // 母親
         // 姓名（中）
-        value = $momName.val();
-        value = regexChinese(value);
-        $momName.val(value);
+        value = await $momName.val();
+        value = await regexChinese(value);
+        await $momName.val(value);
         // 姓名（英）
-        value = $momEngName.val();
-        value = regexEnglish(value);
-        $momEngName.val(value);
+        value = await $momEngName.val();
+        value = await regexEnglish(value);
+        await $momEngName.val(value);
         // 職業
-        value = $momJob.val();
-        value = regexGeneral(value);
-        $momJob.val(value);
+        value = await $momJob.val();
+        value = await regexGeneral(value);
+        await $momJob.val(value);
         // 聯絡電話國碼
-        value = $momPhoneCode.val();
-        value = regexNumber(value);
-        $momPhoneCode.val(value);
+        value = await $momPhoneCode.val();
+        value = await regexNumber(value);
+        await $momPhoneCode.val(value);
         // 聯絡電話
-        value = $momPhone.val();
-        value = regexNumber(value);
-        $momPhone.val(value);
+        value = await $momPhone.val();
+        value = await regexNumber(value);
+        await $momPhone.val(value);
         // 監護人（父母皆不詳才需要填寫）
         // 姓名（中）
-        value = $guardianName.val();
-        value = regexChinese(value);
-        $guardianName.val(value);
+        value = await $guardianName.val();
+        value = await regexChinese(value);
+        await $guardianName.val(value);
         // 姓名（英）
-        value = $guardianEngName.val();
-        value = regexEnglish(value);
-        $guardianEngName.val(value);
+        value = await $guardianEngName.val();
+        value = await regexEnglish(value);
+        await $guardianEngName.val(value);
         // 職業
-        value = $guardianJob.val();
-        value = regexGeneral(value);
-        $guardianJob.val(value);
+        value = await $guardianJob.val();
+        value = await regexGeneral(value);
+        await $guardianJob.val(value);
         // 聯絡電話國碼
-        value = $guardianPhoneCode.val();
-        value = regexNumber(value);
-        $guardianPhoneCode.val(value);
+        value = await $guardianPhoneCode.val();
+        value = await regexNumber(value);
+        await $guardianPhoneCode.val(value);
         // 聯絡電話
-        value = $guardianPhone.val();
-        value = regexNumber(value);
-        $guardianPhone.val(value);
+        value = await $guardianPhone.val();
+        value = await regexNumber(value);
+        await $guardianPhone.val(value);
 
         // 在臺聯絡人 
         // 姓名
-        value = $twContactName.val();
-        value = regexGeneral(value);
-        $twContactName.val(value);
+        value = await $twContactName.val();
+        value = await regexGeneral(value);
+        await $twContactName.val(value);
         // 關係
-        value = $twContactRelation.val();
-        value = regexGeneral(value);
-        $twContactRelation.val(value);
+        value = await $twContactRelation.val();
+        value = await regexGeneral(value);
+        await $twContactRelation.val(value);
         // 聯絡電話
-        value = $twContactPhone.val();
-        value = regexNumber(value);
-        $twContactPhone.val(value);
+        value = await $twContactPhone.val();
+        value = await regexNumber(value);
+        await $twContactPhone.val(value);
         // 地址
-        value = $twContactAddress.val();
-        value = regexGeneral(value);
-        $twContactAddress.val(value);
+        value = await $twContactAddress.val();
+        value = await regexGeneral(value);
+        await $twContactAddress.val(value);
         // 服務機關名稱
-        value = $twContactWorkplaceName.val();
-        value = regexGeneral(value);
-        $twContactWorkplaceName.val(value);
+        value = await $twContactWorkplaceName.val();
+        value = await regexGeneral(value);
+        await $twContactWorkplaceName.val(value);
         // 服務機關電話
-        value = $twContactWorkplacePhone.val();
-        value = regexNumber(value);
-        $twContactWorkplacePhone.val(value);
+        value = await $twContactWorkplacePhone.val();
+        value = await regexNumber(value);
+        await $twContactWorkplacePhone.val(value);
         // 服務機關地址
-        value = $twContactWorkplaceAddress.val();
-        value = regexGeneral(value);
-        $twContactWorkplaceAddress.val(value);  
+        value = await $twContactWorkplaceAddress.val();
+        value = await regexGeneral(value);
+        await $twContactWorkplaceAddress.val(value);  
     }
 
     async function _handleSave() {
