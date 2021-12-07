@@ -359,6 +359,10 @@
 		const subject =  $(this).data('subject') ;
 		// console.log(subject);
 		const fileList = this.files;
+		// 沒有上傳檔案 直接return
+		if(fileList.length <= 0){
+			return;
+		}
 		let data = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);

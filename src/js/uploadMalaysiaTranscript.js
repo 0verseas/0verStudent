@@ -448,9 +448,24 @@
     function _handleUploadTranscriptFile() {
         // 可以一次上傳多個檔案 所以先取得遇上傳檔案清單
 		const fileList = this.files;
+        // 沒有上傳檔案 直接return
+		if(fileList.length <= 0){
+			return;
+		}
         // 將檔案放到 FormData class中 方便後續request傳送檔案
 		let sendData = new FormData();
 		for (let i = 0; i < fileList.length; i++) {
+            //偵測是否超過4MB
+			if(student.sizeConversion(fileList[i].size,4)){
+				swal({
+					title: `上傳失敗！`,
+					html:`${fileList[i].name}檔案過大，檔案大小不能超過4MB。`,
+					type:"error",
+					confirmButtonText: '確定',
+					allowOutsideClick: false
+				});
+				return;
+			}
 			sendData.append('files[]', fileList[i]);
 		}
         // 宣告並紀錄文憑類別+年度的代號
