@@ -886,7 +886,7 @@
 				// 清空邀請紀錄
 				let invite_list = '';
 				// 取得json
-				data = await response.json();
+				let data = await response.json();
 				// 將邀請紀錄轉換成html
 				invite_list = await getTeacherRecommendationLetterInviteRecord(data);
 				// 渲染html
