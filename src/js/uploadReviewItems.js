@@ -872,7 +872,7 @@
 	//傳送師長資料以便寄送邀請信件
 	async function _handleInviteTeacher() {
 		// 後端會檢查欄位內容因此原訂這邊要做檢查的部份就刪掉了
-		loading.start();
+		await loading.start();
 		try{
 			// 取得學生輸入的資訊
 			let tname = $('#teacherName').val(); // teacher's name
@@ -883,20 +883,24 @@
 			if (!response.ok) {
 				throw response;
 			} else {
+				// 清空邀請紀錄
 				let invite_list = '';
+				// 取得json
 				data = await response.json();
+				// 將邀請紀錄轉換成html
 				invite_list = await getTeacherRecommendationLetterInviteRecord(data);
+				// 渲染html
 				document.getElementById('invitation-area').innerHTML = invite_list;
 			}
 			alert('邀請成功');
 			//清空欄位內的值
-			$("#teacherName").val("");
-			$("#teacherMail").val("");
-			$("#studentMessage").val("");
+			await $("#teacherName").val("");
+			await $("#teacherMail").val("");
+			await $("#studentMessage").val("");
 
-			loading.complete();
+			await loading.complete();
 		}catch (e) {
-			e.json && e.json().then((data) => {
+			await e.json && e.json().then((data) => {
 				console.error(data);
 
 				alert(`${data.messages[0]}`);
