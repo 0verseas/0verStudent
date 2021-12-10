@@ -65,7 +65,7 @@
 }
 
 /*師長推薦函邀請列表條紋*/
-#invitation-list tr:nth-child(even){
+#invitation-list tbody:nth-child(even){
 	/*
 		odd：奇數
 		even：偶數

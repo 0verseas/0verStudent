@@ -342,7 +342,7 @@
 									`+uploadMethodDescription+`
 									</div>` + descriptionBlock + `
 									<div class = "upload-form hide" id = 'uploadArea'>
-										<div class="col-md-12">
+										<div class="col-md-12 font-weight-bold">
 											<label>自行上傳推薦函電子檔：</label><br />
 										</div>
 										<div class="alert alert-warning">
@@ -354,10 +354,11 @@
 											</div>
 										</div>
 									</div>
+									<hr/>
 									<!-- 師長推薦函邀請 -->
 									<div class = "invite-form hide" id = 'inviteArea'>
 										<div class="row col-11">
-											<div class="col-md-12">
+											<div class="col-md-12 font-weight-bold">
 												<label>請輸入師長資料以寄送電子郵件邀請師長上傳推薦函：</label><br />
 											</div>
 											<div class="col-md-12 form-group">
@@ -379,8 +380,10 @@
 											</div>
 										</div>
 									</div>
-									${invite_list}  <!--邀請紀錄-->
-
+									<div id="invitation-area" class="col-md-11" style=" margin:10px auto 28px;overflow-x:auto;">
+										${invite_list}  <!--邀請紀錄-->
+									</div>
+									<hr/>
 									<div class="card hide" id = "uploadFileArea">
 										<div class="card-body">
 											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
@@ -879,6 +882,11 @@
 			const response = await student.studentInviteTeacher(_deptID, tname, tmail, stu_message);
 			if (!response.ok) {
 				throw response;
+			} else {
+				let invite_list = '';
+				data = await response.json();
+				invite_list = await getTeacherRecommendationLetterInviteRecord(data);
+				document.getElementById('invitation-area').innerHTML = invite_list;
 			}
 			alert('邀請成功');
 			//清空欄位內的值
@@ -901,14 +909,15 @@
 	// 取得邀請師長上傳推薦函的紀錄
 	function getTeacherRecommendationLetterInviteRecord(fileListItem) {
 		let invite_table = `
-			<div id="invitation-area" class="col-md-11" style=" margin:10px auto 28px;overflow-x:auto;">
-				<div class="alert alert-danger"><b>注意！ </b><strong>提交備審資料後，師長即無法再上傳推薦函或更新檔案。</strong> <br/>請務必確認上傳情形後再提交備審資料！</div>
-				<table id="invitation-list">
+			<div class="alert alert-danger"><b>注意！ </b><strong>提交備審資料後，師長即無法再上傳推薦函或更新檔案。</strong> <br/>請務必確認上傳情形後再提交備審資料！</div>
+			<table id="invitation-list">
+				<thead>
 					<tr>
 						<th>師長姓名</th>
 						<th>師長電子信箱地址</th>
 						<th>師長完成上傳時間（UTC+8）</th>
 					</tr>
+				</thead>
 		`;
 		fileListItem.invites.forEach(function (invitation) {
 			if(invitation.deleted_at == null){  // 如果老師還沒鎖定上傳
@@ -918,16 +927,17 @@
 				invitation.deleted_at = invitation.deleted_at.substr(0,10) + '&nbsp;&nbsp;' + invitation.deleted_at.substr(11,8);
 			}
 			invite_table += `
+				<tbody>
 					<tr>
 						<td>${invitation.teacher_name}</td>
 						<td>${invitation.teacher_email}</td>
 						<td>${invitation.deleted_at}</td>
 					</tr>
+				</tbody>
 			`;
 		});
 		invite_table += `
-				</table>
-			</div>
+			</table>
 		`;  // 有始有終
 		return invite_table;
 	}
