@@ -1505,12 +1505,35 @@
 		let reviewItemHTML = '';
 		let fileUploadHTML = '';
 
+		const data_name_map = [
+			'',
+            'ID-card', // 香港永久性居民身份證正面
+            'quit-school', // 自願退學證明
+            'overseas-stay-years', // 海外居留年限切結書
+            'Taiwan-stay-dates', //在台停留日期
+            'hk-or-mo-guarantee', // 港澳生聲明書 / 港澳具外國國籍之華裔學生切結書
+            'head-shot', // 2吋相片
+            'home-return-permit', // 回鄉證
+            'change-of-name', // 改名契
+            'diploma', // 畢業證書/在學證明/學生證
+            'scholl-transcript', // 高中最後三年成績單（應屆當學期可免附）
+            'authorize-check-diploma', // 學歷屬實及授權查證切結書
+            'olympia', // 國際數理奧林匹亞競賽或美國國際科展僅像證明
+            'placement-transcript', // 採計文憑成績證書
+            'transcript-reference-table', // 成績採計資料參考表
+            'hk-mo-relations-ordinance', // 符合港澳關係條例切結書
+            'tech-course-passed-proof' // 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
+        ];
+		const data_name = _userID+"_"+data_name_map[parseInt(_itemId)];
+
+		const dummy_id = Math.floor(Math.random() * 1000000); + Math.floor(Math.random() * 1111111);
+
 		// pdf 顯示分別做不同處理
         reviewItemHTML = `
         <div class="card">
             <div class="card-body" style="margin: 0 auto">
                 <h4 class="card-title"><span>已上傳檔案</span> </h4>
-                    <embed src="${env.baseUrl}/students/${_userID}/upload-identity-verification/item/${_itemId}/file/none?=<?=time();?" width="500" height="375" type="application/pdf">
+				<embed src="${env.baseUrl}/students/${_userID}/upload-identity-verification/item/${_itemId}/file/${data_name}?dummy=${dummy_id}" width="500" height="375" type="application/pdf">
             </div>
             
             <div class="row fileDel" style="margin: 0 auto" >
@@ -1603,8 +1626,8 @@
 			
 			const response = await student.delIdentityVerificationItem({user_id: _userID, itemId: item});
 			if (!response.ok) { throw response; }
-			const fileNameOfSubject = await response.json();
-			var _filename = fileNameOfSubject.files[0];
+			// const fileNameOfSubject = await response.json();
+			// var _filename = fileNameOfSubject.files[0];
 
 
 			loading.complete();
