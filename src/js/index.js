@@ -116,6 +116,7 @@
 				})
 				.catch((err) => {
 					err === 401 && alert('帳號或密碼輸入錯誤。');
+					err === 403 && alert('Google Recaptcha Failed。');
 					err === 429 && alert('登入錯誤次數太多，請稍後再試。');
 					loading.complete();
 				})
