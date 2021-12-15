@@ -400,7 +400,7 @@
 		}
 	}
 	function _checkPay(){
-		swal({title: `【緊急公告】`, html: `因信用卡付款問題刻正修復中，海外聯招會2022年<a style="color:red">香港學生</a>赴臺升讀學士班「個人申請」及持港澳或海外學歷申請「研究所」者，將延長填報及繳交費用時間至<a style="color:red">2021年12月20日(星期一) 17:00止</a>。信用卡繳費修復完成後將另行公告及通知。`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+		swal({title: `【緊急公告】`, html: `<a style="color:red">香港持港澳、大陸或海外學歷報名者</a>，因信用卡付款問題刻正修復中，將延長填報及繳交費用時間至<a style="color:red">2021年12月20日(星期一) 17:00止</a>。繳費系統修復完成後將另行公告及通知。`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 		// 詢問使用者是否要確認資料並前往付款頁面
 		// swal({
 		// 	title: `確認後就「無法再次更改資料」<br/>您真的確認送出嗎？`,
