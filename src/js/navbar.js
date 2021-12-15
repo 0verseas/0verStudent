@@ -400,43 +400,44 @@
 		}
 	}
 	function _checkPay(){
+		swal({title: `【緊急公告】`, html: `因信用卡付款問題刻正修復中，海外聯招會2022年<a style="color:red">香港學生</a>赴臺升讀學士班「個人申請」及持港澳或海外學歷申請「研究所」者，將延長填報及繳交費用時間至<a style="color:red">2021年12月20日(星期一) 17:00止</a>。信用卡繳費修復完成後將另行公告及通知。`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 		// 詢問使用者是否要確認資料並前往付款頁面
-		swal({
-			title: `確認後就「無法再次更改資料」<br/>您真的確認送出嗎？`,
-			html:`按下確認後，即將前往付款頁面繳交報名費`,
-			type:"question",
-			showCancelButton: true,
-			confirmButtonText: '確定',
-			cancelButtonText: '取消',
-			confirmButtonColor: '#5cb85c',
-			cancelButtonColor: '#d9534f',
-			allowOutsideClick: false
-		}).then(()=>{
-			student.checkOrderListCanCreate()
-			.then(function (res) {
-				if (res.ok) {
-					// 確認可以就直接呼叫我們的API跳轉到綠界的付款頁面
-					location.href = env.baseUrl + `/students/application-fee/create`;
-				} else {
-					throw res;
-				}
-			})
-			.then(function () {
-				loading.complete();
-			})
-			.catch(function (res) {
-				loading.complete();
-				if(res.status == 401){
-					swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-				} else {
-					res.json && res.json().then((data) => {
-						console.error(data);
-						swal({title: `Error: ${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-					})
-				}
-			});
-        }).catch(()=>{
-        });
+		// swal({
+		// 	title: `確認後就「無法再次更改資料」<br/>您真的確認送出嗎？`,
+		// 	html:`按下確認後，即將前往付款頁面繳交報名費`,
+		// 	type:"question",
+		// 	showCancelButton: true,
+		// 	confirmButtonText: '確定',
+		// 	cancelButtonText: '取消',
+		// 	confirmButtonColor: '#5cb85c',
+		// 	cancelButtonColor: '#d9534f',
+		// 	allowOutsideClick: false
+		// }).then(()=>{
+		// 	student.checkOrderListCanCreate()
+		// 	.then(function (res) {
+		// 		if (res.ok) {
+		// 			// 確認可以就直接呼叫我們的API跳轉到綠界的付款頁面
+		// 			location.href = env.baseUrl + `/students/application-fee/create`;
+		// 		} else {
+		// 			throw res;
+		// 		}
+		// 	})
+		// 	.then(function () {
+		// 		loading.complete();
+		// 	})
+		// 	.catch(function (res) {
+		// 		loading.complete();
+		// 		if(res.status == 401){
+		// 			swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+		// 		} else {
+		// 			res.json && res.json().then((data) => {
+		// 				console.error(data);
+		// 				swal({title: `Error: ${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+		// 			})
+		// 		}
+		// 	});
+        // }).catch(()=>{
+        // });
 	}
 
 	function _checkAllSet() {
