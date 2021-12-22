@@ -186,6 +186,21 @@
                 $birthContinent.html(stateHTML);
                 $residenceContinent.html(stateHTML);
                 $schoolContinent.html(stateHTML);
+                // 總是有人亂填生日 甚至變成未來人 只好設個上限 最年輕就是報名當下剛滿十歲
+                $birthday.datepicker({
+                    endDate: new Date(new Date().setFullYear(new Date().getFullYear() - 10))
+                });
+                // 總是有人亂填生日 甚至變成未來人 只好設個上限 父母最年輕就是報名當下剛滿二十二歲
+                $dadBirthday.datepicker({
+                    endDate: new Date(new Date().setFullYear(new Date().getFullYear() - 22))
+                });
+                $momBirthday.datepicker({
+                    endDate: new Date(new Date().setFullYear(new Date().getFullYear() - 22))
+                });
+                // 總是有人亂填生日 監護人不要變成未來人就好了
+                $guardianBirthday.datepicker({
+                    endDate: new Date()
+                });
             })
             .then(()=>{
                 //再初始化個人資訊
