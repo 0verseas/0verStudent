@@ -484,18 +484,23 @@
 
 	function  _checkConfirm(json) {
 		if (!!json.student_misc_data.confirmed_at) {
+			$payBtn.removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定並確認填報資料') && $afterConfirmZone.show();
 			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定並確認填報資料') && $afterConfirmZone.show();
 		} else if (!json.student_qualification_verify) {
+			$payBtn.addClass('hide');
 			// 沒有輸入資格驗證的狀況下，隱藏提交按鈕
 			$('#btn-all-set').addClass('hide');
 		} else if (json.student_qualification_verify.system_id === 1 && !json.student_department_admission_placement_apply_way) {
 			// 學士班，聯合分發成績採計方式未填寫者，確認提交按鈕消失
+			$payBtn.addClass('hide');
 			$('#btn-all-set').addClass('hide');
 		} else if (json.student_qualification_verify.system_id !== 1 && !json.student_personal_data) {
 			// 學士班以外其它學制，個人基本資料未填寫者，確認提交按鈕消失
+			$payBtn.addClass('hide');
 			$('#btn-all-set').addClass('hide');
 		} else if (!json.can_admission_selection && !json.can_admission_placement) {
 			// 還沒有填報，且不在報名個人申請、聯合分發的期間，不能點送出填報按鈕
+			$payBtn.prop('disabled', true).text('目前不是可報名時間');
 			$('#btn-all-set').prop('disabled', true).text('目前不是可報名時間');
 		} else if(json.student_order_list_trade_status === "1"){
 			// 還沒有填報，但完成繳費的人自動去跳轉頁面讓它鎖定
