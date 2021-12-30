@@ -103,6 +103,12 @@
 		let wishHTML = '';
 		_wishList.forEach((value, index) => {
 			let showId = (_system === 1) ? value.department_data.card_code : value.department_data.id;
+			let buttonString = '上傳';
+			let buttonIcon = 'upload';
+			if (_isDocumentLock){
+				buttonString = '查看'
+				buttonIcon = 'search'
+			}
 
 			if(value.give_up === 0){
 				wishHTML += `
@@ -112,8 +118,8 @@
 							<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
 							<td>
 								<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
-									<i class="fa fa-upload" aria-hidden="true"></i>
-									<span class="hidden-sm-down"> 上傳</span>
+									<i class="fa fa-${buttonIcon}" aria-hidden="true"></i>
+									<span class="hidden-sm-down"> ${buttonString}</span>
 								</button>
 							</td>
 							<td class="column-wishGiveUpChange">
