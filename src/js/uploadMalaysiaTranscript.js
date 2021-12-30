@@ -574,26 +574,17 @@
 
 		// 是圖放圖，非圖放 icon
 		if (fileType === 'img') {
-			const src = this.src;
-
 			$imgModalBody.html(`
 				<img
-					src="${src}"
+					src="${this.src}"
 					class="img-fluid rounded img-ori"
 				>
 			`);
 		} else {
-			const icon = this.dataset.icon;
-			const fileLink = this.dataset.filelink;
-
 			$imgModalBody.html(`
-				<div>
-					<i class="fa ${icon} non-img-file-ori" aria-hidden="true"></i>
+				<div style="margin: 0 auto">
+					<embed src="${this.dataset.filelink}" width="550" height="800" type="application/pdf">
 				</div>
-
-				<a class="btn btn-primary non-img-file-download" href="${fileLink}" target="_blank" >
-					<i class="fa fa-download" aria-hidden="true"></i> 下載
-				</a>
 			`);
 		}
         // 刪除檔案按鈕紀錄點選的檔案名稱及類別
