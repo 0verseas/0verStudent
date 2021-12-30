@@ -359,8 +359,8 @@
 												<input type="file" class="filestyle file-certificate" data-type="${fileListItem.type_id}" data-deptid="${fileListItem.dept_id}" multiple>
 											</div>
 										</div>
+										<hr/>
 									</div>
-									<hr/>
 									<!-- 師長推薦函邀請 -->
 									<div class = "invite-form hide" id = 'inviteArea'>
 										<div class="row col-11">
@@ -385,11 +385,11 @@
 												<button type="button" id="btn-invite" class="btn btn-info" style="visibility: hidden" title="師長上傳成功後會有電子郵件通知"><i class="fa fa-envelope"></i> 送出邀請</button>
 											</div>
 										</div>
+										<hr/>
 									</div>
 									<div id="invitation-area" class="col-md-11" style=" margin:10px auto 28px;overflow-x:auto;">
 										${invite_list}  <!--邀請紀錄-->
 									</div>
-									<hr/>
 									<div class="card hide" id = "uploadFileArea">
 										<div class="card-body">
 											<h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
