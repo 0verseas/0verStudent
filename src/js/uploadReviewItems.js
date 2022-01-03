@@ -458,10 +458,12 @@
 
 		$('#btn-save-works').on('click',_handleSaveWorks);  // 「儲存已輸入的作品集文字」按鈕
 
+		// 師長推薦函 不管限制哪種上傳方法 都要顯示已上傳檔案區域
+		$('#uploadFileArea').show();
+		// 按照系所選擇的選項顯示上傳區域
 		switch(uploadMethod){
 			case 1:
 				$('#uploadArea').show();
-				$('#uploadFileArea').show();
 				break;
 			case 2:
 				$('#inviteArea').show();
@@ -469,7 +471,6 @@
 			default:
 				$('#uploadArea').show();
 				$('#inviteArea').show();
-				$('#uploadFileArea').show();
 		}
 
 		loading.complete();
@@ -803,6 +804,13 @@
 		}
 		const fileListIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === parseInt(type));
 		const isWork = (_wishList[_orderIndex].uploaded_file_list[fileListIndex].type.name === "作品集"); // 是不是作品集
+
+		// 師長上傳的檔案 學生不能刪除（後端會擋） （前端）隱藏刪除按鈕 
+		if(fileName === 'recommendation-letter.jpg'){
+			$('.btn-delImg').hide();
+		} else {
+			$('.btn-delImg').show();
+		}
 
 		$('.btn-delImg').attr({
 			'data-type': type,
