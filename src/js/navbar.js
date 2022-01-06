@@ -514,11 +514,17 @@
 		}
 		if (!!json.student_misc_data.admission_selection_document_lock_at) {
 			$('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
-		} else if (!json.can_upload_papers || json.student_misc_data.join_admission_selection == 0 ){
+			$('#btn-uploadAndSubmit-hint').text('注意：已提交上傳資料者，上傳的檔案就無法再做任何變更。');
+		} else if (json.student_misc_data.join_admission_selection == 0 ){
+			// 僅參加聯合分發者不用點這個按鈕阿
+			$('#btn-uploadAndSubmit').prop('disabled', true).text('僅參加個人申請者需要');
+			$('#btn-uploadAndSubmit').prop('disabled', true).removeClass('btn-danger').addClass('btn-secondary');
+			$('#btn-uploadAndSubmit-hint').hide();
+		} else if(!json.can_upload_papers){
 			// 還沒有提交上傳資料，且不在上傳備審資料的期間，不能點提交按鈕
 			$('#btn-uploadAndSubmit').prop('disabled', true).text('目前不是可上傳備審資料時間');
 			$('#btn-uploadAndSubmit').prop('disabled', true).removeClass('btn-danger').addClass('btn-secondary');
-			$('#btn-uploadAndSubmit-hint').removeClass('text-danger').addClass('text-secondary');
+			$('#btn-uploadAndSubmit-hint').hide();
 		}
 
 		if (json.student_misc_data.join_admission_selection == 2) {
