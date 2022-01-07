@@ -84,7 +84,7 @@
 			await _renderWishList();
 			if(_isDocumentLock){
 				await $saveBtn.hide();
-				await $exitBtn.html('<i class="fa fa-repeat" aria-hidden="true"></i> 返回')
+				await $exitBtn.html('<i class="fa fa-repeat" aria-hidden="true"></i> 返回');
 				await $('.column-wishGiveUpChange').addClass('hide');
 			}
 			loading.complete();
@@ -817,8 +817,8 @@
 		const fileListIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === parseInt(type));
 		const isWork = (_wishList[_orderIndex].uploaded_file_list[fileListIndex].type.name === "作品集"); // 是不是作品集
 
-		// 師長上傳的檔案 學生不能刪除（後端會擋） （前端）隱藏刪除按鈕 
-		if(fileName === 'recommendation-letter.jpg'){
+		// 師長上傳的檔案 學生不能刪除（後端會擋） （前端）隱藏刪除按鈕 或是 學生已提交也隱藏
+		if(fileName === 'recommendation-letter.jpg' || _isDocumentLock){
 			$('.btn-delImg').hide();
 		} else {
 			$('.btn-delImg').show();
