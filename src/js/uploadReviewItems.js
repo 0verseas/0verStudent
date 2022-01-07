@@ -82,8 +82,11 @@
 			document.getElementById("admission-doc-time-limit").innerText=admission_doc_upload_time_limit;
 
 			await _renderWishList();
-			if(_isDocumentLock)
+			if(_isDocumentLock){
+				await $saveBtn.hide();
+				await $exitBtn.html('<i class="fa fa-repeat" aria-hidden="true"></i> 返回')
 				await $('.column-wishGiveUpChange').addClass('hide');
+			}
 			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
@@ -444,12 +447,21 @@
 			$('#workUrl').keyup((e) => { e.keyCode == 13 && _handleAddWorkUrl(); });
 		}
 
-		$(":file").filestyle({
-			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-			btnClass: "btn-success",
-			text: " 選擇檔案",
-			input: false
-		});
+		if(_isDocumentLock){
+			$(":file").filestyle({
+				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
+				btnClass: "btn-success hide",
+				text: " 選擇檔案",
+				input: false
+			});
+		} else {
+			$(":file").filestyle({
+				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
+				btnClass: "btn-success",
+				text: " 選擇檔案",
+				input: false
+			});
+		}
 		$wishListWrap.hide();
 		$uploadForm.fadeIn();
 

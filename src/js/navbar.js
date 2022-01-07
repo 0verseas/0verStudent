@@ -335,8 +335,8 @@
 
 		}
 
-		// 不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
-		!data.can_upload_papers && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
+		// 沒有完成提交且不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
+		(!data.can_upload_papers && (data.student_misc_data.admission_selection_document_lock_at == null)) && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
 
 		//僑先部個申後填志願同學，在確認鎖定志願之前，不能印報名表件
 		if((data.student_qualification_verify.identity === 6 && data.student_misc_data.join_admission_selection === 1 &&
