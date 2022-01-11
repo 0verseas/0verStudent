@@ -349,7 +349,6 @@
             case '2':
                 $('.identity-option-overseas').hide();
                 $('.identity-option-inTaiwan').hide();
-                break;
             case '3':
             case '4':
                 $stayLimitOption3Text.text(`報名時已滿六年`)
