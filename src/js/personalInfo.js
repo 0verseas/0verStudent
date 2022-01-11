@@ -335,7 +335,7 @@
                         $('#educationLevel').text('高中學歷')
                         break;
                     case 2:
-                        $('#educationLevel').text('副學士或高級文憑學歷')
+                        $('#educationLevel').text('副學士或高級文憑（含）以上之學位學歷')
                         break;
                     case 3:
                         $('#educationLevel').text('學士學歷')
@@ -437,7 +437,6 @@
                 _switchDadDataForm();
                 _switchMomDataForm();
                 _setResidenceContinent();
-                _setSchoolContinent();
             })
             .then(() => {
                 loading.complete();
@@ -563,18 +562,13 @@
 
     function _reRenderSchoolCountry() {
         const continent = $(this).find(':selected').data('continentindex');
-        // 港二技學制只能選擇香港
-        const system2Rule = ["113"];
         // 非在台碩博不能選到臺灣
         const countryFilterRule = ["134"];
 
         let countryHTML = '<option value="" hidden disabled selected>Country</option>';
         if (continent !== -1) {
             _countryList[continent]['country'].forEach((obj, index) => {
-                if (_systemId === 2) {
-                    if (system2Rule.indexOf(obj.id) === -1) { return; }
-                }
-                if ((_systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
+                if ((_systemId === 2 || _systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
                     if (countryFilterRule.indexOf(obj.id) !== -1) { return; }
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
@@ -677,13 +671,6 @@
                 await $schoolTypeForm.hide();
                 _hasEduType = false;
             }
-        } else if (_systemId === 2) {
-            let typeHTML = '';
-            _currentSchoolType = '副學士或高級文憑'
-            typeHTML += `<option value="副學士或高級文憑">副學士或高級文憑</option>`;  // 港二技只有一種
-            await $schoolType.html(typeHTML);
-            await $schoolTypeForm.hide();  // 藏起來
-            _hasEduType = true;
         } else {
             await $schoolTypeForm.hide();
             _hasEduType = false;
@@ -713,17 +700,13 @@
         // 沒有選國家則不會出現學校名稱欄位
         if (!!_schoolCountryId) {
             // 學士班才需要出現學校所在地、名稱列表
-            if (_systemId === 1 || _systemId === 2) {
+            if (_systemId === 1) {
                 const getSchoolListresponse = await student.getSchoolList(_schoolCountryId);
                 const data = await getSchoolListresponse.json();
                 if(getSchoolListresponse.ok){
                     // schoolWithType: 當前類別的學校列表
                     let schoolWithType = [];
                     if (_schoolCountryId in _schoolType) {
-                        schoolWithType = await data.filter((obj) => {
-                            return obj.type === _currentSchoolType;
-                        })
-                    } else if(_systemId === 2) {
                         schoolWithType = await data.filter((obj) => {
                             return obj.type === _currentSchoolType;
                         })
