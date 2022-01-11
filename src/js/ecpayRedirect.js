@@ -33,7 +33,7 @@
                     location.href="./index.html";
                 } else {
                     console.error(lockdata);
-                    await swal({title: `Error: ${lockdata.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    await swal({title: `${lockdata.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     location.href="./result.html";
                 }
             }
