@@ -315,8 +315,12 @@
 				// (必填) 經驗證之副學士或高級文憑歷年成績單
 				setSchollTranscript();
 
-				// (必填) 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
-				setTechCoursePassedProof();
+				// 僅在香港就讀全日制副學士或高級文憑課程者需要上傳已通過香港資歷架構第四級之證明文件
+				if(progressJson2.student_personal_data.school_country == 113
+				&& (progressJson2.student_personal_data.two_year_tech_diploma === 1 || progressJson2.student_personal_data.two_year_tech_diploma === 2)
+				){
+					setTechCoursePassedProof();
+				}
 
 				// (必填) 學歷屬實及授權查證切結書
 				setAuthorizeCheckDiploma();
