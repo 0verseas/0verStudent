@@ -82,7 +82,7 @@
 								} else if( personalData.resident_location === '113' && data.student_qualification_verify.identity < 3 ) {
 									let memoHtml = `1、 請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。<br />`;
 									if(data.student_qualification_verify.system_id === 2){
-										memoHtml += `2、 報名「個人申請」者，務必於西元 ${env.year} 年 3 月 20 日（星期六）臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。<br />`;
+										memoHtml += `2、 報名「個人申請」者，務必於西元 ${env.year} 年 3 月 31 日（星期四）臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。<br />`;
 									} else {
 										memoHtml += `2、 報名「個人申請」者，務必於西元 ${env.year} 年 1 月 6 日（星期四）臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。<br />`;
 									}
