@@ -102,7 +102,9 @@
     const $schoolAdmissionAt = $('#schoolAdmissionAt'); // 入學時間
     const $schoolGraduateAt = $('#schoolGraduateAt'); // 畢業時間
 
-    const $twoYearTechClassForm = $('.twoYearTechClassForm'); // 港二技表單
+    const $twoYearTechClassFormAlert = $('.twoYearTechClassForm-alert'); // 港二技表單
+    const $twoYearTechClassFormInfo = $('.twoYearTechClassForm-info'); // 港二技表單
+    const $twoYearTechClassFormDate = $('.twoYearTechClassForm-date'); // 港二技表單
     const $twoYearTechDiploma = $('#twoYearTechDiploma'); // 文憑類別（港二技）
     const $twoYearTechClassName = $('#twoYearTechClassName'); // 課程名稱（港二技）
     const $twoYearTechClassStart = $('#twoYearTechClassStart'); // 課程開始日期（港二技）
@@ -381,7 +383,6 @@
 
                 // 港二技文憑渲染、初始化
                 if (_systemId === 2) {
-                    $twoYearTechClassForm.show();
                     $twoYearTechDiploma.val(formData.two_year_tech_diploma);
                     $twoYearTechClassName.val(formData.two_year_tech_class_name);
                     $twoYearTechClassStart.val(formData.two_year_tech_class_start);
@@ -640,6 +641,17 @@
             $('#HK_ADorHD_Diploma').val('');
             $HK_ADorHD_SchoolName.val(null);
             $HK_ADorHD_ClassName.val(null);
+        }
+
+        if(_systemId == 2){
+            $twoYearTechClassFormInfo.show();
+            if(_schoolCountryId == 113){
+                $twoYearTechClassFormAlert.show();
+                $twoYearTechClassFormDate.show();
+            } else {
+                $twoYearTechClassFormAlert.hide();
+                $twoYearTechClassFormDate.hide();
+            }
         }
 
         if (_originSchoolCountryId !== '' && _schoolCountryId !== _originSchoolCountryId && _systemId === 1) {
@@ -1471,7 +1483,11 @@
 
         // 判斷是否送港二技的文憑類別與課程
         if (_systemId === 2) {
-            formValidateList.push({ el: $twoYearTechDiploma, require: true, type: 'string', dbKey: 'two_year_tech_diploma', colName: '文憑類別' }, { el: $twoYearTechClassName, require: true, type: 'string', dbKey: 'two_year_tech_class_name', colName: '課程名稱' }, { el: $twoYearTechClassStart, require: true, type: 'string', dbKey: 'two_year_tech_class_start', colName: '課程開始日期' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end' }, );
+            let classStartAtRequire = false;
+            if(_schoolCountryId == 113){
+                classStartAtRequire = true;
+            }
+            formValidateList.push({ el: $twoYearTechDiploma, require: true, type: 'string', dbKey: 'two_year_tech_diploma', colName: '文憑類別' }, { el: $twoYearTechClassName, require: true, type: 'string', dbKey: 'two_year_tech_class_name', colName: '課程名稱' }, { el: $twoYearTechClassStart, require: classStartAtRequire, type: 'string', dbKey: 'two_year_tech_class_start', colName: '課程開始日期' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end' }, );
         } else {
             formValidateList.push({ el: $twoYearTechDiploma, require: false, type: 'string', dbKey: 'two_year_tech_diploma', dbData: '' }, { el: $twoYearTechClassName, require: false, type: 'string', dbKey: 'two_year_tech_class_name', dbData: '' }, { el: $twoYearTechClassStart, require: false, type: 'string', dbKey: 'two_year_tech_class_start', dbData: '' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end', dbData: '' }, );
         }
