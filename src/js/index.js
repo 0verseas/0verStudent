@@ -34,6 +34,10 @@
 	*/
 
 	async function _init() {
+		let isSafari = navigator.userAgent.search("Safari") > -1;
+		if(isSafari){
+			swal({title: "建議使用 Chrome 瀏覽器操作本會系統，以免部分功能無法正常執行。", type:"info", confirmButtonText: '確定', allowOutsideClick: false});
+		}
 		try {
             $downloadLinks.append(
             	// '<a href="' + env.baseUrl + '/forms/2019志願選填說明書(香港DSE、CEE、ALE學生適用)_2.pdf" target="_blank" class="list-group-item list-group-item-action">2019志願選填說明書(香港DSE、CEE、ALE學生適用)</a>' +
