@@ -35,7 +35,8 @@
 
 	async function _init() {
 		let isSafari = navigator.userAgent.search("Safari") > -1;
-		if(isSafari){
+		let isChrome = navigator.userAgent.indexOf("Chrome") != -1;
+		if(isSafari && !isChrome){
 			swal({title: "建議使用 Chrome 瀏覽器操作本會系統，以免部分功能無法正常執行。", type:"info", confirmButtonText: '確定', allowOutsideClick: false});
 		}
 		try {
