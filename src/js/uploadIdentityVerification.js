@@ -315,10 +315,8 @@
 				// (必填) 經驗證之副學士或高級文憑歷年成績單
 				setSchollTranscript();
 
-				// 僅在香港就讀全日制副學士或高級文憑課程者需要上傳已通過香港資歷架構第四級之證明文件
-				if(progressJson2.student_personal_data.school_country == 113
-				&& (progressJson2.student_personal_data.two_year_tech_diploma === 1 || progressJson2.student_personal_data.two_year_tech_diploma === 2)
-				){
+				// 港二技學歷完成地在香港者需要上傳已通過香港資歷架構第四級(含)以上之證明文件
+				if(progressJson2.student_personal_data.school_country == 113){
 					setTechCoursePassedProof();
 				}
 
@@ -1447,7 +1445,7 @@
 		let cardHtml16 = `
         <div class="card border-info" style="border-width: thick; margin-bottom: 3%;">
             <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
-				就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
+				就讀全日制副學士或高級文憑(含)以上學位課程已通過香港資歷架構第四級(含)以上之證明文件
             </div>
             <div class="card-body">
                 <div class="row" style="padding-left:5%">
