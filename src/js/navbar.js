@@ -277,6 +277,9 @@
 					$payBtn.show();
 					$checkBtn.hide();
 				}
+				if(data.student_misc_data.confirmed_at != null && !data.is_admission_papers_exist){
+					student.generateAdminssionPaper();
+				}
 			}
 		}
 
