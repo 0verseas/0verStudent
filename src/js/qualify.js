@@ -31,7 +31,7 @@
             '罹患疾病而強制其出境有生命危險之虞。',
             '在臺灣地區設有戶籍之配偶、直系血親、三親等內之旁系血親、二親等內之姻親在臺灣地區患重病或受重傷而住院或死亡。',
             '因其他不可歸責於港澳生之事由，致無法返回僑居地。',
-            '未符合前述1至12條件'
+            '未符合前述1至$temp條件'
         ],
         2:[
             '就讀僑務主管機關舉辦之海外青年技術訓練班或中央主管教育行政機關認定之技術訓練專班。',
@@ -43,7 +43,7 @@
             '曾經分發註冊入學，惟分發在臺期間因故自願退學且在臺停留未滿二年。',
             '於國立臺灣師範大學僑生先修部結業，在臺停留未滿二年。',
             '因其他不可歸責於僑生之事由，致無法返回僑居地。',
-            '未符合前述1至9條件',
+            '未符合前述1至$temp條件',
             '',
             '',
             ''
@@ -867,11 +867,11 @@
             const order = number + 1; // 選項的value
             const option = $qualifyForm.find(`.option-hasBeenTaiwan[value=${order}]`); // 現在要渲染的選項
             const optionTextArea = option.parent().find('a'); // 選項文字的網頁物件
-            let optionText = value; // 選項的文字
+            let optionText = value.replace('$temp', number); // 選項的文字 有"$temp"字串在其中就取代為number（前述選項最大數）
 
             optionTextArea.text(' '+order+'. '+optionText);
             option.parent().show();
-            if(mapNumber == 2 && order > 10){
+            if(value === ''){
                 option.parent().hide();
             }
         });
