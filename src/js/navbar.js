@@ -277,8 +277,16 @@
 					$payBtn.show();
 					$checkBtn.hide();
 				}
+				// 幫香港學生產生報名表件 因為對他們來說不用下載了 所以要主動幫他們產生 順便再告訴他們一次鎖定後資料就不能異動了
 				if(data.student_misc_data.confirmed_at != null && !data.is_admission_papers_exist){
 					student.generateAdminssionPaper();
+					swal({
+						title: `已鎖定並確認填報資料。`,
+						html:`如需再修改個人基本資料（不含志願），請填寫「資料修正表」或是<strong>重新註冊新的帳號</strong>。`,
+						type:"warning",
+						confirmButtonText: '確定',
+						allowOutsideClick: false
+					});
 				}
 			}
 		}
