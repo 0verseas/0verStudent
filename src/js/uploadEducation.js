@@ -9,7 +9,7 @@
 	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
 	let $uploadedFiles = [];// 已上傳檔案名稱陣列
 	const $uploadTranscriptStringArray = ['統考','所持會考文憑'];
-	const dateMap = {0:'2021年12月15日（星期三）', 1:'2022年1月15日（星期六）', 2:'2022年2月28日（星期一）', 5:'2021年3月31日（星期四）'}
+	const dateMap = {0:'2021年12月15日（星期三）', 1:'2022年1月15日（星期六）', 2:'2022年2月28日（星期一）', 5:'2022年3月31日（星期四）'}
 
 	/**
 	*	init
