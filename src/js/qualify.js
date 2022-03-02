@@ -935,22 +935,22 @@
         // 檢查分發來台選項
         if(isNaN(choosenIsDistribution)){
             await swal({title: `請選擇分發來臺選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-            return
+            return;
         }
         // 檢查分發來台原因選項
         const unqualifiedIsDistributionOptionMap = [3,4,5,6];
         if(choosenIsDistribution == 1){
             if(unqualifiedIsDistributionOptionMap.indexOf(choosenIsDistributionOption) !== -1){
                 await swal({title: `分發來臺選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
+                return;
             }
             if(inputIsDistributionTime == ''){
                 await swal({title: `未填寫分發來臺年份`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
+                return;
             }
             if((choosenIdentity > 3 && choosenIsDistributionOption > 6) || (choosenIdentity < 3 && choosenIsDistributionOption > 7) || !choosenIsDistributionOption){
                 await swal({title: `請選擇分發來臺原因選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
+                return;
             }
         }
         // 宣告要傳送到後端的資料物件
@@ -964,7 +964,7 @@
         if(choosenSystem === 2){
             if(isNaN(choosenADHDgraduated)){
                 await swal({title: `請選擇在香港是否修習副學士學位或高級文憑課程，並已取得畢業證書選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
+                return;
             }
             if(choosenADHDgraduated !== 1){
                 await swal({title: `未在香港是否修習副學士學位或高級文憑課程，並已取得畢業證書者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
@@ -976,7 +976,7 @@
         if(choosenIdentity == 2 || choosenIdentity == 3){
             if(isNaN(choosenEthnicChinese)){
                 await swal({title: `請選擇是否為華裔選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
+                return;
             }
             if(choosenEthnicChinese !== 1){
                 await swal({title: `非華裔者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
@@ -993,7 +993,7 @@
             sendData["HK_Macao_permanent_residency"] = choosenIdCard;
             if(isNaN(choosenHoldPassport)){
                 await swal({title: `請選擇是否持有香港或澳門地區外護照`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                return
+                return;
             }
             // 港澳具外國國籍者需持有外國護照
             if(choosenHoldPassport !== 1 && choosenIdentity == 2){
@@ -1009,19 +1009,19 @@
             if(choosenHoldPassport === 1){
                 if(isNaN(choosenTaiwanHousehold)){
                     await swal({title: `請選擇是否曾在臺設有戶籍選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                    return
+                    return;
                 }
                 if(isNaN(choosenPortugalPassport)){
                     await swal({title: `請選擇是否持有葡萄牙護照選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                    return
+                    return;
                 }
                 if(choosenPortugalPassport === 1 && inputPortugalPassportTime == ''){
                     await swal({title: `未填寫於何時首次取得葡萄牙護照`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                    return
+                    return;
                 }
                 if(choosenPortugalPassport === 0 && !choosenPassportCountry){
                     await swal({title: `未選擇持有護照之國家選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-                    return
+                    return;
                 }   
             }
             sendData["taiwan_census"] = choosenTaiwanHousehold;

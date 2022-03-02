@@ -31,7 +31,7 @@
                         location.href = './index.html';
                     }, 3000);
                 } else {
-                    alert(`${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 
                     setTimeout(() => {
                         location.href = './index.html';

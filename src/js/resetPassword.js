@@ -47,8 +47,11 @@
 		.catch((err) => {
 			err.json && err.json().then((data) => {
 				console.log(data.messages[0]);
-				alert('您並無重設密碼之請求。');
-				location.href="./index.html";
+				swal({title:`您並無重設密碼之請求。`, confirmButtonText:'確定', type:'warning'})
+				.then(()=>{
+					loading.complete();
+					location.href="./index.html";
+				});
 			})
 			loading.complete();
 		})
@@ -96,7 +99,7 @@
 		const passConfirm = $resetPasswordConfirm.val();
 
 		if (!_passValid) {
-			alert('密碼格式錯誤，或「確認密碼」與「密碼」內容不符。');
+			swal({title:`密碼格式錯誤，或「確認密碼」與「密碼」內容不符。`, confirmButtonText:'確定', type:'warning'});
 			return;
 		}
 
@@ -116,14 +119,16 @@
 			}
 		})
 		.then((json) => {
-			alert("密碼重設成功，請重新登入。");
-			location.href="./index.html";
-			loading.complete();
+			swal({title: `密碼重設成功，請重新登入。`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+			.then(()=>{
+				loading.complete();
+				location.href="./index.html";
+			});
 		})
 		.catch((err) => {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			})
 			loading.complete();
 		});

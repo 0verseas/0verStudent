@@ -60,7 +60,7 @@
 		const school_country = $('.radio-option:checked').attr('data-school_country');
 
 		if (!id || !code) {
-			alert('請選擇您的成績採計方式');
+			swal({title: `請選擇您的成績採計方式`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 			return;
 		}
 		const toFForNot = $goToFF.prop('checked');
@@ -82,8 +82,21 @@
 		}
 
 		if(+id == 53 || +id == 59){
-			let check = confirm('選擇此採計方式者不能參加個人申請，點選確認後將清空你的個人申請志願，並儲存你的採計方式。')
-			if(!check) return;
+			await swal({
+				title: '選擇此採計方式者不能參加個人申請，點選確認後將清空你的個人申請志願，並儲存你的採計方式。',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#5cb85c',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '確定',
+				cancelButtonText: '取消',
+			})
+			.then( (result)	=>{
+				//console.log(result);
+				if(!result){
+					return;
+				}
+			});
 		}
 
 		loading.start();
@@ -96,7 +109,7 @@
 			e.json && e.json().then((data) => {
 				console.error(data);
 
-				alert(`${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 
 				loading.complete();
 			});
@@ -112,7 +125,7 @@
 		})
 		.then(async (json) => {
 			// console.log(json);
-			alert("儲存成功");
+			await swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999') { // 不參加聯分，原地 reload
 				window.location.reload();
 			} else if(+code === 23){
@@ -131,12 +144,14 @@
 		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
 			}
 			err.json && err.json().then((data) => {
 				console.error(data.messages[0]);
-				alert(data.messages[0]);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			loading.complete();
 		});
@@ -225,17 +240,25 @@
 		})
 		.catch((err) => {
 			if (err.status && err.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
 			} else if (err.status && err.status === 403) {
 				err.json && err.json().then((data) => {
-					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
-					window.history.back();
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						if(window.history.length>1){
+							window.history.back();
+						} else {
+							location.href = "./personalInfo.html";
+						}
+					});
 				})
 			} else {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 			}
 			loading.complete();
@@ -245,13 +268,24 @@
 	// 去不去僑先部的選項改變
 	function toFFChange() {
 		if(!$goToFF.prop('checked')){  // 變成沒勾的時候
-			// 跳出確認框
-			if(confirm("未勾選者，將視同放棄可能分發至「臺師大僑先部」之機會，且無法選填「臺師大僑先部」志願！\n願意分發至臺師大僑先部者，請按「確定」鍵")){  // 確定
-				$goToFF.prop('checked', true);  // 幫學生勾回去
-			} else {  // 取消
-				// 學生心意已決
-				return;
-			}
+			swal({
+				title: '未勾選者，將視同放棄可能分發至「臺師大僑先部」之機會，且無法選填「臺師大僑先部」志願！<br/>願意分發至臺師大僑先部者<br/>請按「確定」鍵',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#5cb85c',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '確定',
+				cancelButtonText: '取消',
+			})
+			.then( (result)	=>{
+				//console.log(result);
+				if(result){
+					$goToFF.prop('checked', true);  // 幫學生勾回去
+				} else {
+					//取消 學生心意已決
+					return;
+				}
+			});
 		}
 	}
 

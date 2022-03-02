@@ -121,8 +121,10 @@
 		} catch (e) {
 			console.log(e);
 			if (e.status && e.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
 			} else if (e.status && e.status === 403) {
 				e.json && e.json().then(async (data) => {
 					if(data.messages[0].includes('持DSE、ALE、CEE者')){
@@ -137,20 +139,20 @@
 						});
 						location.href = "./uploadIdentityVerification.html"
 					}else if(window.history.length>1){
-						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
+						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回上一頁', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						window.history.back();
 					} else if(data.messages[0].includes('採計')){
-						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回聯合分發成績採計方式頁面');
+						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回聯合分發成績採計方式頁面', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						location.href = './grade.html';
 					} else {
-						alert(`ERROR: \n${data.messages[0]}\n` + '即將返回志願檢視頁面');
+						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回志願檢視頁面', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						location.href = './result.html';
 					}
 				})
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 			}
 			loading.complete();
@@ -195,7 +197,7 @@
 			_generateOptionalWish(pageNum);
 			_generateWishList();
 		} else {
-			alert('志願數量已達上限。');
+			swal({title:`志願數量已達上限。`, confirmButtonText:'確定', type:'warning'});
 		}
 	}
 
@@ -424,19 +426,21 @@
 				}
 			})
 			.then((json) => {
-				alert("儲存成功");
-				window.location.reload();
+				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					window.location.reload();
+				});
 				loading.complete();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 				loading.complete();
 			})
 		} else {
-			alert('沒有選擇志願。');
+			swal({title:`沒有選擇志願。`, confirmButtonText:'確定', type:'warning'});
 		}
 	}
 
@@ -455,42 +459,55 @@
 
 	function _handleSecondConfirmed() {
 		setTimeout(function(){
-			var isAllSet = confirm("確認後就「無法再次更改志願」，您真的確認送出嗎？");
-			if (isAllSet === true) {
-				let order = [];
-				if (_wishList.length > 0) {
-					_wishList.forEach((value, index) => {
-						order.push(value.id);
-					});
-					const data = {
-						order
-					}
-					loading.start();
-					student.SecondPlacementSelectionOrder(data)
-						.then((res) => {
-							if (res.ok) {
-								return res.json();
-							} else {
-								throw res;
-							}
-						})
-						.then((json) => {
-							alert("儲存成功並已鎖定，系統已寄送志願選填通知信至您的 email。");
-							window.location.reload();
-							loading.complete();
-							location.href = "./downloadDocs.html";
-						})
-						.catch((err) => {
-							err.json && err.json().then((data) => {
-								console.error(data);
-								alert(`ERROR: \n${data.messages[0]}`);
+			swal({
+				title: '確認後就「無法再次更改志願」，您真的確認送出嗎？',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#5cb85c',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '確定',
+				cancelButtonText: '取消',
+			})
+			.then( (result)	=>{
+				//console.log(result);
+				if(result){
+					let order = [];
+					if (_wishList.length > 0) {
+						_wishList.forEach((value, index) => {
+							order.push(value.id);
+						});
+						const data = {
+							order
+						}
+						loading.start();
+						student.SecondPlacementSelectionOrder(data)
+							.then((res) => {
+								if (res.ok) {
+									return res.json();
+								} else {
+									throw res;
+								}
 							})
-							loading.complete();
-						})
-				} else {
-					alert('沒有選擇志願。');
+							.then((json) => {
+								swal({title: `儲存成功並已鎖定，系統已寄送志願選填通知信至您的 email。`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+								.then(()=>{
+									location.href = "./downloadDocs.html";
+								});
+							})
+							.catch((err) => {
+								err.json && err.json().then((data) => {
+									console.error(data);
+									swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+								})
+								loading.complete();
+							})
+					} else {
+						swal({title:`沒有選擇志願。`, confirmButtonText:'確定', type:'warning'});
+					}
+				} else { //取消
+					return;
 				}
-			}
+			});
 		}, 500);
 	}
 

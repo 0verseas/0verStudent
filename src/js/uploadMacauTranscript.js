@@ -91,40 +91,52 @@
 			if (!progressResponse.ok) { throw progressResponse; }
 			const progressJson = await progressResponse.json();
 			_studentID= progressJson.id;
-
+			let titleText = '';
 			//已經錄取了  就不要上傳資料 增加我們的負擔
 			if(progressJson.student_misc_data.stage_of_deptid != null || progressJson.student_misc_data.stage_of_admit != null || progressJson.student_misc_data.distribution_date != null || progressJson.student_misc_data.distribution_no != null){
-				alert('已有分發結果，不需上傳登錄成績，即將返回志願檢視。');
-				window.location  = window.location.protocol+'//'+window.location.host+'/result.html';
+				titleText = '已有分發結果，不需上傳登錄成績，即將返回志願檢視。';
 			}
 
 			//location.orgin 不支援IE11以下版本  所以用 location.protocol +location.host取代
 			if(!progressJson.can_macau_upload_time){
-				alert('開放時間未到或條件不符，即將返回志願檢視。');
-				window.location  = window.location.protocol+'//'+window.location.host+'/result.html';
+				titleText = '開放時間未到或條件不符，即將返回志願檢視。';
 			}
 
 			//沒有僑生編號就返回志願檢視頁面
 			if(progressJson.student_misc_data.overseas_student_id == null){
-				alert('請先繳交報名表件並等待審核完畢，即將返回志願檢視。');
-				window.location  =  window.location.protocol+'//'+window.location.host+'/result.html';
+				titleText = '請先繳交報名表件並等待審核完畢，即將返回志願檢視。';
+			}
+
+			if(titleText != ''){
+				swal({title: titleText, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href  = './result.html';
+				});
 			}
 		}
 		catch(e) {
-			// if (e.status && e.status === 401) {
-			// 	alert('請登入。');
-			// 	location.href = "./index.html";
-			// } else if (e.status && e.status === 403) {
-			// 	e.json && e.json().then((data) => {
-			// 		alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
-			// 		window.history.back();
-			// 	})
-			// } else {
-			// 	e.json && e.json().then((data) => {
-			// 		console.error(data);
-			// 		alert(`ERROR: \n${data.messages[0]}`);
-			// 	})
-			// }
+			if (e.status && e.status === 401) {
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
+			} else if (e.status && e.status === 403) {
+				e.json && e.json().then((data) => {
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						if(window.history.length>1){
+							window.history.back();
+						} else {
+							location.href = "./personalInfo.html";
+						}
+					});
+				})
+			} else {
+				e.json && e.json().then((data) => {
+					console.error(data);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				})
+			}
 		}
 		loading.complete();
 		
@@ -133,10 +145,6 @@
 		_getSubjectFileName("03");
 		_getSubjectFileName("04");
 		_getScore(_studentID);
-
-		//_handleDelImg(2318, '011001_01.pdf');
-
-
 	}
 
 	//分數改變時確認是否顯示上傳按鈕
@@ -243,7 +251,7 @@
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			loading.complete();
 		}
@@ -368,7 +376,7 @@
 			data.append('files[]', fileList[i]);
 			//偵測是否超過4MB
 			if(student.sizeConversion(fileList[i].size,4)){
-				alert(fileList[i].name + ' 檔案過大，大小不能超過4MB！')
+				swal({title: `檔案過大`, text: fileList[i].name+' ，檔案大小不能超過4MB！', type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 				$(this).val('');//清除檔案路徑
 				return;
 			}
@@ -387,7 +395,7 @@
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error("error",data);
-				alert(`ERROR: \n${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			$(this).val('');//清除檔案路徑
 			loading.complete();
@@ -444,7 +452,7 @@
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			loading.complete();
 		}
@@ -467,7 +475,7 @@
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			loading.complete();
 		}
@@ -591,19 +599,19 @@
 
 		checkIllegalScore = 0;
 		if ( ($chineseScore.val() > 1000 || $chineseScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
-			alert("中文成績輸入有誤");
+			swal({title:`中文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 		if (($englishScore.val() > 1000 || $englishScore.val() < 350) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
-			alert("英文成績輸入有誤");
+			swal({title:`英文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 		if (($MathScore.val() > 1000 || $MathScore.val() < 350) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
-			alert("數學成績輸入有誤");
+			swal({title:`數學成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 350) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
-			alert("數學附加卷成績輸入有誤");
+			swal({title:`數學附加卷成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 
@@ -638,20 +646,22 @@
 					})
 					.then((json) => {
 						// console.log(json);
-						alert('儲存成功');
-						window.location.reload();
+						swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+						.then(()=>{
+							window.location.reload();
+						});
 						loading.complete();
 					})
 					.catch((err) => {
 						err.json && err.json().then((data) => {
 							console.error(data);
-							alert(`ERROR: \n${data.messages[0]}`);
+							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						});
 						loading.complete();
 					})
 			} else {
 				console.log('==== validate failed ====');
-				alert("填寫格式錯誤，請檢查以下表單：\n———————————————\n" + _errormsg.join('、'));
+				swal({title: `填寫格式錯誤`, html: `請檢查以下表單：<br/>`+_errormsg.join('、'), type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			}
 		}
 	}
@@ -660,19 +670,19 @@
 	async function _handleConfirm() {
 		checkIllegalScore = 0;
 		if ( ($chineseScore.val() > 1000 || $chineseScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
-			alert("中文成績輸入有誤");
+			swal({title:`中文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 		if (($englishScore.val() > 1000 || $englishScore.val() < 350) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
-			alert("英文成績輸入有誤");
+			swal({title:`英文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 		if (($MathScore.val() > 1000 || $MathScore.val() < 350) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
-			alert("數學成績輸入有誤");
+			swal({title:`數學成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 350) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
-			alert("數學附加卷成績輸入有誤");
+			swal({title:`數學附加卷成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
 			checkIllegalScore = 1;
 		}
 
@@ -714,13 +724,13 @@
 					.catch((err) => {
 						err.json && err.json().then((data) => {
 							console.error(data);
-							alert(`ERROR: \n${data.messages[0]}`);
+							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						});
 						loading.complete();
 					})
 			} else {
 				console.log('==== validate failed ====');
-				alert("填寫格式錯誤，請檢查以下表單：\n———————————————\n" + _errormsg.join('、'));
+				swal({title: `填寫格式錯誤`, html: `請檢查以下表單：<br/>`+_errormsg.join('、'), type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			}
 		}
 
@@ -910,16 +920,16 @@
 			})
 			.then((json) => {
 				// console.log(json);
-				 alert('已鎖定');
-				// window.location.reload();
-				//summarize_page();
-				loading.complete();
-				window.location.reload();
+				swal({title: `已鎖定`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					loading.complete();
+					window.location.reload();
+				});
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				});
 				loading.complete();
 			})

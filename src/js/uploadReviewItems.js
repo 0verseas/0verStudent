@@ -90,12 +90,14 @@
 			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 			}
 			loading.complete();
@@ -573,7 +575,7 @@
 			_workUrls.push(workUrl);
 			$('#workUrl').val('');
 		} else {
-			alert("網址格式錯誤。");
+			swal({title:`網址格式錯誤。`, confirmButtonText:'確定', type:'warning'});
 		}
 		_renderWorkUrlList();
 	}
@@ -690,22 +692,24 @@
 						const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
 						if (!response.ok) { throw response; }
 
-						alert('儲存完成');
-						loading.complete();
-						window.location.reload();
+						swal({title: `儲存完成`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+						.then(()=>{
+							loading.complete();
+							window.location.reload();
+						});
 					} catch(e) {
 						e.json && e.json().then((data) => {
 							console.error(data);
-							alert(`ERROR: \n${data.messages[0]}`);
+							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						});
 						loading.complete();
 					}
 				} else {
 					if ( $('#workUrl').val() != '') {
-						alert("請點選作品連結右邊藍色“＋” 新增作品連結");
+						swal({title:`請點選作品連結右邊藍色“＋” 新增作品連結`, confirmButtonText:'確定', type:'warning'});
+					} else {
+						swal({title: `必填欄位未填`, html: `請檢查以下欄位：<br/>`+errorMsg.join('、'), type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 					}
-					else
-						alert(errorMsg.join('、') + " 欄位必填");
 				}
 			} else if (sendType === 'empty') {
 				let data = new FormData();
@@ -720,21 +724,25 @@
 					const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
 					if (!response.ok) { throw response; }
 
-					alert('儲存完成');
-					loading.complete();
-					window.location.reload();
+					swal({title: `儲存完成`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						loading.complete();
+						window.location.reload();
+					});
 				} catch(e) {
 					e.json && e.json().then((data) => {
 						console.error(data);
-						alert(`ERROR: \n${data.messages[0]}`);
+						swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 					});
 					loading.complete();
 				}
 			}
 		} else {
-			alert('儲存完成');
-			loading.complete();
-			window.location.reload();
+			swal({title: `儲存完成`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+			.then(()=>{
+				loading.complete();
+				window.location.reload();
+			});
 		}
 	}
 	
@@ -758,7 +766,7 @@
 		for (let i = 0; i < fileList.length; i++) {
 			//偵測是否超過8MB (8MB以下用後端偵測)
 			if(await student.sizeConversion(fileList[i].size,8)){
-				await alert(fileList[i].name+' 檔案過大！');
+				swal({title: `檔案過大`, text: fileList[i].name+' ，檔案過大！！', type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 				return;
 			}
 			await data.append('files[]', fileList[i]);
@@ -784,7 +792,7 @@
 		} catch(e) {
 			e.json && e.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			await loading.complete();
 		}
@@ -832,36 +840,51 @@
 	}
 
 	async function _handleDelImg() {
-		if (!confirm('確定刪除？')) {
-			return;
-		}
-		try {
-			loading.start();
-			const response = await student.delReviewItem({
-				student_id: _studentID,
-				dept_id: _deptID,
-				type_id: $(this).attr('data-type'),
-				filename: $(this).attr('data-filename')
-			});
-			if (!response.ok) { throw response; }
-			const responseJson = await response.json();
-
-			const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson[0].type_id ));
-			if ($(this).attr('data-iswork') === "true") {
-				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson[0].work_files;
-			} else {
-				_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = responseJson[0].files;
+		await swal({
+			title: '確定刪除？',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#5cb85c',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '確定',
+			cancelButtonText: '取消',
+		})
+		.then( async (result)	=>{
+			//console.log(result);
+			if(result){
+				try {
+					loading.start();
+					const response = await student.delReviewItem({
+						student_id: _studentID,
+						dept_id: _deptID,
+						type_id: $(this).attr('data-type'),
+						filename: $(this).attr('data-filename')
+					});
+					if (!response.ok) { throw response; }
+					const responseJson = await response.json();
+		
+					const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson[0].type_id ));
+					if ($(this).attr('data-iswork') === "true") {
+						_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson[0].work_files;
+					} else {
+						_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].files = responseJson[0].files;
+					}
+					_handleEditForm();
+					$('.img-modal').modal('hide');
+					loading.complete();
+				} catch(e) {
+					e.json && e.json().then((data) => {
+						console.error(data);
+						swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+					});
+					loading.complete();
+				}
+			} else { //取消
+				return;
 			}
-			_handleEditForm();
-			$('.img-modal').modal('hide');
-			loading.complete();
-		} catch(e) {
-			e.json && e.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-			});
-			loading.complete();
-		}
+		});
+
+		return;
 	}
 
 	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
@@ -909,7 +932,7 @@
 				// 渲染html
 				document.getElementById('invitation-area').innerHTML = invite_list;
 			}
-			alert('邀請成功');
+			await swal({title: `邀請成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 			//清空欄位內的值
 			await $("#teacherName").val("");
 			await $("#teacherMail").val("");
@@ -920,7 +943,7 @@
 			await e.json && e.json().then((data) => {
 				console.error(data);
 
-				alert(`${data.messages[0]}`);
+				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 
 				loading.complete();
 			});
@@ -1064,21 +1087,21 @@
 						const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
 						if (!response.ok) { throw response; }
 
-						alert('作品集文字已儲存，請記得上傳其他備審資料');
+						swal({title: `作品集文字已儲存，請記得上傳其他備審資料`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 						loading.complete();
 					} catch(e) {
 						e.json && e.json().then((data) => {
 							console.error(data);
-							alert(`ERROR: \n${data.messages[0]}`);
+							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						});
 						loading.complete();
 					}
 				} else {
 					if ( $('#workUrl').val() != '') {
-						alert("請點選作品連結右邊藍色“＋” 新增作品連結");
+						swal({title:`請點選作品連結右邊藍色“＋” 新增作品連結`, confirmButtonText:'確定', type:'warning'});
+					} else {
+						swal({title: `必填欄位未填`, html: `請檢查以下欄位：<br/>`+errorMsg.join('、'), type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 					}
-					else
-						alert(errorMsg.join('、') + " 欄位必填");
 				}
 			} else if (sendType === 'empty') {
 				let data = new FormData();
@@ -1093,18 +1116,18 @@
 					const response = await student.setReviewItem({data, type_id: _workTypeId, dept_id: _deptID, student_id: _studentID});
 					if (!response.ok) { throw response; }
 
-					alert('作品集文字已儲存，請記得上傳其他備審資料');
+					swal({title: `作品集文字已儲存，請記得上傳其他備審資料`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 					loading.complete();
 				} catch(e) {
 					e.json && e.json().then((data) => {
 						console.error(data);
-						alert(`ERROR: \n${data.messages[0]}`);
+						swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 					});
 					loading.complete();
 				}
 			}
 		} else {
-			alert('作品集文字已儲存，請記得上傳其他備審資料');
+			swal({title: `作品集文字已儲存，請記得上傳其他備審資料`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 			loading.complete();
 		}
 	}

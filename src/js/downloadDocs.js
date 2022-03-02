@@ -104,12 +104,14 @@
 					})
 					.catch((err) => {
 						if (err.status && err.status === 401) {
-							alert('請登入。');
-							location.href = "./index.html";
+							swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+							.then(()=>{
+								location.href = "./index.html";
+							});
 						} else {
 							err.json && err.json().then((data) => {
 								console.error(data);
-								alert(`ERROR: \n${data.messages[0]}`);
+								swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 							})
 						}
 						loading.complete();

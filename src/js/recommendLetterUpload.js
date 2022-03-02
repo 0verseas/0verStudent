@@ -93,7 +93,7 @@
             e.json && e.json().then((data) => {
                 console.error(data);
 
-                alert(`${data.messages[0]}`);
+                swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 
                 // 分類帽會依情況決定使用者去什麼地方
                 if (e.status !== 423){
@@ -134,7 +134,7 @@
             }
             //偵測是否超過4MB
             if(student.sizeConversion(fileList[i].size,4)){
-                alert(fileList[i].name+' 檔案過大，大小不能超過4MB！')
+                swal({title: `檔案過大`, text: fileList[i].name+' ，檔案大小不能超過4MB！', type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 $(this).val('');//清除檔案路徑
                 return;
             }	
@@ -148,13 +148,15 @@
             if (!response.ok) {
                 throw response;
             }
-            alert('檔案確認');
-            loading.complete();
-            window.location.reload();
+            swal({title: `檔案確認`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+            .then(()=>{
+                loading.complete();
+                window.location.reload();
+            });
         } catch(e) {
             e.json && e.json().then((data) => {
                 console.error(data);
-                alert(`ERROR: \n${data.messages[0]}`);
+                swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
             });
             loading.complete();
         }
@@ -198,25 +200,40 @@
     }
 
     //按下『確認並上傳按鈕』
-    async function _handleSave() {
-        if (!confirm('鎖定後如欲上傳其他檔案須請學生重新邀請，您確定要鎖定了嗎？\nA re-invitation from your student is required if you intend to upload other files after clicking on Confirm.')) {
-            return;
-        }
-        loading.start();
-        const token_bye = await student.teacherBye(_id, _token); //通知後端 delete token
-        if (!token_bye.ok) { //http response status code
-            throw token_bye;
-        }
-        const notify_stu = student.notifyStudentRecommendationLetterHadUploaded(_id, _dept_id, _token);  // 寄信通知學生
-        //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)「你什麼時候產生了點了『上傳』卻沒上傳的錯覺」(O)
-        alert('感謝您的使用！');
-        setTimeout(function() {
-            loading.complete();
-            $recommendationLetterUploadBtn.remove(); //remove upload button
-            $recommendationLetterUpload.remove(); //remove recommend letter upload form page
-            let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。　Upload is completed, please close this page.</h4></div>'; //按下按鈕後要顯示的內容
-            document.getElementById("final-page").innerHTML = html; //替換畫面上的內容
-        },500); //『幫我撐50 0秒』
+    async function _handleSave() {      
+        await swal({
+			html: `鎖定後如欲上傳其他檔案須請學生重新邀請，您確定要鎖定了嗎？<br/>A re-invitation from your student is required if you intend to upload other files after clicking on Confirm.`,
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#5cb85c',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '確定',
+			cancelButtonText: '取消',
+		})
+		.then( async (result)	=>{
+			//console.log(result);
+			if(result){
+				loading.start();
+                const token_bye = await student.teacherBye(_id, _token); //通知後端 delete token
+                if (!token_bye.ok) { //http response status code
+                    throw token_bye;
+                }
+                const notify_stu = student.notifyStudentRecommendationLetterHadUploaded(_id, _dept_id, _token);  // 寄信通知學生
+                //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)「你什麼時候產生了點了『上傳』卻沒上傳的錯覺」(O)
+                swal({title: `感謝您的使用！`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+                setTimeout(function() {
+                    loading.complete();
+                    $recommendationLetterUploadBtn.remove(); //remove upload button
+                    $recommendationLetterUpload.remove(); //remove recommend letter upload form page
+                    let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。　Upload is completed, please close this page.</h4></div>'; //按下按鈕後要顯示的內容
+                    document.getElementById("final-page").innerHTML = html; //替換畫面上的內容
+                },500); //『幫我撐50 0秒』
+			} else { //取消
+				return;
+			}
+		});
+
+        return;
     }
 
     //檢查檔案類型
@@ -226,7 +243,7 @@
         //看副檔名是否在可接受名單
         fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')).toLowerCase();  // 副檔名通通轉小寫
         if (extension.indexOf(fileExtension) < 0) {
-            alert("非可接受的檔案類型，可接受的副檔名有：" + extension.toString());
+            swal({title: `非可接受的檔案類型`, text: "可接受的副檔名有："+extension.toString(), type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             selectfile.value = null;
             return false;
         } else {
@@ -325,32 +342,44 @@
     }
 
     async function _handleDelImg() {
-        if (!confirm('確定刪除？')) {
-            return;
-        }
-
-        try {
-            loading.start();
-            const response = await student.teacherDeleteItem({
-                student_id: _id,
-                dept_id: _dept_id,
-                // type_id: $(this).attr('data-type'),
-                token: _token,
-                filename: $(this).attr('data-filename')
-            });
-            if (!response.ok) {
-                throw response;
-            }
-            _verify();
-            $('.img-modal').modal('hide');
-            loading.complete();
-        } catch(e) {
-            e.json && e.json().then((data) => {
-                console.error(data);
-                alert(`ERROR: \n${data.messages[0]}`);
-            });
-            loading.complete();
-        }
+        swal({
+			title: '確定刪除？',
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#5cb85c',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '確定',
+			cancelButtonText: '取消',
+		})
+		.then( async (result)	=>{
+			// console.log(result);
+			if(result){
+                try {
+                    loading.start();
+                    const response = await student.teacherDeleteItem({
+                        student_id: _id,
+                        dept_id: _dept_id,
+                        // type_id: $(this).attr('data-type'),
+                        token: _token,
+                        filename: $(this).attr('data-filename')
+                    });
+                    if (!response.ok) {
+                        throw response;
+                    }
+                    _verify();
+                    $('.img-modal').modal('hide');
+                    loading.complete();
+                } catch(e) {
+                    e.json && e.json().then((data) => {
+                        console.error(data);
+                        swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+                    });
+                    loading.complete();
+                }				
+			} else { //取消
+				return;
+			}
+		});
     }
 
     // 轉換一些敏感符號避免 XSS

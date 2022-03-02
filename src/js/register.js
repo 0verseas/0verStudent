@@ -90,17 +90,17 @@
 		const passConfirm = $passwordConfirm.val();
 
 		if (!_emailValid) {
-			alert('信箱格式錯誤。');
+			swal({title:`信箱格式錯誤。`, confirmButtonText:'確定', type:'warning'});
 			return;
 		}
 
 		if (!_passwordComplex){
-			alert('密碼複雜度不足');
+			swal({title:`密碼複雜度不足`, confirmButtonText:'確定', type:'warning'});
 			return;
 		}
 
 		if (!_passValid) {
-			alert('密碼格式錯誤，或「確認密碼」與「密碼」內容不符。');
+			swal({title:`密碼格式錯誤，或「確認密碼」與「密碼」內容不符。`, confirmButtonText:'確定', type:'warning'});
 			return;
 		}
 		let data = {
@@ -126,19 +126,22 @@
 				})
 				.then((json) => {
 					// console.log(json);
-					location.href="./qualify.html";
-					loading.complete();
+					swal({title: `註冊成功。`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						loading.complete();
+						location.href="./qualify.html";
+					});
 				})
 				.catch((err) => {
 					if (err.status === 429){  // 註冊太多次啦 Too Many Requests
 						err.json && err.json().then((data) => {
 							console.error(data);
-							alert('註冊次數過多！請稍後再試。');
+							swal({title:`註冊次數過多！請稍後再試。`, confirmButtonText:'確定', type:'warning'});
 						})
 					} else {
 						err.json && err.json().then((data) => {
 							console.error(data);
-							alert(`ERROR: \n${data.messages[0]}`);
+							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						})
 					}
 					loading.complete();

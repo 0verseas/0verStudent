@@ -41,8 +41,10 @@
 			const progressJson = await progressResponse.json();
 
 			if(!progressJson.student_personal_data){
-				alert('請先完成個人基本資料填寫！')
-				location.href = "./personalInfo.html";
+				swal({title:`請先完成個人基本資料填寫！`, confirmButtonText:'確定', type:'warning'})
+				.then(()=>{
+					location.href = "./personalInfo.html";
+				});
 			}
 
 			_systemId = progressJson.student_qualification_verify.system_id;
@@ -182,17 +184,25 @@
 			loading.complete();
 		} catch(e) {
 			if (e.status && e.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
 			} else if (e.status && e.status === 403) {
 				e.json && e.json().then((data) => {
-					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
-					window.history.back();
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						if(window.history.length>1){
+							window.history.back();
+						} else {
+							location.href = "./personalInfo.html";
+						}
+					});
 				})
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 			}
 			loading.complete();

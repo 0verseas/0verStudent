@@ -61,11 +61,13 @@
 	*/
 
 	async function _init() {
-		try {
-			const response = await student.getAdmissionCountDetail();
-			if (!response.ok) { throw response; }
-			const detailJson = await response.json();
+		const response = await student.getAdmissionCountDetail();
+		const detailJson = await response.json();
 
+		if (!response.ok){
+			console.error(detailJson);
+			await swal({title:`ERROR`, text: detailJson.messages[0], confirmButtonText:'確定', type:'error'});
+		} else {
 			// init render data-type
 			let dataTypeHTML = '';
 			_keyNameMapping.forEach(value => {
@@ -74,8 +76,8 @@
 				<label for="cb-${value.key}">${value.name}</label>
 				`
 			});
-			$dataType.html(dataTypeHTML);
-			$('#data-type :checkbox').change(_handleChecked);
+			await $dataType.html(dataTypeHTML);
+			await $('#data-type :checkbox').change(_handleChecked);
 
 			// 在一開始就先算好每個欄位在每個日期的總和。如此未來可以因應要設定日期區間的需求，並防止多次計算的問題。
 			// 總和暫存
@@ -93,7 +95,7 @@
 			// 	},
 			// 	...
 			// ]
-			_sumTable = detailJson.map(jsonVal => {
+			_sumTable = await detailJson.map(jsonVal => {
 				let returnObj = {};
 				returnObj["Date"] = jsonVal.Date;
 				_keyNameMapping.forEach(mappingVal => {
@@ -105,14 +107,9 @@
 			});
 
 			_reRenderTbody();
-			loading.complete();
-		} catch(e) {
-			e.json && e.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-			});
-			loading.complete();
 		}
+		await loading.complete();
+		
 	}
 
 	function _handleChecked() {
@@ -183,6 +180,8 @@
 		}
 		$countThead.html(theadHTML);
 		$countTbody.html(tbodyHTML);
+
+		return;
 	}
 
 	function _drawChart() {

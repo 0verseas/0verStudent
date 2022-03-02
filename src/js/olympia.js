@@ -5,7 +5,7 @@
 	*/
 
 	// 是否有奧林匹亞獎項
-	let _hasOlympia = 0;
+	let _hasOlympia = null;
 
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
 	let _optionalWish = []; // 剩餘可選志願
@@ -92,17 +92,25 @@
 			loading.complete();
 		} catch (e) {
 			if (e.status && e.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
 			} else if (e.status && e.status === 403) {
 				e.json && e.json().then(data => {
-					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
-					window.history.back();
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						if(window.history.length>1){
+							window.history.back();
+						} else {
+							location.href = "./personalInfo.html";
+						}
+					});
 				});
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 			}
 			loading.complete();
@@ -132,7 +140,7 @@
 			_generateOptionalWish(pageNum);
 			_generateWishList();
 		} else {
-			alert('志願數量已達上限。');
+			swal({title:`志願數量已達上限。`, confirmButtonText:'確定', type:'warning'});
 		}
 	}
 
@@ -318,21 +326,23 @@
 				})
 				.then((json) => {
 					// console.log(json);
-					alert('儲存成功');
-					window.location.reload();
+					swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						window.location.reload();
+					});
 					loading.complete();
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {
 						console.error(data);
-						alert(`ERROR: \n${data.messages[0]}`);
+						swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 					});
 					loading.complete();
 				})
 			} else {
-				alert('沒有選擇志願。');
+				swal({title:`沒有選擇志願。`, confirmButtonText:'確定', type:'warning'});
 			}
-		} else {
+		} else if(_hasOlympia === 0){
 			const data = {
 				has_olympia_aspiration: _hasOlympia,
 			};
@@ -347,17 +357,21 @@
 			})
 			.then((json) => {
 				// console.log(json);
-				alert('儲存成功');
-				window.location.reload();
+				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					window.location.reload();
+				});
 				loading.complete();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				});
 				loading.complete();
 			})
+		} else {
+			swal({title:`請選擇是或否`, confirmButtonText:'確定', type:'warning'});
 		}
 	}
 

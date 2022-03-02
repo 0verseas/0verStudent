@@ -68,7 +68,7 @@
                 } else {
                     err.json && err.json().then((data) => {
                         console.error(data);
-                        alert(`ERROR: \n${data.messages[0]}`);
+                        swal({title:`ERROR`, text: data.messages[0], confirmButtonText:'確定', type:'error'});
                     })
                 }
                 loading.complete();

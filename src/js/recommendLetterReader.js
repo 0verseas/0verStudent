@@ -86,7 +86,7 @@
             e.json && e.json().then((data) => {
                 console.error(data);
 
-                alert(`${data.messages[0]}`);
+                swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 
                 // 如果還沒鎖定的話導回去上傳畫面
                 /*setTimeout(() => {
@@ -160,7 +160,7 @@
         //看副檔名是否在可接受名單
         fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')).toLowerCase();  // 副檔名通通轉小寫
         if (extension.indexOf(fileExtension) < 0) {
-            alert("非可接受的檔案類型，可接受的副檔名有：" + extension.toString());
+            swal({title: `非可接受的檔案類型`, text: "可接受的副檔名有："+extension.toString(), type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             selectfile.value = null;
             return false;
         } else {

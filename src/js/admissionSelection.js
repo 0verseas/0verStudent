@@ -173,18 +173,26 @@
 			loading.complete();
 		} catch (e) {
 			if (e.status && e.status === 401) {
-				alert('請登入。');
-				location.href = "./index.html";
-			} else if (e.status && e.status === 403) {
+				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					location.href = "./index.html";
+				});
+			} else if (e.status && (e.status === 403 || e.status === 503)) {
 				// 是否有完成資格驗證在 navbar.js 已經有判斷。
 				e.json && e.json().then((data) => {
-					alert(`ERROR: \n${data.messages[0]}\n` + '即將返回上一頁');
-					window.history.back();
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						if(window.history.length>1){
+							window.history.back();
+						} else {
+							location.href = "./personalInfo.html";
+						}
+					});
 				})
 			} else {
 				e.json && e.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 			}
 			loading.complete();
@@ -215,7 +223,7 @@
 			_generateOptionalWish(pageNum);
 			_generateWishList();
 		} else {
-			alert('志願數量已達上限。');
+			swal({title: `志願數量已達上限。`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 		}
 	}
 
@@ -418,12 +426,14 @@
 						// console.log(json);
 					}).catch((err) => {
 						if (err.status && err.status === 401) {
-							alert('請登入。');
-							location.href = "./index.html";
+							swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+							.then(()=>{
+								location.href = "./index.html";
+							});
 						}
 						err.json && err.json().then((data) => {
 							console.error(data.messages[0]);
-							alert(data.messages[0]);
+							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						});
 						loading.complete();
 					});
@@ -443,12 +453,14 @@
 							// console.log(json);
 						}).catch((err) => {
 							if (err.status && err.status === 401) {
-								alert('請登入。');
-								location.href = "./index.html";
+								swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+								.then(()=>{
+									location.href = "./index.html";
+								});
 							}
 							err.json && err.json().then((data) => {
 								console.error(data.messages[0]);
-								alert(data.messages[0]);
+								swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 							});
 							loading.complete();
 						});
@@ -464,19 +476,21 @@
 					}
 				})
 				.then((json) => {
-					alert("儲存成功");
-					window.location.reload();
+					swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+					.then(()=>{
+						window.location.reload();
+					});
 					loading.complete();
 				})
 				.catch((err) => {
 					err.json && err.json().then((data) => {
 						console.error(data);
-						alert(`ERROR: \n${data.messages[0]}`);
+						swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 					})
 					loading.complete();
 				})
 			} else {
-				alert('沒有選擇志願。');
+				swal({title: `沒有選擇志願。`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 			}
 		} else {
 			const data = {
@@ -493,14 +507,16 @@
 				}
 			})
 			.then((json) => {
-				alert("儲存成功");
-				window.location.reload();
+				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					window.location.reload();
+				});
 				loading.complete();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				})
 				loading.complete();
 			})
@@ -510,11 +526,23 @@
 	// 是否要流至聯合分發的 checkbox 改變
 	function joinPlacementChange() {
 		if(!$notJoinPlacement.prop('checked')){  // 沒勾選
-			if(confirm("未勾選者，將視同放棄「聯合分發」管道，且無法選填「聯合分發」志願。\n如欲參加聯合分發請按「確定」鍵！")){  // 確定
-				$notJoinPlacement.prop('checked', true);  // 幫學生勾回去
-			} else {  // 取消
-				return;
-			}
+			swal({
+				title: '未勾選者，將視同放棄報名「聯合分發」管道，且無法選填「聯合分發」志願。<br/>如欲參加聯合分發請按「確定」鍵！',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#5cb85c',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '確定',
+				cancelButtonText: '取消',
+			})
+			.then( (result)	=>{
+				//console.log(result);
+				if(result){
+					$notJoinPlacement.prop('checked', true);  // 幫學生勾回去
+				} else { //取消
+					return;
+				}
+			});
 		}
 	}
 

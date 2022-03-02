@@ -33,11 +33,14 @@
 			}
 			student.sendResetPassword(data)
 			.then(() => {
-				alert('信件已送出，請至信箱確認。');
-				location.href = './index.html';
+				swal({title: `信件已送出，請至信箱確認。`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					loading.complete();
+					location.href="./index.html";
+				});
 			})
 		} else {
-			alert('信箱格式錯誤');
+			swal({title:`信箱格式錯誤`, confirmButtonText:'確定', type:'warning'});
 		}
 	}
 
