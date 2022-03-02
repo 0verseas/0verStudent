@@ -16,6 +16,9 @@ services:
     volumes:
       - ./app/dist/:/usr/share/nginx/html/
 
+    networks:
+      - 0versea
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.entrypoints=websecure"
