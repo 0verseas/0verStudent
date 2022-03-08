@@ -336,27 +336,29 @@
         $identityInTaiwanDescription.hide();
         $('.identity-option-overseas').show();
         $('.identity-option-inTaiwan').show();
-        // 海外居留選項跟警示訊息都預設是開啟的
-        $alertStayLimitWarning.show();
-        $stayLimitOption4.show();
-        $stayLimitOption5.show();
+        // 海外居留選項跟警示訊息都預設是隱藏 選項三文字預設是非學士班身份別文字
+        $stayLimitOption4.hide();
+        $stayLimitOption5.hide();
+        $alertStayLimitWarning.hide();
+        $stayLimitOption3Text.text(`報名時已滿六年`)
         // 根據學制要顯示與隱藏不同的物件
         switch(choosenSystem){
             case '1':
                 $identityOverseasDescription.show();
                 $('.identity-option-inTaiwan').hide();
+                $stayLimitOption3Text.text(`報名時已滿六年，但未滿八年`)
+                $stayLimitOption4.show();
+                $stayLimitOption5.show();
+                $alertStayLimitWarning.show();
                 break;
             case '2':
                 $('.identity-option-overseas').hide();
                 $('.identity-option-inTaiwan').hide();
+                break;
             case '3':
             case '4':
-                $stayLimitOption3Text.text(`報名時已滿六年`)
-                $stayLimitOption4.hide();
-                $stayLimitOption5.hide();
                 $identityOverseasDescription.show();
                 $identityInTaiwanDescription.show();
-                $alertStayLimitWarning.hide();
                 break;
         }
         // 顯示身份別選項區域
