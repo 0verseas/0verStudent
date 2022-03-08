@@ -1046,8 +1046,8 @@
                 await swal({title: `海外居留年限選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
-            // 如果沒有值 或是 原本選了 4 or 5 切到碩博沒有重選
-            if(!choosenStayLimit || (choosenSystem > 2 && choosenStayLimit > 3)){
+            // 如果沒有值 或是 原本選了 4 or 5 切到碩博二技沒有重選
+            if(!choosenStayLimit || (choosenSystem > 1 && choosenStayLimit > 3)){
                 await swal({title: `請選擇海外居留年限選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
