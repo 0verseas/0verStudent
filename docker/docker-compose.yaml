@@ -16,8 +16,11 @@ services:
     volumes:
       - ./app/dist/:/usr/share/nginx/html/
 
+    networks:
+      - 0versea
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls.certresolver=lets-encr"
-      - "traefik.http.routers.nginx.rule=Host(`test.overseas.imoncloud.com`)"
+      - "traefik.http.routers.nginx.rule=Host(`frontend.overseas.imoncloud.com`)"
