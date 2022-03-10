@@ -43,7 +43,7 @@
             $downloadLinks.append(
             	// '<a href="' + env.baseUrl + '/forms/2019志願選填說明書(香港DSE、CEE、ALE學生適用)_2.pdf" target="_blank" class="list-group-item list-group-item-action">2019志願選填說明書(香港DSE、CEE、ALE學生適用)</a>' +
 				'<a href="' + env.baseUrl + '/forms/香港各會考文憑成績核計方式及分數換算對照表.pdf" target="_blank" class="list-group-item list-group-item-action">香港各會考文憑成績核計方式及分數換算對照表</a>\n' +
-                '<a href="https://drive.google.com/file/d/1r46gAX82HCFd5j2v_v8xtfa5q3Oy0Frj/view?usp=sharing" target="_blank" class="list-group-item list-group-item-action">放棄聯合分發聲明書（香港專用）</a>\n' +
+                '<a href="' + env.baseUrl + '/hk-quit-admission-placement-declaration-form" target="_blank" class="list-group-item list-group-item-action">放棄聯合分發聲明書（香港專用）</a>\n' +
                 '<a href="http://get.adobe.com/tw/reader/" target="_blank" class="list-group-item list-group-item-action">觀看中文PDF軟體</a>\n' +
                 '<a href="http://www.7-zip.org/" target="_blank" class="list-group-item list-group-item-action">解壓縮軟體</a>\n' +
                 '<a href="' + env.baseUrl + '/admission-data-correction-form" target="_blank" class="list-group-item list-group-item-action">報名資料修正表</a>\n' +
