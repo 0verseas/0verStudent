@@ -2,3 +2,6 @@
 	padding: 40px;
 	font-size: 30px;
 }
+li {
+	list-style-position: inside;
+}
