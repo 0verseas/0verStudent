@@ -446,9 +446,12 @@
 				if(res.status == 401){
 					swal({title: "請重新登入", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 				} else {
-					res.json && res.json().then((data) => {
+					res.json && res.json().then(async (data) => {
 						console.error(data);
-						swal({title: `Error: ${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+						await swal({title: `Error: ${data.messages[0]}`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+						if(data.messages[0] === '已經完成付款'){
+							window.location.reload();
+						}
 					})
 				}
 			});
