@@ -34,7 +34,7 @@
 			const registrationData = await registrationDataResponse.json();
 
 			// 在香港的同學，需要辦理核驗
-			if( personalData.resident_location === '113' && registrationData.student_qualification_verify.identity < 3 ){
+			if( personalData.student_personal_data.resident_location === '113' && registrationData.student_qualification_verify.identity < 3 ){
 				$('#alert-hk-order').show();
 				await $alertPrint.html(`「已鎖定並確認填報資料」後，系統將產生申請表供申請人留存，無須繳交。`);
 				await $alertCorrect.html(`如需再修改個人基本資料（不含志願），請填寫「<a href="https://www.surveycake.com/s/YDnoK" target="_blank">資料修正表</a>」或是重新註冊新的帳號（惟報名費一經繳交，概不退還）。`);
@@ -46,7 +46,7 @@
 			}
 
 			if ((registrationData.student_qualification_verify.system_id === 1 || registrationData.student_qualification_verify.system_id === 2)
-				&& (personalData.resident_location === '127')) { // 僑居地在澳門的學士班學生都要看到這兩行資訊
+				&& (personalData.student_personal_data.resident_location === '127')) { // 僑居地在澳門的學士班學生都要看到這兩行資訊
 				await $('#alert-cost').show();
 				await $('.alert-downloadMoFile').show();
 				await $('.makao-schoo-list').text(`${env.year} 團體報名學校名單`);
@@ -62,7 +62,7 @@
 				if ( (registrationData.student_qualification_verify.system_id === 3 || registrationData.student_qualification_verify.system_id === 4)
 				&& registrationData.student_qualification_verify.identity > 3 && registrationData.student_qualification_verify.identity < 6) {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。</li>`;
-				} else if( personalData.resident_location === '113' && registrationData.student_qualification_verify.identity < 3 ) {
+				} else if( personalData.student_personal_data.resident_location === '113' && registrationData.student_qualification_verify.identity < 3 ) {
 					listHtml = `<li>請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。</li>`;
 				} else {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交至受理報名單位。</li>`;
