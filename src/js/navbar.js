@@ -597,9 +597,20 @@
 			$printDistribution.show();
 			$('#printDistributionAlert').show();
 			$printDistribution.on('click', _printDistribution);
+			if(json.student_personal_data_detail.resident_location == '澳門'){
+				$('.btn-macauNotice').show();
+				let url = '';
+				if(json.student_qualification_verify.identity == 1){
+					url = 'https://drive.google.com/file/d/1sSfHILk1XPvhYkj4-AdDG3GoS8mSLKOM/view?usp=sharing';
+				} else {
+					url = 'https://drive.google.com/file/d/1zZLVppisJI1H9avl1dCAai11QbWDiLqx/view?usp=sharing';
+				}
+				$('.btn-macauNotice').on('click', function(){window.open(url)});
+			}
 		} else {
 			$printDistribution.hide();
 			$('#printDistributionAlert').hide();
+			$('.btn-macauNotice').hide();
 		}
 	}
 
