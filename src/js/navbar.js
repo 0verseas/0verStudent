@@ -590,6 +590,7 @@
 	}
 
 	function _checkPrintDistribution(json) {
+		$('.btn-noticeForHKMO').hide();
 		// 若有地區列印分發通知書限制，再加條件
 		if( json.student_misc_data.stage_of_admit != null && json.student_misc_data.stage_of_deptid != null &&
 			(json.student_personal_data_detail.resident_location == '香港' || json.student_personal_data_detail.resident_location == '澳門')
@@ -597,8 +598,8 @@
 			$printDistribution.show();
 			$('#printDistributionAlert').show();
 			$printDistribution.on('click', _printDistribution);
-			$('.btn-noticeForHKMO').show();
 			if(json.student_personal_data_detail.resident_location == '澳門'){
+				$('.btn-noticeForHKMO').show();
 				$('.btn-noticeForHKMO').text('澳門學生入境注意事項');
 				let url = '';
 				if(json.student_qualification_verify.system_id == 1){
@@ -615,18 +616,10 @@
 					}
 				}
 				$('.btn-noticeForHKMO').on('click', function(){window.open(url)});
-			} else {
-				$('.btn-noticeForHKMO').text('香港研究所學生入境注意事項');
-				if(json.student_qualification_verify.system_id > 2){
-					$('.btn-noticeForHKMO').on('click', function(){window.open('https://drive.google.com/file/d/1AcIdG3tt6BgwtKdGH7nmoiI-HBELD_sF/view')});
-				} else {
-					$('.btn-noticeForHKMO').hide();
-				}
 			}
 		} else {
 			$printDistribution.hide();
 			$('#printDistributionAlert').hide();
-			$('.btn-noticeForHKMO').hide();
 		}
 	}
 
