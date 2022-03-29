@@ -597,20 +597,36 @@
 			$printDistribution.show();
 			$('#printDistributionAlert').show();
 			$printDistribution.on('click', _printDistribution);
+			$('.btn-noticeForHKMO').show();
 			if(json.student_personal_data_detail.resident_location == '澳門'){
-				$('.btn-macauNotice').show();
+				$('.btn-noticeForHKMO').text('澳門學生入境注意事項');
 				let url = '';
-				if(json.student_qualification_verify.identity == 1){
-					url = 'https://drive.google.com/file/d/1sSfHILk1XPvhYkj4-AdDG3GoS8mSLKOM/view?usp=sharing';
+				if(json.student_qualification_verify.system_id == 1){
+					if(json.student_qualification_verify.identity == 1){
+						url = 'https://drive.google.com/file/d/1sSfHILk1XPvhYkj4-AdDG3GoS8mSLKOM/view?usp=sharing';
+					} else {
+						url = 'https://drive.google.com/file/d/1zZLVppisJI1H9avl1dCAai11QbWDiLqx/view?usp=sharing';
+					}
 				} else {
-					url = 'https://drive.google.com/file/d/1zZLVppisJI1H9avl1dCAai11QbWDiLqx/view?usp=sharing';
+					if(json.student_qualification_verify.identity == 1){
+						url = 'https://drive.google.com/file/d/1bRkMGVDJ3d2rcHDKSV8GTRVRlCrnWLYZ/view';
+					} else {
+						url = 'https://drive.google.com/file/d/1Bffoqt0D8_FfETP8kQUlcJxvQDvWTadP/view';
+					}
 				}
-				$('.btn-macauNotice').on('click', function(){window.open(url)});
+				$('.btn-noticeForHKMO').on('click', function(){window.open(url)});
+			} else {
+				$('.btn-noticeForHKMO').text('香港研究所學生入境注意事項');
+				if(json.student_qualification_verify.system_id > 2){
+					$('.btn-noticeForHKMO').on('click', function(){window.open('https://drive.google.com/file/d/1AcIdG3tt6BgwtKdGH7nmoiI-HBELD_sF/view')});
+				} else {
+					$('.btn-noticeForHKMO').hide();
+				}
 			}
 		} else {
 			$printDistribution.hide();
 			$('#printDistributionAlert').hide();
-			$('.btn-macauNotice').hide();
+			$('.btn-noticeForHKMO').hide();
 		}
 	}
 
