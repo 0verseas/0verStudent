@@ -1,4 +1,10 @@
 version: '3'
+
+networks:
+  0versea:
+    external: true
+    name: 0versea
+
 services:
   nginx:
     image: nginx:alpine
@@ -9,3 +15,12 @@ services:
       - TZ=Asia/Taipei
     volumes:
       - ./app/dist/:/usr/share/nginx/html/
+
+    networks:
+      - 0versea
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx.entrypoints=websecure"
+      - "traefik.http.routers.nginx.tls.certresolver=lets-encr"
+      - "traefik.http.routers.nginx.rule=Host(`frontend.overseas.imoncloud.com`)"
