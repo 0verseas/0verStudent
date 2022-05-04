@@ -232,11 +232,13 @@
 			$('.olympia-deadline').show();
 			$('.nav-olympia').addClass('disabled');
 			$('.nav-olympia').click(function(e){e.preventDefault();});
+			$('.nav-olympia').attr("href", '');
 		}
 
 		if(data.student_qualification_verify.identity>5){
 			$('.nav-qualify').addClass('disabled');
 			$('.nav-qualify').click(function(e){e.preventDefault();});
+			$('.nav-qualify').attr("href", '');
 			$('.overseas-student-tip').show();
 		}
 
@@ -257,15 +259,18 @@
 			// 學生沒有填個人資料時，「個人申請志願」出現提示訊息（請先填寫個人基本資料）
 			$('.nav-admissionSelection').addClass('disabled');
 			$('.nav-admissionSelection').addClass('show-personal-info-first');
+			$('.nav-admissionSelection').attr("href", '');
 			$('.nav-admissionSelection').click(function(e){e.preventDefault();});
 			$('.nav-result').addClass('disabled');
 			$('.nav-result').addClass('show-personal-info-first');
 			$('.nav-result').click(function(e){e.preventDefault();});
+			$('.nav-result').attr("href", '');
 		} else {
 			// 學生有填個人資料，但沒有在可報名期間內時，「個人申請志願」出現提示訊息（個人申請已截止）
 			if (!data.can_admission_selection) {
 				$('.nav-admissionSelection').addClass('disabled');
 				$('.nav-admissionSelection').addClass('show-deadline');
+				$('.nav-admissionSelection').attr("href", '');
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
 			}
 			// 僑居地是香港的，因為沒有海華幫忙收件了，要開上傳身份證件區，要線上繳交報名費用 
@@ -306,6 +311,7 @@
 			$('.nav-placementSelection').addClass('disabled');
 			$('.nav-placementSelection').addClass('show-grade-first');
 			$('.nav-placementSelection').click(function(e){e.preventDefault();});
+			$('.nav-placementSelection').attr("href", '');
 		} else {
 			// 學生有填聯合分發採計方式，但沒有在聯合分發期間期間時，「聯合分發志願」出現提示訊息（聯合分發已截止）
 			if( data.student_misc_data.admission_placement_apply_way_data.code == '18' ||
@@ -314,6 +320,7 @@
 						$('.nav-placementSelection').addClass('list-group-item-success');
 						$('.nav-placementSelection').addClass('disabled');
 						$('.nav-placementSelection').click(function(e){e.preventDefault();});
+						$('.nav-placementSelection').attr("href", '');
 						$('.nav-placementSelection').addClass('show-placement-deadline');
 						$('#placement-deadline-text').text('(目前無須填寫志願)');
 					}
@@ -331,13 +338,16 @@
 						$('.nav-placementSelection').addClass('show-placement-deadline');
 						$('#placement-deadline-text').text('(目前為報名階段，無須填寫志願)');
 						$('.nav-placementSelection').click(function(e){e.preventDefault();});
+						$('.nav-placementSelection').attr("href", '');
 					}else if((data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null || data.student_misc_data.overseas_student_id == null)){
 						$('.nav-placementSelection').addClass('disabled');
 						$('.nav-placementSelection').click(function(e){e.preventDefault();});
+						$('.nav-placementSelection').attr("href", '');
 						$('.nav-placementSelection').addClass('show-no-qualified');
 					}
 				} else { //完成填報前 聯合分發志願 sidebar 直接顯示為綠色打勾狀態
 					$('.nav-placementSelection').addClass('list-group-item-success');
+					$('.nav-placementSelection').attr("href", '');
 				}
 			}
 			else {
@@ -345,13 +355,14 @@
 					$('.nav-placementSelection').addClass('disabled');
 					$('.nav-placementSelection').addClass('show-placement-deadline');
 					$('.nav-placementSelection').click(function(e){e.preventDefault();});
+					$('.nav-placementSelection').attr("href", '');
 				}
 			}
 
 		}
 
 		// 沒有完成提交且不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
-		(!data.can_upload_papers && (data.student_misc_data.admission_selection_document_lock_at == null)) && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();});
+		(!data.can_upload_papers && (data.student_misc_data.admission_selection_document_lock_at == null)) && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();}) && $('.nav-uploadReviewItems').attr("href", '');
 
 		//僑先部個申後填志願同學，在確認鎖定志願之前，不能印報名表件
 		if((data.student_qualification_verify.identity === 6 && data.student_misc_data.join_admission_selection === 1 &&
@@ -369,6 +380,7 @@
 			$('.nav-lalalalalala').addClass('disabled');
 			$('.nav-lalalalalala').addClass('show-deadline');
 			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
+			$('.nav-lalalalalala').attr("href", '');
 		}
 
 		// 澳門上傳四校聯考成績單  採計方式代碼代訂
