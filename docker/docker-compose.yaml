@@ -1,6 +1,12 @@
-version: '3'
+version: '3.7'
+
+networks:
+  bridge:
+    external:
+      name: ${NETWORKS}
+
 services:
-  nginx:
+  student:
     image: nginx:alpine
     container_name: 0verStudent
     restart: unless-stopped
@@ -9,3 +15,10 @@ services:
       - TZ=Asia/Taipei
     volumes:
       - ./app/dist/:/usr/share/nginx/html/
+    networks:
+      - bridge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.student-web.entrypoints=localwebdev"
+#      - "traefik.http.routers.student-web.tls.certresolver=lets-encr"
+      - "traefik.http.routers.student-web.rule=Host(`localhost`)"
