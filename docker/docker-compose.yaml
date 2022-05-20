@@ -19,6 +19,6 @@ services:
       - bridge
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.student-web.entrypoints=localwebdev"
-#      - "traefik.http.routers.student-web.tls.certresolver=lets-encr"
-      - "traefik.http.routers.student-web.rule=Host(`localhost`)"
+      - "traefik.http.routers.student-web.entrypoints=websecure"
+      - "traefik.http.routers.student-web.tls.certresolver=lets-encr"
+      - "traefik.http.routers.student-web.rule=Host(``)"
