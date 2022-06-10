@@ -35,6 +35,7 @@
 	const $confirmedBtn = $('#btn-confirmed');
 	const $secondConfirm = $('#secondConfirm');
 	const $notToFFInfo = $('#not-to-FF');  // 提醒目前是不分發僑先部狀態的 alert
+	const $notToFFLink = $('#not-to-FF-link');// 
 	const $deptMoreInfoUrl = $('#btn-info'); // 系所資料 連結至名額查詢系統
 
 	/**
@@ -181,6 +182,7 @@
 					(data.student_misc_data.admission_placement_apply_way_data.code == "23" &&
 					data.student_misc_data.confirmed_at != null &&
                     data.student_misc_data.confirmed_placement_at === null) ) {
+					$notToFFLink.hide(); // 後填的人不能修改了 就隱藏修改的提示文字與連結
 					$('#div-btn-confirmed').show();
 					_checkconfirm(data);
 				}
