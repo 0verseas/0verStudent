@@ -168,6 +168,10 @@
 				}
 			})
 			.then((data) => {
+				// 後填的人不能修改了 隱藏修改的提示文字與連結
+				if(data.student_misc_data.confirmed_at != null){
+					$notToFFLink.hide();
+				}
 				if (  // 僑先部個人申請未獲錄取算後填
 					(data.student_qualification_verify.identity === 6 &&
 					data.student_misc_data.confirmed_at != null &&
@@ -182,7 +186,6 @@
 					(data.student_misc_data.admission_placement_apply_way_data.code == "23" &&
 					data.student_misc_data.confirmed_at != null &&
                     data.student_misc_data.confirmed_placement_at === null) ) {
-					$notToFFLink.hide(); // 後填的人不能修改了 就隱藏修改的提示文字與連結
 					$('#div-btn-confirmed').show();
 					_checkconfirm(data);
 				}
