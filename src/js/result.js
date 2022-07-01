@@ -55,8 +55,10 @@
 				_hasPlacement = !!progressJson.student_department_admission_placement_apply_way ;
 			} else if (_systemId === 2) {
 				_hasAdmission = !!progressJson.student_two_year_tech_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
-			} else {
+			} else if (_systemId === 3 || _systemId === 4) {
 				_hasAdmission = !!progressJson.student_graduate_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
+			} else {
+				_hasAdmission = !!progressJson.student_young_associate_department_admission_selection_order && +progressJson.student_misc_data.join_admission_selection === 1;
 			}
 
 			if (!_hasOlympia && !_hasAdmission && !_hasPlacement) {
@@ -66,7 +68,8 @@
 				"student_department_admission_selection_order",
 				"student_two_year_tech_department_admission_selection_order",
 				"student_graduate_department_admission_selection_order",
-				"student_graduate_department_admission_selection_order"
+				"student_graduate_department_admission_selection_order",
+				"student_young_associate_department_admission_selection_order"
 				];
 				
 				if (_systemId === 1) { // 學士班，三種都有可能
@@ -137,6 +140,29 @@
 							$placementForm.show();
 						}
 					}
+				} else if (_systemId === 5) {
+				    if (_hasAdmission) {
+						const url = '/students/admission-selection-order';
+					    const admissionResponse = await student.getOrderResultList(url);
+					    if (!admissionResponse.ok) { throw admissionResponse; }
+
+					    const admissionJson = await admissionResponse.json();
+					    const admissionList = admissionJson[admissionKey[(_systemId - 1)]];
+					    let admissionHTML = '';
+					    admissionList.forEach((val, index) => {
+					    	let showId = (_systemId === 5) ? val.department_data.card_code : val.dept_id;
+					    	admissionHTML += `
+					    	<tr>
+					    	<td>` + val.order + `</td>
+					    	<td>` + showId + `</td>
+					    	<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+					    	</tr>
+					    	`
+					    });
+					    $admissionTbody.html(admissionHTML);
+					    $admissionForm.show();
+					}
+					
 				} else { // 其他學制，只需判斷個人申請
 					if (_hasAdmission) {
 						const url = '/students/admission-selection-order';
@@ -146,7 +172,6 @@
 						const admissionList = admissionJson[admissionKey[(_systemId - 1)]];
 						let admissionHTML = '';
 						admissionList.forEach((val, index) => {
-							let showId = (_systemId === 1) ? val.department_data.card_code : val.dept_id;
 							admissionHTML += `
 							<tr>
 							<td>` + val.order + `</td>
@@ -178,8 +203,12 @@
 				$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
 			}
 			
-			if (_systemId !== 1) {
+			if (_systemId !== 1 && _systemId !== 5) {
 				$previewDataDiv.remove();
+			} else {
+				if (_systemId == 5) {
+					$('#block-previewPlacementList').hide();
+				}
 			}
 			loading.complete();
 		} catch(e) {

@@ -209,6 +209,8 @@
 	function _setProgress(data) {
 		//console.log(data);
 		// 資格驗證
+		$('.nav-admissionSelection').show();
+		$('.nav-admissionYoungAssociateSelection').hide();
 		if (!!data.student_qualification_verify) {
 			$('.nav-qualify').addClass('list-group-item-success');
 			const systemID = data.student_qualification_verify.system_id;
@@ -218,6 +220,11 @@
 		}
 		// 不得參加個人申請
 		+data.student_misc_data.join_admission_selection === 2 && $('.nav-admissionSelection').hide();
+
+		if (+data.student_qualification_verify.system_id === 5) {
+			$('.nav-admissionSelection').hide();
+			$('.nav-admissionYoungAssociateSelection').show();
+		}
 
 		// 個人基本資料
 		!!data.student_personal_data && $('.nav-personalInfo').addClass('list-group-item-success');
@@ -235,7 +242,7 @@
 			$('.nav-olympia').attr("href", '');
 		}
 
-		if(data.student_qualification_verify.identity>5){
+		if(data.student_qualification_verify.identity > 5 && data.student_qualification_verify.identity < 8){
 			$('.nav-qualify').addClass('disabled');
 			$('.nav-qualify').click(function(e){e.preventDefault();});
 			$('.nav-qualify').attr("href", '');
@@ -251,9 +258,13 @@
 		!!data.student_two_year_tech_department_admission_selection_order &&
 		$('.nav-admissionSelection').addClass('list-group-item-success');
 
-		+data.student_qualification_verify.system_id > 2 &&
+		+data.student_qualification_verify.system_id > 2 && +data.student_qualification_verify.system_id < 5
 		!!data.student_graduate_department_admission_selection_order &&
 		$('.nav-admissionSelection').addClass('list-group-item-success');
+
+		+data.student_qualification_verify.system_id === 5 &&
+		!!data.student_young_associate_department_admission_selection_order &&
+		$('.nav-admissionYoungAssociateSelection').addClass('list-group-item-success');
 
 		if (!data.student_personal_data) {
 			// 學生沒有填個人資料時，「個人申請志願」出現提示訊息（請先填寫個人基本資料）
@@ -261,6 +272,10 @@
 			$('.nav-admissionSelection').addClass('show-personal-info-first');
 			$('.nav-admissionSelection').attr("href", '');
 			$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+			$('.nav-admissionYoungAssociateSelection').addClass('disabled');
+			$('.nav-admissionYoungAssociateSelection').addClass('show-personal-info-first');
+			$('.nav-admissionYoungAssociateSelection').attr("href", '');
+			$('.nav-admissionYoungAssociateSelection').click(function(e){e.preventDefault();});
 			$('.nav-result').addClass('disabled');
 			$('.nav-result').addClass('show-personal-info-first');
 			$('.nav-result').click(function(e){e.preventDefault();});
@@ -272,6 +287,10 @@
 				$('.nav-admissionSelection').addClass('show-deadline');
 				$('.nav-admissionSelection').attr("href", '');
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
+				$('.nav-admissionYoungAssociateSelection').addClass('disabled');
+				$('.nav-admissionYoungAssociateSelection').addClass('show-deadline');
+				$('.nav-admissionYoungAssociateSelection').attr("href", '');
+				$('.nav-admissionYoungAssociateSelection').click(function(e){e.preventDefault();});
 			}
 			// 僑居地是香港的，因為沒有海華幫忙收件了，要開上傳身份證件區，要線上繳交報名費用 
 			if(data.student_personal_data_detail.resident_location == '香港' && (
@@ -409,8 +428,8 @@
 	}
 
 	function _setHeader(data) {
-		const systemMap = ['學士班', '港二技', '碩士班', '博士班'];
-		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生', '僑先部結業生', '印輔班結業生'];
+		const systemMap = ['學士班', '港二技', '碩士班', '博士班', '海青班'];
+		const identityMap = ['港澳生', '港澳具外國國籍之華裔學生', '海外僑生', '在臺港澳生', '在臺僑生', '僑先部結業生', '印輔班結業生', '海外僑生'];
 		student.setHeader({
 			system: systemMap[data.student_qualification_verify.system_id - 1],
 			identity: identityMap[data.student_qualification_verify.identity - 1],
@@ -576,7 +595,7 @@
 			$('#btn-uploadAndSubmit-hint').hide();
 		}
 
-		if (json.student_misc_data.join_admission_selection == 2) {
+		if (json.student_misc_data.join_admission_selection == 2 || json.student_qualification_verify.system_id == 5) {
             $('#btn-uploadAndSubmit').hide();
             $('#btn-uploadAndSubmit-hint').hide();
             $('.nav-uploadReviewItems').hide();

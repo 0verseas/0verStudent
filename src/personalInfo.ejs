@@ -189,7 +189,8 @@
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label for="residentPassportNo">護照號碼</label>
+						<label class="notYoung" for="residentPassportNo">護照號碼</label>
+						<label class="isYoung text-danger" for="residentPassportNo">* 護照號碼</label>
 						<input type="text" class="form-control" id="residentPassportNo" placeholder="Passport no.">
 					</div>
 				</div>
@@ -583,8 +584,8 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="dadJob">* 職業</label>
-											<input type="text" class="form-control" id="dadJob" placeholder="">
+											<label class="dadJobForm text-danger" for="dadJob" >* 職業</label>
+											<input type="text" class="dadJobForm form-control" id="dadJob" placeholder="">
 										</div>
 									</div>
 								</div>
@@ -658,8 +659,8 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="momJob">* 職業</label>
-											<input type="text" class="form-control" id="momJob" placeholder="">
+											<label class="momJobForm text-danger" for="momJob">* 職業</label>
+											<input type="text" class="momJobForm form-control" id="momJob" placeholder="">
 										</div>
 									</div>
 								</div>
@@ -750,25 +751,28 @@
 
 	<dl class="row">
 		<dt class="col-md-3">
-			在臺聯絡人<span class="text-danger">（無者免填）</span>
+			在臺聯絡人<span class="text-danger" id="twContact">（無者免填）</span>
 		</dt>
 		<dd class="col-md-9">
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="twContactName">姓名</label>
+						<label class="notYoung" for="twContactName">姓名</label>
+						<label class="isYoung text-danger" for="twContactName">* 姓名</label>
 						<input type="text" class="form-control" id="twContactName" placeholder="">
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="twContactRelation">關係</label>
+						<label class="notYoung" for="twContactRelation">關係</label>
+						<label class="isYoung text-danger" for="twContactRelation">* 關係</label>
 						<input type="text" class="form-control" id="twContactRelation" placeholder="">
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="twContactPhone">聯絡電話</label>
+						<label class="notYoung" for="twContactPhone">聯絡電話</label>
+						<label class="isYoung text-danger" for="twContactPhone">* 聯絡電話</label>
 						<input type="text" class="form-control" id="twContactPhone" placeholder="" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 					</div>
 				</div>
@@ -776,7 +780,8 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="twContactAddress">地址</label>
+						<label class="notYoung" for="twContactAddress">地址</label>
+						<label class="isYoung text-danger" for="twContactAddress">* 地址</label>
 						<input type="text" class="form-control" id="twContactAddress" placeholder="">
 					</div>
 				</div>
@@ -784,13 +789,15 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="twContactWorkplaceName">服務機關名稱</label>
+						<label class="notYoung" for="twContactWorkplaceName">服務機關名稱</label>
+						<label class="isYoung text-danger" for="twContactWorkplaceName">* 服務機關名稱</label>
 						<input type="text" class="form-control" id="twContactWorkplaceName" placeholder="">
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						<label for="twContactWorkplacePhone">服務機關電話</label>
+						<label class="notYoung" for="twContactWorkplacePhone">服務機關電話</label>
+						<label class="isYoung text-danger" for="twContactWorkplacePhone">* 服務機關電話</label>
 						<input type="text" class="form-control" id="twContactWorkplacePhone" placeholder="" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 					</div>
 				</div>
@@ -798,7 +805,8 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="twContactWorkplaceAddress">服務機關地址</label>
+						<label class="notYoung" for="twContactWorkplaceAddress">服務機關地址</label>
+						<label class="isYoung text-danger" for="twContactWorkplaceAddress">* 服務機關地址</label>
 						<input type="text" class="form-control" id="twContactWorkplaceAddress" placeholder="">
 					</div>
 				</div>

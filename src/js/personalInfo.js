@@ -117,6 +117,7 @@
     const $dadName = $('#dadName'); // 姓名（中）
     const $dadEngName = $('#dadEngName'); // 姓名（英）
     const $dadBirthday = $('#dadBirthday'); // 生日
+    const $dadJobForm = $('.dadJobForm');
     const $dadJob = $('#dadJob'); // 職業
     const $dadPhoneCode = $('#dadPhoneCode'); // 聯絡電話國碼
     const $dadPhone = $('#dadPhone'); // 聯絡電話
@@ -127,6 +128,7 @@
     const $momName = $('#momName'); // 姓名（中）
     const $momEngName = $('#momEngName'); // 姓名（英）
     const $momBirthday = $('#momBirthday'); // 生日
+    const $momJobForm = $('.momJobForm');
     const $momJob = $('#momJob'); // 職業
     const $momPhoneCode = $('#momPhoneCode'); // 聯絡電話國碼
     const $momPhone = $('#momPhone'); // 聯絡電話
@@ -141,6 +143,9 @@
     const $guardianPhone = $('#guardianPhone'); // 聯絡電話
 
     // 在臺聯絡人
+    const $young = $('.isYoung');
+    const $not_young = $('.notYoung');
+    const $twContact = $('#twContact'); // 姓名
     const $twContactName = $('#twContactName'); // 姓名
     const $twContactRelation = $('#twContactRelation'); // 關係
     const $twContactPhone = $('#twContactPhone'); // 聯絡電話
@@ -317,6 +322,7 @@
                 // $residentAddress.val(_splitWithSemicolon(formData.resident_address)[0]);
                 $residentAddress.val(formData.resident_address); // 原本僑居地地址有兩欄，如果恢復其他語言地址欄位請記得取消這邊的註解
                 $residentOtherLangAddress.val(_splitWithSemicolon(formData.resident_address)[1]);
+                $young.hide();
                 _showResidentIDExample();
 
                 // init 在臺資料
@@ -345,6 +351,11 @@
                     case 4:
                         $('#educationLevel').text('碩士學歷')
                         break;
+                    case 5: //海青班：一些欄位改爲必填
+                        $('#educationLevel').text('維持最高學歷')
+                        $twContact.text('（* 必填）'); 
+                        $young.show();
+                        $not_young.hide();
                 }
                 $schoolContinent.val(_findContinent(formData.school_country)).change();
                 $schoolCountry.val(formData.school_country);
@@ -831,8 +842,11 @@
         }
         if(_currentDadStatus === 'alive'){
             $dadPhoneForm.fadeIn();
+            $dadJobForm.fadeIn();
         } else {
             $dadPhoneForm.hide();
+            $dadJobForm.hide();
+            document.getElementById('dadJob').value="";
             document.getElementById('dadPhoneCode').value="";
             document.getElementById('dadPhone').value="";
         }
@@ -852,8 +866,11 @@
         }
         if(_currentMomStatus === 'alive'){
             $momPhoneForm.fadeIn();
+            $momJobForm.fadeIn();
         } else {
             $momPhoneForm.hide();
+            $momJobForm.hide();
+            document.getElementById('momJob').value="";
             document.getElementById('momPhoneCode').value="";
             document.getElementById('momPhone').value="";
         }
@@ -1261,12 +1278,6 @@
                 dbKey: 'resident_id',
                 colName: '僑居地身分證號碼'
             },
-            {
-                el: $residentPassportNo,
-                require: false,
-                type: 'string',
-                dbKey: 'resident_passport_no'
-            },
             { // 電話國碼，需驗證，合併在電話號碼一起送出。
                 el: $residentPhoneCode,
                 require: true,
@@ -1382,6 +1393,139 @@
                 value: _currentMomStatus,
                 dbKey: 'mom_status',
                 colName: '母親存歿'
+            }
+        ];
+
+        // 身心障礙選項
+        if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
+            formValidateList.push({ el: $otherDisabilityCategory, require: true, type: 'string', dbKey: 'disability_category', colName: '其他身心障礙類別' }, { el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level', colName: '身心障礙程度' });
+        } else if ($(".specail:checked").val() === "1") {
+            formValidateList.push({ el: $disabilityCategory, require: true, type: 'string', dbKey: 'disability_category', colName: '身心障礙類別' }, { el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level', colName: '身心障礙程度' });
+        }
+
+        // 父親不為「不詳」時增加的驗證
+        if (_currentDadStatus !== "undefined") {
+            formValidateList.push({ el: $dadName, require: true, type: 'string', dbKey: 'dad_name', colName: '父親姓名（中）' }, { el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name', colName: '父親姓名（英）' }, { el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday', colName: '父親生日' });
+        }
+
+        //父親為「存」時增加的驗證
+        if(_currentDadStatus == "alive"){
+            formValidateList.push({ el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' }, { el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + '-' + $dadPhone.val(), colName: '父親聯絡電話' }, { el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業' });
+        }
+
+        // 母親不為「不詳」時增加的驗證
+        if (_currentMomStatus !== "undefined") {
+            formValidateList.push({ el: $momName, require: true, type: 'string', dbKey: 'mom_name', colName: '母親姓名（中）' }, { el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name', colName: '母親姓名（英）' }, { el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday', colName: '母親生日' });
+        }
+
+        //母親為「存」時增加的驗證
+        if(_currentMomStatus == "alive"){
+            formValidateList.push( { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + '-' + $momPhone.val(), colName: '母親聯絡電話' }, { el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業' });
+        }
+
+        // 父母皆為「不詳」時，增加「監護人」驗證
+        if (_currentDadStatus === "undefined" && _currentMomStatus === "undefined") {
+            formValidateList.push({ el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）' }, { el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）' }, { el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日' }, { el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業' }, { el: $guardianPhoneCode, require: true, type: 'string', colName: '監護人聯絡電話國碼' }, { el: $guardianPhone, require: true, type: 'string', dbKey: 'guardian_phone', dbData: $guardianPhoneCode.val() + '-' + $guardianPhone.val(), colName: '監護人聯絡電話' });
+        }
+
+        // 有證件類型再送 ID
+        if ($taiwanIdType.val() !== "") {
+            formValidateList.push({ el: $taiwanIdNo, require: false, type: 'string', dbKey: 'taiwan_id' });
+        }
+
+        // 判斷 schoolName 要送 select 的還是 text 的
+        if (_hasSchoolLocate) {
+            formValidateList.push({ el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱' });
+        } else {
+            formValidateList.push({ el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱' });
+        }
+
+        // 學士班、港二技 需要送出學歷學制描述
+        if (_systemId === 1 || _systemId === 2) {
+            formValidateList.push({ el: $educationSystemDescription, require: true, type: 'string', dbKey: 'education_system_description', colName: '學制描述' });
+        } else {
+            formValidateList.push({ el: $educationSystemDescription, require: false, type: 'string', dbKey: 'education_system_description', dbData: '' });
+        }
+
+        // 判斷是否送主、輔修科目
+        if (_systemId === 3 || _systemId === 4) {
+            formValidateList.push({ el: $majorSubject, require: true, type: 'string', dbKey: 'major_subject', colName: '主修科目' }, { el: $minorSubject, require: false, type: 'string', dbKey: 'minor_subject' });
+        }
+
+        // 判斷是否送港二技的文憑類別與課程
+        if (_systemId === 2) {
+            let classStartAtRequire = false;
+            if(_schoolCountryId == 113){
+                classStartAtRequire = true;
+            }
+            formValidateList.push({ el: $twoYearTechDiploma, require: true, type: 'string', dbKey: 'two_year_tech_diploma', colName: '文憑類別' }, { el: $twoYearTechClassName, require: true, type: 'string', dbKey: 'two_year_tech_class_name', colName: '課程名稱' }, { el: $twoYearTechClassStart, require: classStartAtRequire, type: 'string', dbKey: 'two_year_tech_class_start', colName: '課程開始日期' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end' }, );
+        } else {
+            formValidateList.push({ el: $twoYearTechDiploma, require: false, type: 'string', dbKey: 'two_year_tech_diploma', dbData: '' }, { el: $twoYearTechClassName, require: false, type: 'string', dbKey: 'two_year_tech_class_name', dbData: '' }, { el: $twoYearTechClassStart, require: false, type: 'string', dbKey: 'two_year_tech_class_start', dbData: '' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end', dbData: '' }, );
+        }
+
+        if (_systemId === 5){  // 如果是海青班，需要檢查欄位
+            formValidateList.push({
+                el: $residentPassportNo,
+                require: true,
+                type: 'string',
+                dbKey: 'resident_passport_no',
+                colName: '僑居地護照號碼'
+            },
+            {
+                el: $twContactName,
+                require: true,
+                type: 'string',
+                dbKey: 'tw_contact_name',
+                colName: '在臺聯絡人姓名'
+            },
+            {
+                el: $twContactRelation,
+                require: true,
+                type: 'string',
+                dbKey: 'tw_contact_relation',
+                colName: '在臺聯絡人關係'
+            },
+            {
+                el: $twContactPhone,
+                require: true,
+                type: 'string',
+                dbKey: 'tw_contact_phone',
+                colName: '在臺聯絡人電話'
+            },
+            {
+                el: $twContactAddress,
+                require: true,
+                type: 'string',
+                dbKey: 'tw_contact_address',
+                colName: '在臺聯絡人地址'
+            },
+            {
+                el: $twContactWorkplaceName,
+                require: true,
+                type: 'string',
+                dbKey: 'tw_contact_workplace_name',
+                colName: '在臺聯絡人服務機關名稱'
+            },
+            {
+                el: $twContactWorkplacePhone,
+                require: true,
+                type: 'string',
+                dbKey: 'tw_contact_workplace_phone',
+                colName: '在臺聯絡人服務機關電話'
+            },
+            {
+                el: $twContactWorkplaceAddress,
+                require: true,
+                type: 'string',
+                dbKey: 'tw_contact_workplace_address',
+                colName: '在臺聯絡人服務機關地址'
+            })
+        } else {  // 如果不是是海青班，不需要檢查欄位
+            formValidateList.push({
+                el: $residentPassportNo,
+                require: false,
+                type: 'string',
+                dbKey: 'resident_passport_no'
             },
             {
                 el: $twContactName,
@@ -1424,74 +1568,7 @@
                 require: false,
                 type: 'string',
                 dbKey: 'tw_contact_workplace_address'
-            }
-        ];
-
-        // 身心障礙選項
-        if ($(".specail:checked").val() === "1" && $disabilityCategory.val() === "-1") {
-            formValidateList.push({ el: $otherDisabilityCategory, require: true, type: 'string', dbKey: 'disability_category', colName: '其他身心障礙類別' }, { el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level', colName: '身心障礙程度' });
-        } else if ($(".specail:checked").val() === "1") {
-            formValidateList.push({ el: $disabilityCategory, require: true, type: 'string', dbKey: 'disability_category', colName: '身心障礙類別' }, { el: $disabilityLevel, require: true, type: 'string', dbKey: 'disability_level', colName: '身心障礙程度' });
-        }
-
-        // 父親不為「不詳」時增加的驗證
-        if (_currentDadStatus !== "undefined") {
-            formValidateList.push({ el: $dadName, require: true, type: 'string', dbKey: 'dad_name', colName: '父親姓名（中）' }, { el: $dadEngName, require: true, type: 'string', dbKey: 'dad_eng_name', colName: '父親姓名（英）' }, { el: $dadBirthday, require: true, type: 'date', dbKey: 'dad_birthday', colName: '父親生日' }, { el: $dadJob, require: true, type: 'string', dbKey: 'dad_job', colName: '父親職業' });
-        }
-
-        //父親為「存」時增加的驗證
-        if(_currentDadStatus == "alive"){
-            formValidateList.push({ el: $dadPhoneCode, require: true, type: 'string', colName: '父親聯絡電話國碼' },{ el: $dadPhone, require: true, type: 'string', dbKey: 'dad_phone', dbData: $dadPhoneCode.val() + '-' + $dadPhone.val(), colName: '父親聯絡電話' });
-        }
-
-        // 母親不為「不詳」時增加的驗證
-        if (_currentMomStatus !== "undefined") {
-            formValidateList.push({ el: $momName, require: true, type: 'string', dbKey: 'mom_name', colName: '母親姓名（中）' }, { el: $momEngName, require: true, type: 'string', dbKey: 'mom_eng_name', colName: '母親姓名（英）' }, { el: $momBirthday, require: true, type: 'date', dbKey: 'mom_birthday', colName: '母親生日' }, { el: $momJob, require: true, type: 'string', dbKey: 'mom_job', colName: '母親職業' });
-        }
-
-        //母親為「存」時增加的驗證
-        if(_currentMomStatus == "alive"){
-            formValidateList.push( { el: $momPhoneCode, require: true, type: 'string', colName: '母親聯絡電話國碼' }, { el: $momPhone, require: true, type: 'string', dbKey: 'mom_phone', dbData: $momPhoneCode.val() + '-' + $momPhone.val(), colName: '母親聯絡電話' });
-        }
-
-        // 父母皆為「不詳」時，增加「監護人」驗證
-        if (_currentDadStatus === "undefined" && _currentMomStatus === "undefined") {
-            formValidateList.push({ el: $guardianName, require: true, type: 'string', dbKey: 'guardian_name', colName: '監護人姓名（中）' }, { el: $guardianEngName, require: true, type: 'string', dbKey: 'guardian_eng_name', colName: '監護人姓名（英）' }, { el: $guardianBirthday, require: true, type: 'date', dbKey: 'guardian_birthday', colName: '監護人生日' }, { el: $guardianJob, require: true, type: 'string', dbKey: 'guardian_job', colName: '監護人職業' }, { el: $guardianPhoneCode, require: true, type: 'string', colName: '監護人聯絡電話國碼' }, { el: $guardianPhone, require: true, type: 'string', dbKey: 'guardian_phone', dbData: $guardianPhoneCode.val() + '-' + $guardianPhone.val(), colName: '監護人聯絡電話' });
-        }
-
-        // 有證件類型再送 ID
-        if ($taiwanIdType.val() !== "") {
-            formValidateList.push({ el: $taiwanIdNo, require: false, type: 'string', dbKey: 'taiwan_id' });
-        }
-
-        // 判斷 schoolName 要送 select 的還是 text 的
-        if (_hasSchoolLocate) {
-            formValidateList.push({ el: $schoolNameSelect, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱' });
-        } else {
-            formValidateList.push({ el: $schoolNameText, require: true, type: 'string', dbKey: 'school_name', colName: '學校名稱' });
-        }
-
-        // 學士班、港二技 需要送出學歷學制描述
-        if (_systemId === 1 || _systemId === 2) {
-            formValidateList.push({ el: $educationSystemDescription, require: true, type: 'string', dbKey: 'education_system_description', colName: '學制描述' });
-        } else {
-            formValidateList.push({ el: $educationSystemDescription, require: false, type: 'string', dbKey: 'education_system_description', dbData: '' });
-        }
-
-        // 判斷是否送主、輔修科目
-        if (_systemId === 3 || _systemId === 4) {
-            formValidateList.push({ el: $majorSubject, require: true, type: 'string', dbKey: 'major_subject', colName: '主修科目' }, { el: $minorSubject, require: false, type: 'string', dbKey: 'minor_subject' });
-        }
-
-        // 判斷是否送港二技的文憑類別與課程
-        if (_systemId === 2) {
-            let classStartAtRequire = false;
-            if(_schoolCountryId == 113){
-                classStartAtRequire = true;
-            }
-            formValidateList.push({ el: $twoYearTechDiploma, require: true, type: 'string', dbKey: 'two_year_tech_diploma', colName: '文憑類別' }, { el: $twoYearTechClassName, require: true, type: 'string', dbKey: 'two_year_tech_class_name', colName: '課程名稱' }, { el: $twoYearTechClassStart, require: classStartAtRequire, type: 'string', dbKey: 'two_year_tech_class_start', colName: '課程開始日期' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end' }, );
-        } else {
-            formValidateList.push({ el: $twoYearTechDiploma, require: false, type: 'string', dbKey: 'two_year_tech_diploma', dbData: '' }, { el: $twoYearTechClassName, require: false, type: 'string', dbKey: 'two_year_tech_class_name', dbData: '' }, { el: $twoYearTechClassStart, require: false, type: 'string', dbKey: 'two_year_tech_class_start', dbData: '' }, { el: $twoYearTechClassEnd, require: false, type: 'string', dbKey: 'two_year_tech_class_end', dbData: '' }, );
+            })
         }
 
         // 香港報名學士班同學是否有副學士或高級文憑的調查
