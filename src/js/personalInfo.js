@@ -333,8 +333,11 @@
                 $taiwanAddress.val(formData.taiwan_address);
 
                 // init 學歷
-                if (_systemId === 1 || _systemId === 2) { // 學士班、港二技 需要填寫學制描述
+                if (_systemId === 1 || _systemId === 2 || _systemId === 5) { // 學士班、港二技、海青班 需要填寫學制描述
                     $educationSystemDescription.val(formData.education_system_description);
+                    if (_systemId === 5){
+                        document.getElementById("educationSystemDescription").setAttribute("placeholder","xx小學3年、xx中學3年、xx高中3年、xx大x年");
+                    }
                 } else {
                     $educationSystemDescriptionDiv.hide();
                 }
@@ -550,7 +553,7 @@
             _countryList[continent]['country'].forEach((obj, index) => {
                 if (_identityId === 1 || _identityId === 2 || _identityId === 4) {
                     if (identity124Rule.indexOf(obj.id) === -1) { return; }
-                } else if (_identityId === 3 || _identityId === 5) {
+                } else if (_identityId === 3 || _identityId === 5 || _identityId === 8) {
                     if (identity35Rule.indexOf(obj.id) > -1) { return; }
                 } else {
                     if (identity6Rule.indexOf(obj.id) > -1) { return; }
@@ -677,7 +680,7 @@
     async function _reRenderSchoolType() {
         // 處理該國籍是否需要選擇學校類型，以及學校類型 select bar 渲染工作
         // 學士班才需要學校類別
-        if (_systemId === 1) {
+        if (_systemId === 1 || _systemId === 5) {
             if (_schoolCountryId in _schoolType) {
                 let typeHTML = '';
                 if(_currentSchoolType == ""){
@@ -725,7 +728,7 @@
         // 沒有選國家則不會出現學校名稱欄位
         if (!!_schoolCountryId) {
             // 學士班才需要出現學校所在地、名稱列表
-            if (_systemId === 1) {
+            if (_systemId === 1 || _systemId === 5) {
                 const getSchoolListresponse = await student.getSchoolList(_schoolCountryId);
                 const data = await getSchoolListresponse.json();
                 if(getSchoolListresponse.ok){
@@ -1441,7 +1444,7 @@
         }
 
         // 學士班、港二技 需要送出學歷學制描述
-        if (_systemId === 1 || _systemId === 2) {
+        if (_systemId === 1 || _systemId === 2 || _systemId === 5) {
             formValidateList.push({ el: $educationSystemDescription, require: true, type: 'string', dbKey: 'education_system_description', colName: '學制描述' });
         } else {
             formValidateList.push({ el: $educationSystemDescription, require: false, type: 'string', dbKey: 'education_system_description', dbData: '' });

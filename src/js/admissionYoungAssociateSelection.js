@@ -4,6 +4,7 @@
 	*	private variable
 	*/
 
+	let _currentSystem = 0;
 	let _showCodeId = "";
 	// 是否參加個人申請
 	let _isJoin = true;
@@ -58,7 +59,7 @@
 
 			const resAdmission = await response[0].json();
 			const resOrder = await response[1].json();
-
+			
 			_currentSystem = resAdmission.student_qualification_verify.system_id; // 當前學制
 			resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {

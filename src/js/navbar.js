@@ -207,24 +207,19 @@
 	}
 
 	function _setProgress(data) {
-		//console.log(data);
 		// 資格驗證
-		$('.nav-admissionSelection').show();
-		$('.nav-admissionYoungAssociateSelection').hide();
 		if (!!data.student_qualification_verify) {
 			$('.nav-qualify').addClass('list-group-item-success');
 			const systemID = data.student_qualification_verify.system_id;
 			if (+systemID === 1) {
 				$('.nav-educationInfo, .nav-olympia, .nav-grade, .nav-placementSelection').show();
+			} else if (+systemID === 5) {
+				$('.nav-admissionSelection').hide();
+				$('.nav-educationInfo, .nav-admissionYoungAssociateSelection').show();
 			}
 		}
 		// 不得參加個人申請
 		+data.student_misc_data.join_admission_selection === 2 && $('.nav-admissionSelection').hide();
-
-		if (+data.student_qualification_verify.system_id === 5) {
-			$('.nav-admissionSelection').hide();
-			$('.nav-admissionYoungAssociateSelection').show();
-		}
 
 		// 個人基本資料
 		!!data.student_personal_data && $('.nav-personalInfo').addClass('list-group-item-success');
