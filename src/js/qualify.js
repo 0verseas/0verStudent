@@ -452,6 +452,7 @@
             case '8':
                 $questionIsDistribution.find('dt').hide();
                 $questionEthnicChinese.show();
+                $questionCitizenship.show();
                 $questionStayLimit.show();
                 $questionHasBeenTaiwan.show();
                 break;
@@ -944,21 +945,24 @@
         const inputDistributionNo = $qualifyForm.find('.input-distributionNo').val(); // 分發文號
 
         // 檢查學制代碼
-        if([1,2,3,4].indexOf(choosenSystem) == -1){
+        if([1,2,3,4,5].indexOf(choosenSystem) == -1){
             await swal({title: `請確認選擇的學制`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
         // 根據學制檢查身份別代碼
-        const systemIdentytyMap = {1:[1,2,3],2:[1,2],3:[1,2,3,4,5],4:[1,2,3,4,5]}
+        const systemIdentytyMap = {1:[1,2,3],2:[1,2],3:[1,2,3,4,5],4:[1,2,3,4,5],5:[8]}
         if(systemIdentytyMap[choosenSystem].indexOf(choosenIdentity) === -1){
             await swal({title: `請確認選擇的身份別`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
         // 檢查分發來台選項
-        if(isNaN(choosenIsDistribution)){
-            await swal({title: `請選擇分發來臺選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
-            return;
+        if (!choosenSystem == 5) {
+            if(isNaN(choosenIsDistribution)){
+                await swal({title: `請選擇分發來臺選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return;
+            }
         }
+        
         // 檢查分發來台原因選項
         const unqualifiedIsDistributionOptionMap = [3,4,5,6];
         if(choosenIsDistribution == 1){
@@ -995,7 +999,7 @@
             sendData["associate_degree_or_higher_diploma_graduated"] = choosenADHDgraduated;
         }
         // 海外僑生與港澳據外國國籍需要是否為華裔選項
-        if(choosenIdentity == 2 || choosenIdentity == 3){
+        if(choosenIdentity == 2 || choosenIdentity == 3 || choosenIdentity == 8){
             if(isNaN(choosenEthnicChinese)){
                 await swal({title: `請選擇是否為華裔選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
@@ -1052,7 +1056,7 @@
             sendData["which_nation_passport"] = choosenPassportCountry;
         }
         // 海外僑生相關
-        if(choosenIdentity == 3){
+        if(choosenIdentity == 3 || choosenIdentity == 8){
             if(!citizenshipString.length>0){
                 await swal({title: `請先選取你擁有的國籍`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
@@ -1060,10 +1064,13 @@
             sendData["citizenship"] = citizenshipString;
         }
         // 非在台申請相關
-        if(choosenIdentity == 1 || choosenIdentity == 2 || choosenIdentity == 3){
-            sendData["has_come_to_taiwan"] = choosenIsDistribution;
-            sendData["come_to_taiwan_at"] = inputIsDistributionTime;
-            sendData["reason_selection_of_come_to_taiwan"] = choosenIsDistributionOption;
+        if(choosenIdentity == 1 || choosenIdentity == 2 || choosenIdentity == 3 || choosenIdentity == 8){
+            if (choosenIdentity != 8) {
+                sendData["has_come_to_taiwan"] = choosenIsDistribution;
+                sendData["come_to_taiwan_at"] = inputIsDistributionTime;
+                sendData["reason_selection_of_come_to_taiwan"] = choosenIsDistributionOption;
+            }
+            
             if(choosenStayLimit == 1){
                 await swal({title: `海外居留年限選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
