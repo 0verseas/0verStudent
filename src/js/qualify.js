@@ -60,8 +60,10 @@
     const $systemChooseOption = $('#system-choose');
     // 身份別選項
     const $identityArea = $('.identity-area');
+    const $identityHKDescription = $('.identity-HK-description');
     const $identityOverseasDescription = $('#identity-overseas-description');
     const $identityInTaiwanDescription = $('#identity-in-taiwan-description');
+    const $identitYoungDescription = $('.identity-young-description');
     const $identityRadio = $qualifyForm.find('.radio-identity');
     // 港二技的文憑取得選項
     const $questionKangADHDgraduated = $('.question-ADHDgraduated');
@@ -316,7 +318,7 @@
         // 取得所選的學制 還有身份別
         const choosenSystem = $systemChooseOption.val();
         const choosenIdentity = $identityRadio.filter(":checked").val();
-        const systemIdentytyMap = {'1':['1','2','3'],'2':['1','2'],'3':['1','2','3','4','5'],'4':['1','2','3','4','5']}
+        const systemIdentytyMap = {'1':['1','2','3'],'2':['1','2'],'3':['1','2','3','4','5'],'4':['1','2','3','4','5'],'5':['8']}
         // 如果選過身份別 需要判斷當前學制是否有這個身份別
         if(choosenIdentity != null){
             // 如果沒有就把已選擇的身份別選項disabled
@@ -327,8 +329,11 @@
         // 只有港二技有這選項 直接先隱藏 選擇身份別時才顯示
         $questionKangADHDgraduated.hide();
         // 不同的學制會顯示不同的身份別說明文字
+        $identityHKDescription.show();
         $identityOverseasDescription.hide();
         $identityInTaiwanDescription.hide();
+        $identitYoungDescription.hide();
+        $('.identity-option-HK').show();
         $('.identity-option-overseas').show();
         $('.identity-option-inTaiwan').show();
         // 學制如果是碩博二技海外居留年限不需要 第4項和第5項 海外居留選項跟警示訊息都預設是隱藏 選項3文字預設是非學士班身份別文字
@@ -344,6 +349,7 @@
             case '1':
                 $identityOverseasDescription.show();
                 $('.identity-option-inTaiwan').hide();
+                $('.identity-option-young').hide();
                 $stayLimitOption3Text.text(`報名時已滿六年，但未滿八年`)
                 $stayLimitOption4.show();
                 $stayLimitOption5.show();
@@ -352,12 +358,21 @@
             case '2':
                 $('.identity-option-overseas').hide();
                 $('.identity-option-inTaiwan').hide();
+                $('.identity-option-young').hide();
                 break;
             case '3':
             case '4':
+                $('.identity-option-young').hide();
                 $identityOverseasDescription.show();
                 $identityInTaiwanDescription.show();
                 break;
+            case '5':
+                $identitYoungDescription.show();
+                $identityHKDescription.hide();
+                $('.identity-option-young').show();
+                $('.identity-option-HK').hide();
+                $('.identity-option-overseas').hide();
+                $('.identity-option-inTaiwan').hide();
         }
         // 顯示身份別選項區域
         $identityArea.show();
@@ -433,6 +448,12 @@
                 $questionIsDistribution.find('dt').hide();
                 $questionIsDistributionTitle.addClass('font-weight-bold');
                 _handleTaiwanUniversityChange(); // 切換成在台僑港澳生要檢查分發管道選項
+                break;
+            case '8':
+                $questionIsDistribution.find('dt').hide();
+                $questionEthnicChinese.show();
+                $questionStayLimit.show();
+                $questionHasBeenTaiwan.show();
                 break;
         }
         $questionIsDistributionTitle.text(questionIsDistributionText);
@@ -794,6 +815,7 @@
                         option.parent().hide();
                     }
                 case '3':
+                case '8':
                     optionText = ' '+order+'. '+optionText;
                     break;
                 case '4':

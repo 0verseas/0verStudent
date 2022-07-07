@@ -10,7 +10,8 @@
 						<span class="text-danger">學士班(含僑先部)：</span>申請就讀大學部	(亦可選填僑先部志願)。<br />
 						<span class="text-danger hide" id="two-year-systen-depiction">港二技：</span>申請就讀技術校院二年制學士班(限在香港取得副學士學位或高級文憑者)。<br />
 						<span class="text-danger">碩士班：</span>申請就讀碩士班。<br />
-						<span class="text-danger">博士班：</span>申請就讀博士班。
+						<span class="text-danger">博士班：</span>申請就讀博士班。<br />
+						<span class="text-danger">副學士：</span>申請就讀海外青年技術訓練班副學士學位學程。
 					</div>
 				</div>
 			</div>
@@ -23,6 +24,7 @@
 						<option value="2" id="two-year-systen-option" class="hide">港二技</option>
 						<option value="3">碩士班</option>
 						<option value="4">博士班</option>
+						<option value="5">副學士</option>
 					</select>
 				</div>
 			</div>
@@ -37,12 +39,17 @@
 				<div class="col-12">
 					<div class="alert alert-info" role="alert">
 						<strong>身分別說明：</strong><br>
-						<span class="text-danger">港澳生：</span>持有香港或澳門永久性居民身分證，且最近連續居留臺灣地區<span class="text-danger"> 以外 </span>之國家或地區6年以上。<br />
-						<span class="text-danger">港澳具外國國籍之華裔學生：</span>具外國國籍(不含大陸、港澳及臺灣)與持有香港或澳門永久性居民身份證，未曾在臺設有戶籍，且最近連續居留臺灣地區及大陸地區<span class="text-danger"> 以外 </span>之國家或地區6年以上。 須持「外國護照」(含1999年12月20日後首次取得之葡萄牙護照)來臺就學、申請入境簽證及辦理在臺居留手續.<br />
+						<div class="identity-HK-description">
+							<span class="text-danger">港澳生：</span>持有香港或澳門永久性居民身分證，且最近連續居留臺灣地區<span class="text-danger"> 以外 </span>之國家或地區6年以上。<br />
+							<span class="text-danger">港澳具外國國籍之華裔學生：</span>具外國國籍(不含大陸、港澳及臺灣)與持有香港或澳門永久性居民身份證，未曾在臺設有戶籍，且最近連續居留臺灣地區及大陸地區<span class="text-danger"> 以外 </span>之國家或地區6年以上。 須持「外國護照」(含1999年12月20日後首次取得之葡萄牙護照)來臺就學、申請入境簽證及辦理在臺居留手續.<br />
+						</div>
 						<div style="display: none;"id="identity-overseas-description"><span class="text-danger">海外僑生：</span>最近連續居留海外(不含大陸、港澳及臺灣)6年以上，並取得僑居地永久或長期居留證件之華裔學生。<br /></div>
 						<div style="display: none;"id="identity-in-taiwan-description">
 							<span class="text-danger">在臺港澳生：</span>在臺灣取得學士或碩士學位的港澳生。<br />
 							<span class="text-danger">在臺僑生：</span>在臺灣取得學士或碩士學位的僑生。
+						</div>
+						<div class="identity-young-description">
+							<span class="text-danger">海青班：</span>海青班。
 						</div>
 					</div>
 				</div>
@@ -51,12 +58,12 @@
 				<label for="system-choose" class="col-xs-3 col-lg-3 col-form-label">申請身份別</label>
 				<div class="col-xs-9 col-lg-9">
 					<fieldset class="identity-option" id="identity-option-form">
-						<div class="form-check form-check-inline">
+						<div class="form-check form-check-inline identity-option-HK">
 							<label class="form-check-label">
 								<input class="form-check-input radio-identity" type="radio" name="identity" value="1"> 港澳生
 							</label>
 						</div>
-						<div class="form-check form-check-inline">
+						<div class="form-check form-check-inline identity-option-HK">
 							<label class="form-check-label">
 								<input class="form-check-input radio-identity" type="radio" name="identity" value="2"> 港澳具外國國籍之華裔學生
 							</label>
@@ -74,6 +81,11 @@
 						<div class="form-check form-check-inline identity-option-inTaiwan">
 							<label class="form-check-label">
 								<input class="form-check-input radio-identity" type="radio" name="identity" value="5"> 在臺僑生
+							</label>
+						</div>
+						<div class="form-check form-check-inline identity-option-young">
+							<label class="form-check-label">
+								<input class="form-check-input radio-identity" type="radio" name="identity" value="8"> 海青班
 							</label>
 						</div>
 					</fieldset>
