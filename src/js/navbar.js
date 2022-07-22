@@ -322,7 +322,7 @@
 						$('.nav-placementSelection').click(function(e){e.preventDefault();});
 						$('.nav-placementSelection').attr("href", '');
 						$('.nav-placementSelection').addClass('show-placement-deadline');
-						$('#placement-deadline-text').text('(目前無須填寫志願)');
+						$('#placement-deadline-text').text('(非開放填寫志願時間)');
 					}
 				;
 			}else if(data.student_misc_data.admission_placement_apply_way_data.code == '23'){
@@ -336,7 +336,7 @@
 						$('.nav-placementSelection').addClass('list-group-item-success');
 						$('.nav-placementSelection').addClass('disabled');
 						$('.nav-placementSelection').addClass('show-placement-deadline');
-						$('#placement-deadline-text').text('(目前為報名階段，無須填寫志願)');
+						$('#placement-deadline-text').text('(非開放填寫志願時間)');
 						$('.nav-placementSelection').click(function(e){e.preventDefault();});
 						$('.nav-placementSelection').attr("href", '');
 					}else if((data.student_misc_data.stage_of_admit != null  ||  data.student_misc_data.qualification_to_distribute != null || data.student_misc_data.overseas_student_id == null)){

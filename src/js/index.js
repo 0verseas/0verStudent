@@ -91,24 +91,25 @@
 					// console.log(json);
 					if( json.student_qualification_verify === null) {
 						location.href = './qualify.html';
-					} else if( (json.student_qualification_verify.identity=== 6 &&
-							json.student_misc_data.join_admission_selection=== 1 &&
-							json.student_misc_data.confirmed_at !=null &&
-							json.can_admission_placement == true) ||
-						(json.student_qualification_verify.identity === 7 &&
-							json.student_misc_data.confirmed_at != null &&
-							json.student_misc_data.confirmed_placement_at === null)
-						||
-						(json.student_misc_data.admission_placement_apply_way != null &&
-							json.student_misc_data.admission_placement_apply_way_data.code == "23" &&
-							json.student_misc_data.confirmed_at != null &&
-							json.student_misc_data.confirmed_placement_at === null &&
-							json.can_placement_order == true  &&
-							json.student_misc_data.stage_of_admit === null &&
-							json.student_misc_data.qualification_to_distribute === null &&
-							json.student_misc_data.overseas_student_id !== null
-						)
-						) {
+					} else if((
+								json.student_qualification_verify.identity=== 6 &&
+								json.student_misc_data.join_admission_selection=== 1 &&
+								json.student_misc_data.confirmed_at !=null &&
+								json.can_admission_placement == true
+							) || (
+								json.student_qualification_verify.identity === 7 &&
+								json.student_misc_data.confirmed_at != null &&
+								json.student_misc_data.confirmed_placement_at === null &&
+								json.can_admission_placement == true
+							) || (
+								json.student_misc_data.admission_placement_apply_way != null &&
+								json.student_misc_data.admission_placement_apply_way_data.code == "23" &&
+								json.student_misc_data.confirmed_at != null &&
+								json.student_misc_data.confirmed_placement_at === null &&
+								json.can_placement_order == true  &&
+								json.student_misc_data.stage_of_admit === null &&
+								json.student_misc_data.qualification_to_distribute === null &&
+								json.student_misc_data.overseas_student_id !== null )) {
 						location.href = './placementSelection.html';
 					} else if (!!json.student_misc_data.confirmed_at) {
 						location.href = './downloadDocs.html';
