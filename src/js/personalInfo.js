@@ -58,6 +58,7 @@
     const $disabilityLevel = $('#disabilityLevel'); // 障礙等級
     const $otherDisabilityCategoryForm = $('#otherDisabilityCategoryForm'); // 其他障礙說明表單
     const $otherDisabilityCategory = $('#otherDisabilityCategory'); // 其他障礙說明
+    const $proposeGroup = $('#proposeGroup'); // 協助推薦來臺就學之學校或組織
 
     // 僑居地資料
     const $residenceContinent = $('#residenceContinent'); // 州
@@ -304,6 +305,7 @@
                         "birthday": "",
                         "birth_location": "",
                         "special": 0,
+                        "propose_group": "",
                         "disability_category": "",
                         "disability_level": "",
                         "resident_location": "",
@@ -366,6 +368,7 @@
                 $birthday.val(formData.birthday);
                 $birthContinent.val(_findContinent(formData.birth_location)).change();
                 $birthLocation.val(formData.birth_location);
+                $proposeGroup.val(formData.propose_group)
 
                 _specialStatus = formData.special;
                 $("input[name=special][value='" + _specialStatus + "']").prop("checked", true).change();
@@ -1035,6 +1038,8 @@
         const birthdayText = $birthday.parent().find('label').text();
         const choosenBirthLocation = $birthLocation.val(); // 出生地國家
         const birthLocationText = $('#birthPlace').text();
+        const inputProposeGroup = $proposeGroup.val(); // 協助推薦來臺就學之學校或組織
+        const proposeGroupText = $proposeGroup.parent().find('label').text();
         const choosenSpecial = $(".special:checked").val(); // 身心/特殊者
         const choosenDisabilityCategory = $disabilityCategory.val(); // 身心/特殊者類別
         const choosenDisabilityLevel = $disabilityLevel.val(); // 身心/特殊者類別等級
@@ -1433,6 +1438,7 @@
         let _correct = true; // 格式正確
         let sendData = { // 預設送給後端的資料
             backup_email: inputBackUpEmail, // 選填，有值再檢查
+            propose_group: inputProposeGroup, // 選填，有值再檢查
             special: choosenSpecial, // radio類型，預設有值
             resident_passport_no: regexIdNumber(inputResidentPassportNo), // 選填，直接過濾輸入的值
             taiwan_id_type: choosenTaiwanIdType, // 下拉式選單類型，選填，有選再檢查taiwan_id
@@ -1473,6 +1479,10 @@
         _validator(choosenGender, 'radio', genderText, genderFieldSet, 'gender'); // 檢查性別
         _validator(inputBirthday, 'string', birthdayText, $birthday, 'birthday');  // 檢查出生日
         _validator(choosenBirthLocation, 'string', birthLocationText, $birthLocation, 'birth_location'); // 檢查出生地
+
+        if (inputProposeGroup != "") { // 協助推薦來臺就學之學校或組織爲選填，但有資料的話需要驗證輸入格式正不正確
+            _validator(inputProposeGroup, 'string', proposeGroupText, $proposeGroup, 'propose_group');
+        }
         
         if (choosenSpecial === "1") { // 有身心障礙
             sendData['disability_level'] = choosenDisabilityLevel;

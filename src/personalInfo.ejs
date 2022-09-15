@@ -80,6 +80,14 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
+						<label for="proposeGroup">協助推薦來臺就學之學校或組織</label>
+						<input type="email" class="form-control" id="proposeGroup" maxlength="100">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
 						<label class="text-danger" id="birthPlace">* 出生地</label>
 						<div class="row">
 							<div class="col-md-6">
@@ -115,7 +123,7 @@
 
 			<div id="specialForm" class="hide">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label class="text-danger" for="disabilityCategory">* 障礙類別</label>
 							<select class="form-control" id="disabilityCategory">
@@ -130,7 +138,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label class="text-danger" for="disabilityLevel">* 程度</label>
 							<select class="form-control" id="disabilityLevel">
@@ -143,7 +151,7 @@
 					</div>
 				</div>
 				<div class="row" id="otherDisabilityCategoryForm">
-					<div class="col-md-8">
+					<div class="col-md-12">
 						<div class="form-group">
 							<label class="text-danger" for="otherDisabilityCategory">* 其他類別</label>
 							<input class="form-control" type="text" id="otherDisabilityCategory" maxlength="15">
@@ -167,11 +175,11 @@
 					<div class="form-group">
 						<label class="text-danger" id="residentLocationLabel">* 地區或國別</label>
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<select class="form-control" id="residenceContinent">
 								</select>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<select class="form-control country" id="residentLocation">
 									<option value="">Country</option>
 								</select>
@@ -197,7 +205,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label class="text-danger" for="residentPhoneCode" id="residentPhoneLabel">* 電話</label>
 						<div class="row">
@@ -212,7 +220,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label class="text-danger" for="residentCellphoneCode" id="residentCellPhoneLabel">* 手機</label>
 						<div class="row">
@@ -227,7 +235,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label class="text-danger" for="residentAddress">* 地址</label>
 						<input type="text" class="form-control" id="residentAddress" placeholder="地址">
@@ -236,7 +244,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group hide">
 						<label for="residentOtherLangAddress">地址</label>
 						<input type="text" class="form-control" id="residentOtherLangAddress" placeholder="地址">
@@ -255,7 +263,7 @@
 		</dt>
 		<dd class="col-md-9">
 			<div class="row">
-				<div class="col-6 col-md-4">
+				<div class="col-6 col-md-6">
 					<div class="form-group">
 						<label for="taiwanIdType">證件類型</label>
 						<select class="form-control" id="taiwanIdType">
@@ -265,7 +273,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-6 col-md-4">
+				<div class="col-6 col-md-6">
 					<div class="form-group">
 						<label for="taiwanIdType">證件號碼</label>
 						<input type="text" class="form-control" id="taiwanIdNo" placeholder="">
@@ -276,7 +284,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label for="taiwanPassport">臺灣護照號碼</label>
 						<input type="text" class="form-control" id="taiwanPassport" placeholder="Passport no.">
@@ -284,7 +292,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label for="taiwanPhone">臺灣電話</label>
 						<input type="text" class="form-control" id="taiwanPhone" placeholder="電話" onblur="this.value=this.value.replace(/[^\d]/g,'')">
@@ -292,7 +300,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label for="taiwanAddress">臺灣地址</label>
 						<input type="text" class="form-control" id="taiwanAddress" placeholder="地址">
@@ -310,7 +318,7 @@
 		</dt>
 		<dd class="col-md-9">
 			<div class="row" id="div-educationSystemDescription">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label class="text-danger" for="educationSystemDescription">* 學制描述</label>
 						<input type="text" class="form-control" id="educationSystemDescription" placeholder="xx小學6年、xx中學3年、xx高中3年">
@@ -322,17 +330,17 @@
 					<div class="form-group">
 						<label class="text-danger" id="schoolCountryLabel">* 學校所在國別</label>
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<select class="form-control" id="schoolContinent">
 								</select>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<select class="form-control country" id="schoolCountry">
 									<option value="">Country</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-md-9 alert alert-warning mt-2 alert-schoolCountry hide" role="alert">
+						<div class="col-md-12 alert alert-warning mt-2 alert-schoolCountry hide" role="alert">
 							<strong>注意！</strong> 學校所在地已被修改。<br />將移除已選擇的聯合分發成績採計方式及聯合分發志願。
 						</div>
 					</div>
@@ -341,13 +349,13 @@
 			
 			<!-- 顯示：馬來西亞、印尼、越南、泰國、緬甸 -->
 			<div id="schoolTypeForm" class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label class="text-danger" for="schoolType">* 學校類型</label>
 						<select class="form-control" id="schoolType">
 						</select>
 					</div>
-					<div class="col-md-11 alert alert-warning mt-2 alert-schoolType hide" role="alert">
+					<div class="col-md-12 alert alert-warning mt-2 alert-schoolType hide" role="alert">
 						<strong>注意！</strong> 修改學校類型，儲存後，<br />將影響已選擇的「個人申請志願」、「聯合分發成績採計方式」及「聯合分發志願」，敬請留意。
 					</div>
 				</div>
@@ -355,14 +363,14 @@
 
 			<!-- 顯示：香港、澳門、馬來西亞（類別：華文獨立中學學生、臺灣學校學生）、印尼（海外臺灣學校）。必須和學校名稱 (select) 一起出現 -->
 			<div id="schoolLocationForm" class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="schoolLocation">* 學校所在地</label>
 						<select class="form-control" id="schoolLocation">
 						</select>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="schoolNameSelect">* 學校名稱</label>
 						<select class="form-control" id="schoolNameSelect">
@@ -373,7 +381,7 @@
 
 			<!-- 顯示：港、澳及馬來西亞（類別：國民型或國民中學學生、國際學校學生）、印尼（海外臺灣學校）「以外的」 -->
 			<div id="schoolNameTextForm" class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label class="text-danger" for="schoolNameText">* 學校名稱</label>
 						<input class="form-control" type="text" id="schoolNameText">
@@ -383,13 +391,13 @@
 
 			<!-- 顯示：碩、博 -->
 			<div class="row" id="subjectForm" style="display: none;">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="majorSubject">* 主修科目</label>
 						<input class="form-control" type="text" id="majorSubject">
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="minorSubject">輔修科目</label>
 						<input class="form-control" type="text" id="minorSubject">
@@ -398,13 +406,13 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="schoolAdmissionAt">* 入學時間</label>
 						<input class="form-control input-datepicker" data-provide="datepicker" data-date-format="yyyy/mm" data-date-min-view-mode="months" id="schoolAdmissionAt">
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="schoolGraduateAt">* 畢業時間</label>
 						<input class="form-control input-datepicker" data-provide="datepicker" data-date-format="yyyy/mm" data-date-min-view-mode="months" id="schoolGraduateAt">
@@ -413,7 +421,7 @@
 			</div>
 
 			<div class="row twoYearTechClassForm-alert" style="display: none;">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<hr>
 					<div class="form-group">
 						<small>資歷有效日期請參照<a href="http://www.hkqr.gov.hk/HKQRPRD/web/hkqr-tc/search/qr-search/" target="_blank">「此連結」</a>，若登記為持續有效，則無需填入課程認可結束日期。</small>
@@ -422,7 +430,7 @@
 			</div>
 
 			<div class="row twoYearTechClassForm-info" style="display: none;">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="twoYearTechDiploma">* 文憑類別</label>
 						<select class="form-control" id="twoYearTechDiploma">
@@ -435,7 +443,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="twoYearTechClassName">* 課程名稱</label>
 						<input class="form-control" type="text" id="twoYearTechClassName">
@@ -444,13 +452,13 @@
 			</div>
 
 			<div class="row twoYearTechClassForm-date" style="display: none;">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label class="text-danger" for="twoYearTechClassStart">* 課程認可開始日期</label>
 						<input class="form-control input-datepicker" data-provide="datepicker" data-date-format="yyyy/mm/dd" id="twoYearTechClassStart">
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="twoYearTechClassEnd">課程認可結束日期</label>
 						<input class="form-control input-datepicker" data-provide="datepicker" data-date-format="yyyy/mm/dd" id="twoYearTechClassEnd">
@@ -460,7 +468,7 @@
 
 			<!--香港學生報名學士班持有香港副學士學位或高級文憑-->
 			<div id="HK-ADorHD" class="row hide">
-				<div class="col-md-9">
+				<div class="col-md-12">
 					<fieldset class="form-group">
 						<label><span class="text-danger">* </span>請問您是否曾經修讀或正在修習全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）課程？</label><br>
 						<div class="form-check form-check-inline">
@@ -475,7 +483,7 @@
 						</div>
 					</fieldset>
 				</div>
-				<div class="col-md-9 hide" id="has-HK-ADorHD-diploma">
+				<div class="col-md-12 hide" id="has-HK-ADorHD-diploma">
 					<fieldset class="form-group" id="HK_ADorHD_FieldSet">
 						<label id="Had_HK_ADorHD_Label"><span class="text-danger">* </span>請問您是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書？</label><br>
 						<div class="form-check form-check-inline">
@@ -490,9 +498,9 @@
 						</div>
 					</fieldset>
 				</div>
-				<div class="col-md-9 hide" id="had-HK-ADorHD">
+				<div class="col-md-12 hide" id="had-HK-ADorHD">
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label class="text-danger" for="HK_ADorHD_Diploma">* 文憑類別</label>
 								<select class="form-control" id="HK_ADorHD_Diploma">
@@ -504,7 +512,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label class="text-danger" for="HK_ADorHD_SchoolName">* 學校名稱</label>
 								<input class="form-control" type="text" id="HK_ADorHD_SchoolName">
@@ -512,7 +520,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label class="text-danger" for="HK_ADorHD_ClassName">* 課程名稱</label>
 								<input class="form-control" type="text" id="HK_ADorHD_ClassName">
@@ -533,7 +541,7 @@
 		</dt>
 		<dd class="col-md-9">
 			<div class="row">
-				<div class="col-md-10 col-lg-9">
+				<div class="col-md-12 col-lg-12">
 					<div class="card">
 						<div class="card-header">
 							父親
@@ -776,7 +784,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label for="twContactAddress">地址</label>
 						<input type="text" class="form-control" id="twContactAddress" placeholder="">
@@ -784,13 +792,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="twContactWorkplaceName">服務機關名稱</label>
 						<input type="text" class="form-control" id="twContactWorkplaceName" placeholder="">
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="twContactWorkplacePhone">服務機關電話</label>
 						<input type="text" class="form-control" id="twContactWorkplacePhone" placeholder="" onblur="this.value=this.value.replace(/[^\d]/g,'')">
@@ -798,7 +806,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label for="twContactWorkplaceAddress" id="twYoungContactWorkplaceAddressLabel">服務機關地址</label>
 						<input type="text" class="form-control" id="twContactWorkplaceAddress" placeholder="">
