@@ -22,7 +22,7 @@
 		</dt>
 		<dd class="col-md-9">
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label for="email">E-Mail</label>
 						<input type="email" class="form-control" id="email" value="" disabled>
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="form-group">
 						<label for="backupEmail">備用 E-Mail</label>
 						<input type="email" class="form-control" id="backupEmail">
@@ -56,8 +56,8 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<fieldset class="form-group">
-						<label class="text-danger">* 性別</label><br>
+					<fieldset class="form-group" id="Gender_FieldSet">
+						<label class="text-danger" id="gender">* 性別</label><br>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
 								<input class="form-check-input gender" type="radio" name="gender" value="F"> 女
@@ -80,13 +80,13 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label class="text-danger">* 出生地</label>
+						<label class="text-danger" id="birthPlace">* 出生地</label>
 						<div class="row">
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<select class="form-control" id="birthContinent">
 								</select>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<select class="form-control country" id="birthLocation">
 									<option value="">Country</option>
 								</select>
@@ -101,12 +101,12 @@
 						<label class="text-danger">* 是否為「身心障礙」或「特殊照護」或「特殊教育」者</label><br>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
-								<input class="form-check-input specail" type="radio" name="special" value="0" checked> 否
+								<input class="form-check-input special" type="radio" name="special" value="0" checked> 否
 							</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
-								<input class="form-check-input specail" type="radio" name="special" value="1"> 是
+								<input class="form-check-input special" type="radio" name="special" value="1"> 是
 							</label>
 						</div>
 					</fieldset>
@@ -165,7 +165,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label class="text-danger">* 地區或國別</label>
+						<label class="text-danger" id="residentLocationLabel">* 地區或國別</label>
 						<div class="row">
 							<div class="col-md-4">
 								<select class="form-control" id="residenceContinent">
@@ -185,6 +185,8 @@
 					<div class="form-group">
 						<label class="text-danger" for="residentId" id="residentIdLabel">* 身分證號碼（ID no.）</label>
 						<input type="text" class="form-control" id="residentId" placeholder="ID no.">
+						<small class="text-danger hide" id="residentHongKongIdExample">格式範例：A123456(7)</small>
+						<small class="text-danger hide" id="residentMacauIdExample">格式範例：1234567(8)</small>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -197,13 +199,13 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label class="text-danger" for="residentPhoneCode">* 電話</label>
+						<label class="text-danger" for="residentPhoneCode" id="residentPhoneLabel">* 電話</label>
 						<div class="row">
 							<div class="col-3">
 								<input type="text" class="form-control" id="residentPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 							<div class="col-9">
-								<input type="text" class="form-control" id="residentPhone" placeholder="電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
+								<input type="text" class="form-control" id="residentPhone" maxlength="185" placeholder="電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 						</div>
 					</div>
@@ -212,13 +214,13 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label class="text-danger" for="residentCellphoneCode">* 手機</label>
+						<label class="text-danger" for="residentCellphoneCode" id="residentCellPhoneLabel">* 手機</label>
 						<div class="row">
 							<div class="col-3">
 								<input type="text" class="form-control" id="residentCellphoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 							<div class="col-9">
-								<input type="text" class="form-control" id="residentCellphone" placeholder="手機電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
+								<input type="text" class="form-control" id="residentCellphone" maxlength="185" placeholder="手機電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 						</div>
 					</div>
@@ -310,7 +312,7 @@
 			<div class="row" id="div-educationSystemDescription">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label class="text-danger" for="educationSystemDescription">學制描述</label>
+						<label class="text-danger" for="educationSystemDescription">* 學制描述</label>
 						<input type="text" class="form-control" id="educationSystemDescription" placeholder="xx小學6年、xx中學3年、xx高中3年">
 					</div>
 				</div>
@@ -318,7 +320,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label class="text-danger">學校所在地</label>
+						<label class="text-danger" id="schoolCountryLabel">* 學校所在國別</label>
 						<div class="row">
 							<div class="col-md-4">
 								<select class="form-control" id="schoolContinent">
@@ -474,8 +476,8 @@
 					</fieldset>
 				</div>
 				<div class="col-md-9 hide" id="has-HK-ADorHD-diploma">
-					<fieldset class="form-group">
-						<label><span class="text-danger">* </span>請問您是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書？</label><br>
+					<fieldset class="form-group" id="HK_ADorHD_FieldSet">
+						<label id="Had_HK_ADorHD_Label"><span class="text-danger">* </span>請問您是否已取得全日制副學士學位（Associate Degree）或高級文憑（Higher Diploma）畢業證書？</label><br>
 						<div class="form-check form-check-inline">
 							<label class="form-check-label">
 								<input class="form-check-input radio-HK-ADorHD-diploma" type="radio" name="HK-ADorHD-diploma" value="1"> 是
@@ -583,21 +585,21 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="dadJob">* 職業</label>
-											<input type="text" class="form-control" id="dadJob" placeholder="">
+											<label class="dadJobForm text-danger" for="dadJob" >* 職業</label>
+											<input type="text" class="dadJobForm form-control" id="dadJob" placeholder="">
 										</div>
 									</div>
 								</div>
 								<div class="row" id = "dad-phone">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="text-danger" for="dadPhoneCode">* 聯絡電話</label>
+											<label class="text-danger" for="dadPhoneCode" id="dadPhoneLabel">* 聯絡電話</label>
 											<div class="row">
 												<div class="col-3">
 													<input type="text" class="form-control" id="dadPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 												<div class="col-9">
-													<input type="text" class="form-control" id="dadPhone" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
+													<input type="text" class="form-control" id="dadPhone" maxlength="185" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 											</div>
 										</div>
@@ -658,21 +660,21 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label class="text-danger" for="momJob">* 職業</label>
-											<input type="text" class="form-control" id="momJob" placeholder="">
+											<label class="momJobForm text-danger" for="momJob">* 職業</label>
+											<input type="text" class="momJobForm form-control" id="momJob" placeholder="">
 										</div>
 									</div>
 								</div>
 								<div class="row" id = "mom-phone">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="text-danger" for="momPhoneCode">* 聯絡電話</label>
+											<label class="text-danger" for="momPhoneCode" id="momPhoneLabel">* 聯絡電話</label>
 											<div class="row">
 												<div class="col-3">
 													<input type="text" class="form-control" id="momPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 												<div class="col-9">
-													<input type="text" class="form-control" id="momPhone" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
+													<input type="text" class="form-control" id="momPhone" maxlength="185" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 											</div>
 										</div>
@@ -725,13 +727,13 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label class="text-danger" for="guardianPhoneCode">* 聯絡電話</label>
+											<label class="text-danger" for="guardianPhoneCode" id="guardianPhoneLabel">* 聯絡電話</label>
 											<div class="row">
 												<div class="col-3">
 													<input type="text" class="form-control" id="guardianPhoneCode" maxlength="5" placeholder="國碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 												<div class="col-9">
-													<input type="text" class="form-control" id="guardianPhone" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
+													<input type="text" class="form-control" id="guardianPhone" maxlength="185" placeholder="手機或電話號碼" onblur="this.value=this.value.replace(/[^\d]/g,'')">
 												</div>
 											</div>
 										</div>
@@ -798,7 +800,7 @@
 			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group">
-						<label for="twContactWorkplaceAddress">服務機關地址</label>
+						<label for="twContactWorkplaceAddress" id="twYoungContactWorkplaceAddressLabel">服務機關地址</label>
 						<input type="text" class="form-control" id="twContactWorkplaceAddress" placeholder="">
 					</div>
 				</div>
@@ -815,4 +817,3 @@
 		<button class="btn btn-primary" id="btn-save">儲存</button>
 	</div>
 </div>
-

@@ -1,3 +1,8 @@
 .invalidInput {
 	border-color: #d9534f !important;
 }
+
+.invalidFieldSet {
+	border: 1px #d9534f solid;
+	border-radius: 5px;
+}
