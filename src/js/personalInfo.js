@@ -1010,7 +1010,7 @@
                 loading.complete();
             })
         } else {
-            console.log('==== validate failed ====');
+            // console.log('==== validate failed ====');
             swal({
                 title: `填寫格式錯誤`,
                 html: `請檢查以下表單：<br/>` + _errormsg.join('、<br/>'),
@@ -1182,7 +1182,7 @@
         //將輸入欄位資料過濾  避免xss攻擊
         function regexChinese(str) {
             //return str.replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")
-            return str.replace(/([^\p{sc=Han}\u2027\u00b7])/gu, "");
+            return str.replace(/((?:(?![\p{sc=Han}])\u2027\u00b7))/gu, "");
         }
         function regexEnglish(str) {
             return str.replace(/[\s]/g, "\u0020").replace(/[^\u0020\u0027a-zA-Z.,-]/g, "");
@@ -1336,8 +1336,6 @@
                         break;
                     } else { // 有填再正規化欄位值
                         if (regexChinese(value).length != value.length) {  // 如過濾後少過原本值的長度，則提示檢查欄位，防止是誤打造成名字錯誤
-                            console.log(regexChinese(value).length);
-                            console.log(value.length);
                             colAlert.addClass('invalidInput');
                             _errormsg.push(colName + '輸入格式有文字不符，請檢查並重新填寫');
                             _correct = false;
