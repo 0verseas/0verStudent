@@ -384,6 +384,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_IDCard_file">
+				</div>
             </div>
         </div>
         `;
@@ -445,6 +448,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_quitSchool_file">
+				</div>
             </div>
         </div>
         `;
@@ -518,6 +524,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_overseasStayYears_file">
+				</div>
             </div>
         </div>
         `;
@@ -586,6 +595,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_TaiwanStayDates_file">
+				</div>
             </div>
         </div>
         `;
@@ -659,6 +671,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_HKorMOGuarantee_file">
+				</div>
             </div>
         </div>
         `;
@@ -720,6 +735,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_headshot_file">
+				</div>
             </div>
         </div>
         `;
@@ -781,6 +799,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_homeReturnPermit_file">
+				</div>
             </div>
         </div>
         `;
@@ -849,6 +870,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_changeOfName_file">
+				</div>
             </div>
         </div>
         `;
@@ -963,6 +987,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_diploma_file">
+				</div>
             </div>
         </div>
         `;
@@ -1073,6 +1100,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_schollTranscript_file">
+				</div>
             </div>
         </div>
         `;
@@ -1147,6 +1177,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_authorizeCheckDiploma_file">
+				</div>
             </div>
         </div>
         `;
@@ -1208,6 +1241,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_olympia_file">
+				</div>
             </div>
         </div>
         `;
@@ -1281,6 +1317,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_placementTranscript_file">
+				</div>
             </div>
         </div>
         `;
@@ -1342,6 +1381,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_transcriptReferenceTable_file">
+				</div>
             </div>
         </div>
         `;
@@ -1403,6 +1445,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_hkmoRelationsOrdinance_file">
+				</div>
             </div>
         </div>
         `;
@@ -1471,6 +1516,9 @@
                         <input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
                     </div>
                 </div>
+
+				<div class="card" id="uploadArea_techCoursePassedProof_file">
+				</div>
             </div>
         </div>
         `;
@@ -1546,21 +1594,17 @@
 
 		// pdf 顯示分別做不同處理
         reviewItemHTML = `
-        <div class="card">
             <div class="card-body" style="margin: 0 auto">
                 <h4 class="card-title"><span>已上傳檔案</span> </h4>
 				<embed src="${env.baseUrl}/students/${_userID}/upload-identity-verification/item/${_itemId}/file/${data_name}?dummy=${dummy_id}" width="500" height="375" type="application/pdf">
             </div>
-            
-            <div class="row fileDel" style="margin: 0 auto" >
-                <div class="col-12"  >
-                    <button type="button" class=" btn fileDelBtn  btn-danger"  data-item="${_itemId}"  >
-                        <i class="fa fa-folder-open" aria-hidden="true"></i> 刪除檔案
-                    </button>
-                </div>
+
+            <div class="row fileDel" style="margin: 15px auto" >
+				<button type="button" class=" btn fileDelBtn  btn-danger"  data-item="${_itemId}"  >
+					<i class="fa fa-folder-open" aria-hidden="true"></i> 刪除檔案
+				</button>
             </div>
-        </div>
-		<hr>`;
+		`;
 
 		htmlId += '_file';
         // 兜好的 html 拋到前端渲染囉
