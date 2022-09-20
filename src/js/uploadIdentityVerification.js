@@ -1594,11 +1594,14 @@
 
 		// pdf 顯示分別做不同處理
         reviewItemHTML = `
-            <div class="card-body" style="margin: 0 auto">
-                <h4 class="card-title"><span>已上傳檔案</span> </h4>
-				<embed src="${env.baseUrl}/students/${_userID}/upload-identity-verification/item/${_itemId}/file/${data_name}?dummy=${dummy_id}" width="500" height="375" type="application/pdf">
+            <div class="card-body" >
+				<h4 class="card-title"><span>已上傳檔案</span></h4>
+				<hr>
+				<div class="text-center">
+					<embed src="${env.baseUrl}/students/${_userID}/upload-identity-verification/item/${_itemId}/file/${data_name}?dummy=${dummy_id}" width="500" height="375" type="application/pdf">
+				</div>
             </div>
-
+			<hr style="margin:0;">
             <div class="row fileDel" style="margin: 15px auto" >
 				<button type="button" class=" btn fileDelBtn  btn-danger"  data-item="${_itemId}"  >
 					<i class="fa fa-folder-open" aria-hidden="true"></i> 刪除檔案
