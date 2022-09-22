@@ -40,6 +40,13 @@
 			$('.forCode01').hide();
 		}
 
+		if (school_country === '緬甸' && (+$(this).val() === 19)) {
+			// 馬來西亞地區 第1和5梯次的採計方式要填考生編號
+			$('.forCode19').fadeIn();
+		} else {
+			$('.forCode19').hide();
+		}
+
 		// 如果是申請僑先部的採計方式或是僑先部結業生，就沒有要不要分發僑先部的問題
 		if(+$(this).val() === 16 || +$(this).val() === 18){
 			$('#go-to-FF-form').hide();  // 隱藏讓學生選擇去不去僑先部的選項
@@ -73,6 +80,10 @@
 
 		if (school_country === '馬來西亞' && (+code === 1 || +code === 2 || +code === 3 || +code === 16)) {
 			data.my_admission_ticket_no = $('.my_admission_ticket_no').val();
+		}
+
+		if (school_country === '緬甸' && (+code === 19)) {
+			data.myanmar_test_area = $('.myanmar_test_area:checked').val();
 		}
 
 		if (+code === 23) {
@@ -189,12 +200,13 @@
 			})
 			.then((json) => {
 				const option = json.student_misc_data.admission_placement_apply_way_data ? json.student_misc_data.admission_placement_apply_way_data.code : null;
-				const { year_of_hk_ale, year_of_hk_cee, year_of_hk_dse, my_admission_ticket_no } = json.student_misc_data;
+				const { year_of_hk_ale, year_of_hk_cee, year_of_hk_dse, my_admission_ticket_no, myanmar_test_area } = json.student_misc_data;
 				!!option && $(`.radio-option[value=${option}]`).trigger('click');
 				$('.year_of_hk_dse').val(year_of_hk_dse || '');
 				$('.year_of_hk_ale').val(year_of_hk_ale || '');
 				$('.year_of_hk_cee').val(year_of_hk_cee || '');
 				$('.my_admission_ticket_no').val(my_admission_ticket_no || '');
+				$(`.myanmar_test_area[value=${myanmar_test_area}]`).trigger('click');
 			})
 		})
 		.then(() => {
