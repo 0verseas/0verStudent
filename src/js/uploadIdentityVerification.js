@@ -9,11 +9,11 @@
 		{
 			element: 'uploadArea_IDCard',
 			title: ['香港永久居民身份證正面','澳門永久居民身份證正/反面'],
-			description: ['僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。']
+			description: ['']
 		},{
 			element: 'uploadArea_quitSchool',
 			title: ['自願退學證明'],
-			description: ['僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。']
+			description: ['']
 		},{
 			element: 'uploadArea_overseasStayYears',
 			title: ['境外居留年限切結書','海外居留年限切結書'],
@@ -22,7 +22,7 @@
 		},{
 			element: 'uploadArea_TaiwanStayDates',
 			title: ['在臺停留日期'],
-			description: ['<ol><li>報名截止日往前推算僑居地居留期間內，如有某一年來臺停留超過 120 天，請上傳證明文件。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>']
+			description: ['<ol><li>報名截止日往前推算僑居地居留期間內，如有某一年來臺停留超過 120 天，請上傳證明文件。</li></ol>']
 		},{
 			element: 'uploadArea_HKorMOGuarantee',
 			title: ['港澳生聲明書','港澳具外國國籍之華裔學生切結書'],
@@ -36,24 +36,24 @@
 		},{
 			element: 'uploadArea_homeReturnPermit',
 			title: ['港澳居民來往內地通行證(回鄉證)'],
-			description: ['僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。']
+			description: ['']
 		},{
 			element: 'uploadArea_changeOfName',
 			title: ['改名契'],
-			description: ['<ol><li>非必要文件，曾改名適用。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>']
+			description: ['非必要文件，曾改名適用。']
 		},{
 			element: 'uploadArea_diploma',
 			title: ['高中畢業證書/在學證明/學生證','經驗證之全日制副學士或高級文憑(含)以上學位畢業證書/在學證明/學生證','經驗證之學士或碩士畢業證書/在學證明/學生證'],
-			description: ['<ol><li>請上傳<font color="red">高中</font>畢業證書或修業證明書，如為應屆中六生，可先上傳本學期在學證明書或學生證。</li><li>香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>',
-			'<ol><li>請上傳<font color="red">經驗證之全日制副學士或高級文憑(含)以上學位</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>學歷證件應先經台北經濟文化辦事處（香港灣仔港灣道18號中環廣場49樓4907-4908室）驗證。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>',
-			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>',
-			'<ol><li>請上傳<font color="red">高中</font>畢業證書或修業證明書，如為應屆中六生，可先上傳由教青局核發之學生證及學生證二維碼掃描查詢結果文件。</li><li>澳門以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>']
+			description: ['<ol><li>請上傳<font color="red">高中</font>畢業證書或修業證明書，如為應屆中六生，可先上傳本學期在學證明書或學生證。</li><li>香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">經驗證之全日制副學士或高級文憑(含)以上學位</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>學歷證件應先經台北經濟文化辦事處（香港灣仔港灣道18號中環廣場49樓4907-4908室）驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">高中</font>畢業證書或修業證明書，如為應屆中六生，可先上傳由教青局核發之學生證及學生證二維碼掃描查詢結果文件。</li><li>澳門以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>']
 		},{
 			element: 'uploadArea_schollTranscript',
 			title: ['高中最後三年成績單','經驗證之副學士或高級文憑(含)以上學位之歷年成績單','經驗證之學士或碩士成績單'],
-			description: ['<ol><li>請上傳<font color="red">高中</font>最後三年成績單，如為應屆中六生，當學期成績尚未取得，免附該學期成績單。</li><li>香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>',
-			'<ol><li>請上傳<font color="red">經驗證之全日制副學士或高級文憑(含)以上學位</font>之歷年成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>學歷證件應先經台北經濟文化辦事處（香港灣仔港灣道18號中環廣場49樓4907-4908室）驗證。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>',
-			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>']
+			description: ['<ol><li>請上傳<font color="red">高中</font>最後三年成績單，如為應屆中六生，當學期成績尚未取得，免附該學期成績單。</li><li>香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">經驗證之全日制副學士或高級文憑(含)以上學位</font>之歷年成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>學歷證件應先經台北經濟文化辦事處（香港灣仔港灣道18號中環廣場49樓4907-4908室）驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li></ol>']
 		},{
 			element: 'uploadArea_authorizeCheckDiploma',
 			title: ['學歷屬實及授權查證切結書'],
@@ -62,12 +62,12 @@
 		},{
 			element: 'uploadArea_olympia',
 			title: ['國際數理奧林匹亞競賽或美國國際科展獎項證明'],
-			description: ['僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。']
+			description: ['']
 		},{
 			element: 'uploadArea_placementTranscript',
 			title: ['採計文憑成績證書'],
-			description: ['<ol><li>請上傳「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>',
-			'<ol><li>持外國學歷者，請上傳「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>']
+			description: ['請上傳「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。',
+			'<ol><li>持外國學歷者，請上傳「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。</li></ol>']
 		},{
 			element: 'uploadArea_transcriptReferenceTable',
 			title: ['成績採計資料參考表'],
@@ -80,22 +80,13 @@
 		},{
 			element: 'uploadArea_techCoursePassedProof',
 			title: ['就讀全日制副學士或高級文憑(含)以上學位課程已通過香港資歷架構第四級(含)以上之證明文件'],
-			description: ['<ol><li>請上傳至<a href="http://www.hkqr.gov.hk/" target="_blank">資歷名冊</a>網站查詢並下載就讀課程之資歷記錄詳情，或經香港當地政府權責機關、專業評鑑團體認可評審通過之證明文件。</li><li>僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。</li></ol>']
+			description: ['<ol><li>請上傳至<a href="http://www.hkqr.gov.hk/" target="_blank">資歷名冊</a>網站查詢並下載就讀課程之資歷記錄詳情，或經香港當地政府權責機關、專業評鑑團體認可評審通過之證明文件。</li></ol>']
 		},{
 			element: 'uploadArea_passport',
 			title: ['外國護照'],
-			description: ['僅接受副檔名為 pdf 的<font color="red">單一</font>檔案，檔案大小需<font color="red">小於 8 Mbytes</font>。']
+			description: ['']
 		}
 	];
-
-
-	/**
-	*	cache DOM
-	*/
-
-	//const $xxxBtn = $Register.find('.Register__btnRegister');
-	//const $passwordWarning = $('#password-warning');
-
 
 	/**
 	*	init
@@ -177,6 +168,9 @@
 					)){
 						continue;
 					}
+					if (i==16 || (i==17 && progressJson.student_qualification_verify.identity != 2)) {
+						continue;
+					}
 
 					// 學士班 && 僑居地為港澳
 					if (progressJson.student_misc_data.admission_placement_apply_way_data.code != 16) {
@@ -193,7 +187,7 @@
 								progressJson.student_misc_data.year_of_hk_cee == null	) || 
 							(
 								progressJson.student_personal_data_detail.resident_location == '澳門' &&
-								progressJson.student_misc_data.admission_placement_apply_way_data.code == "05") ||
+								[27,28,29].indexOf(progressJson.student_misc_data.admission_placement_apply_way_data.code) == -1) ||
 							(
 								progressJson.student_misc_data.admission_placement_apply_way_data.code == "26")||
 								progressJson.student_misc_data.admission_placement_apply_way == "1"
@@ -212,19 +206,13 @@
 					} else if (i==12 || i==13 || i==14) {
 						continue;
 					}
-					if (i==16) {
-						continue;
-					}
-					if (i==17 && progressJson.student_qualification_verify.identity != 2) {
-						continue;
-					}
 
 					let item_id = (i < 10)? '0' + i.toString(): i.toString();
 					await setBlocks(item_id);
 				}
 			}
 			
-			// 研究所 && 僑居地為香港
+			// 研究所 && 僑居地為港澳
 			if(
 				(progressJson.student_qualification_verify.system_id == 3 || 
 					progressJson.student_qualification_verify.system_id == 4 ) &&
@@ -384,13 +372,14 @@
 					} else if (studentdata.student_personal_data_detail.resident_location == '香港') {
 						description = item_block[itemId].description[0];
 					}
+					break;
 				case '09':
 					if (studentdata.student_qualification_verify.identity == 1) {
 						title = item_block[itemId].title[0];
 						if (studentdata.student_personal_data_detail.resident_location == '香港') {
 							description = item_block[itemId].description[0];
 						} else if (studentdata.student_personal_data_detail.resident_location == '澳門') {
-							description = item_block[itemId].description[4];
+							description = item_block[itemId].description[3];
 						}
 					} else if (studentdata.student_qualification_verify.identity == 2) {
 						title = item_block[itemId].title[1];
@@ -405,7 +394,7 @@
 						title = item_block[itemId].title[0];
 						description = item_block[itemId].description[0];
 						if (studentdata.student_personal_data_detail.resident_location == '澳門') {
-							description.replace('香港', '澳門');
+							description = description.replace(/(香港)/g, "澳門");
 						}
 					}else if (studentdata.student_qualification_verify.system_id == 2){ // 港二技
 						title = item_block[itemId].title[1];
@@ -437,16 +426,19 @@
 			console.log(item_id + ' ' + title);
             const ifhasfile = await response.json();
 			document.getElementById(`${item_block[itemId].element}`).innerHTML=`
-				<div class="card border-secondary" style="thick;margin-bottom: 3%;">
-					<div class="card-header bg-secondary text-white" style="font-size:150%; justify-content:space-between; display:flex;">
+				<div class="card" style="thick;margin-bottom: 3%;">
+					<div class="card-header bg-primary text-white" style="font-size:150%;">
 						<span>${title}</span>
-						<div class="fileUpload">
-							<input type="file" class="fileUploadBtn filestyle file-certificate"  data-item="${item_id}"  >
-						</div>
 					</div>
 					<div class="card-body">
-						<div class="row" style="padding-left:5%">
+						<div>
 							${description}
+						</div>
+						<div class="alert alert-warning"  style="margin:15px 0px 20px 0px;">
+							可接受副檔名為 <strong class="text-danger">pdf</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
+						</div>
+						<div class="fileUpload" style="margin-bottom:20px;">
+							<input type="file" class="fileUploadBtn filestyle file-certificate" data-item="${item_id}"  >
 						</div>
 						<div class="card" id="${item_block[itemId].element}_file"></div>
 					</div>
@@ -466,7 +458,7 @@
 			$(".fileUploadBtn").filestyle({ //:file
 				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
 				btnClass: "btn-success",
-				text: "請上傳",
+				text: "選擇檔案",
 				input: false
 			});
 			loading.complete();
