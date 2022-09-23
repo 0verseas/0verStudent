@@ -249,6 +249,7 @@
                     startDate: '-121y',
                     endDate: '-0y'
                 });
+                let graduateYear = env.year - new Date().getFullYear()+'Y';
                 $schoolGraduateAt.datepicker({
                     updateViewDate: true,
                     autoclose: true,
@@ -257,7 +258,7 @@
                     maxViewMode: 3,
                     immediateUpdates: true,
                     startDate: '-121y',
-                    endDate: '-0y'
+                    endDate: '+'+graduateYear
                 });
                 $twoYearTechClassStart.datepicker({
                     updateViewDate: true,

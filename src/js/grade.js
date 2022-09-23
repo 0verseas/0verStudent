@@ -19,6 +19,7 @@
 	$applyWaysFieldSet.on('change.chooseOption', '.radio-option', _handleChoose);
 	$('.btn-save').on('click', _handleSave);
 	$goToFF.on('change',toFFChange);
+	$('.DSE-example').html(`請填寫西元年份，若多個請用「，」隔開。<br/>EX1：${env.year} <br/>EX2：2013, 2014`);
 
 	/**
 	* event handler
@@ -137,7 +138,7 @@
 		.then(async (json) => {
 			// console.log(json);
 			await swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
-			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999') { // 不參加聯分，原地 reload
+			if (json.student_misc_data.admission_placement_apply_way_data.code === '99999' || +code === 17) { // 不參加聯分，原地 reload
 				window.location.reload();
 			} else if(+code === 23){
 				await swal({
