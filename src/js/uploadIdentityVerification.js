@@ -22,7 +22,7 @@
 		},{
 			element: 'uploadArea_TaiwanStayDates',
 			title: ['在臺停留日期'],
-			description: ['<ol><li>報名截止日往前推算僑居地居留期間內，如有某一年來臺停留超過 120 天，請上傳證明文件。</li></ol>']
+			description: ['報名截止日往前推算僑居地居留期間內，如有某一年來臺停留超過 120 天，請上傳證明文件。']
 		},{
 			element: 'uploadArea_HKorMOGuarantee',
 			title: ['港澳生聲明書','港澳具外國國籍之華裔學生切結書'],
@@ -53,7 +53,8 @@
 			title: ['高中最後三年成績單','經驗證之副學士或高級文憑(含)以上學位之歷年成績單','經驗證之學士或碩士成績單'],
 			description: ['<ol><li>請上傳<font color="red">高中</font>最後三年成績單，如為應屆中六生，當學期成績尚未取得，免附該學期成績單。</li><li>香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>',
 			'<ol><li>請上傳<font color="red">經驗證之全日制副學士或高級文憑(含)以上學位</font>之歷年成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>學歷證件應先經台北經濟文化辦事處（香港灣仔港灣道18號中環廣場49樓4907-4908室）驗證。</li></ol>',
-			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li></ol>']
+			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">高中</font>最後三年成績單，如為應屆中六生，當學期成績尚未取得，免附該學期成績單。</li><li>澳門以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>']
 		},{
 			element: 'uploadArea_authorizeCheckDiploma',
 			title: ['學歷屬實及授權查證切結書'],
@@ -374,27 +375,13 @@
 					}
 					break;
 				case '09':
-					if (studentdata.student_qualification_verify.identity == 1) {
+				case '10':
+					if (studentdata.student_qualification_verify.system_id == 1){ // 學士班
 						title = item_block[itemId].title[0];
 						if (studentdata.student_personal_data_detail.resident_location == '香港') {
 							description = item_block[itemId].description[0];
 						} else if (studentdata.student_personal_data_detail.resident_location == '澳門') {
 							description = item_block[itemId].description[3];
-						}
-					} else if (studentdata.student_qualification_verify.identity == 2) {
-						title = item_block[itemId].title[1];
-						description = item_block[itemId].description[1];
-					} else if (studentdata.student_qualification_verify.identity == 3 || studentdata.student_qualification_verify.identity == 4){
-						title = item_block[itemId].title[2];
-						description = item_block[itemId].description[2];
-					}
-					break;
-				case '10':
-					if (studentdata.student_qualification_verify.system_id == 1){ // 學士班
-						title = item_block[itemId].title[0];
-						description = item_block[itemId].description[0];
-						if (studentdata.student_personal_data_detail.resident_location == '澳門') {
-							description = description.replace(/(香港)/g, "澳門");
 						}
 					}else if (studentdata.student_qualification_verify.system_id == 2){ // 港二技
 						title = item_block[itemId].title[1];
