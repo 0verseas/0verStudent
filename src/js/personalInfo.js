@@ -279,10 +279,6 @@
                     immediateUpdates: true,
                     startDate: '-121y'
                 });
-
-                $birthLocation.selectpicker();
-                $residentLocation.selectpicker();
-                $schoolCountry.selectpicker();
             })
             .then(()=>{
                 //再初始化個人資訊
@@ -515,6 +511,7 @@
                 $twContactWorkplaceAddress.val(formData.tw_contact_workplace_address);
             })
             .then(() => {
+                // init selectpicker 如果有值 要渲染要出來 一定要用 refresh 參數
                 $birthLocation.selectpicker('refresh');
                 $residentLocation.selectpicker('refresh');
                 $schoolCountry.selectpicker('refresh');
@@ -525,6 +522,7 @@
                 _setResidenceContinent();
             })
             .then(() => {
+                // 為了風格統一 去除預設格式
                 $birthLocation.parent().find('button').removeClass('bs-placeholder');
                 $residentLocation.parent().find('button').removeClass('bs-placeholder');
                 $schoolCountry.parent().find('button').removeClass('bs-placeholder');
@@ -604,18 +602,18 @@
 
         let countryHTML = '';
         if (continent !== -1) {
-            $birthLocation.selectpicker({title: '請選擇國家'});
+            $birthLocation.selectpicker({title: '請選擇國家'}); // 修改 未選擇選項時的顯示文字
             _countryList[continent]['country'].forEach((obj, index) => {
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
-            $birthLocation.attr('disabled',false);
+            $birthLocation.attr('disabled',false); // enable selector
         } else {
-            $birthLocation.selectpicker({title: '請先選擇洲別(Continent)'});
-            $birthLocation.attr('disabled',true);
+            $birthLocation.selectpicker({title: '請先選擇洲別(Continent)'}); // 修改 未選擇選項時的顯示文字
+            $birthLocation.attr('disabled',true); // disable selector
         }
-        $birthLocation.html(countryHTML);
-        $birthLocation.selectpicker('refresh');
-        $birthLocation.parent().find('button').removeClass('bs-placeholder');
+        $birthLocation.html(countryHTML); // reder option
+        $birthLocation.selectpicker('refresh'); // refresh selector
+        $birthLocation.parent().find('button').removeClass('bs-placeholder'); // 為了風格統一 去除預設格式
     }
 
     function _reRenderResidenceCountry() {
@@ -626,7 +624,7 @@
 
         let countryHTML = '';
         if (continent !== -1) {
-            $residentLocation.selectpicker({title: '請選擇國家'});
+            $residentLocation.selectpicker({title: '請選擇國家'}); // 修改 未選擇選項時的顯示文字
             _countryList[continent]['country'].forEach((obj, index) => {
                 if (_identityId === 1 || _identityId === 2 || _identityId === 4) {
                     if (identity124Rule.indexOf(obj.id) === -1) { return; }
@@ -637,14 +635,14 @@
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
-            $residentLocation.attr('disabled',false);
+            $residentLocation.attr('disabled',false); // enable selector
         } else {
-            $residentLocation.selectpicker({title: '請先選擇洲別(Continent)'});
-            $residentLocation.attr('disabled',true);
+            $residentLocation.selectpicker({title: '請先選擇洲別(Continent)'}); // 修改 未選擇選項時的顯示文字
+            $residentLocation.attr('disabled',true); // disable selector
         }
-        $residentLocation.html(countryHTML);
-        $residentLocation.selectpicker('refresh');
-        $residentLocation.parent().find('button').removeClass('bs-placeholder');                
+        $residentLocation.html(countryHTML); // reder option
+        $residentLocation.selectpicker('refresh'); // refresh selector
+        $residentLocation.parent().find('button').removeClass('bs-placeholder'); // 為了風格統一 去除預設格式
     }
 
     function _showResidentIDExample() {
@@ -665,21 +663,21 @@
 
         let countryHTML = '';
         if (continent !== -1) {
-            $schoolCountry.selectpicker({title: '請選擇國家'});
+            $schoolCountry.selectpicker({title: '請選擇國家'}); // 修改 未選擇選項時的顯示文字
             _countryList[continent]['country'].forEach((obj, index) => {
                 if ((_systemId === 2 || _systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
                     if (countryFilterRule.indexOf(obj.id) !== -1) { return; }
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             });
-            $schoolCountry.attr('disabled',false);
+            $schoolCountry.attr('disabled',false); // enable selector
         } else {
-            $schoolCountry.selectpicker({title: '請先選擇洲別(Continent)'});
-            $schoolCountry.attr('disabled',true);
+            $schoolCountry.selectpicker({title: '請先選擇洲別(Continent)'}); // 修改 未選擇選項時的顯示文字
+            $schoolCountry.attr('disabled',true); // disable selector
         }
-        $schoolCountry.html(countryHTML);
-        $schoolCountry.selectpicker('refresh');
-        $schoolCountry.parent().find('button').removeClass('bs-placeholder');
+        $schoolCountry.html(countryHTML); // reder option
+        $schoolCountry.selectpicker('refresh'); // refresh selector
+        $schoolCountry.parent().find('button').removeClass('bs-placeholder'); // 為了風格統一 去除預設格式
     }
 
     function _switchDisabilityCategory() {
@@ -1328,142 +1326,117 @@
                         break;
                     }
                 case 'string':
+                    colAlert.addClass('invalidInput');
                     if (value == "") { // 輸入式字串欄位判斷有沒有填
-                        colAlert.addClass('invalidInput');
                         _errormsg.push(colName + '爲必填，請填寫');
                         _correct = false;
-                        break;
                     } else if (value == null) { // 下拉式判斷有沒有選
-                        colAlert.addClass('invalidInput');
                         _errormsg.push(colName + '爲必選，請選擇');
                         _correct = false;
-                        break;
                     } else { // 有填再正規化欄位值
                         if (regexGeneral(value) == "") { // 如過濾後是空值則要求重新填寫，防止來亂
-                            colAlert.addClass('invalidInput');
                             _errormsg.push(colName + '輸入格式不符，請重新填寫');
                             _correct = false;
-                            break;
                         } else { // 都沒問題再丟sendData
                             colAlert.removeClass('invalidInput');
                             sendData[key] = regexGeneral(value);
-                            break;
                         }
                     }
+                    break;
                 case 'chinese':
+                    colAlert.addClass('invalidInput');
                     if (value == "") { // 中文姓名欄位判斷有沒有填
-                        colAlert.addClass('invalidInput');
                         _errormsg.push(colName + '爲必填，請填寫');
                         _correct = false;
-                        break;
                     } else { // 有填再正規化欄位值
                         if (regexChinese(value).length != value.length) {  // 如過濾後少過原本值的長度，則提示檢查欄位，防止是誤打造成名字錯誤
-                            colAlert.addClass('invalidInput');
                             _errormsg.push(colName + '輸入格式有文字不符，請檢查並重新填寫');
                             _correct = false;
-                            break;
                         } else if (regexChinese(value) == "") { // 如過濾後是空值則要求重新填寫，防止來亂
-                            colAlert.addClass('invalidInput');
                             _errormsg.push(colName + '輸入格式完全不符，請檢查並重新填寫');
                             _correct = false;
-                            break;
                         } else { // 都沒問題再丟sendData
                             colAlert.removeClass('invalidInput');
                             sendData[key] = regexChinese(value);
-                            break;
                         }
                     }
+                    break;
                 case 'english':
+                    colAlert.addClass('invalidInput');
                     if (value == "") { // 英文姓名欄位判斷有沒有填
-                        colAlert.addClass('invalidInput');
                         _errormsg.push(colName + '爲必填，請填寫');
                         _correct = false;
-                        break;
                     } else { // 有填再正規化欄位值
                         if (regexEnglish(value).length != value.length) { // 如過濾後少過原本值的長度，則提示檢查欄位，防止是誤打造成名字錯誤
-                            colAlert.addClass('invalidInput');
                             _errormsg.push(colName + '輸入格式有文字不符，請檢查並重新填寫');
                             _correct = false;
-                            break;
                         } else if (regexEnglish(value) == "") { // 如過濾後是空值則要求重新填寫，防止來亂
-                            colAlert.addClass('invalidInput');
                             _errormsg.push(colName + '輸入格式不符，請檢查並重新填寫');
                             _correct = false;
-                            break;
                         } else { // 都沒問題再丟sendData
                             colAlert.removeClass('invalidInput');
                             sendData[key] = regexEnglish(value);
-                            break;
                         }
                     }
+                    break;
                 case 'radio':
                     if (value != 'M' && value != 'F' && isNaN(value)) { // 判斷默認沒給值的radio（性別和香港是否取得副學士或高級文憑是否有值）
                         colAlert.addClass('invalidFieldSet');
                         _correct = false;
                         _errormsg.push(colName + '爲必選，請點選');
-                        break;
                     } else { // 有點選後再丟sendData
                         colAlert.removeClass('invalidFieldSet');
                         sendData[key] = value;
-                        break;
                     }
+                    break;
                 case 'phoneCode': // TODO 應該要根據5大洲區分國碼長度？
                     if (regexNumber(value) == "") { // 只能填數字，空的就不給你過
                         colAlert.addClass('invalidInput');
                         _correct = false;
                         _errormsg.push(colName + '爲必填，請填寫數字');
-                        break;
                     } else { // 有填再丟sendData
                         colAlert.removeClass('invalidInput');
                         sendData[key] = regexNumber(value);
-                        break;
                     }
+                    break;
                 case 'phone': // TODO 應該要加上國家（加拿大和大陸）區分電話號碼長度，加拿大的話最少能填7碼，大陸的話最多能填11碼，其餘皆爲8-10碼？
+                    colAlert.addClass('invalidInput');
                     if (regexNumber(value) == "") { // 只能填數字，空的就不給你過
-                        colAlert.addClass('invalidInput');
                         _correct = false;
                         _errormsg.push(colName + '爲必填，請填寫數字');
-                        break;
                     } else { // 有填再正規化欄位值
                         if (regexNumber(value).length < 7) { // 過濾後少過7碼，則提示不能少過
-                            colAlert.addClass('invalidInput');
                             _correct = false;
                             _errormsg.push(colName + '輸入格式不符，最少要7碼，請重新填寫');
-                            break;
                         } else if (regexNumber(value).length > 11) { // 過濾後超過11碼，則提示不能超過
-                            colAlert.addClass('invalidInput');
                             _correct = false;
                             _errormsg.push(colName + '輸入格式不符，不能超過11碼，請重新填寫');
-                            break;
                         } else { // 都沒問題再丟sendData
                             colAlert.removeClass('invalidInput');
                             sendData[key] = regexNumber(value);
-                            break;
                         }
                     }
+                    break;
                 case 'email':
                     if (!_validateEmail(value)) { // 判斷Email格式，格式不對就不給過
                         colAlert.addClass('invalidInput');
                         _correct = false;
                         _errormsg.push(colName + '輸入格式錯誤，請確認資料是否正確');
-                        break;
                     } else { // 沒問題再丟sendData
                         colAlert.removeClass('invalidInput');
                         sendData[key] = value;
-                        break;
                     }
+                    break;
                 case 'country':
+                    colAlert.parent().find('button').addClass('invalidInput');
                     if (value == "") { // 輸入式字串欄位判斷有沒有填
-                        colAlert.parent().find('button').addClass('invalidInput');
                         _errormsg.push(colName + '爲必填，請填寫');
                         _correct = false;
                     } else if (value == null) { // 下拉式判斷有沒有選
-                        colAlert.parent().find('button').addClass('invalidInput');
                         _errormsg.push(colName + '爲必選，請選擇');
                         _correct = false;
                     } else { // 有填再正規化欄位值
                         if (regexGeneral(value) == "") { // 如過濾後是空值則要求重新填寫，防止來亂
-                            colAlert.parent().find('button').addClass('invalidInput');
                             _errormsg.push(colName + '輸入格式不符，請重新填寫');
                             _correct = false;
                         } else { // 都沒問題再丟sendData
