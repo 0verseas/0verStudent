@@ -1202,7 +1202,8 @@
         //將輸入欄位資料過濾  避免xss攻擊
         function regexChinese(str) {
             //return str.replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")
-            return str.replace(/((?:(?![\p{sc=Han}])\u2027\u00b7))/gu, "");
+            const regexp = /\p{sc=Han}|[\u2027\u00b7]/gu;
+            return str.match(regexp).join("");
         }
         function regexEnglish(str) {
             return str.replace(/[\s]/g, "\u0020").replace(/[^\u0020\u0027a-zA-Z.,-]/g, "");
