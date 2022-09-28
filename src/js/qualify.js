@@ -211,8 +211,8 @@
                     $passportContinentSelect.append(`<option value="${i}">${val.continent}</option>`);
                 });
 
-                $citizenshipSelect.attr('disabled',true);
-                $citizenshipSelect.selectpicker({title: '請先選擇洲別'});
+                $citizenshipSelect.attr('disabled',true); // disable selector
+                $citizenshipSelect.selectpicker({title: '請先選擇洲別'}); // 修改 未選擇選項時的顯示文字
                 $passportCountrySelect.empty();
 			    $passportCountrySelect.append('<option value="-1" hidden disabled selected>請先選擇洲別</option>');
             });
@@ -497,20 +497,20 @@
 		
 		// 防止有人選取預設選項
 		if (+order === -1) {
-            $citizenshipSelect.selectpicker({title: '請先選擇洲別'});
-            $citizenshipSelect.attr('disabled',true);
+            $citizenshipSelect.selectpicker({title: '請先選擇洲別'}); // 修改 未選擇選項時的顯示文字
+            $citizenshipSelect.attr('disabled',true); // disable selector
 			return;
 		}
-        $citizenshipSelect.selectpicker({title: '請選擇國家'});
-        $citizenshipSelect.attr('disabled',false);
+        $citizenshipSelect.selectpicker({title: '請選擇國家'}); // 修改 未選擇選項時的顯示文字
+        $citizenshipSelect.attr('disabled',false); // enable selector
 		// 渲染選取洲別的國家到下拉式選單中
 		_countryList[order].country.forEach((val, i) => {
 			if(_citizenshipList.findIndex(order => order.id == val.id) === -1){ // 在已選擇國籍名單中 就不渲染避免重複選取
 				$citizenshipSelect.append(`<option value="${val.id}">${val.country}</option>`);
 			}
 		});
-        $citizenshipSelect.selectpicker('refresh');
-        $citizenshipSelect.parent().find('button').removeClass('bs-placeholder');
+        $citizenshipSelect.selectpicker('refresh'); // refresh selecor
+        $citizenshipSelect.parent().find('button').removeClass('bs-placeholder'); // 為了風格統一 去除預設格式
 	}
 
 	// 選擇國籍選項 新增至已選擇國籍列表
@@ -566,8 +566,8 @@
 		$citizenshipContinentSelect.append('<option value="-1" hidden disabled selected>請選擇</option>');
         $citizenshipSelect.empty();
         $citizenshipSelect.attr('disabled',true);
-        $citizenshipSelect.selectpicker({title: '請先選擇洲別'});
-        $citizenshipSelect.selectpicker('refresh');
+        $citizenshipSelect.selectpicker({title: '請先選擇洲別'}); // 修改 未選擇選項時的顯示文字
+        $citizenshipSelect.selectpicker('refresh'); // refresh selector
 	}
 
     // 港澳持外國護照
