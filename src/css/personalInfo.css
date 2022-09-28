@@ -6,3 +6,9 @@
 	border: 1px #d9534f solid;
 	border-radius: 5px;
 }
+
+.btn-white {
+	background: #FFF;
+	color: #495057;
+	border: 1px solid #ced4da;
+}

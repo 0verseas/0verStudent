@@ -22,7 +22,7 @@
     let _currentSchoolName = "";
     let _schoolList = [];
     let _schoolType = { // 有類別的地區
-        "105": ["國際學校", "華校", "緬校"/*, "參與緬甸師資培育專案之華校"*/], // 緬甸
+        "105": ["國際學校", "華校", "參與緬甸師資培育專案之華校", "緬校"], // 緬甸
         "109": ["印尼當地中學", "海外臺灣學校"], // 印尼
         "128": ["馬來西亞華文獨立中學", "國民（型）中學、外文中學", "馬來西亞國際學校（International School）", "海外臺灣學校"], // 馬來西亞
         "133": ["海外臺灣學校", "越南當地中學"], // 越南
@@ -279,6 +279,10 @@
                     immediateUpdates: true,
                     startDate: '-121y'
                 });
+
+                $birthLocation.selectpicker();
+                $residentLocation.selectpicker();
+                $schoolCountry.selectpicker();
             })
             .then(()=>{
                 //再初始化個人資訊
@@ -511,6 +515,9 @@
                 $twContactWorkplaceAddress.val(formData.tw_contact_workplace_address);
             })
             .then(() => {
+                $birthLocation.selectpicker('refresh');
+                $residentLocation.selectpicker('refresh');
+                $schoolCountry.selectpicker('refresh');
                 _showSpecialForm();
                 _handleOtherDisabilityCategoryForm();
                 _switchDadDataForm();
@@ -518,6 +525,9 @@
                 _setResidenceContinent();
             })
             .then(() => {
+                $birthLocation.parent().find('button').removeClass('bs-placeholder');
+                $residentLocation.parent().find('button').removeClass('bs-placeholder');
+                $schoolCountry.parent().find('button').removeClass('bs-placeholder');
                 loading.complete();
             })
             .catch((err) => {
@@ -591,19 +601,21 @@
 
     function _reRenderCountry() {
         const continent = $(this).find(':selected').data('continentindex');
-        const $row = $(this).closest('.row');
-        const $countrySelect = $row.find('.country');
 
-        let countryHTML = '<option value="" hidden disabled selected>Country</option>';
+        let countryHTML = '';
         if (continent !== -1) {
+            $birthLocation.selectpicker({title: '請選擇國家'});
             _countryList[continent]['country'].forEach((obj, index) => {
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
+            $birthLocation.attr('disabled',false);
         } else {
-            countryHTML = '<option value="" hidden disabled selected>Country</option>'
+            $birthLocation.selectpicker({title: '請先選擇洲別(Continent)'});
+            $birthLocation.attr('disabled',true);
         }
-        $countrySelect.html(countryHTML);
-        $countrySelect.change();
+        $birthLocation.html(countryHTML);
+        $birthLocation.selectpicker('refresh');
+        $birthLocation.parent().find('button').removeClass('bs-placeholder');
     }
 
     function _reRenderResidenceCountry() {
@@ -612,8 +624,9 @@
         const identity35Rule = ["113", "127", "134", "135"]; // 海外僑生、在臺僑生不能選到香港、澳門、臺灣跟大陸
         const identity6Rule = ["134"]; // 僑先部結業生不能選到臺灣
 
-        let countryHTML = '<option value="" hidden disabled selected>Country</option>';
+        let countryHTML = '';
         if (continent !== -1) {
+            $residentLocation.selectpicker({title: '請選擇國家'});
             _countryList[continent]['country'].forEach((obj, index) => {
                 if (_identityId === 1 || _identityId === 2 || _identityId === 4) {
                     if (identity124Rule.indexOf(obj.id) === -1) { return; }
@@ -624,10 +637,14 @@
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
             })
+            $residentLocation.attr('disabled',false);
         } else {
-            countryHTML = '<option value="" hidden disabled selected>Country</option>'
+            $residentLocation.selectpicker({title: '請先選擇洲別(Continent)'});
+            $residentLocation.attr('disabled',true);
         }
         $residentLocation.html(countryHTML);
+        $residentLocation.selectpicker('refresh');
+        $residentLocation.parent().find('button').removeClass('bs-placeholder');                
     }
 
     function _showResidentIDExample() {
@@ -646,19 +663,23 @@
         // 非在台碩博不能選到臺灣
         const countryFilterRule = ["134"];
 
-        let countryHTML = '<option value="" hidden disabled selected>Country</option>';
+        let countryHTML = '';
         if (continent !== -1) {
+            $schoolCountry.selectpicker({title: '請選擇國家'});
             _countryList[continent]['country'].forEach((obj, index) => {
                 if ((_systemId === 2 || _systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
                     if (countryFilterRule.indexOf(obj.id) !== -1) { return; }
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
-            })
+            });
+            $schoolCountry.attr('disabled',false);
         } else {
-            countryHTML = '<option value="" hidden disabled selected>Country</option>'
+            $schoolCountry.selectpicker({title: '請先選擇洲別(Continent)'});
+            $schoolCountry.attr('disabled',true);
         }
         $schoolCountry.html(countryHTML);
-        $schoolCountry.change();
+        $schoolCountry.selectpicker('refresh');
+        $schoolCountry.parent().find('button').removeClass('bs-placeholder');
     }
 
     function _switchDisabilityCategory() {
@@ -1431,6 +1452,26 @@
                         sendData[key] = value;
                         break;
                     }
+                case 'country':
+                    if (value == "") { // 輸入式字串欄位判斷有沒有填
+                        colAlert.parent().find('button').addClass('invalidInput');
+                        _errormsg.push(colName + '爲必填，請填寫');
+                        _correct = false;
+                    } else if (value == null) { // 下拉式判斷有沒有選
+                        colAlert.parent().find('button').addClass('invalidInput');
+                        _errormsg.push(colName + '爲必選，請選擇');
+                        _correct = false;
+                    } else { // 有填再正規化欄位值
+                        if (regexGeneral(value) == "") { // 如過濾後是空值則要求重新填寫，防止來亂
+                            colAlert.parent().find('button').addClass('invalidInput');
+                            _errormsg.push(colName + '輸入格式不符，請重新填寫');
+                            _correct = false;
+                        } else { // 都沒問題再丟sendData
+                            colAlert.parent().find('button').removeClass('invalidInput');
+                            sendData[key] = regexGeneral(value);
+                        }
+                    }
+                    break;
             }
         }
 
@@ -1477,7 +1518,7 @@
         _validator(inputEngName, 'english', engNameText, $engName, 'eng_name'); // 檢查英文姓名
         _validator(choosenGender, 'radio', genderText, genderFieldSet, 'gender'); // 檢查性別
         _validator(inputBirthday, 'string', birthdayText, $birthday, 'birthday');  // 檢查出生日
-        _validator(choosenBirthLocation, 'string', birthLocationText, $birthLocation, 'birth_location'); // 檢查出生地
+        _validator(choosenBirthLocation, 'country', birthLocationText, $birthLocation, 'birth_location'); // 檢查出生地
 
         if (inputProposeGroup != "") { // 協助推薦來臺就學之學校或組織爲選填，但有資料的話需要驗證輸入格式正不正確
             _validator(inputProposeGroup, 'string', proposeGroupText, $proposeGroup, 'propose_group');
@@ -1493,7 +1534,7 @@
         }
 
         // * 僑居地資料
-        _validator(choosenResidenceLocation, 'string', residenceLocationText, $residentLocation, 'resident_location'); // 檢查地區與國別
+        _validator(choosenResidenceLocation, 'country', residenceLocationText, $residentLocation, 'resident_location'); // 檢查地區與國別
         _idValidator(choosenResidenceLocation, inputResidentID, residentIdText, $residentId, 'resident_id'); // 檢查身份證號碼
         _validator(inputResidentPhoneCode, 'phoneCode', residentPhoneCodeText, $residentPhoneCode, 'resident_phone_code'); // 檢查電話國碼
         _validator(inputResidentPhone, 'phone', residentPhoneText, $residentPhone, 'resident_phone_number'); // 檢查電話號碼
@@ -1508,7 +1549,7 @@
         }
         
         // * 學歷資料
-        _validator(choosenSchoolCountry, 'string', schoolCountryText, $schoolCountry, 'school_country'); // 檢查學校所在國別
+        _validator(choosenSchoolCountry, 'country', schoolCountryText, $schoolCountry, 'school_country'); // 檢查學校所在國別
         if (choosenSchoolCountry != null) { // 學校所在國別有值 ，所以再進一步做以下的判斷
             if (_hasEduType) { // 有學校類型表
                 _validator(choosenSchoolType, 'string', schoolTypeText, $schoolType, 'school_type'); // 學校類型丟_validator檢查是否有選
