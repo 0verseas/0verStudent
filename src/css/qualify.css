@@ -5,3 +5,9 @@
 .portugalPassportMore {
 	width: 100%;
 }
+
+.btn-white {
+	background: #FFF;
+	color: #495057;
+	border: 1px solid #ced4da;
+}
