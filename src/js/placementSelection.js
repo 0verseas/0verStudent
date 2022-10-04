@@ -138,7 +138,7 @@
 							confirmButtonText: '確定',
 							allowOutsideClick: false
 						});
-						location.href = "./uploadIdentityVerification.html"
+						location.href = "./uploadIdentityVerification.html";
 					}else if(window.history.length>1){
 						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回上一頁', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						window.history.back();
@@ -434,6 +434,7 @@
 				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
 				.then(()=>{
 					window.location.reload();
+					scroll(0,0);
 				});
 				loading.complete();
 			})

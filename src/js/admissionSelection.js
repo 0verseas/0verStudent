@@ -479,6 +479,7 @@
 					swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
 					.then(()=>{
 						window.location.reload();
+						scroll(0,0);
 					});
 					loading.complete();
 				})
@@ -510,6 +511,7 @@
 				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
 				.then(()=>{
 					window.location.reload();
+					scroll(0,0);
 				});
 				loading.complete();
 			})
