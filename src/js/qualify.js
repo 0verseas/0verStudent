@@ -1138,11 +1138,12 @@
                 throw res;
             }
         })
-        .then((json) => {
+        .then(async(json) => {
             // 成功
-            swal({title:`儲存成功，即將跳轉。`, type:"warning", showConfirmButton: false, allowOutsideClick: false});
-            window.location.href = './personalInfo.html';
-            loading.complete();
+            swal({title:`儲存成功，即將跳轉。`, type:"success", showConfirmButton: false, allowOutsideClick: false, timer: 900}).catch(() => {
+                loading.complete();
+                window.location.href = './personalInfo.html';
+            });
         })
         .catch((err) => {
             // 失敗
