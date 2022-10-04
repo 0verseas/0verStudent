@@ -64,20 +64,27 @@
 			_system = orderJson.student_qualification_verify.system_id;
 			_isDocumentLock = !!orderJson.student_misc_data.admission_selection_document_lock_at;
 			let key = '';
-			let admission_doc_upload_time_limit = '西元 ' + env.year + ' 年 1 月 6 日（星期五）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（學士班、研究所）
+			let weekString = ['日','一','二','三','四','五','六'];
+			let dayNumber = new Date(env.year+'/01/06').getDay();
+			let admission_doc_upload_time_limit = ' 1 月 6 日';  // 備審資料上傳截止時間（學士班、研究所）
 			switch (_system) {
 				case 1:
 					key = 'student_department_admission_selection_order';
 					break;
 				case 2:
+					dayNumber = new Date(env.year+'/03/31').getDay();
 					key = 'student_two_year_tech_department_admission_selection_order';
-					admission_doc_upload_time_limit = '西元 ' + env.year + ' 年 3 月 31 日（星期五）臺灣時間下午 5 時前';  // 備審資料上傳截止時間（港二技）
+					admission_doc_upload_time_limit = ' 3 月 31 日';  // 備審資料上傳截止時間（港二技）
 					break;
 				case 3:
 				case 4:
 					key = 'student_graduate_department_admission_selection_order';
 					break;
 			}
+			admission_doc_upload_time_limit = 
+				'西元 ' + env.year + ' 年' 
+				+ admission_doc_upload_time_limit 
+				+ '（星期' + weekString[dayNumber]+'）臺灣時間下午 5 時前';
 			_wishList = orderJson[key];
 			document.getElementById("admission-doc-time-limit").innerText=admission_doc_upload_time_limit;
 
