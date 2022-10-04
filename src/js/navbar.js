@@ -604,9 +604,10 @@
 	function _checkPrintDistribution(json) {
 		$('.btn-noticeForHKMO').hide();
 		// 若有地區列印分發通知書限制，再加條件
-		if( json.student_misc_data.stage_of_admit != null && json.student_misc_data.stage_of_deptid != null &&
-			(json.student_personal_data_detail.resident_location == '香港' || json.student_personal_data_detail.resident_location == '澳門')
-			&& json.student_qualification_verify.identity < 3) {
+		if( json.student_misc_data.stage_of_admit != null && json.student_misc_data.stage_of_deptid != null
+			&& (((json.student_personal_data_detail.resident_location == '香港' || json.student_personal_data_detail.resident_location == '澳門')
+			&& json.student_qualification_verify.identity < 3)
+			|| json.student_qualification_verify.identity == 4 || json.student_qualification_verify.identity == 5)) {
 			$printDistribution.show();
 			$('#printDistributionAlert').show();
 			$printDistribution.on('click', _printDistribution);
