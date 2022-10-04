@@ -369,7 +369,11 @@
                 $birthday.val(formData.birthday);
                 $birthContinent.val(_findContinent(formData.birth_location)).change();
                 $birthLocation.val(formData.birth_location);
-                $proposeGroup.val(formData.propose_group)
+                if (_identityId != 4 && _identityId != 5) {
+                    $proposeGroup.val(formData.propose_group);
+                } else {
+                    $('.proposeGroup-div').hide();
+                }
 
                 _specialStatus = formData.special;
                 $("input[name=special][value='" + _specialStatus + "']").prop("checked", true).change();
