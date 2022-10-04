@@ -8,12 +8,12 @@
 	let _citizenshipList = [];
     const isDistributionOptionsString = [
         '未曾辦理報到入學，亦未辦理保留入學資格。',
-        '經輔導來臺就學後，未在國立臺灣師範大學僑生先修部結業，且在臺停留未滿二年，因故退學或喪失學籍（得重新報名，以一次為限）（須附證明文件）。',
+        '經輔導來臺就學後，因故自願退學，且在臺居留未滿二年（得重新報名，以一次為限）（須附證明文件）。',
         '辦理保留入學資格在案。',
         '註冊在學。',
         '辦理休學中。',
-        '分發來臺就學後經入學學校以學業或操行成績不及格、違反校規情節嚴重或因刑事案件判刑確定，依學生獎懲規定致遭退學或喪失學籍者。',
-        '於國立臺灣師範大學僑生先修部結業分發有案，且在臺停留未滿二年（得重新報名，以一次為限：但不得再入學僑生先修部）',
+        '分發來臺就學後經入學學校以操行成績不及格或因刑事案件判刑確定致遭退學者。',
+        '於國立臺灣師範大學僑生先修部結業分發有案，因故自願退學，且在臺居留未滿二年（得重新報名，以一次為限；但不得再入學僑生先修部）',
         '曾經來臺就讀海外青年技術訓練班。'
     ];
 
@@ -25,13 +25,13 @@
             '經中央目的事業主管機關許可來臺實習，實習期間合計未滿二年。',
             '在臺灣地區接受兵役徵召服役。',
             '遭遇天災或其他不可避免之事變。',
-            '曾經分發註冊入學，惟分發在臺期間因故自願退學且在臺停留未滿一年。',
-            '於國立臺灣師範大學僑生先修部結業，在臺停留未滿一年。',
+            '曾經本會分發或經各大學單獨招生錄取來臺就學，因故自願退學，且在臺灣地區居留未滿二年者。',
             '懷胎七個月以上或生產、流產後未滿二個月。',
             '罹患疾病而強制其出境有生命危險之虞。',
             '在臺灣地區設有戶籍之配偶、直系血親、三親等內之旁系血親、二親等內之姻親在臺灣地區患重病或受重傷而住院或死亡。',
-            '因其他不可歸責於港澳生之事由，致無法返回僑居地。',
-            '未符合前述1至$temp條件'
+            '因其他不可歸責之事由。',
+            '未符合前述1至$temp條件',
+            ''
         ],
         2:[
             '就讀僑務主管機關舉辦之海外青年技術訓練班或中央主管教育行政機關認定之技術訓練專班。',
@@ -41,9 +41,9 @@
             '回國接受兵役徵召及服役。',
             '因戰亂、天災或大規模傳染病，致無法返回僑居地。',
             '曾經分發註冊入學，惟分發在臺期間因故自願退學且在臺停留未滿二年。',
-            '於國立臺灣師範大學僑生先修部結業，在臺停留未滿二年。',
             '因其他不可歸責於僑生之事由，致無法返回僑居地。',
             '未符合前述1至$temp條件',
+            '',
             '',
             '',
             ''
@@ -783,11 +783,6 @@
             const option = $qualifyForm.find(`.option-isDistribution[value=${order}]`); // 現在要渲染的選項
             const optionTextArea = option.parent().find('a'); // 選項文字的網頁物件
             let optionText = value; // 選項的文字
-
-            // 單純的港澳生選項的時間跟別人不一樣
-            if(choosenIdentity === '1' && (order === 2 || order === 7)){
-                optionText = optionText.replace('二年','一年');
-            }
             
             // 文字區域先清空
             optionTextArea.text('');
@@ -889,7 +884,7 @@
     function _handleHasBeenTaiwanOptionChange(){
         const choosenOptionValue = $hasBeenTaiwanOption.filter(":checked").val();
         const choosenIdentity = $identityRadio.filter(":checked").val();
-        const unqualifiedOption = (choosenIdentity == '1')?'13':'10';
+        const unqualifiedOption = (choosenIdentity == '1')?'12':'9';
 
         if(unqualifiedOption == choosenOptionValue){
             $alertHasBeenTaiwan.show();
@@ -1066,7 +1061,7 @@
                 return;
             }
             // 檢查在台停留原因
-            const unqualifiedHasBeenTaiwanOptionMap = [13,10,10];
+            const unqualifiedHasBeenTaiwanOptionMap = [12,9,9];
             if(choosenHasBeenTaiwan == 1 ){
                 if(!choosenHasBeenTaiwanOption){
                     await swal({title: `請選擇在臺停留因選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
