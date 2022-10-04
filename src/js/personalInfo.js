@@ -999,10 +999,6 @@
     }
 
     async function _handleSave() {
-        if((_identityId == 4 || _identityId == 5) && $taiwanAddress.val() == ''){
-            await swal({title:"在臺學生請注意", html:"如果沒有填寫<a class='text-danger' style='font-weight: bold;'>臺灣地址</a>，<br/>錄取後分發通知書將寄到僑居地地址。", type:"warning", confirmButtonText: '確定'});
-        }
-
         let sendData = {};
         if (sendData = _validateForm()) {
             for (let i in sendData) {
