@@ -410,7 +410,6 @@
 					break;
 			}
 			if (!title) title = item_block[itemId].title[0];
-			console.log(item_id + ' ' + title);
             const ifhasfile = await response.json();
 			document.getElementById(`${item_block[itemId].element}`).innerHTML=`
 				<div class="card" style="thick;margin-bottom: 3%;">

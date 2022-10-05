@@ -19,7 +19,7 @@
 	$applyWaysFieldSet.on('change.chooseOption', '.radio-option', _handleChoose);
 	$('.btn-save').on('click', _handleSave);
 	$goToFF.on('change',toFFChange);
-	$('.DSE-example').html(`請填寫西元年份，若多個請用「，」隔開。<br/>EX1：${env.year} <br/>EX2：2013, 2014`);
+	$('.DSE-example').html(`請填寫<strong>西元年份</strong>，若多個請用「，」隔開。<br/>EX1：${env.year} <br/>EX2：2013, 2014`);
 
 	/**
 	* event handler
@@ -88,9 +88,14 @@
 		}
 
 		if (+code === 23) {
-			data.year_of_hk_dse = $('.year_of_hk_dse').val();
-			data.year_of_hk_ale = $('.year_of_hk_ale').val();
-			data.year_of_hk_cee = $('.year_of_hk_cee').val();
+			let resYear =_checkYear();
+			if (!resYear[0]) {
+				await swal({title: resYear[1], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				return;
+			}
+			data.year_of_hk_dse = resYear[2];
+			data.year_of_hk_ale = resYear[3];
+			data.year_of_hk_cee = resYear[4];
 		}
 
 		if(+id == 53 || +id == 59){
@@ -300,6 +305,26 @@
 				}
 			});
 		}
+	}
+
+	function _checkYear() {
+		let year = [$('.year_of_hk_dse').val(),$('.year_of_hk_ale').val(),$('.year_of_hk_cee').val()];
+		// 檢查結果 錯誤訊息 dse ale cee
+		let result = [true, '','','',''];
+		for(let j=0; j<year.length; j++) {
+			// 檢查格式
+			let reg = /^(\d{4}((,|\uff0c)\s*\d{4})*)$/g;
+			if(year[j].length > 0 && !reg.test(year[j])) return [false, '年份格式錯誤！'];
+			// 檢查年份
+			let data = year[j].match(/\d{4}/g);
+			if (data) {
+				for (let i=0; i<data.length; i++) {
+					if (data[i] < env.year - 100 || data[i] > env.year) return [false, '西元年份不合理！'];
+				}
+				result[j+2] = data.join(',');
+			}
+		}
+		return result;
 	}
 
 })();
