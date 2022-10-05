@@ -84,7 +84,7 @@
 			description: ['<ol><li>請上傳至<a href="http://www.hkqr.gov.hk/" target="_blank">資歷名冊</a>網站查詢並下載就讀課程之資歷記錄詳情，或經香港當地政府權責機關、專業評鑑團體認可評審通過之證明文件。</li></ol>']
 		},{
 			element: 'uploadArea_passport',
-			title: ['外國護照'],
+			title: ['外國護照（香港或澳門以外）'],
 			description: ['']
 		}
 	];
@@ -175,7 +175,7 @@
 
 					// 學士班 && 僑居地為港澳
 					if (progressJson.student_misc_data.admission_placement_apply_way_data.code != 16) {
-						// 國際數理奧林匹亞競賽或美國國際科展僅像證明  12
+						// 國際數理奧林匹亞競賽或美國國際科展獎項證明  12
 						if (i==12 && !progressJson.student_misc_data.has_olympia_aspiration) {
 							continue;
 						}
@@ -422,7 +422,7 @@
 							${description}
 						</div>
 						<div class="alert alert-warning"  style="margin:15px 0px 20px 0px;">
-							可接受副檔名為 <strong class="text-danger">pdf</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
+							僅接受副檔名為 <strong class="text-danger">pdf</strong> 的<strong class="text-danger">單一</strong>檔案，檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
 						</div>
 						<div class="fileUpload" style="margin-bottom:20px;">
 							<input type="file" class="fileUploadBtn filestyle file-certificate" data-item="${item_id}"  >
@@ -477,12 +477,12 @@
             'diploma', // 畢業證書/在學證明/學生證
             'scholl-transcript', // 高中最後三年成績單（應屆當學期可免附）
             'authorize-check-diploma', // 學歷屬實及授權查證切結書
-            'olympia', // 國際數理奧林匹亞競賽或美國國際科展僅像證明
+            'olympia', // 國際數理奧林匹亞競賽或美國國際科展獎項證明
             'placement-transcript', // 採計文憑成績證書
             'transcript-reference-table', // 成績採計資料參考表
             'hk-mo-relations-ordinance', // 符合港澳關係條例切結書
             'tech-course-passed-proof', // 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
-            'foreign-passport' // 外國護照
+            'foreign-passport' // 外國護照（香港或澳門以外）
         ];
 		const data_name = _userID+"_"+data_name_map[parseInt(_itemId)];
 
