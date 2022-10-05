@@ -1203,7 +1203,11 @@
         function regexChinese(str) {
             //return str.replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")
             const regexp = /\p{sc=Han}|[\u2027\u00b7]/gu;
-            return str.match(regexp).join("");
+            if(str.match(regexp) == null){
+                return '';
+            } else {
+                return str.match(regexp).join("");
+            }
         }
         function regexEnglish(str) {
             return str.replace(/[\s]/g, "\u0020").replace(/[^\u0020\u0027a-zA-Z.,-]/g, "");
