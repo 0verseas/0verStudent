@@ -176,7 +176,7 @@
 					// 學士班 && 僑居地為港澳
 					if (progressJson.student_misc_data.admission_placement_apply_way_data.code != 16) {
 						// 國際數理奧林匹亞競賽或美國國際科展僅像證明  12
-						if (i==12 && progressJson.student_misc_data.has_olympia_aspiration == false) {
+						if (i==12 && !progressJson.student_misc_data.has_olympia_aspiration) {
 							continue;
 						}
 						// 但凡非 不參加聯合分發 或 僅持 DSE 當年度者、中學最後三年成績者，皆需上傳採計文憑成績證書
