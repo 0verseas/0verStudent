@@ -204,6 +204,19 @@
 							progressJson.student_misc_data.admission_placement_apply_way == '81' ) ){
 							continue;
 						}
+
+						if( i==13
+							&& progressJson.student_personal_data_detail.resident_location == '香港'
+							&& progressJson.student_misc_data.year_of_hk_dse.includes(env.year)
+						){
+							item_block['12'].description[0] =
+							`
+								<ol>
+									<li>${item_block['12'].description[0]}</li>
+									<li>已報考2023年度香港中學文憑考試者，此階段無需上傳2023香港中學文憑考試成績，海聯會將逕向香港考評局提取；除2023香港中學文憑考試成績外，請務必上傳其他年度採計文憑成績證書。</li>
+								</ol>
+							`;
+						}
 					} else if (i==12 || i==13 || i==14) {
 						continue;
 					}
