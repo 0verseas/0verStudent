@@ -6,6 +6,7 @@
 	let studentdata;
 	let birth_location;
 	let item_block = [
+		{},
 		{
 			element: 'uploadArea_IDCard',
 			title: ['香港永久居民身份證正面','澳門永久居民身份證正/反面'],
@@ -128,13 +129,11 @@
 				location.href = "./grade.html";
 			}
 
-            // 自願申請僑先部
-			if(progressJson.student_qualification_verify.system_id == 1 &&  
-				(
-					progressJson.student_personal_data_detail.resident_location == '香港' || 
-					progressJson.student_personal_data_detail.resident_location == '澳門'
-				)){
-				for (let i=1; i<item_block.length+1; i++) {
+            // 僑居地為港澳
+			if(progressJson.student_personal_data_detail.resident_location == '香港' || 
+				progressJson.student_personal_data_detail.resident_location == '澳門'
+			){
+				for (let i=1; i<item_block.length; i++) {
 					// 自願退學證明 (曾分發來台 && 經輔導來台就學後因故退學或喪失國籍返回僑居地)
 					if (i==2 && progressJson.student_qualification_verify.reason_selection_of_come_to_taiwan != 2 ) {
 						continue;
@@ -157,24 +156,8 @@
 					if (i==7 && birth_location != 135) {
 						continue;
 					}
-					// 符合港澳關係條例切結書 港澳生 + 在台設有戶籍 + 持外國護照（但不限回歸前葡萄牙護照）
-					if (i==15 && !(
-						progressJson.student_qualification_verify.identity == 1 && 
-						progressJson.student_qualification_verify.taiwan_census == 1 && 
-						progressJson.student_qualification_verify.except_HK_Macao_passport == 1 && 
-						(
-							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' || 
-							progressJson.student_qualification_verify.which_nation_passport != null
-						)
-					)){
-						continue;
-					}
-					if (i==16 || (i==17 && progressJson.student_qualification_verify.identity != 2)) {
-						continue;
-					}
-
-					// 學士班 && 僑居地為港澳
-					if (progressJson.student_misc_data.admission_placement_apply_way_data.code != 16) {
+					// 學士班 不去僑先部
+					if (progressJson.student_misc_data.admission_placement_apply_way_data.code != 16 && progressJson.student_qualification_verify.system_id == 1) {
 						// 國際數理奧林匹亞競賽或美國國際科展獎項證明  12
 						if (i==12 && !progressJson.student_misc_data.has_olympia_aspiration) {
 							continue;
@@ -195,6 +178,17 @@
 						)){
 							continue;
 						}
+						if( i==13
+							&& progressJson.student_personal_data_detail.resident_location == '香港'
+							&& progressJson.student_misc_data.year_of_hk_dse.includes(env.year)
+						){
+							item_block['12'].description[0] =`
+								<ol>
+									<li>${item_block['12'].description[0]}</li>
+									<li>已報考2023年度香港中學文憑考試者，此階段無需上傳2023香港中學文憑考試成績，海聯會將逕向香港考評局提取；除2023香港中學文憑考試成績外，請務必上傳其他年度採計文憑成績證書。</li>
+								</ol>
+							`;
+						}
 
 						// 非 DSE、ALE、CEE 者，需上傳成績採計資料參考表  14
 						if (i==14 && (progressJson.student_misc_data.admission_placement_apply_way == '2' || 
@@ -205,125 +199,34 @@
 							continue;
 						}
 
-						if( i==13
-							&& progressJson.student_personal_data_detail.resident_location == '香港'
-							&& progressJson.student_misc_data.year_of_hk_dse.includes(env.year)
-						){
-							item_block['12'].description[0] =
-							`
-								<ol>
-									<li>${item_block['12'].description[0]}</li>
-									<li>已報考2023年度香港中學文憑考試者，此階段無需上傳2023香港中學文憑考試成績，海聯會將逕向香港考評局提取；除2023香港中學文憑考試成績外，請務必上傳其他年度採計文憑成績證書。</li>
-								</ol>
-							`;
-						}
 					} else if (i==12 || i==13 || i==14) {
 						continue;
 					}
-
-					let item_id = (i < 10)? '0' + i.toString(): i.toString();
-					await setBlocks(item_id);
-				}
-			}
-			
-			// 研究所 && 僑居地為港澳
-			if(
-				(progressJson.student_qualification_verify.system_id == 3 || 
-					progressJson.student_qualification_verify.system_id == 4 ) &&
-				(progressJson.student_personal_data_detail.resident_location == '香港' ||
-					progressJson.student_personal_data_detail.resident_location == '澳門')){
-				
-				for (let i=1; i<item_block.length+1; i++) {
-					if (i==2 && progressJson.student_qualification_verify.reason_selection_of_come_to_taiwan != 2 ) {
-						continue;
-					}
-					// 海外居留年限：未滿六 or 滿六未滿八
-					if (i==3 && progressJson.student_qualification_verify.overseas_residence_time != 2 &&
-						progressJson.student_qualification_verify.overseas_residence_time != 4){
-						continue;
-					}
-					// 凡在台停留超過 120 天
-					if (i==4 && progressJson.student_qualification_verify.reason_selection_of_stay_over_120_days_in_taiwan == null) {
-						continue;
-					}
-					// (必填)港澳生：聲明書; 港澳具外國國籍：切結書
-					if (i==5 && progressJson.student_qualification_verify.identity != 1 && 
-						progressJson.student_qualification_verify.identity != 2) {
-							continue;
-					}
-					// 回鄉證，出生地為大陸 7
-					if (i==7 && birth_location != 135) {
-						continue;
-					}
-					// 符合港澳關係條例切結書 港澳生、在台設有戶籍、持外國護照（但不限回歸前葡萄牙護照）
-					if (i==15 && !(progressJson.student_qualification_verify.identity == 1 &&
-						progressJson.student_qualification_verify.taiwan_census == 1 &&
-						progressJson.student_qualification_verify.except_HK_Macao_passport ==1 &&
+					// 符合港澳關係條例切結書 港澳生 + 在台設有戶籍 + 持外國護照（但不限回歸前葡萄牙護照）
+					if (i==15 && !(
+						progressJson.student_qualification_verify.identity == 1 && 
+						progressJson.student_qualification_verify.taiwan_census == 1 && 
+						progressJson.student_qualification_verify.except_HK_Macao_passport == 1 && 
 						(
-							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' ||
+							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' || 
 							progressJson.student_qualification_verify.which_nation_passport != null
-						))){
-						continue;
-					}
-					if (i==12 || i==13 || i==14 || i==16) {
-						continue;
-					}
-					if (i==17 && progressJson.student_qualification_verify.identity != 2) {
-						continue;
-					}
-					let item_id = (i < 10)? '0' + i.toString(): i.toString();
-					setBlocks(item_id);
-				}
-			}
-
-			// 港二技
-			if(progressJson.student_qualification_verify.system_id == 2 ){
-				for (let i=1; i<item_block.length+1; i++) {
-					if (i==2 && progressJson.student_qualification_verify.reason_selection_of_come_to_taiwan != 2 ) {
-						continue;
-					}
-					// 海外居留年限：未滿六 or 滿六未滿八
-					if (i==3 && progressJson.student_qualification_verify.overseas_residence_time != 2 &&
-						progressJson.student_qualification_verify.overseas_residence_time != 4){
-						continue;
-					}
-					// 凡在台停留超過 120 天
-					if (i==4 && progressJson.student_qualification_verify.reason_selection_of_stay_over_120_days_in_taiwan == null) {
-						continue;
-					}
-					// (必填)港澳生：聲明書; 港澳具外國國籍：切結書
-					if (i==5 && progressJson.student_qualification_verify.identity != 1 && 
-						progressJson.student_qualification_verify.identity != 2) {
-							continue;
-					}
-					// 回鄉證，出生地為大陸 7
-					if (i==7 && birth_location != 135) {
+						)
+					)){
 						continue;
 					}
 					// 港二技學歷完成地在香港者需要上傳已通過香港資歷架構第四級(含)以上之證明文件
-					if(i==16 && progressJson2.student_personal_data.school_country != 113){
+					if (i==16 && (progressJson.student_qualification_verify.system_id != 2 || progressJson2.student_personal_data.school_country != 113)) {
 						continue;
 					}
-					// 符合港澳關係條例切結書 港澳生、在台設有戶籍、持外國護照（但不限回歸前葡萄牙護照）
-					if (i==15 && !(progressJson.student_qualification_verify.identity == 1 &&
-						progressJson.student_qualification_verify.taiwan_census == 1 &&
-						progressJson.student_qualification_verify.except_HK_Macao_passport ==1 &&
-						(
-							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' ||
-							progressJson.student_qualification_verify.which_nation_passport != null
-						))){
-						continue;
-					}
-					if (i==12 || i==13 || i==14 ) {
-						continue;
-					}
+					// 港澳具外國國籍的學生要上傳外國護照
 					if (i==17 && progressJson.student_qualification_verify.identity != 2) {
 						continue;
 					}
-					let item_id = (i < 10)? '0' + i.toString(): i.toString();
-					setBlocks(item_id);
+					
+					await setBlocks(i);
 				}
 			}
+			
             loading.complete();
         } catch(e) {
 			if (e.status && e.status === 401) {
@@ -356,75 +259,75 @@
 		// 有檔案就渲染出來
         try {
 			loading.start();
-			const response = await student.getIdentityVerificationItem({user_id: _userID, item: item_id});
+			let itemId = (item_id < 10)? '0' + item_id.toString(): item_id.toString();
+			const response = await student.getIdentityVerificationItem({user_id: _userID, item: itemId});
 			if (!response.ok) { throw response; }
 			let title ='';
 			let description = '';
-			let itemId = parseInt(item_id) -1;
 			switch (item_id) {
-				case '01':
+				case 1:
 					if (studentdata.student_personal_data_detail.resident_location == '澳門') {
-						title = item_block[itemId].title[1];
+						title = item_block[item_id].title[1];
 					} else if (studentdata.student_personal_data_detail.resident_location == '香港') {
-						title = item_block[itemId].title[0];
+						title = item_block[item_id].title[0];
 					}
-					description = item_block[itemId].description;
+					description = item_block[item_id].description;
 					break;
-				case '03':
-				case '05':
+				case 3:
+				case 5:
 					if (studentdata.student_qualification_verify.identity == 1) {
-						title = item_block[itemId].title[0];
-						description = item_block[itemId].description[0];
+						title = item_block[item_id].title[0];
+						description = item_block[item_id].description[0];
 					} else if (studentdata.student_qualification_verify.identity == 2) {
-						title = item_block[itemId].title[1];
-						description = item_block[itemId].description[1];
+						title = item_block[item_id].title[1];
+						description = item_block[item_id].description[1];
 					}
 					break;
-				case '06':
+				case 6:
 					if (studentdata.student_personal_data_detail.resident_location == '澳門') {
-						description = item_block[itemId].description[1];
+						description = item_block[item_id].description[1];
 					} else if (studentdata.student_personal_data_detail.resident_location == '香港') {
-						description = item_block[itemId].description[0];
+						description = item_block[item_id].description[0];
 					}
 					break;
-				case '09':
-				case '10':
+				case 9:
+				case 10:
 					if (studentdata.student_qualification_verify.system_id == 1){ // 學士班
-						title = item_block[itemId].title[0];
+						title = item_block[item_id].title[0];
 						if (studentdata.student_personal_data_detail.resident_location == '香港') {
-							description = item_block[itemId].description[0];
+							description = item_block[item_id].description[0];
 						} else if (studentdata.student_personal_data_detail.resident_location == '澳門') {
-							description = item_block[itemId].description[3];
+							description = item_block[item_id].description[3];
 						}
 					}else if (studentdata.student_qualification_verify.system_id == 2){ // 港二技
-						title = item_block[itemId].title[1];
-						description = item_block[itemId].description[1];
+						title = item_block[item_id].title[1];
+						description = item_block[item_id].description[1];
 					}else if (studentdata.student_qualification_verify.system_id == 3 || studentdata.student_qualification_verify.system_id == 4){ // 碩博
-						title = item_block[itemId].title[2];
-						description = item_block[itemId].description[2];
+						title = item_block[item_id].title[2];
+						description = item_block[item_id].description[2];
 					}
 					break;
-				case '11':
+				case 11:
 					if (studentdata.student_qualification_verify.system_id == 1 || studentdata.student_qualification_verify.system_id == 2){ // 學士班
-						description = item_block[itemId].description[0];
+						description = item_block[item_id].description[0];
 					}else if (studentdata.student_qualification_verify.system_id == 3 || studentdata.student_qualification_verify.system_id == 4){ // 碩博
-						description = item_block[itemId].description[1];
+						description = item_block[item_id].description[1];
 					}
 					break;
-				case '13':
+				case 13:
 					if (studentdata.student_personal_data_detail.resident_location == '香港') {
-						description = item_block[itemId].description[0];
+						description = item_block[item_id].description[0];
 					} else if (studentdata.student_personal_data_detail.resident_location == '澳門') {
-						description = item_block[itemId].description[1];
+						description = item_block[item_id].description[1];
 					}
 					break;
 				default:
-					description = item_block[itemId].description[0];
+					description = item_block[item_id].description[0];
 					break;
 			}
-			if (!title) title = item_block[itemId].title[0];
+			if (!title) title = item_block[item_id].title[0];
             const ifhasfile = await response.json();
-			document.getElementById(`${item_block[itemId].element}`).innerHTML=`
+			document.getElementById(`${item_block[item_id].element}`).innerHTML=`
 				<div class="card" style="thick;margin-bottom: 3%;">
 					<div class="card-header bg-primary text-white" style="font-size:150%;">
 						<span>${title}</span>
@@ -437,20 +340,20 @@
 							僅接受副檔名為 <strong class="text-danger">pdf</strong> 的<strong class="text-danger">單一</strong>檔案，檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
 						</div>
 						<div class="fileUpload" style="margin-bottom:20px;">
-							<input type="file" class="fileUploadBtn filestyle file-certificate" data-item="${item_id}"  >
+							<input type="file" class="fileUploadBtn filestyle file-certificate" data-item="${itemId}"  >
 						</div>
-						<div class="card" id="${item_block[itemId].element}_file"></div>
+						<div class="card" id="${item_block[item_id].element}_file"></div>
 					</div>
 				</div>
 			`;
 			if( ifhasfile == "true"){
 				// 有檔案
-                _getFileAreaHTML(item_id, item_block[itemId].element);
-				$(`#${item_block[itemId].element}_file`).show();
+                _getFileAreaHTML(itemId, item_block[item_id].element);
+				$(`#${item_block[item_id].element}_file`).show();
 			}
 			else{
                 // 沒檔案
-				$(`#${item_block[itemId].element}_file`).hide();
+				$(`#${item_block[item_id].element}_file`).hide();
 			}
 			
 			// 上傳 button 樣式
