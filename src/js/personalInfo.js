@@ -907,6 +907,7 @@
                 $schoolNameSelect.val(_currentSchoolName);
             }
 
+            $schoolNameSelect.selectpicker('refresh');
             // 香港學士班的話要再問是否曾經有副學士或高級文憑的調查
             if(_schoolCountryId == 113 && _systemId == 1){
                 $('#HK-ADorHD').show();

@@ -165,29 +165,29 @@
 						// 但凡非 不參加聯合分發 或 僅持 DSE 當年度者、中學最後三年成績者，皆需上傳採計文憑成績證書
 						if ( i==13 && (
 							(
-								progressJson.student_personal_data_detail.resident_location == '香港' &&
+								progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' &&
 								progressJson.student_misc_data.year_of_hk_dse == env.year && 
 								progressJson.student_misc_data.year_of_hk_ale == null && 
-								progressJson.student_misc_data.year_of_hk_cee == null	) || 
-							(
-								progressJson.student_personal_data_detail.resident_location == '澳門' &&
-								[27,28,29].indexOf(progressJson.student_misc_data.admission_placement_apply_way_data.code) == -1) ||
-							(
-								progressJson.student_misc_data.admission_placement_apply_way_data.code == "26")||
-								progressJson.student_misc_data.admission_placement_apply_way == "1"
+								progressJson.student_misc_data.year_of_hk_cee == null	) ||
+							progressJson.student_misc_data.admission_placement_apply_way == "1" ||
+							progressJson.student_misc_data.admission_placement_apply_way_data.code == '5' ||
+							progressJson.student_misc_data.admission_placement_apply_way_data.code == '16' ||
+							progressJson.student_misc_data.admission_placement_apply_way_data.code == "26"
 						)){
 							continue;
 						}
 						if( i==13
-							&& progressJson.student_personal_data_detail.resident_location == '香港'
+							&& progressJson.student_misc_data.admission_placement_apply_way_data.code == '23'
 							&& progressJson.student_misc_data.year_of_hk_dse.includes(env.year)
 						){
-							item_block['12'].description[0] =`
+							console.log(item_block[i].description[0]);
+							item_block[i].description[0] = `
 								<ol>
-									<li>${item_block['12'].description[0]}</li>
+									<li>${item_block[i].description[0]}</li>
 									<li>已報考2023年度香港中學文憑考試者，此階段無需上傳2023香港中學文憑考試成績，海聯會將逕向香港考評局提取；除2023香港中學文憑考試成績外，請務必上傳其他年度採計文憑成績證書。</li>
 								</ol>
 							`;
+							console.log(item_block[i].description[0]);
 						}
 
 						// 非 DSE、ALE、CEE 者，需上傳成績採計資料參考表  14
@@ -315,9 +315,9 @@
 					}
 					break;
 				case 13:
-					if (studentdata.student_personal_data_detail.resident_location == '香港') {
+					if (studentdata.student_personal_data_detail.school_country == '香港') {
 						description = item_block[item_id].description[0];
-					} else if (studentdata.student_personal_data_detail.resident_location == '澳門') {
+					} else {
 						description = item_block[item_id].description[1];
 					}
 					break;
