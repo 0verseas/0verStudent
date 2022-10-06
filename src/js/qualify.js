@@ -723,6 +723,7 @@
         }
 		await _setWhichPassportContinentOption();
         await $qualifyForm.find(`.select-passportCountry option[value="${whichNationPassport}"]`).prop('selected', true);
+        $passportCountrySelect.selectpicker('refresh');
 		return;
 	}
     // 持有護照的洲變更事件
