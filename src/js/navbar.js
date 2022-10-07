@@ -298,6 +298,14 @@
 					});
 				}
 			}
+			if( data.student_personal_data_detail.school_country == '緬甸'
+				&& (
+					data.student_personal_data_detail.school_type == '緬校（僅緬十畢業）'
+					|| data.student_personal_data_detail.school_type == '緬十畢業且在當地大學一年級修業完成'
+				)
+			){
+				$('.nav-admissionSelection').hide();
+			}
 		}
 
 		// 聯合分發成績採計方式
