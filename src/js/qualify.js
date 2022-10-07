@@ -172,6 +172,7 @@
     $taiwanHouseholdRadio.on('change', _handleWhichPassportCheck);
     $portugalPassportRadio.on('change', _handleWhichPassportCheck);
     $inputPortugalPassportTime.on('change',_handleWhichPassportCheck);
+    // 持有護照的洲變更事件
     $passportContinentSelect.on('change', _setWhichPassportContinentOption);
     // 在台碩博分發選項
     $taiwanUniversityRadio.on('change',_handleTaiwanUniversityChange);
@@ -213,8 +214,8 @@
 
                 $citizenshipSelect.attr('disabled',true); // disable selector
                 $citizenshipSelect.selectpicker({title: '請先選擇洲別'}); // 修改 未選擇選項時的顯示文字
-                $passportCountrySelect.empty();
-			    $passportCountrySelect.append('<option value="-1" hidden disabled selected>請先選擇洲別</option>');
+                $passportCountrySelect.attr('disabled',true); // disable selector
+                $passportCountrySelect.selectpicker({title: '請先選擇洲別'}); // 修改 未選擇選項時的顯示文字
             });
 
 			// 只在港二技開放報名時間 顯示港二技相關物件 其餘時間皆隱藏
@@ -732,16 +733,19 @@
 		const order = $passportContinentSelect.val();
 		// 防止有人選取預設選項
 		if (+order === -1) {
+            $passportCountrySelect.attr('disabled',true); // disable selector
+            $passportCountrySelect.selectpicker({title: '請先選擇洲別'}); // 修改 未選擇選項時的顯示文字\
 			return;
 		}
-        // reset 國家列表選單
-		$passportCountrySelect.empty();
-		// 預設選項為 "請選擇" 但設定為不可選且隱藏 讓他不會出現在下拉式選單中
-		$passportCountrySelect.append('<option value="-1" disabled selected hidden>請選擇</option>');
+        $passportCountrySelect.attr('disabled',false); // enable selector
+        $passportCountrySelect.selectpicker({title: '請選擇國家'}); // 修改 未選擇選項時的顯示文字\
         // 渲染選取洲別的國家到下拉式選單中
 		_countryList[order].country.forEach((val, i) => {
 			$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
 		});
+
+        $passportCountrySelect.selectpicker('refresh'); // refresh selecor
+        $passportCountrySelect.parent().find('button').removeClass('bs-placeholder'); // 為了風格統一 去除預設格式
         return;
 	}
 
