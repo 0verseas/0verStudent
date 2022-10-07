@@ -363,9 +363,9 @@
 			});
 			loading.complete();
 		} catch(e) {
-			console.log(e);
+			// console.log(e);
 			e.json && e.json().then((data) => {
-				console.error(data);
+				// console.error(data);
 				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			loading.complete();
@@ -422,8 +422,6 @@
 		htmlId += '_file';
         // 兜好的 html 拋到前端渲染囉
         document.getElementById(htmlId).innerHTML=reviewItemHTML;
-
-		cardHtml = '';
 
 	}
 
