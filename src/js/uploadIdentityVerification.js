@@ -180,14 +180,12 @@
 							&& progressJson.student_misc_data.admission_placement_apply_way_data.code == '23'
 							&& progressJson.student_misc_data.year_of_hk_dse.includes(env.year)
 						){
-							console.log(item_block[i].description[0]);
 							item_block[i].description[0] = `
 								<ol>
 									<li>${item_block[i].description[0]}</li>
 									<li>已報考2023年度香港中學文憑考試者，此階段無需上傳2023香港中學文憑考試成績，海聯會將逕向香港考評局提取；除2023香港中學文憑考試成績外，請務必上傳其他年度採計文憑成績證書。</li>
 								</ol>
 							`;
-							console.log(item_block[i].description[0]);
 						}
 
 						// 非 DSE、ALE、CEE 者，需上傳成績採計資料參考表  14
@@ -340,7 +338,7 @@
 							僅接受副檔名為 <strong class="text-danger">pdf</strong> 的<strong class="text-danger">單一</strong>檔案，檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> 。
 						</div>
 						<div class="fileUpload" style="margin-bottom:20px;">
-							<input type="file" class="fileUploadBtn filestyle file-certificate" data-item="${itemId}"  >
+							<input type="file" class="fileUploadBtn filestyle file-certificate" data-item="${itemId}">
 						</div>
 						<div class="card" id="${item_block[item_id].element}_file"></div>
 					</div>
@@ -365,6 +363,7 @@
 			});
 			loading.complete();
 		} catch(e) {
+			console.log(e);
 			e.json && e.json().then((data) => {
 				console.error(data);
 				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
@@ -464,7 +463,7 @@
 		$(this).val('');//清除檔案路徑
 
 		// 重新渲染
-		eval(setBlocks(item));
+		eval(setBlocks(parseInt(item)));
 	}
 
 	// 刪除指定成績單檔案 (會抓取 data-item 看現在要刪除什麼檔案)
@@ -487,7 +486,7 @@
 		}
 
 		// 重新渲染
-		eval(setBlocks(item));
+		eval(setBlocks(parseInt(item)));
 	}
 
 	function smoothscroll(id){
