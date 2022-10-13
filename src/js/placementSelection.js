@@ -26,6 +26,7 @@
 	const $group3QuotaBtn = $('#btn-group3Quota');
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
+	const $typeFilterSelector = $('#dept-type-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container'); // 分頁區域
@@ -50,6 +51,7 @@
 
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
+	$typeFilterSelector.on('change', _generateOptionalWish);
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
 	$confirmedBtn.on('click', _handleConfirmed);
@@ -94,8 +96,14 @@
 					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料					
 					birth_limit_after: value.birth_limit_after,
 					birth_limit_before: value.birth_limit_before,
-					gender_limit: value.gender_limit
+					gender_limit: value.gender_limit,
+					type: '一般系所'
 				};
+				if(value.is_extended_department == 1){
+					add.type = '<span class="badge badge-warning">重點產業系所</span>';
+				} else if(value.is_extended_department == 2){
+					add.type = '<span class="badge table-primary">國際專修部</span>';
+				}
 				_optionalWish.push(add);
 			})
 
@@ -275,7 +283,7 @@
 			<tr${medicalHTML}>
 			<td>
 			${item.cardCode} ｜ ${item.group} ｜ ${item.mainGroup} ｜ ${item.school}<br>
-			${item.dept} ${item.engDept}
+			${item.type} ${item.dept} ${item.engDept}
 			<br />
 			${badgeNUPS}
 			</td>
@@ -298,7 +306,16 @@
 	function _generateOptionalWish(pageNum) { // 渲染「招生校系清單」、含篩選
 		pageNum = (!isNaN(parseFloat(pageNum)) && isFinite(pageNum)) ? pageNum : 1;
 		const filterSelect = '' + $optionFilterSelect.val();
-		const filter = $optionFilterInput.val().toUpperCase();
+		let filter = '';
+		if(filterSelect == 'type'){
+			$optionFilterInput.hide();
+			$typeFilterSelector.show();
+			filter = $typeFilterSelector.val();
+		} else {
+			$optionFilterInput.show();
+			$typeFilterSelector.hide();
+			filter = $optionFilterInput.val().toUpperCase();
+		}
 
 		if (_wishList.length > 0) { // 有選志願
 			const _currentWishGroup = _wishList[0].group;
@@ -374,7 +391,7 @@
 			</td>
 			<td>
 			${_wishList[i].cardCode} ｜ ${_wishList[i].group} ｜ ${_wishList[i].mainGroup} | ${_wishList[i].school}<br>
-			${_wishList[i].dept} ${_wishList[i].engDept}
+			${_wishList[i].type} ${_wishList[i].dept} ${_wishList[i].engDept}
 			<br />
 			${badgeNUPS} ${invalidBadge}
 			</td>
