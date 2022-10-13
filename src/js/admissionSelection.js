@@ -31,6 +31,7 @@
 	const $quotaLinkBtn = $('#btn-quotaLink');
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
+	const $typeFilterSelector = $('#dept-type-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container'); // 分頁區域
@@ -53,6 +54,7 @@
 	$notJoinSelection.on('change', _changeIsJoin); // 監聽是否不參加個人申請
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
+	$typeFilterSelector.on('change', _generateOptionalWish);
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
 	$notJoinPlacement.on('change', joinPlacementChange);  // 監聽是否不參加聯合分發
@@ -80,10 +82,16 @@
 					birth_limit_after: value.birth_limit_after,
 					birth_limit_before: value.birth_limit_before,
 					gender_limit: value.gender_limit,
-					mainGroup: value.main_group_data.title // 學群名稱
+					mainGroup: value.main_group_data.title, // 學群名稱
+					type: '一般系所'
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
+				}
+				if(value.is_extended_department == 1){
+					add.type = '<span class="badge badge-warning">重點產業系所</span>';
+				} else if(value.is_extended_department == 2){
+					add.type = '<span class="badge table-primary">國際專修部</span>';
 				}
 				_optionalWish.push(add);
 			})
@@ -297,7 +305,7 @@
 			<tr${medicalHTML}>
 			<td>
 			${item[_showCodeId]} ${groupHTML} ｜ ${item.school}<br>
-			${item.dept} ${item.engDept}
+			${item.type} ${item.dept} ${item.engDept}
 			</td>
 			<td class="text-right">
 			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-info btn-sm add-wish">
@@ -318,7 +326,16 @@
 	function _generateOptionalWish(pageNum) { // 渲染「招生校系清單」、含篩選
 		pageNum = (!isNaN(parseFloat(pageNum)) && isFinite(pageNum)) ? pageNum : 1;
 		const filterSelect = $optionFilterSelect.val();
-		const filter = $optionFilterInput.val().toUpperCase();
+		let filter = '';
+		if(filterSelect == 'type'){
+			$optionFilterInput.hide();
+			$typeFilterSelector.show();
+			filter = $typeFilterSelector.val();
+		} else {
+			$optionFilterInput.show();
+			$typeFilterSelector.hide();
+			filter = $optionFilterInput.val().toUpperCase();
+		}
 		_filterOptionalWish = _optionalWish.filter(function (obj) {
 			if (filterSelect === "dept") {
 				return obj['dept'].toUpperCase().indexOf(filter) > -1 ||
@@ -367,7 +384,7 @@
 			</td>
 			<td>
 			${_wishList[i][_showCodeId]} ${groupHTML} ｜ ${_wishList[i].school}<br>
-			${_wishList[i].dept} ${_wishList[i].engDept}
+			${_wishList[i].type} ${_wishList[i].dept} ${_wishList[i].engDept}
 			</td>
 			<td class="text-right td-wish-num">
 			<div class="input-group">
