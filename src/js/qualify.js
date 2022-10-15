@@ -971,11 +971,11 @@
         // 是否有副學士學位或高級文憑
         if(choosenSystem === 2){
             if(isNaN(choosenADHDgraduated)){
-                await swal({title: `請選擇在香港是否修習副學士學位或高級文憑課程，並已取得畢業證書選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `請選擇「在香港是否修習副學士學位或高級文憑課程，並已取得畢業證書」選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             if(choosenADHDgraduated !== 1){
-                await swal({title: `未在香港是否修習副學士學位或高級文憑課程，並已取得畢業證書者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `未在香港修習副學士學位或高級文憑課程並取得畢業證書者不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["associate_degree_or_higher_diploma_graduated"] = choosenADHDgraduated;
@@ -1016,19 +1016,19 @@
             // 持有外國護照確認選項數值
             if(choosenHoldPassport === 1){
                 if(isNaN(choosenTaiwanHousehold)){
-                    await swal({title: `請選擇是否曾在臺設有戶籍選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    await swal({title: `請選擇「是否曾在臺設有戶籍」選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     return;
                 }
                 if(isNaN(choosenPortugalPassport)){
-                    await swal({title: `請選擇是否持有葡萄牙護照選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    await swal({title: `請選擇「是否持有葡萄牙護照」選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     return;
                 }
                 if(choosenPortugalPassport === 1 && inputPortugalPassportTime == ''){
-                    await swal({title: `未填寫於何時首次取得葡萄牙護照`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    await swal({title: `未填寫「於何時首次取得葡萄牙護照」`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     return;
                 }
                 if(choosenPortugalPassport === 0 && !choosenPassportCountry){
-                    await swal({title: `未選擇持有護照之國家選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    await swal({title: `未選擇「持有護照之國家」選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     return;
                 }   
             }
@@ -1069,7 +1069,7 @@
             const unqualifiedHasBeenTaiwanOptionMap = [12,9,9];
             if(choosenHasBeenTaiwan == 1 ){
                 if(!choosenHasBeenTaiwanOption){
-                    await swal({title: `請選擇在臺停留因選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                    await swal({title: `請選擇在臺停留原因`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     return;
                 }
                 if(choosenHasBeenTaiwanOption == unqualifiedHasBeenTaiwanOptionMap[choosenIdentity-1]){
@@ -1083,28 +1083,28 @@
         // 在台申請相關
         if(choosenIdentity == 4 || choosenIdentity == 5){
             if(choosenTaiwanUniversity !== 1){
-                let titleString = (choosenTaiwanUniversity == 0) ?`未曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過，請重選身份別。` : `未選擇曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過選項。`
+                let titleString = (choosenTaiwanUniversity == 0) ?`未曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過，請重選身份別。` : `未選擇「曾經由本聯招會或各校單招管道分發在臺就讀大學並註冊入學過」選項。`
                 await swal({title: titleString, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["register_and_admission_at_taiwan"] = choosenTaiwanUniversity;
             if(inputDistributionWay === "" || inputDistributionWay == null){
-                await swal({title: `請選擇入學管道`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `請選擇「入學管道」`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["admission_way"] = inputDistributionWay;
             if(inputDistributionYear === ""){
-                await swal({title: `請填寫分發年度`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `請填寫「分發年度」`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["admission_year"] = inputDistributionYear;
             if(inputDistributionSchool === ""){
-                await swal({title: `請填寫分發學校`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `請填寫「分發學校」`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["admission_school"] = inputDistributionSchool;
             if(inputDistributionDept === ""){
-                await swal({title: `請填寫分發學系`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `請填寫「分發學系」`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             sendData["admission_department"] = inputDistributionDept;

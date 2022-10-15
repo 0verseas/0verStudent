@@ -98,7 +98,7 @@
 			}
 		})
 		.then((data) => {
-			swal({title: `已寄出驗證信，請至註冊信箱與查看。`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+			swal({title: `已寄出驗證信，請至註冊信箱查看。`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 			loading.complete();
 		})
 		.catch((err) => {
@@ -121,7 +121,8 @@
 			cancelButtonText: '取消',
 			confirmButtonClass: 'btn btn-success',
 			cancelButtonClass: 'btn btn-danger',
-			buttonsStyling: false
+			buttonsStyling: false,
+			reverseButtons: true
 		})
 		.then( (result)	=>{
 			//console.log(result);
@@ -447,7 +448,8 @@
 			cancelButtonText: '取消',
 			confirmButtonColor: '#5cb85c',
 			cancelButtonColor: '#d9534f',
-			allowOutsideClick: false
+			allowOutsideClick: false,
+			reverseButtons: true
 		}).then(()=>{
 			student.checkOrderListCanCreate()
 			.then(function (res) {
@@ -488,6 +490,7 @@
 			cancelButtonColor: '#d33',
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
+			reverseButtons: true
 		})
 		.then( (result)	=>{
 			//console.log(result);
