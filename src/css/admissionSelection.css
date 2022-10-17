@@ -33,3 +33,11 @@
 	border-style: solid;
 	border-color: rgba(0, 0, 0, 0.15);;
 }
+
+.precautions > ol {
+	line-height: 180%;
+}
+
+.precautions > ol > li {
+	margin-top: 15px;
+}

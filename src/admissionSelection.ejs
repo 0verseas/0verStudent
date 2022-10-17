@@ -35,6 +35,8 @@
 						<p>
 							醫學、牙醫、及中醫學系以 <mark class="bg-medical">黃底</mark> 標註。
 						</p>
+						<p class="IFP-directions">
+						</p>
 						<p>
 							<strong>操作說明</strong>
 							<ol>
@@ -164,22 +166,37 @@
 
 <div class="modal modal-centerd-lg" tabindex="-1" role="dialog" id="docs-modal">
 	<div class="modal-dialog modal-lg modal-dialog-centerd" role="document">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h4 class="modal-title" id="modal-title"></h4>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		  </button>
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="modal-title"></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id='modal-body'>
+			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="btn-info">詳細資訊</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+			</div>
 		</div>
-		<div class="modal-body" id='modal-body'>
-		  
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-success" id="btn-info">詳細資訊</button>
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-		</div>
-	  </div>
 	</div>
-  </div>
+</div>
+
+<div class="modal modal-centerd-lg" tabindex="-1" role="dialog" id="notice-modal">
+	<div class="modal-dialog modal-lg modal-dialog-centerd" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">重要提醒 Important Reminder</h4>
+			</div>
+			<div class="modal-body precautions">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">我已閲讀以上提醒 I have read the above reminder</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.0.8/pagination.min.js"></script>

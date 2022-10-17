@@ -40,6 +40,8 @@
 	const $saveBtn = $('#btn-save');
 	const $notJoinPlacement = $('#notJoinPlacement');  // 是否要流至聯合分發的 checkbox
 	const $deptMoreInfoUrl = $('#btn-info'); // 系所備審資料 連結至名額查詢系統
+	const $IFPDirections = $('.IFP-directions') // 國際專修部說明文字
+	const $precautionsText = $('.precautions') // 需要學生確認之注意事項文字
 
 	/**
 	*	init
@@ -123,10 +125,44 @@
 			// 整理已選志願
 			let order = [];
 			let orderKey = "";
+			let IFPStudyYear = '';
 			if (_currentSystem === 1) {
 				orderKey = "student_department_admission_selection_order";
+				IFPStudyYear = 4;
+				$precautionsText.html(`
+					<strong>國際專修部 International Foundation Program</strong>
+					<ol>
+						<li>
+							各大學校院設立的「國際專修部（International Foundation Program）」為1年華語先修課程＋至少修業4年之學士學位學程。<br/>
+							The International Foundation Program (IFP) at each university is a “1+4 years degree program”, which is a 1-year Chinese Preparation Program +a bachelor program (at least 4 years).
+						</li>
+						<li>
+							「國際專修部」學生入學後須於第1年先修華語課程（至少720小時），華語先修課程期滿後應達華語文能力測驗（TOCFL）之聽力與閱讀測驗基礎級（A2）標準，始得接續修讀學士班專業課程。進入學士班修讀學生於第2年起應達華語文能力測驗（TOCFL）之聽力與閱讀測驗進階級（B1）標準。未於規定時間內通過標準者，學校逕行退學處分。<br/>
+							The International Foundation Program (IFP) students are required to take 1-year Chinese Preparation Program (at least 720 hours in total) in their first year of program. Upon completion of Chinese Preparation Program, students have to pass the level 2 (A2) of the Test of Chinese as a Foreign Language (TOCFL) in listening and reading to connect to the bachelor program. By end of the first year in the bachelor program, students must pass the level 3 (B1) of the Test of Chinese as a Foreign Language (TOCFL) in listening and reading. Students who fail to pass the above requirements will be expelled from the school.
+						</li>
+						<li>
+							華語先修期間不得轉系或轉學。但於正式修讀學士班專業課程1年後，得於製造業、營造業、農業及長期照顧等相關系所申請轉系或轉學。<br/>
+							During the Chinese Preparation Program, the student cannot transfer to another bachelor program nor university. However, after one year in the bachelor program, students can apply for a transfer to Manufacturing, Construction, Agriculture and Long-Term Care related departments or university.
+						</li>
+					</ol>
+				`);
+				$IFPDirections.html(`
+					<strong>系所類型【國際專修部】重要説明</strong>
+					<ol>
+						<li>
+							各大學校院設立的<a class="text-danger">「國際專修部（International Foundation Program）」為1年華語先修課程＋至少修業4年之學士學位學程</a>。
+						</li>
+						<li>
+							「國際專修部」學生入學後須於第1年先修華語課程（至少720小時），華語先修課程期滿後應達華語文能力測驗（TOCFL）之聽力與閱讀測驗基礎級（A2）標準，始得接續修讀學士班專業課程，並於修讀學士班第2年起應達華語文能力測驗（TOCFL）之聽力與閱讀測驗進階級（B1）標準。
+						</li>
+						<li>
+							未於規定時間內通過標準者，學校逕行退學處分，若有意報名就讀「國際專修部」，敬請留意，以維護您的權益。
+						</li>
+					</ol>
+				`);
 			} else if (_currentSystem === 2) {
 				orderKey = "student_two_year_tech_department_admission_selection_order";
+				IFPStudyYear = 2;
 			} else {
 				orderKey = "student_graduate_department_admission_selection_order";
 			}
@@ -178,7 +214,49 @@
 			_generateOptionalWish();
 			_generateWishList();
 			_showWishList();
-			loading.complete();
+			await loading.complete();
+			if(_currentSystem < 3){
+				// 非研究所出現關於國際專修部的重要提醒
+				$precautionsText.html(`
+					<strong>國際專修部 International Foundation Program</strong>
+					<ol>
+						<li>
+							各大學校院設立的「國際專修部（International Foundation Program）」為1年華語先修課程＋至少修業${IFPStudyYear}年之學士學位學程。<br/>
+							The International Foundation Program (IFP) at each university is a “1+${IFPStudyYear} years degree program”, which is a 1-year Chinese Preparation Program +a bachelor program (at least ${IFPStudyYear} years).
+						</li>
+						<li>
+							「國際專修部」學生入學後須於第1年先修華語課程（至少720小時），華語先修課程期滿後應達華語文能力測驗（TOCFL）之聽力與閱讀測驗基礎級（A2）標準，始得接續修讀學士班專業課程。進入學士班修讀學生於第2年起應達華語文能力測驗（TOCFL）之聽力與閱讀測驗進階級（B1）標準。未於規定時間內通過標準者，學校逕行退學處分。<br/>
+							The International Foundation Program (IFP) students are required to take 1-year Chinese Preparation Program (at least 720 hours in total) in their first year of program. Upon completion of Chinese Preparation Program, students have to pass the level 2 (A2) of the Test of Chinese as a Foreign Language (TOCFL) in listening and reading to connect to the bachelor program. By end of the first year in the bachelor program, students must pass the level 3 (B1) of the Test of Chinese as a Foreign Language (TOCFL) in listening and reading. Students who fail to pass the above requirements will be expelled from the school.
+						</li>
+						<li>
+							華語先修期間不得轉系或轉學。但於正式修讀學士班專業課程1年後，得於製造業、營造業、農業及長期照顧等相關系所申請轉系或轉學。<br/>
+							During the Chinese Preparation Program, the student cannot transfer to another bachelor program nor university. However, after one year in the bachelor program, students can apply for a transfer to Manufacturing, Construction, Agriculture and Long-Term Care related departments or university.
+						</li>
+					</ol>
+				`);
+				// 非研究所要注意事項出現國際專修部的說明
+				$IFPDirections.html(`
+					<strong>系所類型【國際專修部】重要説明</strong>
+					<ol>
+						<li>
+							各大學校院設立的<a class="text-danger">「國際專修部（International Foundation Program）」為1年華語先修課程＋至少修業${IFPStudyYear}年之學士學位學程</a>。
+						</li>
+						<li>
+							「國際專修部」學生入學後須於第1年先修華語課程（至少720小時），華語先修課程期滿後應達華語文能力測驗（TOCFL）之聽力與閱讀測驗基礎級（A2）標準，始得接續修讀學士班專業課程，並於修讀學士班第2年起應達華語文能力測驗（TOCFL）之聽力與閱讀測驗進階級（B1）標準。
+						</li>
+						<li>
+							未於規定時間內通過標準者，學校逕行退學處分，若有意報名就讀「國際專修部」，敬請留意，以維護您的權益。
+						</li>
+					</ol>
+				`);
+				// 第一次填寫的狀態要出現重要提醒
+				if(resAdmission.student_misc_data.join_admission_selection === null){
+					$('#notice-modal').modal({
+						backdrop: 'static', // 不能透過點擊背景關閉 modal
+						keyboard: false // 取消鍵盤事件，主要是不給按 ESC 關閉 modal
+					});
+				}
+			}
 		} catch (e) {
 			if (e.status && e.status === 401) {
 				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
