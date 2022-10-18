@@ -85,7 +85,7 @@
 					birth_limit_before: value.birth_limit_before,
 					gender_limit: value.gender_limit,
 					mainGroup: value.main_group_data.title, // 學群名稱
-					type: '一般系所'
+					type: '<span class="badge badge-light hide">一般系所</span>'
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
@@ -94,6 +94,8 @@
 					add.type = '<span class="badge badge-warning">重點產業系所</span>';
 				} else if(value.is_extended_department == 2){
 					add.type = '<span class="badge table-primary">國際專修部</span>';
+					add.dept = '國際專修部（'+add.dept+'）';
+					add.engDept = 'International Foundation Program（'+add.engDept+'）';
 				}
 				_optionalWish.push(add);
 			})
@@ -383,7 +385,7 @@
 			<tr${medicalHTML}>
 			<td>
 			${item[_showCodeId]} ${groupHTML} ｜ ${item.school}<br>
-			${item.type} ${item.dept} ${item.engDept}
+			${item.dept} ${item.engDept} ${item.type}
 			</td>
 			<td class="text-right">
 			<button type="button" data-sortNum="${item.sortNum}" class="btn btn-info btn-sm add-wish">
@@ -462,7 +464,7 @@
 			</td>
 			<td>
 			${_wishList[i][_showCodeId]} ${groupHTML} ｜ ${_wishList[i].school}<br>
-			${_wishList[i].type} ${_wishList[i].dept} ${_wishList[i].engDept}
+			${_wishList[i].dept} ${_wishList[i].engDept} ${_wishList[i].type}
 			</td>
 			<td class="text-right td-wish-num">
 			<div class="input-group">

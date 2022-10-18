@@ -97,7 +97,7 @@
 					birth_limit_after: value.birth_limit_after,
 					birth_limit_before: value.birth_limit_before,
 					gender_limit: value.gender_limit,
-					type: '一般系所'
+					type: '<span class="badge badge-light hide">一般系所</span>'
 				};
 				if(value.is_extended_department == 1){
 					add.type = '<span class="badge badge-warning">重點產業系所</span>';
@@ -283,7 +283,7 @@
 			<tr${medicalHTML}>
 			<td>
 			${item.cardCode} ｜ ${item.group} ｜ ${item.mainGroup} ｜ ${item.school}<br>
-			${item.type} ${item.dept} ${item.engDept}
+			${item.dept} ${item.engDept} ${item.type}
 			<br />
 			${badgeNUPS}
 			</td>
@@ -391,7 +391,7 @@
 			</td>
 			<td>
 			${_wishList[i].cardCode} ｜ ${_wishList[i].group} ｜ ${_wishList[i].mainGroup} | ${_wishList[i].school}<br>
-			${_wishList[i].type} ${_wishList[i].dept} ${_wishList[i].engDept}
+			${_wishList[i].dept} ${_wishList[i].engDept} ${_wishList[i].type}
 			<br />
 			${badgeNUPS} ${invalidBadge}
 			</td>
