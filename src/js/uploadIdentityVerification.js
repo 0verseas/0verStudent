@@ -157,7 +157,7 @@
 						continue;
 					}
 					// 學士班 不去僑先部
-					if (progressJson.student_misc_data.admission_placement_apply_way_data.code != 16 && progressJson.student_qualification_verify.system_id == 1) {
+					if (progressJson.student_misc_data.admission_placement_apply_way != null && progressJson.student_misc_data.admission_placement_apply_way_data.code != 16 && progressJson.student_qualification_verify.system_id == 1) {
 						// 國際數理奧林匹亞競賽或美國國際科展獎項證明  12
 						if (i==12 && !progressJson.student_misc_data.has_olympia_aspiration) {
 							continue;
