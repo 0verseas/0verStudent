@@ -13,7 +13,7 @@
         '註冊在學。',
         '辦理休學中。',
         '分發來臺就學後經入學學校以操行成績不及格或因刑事案件判刑確定致遭退學者。',
-        '於國立臺灣師範大學僑生先修部結業分發有案，因故自願退學，且在臺居留未滿二年（得重新報名，以一次為限；但不得再入學僑生先修部）',
+        '於國立臺灣師範大學僑生先修部結業分發有案，因故自願退學，且在臺居留未滿二年（得重新報名，以一次為限；但不得再入學僑生先修部）。',
         '曾經來臺就讀海外青年技術訓練班。'
     ];
 
@@ -40,7 +40,7 @@
             '經中央目的事業主管機關許可來臺實習，實習期間合計未滿二年。',
             '回國接受兵役徵召及服役。',
             '因戰亂、天災或大規模傳染病，致無法返回僑居地。',
-            '曾經本會分發或經各大學單獨招生錄取來臺就學，因故自願退學，且在臺灣地區居留未滿二年者。',
+            '曾經本會分發或經各大學單獨招生錄取來臺就學，因故退學或喪失學籍，且在臺灣地區停留未滿二年者。',
             '因其他不可歸責於僑生之事由，致無法返回僑居地。',
             '未符合前述1至$temp條件',
             '',
@@ -389,7 +389,7 @@
         // 針對在台碩博的改變先還原
         $questionIsDistributionTitle.removeClass('font-weight-bold');
         $questionIsDistribution.find('dt').show();
-        let questionIsDistributionText = '是否曾經分發來臺就學過？';
+        let questionIsDistributionText = '是否曾經本會分發或經各大學單獨招生錄取來臺？';
         let questionStayLimitTitleHtml = '請問自報名截止日往前推算，已在僑居地連續居留多少年？';
 
         // 在台學生的曾分發來台年份可輸入長度與提示訊息不一樣
@@ -788,6 +788,12 @@
             const option = $qualifyForm.find(`.option-isDistribution[value=${order}]`); // 現在要渲染的選項
             const optionTextArea = option.parent().find('a'); // 選項文字的網頁物件
             let optionText = value; // 選項的文字
+
+            // 非港澳生的選項文字跟別人不一樣
+            if(choosenIdentity !== '1' && (order === 2 || order === 6 || order === 7)){
+                optionText = optionText.replace('以操行成績不及格或因刑事案件判刑確定致遭退學者','以操行或學業成績不及格、違反法令或校規情節嚴重致遭退學或喪失學籍者');
+                optionText = optionText.replace('因故自願退學，且在臺居留未滿二年','在臺停留未滿二年，因故退學或喪失學籍');
+            }
             
             // 文字區域先清空
             optionTextArea.text('');
