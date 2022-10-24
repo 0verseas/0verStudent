@@ -39,17 +39,36 @@
 				await $alertPrint.html(`「已鎖定並確認填報資料」後，系統將產生申請表供申請人留存，無須繳交。`);
 				await $alertCorrect.html(`如需再修改個人基本資料（不含志願），請填寫「<a href="https://www.surveycake.com/s/YDnoK" target="_blank">資料修正表</a>」或是重新註冊新的帳號（惟報名費一經繳交，概不退還）。`);
 				await $alertSubmit.html(`身分及學歷證件正本須至指定地點辦理核驗，始完成報名程序。未完備前開程序者，一律不予分發。`);
+			} else if(personalData.student_personal_data.resident_location === '127'  && registrationData.student_qualification_verify.identity < 3 ){
+				await $alertPrint.html(`「已鎖定並確認填報資料」後，系統將產生申請表供申請人留存，無須繳交。`);
+				await $alertCorrect.html(`如需修改個人基本資料（不含志願），請填寫「<a href="${env.baseUrl+'/admission-data-correction-form'}" target="_blank">資料修正表</a>」並連同身分及學歷證件正本於核驗時間繳交至指定地點，或重新註冊帳號（惟報名費一經繳交，概不退還）。`);
+				await $alertSubmit.html(`身分及學歷證件正本須至指定地點辦理核驗，始完成報名程序。未完備前開程序者，一律不予分發。`);
 			} else{
 				await $alertPrint.html(`完成線上填寫個人資料後，請下載、列印並確認表件資料無誤。`);
 				await $alertCorrect.html(`若資料有誤(含無法顯示特殊字)，請填寫「<a href="${env.baseUrl+'/admission-data-correction-form'}" target="_blank">資料修正表</a>」並連同申請資料繳交至受理報名單位，始完成報名程序。`);
 				await $alertSubmit.html(`請將系統產生文件全數印出，並備齊簡章規定應繳資料於報名截止日前，至受理報名單位繳件。<a href="https://cmn-hant.overseas.ncnu.edu.tw/node/23" target="_blank">報名日期資訊</a>`);
 			}
 
-			if ((registrationData.student_qualification_verify.system_id === 1 || registrationData.student_qualification_verify.system_id === 2)
-				&& (personalData.student_personal_data.resident_location === '127')) { // 僑居地在澳門的學士班學生都要看到這兩行資訊
-				await $('#alert-cost').show();
-				await $('.alert-downloadMoFile').show();
-				await $('.makao-schoo-list').text(`${env.year} 團體報名學校名單`);
+			if (personalData.student_personal_data.resident_location === '127' && registrationData.student_qualification_verify.identity < 3 ) { 
+				// 在澳門的學士班港澳生要看到這行資訊
+				if(registrationData.student_qualification_verify.system_id < 3){
+					await $('.alert-macau-verification').show();
+					await $('.alert-macau-verification').html(`
+						身分及學歷證件核驗資訊：<br/>
+						地點：澳門國父紀念館（文第士街 1 號）<br/>
+						開放日期：2022 年 11 月 18 日 - 12 月 18 日 <br/>
+						開放時間：每週五的 16:00 - 21:00 及 每週六、日的 10:00 - 13:00 與 14:00 - 16:00
+					`);
+				} else {
+					await $('.alert-macau-verification').show();
+					await $('.alert-macau-verification').html(`
+						身分及學歷證件核驗資訊：<br/>】
+						地點：台北經濟文化辦事處（澳門辦事處）<br/>
+						地址：澳門新口岸宋玉生廣場 411 - 417 號皇朝廣場 5 樓 J - O 座<br/>
+						開放日期：2022 年 11 月 3 日至 12 月 15 日<br/>
+						開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點 30 分
+					`);
+				}
 			}
 			
 			// Todo: identity 7 印輔班(S5) 8 僑先部春季班(S5)的條件判斷
@@ -62,7 +81,7 @@
 				if ( (registrationData.student_qualification_verify.system_id === 3 || registrationData.student_qualification_verify.system_id === 4)
 				&& registrationData.student_qualification_verify.identity > 3 && registrationData.student_qualification_verify.identity < 6) {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。</li>`;
-				} else if( personalData.student_personal_data.resident_location === '113' && registrationData.student_qualification_verify.identity < 3 ) {
+				} else if( registrationData.student_qualification_verify.identity < 3 ) {
 					listHtml = `<li>請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。</li>`;
 				} else {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交至受理報名單位。</li>`;
