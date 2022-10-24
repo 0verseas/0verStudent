@@ -113,6 +113,7 @@
 
 	function _renderWishList() {
 		let wishHTML = '';
+		let giveUpCount = 0;
 		_wishList.forEach((value, index) => {
 			let showId = (_system === 1) ? value.department_data.card_code : value.department_data.id;
 			let buttonString = '上傳';
@@ -140,7 +141,7 @@
 								</button>
 							</td>
 						</tr>
-					`
+					`;
 			} else {
 				wishHTML += `
 						<tr>
@@ -159,7 +160,8 @@
 								</button>
 							</td>
 						</tr>
-					`
+					`;
+				giveUpCount++;
 			}
 
 			if (_isDocumentLock && value.deleted_at === null) {
@@ -194,6 +196,17 @@
 			}
 		});
 		$wishList.html(wishHTML);
+		if(_wishList.length == giveUpCount){
+			swal({title:"確定放棄上傳全數志願的備審資料？",
+				html:`<span style="color:red;font-weight=bold;">
+						放棄上傳全數志願備審資料等同於放棄個人申請！<br/>
+						請問你是否真的要放棄個人申請？
+					<span/>`,
+				 type:"warning",
+				 confirmButtonText: '確定',
+				 allowOutsideClick: false}
+			);
+		}
 	}
 
 	function _handleEditForm() {
