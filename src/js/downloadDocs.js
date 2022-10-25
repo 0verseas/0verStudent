@@ -62,7 +62,7 @@
 				} else {
 					await $('.alert-macau-verification').show();
 					await $('.alert-macau-verification').html(`
-						身分及學歷證件核驗資訊：<br/>】
+						身分及學歷證件核驗資訊：<br/>
 						地點：台北經濟文化辦事處（澳門辦事處）<br/>
 						地址：澳門新口岸宋玉生廣場 411 - 417 號皇朝廣場 5 樓 J - O 座<br/>
 						開放日期：2022 年 11 月 3 日至 12 月 15 日<br/>
@@ -81,12 +81,14 @@
 				if ( (registrationData.student_qualification_verify.system_id === 3 || registrationData.student_qualification_verify.system_id === 4)
 				&& registrationData.student_qualification_verify.identity > 3 && registrationData.student_qualification_verify.identity < 6) {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。</li>`;
-				} else if( registrationData.student_qualification_verify.identity < 3 ) {
+				} else if( registrationData.student_qualification_verify.identity < 3 && personalData.student_personal_data.resident_location === '127') {
+					listHtml = `<li>請依開放時間至台北經濟文化辦事處（澳門辦事處）辦理「身分及學歷證件正本」核驗。</li>`;
+				} else if(registrationData.student_qualification_verify.identity < 3) {
 					listHtml = `<li>請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。</li>`;
 				} else {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交至受理報名單位。</li>`;
 				}
-				// 在個人申請時間內只有deadline有差別，分兩種情況：1.港二技學生  2.其他
+				// 在個人申請時間內只有deadline有差別，分兩種情況：1.港二技學生  2.其他 
 				if(registrationData.can_admission_selection){
 					let deadlineString = '';
 					let weekString = ['日','一','二','三','四','五','六'];
