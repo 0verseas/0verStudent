@@ -50,7 +50,7 @@
 			}
 
 			if (personalData.student_personal_data.resident_location === '127' && registrationData.student_qualification_verify.identity < 3 ) { 
-				// 在澳門的學士班港澳生要看到這行資訊
+				// 在澳門的港澳生要看到核驗資訊 研究所跟學士班的核驗地點跟開放時間不一樣
 				if(registrationData.student_qualification_verify.system_id < 3){
 					await $('.alert-macau-verification').show();
 					await $('.alert-macau-verification').html(`
@@ -81,10 +81,13 @@
 				if ( (registrationData.student_qualification_verify.system_id === 3 || registrationData.student_qualification_verify.system_id === 4)
 				&& registrationData.student_qualification_verify.identity > 3 && registrationData.student_qualification_verify.identity < 6) {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交或郵寄至海外聯合招生委員會。</li>`;
-				} else if( registrationData.student_qualification_verify.identity < 3 && personalData.student_personal_data.resident_location === '127') {
-					listHtml = `<li>請依開放時間至台北經濟文化辦事處（澳門辦事處）辦理「身分及學歷證件正本」核驗。</li>`;
 				} else if(registrationData.student_qualification_verify.identity < 3) {
-					listHtml = `<li>請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。</li>`;
+					// 香港的要先預約才能過去辦理 澳門的直接過去就好了的樣子
+					if (personalData.student_personal_data.resident_location === '127'){
+						listHtml = `<li>請依開放時間至指定地點辦理「身分及學歷證件正本」核驗。</li>`;
+					} else {
+						listHtml = `<li>請依預約時間至指定地點辦理「身分及學歷證件正本」核驗。</li>`;
+					}
 				} else {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交至受理報名單位。</li>`;
 				}
