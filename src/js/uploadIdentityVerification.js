@@ -177,10 +177,7 @@
 							progressJson.student_misc_data.admission_placement_apply_way_data.code == "26" ||
 							(
 								progressJson.student_personal_data_detail.resident_location == '澳門' &&
-								(
-									progressJson.student_misc_data.admission_placement_apply_way_data.code == '16' ||
-									progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-								)
+								progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
 							)
 						)){
 							continue;
