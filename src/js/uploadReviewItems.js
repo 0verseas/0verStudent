@@ -198,13 +198,17 @@
 		$wishList.html(wishHTML);
 		if(_wishList.length == giveUpCount){
 			swal({title:"確定放棄上傳全數志願的備審資料？",
-				html:`<span style="color:red;font-weight=bold;">
+				html:`
+					<span style="color:red;font-weight=bold;">
 						放棄上傳全數志願備審資料等同於放棄個人申請！<br/>
-						請問你是否真的要放棄個人申請？
-					<span/>`,
-				 type:"warning",
-				 confirmButtonText: '確定',
-				 allowOutsideClick: false}
+					<span/>
+					<span style="color:black;">
+						如欲恢復上傳，可點選<button type="button" class="btn btn-success btn-sm"><i class="fa fa-repeat" aria-hidden="true"></i></button>按鍵。
+					<span/>
+				`,
+				type:"warning",
+				confirmButtonText: '我已清楚瞭解',
+				allowOutsideClick: false}
 			);
 		}
 	}
