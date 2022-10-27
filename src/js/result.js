@@ -98,12 +98,15 @@
 						let admissionHTML = '';
 						admissionList.forEach((val, index) => {
 							let showId = (_systemId === 1) ? val.department_data.card_code : val.dept_id;
+							if(val.department_data.is_extended_department == 2){
+								val.department_data.title = '國際專修部（'+val.department_data.title+'）';
+							}
 							admissionHTML += `
-							<tr>
-							<td>` + val.order + `</td>
-							<td>` + showId + `</td>
-							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
-							</tr>
+								<tr>
+									<td>` + val.order + `</td>
+									<td>` + showId + `</td>
+									<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+								</tr>
 							`
 						});
 						$admissionTbody.html(admissionHTML);
@@ -125,12 +128,12 @@
 							const placementList = placementJson.student_department_admission_placement_order;
 							let placementHTML = '';
 							placementList.forEach((val, index) => {
-								placementHTML += `
-							<tr>
-							<td>` + val.order + `</td>
-							<td>` + val.department_data.card_code + `</td>
-							<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
-							</tr>
+							placementHTML += `
+								<tr>
+									<td>` + val.order + `</td>
+									<td>` + val.department_data.card_code + `</td>
+									<td>` + val.department_data.school.title + ' ' + val.department_data.title + `</td>
+								</tr>
 							`
 							});
 							$placementTbody.html(placementHTML);
