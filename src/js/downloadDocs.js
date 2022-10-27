@@ -36,11 +36,11 @@
 			// 在香港的同學，需要辦理核驗
 			if( personalData.student_personal_data.resident_location === '113' && registrationData.student_qualification_verify.identity < 3 ){
 				$('#alert-hk-order').show();
-				await $alertPrint.html(`「已鎖定並確認填報資料」後，系統將產生申請表供申請人留存，無須繳交。`);
+				await $alertPrint.html(`「已確認並鎖定填報資料」後，系統將產生申請表供申請人留存，無須繳交。`);
 				await $alertCorrect.html(`如需再修改個人基本資料（不含志願），請填寫「<a href="https://www.surveycake.com/s/YDnoK" target="_blank">資料修正表</a>」或是重新註冊新的帳號（惟報名費一經繳交，概不退還）。`);
 				await $alertSubmit.html(`身分及學歷證件正本須至指定地點辦理核驗，始完成報名程序。未完備前開程序者，一律不予分發。`);
 			} else if(personalData.student_personal_data.resident_location === '127'  && registrationData.student_qualification_verify.identity < 3 ){
-				await $alertPrint.html(`「已鎖定並確認填報資料」後，系統將產生申請表供申請人留存，無須繳交。`);
+				await $alertPrint.html(`「已確認並鎖定填報資料」後，系統將產生申請表供申請人留存，無須繳交。`);
 				await $alertCorrect.html(`如需修改個人基本資料（不含志願），請填寫「<a href="${env.baseUrl+'/admission-data-correction-form'}" target="_blank">資料修正表</a>」並連同身分及學歷證件正本於核驗時間繳交至指定地點，或重新註冊帳號（惟報名費一經繳交，概不退還）。`);
 				await $alertSubmit.html(`身分及學歷證件正本須至指定地點辦理核驗，始完成報名程序。未完備前開程序者，一律不予分發。`);
 			} else{

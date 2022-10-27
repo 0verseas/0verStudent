@@ -291,7 +291,7 @@
 				if(data.student_misc_data.confirmed_at != null && !data.is_admission_papers_exist){
 					student.generateAdminssionPaper();
 					swal({
-						title: `已鎖定並確認填報資料。`,
+						title: `已確認並鎖定填報資料。`,
 						html:`如需再修改個人基本資料（不含志願），請填寫「資料修正表」或是<strong>重新註冊新的帳號</strong>。`,
 						type:"warning",
 						confirmButtonText: '確定',
@@ -544,8 +544,8 @@
 
 	function  _checkConfirm(json) {
 		if (!!json.student_misc_data.confirmed_at) {
-			$payBtn.removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定並確認填報資料') && $afterConfirmZone.show();
-			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定並確認填報資料') && $afterConfirmZone.show();
+			$payBtn.removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已確認並鎖定填報資料') && $afterConfirmZone.show();
+			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已確認並鎖定填報資料') && $afterConfirmZone.show();
 		} else if (!json.student_qualification_verify) {
 			$payBtn.addClass('hide');
 			// 沒有輸入資格驗證的狀況下，隱藏提交按鈕
