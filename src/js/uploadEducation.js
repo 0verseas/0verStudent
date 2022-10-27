@@ -9,7 +9,7 @@
 	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
 	let $uploadedFiles = [];// 已上傳檔案名稱陣列
 	const $uploadTranscriptStringArray = ['統考','所持會考文憑'];
-	const dateMap = {0:'2021年12月15日（星期三）', 1:'2022年1月15日（星期六）', 2:'2022年2月28日（星期一）', 5:'2022年3月31日（星期四）'}
+	const dateMap = {0:'2022 年 12 月 15 日（星期四）', 1:'2023 年 1 月 15 日（星期日）', 5:'2023 年 3 月 31 日（星期五）'}
 
 	/**
 	*	init
@@ -42,45 +42,49 @@
 			}
 			if(apply_way != null && apply_way!=1){
 				const apply_way_data = studentData.student_misc_data.admission_placement_apply_way_data;
-				if(apply_way_data.stage != 2){
-					let tempString = (apply_way_data.id == 24)?$uploadTranscriptStringArray[0]:$uploadTranscriptStringArray[1];
-					let stageChineseChar = (apply_way_data.stage == 1)?'一':'五';
-					stepHtml = `
-						如因COVID-19疫情致報名時尚未取得文憑成績，請於
-						<b class="text-danger">${tempString}成績公布後5個日曆天內</b>，
-						至填報系統『登錄上傳文憑成績』頁面完成此報名步驟。
-						<br/>（未於「聯合分發」第${stageChineseChar}梯次分發作業前完成上傳提交者，一律不予分發。）
-					`;
-				}
 				$('.info-date').text(dateMap[apply_way_data.stage]);
-			}
-			if(studentData.student_misc_data.join_admission_selection == 1){
-				$('.info-date').text(dateMap[0]);
-				$('.step-4').show();
-				$('.step-4').html(`
-					<strong>步驟④ 上傳校系備審資料：</strong>至<b class="text-danger">2022年1月6日（星期四）臺灣時間下午5時</b>止，
-					請於填報系統的『上傳備審資料』頁面上傳「個人申請」各志願校系指定的審查項目，並按下『確認上傳資料並提交』。
-					<br/>（若未在期限内完成步驟④，則「個人申請」資格不符，建議在確認資料無誤後提早完成上傳提交。）
+				$('.for-admission_placement').show();
+				$('.for-admission_placement').html(`
+					有選填「聯合分發」志願校系者，<br/>
+					<ul>
+						<li>
+							若報名時已取得會考文憑成績，請直接前往本系統『登錄及上傳文憑成績』頁面完成該報名步驟。
+						</li>
+						<li>
+							若報名時尚未取得會考文憑成績，請於會考成績公布5個日曆天內，至本系統『登錄及上傳文憑成績』。<br/>
+							※未於各梯次分發作業前完成會考成績上傳提交，則「聯合分發」資格不符，一律不予分發。
+						</li>
+					</ul>
 				`);
-				if(stepHtml!=''){
-					$('.step-5').show();
-					$('.step-5').html(`<strong>步驟⑤ 登錄上傳文憑成績<b class="text-danger">（NEW）</b>：</strong>`+stepHtml);
+			}
+			if(studentData.student_misc_data.join_admission_selection == 1 ){
+				$('.info-date').text(dateMap[0]);
+				$('.deadline').html('有選填「個人申請」志願校系者，<br/>'+$('.deadline').html());
+				$('.selection-notice').show();
+				$('.selection-notice').html(`
+					<br/>
+					並請於 2023 年 1 月 6 日（五）台灣時間下午 5 時前，完成步驟③
+				`);
+				$('.step-3').show();
+				$('.step-3').html(`
+					<strong>步驟③ 上傳校系備審資料</strong>：
+					請於填報系統的『上傳備審資料』頁面上傳「個人申請」各志願校系指定的審查項目，並按下『確認上傳資料並提交』。
+					<br/>※若未在期限内完成步驟③，則「個人申請」資格不符，建議在確認資料無誤後提早完成上傳提交。
+				`);
+			} else if(apply_way != null && apply_way!=1){
+				const apply_way_data = studentData.student_misc_data.admission_placement_apply_way_data;
+				if(apply_way_data.stage == 1){
+					$('.deadline').html('報名「聯合分發」第一梯次者，<br/>'+$('.deadline').html());
+				} else {
+					$('.deadline').html('報名「聯合分發」第五梯次者，<br/>'+$('.deadline').html());
 				}
-			} else if(studentData.can_admission_placement && stepHtml!=''){
-				$('.step-4').show();
-				$('.step-4').html(`<strong>步驟④ 登錄上傳文憑成績<b class="text-danger">（NEW）</b>：</strong>`+stepHtml);
 			}
-			if(school_type == '馬來西亞國際學校（International School）' && [83,88].indexOf(apply_way) == -1){
-				$('.link-pdf').text(`《一般地區簡章》`);
-				$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/02_111%E4%B8%80%E8%88%AC%E5%85%8D%E8%A9%A6.pdf');
-				$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1qBbFmeGlCVBiwIVcfO9_oUDkkgfKsvPL/view?usp=sharing');
-				$('.transcript-info').text(`報名「聯合分發」所選『成績採計方式』相關文件（若有）`)
-			} else {
-				$('.link-pdf').text(`《馬來西亞地區簡章》`);
-				$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_111%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
-				$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1wPWXMeUPvGVQbOq285bIJsUT5N4ktqji/view?usp=sharing');
-				$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
-			}
+
+			$('.link-pdf').text(`《馬來西亞地區簡章》`);
+			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_111%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
+			$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1wPWXMeUPvGVQbOq285bIJsUT5N4ktqji/view?usp=sharing');
+			$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
+
 		} else {
 			const data = await registrationResponse.json();
 			const message = data.messages[0];
