@@ -45,13 +45,13 @@
 				$('.info-date').text(dateMap[apply_way_data.stage]);
 				$('.for-admission_placement').show();
 				$('.for-admission_placement').html(`
-					有選填「聯合分發」志願校系者，<br/>
+					您選填「聯合分發」志願校系，<br/>
 					<ul>
 						<li>
-							若報名時已取得會考文憑成績，請直接前往本系統『登錄及上傳文憑成績』頁面完成該報名步驟。
+							<strong>若報名時已取得會考文憑成績</strong>，請直接前往本系統『登錄及上傳文憑成績』頁面完成該報名步驟。
 						</li>
 						<li>
-							若報名時尚未取得會考文憑成績，請於會考成績公布5個日曆天內，至本系統『登錄及上傳文憑成績』。<br/>
+						<strong>若報名時尚未取得會考文憑成績，<a class="text-danger">請於會考成績公布5個日曆天內</a></strong>，至本系統『登錄及上傳文憑成績』。<br/>
 							※未於各梯次分發作業前完成會考成績上傳提交，則「聯合分發」資格不符，一律不予分發。
 						</li>
 					</ul>
@@ -63,12 +63,12 @@
 				$('.selection-notice').show();
 				$('.selection-notice').html(`
 					<br/>
-					並請於 2023 年 1 月 6 日（五）台灣時間下午 5 時前，完成步驟③
+					並請於 2023 年 1 月 6 日（星期五）台灣時間下午 5 時前，完成步驟③
 				`);
 				$('.step-3').show();
 				$('.step-3').html(`
 					<strong>步驟③ 上傳校系備審資料</strong>：
-					請於填報系統的『上傳備審資料』頁面上傳「個人申請」各志願校系指定的審查項目，並按下『確認上傳資料並提交』。
+					請於本系統『上傳備審資料』頁面上傳「個人申請」各志願校系指定審查項目，並按下『確認上傳資料並提交』按鍵。
 					<br/>※若未在期限内完成步驟③，則「個人申請」資格不符，建議在確認資料無誤後提早完成上傳提交。
 				`);
 			} else if(apply_way != null && apply_way!=1){
@@ -81,7 +81,7 @@
 			}
 
 			$('.link-pdf').text(`《馬來西亞地區簡章》`);
-			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/01_111%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
+			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/03_112%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E%E7%B0%A1%E7%AB%A0%E5%90%AB%E9%99%84%E9%8C%84_0.pdf');
 			$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1wPWXMeUPvGVQbOq285bIJsUT5N4ktqji/view?usp=sharing');
 			$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
 
@@ -125,9 +125,9 @@
 	// 儲存事件
     async function _handleSave(){
         await loading.start();
-        await swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+        await swal({title: `儲存成功`, html: `<strong style="color:red;">請於報名期限內完成紙本繳件</strong>`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
         await loading.complete();
-        await location.reload();
+		scroll(0,0);
     }
 
 	// 上傳事件
