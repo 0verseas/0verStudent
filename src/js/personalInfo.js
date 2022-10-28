@@ -469,6 +469,14 @@
                     $twoYearTechClassName.val(formData.two_year_tech_class_name);
                     $twoYearTechClassStart.val(formData.two_year_tech_class_start);
                     $twoYearTechClassEnd.val(formData.two_year_tech_class_end);
+                    $twoYearTechClassFormInfo.show();
+                    if(_schoolCountryId == 113){
+                        $twoYearTechClassFormAlert.show();
+                        $twoYearTechClassFormDate.show();
+                    } else {
+                        $twoYearTechClassFormAlert.hide();
+                        $twoYearTechClassFormDate.hide();
+                    }
                 }
 
                 // init 家長資料
