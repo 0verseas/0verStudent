@@ -59,7 +59,7 @@
 			}
 			if(studentData.student_misc_data.join_admission_selection == 1 ){
 				$('.info-date').text(dateMap[0]);
-				$('.deadline').html('有選填「個人申請」志願校系者，<br/>'+$('.deadline').html());
+				$('.deadline').html('您選填「個人申請」志願校系，<br/>'+$('.deadline').html());
 				$('.selection-notice').show();
 				$('.selection-notice').html(`
 					<br/>
@@ -74,9 +74,9 @@
 			} else if(apply_way != null && apply_way!=1){
 				const apply_way_data = studentData.student_misc_data.admission_placement_apply_way_data;
 				if(apply_way_data.stage == 1){
-					$('.deadline').html('報名「聯合分發」第一梯次者，<br/>'+$('.deadline').html());
+					$('.deadline').html('您報名「聯合分發」第一梯次，<br/>'+$('.deadline').html());
 				} else {
-					$('.deadline').html('報名「聯合分發」第五梯次者，<br/>'+$('.deadline').html());
+					$('.deadline').html('您報名「聯合分發」第五梯次，<br/>'+$('.deadline').html());
 				}
 			}
 
