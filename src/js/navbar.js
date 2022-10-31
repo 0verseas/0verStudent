@@ -582,9 +582,10 @@
 			$('#btn-uploadAndSubmit').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已提交上傳資料') && $('.nav-uploadReviewItems').addClass('list-group-item-success') && $afterConfirmZone.show();
 			$('#btn-uploadAndSubmit-hint').text('注意：已提交上傳資料，【上傳備審資料】頁面檔案無法再做變更。');
 		} else if (json.student_misc_data.join_admission_selection == 0 ){
-			// 僅參加聯合分發者不用點這個按鈕阿
+			// 僅參加聯合分發者不用上傳備審資料也不用提交
 			$('#btn-uploadAndSubmit').prop('disabled', true).text('僅參加個人申請者需要');
 			$('#btn-uploadAndSubmit').prop('disabled', true).removeClass('btn-danger').addClass('btn-secondary');
+			$('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();}) && $('.nav-uploadReviewItems').attr("href", '');
 			$('#btn-uploadAndSubmit-hint').hide();
 		} else if(!json.can_upload_papers){
 			// 還沒有提交上傳資料，且不在上傳備審資料的期間，不能點提交按鈕
