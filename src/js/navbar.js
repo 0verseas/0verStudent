@@ -411,7 +411,7 @@
 				// 聯合分發只有部份採計方式需要上傳文憑成績跟簡章規定文件
 				const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,80,83,88];
 				if(
-					data.student_misc_data.join_admission_selection = 1
+					data.student_misc_data.join_admission_selection == 1
 					|| malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
 				){
 					$('.nav-uploadEducation').show();
