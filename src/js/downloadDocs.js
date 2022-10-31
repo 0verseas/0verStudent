@@ -54,19 +54,23 @@
 				if(registrationData.student_qualification_verify.system_id < 3){
 					await $('.alert-macau-verification').show();
 					await $('.alert-macau-verification').html(`
-						身分及學歷證件核驗資訊：<br/>
-						地點：澳門國父紀念館（文第士街 1 號）<br/>
-						開放日期：2022 年 11 月 18 日 - 12 月 18 日 <br/>
-						開放時間：每週五的 16:00 - 21:00 及 每週六、日的 10:00 - 13:00 與 14:00 - 16:00
+						<strong class="text-danger">身分及學歷證件核驗資訊</strong>：<br/>
+						<a style="color:#0c5460;">
+							地點：澳門國父紀念館（文第士街 1 號）<br/>
+							開放日期：2022 年 11 月 18 日 - 12 月 18 日 <br/>
+							開放時間：每週五的 16:00 - 21:00 及 每週六、日的 10:00 - 13:00 與 14:00 - 16:00
+						</a>
 					`);
 				} else {
 					await $('.alert-macau-verification').show();
 					await $('.alert-macau-verification').html(`
-						身分及學歷證件核驗資訊：<br/>
-						地點：台北經濟文化辦事處（澳門辦事處）<br/>
-						地址：澳門新口岸宋玉生廣場 411 - 417 號皇朝廣場 5 樓 J - O 座<br/>
-						開放日期：2022 年 11 月 3 日至 12 月 15 日<br/>
-						開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點 30 分
+						<strong class="text-danger">身分及學歷證件核驗資訊</strong>：<br/>
+						<a style="color:#0c5460;">
+							地點：台北經濟文化辦事處（澳門辦事處）<br/>
+							地址：澳門新口岸宋玉生廣場 411 - 417 號皇朝廣場 5 樓 J - O 座<br/>
+							開放日期：2022 年 11 月 3 日至 12 月 15 日<br/>
+							開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點 30 分
+						</a>
 					`);
 				}
 			}
