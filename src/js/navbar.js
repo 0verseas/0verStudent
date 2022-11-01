@@ -356,6 +356,8 @@
 					}
 				} else { //完成填報前 聯合分發志願 sidebar 直接顯示為綠色打勾狀態
 					$('.nav-placementSelection').addClass('list-group-item-success');
+					$('.nav-placementSelection').addClass('disabled');
+					$('.nav-placementSelection').click(function(e){e.preventDefault();});
 					$('.nav-placementSelection').attr("href", '');
 				}
 			}
