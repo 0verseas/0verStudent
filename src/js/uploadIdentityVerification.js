@@ -170,7 +170,8 @@
 								progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' &&
 								progressJson.student_misc_data.year_of_hk_dse == env.year && 
 								progressJson.student_misc_data.year_of_hk_ale == null && 
-								progressJson.student_misc_data.year_of_hk_cee == null	) ||
+								progressJson.student_misc_data.year_of_hk_cee == null	
+							) ||
 							progressJson.student_misc_data.admission_placement_apply_way == "1" ||
 							progressJson.student_misc_data.admission_placement_apply_way_data.code == '5' ||
 							progressJson.student_misc_data.admission_placement_apply_way_data.code == '16' ||
@@ -184,7 +185,7 @@
 						}
 						if( i==13
 							&& progressJson.student_misc_data.admission_placement_apply_way_data.code == '23'
-							&& progressJson.student_misc_data.year_of_hk_dse.includes(env.year)
+							&& (progressJson.student_misc_data.year_of_hk_dse ? progressJson.student_misc_data.year_of_hk_dse : '').includes(env.year)
 						){
 							item_block[i].description[0] = `
 								<ol>
