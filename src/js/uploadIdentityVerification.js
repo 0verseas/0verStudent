@@ -158,13 +158,13 @@
 					if (i==7 && birth_location != 135) {
 						continue;
 					}
-					// 學士班 不去僑先部
+					// 學士班 不去僑先部(code != 16)
 					if (progressJson.student_misc_data.admission_placement_apply_way != null && progressJson.student_misc_data.admission_placement_apply_way_data.code != 16 && progressJson.student_qualification_verify.system_id == 1) {
 						// 國際數理奧林匹亞競賽或美國國際科展獎項證明  12
 						if (i==12 && !progressJson.student_misc_data.has_olympia_aspiration) {
 							continue;
 						}
-						// 但凡非 不參加聯合分發 或 僅持 DSE 當年度者、中學最後三年成績者，皆需上傳採計文憑成績證書
+						// 不參加聯合分發/去僑先部/僅持 DSE 當年度成績/中學最後三年成績/持澳門學歷，皆不需上傳採計文憑成績證書 13
 						if ( i==13 && (
 							(
 								progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' &&
@@ -173,13 +173,8 @@
 								progressJson.student_misc_data.year_of_hk_cee == null	
 							) ||
 							progressJson.student_misc_data.admission_placement_apply_way == "1" ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '5' ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '16' ||
 							progressJson.student_misc_data.admission_placement_apply_way_data.code == "26" ||
-							(
-								progressJson.student_personal_data_detail.resident_location == '澳門' &&
-								progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-							)
+							progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
 						)){
 							continue;
 						}
@@ -195,18 +190,13 @@
 							`;
 						}
 
-						// 非 DSE、ALE、CEE 者，需上傳成績採計資料參考表  14
-						if (i==14 && (progressJson.student_misc_data.admission_placement_apply_way == '2' || 
-							progressJson.student_misc_data.admission_placement_apply_way == '12' || 
-							progressJson.student_misc_data.admission_placement_apply_way == '1' || 
-							progressJson.student_misc_data.admission_placement_apply_way == '11' ||
-							progressJson.student_misc_data.admission_placement_apply_way == '81' ||
+						// 為DSE ALE CEE/澳門持澳門本地學歷，不需上傳成績採計參考表  14
+						if (i==14 && (
+							progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' ||
+							progressJson.student_misc_data.admission_placement_apply_way == '1' ||
 							(
 								progressJson.student_personal_data_detail.resident_location == '澳門' &&
-								(
-									progressJson.student_misc_data.admission_placement_apply_way_data.code == '16' ||
-									progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-								)
+								progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
 							)
 						)){
 							continue;
@@ -235,7 +225,7 @@
 					if (i==17 && progressJson.student_qualification_verify.identity != 2) {
 						continue;
 					}
-					
+
 					await setBlocks(i);
 				}
 			}
