@@ -6,7 +6,6 @@
 
 	// 是否有奧林匹亞獎項
 	let _hasOlympia = null;
-	let _userID;
 
 	let _filterOptionalWish = []; // 篩選的資料（也是需顯示的資料）
 	let _optionalWish = []; // 剩餘可選志願
@@ -52,9 +51,9 @@
 		try {
 			const response = await student.getOlympiaAspirationOrder();
 			if (!response[0].ok) { throw response[0]; }
+
 			const resOlympia = await response[0].json();
 			const resOrder = await response[1].json();
-			_userID = resOlympia.id;
 
 			await resOrder.forEach((value, index) => { // 志願列表格式整理
 				let add = {
@@ -305,7 +304,7 @@
 		$downArrow.on("click", _nextWish);
 	}
 
-	async function _handleSave() {
+	function _handleSave() {
 		if (_hasOlympia === 1) {
 			let order = [];
 			if (_wishList.length > 0) {
@@ -344,8 +343,6 @@
 				swal({title:`沒有選擇志願。`, confirmButtonText:'確定', type:'warning'});
 			}
 		} else if(_hasOlympia === 0){
-			// 沒有就刪除 國際數理奧林匹亞競賽或美國國際科展獎項證明
-			await student.delIdentityVerificationItem({user_id: _userID, itemId: '12'});
 			const data = {
 				has_olympia_aspiration: _hasOlympia,
 			};
