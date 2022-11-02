@@ -3,7 +3,7 @@
 	/**
 	*	cache DOM
 	*/
-
+	let _userID;
 	const $applyWaysFieldSet = $('#apply-ways');
 	const $goToFF = $('#go-to-FF');  // 「可以被分發去僑先部」的核取方塊
 	
@@ -116,6 +116,16 @@
 			});
 		}
 
+		// 依選項決定是否刪除對應簡章應繳文件
+		// 不參加聯合分發/去僑先部/僅持 DSE 當年度成績/中學最後三年成績/持澳門學歷，皆不需上傳採計文憑成績證書
+		if (+id == 1 || +code == 16 || +code == 26 || +code == 5 ||
+			(+code == 23 && data.year_of_hk_ale == env.year && !data.year_of_hk_cee && !data.year_of_hk_dse)
+		) {
+			await student.delIdentityVerificationItem({user_id: _userID, itemId: '13'});
+		}
+		// 為DSE ALE CEE/澳門持澳門本地學歷，不需上傳成績採計參考表
+		if (+code == 23 || +id == 1 || +code == 5 || +code == 16) await student.delIdentityVerificationItem({user_id: _userID, itemId: '14'});
+
 		loading.start();
 		try {
 			const choseFF = await student.setStudentGoToFForNot(toFForNot);
@@ -186,8 +196,8 @@
 		})
 		.then((json) => {
 			let fieldSetHTML = '';
-
 			json.forEach((file, index) => {
+				// FIX ME: 雖然有設schoo_country，但是json裡面沒有撈相關資訊，確認是否還需要該欄位
 				let school_country =  (file.last_graduated_school_country)?file.last_graduated_school_country:'無';
 				fieldSetHTML += '<div class="form-group form-check"><label class="form-check-label"><input type="radio" class="form-check-input radio-option" name="grade" data-school_country =' + school_country +' data-id="' + file.id + '" value=' + file.code + '>' + file.description + '</label></div>';
 			});
@@ -205,6 +215,7 @@
 				}
 			})
 			.then((json) => {
+				_userID = json.id;
 				const option = json.student_misc_data.admission_placement_apply_way_data ? json.student_misc_data.admission_placement_apply_way_data.code : null;
 				const { year_of_hk_ale, year_of_hk_cee, year_of_hk_dse, my_admission_ticket_no, myanmar_test_area } = json.student_misc_data;
 				!!option && $(`.radio-option[value=${option}]`).trigger('click');
