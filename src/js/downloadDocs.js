@@ -58,7 +58,16 @@
 						<a style="color:#0c5460;">
 							地點：澳門國父紀念館（文第士街 1 號）<br/>
 							開放日期：2022 年 11 月 18 日 - 12 月 18 日 <br/>
-							開放時間：每週五的 16:00 - 21:00 及 每週六、日的 10:00 - 13:00 與 14:00 - 16:00
+							開放時間：每週五的 16:00 - 21:00 及 每週六、日的 10:00 - 13:00 與 14:00 - 16:00 <br/>
+							學士班核驗文件項目：<br/>
+							<ol style="padding-left:20px; margin-bottom:0px;">
+								<li>身分證正本</li>
+								<li>高中畢業證書或學生證（教青局核發正本）＋ 學生證二維碼掃描結果</li>
+								<li>高中成績單正本</li>
+							</ol>
+							<a href="https://drive.google.com/file/d/1zrPR1ThokeEX_Qx45Dt0w6QR5hHtsb32/view?usp=share_link" target="_blank">
+								核驗身份及學歷正本流程圖
+							</a>
 						</a>
 					`);
 				} else {
@@ -69,7 +78,10 @@
 							地點：台北經濟文化辦事處（澳門辦事處）<br/>
 							地址：澳門新口岸宋玉生廣場 411 - 417 號皇朝廣場 5 樓 J - O 座<br/>
 							開放日期：2022 年 11 月 3 日至 12 月 15 日<br/>
-							開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點 30 分
+							開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點 30 分<br/>
+							<a href="https://drive.google.com/file/d/1QmvLQ7mx3l918Gsja-_FyLJsDuKZxevQ/view?usp=share_link" target="_blank">
+								查看辦理核驗注意事項（含流程與應備文件）
+							</a>
 						</a>
 					`);
 				}
