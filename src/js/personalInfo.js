@@ -1263,8 +1263,8 @@
                     return str;
                 }
             } else if (LocateOrIdType == "居留證") { // 在臺證件爲居留證
-                // 驗證格式，1位字母爲地區(不包括L、S、R、Y)+1位數字爲A/B/C/D/8/9(新式舊式性別區分)+8位數字
-                const taiwan_permitRegex = /^[A-KM-QT-XZa-km-qt-xz]{1}([A-Da-d8-9]{1})\d{8}$/;
+                // 驗證格式，1位字母爲地區(不包括 Y，而 L，S，R 則是服務站地區未合併的關係，故還是不加入黑名單)+1位數字爲A/B/C/D/8/9(新式舊式性別區分)+8位數字
+                const taiwan_permitRegex = /^[A-XZa-xz]{1}([A-Da-d8-9]{1})\d{8}$/;
                 if (str.match(taiwan_permitRegex) == null) { // 不符合上述的格式就回傳格式錯誤
                     return 'formatWrong';
                 } else {
