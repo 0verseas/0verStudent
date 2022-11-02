@@ -2,6 +2,7 @@
 	/**
 	*	private variable
 	*/
+    let _userID;
     let _savedSystem = 0;
     let _savedIdentity = 0;
     let _countryList = [];
@@ -199,6 +200,7 @@
 				throw response;
 			}
 			const json = await response.json();
+            _userID = json.id;
 
             // set Continent & Country select option
             await student.getCountryList().then((data) => {
@@ -934,6 +936,7 @@
         const inputDistributionSchool = $qualifyForm.find('.input-distributionSchool').val(); // 分發學校
         const inputDistributionDept = $qualifyForm.find('.input-distributionDept').val(); // 分發系所
         const inputDistributionNo = $qualifyForm.find('.input-distributionNo').val(); // 分發文號
+        const isTimeBefore = (inputPortugalPassportTime)? moment(inputPortugalPassportTime, 'YYYY/MM/DD').isBefore('1999-12-20'): false;
 
         // 檢查學制代碼
         if([1,2,3,4].indexOf(choosenSystem) == -1){
@@ -1119,7 +1122,6 @@
             sendData["same_grade_course_apply_year"] = inputIsDistributionTime;
             sendData["same_grade_course_selection"] = choosenIsDistributionOption;
         }
-
         if(_savedSystem !== 0  && _savedIdentity !== 0){
             if(_savedSystem != choosenSystem || _savedIdentity != choosenIdentity){
                 await swal({
@@ -1131,12 +1133,27 @@
                     confirmButtonColor: '#5cb85c',
                     cancelButtonColor: '#d9534f',
                     allowOutsideClick: false
-                }, function(isConfirm){
-                    if(!isConfirm){
-                        return;
+                }).then(async() => {
+                    // 港澳(具外國國籍)生更換身份別，若存在已上傳的應繳文件，全部刪除
+                    if(_savedIdentity < 3){
+                        await student.delIdentityVerificationItem({user_id: _userID, itemId: 'ALL'});
                     }
                 });
             }
+        }
+
+        // 檢查影響上傳簡章的欄位
+        if (choosenIdentity < 3) {
+            // 非 曾分發來台且在臺停留未滿二年，因故退學或喪失學籍 者，不需附上自願退學證明
+            if (choosenIsDistributionOption != 2) await student.delIdentityVerificationItem({user_id: _userID, itemId: '02'});
+            // 非 但至入學當年度8月31日前滿6/8年，不需附海外/境外居留年限切結書
+            if (choosenStayLimit != 2 && choosenStayLimit != 4) await student.delIdentityVerificationItem({user_id: _userID, itemId: '03'});
+            // 沒有某一年來台停留超過120天，不需上傳 在台停留
+            if (choosenHasBeenTaiwan != 1) await student.delIdentityVerificationItem({user_id: _userID, itemId: '04'});
+            // 符合港澳關係條例切結書 港澳生 + 在台設有戶籍 + 持外國護照（但不限回歸前葡萄牙護照）
+            if (!(choosenIdentity == 1 && choosenTaiwanHousehold == 1 && (!isTimeBefore || choosenPassportCountry))) await student.delIdentityVerificationItem({user_id: _userID, itemId: '15'});
+            // 非港澳具外國國籍之華裔學生，不需上傳外國護照
+            if (choosenIdentity != 2) await student.delIdentityVerificationItem({user_id: _userID, itemId: '17'});
         }
 
         // 開始把處理好的資料傳送到後端

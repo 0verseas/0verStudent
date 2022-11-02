@@ -4,6 +4,7 @@
      *	private variable
      */
 
+    let _userID;
     let _specialStatus = 0;
     let _disabilityCategory = '視覺障礙';
     let _currentDadStatus = 'alive';
@@ -296,6 +297,7 @@
                 }
             })
             .then((json) => {
+                _userID = json.id;
                 _systemId = json.student_qualification_verify.system_id;
                 _identityId = json.student_qualification_verify.identity;
                 let formData = json.student_personal_data;
@@ -1031,6 +1033,8 @@
             })
             .then(async (json) => {
                 // console.log(json);
+                // 出生地非大陸，移除已上傳的回鄉證
+                if($birthLocation.val() != 135) await student.delIdentityVerificationItem({user_id: _userID, itemId: '07'});
                 await swal({title:"儲存成功", type:"success", confirmButtonText: '確定'});
                 window.location.reload();
                 loading.complete();
