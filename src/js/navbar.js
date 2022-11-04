@@ -274,12 +274,10 @@
 				$('.nav-admissionSelection').attr("href", '');
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
 			}
-			// 僑居地是港澳的，因為沒有海華幫忙收件了，要開上傳身份證件區，要線上繳交報名費用 
-			if((data.student_personal_data_detail.resident_location == '香港' || data.student_personal_data_detail.resident_location == '澳門') && (
-				data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2)
-			){
+			// 身份別代號是 1 或 2，因為港澳地區改全線上報名，要開上傳簡章規定文件區，要線上繳交報名費用，然後要確認是否產生過報名表件
+			if(data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2){
 				document.getElementById('uploadIdentityVerification').style.display = 'block';
-				// 還沒繳錢就不給學生按完成填報
+				// 如果還沒繳錢就切換完成填報按鈕成付款按鈕
 				if(data.student_order_list_trade_status == '1'){
 					$payBtn.hide();
 					$checkBtn.show();
@@ -287,7 +285,7 @@
 					$payBtn.show();
 					$checkBtn.hide();
 				}
-				// 幫香港學生產生報名表件 因為對他們來說不用下載了 所以要主動幫他們產生 順便再告訴他們一次鎖定後資料就不能異動了
+				// 幫港澳學生產生報名表件 因為對他們來說不一定要下載了 所以要主動幫他們產生 順便再告訴他們一次鎖定後資料就不能異動了
 				if(data.student_misc_data.confirmed_at != null && !data.is_admission_papers_exist){
 					student.generateAdminssionPaper();
 					swal({
@@ -299,6 +297,7 @@
 					});
 				}
 			}
+			// 緬十畢業且非當地大二畢業者不能參加個人申請
 			if( data.student_personal_data_detail.school_country == '緬甸'
 				&& (
 					data.student_personal_data_detail.school_type == '緬校（僅緬十畢業）'
