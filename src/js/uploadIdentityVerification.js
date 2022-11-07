@@ -258,13 +258,16 @@
 		}   
 	}
 
+	// 渲染欄位
 	async function setBlocks(item_id) {
-		// 有檔案就渲染出來
         try {
 			loading.start();
 			let itemId = (item_id < 10)? '0' + item_id.toString(): item_id.toString();
+			// 檢查檔案是否存在
 			const response = await student.getIdentityVerificationItem({user_id: _userID, item: itemId});
 			if (!response.ok) { throw response; }
+
+			// 依條件選擇標題及說明文字
 			let title ='';
 			let description = '';
 			switch (item_id) {
@@ -335,10 +338,10 @@
 					description = item_block[item_id].description[0];
 					break;
 			}
+			// 若title為空，預設顯示該欄設置的首個標題
 			if (!title) title = item_block[item_id].title[0];
-            const ifhasfile = await response.json();
 			document.getElementById(`${item_block[item_id].element}`).innerHTML=`
-				<div class="card" style="thick;margin-bottom: 3%;">
+				<div class="card" style="thick;margin-bottom:3%;">
 					<div class="card-header bg-primary text-white" style="font-size:150%;">
 						<span>${title}</span>
 					</div>
@@ -356,8 +359,10 @@
 					</div>
 				</div>
 			`;
+
+            const ifhasfile = await response.json();
 			if( ifhasfile == "true"){
-				// 有檔案
+				// 有檔案就渲染檔案
                 _getFileAreaHTML(itemId, item_block[item_id].element);
 				$(`#${item_block[item_id].element}_file`).show();
 			}
