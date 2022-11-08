@@ -669,7 +669,7 @@
                     if(!inputTime) return flag;
                     if(isTimeBefore){
                         // 回歸前取得 出現提示訊息 並請學生切換身份別
-                        flag = _alertForHKAOIdentity(1);   
+                        flag = _alertForHKAOIdentity(1);
                     } else {
                         // 回歸後沒事 出現提示訊息即可
                         $alertPortugalPassportTimeAfter.show();
@@ -739,9 +739,12 @@
 		}
         $passportCountrySelect.attr('disabled',false); // enable selector
         $passportCountrySelect.selectpicker({title: '請選擇國家'}); // 修改 未選擇選項時的顯示文字\
+        const passportCountryRule = ["113", "127", "134", "135"]; // 亞洲國家選項不能出現 臺港澳中
         // 渲染選取洲別的國家到下拉式選單中
 		_countryList[order].country.forEach((val, i) => {
-			$passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+            if(passportCountryRule.indexOf(val.id) == -1){
+                $passportCountrySelect.append(`<option value="${val.id}">${val.country}</option>`);
+            }
 		});
 
         $passportCountrySelect.selectpicker('refresh'); // refresh selecor
