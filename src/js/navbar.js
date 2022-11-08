@@ -297,8 +297,9 @@
 					});
 				}
 			}
-			// 緬十畢業且非當地大二畢業者不能參加個人申請
+			// 身份別是 海外僑生（3）緬十畢業且非當地大二畢業者不能參加個人申請
 			if( data.student_personal_data_detail.school_country == '緬甸'
+				&& data.student_qualification_verify.identity === 3
 				&& (
 					data.student_personal_data_detail.school_type == '緬校（僅緬十畢業）'
 					|| data.student_personal_data_detail.school_type == '緬十畢業且在當地大學一年級修業完成'
