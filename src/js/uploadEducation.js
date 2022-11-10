@@ -36,10 +36,10 @@
 			const school_type = studentData.student_personal_data_detail.school_type;
 			let stepHtml = '';
 			// 已被收件者就隱藏上傳與刪除按鈕
-			if(studentData.student_misc_data.verified_at !== null){
-				$deleteFileBtn.hide();
-				$('.btn-upload').hide();
-			}
+			// if(studentData.student_misc_data.verified_at !== null){
+			// 	$deleteFileBtn.hide();
+			// 	$('.btn-upload').hide();
+			// }
 			if(apply_way != null && apply_way!=1){
 				const apply_way_data = studentData.student_misc_data.admission_placement_apply_way_data;
 				$('.info-date').text(dateMap[apply_way_data.stage]);
