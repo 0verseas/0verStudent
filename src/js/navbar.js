@@ -115,12 +115,10 @@
 			html: "如您有志願校系要求繳交【師長推薦函】，請務必至各志願【上傳備審項目頁面】檢查邀請之師長是否完成上傳。提醒您，若點選【確認上傳資料並提交】後，<span style='color : #FF0000'>師長將無法為您上傳推薦信。</span>",
 			type: 'warning',
 			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
 			confirmButtonText: '確認提交',
 			cancelButtonText: '取消',
-			confirmButtonClass: 'btn btn-success',
-			cancelButtonClass: 'btn btn-danger',
+			confirmButtonClass: 'swal-button btn btn-success',
+			cancelButtonClass: 'swal-button btn btn-danger',
 			buttonsStyling: false,
 			reverseButtons: true
 		})
@@ -132,7 +130,7 @@
 					text: "注意：按下確認提交後，上傳的檔案就無法再做任何變更。",
 					type: 'warning',
 					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
+					confirmButtonColor: '#5cb85c',
 					cancelButtonColor: '#d33',
 					confirmButtonText: '確認提交',
 					cancelButtonText: '取消',
