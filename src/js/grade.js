@@ -104,7 +104,7 @@
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#5cb85c',
-				cancelButtonColor: '#d33',
+				cancelButtonColor: '#dc3454',
 				confirmButtonText: '確定',
 				cancelButtonText: '取消',
 			})
@@ -291,7 +291,7 @@
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#5cb85c',
-				cancelButtonColor: '#d33',
+				cancelButtonColor: '#dc3454',
 				confirmButtonText: '確定',
 				cancelButtonText: '取消',
 			})

@@ -53,7 +53,7 @@
 						type: 'warning',
 						showCancelButton: true,
 						confirmButtonColor: '#3085d6',
-						cancelButtonColor: '#d33',
+						cancelButtonColor: '#dc3454',
 						confirmButtonText: '同意',
 						cancelButtonText: '不同意',
 						confirmButtonClass: 'btn btn-success',
