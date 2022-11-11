@@ -303,8 +303,10 @@
                     title: '確認是否要新增文憑成績',
                     type: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: '確認',
-                    cancelButtonText: '取消'
+                    confirmButtonColor: '#5cb85c',
+					cancelButtonColor: '#d9534f',
+					confirmButtonText: '確認',
+					cancelButtonText: '取消',
                 }).then(()=>{
                     // 呼叫儲存事件將資料傳送到後端
                     _saveEvent(data, true);
@@ -358,6 +360,8 @@
             title: '確認是否要儲存文憑成績',
             type: 'warning',
             showCancelButton: true,
+            confirmButtonColor: '#5cb85c',
+            cancelButtonColor: '#d9534f',
             confirmButtonText: '儲存',
             cancelButtonText: '取消'
         }).then(()=>{
@@ -396,16 +400,13 @@
     // 刪除文憑確認事件
     function _handleDeleteTranscriptData(){
         swal({
-            title: '確要定刪除此文憑資料？',
+            title: '確定要刪除此文憑資料？',
             type: 'warning',
 			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: '確定',
-			cancelButtonText: '取消',
-			confirmButtonClass: 'btn btn-success',
-			cancelButtonClass: 'btn btn-danger',
-			buttonsStyling: false
+			confirmButtonColor: '#5cb85c',
+            cancelButtonColor: '#d9534f',
+            confirmButtonText: '確定',
+            cancelButtonText: '取消',
         })
         .then(()=>{
             // 呼叫刪除事件將目前開啟的文憑刪除
@@ -598,16 +599,13 @@
     function _handleDeleteFile(){
         let fileName = $deleteFileBtn.attr('filename');
         swal({
-            title: '確要定刪除已傳的檔案？',
+            title: '確定要刪除已上傳的檔案？',
             type: 'warning',
 			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: '確定',
-			cancelButtonText: '取消',
-			confirmButtonClass: 'btn btn-success',
-			cancelButtonClass: 'btn btn-danger',
-			buttonsStyling: false
+			confirmButtonColor: '#5cb85c',
+            cancelButtonColor: '#d9534f',
+            confirmButtonText: '確定',
+            cancelButtonText: '取消',
         }).then(()=>{
             _deleteTranscriptFile(fileName);
         }).catch(()=>{
