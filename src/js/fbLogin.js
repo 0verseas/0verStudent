@@ -58,7 +58,6 @@
 						cancelButtonText: '不同意',
 						confirmButtonClass: 'btn btn-success',
 						cancelButtonClass: 'btn btn-danger',
-						reverseButtons: true,
 						buttonsStyling: false
 					}).then(()=>{
 						_handleRedirect(json)

@@ -279,8 +279,7 @@
 			cancelButtonColor: '#d33',
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
-			buttonsStyling: true,
-			reverseButtons: true
+			buttonsStyling: true
         }).then(()=>{
             _deleteFile(type, fileName);
         }).catch(()=>{

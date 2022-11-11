@@ -134,7 +134,6 @@
 					cancelButtonColor: '#d33',
 					confirmButtonText: '確認提交',
 					cancelButtonText: '取消',
-					reverseButtons: true
 				})
 				.then(function () {
 					loading.start();
