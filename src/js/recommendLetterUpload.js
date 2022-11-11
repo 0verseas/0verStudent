@@ -209,6 +209,7 @@
 			cancelButtonColor: '#d33',
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
+			reverseButtons: true
 		})
 		.then( async (result)	=>{
 			//console.log(result);
@@ -350,6 +351,7 @@
 			cancelButtonColor: '#d33',
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
+			reverseButtons: true
 		})
 		.then( async (result)	=>{
 			// console.log(result);

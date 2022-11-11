@@ -78,6 +78,7 @@
             cancelButtonText: '取消',
             confirmButtonColor: '#5cb85c',
             cancelButtonColor: '#d9534f',
+			reverseButtons: true
         }).then(()=>{
             // 按下確定後就呼叫我們的API跳轉到綠界的付款頁面
             location.href = env.baseUrl + `/students/application-fee/create`;

@@ -633,6 +633,7 @@
 				cancelButtonColor: '#d33',
 				confirmButtonText: '確定',
 				cancelButtonText: '取消',
+				reverseButtons: true
 			})
 			.then( (result)	=>{
 				//console.log(result);

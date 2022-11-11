@@ -1133,7 +1133,8 @@
                     cancelButtonText: '取消',
                     confirmButtonColor: '#5cb85c',
                     cancelButtonColor: '#d9534f',
-                    allowOutsideClick: false
+                    allowOutsideClick: false,
+                    reverseButtons: true
                 }, function(isConfirm){
                     if(!isConfirm){
                         return;

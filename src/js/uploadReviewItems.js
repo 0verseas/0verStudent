@@ -528,6 +528,7 @@
 			cancelButtonClass: 'swal-cancel',
 			confirmButtonColor: '#5cb85c',
 			cancelButtonColor: '#d9534f',
+			reverseButtons: true,
 			onOpen: function () {
 				if(action){
 					swal.showLoading();
@@ -872,6 +873,7 @@
 			cancelButtonColor: '#d33',
 			confirmButtonText: '確定',
 			cancelButtonText: '取消',
+			reverseButtons: true
 		})
 		.then( async (result)	=>{
 			//console.log(result);

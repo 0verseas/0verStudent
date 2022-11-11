@@ -304,7 +304,8 @@
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonText: '確認',
-                    cancelButtonText: '取消'
+                    cancelButtonText: '取消',
+                    reverseButtons: true
                 }).then(()=>{
                     // 呼叫儲存事件將資料傳送到後端
                     _saveEvent(data, true);
@@ -359,7 +360,8 @@
             type: 'warning',
             showCancelButton: true,
             confirmButtonText: '儲存',
-            cancelButtonText: '取消'
+            cancelButtonText: '取消',
+			reverseButtons: true
         }).then(()=>{
             // 呼叫儲存事件將資料傳送到後端
             _saveEvent(data);
@@ -405,7 +407,8 @@
 			cancelButtonText: '取消',
 			confirmButtonClass: 'btn btn-success',
 			cancelButtonClass: 'btn btn-danger',
-			buttonsStyling: false
+			buttonsStyling: false,
+			reverseButtons: true
         })
         .then(()=>{
             // 呼叫刪除事件將目前開啟的文憑刪除
@@ -607,7 +610,8 @@
 			cancelButtonText: '取消',
 			confirmButtonClass: 'btn btn-success',
 			cancelButtonClass: 'btn btn-danger',
-			buttonsStyling: false
+			buttonsStyling: false,
+			reverseButtons: true
         }).then(()=>{
             _deleteTranscriptFile(fileName);
         }).catch(()=>{
