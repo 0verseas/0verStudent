@@ -37,6 +37,11 @@
 		_checkMacauTranscrip(json);
 		_checkPrintDistribution(json);
 	})
+	.then(()=>{
+		// 以防萬一 物件初始化事件都成功 再讓 完成填報 or 付款按鈕有點擊事件
+		$checkBtn.on('click', _checkAllSet);
+		$payBtn.on('click', _checkPay);
+	})
 	.catch((err) => {
 		console.error(err);
         if (err.status && err.status === 401) {
@@ -57,9 +62,7 @@
 	*/
 	$logoutBtn.on('click', _handleLogout);
 	$mailResendBtn.on('click', _handleResendMail);
-	$checkBtn.on('click', _checkAllSet);
-	$uploadAndSubmit.on('click', _handleUploadAndSubmit);
-	$payBtn.on('click', _checkPay);
+	$uploadAndSubmit.on('click', _handleUploadAndSubmit);	
 
 	function _handleLogout() {
 		loading.start();
