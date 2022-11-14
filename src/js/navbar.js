@@ -6,12 +6,12 @@
 	const $logoutBtn = $('#btn-logout');
 	const $mailResendBtn = $('#btn-mailResend');
 	const $checkBtn = $('#btn-all-set');
-	const $payBtn = $('#btn-pay');
 	const $afterConfirmZone = $('#afterConfirmZone');
 	const $uploadAndSubmit = $('#btn-uploadAndSubmit');
 	const $macautranscript = $('#btn-uploadMacauTranscript');
 	const $macauTranscriptAlert = $('#macauTranscriptAlert');
 	const $printDistribution = $('#btn-printDistribution');
+	let currentIdentity = null;
 
 	/**
 	* init
@@ -38,9 +38,15 @@
 		_checkPrintDistribution(json);
 	})
 	.then(()=>{
-		// 以防萬一 物件初始化事件都成功 再讓 完成填報 or 付款按鈕有點擊事件
-		$checkBtn.on('click', _checkAllSet);
-		$payBtn.on('click', _checkPay);
+		// 以防萬一 物件初始化事件都成功 且擁有身份別後 再讓 完成填報按鈕有點擊事件
+		if(currentIdentity !== null){
+			// 港澳（具外國國籍之華裔學）生 要線上付款 其他人是原本的完成填報
+			if([1,2].indexOf(currentIdentity) > -1){
+				$checkBtn.on('click', _checkPay);
+			} else {
+				$checkBtn.on('click', _checkAllSet);
+			}
+		}
 	})
 	.catch((err) => {
 		console.error(err);
@@ -217,6 +223,7 @@
 			if (+systemID === 1) {
 				$('.nav-educationInfo, .nav-olympia, .nav-grade, .nav-placementSelection').show();
 			}
+			currentIdentity = data.student_qualification_verify.identity;
 		}
 		// 不得參加個人申請
 		+data.student_misc_data.join_admission_selection === 2 && $('.nav-admissionSelection').hide();
@@ -278,14 +285,6 @@
 			// 身份別代號是 1 或 2，因為港澳地區改全線上報名，要開上傳簡章規定文件區，要線上繳交報名費用，然後要確認是否產生過報名表件
 			if(data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2){
 				document.getElementById('uploadIdentityVerification').style.display = 'block';
-				// 如果還沒繳錢就切換完成填報按鈕成付款按鈕
-				if(data.student_order_list_trade_status == '1'){
-					$payBtn.hide();
-					$checkBtn.show();
-				} else {
-					$payBtn.show();
-					$checkBtn.hide();
-				}
 				// 幫港澳學生產生報名表件 因為對他們來說不一定要下載了 所以要主動幫他們產生 順便再告訴他們一次鎖定後資料就不能異動了
 				if(data.student_misc_data.confirmed_at != null && !data.is_admission_papers_exist){
 					student.generateAdminssionPaper();
@@ -553,24 +552,19 @@
 
 	function  _checkConfirm(json) {
 		if (!!json.student_misc_data.confirmed_at) {
-			$payBtn.removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已確認並鎖定填報資料') && $afterConfirmZone.show();
-			$('#btn-all-set').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已確認並鎖定填報資料') && $afterConfirmZone.show();
+			$checkBtn.removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已確認並鎖定填報資料') && $afterConfirmZone.show();
 		} else if (!json.student_qualification_verify) {
-			$payBtn.addClass('hide');
 			// 沒有輸入資格驗證的狀況下，隱藏提交按鈕
-			$('#btn-all-set').addClass('hide');
+			$checkBtn.addClass('hide');
 		} else if (json.student_qualification_verify.system_id === 1 && !json.student_department_admission_placement_apply_way) {
 			// 學士班，聯合分發成績採計方式未填寫者，確認提交按鈕消失
-			$payBtn.addClass('hide');
-			$('#btn-all-set').addClass('hide');
+			$checkBtn.addClass('hide');
 		} else if (json.student_qualification_verify.system_id !== 1 && !json.student_personal_data) {
 			// 學士班以外其它學制，個人基本資料未填寫者，確認提交按鈕消失
-			$payBtn.addClass('hide');
-			$('#btn-all-set').addClass('hide');
+			$checkBtn.addClass('hide');
 		} else if (!json.can_admission_selection && !json.can_admission_placement) {
 			// 還沒有填報，且不在報名個人申請、聯合分發的期間，不能點送出填報按鈕
-			$payBtn.prop('disabled', true).text('目前不是可報名時間');
-			$('#btn-all-set').prop('disabled', true).text('目前不是可報名時間');
+			$checkBtn.prop('disabled', true).text('目前不是可報名時間');
 		} else if(json.student_order_list_trade_status === "1"){
 			// 還沒有填報，但完成繳費的人自動去跳轉頁面讓它鎖定
 			location.href = "./ecpayRedirect.html";
