@@ -90,10 +90,10 @@
             document.getElementById("file-view").innerHTML = _getFileAreaHTML(fileNameObjectToArray(numJson.filename));
             loading.complete();
         } catch (e) {
-            e.json && e.json().then((data) => {
+            e.json && e.json().then(async (data) => {
                 console.error(data);
 
-                swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+                await swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 
                 // 分類帽會依情況決定使用者去什麼地方
                 if (e.status !== 423){
