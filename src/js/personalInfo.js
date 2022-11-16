@@ -1418,7 +1418,7 @@
                         sendData[key] = regexNumber(value);
                     }
                     break;
-                case 'phone': // TODO 應該要加上國家（加拿大和大陸）區分電話號碼長度，加拿大的話最少能填7碼，大陸的話最多能填11碼，其餘皆爲8-10碼？
+                case 'phone': // TODO 應該要加上國家（加拿大和印尼）區分電話號碼長度，加拿大的話最少能填7碼，印尼的話最多能填13碼，其餘皆爲8-10碼？
                     colAlert.addClass('invalidInput');
                     if (regexNumber(value) == "") { // 只能填數字，空的就不給你過
                         _correct = false;
@@ -1427,9 +1427,9 @@
                         if (regexNumber(value).length < 7) { // 過濾後少過7碼，則提示不能少過
                             _correct = false;
                             _errormsg.push(colName + '輸入格式不符，最少要7碼，請重新填寫');
-                        } else if (regexNumber(value).length > 11) { // 過濾後超過11碼，則提示不能超過
+                        } else if (regexNumber(value).length > 13) { // 過濾後超過13碼，則提示不能超過
                             _correct = false;
-                            _errormsg.push(colName + '輸入格式不符，不能超過11碼，請重新填寫');
+                            _errormsg.push(colName + '輸入格式不符，不能超過13碼，請重新填寫');
                         } else { // 都沒問題再丟sendData
                             colAlert.removeClass('invalidInput');
                             sendData[key] = regexNumber(value);
