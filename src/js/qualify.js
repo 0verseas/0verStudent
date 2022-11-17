@@ -227,31 +227,40 @@
             // 有資料的話就渲染
             if (json.student_qualification_verify) {
                 const data = json.student_qualification_verify;
-                // set data
+                // set data, use trigger() to render
                 // 學制
-				await $systemChooseOption.val(data.system_id);
+				await $systemChooseOption.val(data.system_id).trigger('change');
                 _savedSystem = data.system_id;
                 // 身份別
-                await $qualifyForm.find(`.radio-identity[value=${data.identity}]`).prop('checked',true);
+                await $qualifyForm.find(`.radio-identity[value=${data.identity}]`).prop('checked',true).trigger('change');
                 _savedIdentity = data.identity;
+
                 // 是否有取得副學士或高級文憑
-                await $qualifyForm.find(`.radio-ADHDgraduated[value=${data.associate_degree_or_higher_diploma_graduated}]`).prop('checked',true);
+                await $qualifyForm.find(`.radio-ADHDgraduated[value=${data.associate_degree_or_higher_diploma_graduated}]`).prop('checked',true).trigger('change');
                 // 是否持港澳身份證
                 if(data.HK_Macao_permanent_residency){
-                    await $qualifyForm.find(`.radio-idCard[value=1]`).prop('checked',true);
+                    await $qualifyForm.find(`.radio-idCard[value=1]`).prop('checked',true).trigger('change');
                 }
                 // 是否為華裔
                 if(data.is_ethnic_Chinese){
-                    await $qualifyForm.find(`.radio-ethnicChinese[value=1]`).prop('checked',true);
+                    await $qualifyForm.find(`.radio-ethnicChinese[value=1]`).prop('checked',true).trigger('change');
+                }
+                // 初始化國籍列表
+                if(data.citizenship){
+                    await _initCitizenshipList(data.citizenship);
                 }
                 // 是否持有港澳外護照
-                await $qualifyForm.find(`.radio-holdpassport[value=${data.except_HK_Macao_passport}]`).prop('checked',true);
+                await $qualifyForm.find(`.radio-holdpassport[value=${data.except_HK_Macao_passport}]`).prop('checked',true).trigger('change');
                 if(data.except_HK_Macao_passport){
-                    await $qualifyForm.find(`.radio-taiwanHousehold[value=${data.taiwan_census}]`).prop('checked',true);
-                    await $qualifyForm.find(`.radio-portugalPassport[value=${data.portugal_passport}]`).prop('checked',true);
+                    await $qualifyForm.find(`.radio-taiwanHousehold[value=${data.taiwan_census}]`).prop('checked',true).trigger('change');
+                    await $qualifyForm.find(`.radio-portugalPassport[value=${data.portugal_passport}]`).prop('checked',true).trigger('change');
                     if(data.portugal_passport){
-                        await $qualifyForm.find(`.input-portugalPassportTime`).val(data.first_get_portugal_passport_at);
+                        await $qualifyForm.find(`.input-portugalPassportTime`).val(data.first_get_portugal_passport_at).trigger('change');
                     }
+                }
+                // 初始化持有護照列表
+                if(data.which_nation_passport){
+                    await _initWhichNationPassport(data.which_nation_passport);
                 }
                 
                 // 曾分發來台選項
@@ -263,7 +272,7 @@
                     isDistributionOption = data.reason_selection_of_come_to_taiwan;
                     isDistributionTime = data.come_to_taiwan_at;
                 } else if(data.identity > 3 && data.identity < 6){
-                    await $qualifyForm.find(`.radio-taiwanUniversity[value=${data.register_and_admission_at_taiwan}]`).prop('checked',true);
+                    await $qualifyForm.find(`.radio-taiwanUniversity[value=${data.register_and_admission_at_taiwan}]`).prop('checked',true).trigger('change');
                     await $qualifyForm.find('.input-distributionWay').val(data.admission_way);
                     await $qualifyForm.find('.input-distributionYear').val(data.admission_year);
                     await $qualifyForm.find('.input-distributionSchool').val(data.admission_school);
@@ -273,34 +282,18 @@
                     isDistributionOption = data.same_grade_course_selection;
                     isDistributionTime = data.same_grade_course_apply_year;
                 }
-                await $qualifyForm.find(`.radio-isDistribution[value=${isDistributionRadio}]`).prop('checked',true);
+                await $qualifyForm.find(`.radio-isDistribution[value=${isDistributionRadio}]`).prop('checked',true).trigger('change');
                 if(isDistributionRadio){
-                    await $qualifyForm.find(`.option-isDistribution[value=${isDistributionOption}]`).prop('checked',true);
+                    await $qualifyForm.find(`.option-isDistribution[value=${isDistributionOption}]`).prop('checked',true).trigger('change');
                     await $qualifyForm.find(`.input-distributionTime`).val(isDistributionTime);
                 }
                 // 海外居留年限
-                await $qualifyForm.find(`.radio-stayLimit[value=${data.overseas_residence_time}]`).prop('checked',true);
+                await $qualifyForm.find(`.radio-stayLimit[value=${data.overseas_residence_time}]`).prop('checked',true).trigger('change');
                 // 曾在台停留超過120天
-                await $qualifyForm.find(`.radio-hasBeenTaiwan[value=${data.stay_over_120_days_in_taiwan}]`).prop('checked',true);
+                await $qualifyForm.find(`.radio-hasBeenTaiwan[value=${data.stay_over_120_days_in_taiwan}]`).prop('checked',true).trigger('change');
                 if(data.stay_over_120_days_in_taiwan){
-                    await $qualifyForm.find(`.option-hasBeenTaiwan[value=${data.reason_selection_of_stay_over_120_days_in_taiwan}]`).prop('checked',true);
+                    await $qualifyForm.find(`.option-hasBeenTaiwan[value=${data.reason_selection_of_stay_over_120_days_in_taiwan}]`).prop('checked',true).trigger('change');
                 }
-
-                // render 請照順序來
-                await _handleSystemChoose();
-                if(data.citizenship){
-                    await _initCitizenshipList(data.citizenship);
-                }
-                await _handleWhichPassportCheck();
-                await _handleHoldpassportChange();
-                if(data.which_nation_passport){
-                    await _initWhichNationPassport(data.which_nation_passport);
-                }
-                await _handleIsDistributionChange();
-                await _handleIsDistributionOptionChange();
-                await _handleStayLimitChange();
-                await _handleHasBeenTaiwanChange();
-                await _handleHasBeenTaiwanOptionChange();
 			}
 
 			if(document.body.scrollWidth<768)  // 判別網頁寬度 少於768會進入單欄模式
