@@ -398,6 +398,7 @@
 											</div>
 											<div class="col-md-12 form-group">
 												<input type="checkbox" id="agree_teacher_recommendation_pact">本人<b>同意系統提供</b>姓名、電子信箱地址、手機號碼、就讀學校名稱<b>等訊息至邀請函中</b>（<strong class="text-danger">如不同意將無法送出邀請</strong>）。
+												<a class="text-muted">（每筆限填一位師長，按下「送出邀請」後，可再邀請下一位）</a>
 											</div>
 											<div class="col-md-5 form-group">
 												<input type="text" id="teacherName" class="form-control" title="請輸入師長姓名（不需頭銜或職稱）" placeholder="師長姓名">
