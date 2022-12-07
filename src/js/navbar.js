@@ -377,7 +377,7 @@
 
 		//僑先部個申後填志願同學，在確認鎖定志願之前，不能印報名表件
 		if((data.student_qualification_verify.identity === 6 && data.student_misc_data.join_admission_selection === 1 &&
-			data.student_misc_data.confirmed_at != null && data.can_admission_placement == true) ||
+			data.student_misc_data.confirmed_at != null && data.can_admission_placement == true && data.can_admission_selection != true) ||
             (data.student_qualification_verify.identity === 7 &&
             data.student_misc_data.confirmed_at != null &&
             data.student_misc_data.confirmed_placement_at === null)
