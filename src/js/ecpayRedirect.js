@@ -18,7 +18,6 @@
             const lockResponse = await student.dataConfirmation({"confirmed": true});
             const lockdata = await lockResponse.json();
             if(lockResponse.ok){
-                await student.generateAdminssionPaper(); // 鎖定成功就幫學生call API 在server產生報名表件
                 await swal({
                     title: `已確認並鎖定填報資料。`,
                     html:`如需再修改個人基本資料（不含志願），請填寫「資料修正表」或是<strong>重新註冊新的帳號</strong>。`,

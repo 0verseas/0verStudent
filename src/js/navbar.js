@@ -282,20 +282,9 @@
 				$('.nav-admissionSelection').attr("href", '');
 				$('.nav-admissionSelection').click(function(e){e.preventDefault();});
 			}
-			// 身份別代號是 1 或 2，因為港澳地區改全線上報名，要開上傳簡章規定文件區，要線上繳交報名費用，然後要確認是否產生過報名表件
+			// 身份別代號是 1 或 2，因為港澳地區改全線上報名，要開上傳簡章規定文件區
 			if(data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2){
 				document.getElementById('uploadIdentityVerification').style.display = 'block';
-				// 幫港澳學生產生報名表件 因為對他們來說不一定要下載了 所以要主動幫他們產生 順便再告訴他們一次鎖定後資料就不能異動了
-				if(data.student_misc_data.confirmed_at != null && !data.is_admission_papers_exist){
-					student.generateAdminssionPaper();
-					swal({
-						title: `已確認並鎖定填報資料。`,
-						html:`如需再修改個人基本資料（不含志願），請填寫「資料修正表」或是<strong>重新註冊新的帳號</strong>。`,
-						type:"warning",
-						confirmButtonText: '確定',
-						allowOutsideClick: false
-					});
-				}
 			}
 			// 身份別是 海外僑生（3）緬十畢業且非當地大二畢業者不能參加個人申請
 			if( data.student_personal_data_detail.school_country == '緬甸'
