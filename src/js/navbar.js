@@ -322,8 +322,7 @@
 						$('.nav-placementSelection').addClass('show-placement-deadline');
 						$('#placement-deadline-text').text('(非開放填寫志願時間)');
 					}
-				;
-			}else if(data.student_misc_data.admission_placement_apply_way_data.code == '23'){
+			} else if(data.student_misc_data.admission_placement_apply_way_data.code == '23'){
 				//如果是DSE後填要confirmed_placement_at 有值才算完成聯合分發志願填寫
 				if(data.student_misc_data.confirmed_placement_at ==null && !!data.student_department_admission_placement_order){
 					data.student_department_admission_placement_order && $('.nav-placementSelection').removeClass('list-group-item-success');
@@ -349,16 +348,37 @@
 					$('.nav-placementSelection').click(function(e){e.preventDefault();});
 					$('.nav-placementSelection').attr("href", '');
 				}
-			}
-			else {
+			} else {
 				if (!data.can_admission_placement) {
 					$('.nav-placementSelection').addClass('disabled');
 					$('.nav-placementSelection').addClass('show-placement-deadline');
 					$('.nav-placementSelection').click(function(e){e.preventDefault();});
 					$('.nav-placementSelection').attr("href", '');
 				}
+				// 只有海外僑生學士班在完成填報後並且只有最高學歷完成地在馬來西亞的學生需要上傳簡章規定文件 然後海外臺校的不需要看到
+				if(data.student_personal_data_detail.school_country == '馬來西亞'
+				&& data.student_personal_data_detail.school_type !== '海外臺灣學校'
+				&& !(
+						data.student_personal_data_detail.school_type == '馬來西亞國際學校（International School）'
+						&& data.student_misc_data.admission_placement_apply_way == 1
+					)
+				&& data.student_misc_data.confirmed_at != null
+				&& data.student_qualification_verify.system_id == 1
+				&& data.student_qualification_verify.identity == 3
+				){
+					// 聯合分發只有部份採計方式需要上傳文憑成績跟簡章規定文件
+					const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,80,83,88];
+					if(
+						data.student_misc_data.join_admission_selection == 1
+						|| malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
+					){
+						$('.nav-uploadEducation').show();
+					}
+					if( malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1){
+						$('.nav-uploadMalaysiaTranscript').show();
+					}
+				}
 			}
-
 		}
 
 		// 沒有完成提交且不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
@@ -381,29 +401,6 @@
 			$('.nav-lalalalalala').addClass('show-deadline');
 			$('.nav-lalalalalala').click(function(e){e.preventDefault();});
 			$('.nav-lalalalalala').attr("href", '');
-		}
-
-		if(data.student_misc_data.admission_placement_apply_way_data){  // 如果沒資料就跑裡面會卡住
-			// 只有海外僑生學士班在完成填報後並且只有最高學歷完成地在馬來西亞的學生需要上傳簡章規定文件 然後海外臺校的不需要看到
-			if(data.student_personal_data_detail.school_country == '馬來西亞'
-			&& data.student_personal_data_detail.school_type !== '海外臺灣學校'
-			&& !(data.student_personal_data_detail.school_type == '馬來西亞國際學校（International School）' &&data.student_misc_data.admission_placement_apply_way == 1)
-			&& data.student_misc_data.confirmed_at != null
-			&& data.student_qualification_verify.system_id == 1
-			&& data.student_qualification_verify.identity == 3
-			){
-				// 聯合分發只有部份採計方式需要上傳文憑成績跟簡章規定文件
-				const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,80,83,88];
-				if(
-					data.student_misc_data.join_admission_selection == 1
-					|| malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
-				){
-					$('.nav-uploadEducation').show();
-				}
-				if( malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1){
-					$('.nav-uploadMalaysiaTranscript').show();
-				}
-			}
 		}
 	}
 
