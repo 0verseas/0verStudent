@@ -383,8 +383,7 @@
 			$('.nav-lalalalalala').attr("href", '');
 		}
 
-		// 澳門上傳四校聯考成績單  採計方式代碼代訂
-		//
+		// 澳門上傳四校聯考成績單 apply_way cdoe = 05
 		if(data.student_misc_data.admission_placement_apply_way_data){  // 如果沒資料就跑裡面會卡住
 			if( data.student_misc_data.admission_placement_apply_way_data.code == '05' &&
 				data.student_misc_data.overseas_student_id != null ){
@@ -607,11 +606,13 @@
 
 	function _checkPrintDistribution(json) {
 		$('.btn-noticeForHKMO').hide();
-		// 若有地區列印分發通知書限制，再加條件
+		// 若有地區列印分發通知書限制，再加條件 目前只要是 在台僑港澳生 或是 港澳（具外國國籍之華裔學）生 都改線上下載分發通知書
 		if( json.student_misc_data.stage_of_admit != null && json.student_misc_data.stage_of_deptid != null
-			&& (((json.student_personal_data_detail.resident_location == '香港' || json.student_personal_data_detail.resident_location == '澳門')
-			&& json.student_qualification_verify.identity < 3)
-			|| json.student_qualification_verify.identity == 4 || json.student_qualification_verify.identity == 5)) {
+			&& (
+				json.student_qualification_verify.identity < 3
+				|| json.student_qualification_verify.identity == 4
+				|| json.student_qualification_verify.identity == 5
+			)) {
 			$printDistribution.show();
 			$('#printDistributionAlert').show();
 			$printDistribution.on('click', _printDistribution);
