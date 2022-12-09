@@ -383,13 +383,7 @@
 			$('.nav-lalalalalala').attr("href", '');
 		}
 
-		// 澳門上傳四校聯考成績單 apply_way cdoe = 05
 		if(data.student_misc_data.admission_placement_apply_way_data){  // 如果沒資料就跑裡面會卡住
-			if( data.student_misc_data.admission_placement_apply_way_data.code == '05' &&
-				data.student_misc_data.overseas_student_id != null ){
-				$macautranscript.show();
-				$macauTranscriptAlert.show();
-			}
 			// 只有海外僑生學士班在完成填報後並且只有最高學歷完成地在馬來西亞的學生需要上傳簡章規定文件 然後海外臺校的不需要看到
 			if(data.student_personal_data_detail.school_country == '馬來西亞'
 			&& data.student_personal_data_detail.school_type !== '海外臺灣學校'
@@ -591,16 +585,20 @@
 		if(json.student_misc_data.admission_placement_apply_way_data == null || json.student_misc_data.confirmed_at == null ){
 			$macautranscript.hide();
 			$macauTranscriptAlert.hide();
-		}else if(json.student_misc_data.admission_placement_apply_way_data.code != '05'){
+		} else if(json.student_misc_data.admission_placement_apply_way_data.code != '05') {
 			$macautranscript.hide();
 			$macauTranscriptAlert.hide();
-		}else if(!json.can_macau_upload_time){ //確認現在時間是否在開放時間內  不是就改變按鈕狀態
+		} else if(!json.can_macau_upload_time) { //確認現在時間是否在開放時間內  不是就改變按鈕狀態
 			$macautranscript.show().prop('disabled', true).text('非四校聯考成績登錄開放時間');
 			$macauTranscriptAlert.show().text('請於四校聯考成績公佈後，5個日曆天內完成登錄及上傳。');
 			//$macauTranscriptAlert.hide();
-		}else if( json.student_misc_data.overseas_student_id == null){ //確認是否有僑生編號 沒有就請學生等待審核
+		} else if( json.student_misc_data.overseas_student_id == null) { //確認是否有僑生編號 沒有就請學生等待審核
 			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績');
 			$macauTranscriptAlert.show().text('請先繳交報名表件並等待審核完畢');
+		} else {
+			// 都不是 就顯示並讓學生可以上傳
+			$macautranscript.show();
+			$macauTranscriptAlert.show();
 		}
 	}
 
