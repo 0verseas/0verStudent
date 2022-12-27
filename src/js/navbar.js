@@ -635,6 +635,14 @@
 				}
 				$('.btn-noticeForHKMO').on('click', function(){window.open(url)});
 			}
+		} else if(json.student_misc_data.code_of_ineligible != null && json.student_misc_data.ineligible_resolution_date != null
+			&& (
+				json.student_qualification_verify.identity < 6
+				|| json.student_qualification_verify.identity == 4
+				|| json.student_qualification_verify.identity == 5
+			)) {
+			$printDistribution.show().text('下載分發結果通知書');
+			$printDistribution.on('click', _printDistribution);
 		} else {
 			$printDistribution.hide();
 			$('#printDistributionAlert').hide();
