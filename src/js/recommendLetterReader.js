@@ -63,17 +63,18 @@
             const school_title = tokenJson.school_title;  // 學校名稱
             const dept_eng_title = tokenJson.dept_eng_title;
             const school_eng_title = tokenJson.school_eng_title;
-            const dept_code = tokenJson.dept_code;  // card_code of department
-            document.getElementById("sid").innerHTML = sid;
-            document.getElementById("eng-sid").innerHTML = sid;
-            document.getElementById("stu-name").innerHTML = encodeHTML(stu_name);
-            document.getElementById("eng-stu-name").innerHTML = encodeHTML(stu_eng_name);
-            document.getElementById("admission-school").innerHTML = school_title;
-            document.getElementById("eng-admission-school").innerHTML = school_eng_title;
-            document.getElementById("admission-department").innerHTML = dept_title;
-            document.getElementById("eng-admission-department").innerHTML = dept_eng_title;
-            document.getElementById("dept-code").innerHTML = dept_code;
-            document.getElementById("eng-dept-code").innerHTML = dept_code;
+            const dept_code = (tokenJson.dept_code)? tokenJson.dept_code: tokenJson.dept_id;  // card_code of department，非學士及海青為系所代碼
+            
+            $('#sid').html(sid);
+            $('#eng-sid').html(sid);
+            $('#stu-name').html(stu_name);
+            $('#eng-stu-name').html(stu_eng_name);
+            $('#admission-school').html(school_title);
+            $('#eng-admission-school').html(school_eng_title);
+            $('#admission-department').html(dept_title);
+            $('#eng-admission-department').html(dept_eng_title);
+            $('#dept-code').html(dept_code);
+            $('#eng-dept-code').html(dept_code);
 
             //前端顯示已經上傳幾個檔案
             count = tokenJson.count;

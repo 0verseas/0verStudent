@@ -10,9 +10,7 @@
     let _dept_id;
     let _system_id;
     let count = 0; //已上傳的檔案數
-    let sid; // 後端傳送回來的報名序號
     let _type_id;
-    let uploaded_files = [];
 
     /**
      * init
@@ -43,8 +41,6 @@
      */
 
 
-
-
     // copy from emailVerify.js
 
     async function _verify(){
@@ -65,17 +61,18 @@
             const school_title = tokenJson.school_title;  // 學校名稱
             const dept_eng_title = tokenJson.dept_eng_title;
             const school_eng_title = tokenJson.school_eng_title;
-            const dept_code = tokenJson.dept_code;  // card_code of department
-            document.getElementById("sid").innerHTML = sid;
-            document.getElementById("eng-sid").innerHTML = sid;
-            document.getElementById("stu-name").innerHTML = encodeHTML(stu_name);
-            document.getElementById("eng-stu-name").innerHTML = encodeHTML(stu_eng_name);
-            document.getElementById("admission-school").innerHTML = school_title;
-            document.getElementById("eng-admission-school").innerHTML = school_eng_title;
-            document.getElementById("admission-department").innerHTML = dept_title;
-            document.getElementById("eng-admission-department").innerHTML = dept_eng_title;
-            document.getElementById("dept-code").innerHTML = dept_code;
-            document.getElementById("eng-dept-code").innerHTML = dept_code;
+            const dept_code = (tokenJson.dept_code)? tokenJson.dept_code: tokenJson.dept_id;  // card_code of department，非學士及海青為系所代碼
+            
+            $('#sid').html(sid);
+            $('#eng-sid').html(sid);
+            $('#stu-name').html(stu_name);
+            $('#eng-stu-name').html(stu_eng_name);
+            $('#admission-school').html(school_title);
+            $('#eng-admission-school').html(school_eng_title);
+            $('#admission-department').html(dept_title);
+            $('#eng-admission-department').html(dept_eng_title);
+            $('#dept-code').html(dept_code);
+            $('#eng-dept-code').html(dept_code);
 
             //前端顯示已經上傳幾個檔案
             const fileResponse = await student.getTeacherSetReviewItem(_id, _dept_id, _token);
@@ -85,9 +82,9 @@
             const numJson = await fileResponse.json();
             count = numJson.count;
             _type_id = numJson.type_id;
-            document.getElementById("file-count").innerHTML = count;
-            document.getElementById("eng-file-count").innerHTML = count;
-            document.getElementById("file-view").innerHTML = _getFileAreaHTML(fileNameObjectToArray(numJson.filename));
+            $('#file-count').html(count);
+            $('#eng-file-count').html(count);
+            $('#file-view').html(_getFileAreaHTML(fileNameObjectToArray(numJson.filename)));
             loading.complete();
         } catch (e) {
             e.json && e.json().then(async (data) => {
