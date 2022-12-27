@@ -238,6 +238,11 @@
 		!!data.student_olympia_aspiration_order && $('.nav-olympia').addClass('list-group-item-success');
 
 		if(!data.can_olympia){
+			if(!data.student_personal_data){
+				$('.olympia-deadline').html('&emsp;<small class="text-danger">(請先填寫個人基本資料)</small>');
+			} else {
+				$('.olympia-deadline').html('&emsp;<small class="text-danger">(非開放時間)</small>');
+			}
 			$('.olympia-deadline').show();
 			$('.nav-olympia').addClass('disabled');
 			$('.nav-olympia').click(function(e){e.preventDefault();});
