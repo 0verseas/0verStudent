@@ -637,7 +637,7 @@
 			}
 		} else if(json.student_misc_data.code_of_ineligible != null && json.student_misc_data.ineligible_resolution_date != null
 			&& (
-				json.student_qualification_verify.identity < 6
+				json.student_qualification_verify.identity < 3
 				|| json.student_qualification_verify.identity == 4
 				|| json.student_qualification_verify.identity == 5
 			)) {
