@@ -17,10 +17,12 @@
      *	bind event
      */
     $searchBtn.on('click', getAdmissionRoster);
+    $stage.on('change', _handleStageChange);
 
     /**
      * init
      */
+    _handleStageChange();
     loading.complete();
 
     // 啟用由網址帶參數功能
@@ -162,7 +164,7 @@
         } else if (admissionInfo.student_misc_data.graduate_department_data !== null){  // 研究所
             deptTitle = admissionInfo.student_misc_data.graduate_department_data.title;
             schoolTitle = admissionInfo.student_misc_data.graduate_department_data.school.title;
-        }else if (admissionInfo.student_misc_data.two_year_tech_department_data !== null){  // 港二技
+        } else if (admissionInfo.student_misc_data.two_year_tech_department_data !== null){  // 港二技
             deptTitle = admissionInfo.student_misc_data.two_year_tech_department_data.title;
             schoolTitle = admissionInfo.student_misc_data.two_year_tech_department_data.school.title;
         }
@@ -195,6 +197,16 @@
             .replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號
             .replace(/ /g, " &nbsp;")
             ;
+    }
+
+    // 梯次選擇後變更填報連結＋文字
+    function _handleStageChange() {
+        const stage = $stage.val();
+        if (stage == 'ms') {
+            $('.admission-link').attr('href','https://student.overseas.ncnu.edu.tw/malaysia_spring/index.html').text('申請資料填報系統-僑先部馬春班');
+        } else {
+            $('.admission-link').attr('href','https://student.overseas.ncnu.edu.tw/index.html').text('申請資料填報系統');
+        }
     }
 
 })();
