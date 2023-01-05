@@ -81,9 +81,9 @@
 					key = 'student_graduate_department_admission_selection_order';
 					break;
 			}
-			admission_doc_upload_time_limit = 
-				'西元 ' + env.year + ' 年' 
-				+ admission_doc_upload_time_limit 
+			admission_doc_upload_time_limit =
+				'西元 ' + env.year + ' 年'
+				+ admission_doc_upload_time_limit
 				+ '（星期' + weekString[dayNumber]+'）臺灣時間下午 5 時前';
 			_wishList = orderJson[key];
 			document.getElementById("admission-doc-time-limit").innerText=admission_doc_upload_time_limit;
@@ -541,7 +541,7 @@
 				loading.start();
 				const response = await student.setAdmissionSelectionWishGiveUpChange(deptId, action);
 				if (!response.ok) { throw response; }
-	
+
 				await swal({title:"儲存成功", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 				await loading.complete();
 				await window.location.reload();
@@ -551,7 +551,7 @@
 					console.error(data);
 					swal({title:"儲存失敗",text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				});
-			}	
+			}
 		}).catch(()=>{
 			return ;
 		})
@@ -770,7 +770,7 @@
 			});
 		}
 	}
-	
+
 	function _handleExit() {
 		window.location.reload();
 	}
@@ -815,9 +815,10 @@
 			_handleEditForm();
 			await loading.complete();
 		} catch(e) {
-			e.json && e.json().then((data) => {
-				console.error(data);
-				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+			e.json && e.json().then(async(data) => {
+				// console.error(data);
+				await swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				if(data.messages[0] == "請重新登入") location.href = "./index.html";
 			});
 			await loading.complete();
 		}
@@ -887,7 +888,7 @@
 					});
 					if (!response.ok) { throw response; }
 					const responseJson = await response.json();
-		
+
 					const uploadFileItemIndex = _wishList[_orderIndex].uploaded_file_list.findIndex(i => i.type_id === (+responseJson[0].type_id ));
 					if ($(this).attr('data-iswork') === "true") {
 						_wishList[_orderIndex].uploaded_file_list[uploadFileItemIndex].work_files = responseJson[0].work_files;
@@ -991,7 +992,7 @@
 		fileListItem.invites.forEach(function (invitation) {
 			if(invitation.deleted_at == null){  // 如果老師還沒鎖定上傳
 				invitation.deleted_at = '尚未完成上傳';  // 怕寫 null 有人看不懂
-			} else {
+			} else if (invitation.deleted_at.length == 24) {  // 新增長度判斷，不然每次上傳/刪除檔案都會裁到時間
 			    // 直接拿出去有點難看所以把日期、時間抓出來就好，時區放在標題欄
 				invitation.deleted_at = invitation.deleted_at.substr(0,10) + '&nbsp;&nbsp;' + invitation.deleted_at.substr(11,8);
 			}
