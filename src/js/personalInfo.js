@@ -152,7 +152,7 @@
     // 在臺聯絡人
     const $young = $('.isYoung');
     const $not_young = $('.notYoung');
-    const $twContact = $('#twContact'); 
+    const $twContact = $('#twContact');
     const $twContactName = $('#twContactName'); // 姓名
     const $twContactRelation = $('#twContactRelation'); // 關係
     const $twContactPhone = $('#twContactPhone'); // 聯絡電話
@@ -249,7 +249,6 @@
                     startDate: '-121y',
                     endDate: '-0y'
                 });
-                let graduateYear = env.year - new Date().getFullYear()+'Y';
                 $schoolGraduateAt.datepicker({
                     updateViewDate: true,
                     autoclose: true,
@@ -258,7 +257,7 @@
                     maxViewMode: 3,
                     immediateUpdates: true,
                     startDate: '-121y',
-                    endDate: '+'+graduateYear
+                    endDate: new Date(env.year+'/09/30'),
                 });
                 $twoYearTechClassStart.datepicker({
                     updateViewDate: true,
@@ -1064,7 +1063,7 @@
         const inputName = $name.val(); // 中文姓名
         const nameText = $name.parent().find('label').text();
         const inputEngName = $engName.val(); // 英文姓名
-        const engNameText = $engName.parent().find('label').text();        
+        const engNameText = $engName.parent().find('label').text();
         const choosenGender = $(".gender:checked").val(); // 性別
         const genderFieldSet = $("#Gender_FieldSet");
         const genderText = $('#gender').text();
@@ -1141,7 +1140,7 @@
         const inputTwoYearTechClassStart = $twoYearTechClassStart.val(); // 課程開始日期（港二技）
         const twoYearTechClassStartText = $twoYearTechClassStart.parent().find('label').text();
         const inputTwoYearTechClassEnd = $twoYearTechClassEnd.val(); // 課程結束日期（港二技）
-        
+
         // 家長資料
         const choosenDadStatus = $(".dadStatus:checked").val(); // 父親存歿
         const inputDadName = $dadName.val(); // 父親中文姓名
@@ -1200,7 +1199,7 @@
 
         /*
         *   3400～4DFF：中日韓認同表意文字擴充A區，總計收容6,582個中日韓漢字。
-        *   4E00～9FFF：中日韓認同表意文字區，總計收容20,902個中日韓漢字。 
+        *   4E00～9FFF：中日韓認同表意文字區，總計收容20,902個中日韓漢字。
         *   0023： #
         *   002d： -
         *   0027: '
@@ -1212,7 +1211,7 @@
         *   0020：空格space
         *   \p{sc=Han}/gu ： 中日韓漢字
         */
-        
+
         //將輸入欄位資料過濾  避免xss攻擊
         function regexChinese(str) {
             //return str.replace(/[^\u3400-\u9fff\u2027\u00b7]/g, "")
@@ -1288,14 +1287,14 @@
             } else {
                 // 不是港澳地區也不是在臺證件，如過濾後少過原本值的長度，則提示檢查欄位，防止是誤打
                 if (LocateOrIdType != 113 && LocateOrIdType != 127 && LocateOrIdType != "身分證" && LocateOrIdType != "居留證") {
-                    //if (regexIdNumber(value, LocateOrIdType).length != value.length) { 
+                    //if (regexIdNumber(value, LocateOrIdType).length != value.length) {
                     //    colAlert.addClass('invalidInput');
                     //    _errormsg.push(colName + '輸入格式有字元不符，請檢查並重新填寫');
                     //    _correct = false;
                     //} else { // 過濾後長度一致再丟進sendData
                     //    colAlert.removeClass('invalidInput');
                     //    sendData[key] = regexIdNumber(value, LocateOrIdType);
-                    //}  
+                    //}
 
                     // 先不正規過濾
                     colAlert.removeClass('invalidInput');
@@ -1489,7 +1488,7 @@
             tw_contact_workplace_name: regexGeneral(inputTwContactWorkplaceName), // 除了海青班學制之外，其他學制選填，直接過濾輸入的值
             tw_contact_workplace_phone: regexNumber(inputTwContactWorkplacePhone), // 除了海青班學制之外，其他學制選填，直接過濾輸入的值
             tw_contact_workplace_address: regexGeneral(inputTwContactWorkplaceAddress) // 除了海青班學制之外，其他學制選填，直接過濾輸入的值
-        }; 
+        };
 
         _errormsg = []; // 錯誤訊息提示
         applicantInfo_errormsg = [];
@@ -1515,7 +1514,7 @@
         if (inputProposeGroup != "") { // 協助推薦來臺就學之學校或組織爲選填，但有資料的話需要驗證輸入格式正不正確
             _validator(inputProposeGroup, 'string', proposeGroupText, $proposeGroup, 'propose_group');
         }
-        
+
         if (choosenSpecial === "1") { // 有身心障礙
             sendData['disability_level'] = choosenDisabilityLevel;
             if (choosenDisabilityCategory === "-1") { // 身心障礙類別選擇“其他”
@@ -1534,12 +1533,12 @@
         _validator(inputResidentCellPhone, 'phone', residentCellPhoneText, $residentCellphone, 'resident_cellphone_number'); // 檢查手機號碼
         _validator(inputResidentAddress, 'string', residentAddressText, $residentAddress, 'resident_address'); // 檢查地址
 
-        // * 在臺資料 
+        // * 在臺資料
         // TODO 先確認是否有臺灣資料再開放填欄位？
         if (choosenTaiwanIdType !== "") { // 有證件類型再送 taiwan_id
             _idValidator(choosenTaiwanIdType, inputTaiwanIdNo, taiwanIdNoText, $taiwanIdNo, 'taiwan_id'); // 檢查證件號碼
         }
-        
+
         // * 學歷資料
         _validator(choosenSchoolCountry, 'country', schoolCountryText, $schoolCountry, 'school_country'); // 檢查學校所在國別
         if (choosenSchoolCountry != null) { // 學校所在國別有值 ，所以再進一步做以下的判斷
