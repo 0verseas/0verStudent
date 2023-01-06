@@ -123,7 +123,7 @@
 			studentdata = progressJson;
             _userID = progressJson.id;
 			birth_location = progressJson2.student_personal_data.birth_location;
-            
+
             //console.log(progressJson);
 
 			if(progressJson.student_qualification_verify.system_id == 1 && !progressJson.student_misc_data.admission_placement_apply_way_data){
@@ -132,7 +132,7 @@
 			}
 
             // 僑居地為港澳
-			if(progressJson.student_personal_data_detail.resident_location == '香港' || 
+			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
 				progressJson.student_personal_data_detail.resident_location == '澳門'
 			){
 				for (let i=1; i<item_block.length; i++) {
@@ -150,7 +150,7 @@
 						continue;
 					}
 					// (必填)港澳生：聲明書; 港澳具外國國籍：切結書
-					if (i==5 && progressJson.student_qualification_verify.identity != 1 && 
+					if (i==5 && progressJson.student_qualification_verify.identity != 1 &&
 						progressJson.student_qualification_verify.identity != 2) {
 							continue;
 					}
@@ -168,9 +168,9 @@
 						if ( i==13 && (
 							(
 								progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' &&
-								progressJson.student_misc_data.year_of_hk_dse == env.year && 
-								progressJson.student_misc_data.year_of_hk_ale == null && 
-								progressJson.student_misc_data.year_of_hk_cee == null	
+								progressJson.student_misc_data.year_of_hk_dse == env.year &&
+								progressJson.student_misc_data.year_of_hk_ale == null &&
+								progressJson.student_misc_data.year_of_hk_cee == null
 							) ||
 							progressJson.student_misc_data.admission_placement_apply_way == "1" ||
 							progressJson.student_misc_data.admission_placement_apply_way_data.code == "26" ||
@@ -190,14 +190,11 @@
 							`;
 						}
 
-						// 為DSE ALE CEE/澳門持澳門本地學歷，不需上傳成績採計參考表  14
+						// 為DSE ALE CEE/持澳門學歷，不需上傳成績採計參考表  14
 						if (i==14 && (
 							progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' ||
 							progressJson.student_misc_data.admission_placement_apply_way == '1' ||
-							(
-								progressJson.student_personal_data_detail.resident_location == '澳門' &&
-								progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-							)
+							progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
 						)){
 							continue;
 						}
@@ -207,11 +204,11 @@
 					}
 					// 符合港澳關係條例切結書 港澳生 + 在台設有戶籍 + 持外國護照（但不限回歸前葡萄牙護照）
 					if (i==15 && !(
-						progressJson.student_qualification_verify.identity == 1 && 
-						progressJson.student_qualification_verify.taiwan_census == 1 && 
-						progressJson.student_qualification_verify.except_HK_Macao_passport == 1 && 
+						progressJson.student_qualification_verify.identity == 1 &&
+						progressJson.student_qualification_verify.taiwan_census == 1 &&
+						progressJson.student_qualification_verify.except_HK_Macao_passport == 1 &&
 						(
-							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' || 
+							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' ||
 							progressJson.student_qualification_verify.which_nation_passport != null
 						)
 					)){
@@ -229,7 +226,7 @@
 					await setBlocks(i);
 				}
 			}
-			
+
             loading.complete();
         } catch(e) {
 			if (e.status && e.status === 401) {
@@ -255,7 +252,7 @@
 				})
 			}
 			loading.complete();
-		}   
+		}
 	}
 
 	// 渲染欄位
@@ -370,7 +367,7 @@
                 // 沒檔案
 				$(`#${item_block[item_id].element}_file`).hide();
 			}
-			
+
 			// 上傳 button 樣式
 			$(".fileUploadBtn").filestyle({ //:file
 				htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
@@ -447,7 +444,7 @@
 		const item =  $(this).data('item') ;
 		const fileList = this.files;
 		let data = new FormData();
-		
+
         for (let i = 0; i < fileList.length; i++) {
 			data.append('files[]', fileList[i]);
 		}
@@ -457,7 +454,7 @@
 			swal({title:`檔案過大，大小不能超過 8 MB！`, confirmButtonText:'確定', type:'warning'});
 			$(this).val('');//清除檔案路徑
 			return;
-		}	
+		}
 
 		try {
 			loading.start();
