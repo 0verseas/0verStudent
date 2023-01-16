@@ -990,18 +990,12 @@
 				</thead>
 		`;
 		fileListItem.invites.forEach(function (invitation) {
-			if(invitation.deleted_at == null){  // 如果老師還沒鎖定上傳
-				invitation.deleted_at = '尚未完成上傳';  // 怕寫 null 有人看不懂
-			} else if (invitation.deleted_at.length == 24) {  // 新增長度判斷，不然每次上傳/刪除檔案都會裁到時間
-			    // 直接拿出去有點難看所以把日期、時間抓出來就好，時區放在標題欄
-				invitation.deleted_at = invitation.deleted_at.substr(0,10) + '&nbsp;&nbsp;' + invitation.deleted_at.substr(11,8);
-			}
 			invite_table += `
 				<tbody>
 					<tr>
 						<td>${invitation.teacher_name}</td>
 						<td>${invitation.teacher_email}</td>
-						<td>${invitation.deleted_at}</td>
+						<td>${invitation.status}</td>
 					</tr>
 				</tbody>
 			`;
