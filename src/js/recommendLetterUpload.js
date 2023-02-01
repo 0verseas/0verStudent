@@ -218,14 +218,10 @@
                 }
                 const notify_stu = student.notifyStudentRecommendationLetterHadUploaded(_id, _dept_id, _token);  // 寄信通知學生
                 //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)「你什麼時候產生了點了『上傳』卻沒上傳的錯覺」(O)
-                swal({title: `感謝您的使用！`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
-                setTimeout(function() {
-                    loading.complete();
-                    $recommendationLetterUploadBtn.remove(); //remove upload button
-                    $recommendationLetterUpload.remove(); //remove recommend letter upload form page
-                    let html = '<div class="col-12" style="text-align:center;"><br/><h4>您已上傳完成，可關閉此頁面。　Upload is completed, please close this page.</h4></div>'; //按下按鈕後要顯示的內容
-                    document.getElementById("final-page").innerHTML = html; //替換畫面上的內容
-                },500); //『幫我撐50 0秒』
+                await swal({title: `感謝您的使用！`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
+                loading.complete();
+                window.location.reload();
+                scroll(0,0);
 			} else { //取消
 				return;
 			}
