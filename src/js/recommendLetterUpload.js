@@ -35,6 +35,7 @@
     $saveBtn.on('click', _handleSave);
     $('body').on('click.showOriImg', '.img-thumbnail', _showOriImg);
     $('.btn-delImg').on('click', _handleDelImg);
+    $('.btn-exit').on('click', _bye);
 
     /**
      * private method
@@ -62,7 +63,20 @@
             const dept_eng_title = tokenJson.dept_eng_title;
             const school_eng_title = tokenJson.school_eng_title;
             const dept_code = (tokenJson.dept_code)? tokenJson.dept_code: tokenJson.dept_id;  // card_code of department，非學士及海青為系所代碼
-            
+
+            if (tokenJson.deleted_at) {  // 已上傳並鎖定 替換內容
+                $('#info-status').html(`老師您好：您已上傳完成，感謝您的使用。以下為您上傳的相關資訊，如有任何問題請聯絡學生確認：`);
+                $('#info-status-en').html(`Dear Teacher: Your upload has been completed, thank you for your use. Please refer to the information and files below which you have uploaded. If there is any problem, please contact your student:`);
+                $('#file-editor').html(`<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開　Close</button>`);
+                $recommendationLetterUploadBtn.html(`
+                    <div class="col-12 text-center">
+                        <button class="btn btn-secondary" id="btn-exit" title="如果有任何問題請儘速聯絡學生　If there is any problem, please contact your student.">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"></i> 離開　Exit
+                        </button>
+                    </div>
+                `);
+                $('#upload-area').html(``);
+            }
             $('#sid').html(sid);
             $('#eng-sid').html(sid);
             $('#stu-name').html(stu_name);
@@ -75,37 +89,21 @@
             $('#eng-dept-code').html(dept_code);
 
             //前端顯示已經上傳幾個檔案
-            const fileResponse = await student.getTeacherSetReviewItem(_id, _dept_id, _token);
-            if(!fileResponse.ok){
-                throw fileResponse;
-            }
-            const numJson = await fileResponse.json();
-            count = numJson.count;
-            _type_id = numJson.type_id;
+            count = tokenJson.count;
+            _type_id = tokenJson.type_id;
             $('#file-count').html(count);
             $('#eng-file-count').html(count);
-            $('#file-view').html(_getFileAreaHTML(fileNameObjectToArray(numJson.filename)));
+            $('#file-view').html(_getFileAreaHTML(fileNameObjectToArray(tokenJson.filename)));
             loading.complete();
         } catch (e) {
+            console.log(e);
             e.json && e.json().then(async (data) => {
-                console.error(data);
-
                 await swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-
-                // 分類帽會依情況決定使用者去什麼地方
-                if (e.status !== 423){
-                    setTimeout(() => {
-                        location.replace('https://cmn-hant.overseas.ncnu.edu.tw/');
-                    }, 0);
-                } else {
-                    // 上傳過了就去只能看不能摸的頁面
-                    setTimeout(() => {
-                        location.replace('./recommendLetterReader.html?id=' + _id + '&email=' + _email + '&token=' + _token);
-                    }, 0);
-                }
-
+                setTimeout(() => {
+                    location.replace('https://cmn-hant.overseas.ncnu.edu.tw/');
+                }, 0);
                 loading.complete();
-            });
+            })
         }
     }
 
@@ -134,7 +132,7 @@
                 swal({title: `檔案過大`, text: fileList[i].name+' ，檔案大小不能超過4MB！', type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 $(this).val('');//清除檔案路徑
                 return;
-            }	
+            }
             data.append('files[]', fileList[i]);
             // console.log(fileList[i]);
         }
@@ -197,7 +195,7 @@
     }
 
     //按下『確認並上傳按鈕』
-    async function _handleSave() {      
+    async function _handleSave() {
         await swal({
 			html: `鎖定後如欲上傳其他檔案須請學生重新邀請，您確定要鎖定了嗎？<br/>A re-invitation from your student is required if you intend to upload other files after clicking on Confirm.`,
 			type: 'warning',
@@ -372,11 +370,19 @@
                         swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
                     });
                     loading.complete();
-                }				
+                }
 			} else { //取消
 				return;
 			}
 		});
+    }
+
+    // 按下「離開」按鈕
+    function _bye() {
+        // script 無法關閉非由 script 開啟的頁面
+        // window.opener = null;  // 不詢問是否真的要關閉
+        // window.close();
+        location.replace('http://www.overseas.ncnu.edu.tw/');
     }
 
     // 轉換一些敏感符號避免 XSS
