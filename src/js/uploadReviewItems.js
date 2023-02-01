@@ -126,13 +126,21 @@
 				buttonString = '查看'
 				buttonIcon = 'search'
 			}
-
+			let deptType = ''
+			switch(value.department_data.is_extended_department){
+				case 1:
+					deptType = '<span class="badge badge-warning">重點產業系所</span><br />';
+					break;
+				case 2:
+					deptType = '<span class="badge table-primary">國際專修部</span><br />';
+					break;
+			}
 			if(value.give_up === 0){
 				wishHTML += `
 						<tr>
 							<td>${index + 1}</td>
 							<td>${showId}</td>
-							<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
+							<td>${value.department_data.school.title}<br /> ${deptType} ${value.department_data.title}</td>
 							<td>
 								<button type="button" class="btn btn-info btn-wishEdit" data-deptid="${value.dept_id}">
 									<i class="fa fa-${buttonIcon}" aria-hidden="true"></i>
@@ -151,7 +159,7 @@
 						<tr>
 							<td>${index + 1}</td>
 							<td>${showId}</td>
-							<td>${value.department_data.school.title}<br />${value.department_data.title}</td>
+							<td>${value.department_data.school.title}<br />${deptType} ${value.department_data.title}</td>
 							<td colspan="">
 								<button type="button" class="btn btn-danger"disabled>
 									<i class="fa fa-ban" aria-hidden="true"></i>
@@ -230,6 +238,14 @@
 		}
 		$schoolName.text(_wishList[_orderIndex].department_data.school.title);
 		$deptName.text(_wishList[_orderIndex].department_data.title);
+		switch(_wishList[_orderIndex].department_data.is_extended_department){
+			case 1:
+				$deptName.html('<span class="badge badge-warning">重點產業系所</span>&nbsp;'+$deptName.text());
+				break;
+			case 2:
+				$deptName.html('<span class="badge table-primary">國際專修部</span>&nbsp;'+$deptName.text());
+				break;
+		}
 
 		let uploadMethod = _wishList[_orderIndex].department_data.recommendation_letter_upload_method;
 		let reviewItemHTML = '';
