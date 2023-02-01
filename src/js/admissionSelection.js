@@ -108,11 +108,12 @@
 			}
 			$quotaNumber.html(quotaNumber);
 
-			$optionFilterSelect.append('<option value="mainGroup">學群</option>');
 			if (_currentSystem === 1) { // 學士班志願顯示 cardCode，其餘 id
 				_showCodeId = "cardCode";
 			} else {
 				_showCodeId = "id";
+				$('#dept-code-title').html('系所代碼');
+				$('#option-code-id').html('系所代碼');
 			}
 			$('#option-code-id').val(_showCodeId);
 
@@ -448,7 +449,7 @@
 
 	function _generateWishList() { // 「渲染已填選志願」
 		let rowHtml = '';
-		const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
+	const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 		for(let i in _wishList) {
 			let medicalHTML = '';
 			let groupHTML = '';
@@ -699,7 +700,7 @@
 
 		linktoquotapageUrl = quotaUrl;
 
-		let docsHtml = '<h5>個人申請審查項目</h5>';	
+		let docsHtml = '<h5>個人申請審查項目</h5>';
 
 		docsList = docsList.sort(function(a,b){return b.required - a.required;});
 
@@ -731,8 +732,8 @@
 				</tr>
 			</div>
 		`;
-		
-		
+
+
 		$('#modal-body').html(docsHtml);
 		$('#docs-modal').modal('show');
 	}

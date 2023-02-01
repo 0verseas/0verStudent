@@ -80,7 +80,7 @@ const student = (() => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}, 
+			},
 			body: JSON.stringify(data),
 			credentials: 'include'
 		});
@@ -101,7 +101,7 @@ const student = (() => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}, 
+			},
 			body: JSON.stringify(data),
 			credentials: 'include'
 		});
@@ -122,7 +122,7 @@ const student = (() => {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
-			}, 
+			},
 			credentials: 'include',
 			body: JSON.stringify({ token })
 		})
@@ -133,7 +133,7 @@ const student = (() => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}, 
+			},
 			credentials: 'include'
 		})
 	}
@@ -536,14 +536,6 @@ const student = (() => {
 		})
 	}
 
-	//取得老師上傳的推薦函
-	function getTeacherSetReviewItem(student_id, dept_id, token) {
-		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters`, {
-			method: 'GET',
-			credentials: 'include'
-		})
-	}
-
 	// 寄信通知學生老師上傳囉
 	function notifyStudentRecommendationLetterHadUploaded(student_id, dept_id, token) {
 		return fetch(`${baseUrl}/students/teacher-recommendation-letter/notification/${student_id}/${token}/had-uploaded`, {
@@ -560,14 +552,6 @@ const student = (() => {
 	function teacherDeleteItem({student_id, dept_id, token, filename}) {
 		return fetch(`${baseUrl}/teachers/${student_id}/${dept_id}/${token}/recommendation-letters/${filename}`, {
 			method: 'DELETE',
-			credentials: 'include'
-		})
-	}
-
-	// 老師想看看之前自己上傳的東西，但還是要驗證 token
-	function teacherWantReview(student_id, token) {
-		return fetch(`${baseUrl}/teachers/${student_id}/${token}/uploaded-review`, {
-			method: 'GET',
 			credentials: 'include'
 		})
 	}
@@ -818,10 +802,8 @@ const student = (() => {
 		teacherBye,
 		teacherSetReviewItem,
 		studentInviteTeacher,
-		getTeacherSetReviewItem,
 		notifyStudentRecommendationLetterHadUploaded,
 		teacherDeleteItem,
-		teacherWantReview,
 		MacauTranscriptsetReviewItem,
 		getMacauTranscriptsetItem,
 		delMacauTranscriptItem,

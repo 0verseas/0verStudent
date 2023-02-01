@@ -2,17 +2,17 @@
     <div class="col-12" id="recommendation-letter-upload">
         <div class="card-body">
             <div class="alert alert-info" role="alert">
-                老師您好：感謝您使用本系統。在開始上傳之前，請先確認以下資訊，如有出入請勿上傳並聯絡學生重新邀請：<br /><br />
+                <span id="info-status">老師您好：感謝您使用本系統。在開始上傳之前，請先確認以下資訊，如有出入請勿上傳並聯絡學生重新邀請：</span><br /><br />
                 學生姓名：<b><span id="stu-name" style="background-color: #FFF509"></span></b>（報名序號：<strong><span id="sid" style="background-color: #FFD383"></span></strong>） <br />
-                志願代碼：<span id="dept-code"></span> <br/>
+                <span id="dept-code-title">志願代碼</span>：<span id="dept-code"></span> <br/>
                 選填志願：<span id="admission-school"></span>　<span id="admission-department"></span>
                 <br />
                 <br />
                 <br />
                 <!--英文-->
-                Dear Teacher: Your upload has been completed, thank you for your use. Please refer to the information and files below which you have uploaded. If there is any problem, please contact your student:<br /><br />
+                <span id="info-status-en">Dear Teacher: Thank you for your use. Please confirm the information below before starting to upload. If there is any error, please do not upload the file and contact the student to resend the invitation letter:</span><br /><br />
                 Student name:<b><span id="eng-stu-name" style="background-color: #FFF509"></span></b>（Application No.<strong><span id="eng-sid" style="background-color: #FFD383"></span></strong>） <br />
-                Choice Code：<span id="eng-dept-code"></span> <br/>
+                <span id="dept-code-eng-title">Choice Code</span>：<span id="eng-dept-code"></span> <br/>
                 Choice Filling：<span id="eng-admission-school"></span>　<span id="eng-admission-department"></span>
             </div>
         </div>
@@ -23,19 +23,21 @@
                 師長推薦函 (Recommendation letter(s) from teachers)
             </div>
             <div class="card-body">
-                <div class="alert alert-warning">
-                    可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。<br />
-                    Please choose <strong class="text-danger">pdf, jpg or png</strong> as the format of a file; also, each single file size must be <strong class="text-danger">smaller than 4 Mbytes</strong>.
-                </div>
-                <div class="row" style="margin-bottom: 15px;">
-                    <div class="col-12">
-                        <input id="uploadfile" type="file" class="filestyle file-certificate"
-                               data-btnClass="btn-success"
-                               data-buttonBefore="true"
-                               data-text="選取檔案 Choose file"
-                               data-iconName="fa fa-folder-open"
-                               data-placeholder="點擊左方按鈕以選取要上傳的檔案　Click the button on left hand side to choose file which you want to upload."
-                               accept=".jpg,.png,.pdf,.jpeg" multiple />
+                <div id="upload-area">
+                    <div class="alert alert-warning">
+                        可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。<br />
+                        Please choose <strong class="text-danger">pdf, jpg or png</strong> as the format of a file; also, each single file size must be <strong class="text-danger">smaller than 4 Mbytes</strong>.
+                    </div>
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-12">
+                            <input id="uploadfile" type="file" class="filestyle file-certificate"
+                                   data-btnClass="btn-success"
+                                   data-buttonBefore="true"
+                                   data-text="選取檔案 Choose file"
+                                   data-iconName="fa fa-folder-open"
+                                   data-placeholder="點擊左方按鈕以選取要上傳的檔案　Click the button on left hand side to choose file which you want to upload."
+                                   accept=".jpg,.png,.pdf,.jpeg" multiple />
+                        </div>
                     </div>
                 </div>
 
@@ -66,7 +68,7 @@
             <div class="modal-body text-center" id="img-modal-body">
                 <img src="" class="img-fluid rounded img-ori">
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="file-editor">
                 <button type="button" class="btn btn-danger btn-delImg"><i class="fa fa-trash" aria-hidden="true"></i> 刪除　Delete</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開　Close</button>
             </div>

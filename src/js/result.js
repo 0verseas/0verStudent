@@ -144,6 +144,7 @@
 					if (_hasAdmission) {
 						const url = '/students/admission-selection-order';
 						const admissionResponse = await student.getOrderResultList(url);
+						$('#dept-code-title').html('系所代碼');
 						if (!admissionResponse.ok) { throw admissionResponse; }
 						const admissionJson = await admissionResponse.json();
 						const admissionList = admissionJson[admissionKey[(_systemId - 1)]];

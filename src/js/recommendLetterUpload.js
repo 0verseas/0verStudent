@@ -63,7 +63,10 @@
             const dept_eng_title = tokenJson.dept_eng_title;
             const school_eng_title = tokenJson.school_eng_title;
             const dept_code = (tokenJson.dept_code)? tokenJson.dept_code: tokenJson.dept_id;  // card_code of department，非學士及海青為系所代碼
-
+            if (!tokenJson.dept_code) {
+                $('#dept-code-title').html('系所代碼');
+                $('#dept-code-eng-title').html('Department Code');
+            }
             if (tokenJson.deleted_at) {  // 已上傳並鎖定 替換內容
                 $('#info-status').html(`老師您好：您已上傳完成，感謝您的使用。以下為您上傳的相關資訊，如有任何問題請聯絡學生確認：`);
                 $('#info-status-en').html(`Dear Teacher: Your upload has been completed, thank you for your use. Please refer to the information and files below which you have uploaded. If there is any problem, please contact your student:`);

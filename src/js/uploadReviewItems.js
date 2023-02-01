@@ -81,6 +81,10 @@
 					key = 'student_graduate_department_admission_selection_order';
 					break;
 			}
+			if(_system !=  1) {
+				$('#dept-code-title').html('系所代碼');
+				$('#dept-code-title-2').html('系所代碼');
+			}
 			admission_doc_upload_time_limit =
 				'西元 ' + env.year + ' 年'
 				+ admission_doc_upload_time_limit
