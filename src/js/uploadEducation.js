@@ -25,7 +25,6 @@
 	$deleteFileBtn.on('click',_handleDeleteFile);// 刪除按鈕事件
     $('body').on('change.upload', '.file-upload', _handleUpload);// 上傳按鈕事件
 	$('body').on('click', '.img-thumbnail', _showUploadedFile);// 點擊檔案呼叫編輯模板事件
-	
 
 	async function _init() {
 		/* 可能需要按照梯次不同顯示不同的說明文字 */
