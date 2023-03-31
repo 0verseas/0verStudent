@@ -157,16 +157,28 @@
         let studentName = encodeHtmlCharacters(admissionInfo.name);
         let studentEngName = encodeHtmlCharacters(admissionInfo.eng_name);
 
-        let deptTitle, schoolTitle = '';  // 錄取的學校及系所名
+        let deptTitle, schoolTitle = '', deptType = 0;  // 錄取的學校及系所名
         if (admissionInfo.student_misc_data.department_data !== null){  // 學士班
+            deptType = admissionInfo.student_misc_data.department_data.is_extended_department;
             deptTitle = admissionInfo.student_misc_data.department_data.title;
             schoolTitle = admissionInfo.student_misc_data.department_data.school.title;
         } else if (admissionInfo.student_misc_data.graduate_department_data !== null){  // 研究所
+            deptType = admissionInfo.student_misc_data.graduate_department_data.is_extended_department;
             deptTitle = admissionInfo.student_misc_data.graduate_department_data.title;
             schoolTitle = admissionInfo.student_misc_data.graduate_department_data.school.title;
         } else if (admissionInfo.student_misc_data.two_year_tech_department_data !== null){  // 港二技
+            deptType = admissionInfo.student_misc_data.two_year_tech_department_data.is_extended_department;
             deptTitle = admissionInfo.student_misc_data.two_year_tech_department_data.title;
             schoolTitle = admissionInfo.student_misc_data.two_year_tech_department_data.school.title;
+        }
+
+        switch(deptType){
+            case 1:
+                deptTitle += '【重點產業系所】';
+                break;
+            case 2:
+                deptTitle = '國際專修部（'+deptTitle+'）';
+                break;
         }
 
         // 檢查有無特殊註記
