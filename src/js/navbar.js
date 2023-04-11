@@ -68,7 +68,7 @@
 	*/
 	$logoutBtn.on('click', _handleLogout);
 	$mailResendBtn.on('click', _handleResendMail);
-	$uploadAndSubmit.on('click', _handleUploadAndSubmit);	
+	$uploadAndSubmit.on('click', _handleUploadAndSubmit);
 
 	function _handleLogout() {
 		loading.start();
@@ -207,7 +207,7 @@
 		}})
 		.catch(swal.noop)
 	}
-	
+
 	function _setEmailVerifyAlert(miscData) {
 		if (!miscData.email_verified) {
 			$('.alert-emailVerify').show();
@@ -331,7 +331,7 @@
 				//如果是DSE後填要confirmed_placement_at 有值才算完成聯合分發志願填寫
 				if(data.student_misc_data.confirmed_placement_at ==null && !!data.student_department_admission_placement_order){
 					data.student_department_admission_placement_order && $('.nav-placementSelection').removeClass('list-group-item-success');
-				}				
+				}
 				//如果是DSE後填要confirmed_at 有值 才判斷是否在（開放時間）或（有收件或已穫錄取）
 				if(data.student_misc_data.confirmed_at != null ){
 					if(!data.can_admission_placement){
@@ -525,7 +525,7 @@
 			}
 		});
 	}
-	
+
 	function _setGreet(name, overseas_student_id) {
 		if (overseas_student_id !== null) {
             $('.greet').text(`歡迎 ${name} 登入！您的僑生編號為 ${overseas_student_id} `)
@@ -650,7 +650,8 @@
 	}
 
 	function _printDistribution(){
-		window.open(env.baseUrl + '/students/print-distribution', '_blank');
+		let dummy_id = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1111111);
+		window.open(env.baseUrl + '/students/print-distribution?dummy_id='+dummy_id, '_blank');
 	}
 
 })();
