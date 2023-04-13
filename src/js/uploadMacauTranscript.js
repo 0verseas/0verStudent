@@ -1,96 +1,114 @@
 (() => {
-
 	/**
-	 *	private variable
-	 */
+	*	private variable
+	*/
 
-	let _studentID;
-	let _subjectofFileName;
-	let checkIllegalScore;
+    const scoreMax = 1000;
+    const scoreMin = 350;
+    let user_id; // 報名序號
 
-	/**
+    /**
 	*	cache DOM
 	*/
-	const $reviewItemsArea_01 = $('#reviewItemsArea_01');
-	const $reviewItemsArea_02 = $('#reviewItemsArea_02');
-	const $reviewItemsArea_03 = $('#reviewItemsArea_03');
-	const $reviewItemsArea_04 = $('#reviewItemsArea_04');
+	const $transcriptPage = $('#transcript_page');
+	const $confirmPage = $('#confirm_page');
+	const $confiremedText = $('#confirmed_text');
 
-	const $uploadFileArea_01 = $('#uploadFileArea_01');
-	const $uploadFileArea_02 = $('#uploadFileArea_02');
-	const $uploadFileArea_03 = $('#uploadFileArea_03');
-	const $uploadFileArea_04 = $('#uploadFileArea_04');
+    const $chineseScoreRadio = $('.radio-chineseScore');
+    const $chineseScoreInputArea = $('.chineseScoreInputArea');
+    const $chineseScoreUploadArea = $('#chineseScoreUploadArea');
+    const $chineseScoreInput = $('#chineseScoreInput');
+    const $weightedChineseScoreInput = $('#weightedChineseScoreInput');
+	const $chineseScoreFileUploadButton = $('#chineseScoreFileUpload');
+	const $chineseScoreUploadedFileArea = document.getElementById('chineseScoreUploadedFileArea');
 
-	const $ChineseRadio = $('#radio1');
-	const $EnglishRadio = $('#radio3');
-	const $MathRadio = $('#radio5');
-	const $ViceMathRadio = $('#radio7');
-	const $saveBtn = $('#btn-save');
-	const $chineseScore = $('#chineseScore');
-	const $englishScore = $('#englishScore');
-	const $MathScore = $('#MathScore');
-	const $ViceMathScore = $('#ViceMathScore');
-	const $GoSummaryBtn = $('#btn-go-summary');
-	const $secondConfirm = $('#secondConfirm');
-	const $have_confirm_text = $('#have_confirm_text');
-	const $haveConfirmedPage = $('#have_confirmed_page');
-	const $fillTranscriptPage = $('#fill_transcript_page');
+    const $englishScoreRadio = $('.radio-englishScore');
+    const $englishScoreInputArea = $('.englishScoreInputArea');
+    const $englishScoreUploadArea = $('#englishScoreUploadArea');
+    const $englishScoreInput = $('#englishScoreInput');
+    const $weightedEnglishScoreInput = $('#weightedEnglishScoreInput');
+	const $englishScoreFileUploadButton = $('#englishScoreFileUpload');
+	const $englishScoreUploadedFileArea = document.getElementById('englishScoreUploadedFileArea');
 
-	const $ConfirmedChineseScore = $('#Confirmed_Chinese_score');
-	const $ConfirmedChineseFile = $('#Confirmed_Chinese_file');
-	const $ConfirmedEnglishScore = $('#Confirmed_English_score');
-	const $ConfirmedEnglishFile = $('#Confirmed_English_file');
-	const $ConfirmedMathScore = $('#Confirmed_Math_score');
-	const $ConfirmedMathFile = $('#Confirmed_Math_file');
-	const $ConfirmedViceMathScore = $('#Confirmed_ViceMath_score');
-	const $ConfirmedViceMathFile = $('#Confirmed_ViceMath_file');
+	const $mathScoreRadio = $('.radio-mathScore');
+    const $mathScoreInputArea = $('.mathScoreInputArea');
+    const $mathScoreUploadArea = $('#mathScoreUploadArea');
+    const $mathScoreInput = $('#mathScoreInput');
+    const $weightedMathScoreInput = $('#weightedMathScoreInput');
+	const $mathScoreFileUploadButton = $('#mathScoreFileUpload');
+	const $mathScoreUploadedFileArea = document.getElementById('mathScoreUploadedFileArea');
 
-	const $goBack = $('#goback');
-	const $thirdConfirm = $('#thirdConfirm');
+	const $additionalMathScoreRadio = $('.radio-additionalMathScore');
+    const $additionalMathScoreInputArea = $('.additionalMathScoreInputArea');
+    const $additionalMathScoreUploadArea = $('#additionalMathScoreUploadArea');
+    const $additionalMathScoreInput = $('#additionalMathScoreInput');
+    const $weightedAdditionalMathScoreInput = $('#weightedAdditionalMathScoreInput');
+	const $additionalMathScoreFileUploadButton = $('#additionalMathScoreFileUpload');
+	const $additionalMathScoreUploadedFileArea = document.getElementById('additionalMathScoreUploadedFileArea');
 
-	/**
-	*	init
-	*/
+	const $confirmedChineseScore = $('#confirmed_chinese_score');
+	const $confirmedChineseUploadedFile = $('#confirmed_chinese_uploaded_file');
+	const $confirmedEnglishScore = $('#confirmed_english_score');
+	const $confirmedEnglishUploadedFile = $('#confirmed_english_uploaded_file');
+	const $confirmedMathScore = $('#confirmed_math_score');
+	const $confirmedMathUploadedFile = $('#confirmed_math_uploaded_file');
+	const $confirmedAdditionalMathScore = $('#confirmed_additional_math_score');
+	const $confirmedAdditionalMathUploadedFile = $('#confirmed_additional_math_uploaded_file');
 
-	_init();
+	const $imgModal = $('#img-modal');
+	const $imgModalBody= $('#img-modal-body');
+	const $deleteFileBtn = $('.btn-delFile');
+    const $saveBtn = $('#btn-save');
+    const $goConfirmBtn = $('#btn-go-Confirm');
+	const $backBtn = $('#btn-back');
+	const $confirmBtn = $('#btn-confirm');
 
-	/**
+    /**
 	*	bind event
 	*/
 
-	$('body').on('change.upload', '.file-certificate', _handleUpload);
-	$('body').on('click', '.fileDelBtn', _handleDelImg);
-	//radio button 改變事件
-	$('input:radio').on('click', function(e) {
-		_handleUploadButton(e.currentTarget.name,e.currentTarget.value);
-	});
-	$saveBtn.on('click', _handleSave);
-	$GoSummaryBtn.on('click', _handleConfirm);
-	$chineseScore.on('keyup', _checkScore);
-	$englishScore.on('keyup', _checkScore);
-	$MathScore.on('keyup', _checkScore);
-	$ViceMathScore.on('keyup', _checkScore);
-	$chineseScore.on('change',_setScoreButton);
-	$englishScore.on('change',_setScoreButton);
-	$MathScore.on('change',_setScoreButton);
-	$ViceMathScore.on('change',_setScoreButton);
-	// $ChineseRadio.on('change',_handleDelImg);
-	// $EnglishRadio.on('change',_handleDelImg);
-	// $MathRadio.on('change',_handleDelImg);
-	// $ViceMathRadio.on('change',_handleDelImg);
-	$secondConfirm.on('click',_handleSecondConfirmed);
-	$goBack.on('click',_handleGoBack)
-	$thirdConfirm.on('click',_handleThirdConfirm)
+    $chineseScoreRadio.on('change',_handleChineseScoreRadioChange);
+    $chineseScoreInput.on('change', _validateScoreInput);
+    $weightedChineseScoreInput.on('change', _validateScoreInput);
+	$chineseScoreFileUploadButton.on('change', _handleUpload);
 
+    $englishScoreRadio.on('change',_handleEnglishScoreRadioChange);
+    $englishScoreInput.on('change', _validateScoreInput);
+    $weightedEnglishScoreInput.on('change', _validateScoreInput);
+	$englishScoreFileUploadButton.on('change', _handleUpload);
 
-	async function _init() {
-		try{
-			loading.complete();
+	$mathScoreRadio.on('change',_handleMathScoreRadioChange);
+    $mathScoreInput.on('change', _validateScoreInput);
+    $weightedMathScoreInput.on('change', _validateScoreInput);
+	$mathScoreFileUploadButton.on('change', _handleUpload);
+
+	$additionalMathScoreRadio.on('change',_handleAdditionalMathScoreRadioChange);
+    $additionalMathScoreInput.on('change', _validateScoreInput);
+    $weightedAdditionalMathScoreInput.on('change', _validateScoreInput);
+	$additionalMathScoreFileUploadButton.on('change', _handleUpload);
+
+    $saveBtn.on('click', _handleSave);
+    $goConfirmBtn.on('click', _handleSave);
+
+	$('body').on('click', '.img-thumbnail', _showUploadedFile);
+	$deleteFileBtn.on('click',_handleDeleteFile);
+
+	$backBtn.on('click',_handleBack);
+	$confirmBtn.on('click', _handleConfirm);
+
+    /**
+	* init
+	*/
+
+    _init();
+
+    async function _init(){
+        try{
 			$('.info-exam-year').text(env.year);
 			const progressResponse = await student.getStudentRegistrationProgress();
 			if (!progressResponse.ok) { throw progressResponse; }
 			const progressJson = await progressResponse.json();
-			_studentID= progressJson.id;
+			user_id= progressJson.id;
 			let titleText = '';
 			//已經錄取了  就不要上傳資料 增加我們的負擔
 			if(progressJson.student_misc_data.stage_of_deptid != null || progressJson.student_misc_data.stage_of_admit != null || progressJson.student_misc_data.distribution_date != null || progressJson.student_misc_data.distribution_no != null){
@@ -108,13 +126,87 @@
 			}
 
 			if(titleText != ''){
-				swal({title: titleText, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
+				await swal({title: titleText, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
 				.then(()=>{
 					location.href  = './result.html';
 				});
 			}
-		}
-		catch(e) {
+			// 開始抓取學生上傳成績
+			const getScoreResponse = await student.getMacauTranscriptScore({student_id: user_id});
+			if (!getScoreResponse.ok) {
+				throw getScoreResponse;
+			}
+			const macauTranscriptStatus = await getScoreResponse.json();
+			const allScore = macauTranscriptStatus[0];
+			const confirmedStatus = macauTranscriptStatus['confirmed_status'];
+			if(confirmedStatus.confirmed_macau_transcript_at != null){
+				$confiremedText.show();
+				summarize_page();
+				$backBtn.hide();
+				$confirmBtn.hide();
+			} else {
+				$deleteFileBtn.show();
+				if(allScore.scoreA == -1){
+					$transcriptPage.find(`.radio-chineseScore[value=0]`).prop('checked',true).trigger('change');
+					$chineseScoreInput.val('');
+					$weightedChineseScoreInput.val('');
+				} else if(allScore.scoreA != null){
+					$transcriptPage.find(`.radio-chineseScore[value=1]`).prop('checked',true).trigger('change');
+					$chineseScoreInput.val(allScore.scoreA);
+					if(allScore.weightedScoreA == -1){
+						$weightedChineseScoreInput.val('');
+					} else {
+						$weightedChineseScoreInput.val(allScore.weightedScoreA);
+					}
+					_initUploadedFileArea('01');
+				}
+
+				if(allScore.scoreB == -1){
+					$transcriptPage.find(`.radio-englishScore[value=0]`).prop('checked',true).trigger('change');
+					$englishScoreInput.val('');
+					$weightedEnglishScoreInput.val('');
+				} else if(allScore.scoreB != null){
+					$transcriptPage.find(`.radio-englishScore[value=1]`).prop('checked',true).trigger('change');
+					$englishScoreInput.val(allScore.scoreB);
+					if(allScore.weightedScoreB == -1){
+						$weightedEnglishScoreInput.val('');
+					} else {
+						$weightedEnglishScoreInput.val(allScore.weightedScoreB);
+					}
+					_initUploadedFileArea('02');
+				}
+
+				if(allScore.scoreC == -1){
+					$transcriptPage.find(`.radio-mathScore[value=0]`).prop('checked',true).trigger('change');
+					$mathScoreInput.val('');
+					$weightedMathScoreInput.val('');
+				} else if(allScore.scoreC != null){
+					$transcriptPage.find(`.radio-mathScore[value=1]`).prop('checked',true).trigger('change');
+					$mathScoreInput.val(allScore.scoreC);
+					if(allScore.weightedScoreC == -1){
+						$weightedMathScoreInput.val('');
+					} else {
+						$weightedMathScoreInput.val(allScore.weightedScoreC);
+					}
+					_initUploadedFileArea('03');
+				}
+
+				if(allScore.scoreD == -1){
+					$transcriptPage.find(`.radio-additionalMathScore[value=0]`).prop('checked',true).trigger('change');
+					$additionalMathScoreInput.val('');
+					$weightedAdditionalMathScoreInput.val('');
+				} else if(allScore.scoreD != null){
+					$transcriptPage.find(`.radio-additionalMathScore[value=1]`).prop('checked',true).trigger('change');
+					$additionalMathScoreInput.val(allScore.scoreD);
+					if(allScore.weightedScoreD == -1){
+						$weightedAdditionalMathScoreInput.val('');
+					} else {
+						$weightedAdditionalMathScoreInput.val(allScore.weightedScoreD);
+					}
+					_initUploadedFileArea('04');
+				}
+			}
+		} catch(e) {
 			if (e.status && e.status === 401) {
 				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
 				.then(()=>{
@@ -138,115 +230,79 @@
 				})
 			}
 		}
-		loading.complete();
-		
-        _getSubjectFileName("01");
-		_getSubjectFileName("02");
-		_getSubjectFileName("03");
-		_getSubjectFileName("04");
-		_getScore(_studentID);
-	}
+        await loading.complete();
+    }
 
-	//分數改變時確認是否顯示上傳按鈕
-	function _setScoreButton(){
-		if($("input[name='radio1']:checked").val() == 'exist_Chinese'){
-			if( $chineseScore.val() <= 1000 && $chineseScore.val() >= 350 && typeof($chineseScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_01').style.display ="block";
-			}else{
-				document.getElementById('uploadFileArea_01').style.display ="none";
-			}
-		}else{
-			document.getElementById('uploadFileArea_01').style.display ="none";
-		}
-		if($("input[name='radio3']:checked").val() == 'exist_English'){
-			if( $englishScore.val() <= 1000 && $englishScore.val() >= 350 && typeof($englishScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_02').style.display ="block";
-			}else{
-				document.getElementById('uploadFileArea_02').style.display ="none";
-			}
-		}else{
-			document.getElementById('uploadFileArea_02').style.display ="none";
-		}
-		if($("input[name='radio5']:checked").val() == 'exist_Math'){
-			if( $MathScore.val() <= 1000 && $MathScore.val() >= 350 && typeof($MathScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_03').style.display ="block";
-			}else{
-				document.getElementById('uploadFileArea_03').style.display ="none";
-			}
-		}else{
-			document.getElementById('uploadFileArea_03').style.display ="none";
-		}
-		if($("input[name='radio7']:checked").val() == 'exist_ViceMath'){
-			if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 350 && typeof($ViceMathScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_04').style.display ="block";
-			}else{
-				document.getElementById('uploadFileArea_04').style.display ="none";
-			}
-		}else{
-			document.getElementById('uploadFileArea_04').style.display ="none";
-		}
-	}
+    // 中文成績選項變更事件
+    function _handleChineseScoreRadioChange(){
+        const choosenRadioValue = $chineseScoreRadio.filter(":checked").val();
 
-	// 確定成績是否在合理範圍
-	function _checkScore(para_subject) {
+        if(choosenRadioValue == 1){
+            $chineseScoreInputArea.show();
+            $chineseScoreUploadArea.show();
+        } else {
+            $chineseScoreInputArea.hide();
+            $chineseScoreUploadArea.hide();
+        }
+    }
 
-		const data_subject =  $(this).data('subject') ;
-		var subject;
-		if( typeof(data_subject) == 'undefined')
-			subject = para_subject;
-		else
-			subject = data_subject;
+    // 英文成績選項變更事件
+    function _handleEnglishScoreRadioChange(){
+        const choosenRadioValue = $englishScoreRadio.filter(":checked").val();
 
-		if(subject == '01'){
-			if( $chineseScore.val() <= 1000 && $chineseScore.val() >= 350 && typeof($chineseScore.val()) != 'undefiend'){
-				//document.getElementById('uploadFileArea_01').style.display ="block";
-				document.getElementById('reviewItemsArea_01').style.display ='block';
-			}else{
-				//document.getElementById('uploadFileArea_01').style.display ="none";
-			}
+        if(choosenRadioValue == 1){
+            $englishScoreInputArea.show();
+            $englishScoreUploadArea.show();
+        } else {
+            $englishScoreInputArea.hide();
+            $englishScoreUploadArea.hide();
+        }
+    }
+
+	// 數學成績選項變更事件
+    function _handleMathScoreRadioChange(){
+        const choosenRadioValue = $mathScoreRadio.filter(":checked").val();
+
+        if(choosenRadioValue == 1){
+            $mathScoreInputArea.show();
+            $mathScoreUploadArea.show();
+        } else {
+            $mathScoreInputArea.hide();
+            $mathScoreUploadArea.hide();
+        }
+    }
+
+	// 數學（附加卷）成績選項變更事件
+    function _handleAdditionalMathScoreRadioChange(){
+        const choosenRadioValue = $additionalMathScoreRadio.filter(":checked").val();
+
+        if(choosenRadioValue == 1){
+            $additionalMathScoreInputArea.show();
+            $additionalMathScoreUploadArea.show();
+        } else {
+            $additionalMathScoreInputArea.hide();
+            $additionalMathScoreUploadArea.hide();
+        }
+    }
+
+    function _validateScoreInput(){
+		const scoreRegex = /^(3[5-9][0-9]|[4-9][0-9][0-9]|1[0][0][0])$/g;
+        let score = $(this).val().replace(/[\s]/g, "");
+		if (score.match(scoreRegex) == null) { // 不符合上述的格式就回傳格式錯誤
+			$(this).val('')
 		}
-		else if(subject == '02'){
-			if( $englishScore.val() <= 1000 && $englishScore.val() >= 350){
-				//document.getElementById('uploadFileArea_02').style.display ="block";
-				document.getElementById('reviewItemsArea_02').style.display ='block';
-			}else{
-				//document.getElementById('uploadFileArea_02').style.display ="none";
-			}
-		}
-		else if(subject == '03'){
-			if( $MathScore.val() <= 1000 && $MathScore.val() >= 350){
-				//document.getElementById('uploadFileArea_03').style.display ="block";
-				document.getElementById('reviewItemsArea_03').style.display ='block';
-			}else{
-				//document.getElementById('uploadFileArea_03').style.display ="none";
-			}
-		}
-		else if(subject == '04'){
-			if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 350){
-				//document.getElementById('uploadFileArea_04').style.display ="block";
-				document.getElementById('reviewItemsArea_04').style.display ='block';
-			}else{
-				//document.getElementById('uploadFileArea_04').style.display ="none";
-			}
-		}
-	}
-	async function _getSubjectFileName(subject) {
-		// 取得檔案名稱，丟到_getFileAreaHTML 準備做顯示
-		// 檔案取名規則 6碼僑編 + "_" + 2碼科目號 + 副檔名 ex: 011001_01.jpg
+
+        return;
+    }
+
+    async function _initUploadedFileArea(subject) {
+		// 檔名規則 6碼僑編 + "_" + 2碼科目號 + 副檔名 ex: 011001_01.jpg
 		try {
 			loading.start();
-			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: subject});
+			const response = await student.getMacauTranscriptsetItem({student_id: user_id, subject: subject});
 			if (!response.ok) { throw response; }
 			const fileNameOfSubject = await response.json();
-			_subjectofFileName = fileNameOfSubject.files[0];
-			if( typeof(_subjectofFileName) == "undefined"){
-				_noFileAreaHtml(subject);
-			}
-			else{
-				_getFileAreaHTML(_subjectofFileName);
-			}
-
-
+			_renderUploadedArea(subject, fileNameOfSubject.files);
 			loading.complete();
 		} catch(e) {
 			e.json && e.json().then((data) => {
@@ -257,115 +313,8 @@
 		}
 	}
 
-	function  _getFileAreaHTML(_subjectofFileName) {
-
-		// 利用檔案名來做該科目的顯示
-		// _subjectofFileName  011001_01.jpg
-
-		let reviewItemHTML = '';
-		let fileUploadHTML = '';
-		// 取得檔案類別，pdf 和 img 顯示要分作不同處理
-		const fileType = _getFileType(_subjectofFileName.split('.')[1]);
-		// 取得科目代號
-		const subjectId = _subjectofFileName.substr(7,2);
-		// 顯示選擇檔案部份 帶入 data-subject 參數
-		fileUploadHTML = `
-			<div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" >
-				<div class="col-12"  >
-					<input type="file" class="fileUploadBtn filestyle file-certificate"  data-subject="${subjectId}"  >
-				</div>
-			</div>
-		`;
-		// img 和 pdf 顯示分別做不同處理
-// todo : data-toggle="modal"
-		if (fileType === 'img') {
-			reviewItemHTML = `
-			<div class="card">
-				<div class="card-body" style="margin: 0 auto; text-align:left">
-					<h4 class="card-title" style="text-align:left"><span>已上傳檔案</span> </h4>
-                       <img
-							class="img-thumbnail"
-							src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}"
-							data-toggle="modal"
-							data-target=".img-modal"
-							data-filetype="img"
-							width="350"
-							height="800"
-							
-							/> 
-				</div>
-				
-				<div class="row fileDel" style="margin: 0 auto" >
-					<div class="col-12"  >
-						<button type="button" class=" btn fileDelBtn  btn-danger"  data-subject="${subjectId}"  >
-							<i class="fa fa-folder-open" aria-hidden="true"></i> 刪除該科成績單
-						</button>
-					</div>
-				</div>
-			</div>`;
-		}
-		else{
-			reviewItemHTML = `
-			<div class="card">
-				<div class="card-body" style="margin: 0 auto">
-					<h4 class="card-title"><span>已上傳檔案</span> </h4>
-						<embed src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}" width="500" height="375" type="application/pdf">
-				</div>
-				
-				<div class="row fileDel" style="margin: 0 auto" >
-					<div class="col-12"  >
-						<button type="button" class=" btn fileDelBtn  btn-danger"  data-subject="${subjectId}"  >
-							<i class="fa fa-folder-open" aria-hidden="true"></i> 刪除該科成績單
-						</button>
-					</div>
-				</div>
-			</div>`;
-		}
-
-		document.getElementById("uploadFileArea_" + subjectId).innerHTML=fileUploadHTML;
-		document.getElementById("reviewItemsArea_" + subjectId).innerHTML=reviewItemHTML;
-		_checkScore(subjectId);
-
-		$(".fileUploadBtn").filestyle({ //:file
-			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-			btnClass: "btn-success",
-			text: " 上傳該科成績單",
-			input: false
-		});
-
-
-	}
-
-	function  _noFileAreaHtml(subjectId) {
-		let reviewItemHTML = '';
-		let fileUploadHTML = '';
-
-		fileUploadHTML = `
-			<div class="row fileUpload" style="margin-bottom: 15px; padding-left:5%" ">
-				<div class="col-12"  >
-					<input type="file" class="fileUploadBtn filestyle file-certificate"  data-subject="${subjectId}"  >
-				</div>
-			</div>
-		`;
-
-		document.getElementById("uploadFileArea_" + subjectId).innerHTML=fileUploadHTML;
-		//document.getElementById("reviewItemsArea_" + subjectId).innerHTML=reviewItemHTML;
-		_checkScore(subjectId);
-
-		$(".fileUploadBtn").filestyle({ //:file
-			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
-			btnClass: "btn-success",
-			text: " 上傳該科成績單",
-			input: false
-		});
-
-	}
-
-	// 上傳成績單檔案
-	async function _handleUpload() {
-
-		const subject =  $(this).data('subject') ;
-		// console.log(subject);
+	async function _handleUpload(){
+		const subject = $(this).data('subject');
 		const fileList = this.files;
 		// 沒有上傳檔案 直接return
 		if(fileList.length <= 0){
@@ -382,14 +331,12 @@
 			}
 		}
 
-		_handleSave();
-
 		try {
 			loading.start();
-			const response = await student.MacauTranscriptsetReviewItem({data, student_id: _studentID, subject: subject});
-			// console.log("_handleUpload",subject);
+			const response = await student.MacauTranscriptsetReviewItem({data, student_id: user_id, subject: subject});
 			if (!response.ok) { throw response; }
 			const responseJson = await response.json();
+			_renderUploadedArea(subject, responseJson['files']);
 			$(this).val('');//清除檔案路徑
 			loading.complete();
 		} catch(e) {
@@ -401,75 +348,129 @@
 			loading.complete();
 		}
 		$(this).val('');//清除檔案路徑
-		//document.getElementById("badge").src=`${env.baseUrl}` + "/students/2305/macau-transcript/subject/01/file/011002_04.jpg";
-
-		//window.location.reload();
-		window.location = window.location.href+'?eraseCache=true';
 	}
 
-	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
-	function _getFileType(fileNameExtension = '') {
-		switch (fileNameExtension) {
-			case 'doc':
-			case 'docx':
-				return 'word';
-
-			case 'mp3':
-				return 'audio';
-
-			case 'mp4':
-			case 'avi':
-				return 'video';
-
-			case 'pdf':
-				return 'pdf';
-
-			default:
-				return 'img';
+	// 渲染已上傳檔案
+    function _renderUploadedArea(subject, files) {
+		let uploadedAreaHtml = '';
+        files.forEach((file) => {
+            const fileType = _getFileType(file.split('.')[1]);
+			let dummy_id = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1111111);
+			const url = `${env.baseUrl}/students/${user_id}/macau-transcript/subject/${subject}/file/${file}?dummy_id=${dummy_id}`;
+            if(fileType === 'img'){
+                uploadedAreaHtml += `
+                    <img
+                        class="img-thumbnail"
+                        src="${url}"
+                        data-toggle="modal"
+						data-subject="${subject}"
+                        data-filename="${file}"
+						data-target=".img-modal"
+                        data-filetype="img"
+                        data-filelink="${url}"
+                    />
+                `
+            } else {
+                uploadedAreaHtml += `
+					<div
+						class="img-thumbnail non-img-file-thumbnail"
+						data-toggle="modal"
+						data-target=".img-modal"
+						data-filelink="${url}"
+						data-subject="${subject}"
+						data-filename="${file}"
+                        data-filetype="${fileType}"
+						data-icon="fa-file-${fileType}-o"
+					>
+						<i class="fa fa-file-${fileType}-o" data-filename="${file}" data-icon="fa-file-${fileType}-o" aria-hidden="true"></i>
+					</div>
+				`;
+            }
+        });
+		switch(subject){
+			case '01':
+				$chineseScoreUploadedFileArea.innerHTML = uploadedAreaHtml;
+				break;
+			case '02':
+				$englishScoreUploadedFileArea.innerHTML = uploadedAreaHtml;
+				break;
+			case '03':
+				$mathScoreUploadedFileArea.innerHTML = uploadedAreaHtml;
+				break;
+			case '04':
+				$additionalMathScoreUploadedFileArea.innerHTML = uploadedAreaHtml;
+				break;
 		}
+		return;
+    }
+
+	function _showUploadedFile() {
+        // 取得點選的檔案名稱、類別及subject
+		const fileName = $(this).data('filename');
+		const fileType = $(this).data('filetype');
+		const subject = $(this).data('subject');
+
+
+		// 清空 modal 內容
+		$imgModalBody.html('');
+
+		// 是圖放圖，非圖放 icon
+		if (fileType === 'img') {
+			$imgModalBody.html(`
+				<img
+					src="${this.src}"
+					class="img-fluid rounded img-ori"
+				>
+			`);
+		} else {
+			$imgModalBody.html(`
+				<div style="margin: 0 auto">
+					<embed src="${this.dataset.filelink}" width="550" height="800" type="application/pdf">
+				</div>
+			`);
+		}
+        // 刪除檔案按鈕紀錄點選的檔案名稱及類別
+		$deleteFileBtn.attr({
+			'filetype': fileType,
+			'filename': fileName,
+			'subject': subject,
+		});
 	}
 
-	// 刪除指定成績單檔案
-	async function _handleDelImg() {
+	// 確認是否刪除上傳檔案
+    function _handleDeleteFile(){
+        const fileName = $deleteFileBtn.attr('filename');
+		const subject = $deleteFileBtn.attr('subject');
+        swal({
+            title: '確定要刪除已上傳的檔案？',
+            type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#5cb85c',
+            cancelButtonColor: '#d9534f',
+            confirmButtonText: '確定',
+            cancelButtonText: '取消',
+        }).then(()=>{
+            _deleteFile(fileName, subject);
+        }).catch(()=>{
+            return;
+        });
+    }
 
-		// if (!confirm('確定刪除？')) {
-		// 	return;
-		// }
-
-		// 用subjectID 取得檔案名
+	// 刪除上傳檔案事件
+    async function _deleteFile(fileName, subject){
 		try {
 			loading.start();
-			// console.log(_studentID);
-			// console.log($(this).data('subject'));
-			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: $(this).data('subject')});
-			if (!response.ok) { throw response; }
-			const fileNameOfSubject = await response.json();
-			var _filename = fileNameOfSubject.files[0];
-
-			//console.log(fileNameOfSubject);
-
-			loading.complete();
-		} catch(e) {
-			e.json && e.json().then((data) => {
-				console.error(data);
-				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-			});
-			loading.complete();
-		}
-		try {
-			loading.start();
-			//console.log(_filename);
 			const response = await student.delMacauTranscriptItem({
-				student_id:_studentID,
-				subject: $(this).data('subject'),
-				filename: _filename
+				student_id: user_id,
+				subject: subject,
+				filename: fileName
 			});
 
 			if (!response.ok) { throw response; }
 			const responseJson = await response.json();
-
-
-			_getSubjectFileName($(this).data('subject'));
+			_renderUploadedArea(subject, responseJson['files']);
+			$imgModal.modal('hide');
+            swal({title:"刪除成功！", type:"success", confirmButtonText: '確定', allowOutsideClick: false});
 			loading.complete();
 
 		} catch(e) {
@@ -479,435 +480,412 @@
 			});
 			loading.complete();
 		}
-		window.location.reload();
-	}
+    }
 
-	// 取得各科成績及鎖定狀況
-	async function _getScore(_studentID) {
+    function _handleSave() {
+		const action = $(this).data('action');
+		const scoreRegex = /^(3[5-9][0-9]|[4-9][0-9][0-9]|1[0][0][0])$/g;
+        const chineseChoosenRadioValue = $chineseScoreRadio.filter(":checked").val();
+        const englishChoosenRadioValue = $englishScoreRadio.filter(":checked").val();
+		const mathChoosenRadioValue = $mathScoreRadio.filter(":checked").val();
+        const additionalMathChoosenRadioValue = $additionalMathScoreRadio.filter(":checked").val();
 
-		try {
-			const progressResponse2 = await student.getMacauTranscriptScore({student_id: _studentID});
-			if (!progressResponse2.ok) {
-				throw progressResponse2;
+        let scoreA = '';
+        let weightedScoreA = '';
+        let scoreB = '';
+        let weightedScoreB = '';
+        let scoreC = '';
+        let weightedScoreC = '';
+        let scoreD = '';
+        let weightedScoreD = '';
+
+		if(chineseChoosenRadioValue == undefined){
+			swal({title: `Warning`, text:`請確認是否考取中文科目`, confirmButtonText:'確定', type:'warning'});
+			return;
+		}
+		if(englishChoosenRadioValue == undefined){
+			swal({title: `Warning`, text:`請確認是否考取英文科目`, confirmButtonText:'確定', type:'warning'});
+			return;
+		}
+		if(mathChoosenRadioValue == undefined){
+			swal({title: `Warning`, text:`請確認是否考取數學科目`, confirmButtonText:'確定', type:'warning'});
+			return;
+		}
+		if(additionalMathChoosenRadioValue == undefined){
+			swal({title: `Warning`, text:`請確認是否考取數學（附加卷）科目`, confirmButtonText:'確定', type:'warning'});
+			return;
+		}
+
+        if(chineseChoosenRadioValue == 1){
+            scoreA = $chineseScoreInput.val();
+            weightedScoreA = $weightedChineseScoreInput.val();
+			if (scoreA.match(scoreRegex) == null) { // 不符合上述的格式就回傳格式錯誤
+				swal({title:`成績格式錯誤`, text: '未加權中文成績輸入有誤，未加權成績為必填，且成績需在350～1000區間。', confirmButtonText:'確定', type:'warning'});
+				return;
 			}
-			const allScore = await progressResponse2.json();
+			if($chineseScoreUploadedFileArea.innerHTML == '' && action != 'save'){
+				swal({title:`檔案未上傳`, text: '未上傳中文成績的文憑成績單或查詢網頁截圖。', confirmButtonText:'確定', type:'warning'});
+				return;
+			}
+			if (weightedScoreA.match(scoreRegex) == null) {
+				weightedScoreA = -1;
+				$weightedChineseScoreInput.val('');
+			}
+        } else {
+			scoreA = -1;
+			weightedScoreA = -1;
+		}
 
-			if (allScore[0].scoreA == '-1') {
-				$('input:radio[name="radio1"]').filter('[value="none_Chinese"]').attr('checked', true);
-				document.getElementById('chineseScore').style.display ='none';
-				document.getElementById('chineseScore-tip').style.display ='none';
-				document.getElementById('uploadFileArea_01').style.display = "none";
-				document.getElementById('reviewItemsArea_01').style.display ='none';
-				document.getElementById('chineseScore-text').innerText = '我有考此科目。'
+        if(englishChoosenRadioValue == 1){
+            scoreB = $englishScoreInput.val();
+            weightedScoreB = $weightedEnglishScoreInput.val();
+			if (scoreB.match(scoreRegex) == null) { // 不符合上述的格式就回傳格式錯誤
+				swal({title:`成績格式錯誤`, text: '未加權英文成績輸入有誤，未加權成績為必填，且成績需在350～1000區間。', confirmButtonText:'確定', type:'warning'});
+				return;
+			}
+			if($englishScoreUploadedFileArea.innerHTML == '' && action != 'save'){
+				swal({title:`檔案未上傳`, text: '未上傳英文成績的文憑成績單或查詢網頁截圖。', confirmButtonText:'確定', type:'warning'});
+				return;
+			}
+			if (weightedScoreB.match(scoreRegex) == null) {
+				weightedScoreB = -1;
+				$weightedEnglishScoreInput.val('');
+			}
+        } else {
+			scoreB = -1;
+			weightedScoreB = -1;
+		}
 
+		if(mathChoosenRadioValue == 1){
+            scoreC = $mathScoreInput.val();
+            weightedScoreC = $weightedMathScoreInput.val();
+			if (scoreC.match(scoreRegex) == null) { // 不符合上述的格式就回傳格式錯誤
+				swal({title:`成績格式錯誤`, text: '未加權數學成績輸入有誤，未加權成績為必填，且成績需在350～1000區間。', confirmButtonText:'確定', type:'warning'});
+				return;
+			}
+			if($mathScoreUploadedFileArea.innerHTML == '' && action != 'save'){
+				swal({title:`檔案未上傳`, text: '未上傳數學成績的文憑成績單或查詢網頁截圖。', confirmButtonText:'確定', type:'warning'});
+				return;
+			}
+			if (weightedScoreC.match(scoreRegex) == null) {
+				weightedScoreC = -1;
+				$weightedMathScoreInput.val('');
+			}
+        } else {
+			scoreC = -1;
+			weightedScoreC = -1;
+		}
+
+		if(additionalMathChoosenRadioValue == 1){
+            scoreD = $additionalMathScoreInput.val();
+            weightedScoreD = $weightedAdditionalMathScoreInput.val();
+			if (scoreD.match(scoreRegex) == null) { // 不符合上述的格式就回傳格式錯誤
+				swal({title:`成績格式錯誤`, text: '未加權數學（附加卷）成績輸入有誤，未加權成績為必填，且成績需在350～1000區間。', confirmButtonText:'確定', type:'warning'});
+				return;
+			}
+			if($additionalMathScoreUploadedFileArea.innerHTML == '' && action != 'save'){
+				swal({title:`檔案未上傳`, text: '未上傳數學（附加卷）成績的文憑成績單或查詢網頁截圖。', confirmButtonText:'確定', type:'warning'});
+				return;
+			}
+			if (weightedScoreD.match(scoreRegex) == null) {
+				weightedScoreD = -1;
+				$weightedAdditionalMathScoreInput.val('');
+			}
+        } else {
+			scoreD = -1;
+			weightedScoreD = -1;
+		}
+
+
+
+        let sendData ={}
+        sendData['scoreA'] = scoreA;
+        sendData['weightedScoreA'] = weightedScoreA;
+        sendData['scoreB'] = scoreB;
+        sendData['weightedScoreB'] = weightedScoreB;
+        sendData['scoreC'] = scoreC;
+        sendData['weightedScoreC'] = weightedScoreC;
+        sendData['scoreD'] = scoreD;
+        sendData['weightedScoreD'] = weightedScoreD;
+		sendData["action"] = (action == 'save') ?0 :1;
+
+        loading.start();
+        student.storeMacauTranscriptScore(sendData)
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw res;
+            }
+        })
+        .then((json) => {
+			if(action == 'save'){
+				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				.then(()=>{
+					window.location.reload();
+				});
 			} else {
-				$('input:radio[name="radio1"]').filter('[value="exist_Chinese"]').attr('checked', true);
-				document.getElementById('chineseScore').value = allScore[0].scoreA;
-				document.getElementById('uploadFileArea_01').style.display = "block";
-				document.getElementById('reviewItemsArea_01').style.display = "block";
-			}
-
-			if (allScore[0].scoreB == '-1') {
-				$('input:radio[name="radio3"]').filter('[value="none_English"]').attr('checked', true);
-				document.getElementById('englishScore').style.display ='none';
-				document.getElementById('englishScore-tip').style.display ='none';
-				document.getElementById('uploadFileArea_02').style.display = "none";
-				document.getElementById('reviewItemsArea_02').style.display ='none';
-				document.getElementById('englishScore-text').innerText = '我有考此科目。' 
-			} else {
-				$('input:radio[name="radio3"]').filter('[value="exist_English"]').attr('checked', true);
-				document.getElementById('englishScore').value = allScore[0].scoreB;
-				document.getElementById('uploadFileArea_02').style.display = "block";
-				document.getElementById('reviewItemsArea_02').style.display = "block";
-			}
-
-			if (allScore[0].scoreC == '-1') {
-				$('input:radio[name="radio5"]').filter('[value="none_Math"]').attr('checked', true);
-				document.getElementById('MathScore').style.display ='none';
-				document.getElementById('MathScore-tip').style.display ='none';
-				document.getElementById('uploadFileArea_03').style.display = "none";
-				document.getElementById('reviewItemsArea_03').style.display ='none';
-				document.getElementById('MathScore-text').innerText = '我有考此科目。' 
-			} else {
-				$('input:radio[name="radio5"]').filter('[value="exist_Math"]').attr('checked', true);
-				document.getElementById('MathScore').value = allScore[0].scoreC;
-				document.getElementById('uploadFileArea_03').style.display = "block";
-				document.getElementById('reviewItemsArea_03').style.display = "block";
-			}
-
-			if (allScore[0].scoreD == '-1') {
-				$('input:radio[name="radio7"]').filter('[value="none_ViceMath"]').attr('checked', true);
-				document.getElementById('ViceMathScore').style.display ='none';
-				document.getElementById('ViceMathScore-tip').style.display ='none';
-				document.getElementById('uploadFileArea_04').style.display = "none";
-				document.getElementById('reviewItemsArea_04').style.display ='none';
-				document.getElementById('ViceMathScore-text').innerText = '我有考此科目。' 
-			} else {
-				$('input:radio[name="radio7"]').filter('[value="exist_ViceMath"]').attr('checked', true);
-				document.getElementById('ViceMathScore').value = allScore[0].scoreD;
-				document.getElementById('uploadFileArea_04').style.display = "block";
-				document.getElementById('reviewItemsArea_04').style.display = "block";
-			}
-
-			// 如果已經鎖定
-			if( allScore['confirmed_macau_transcript_at'].confirmed_macau_transcript_at != null) {
-				$have_confirm_text.show();
-				//$saveBtn.hide();
-				//$confirmBtn.hide();
-				//$(".fileUpload").hide();
-
 				summarize_page();
-				$fillTranscriptPage.hide();
-				$haveConfirmedPage.show();
-				$goBack.hide();
-				$secondConfirm.hide();
 			}
-		} catch (e) {
+            loading.complete();
+        })
+        .catch((err) => {
+            err.json && err.json().then((data) => {
+                console.error(data);
+                swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+            });
+            loading.complete();
+        })
+    }
+
+    async function summarize_page(){
+		let scoreHtml = '';
+		let fileHtml = '';
+
+		const getScoreResponse = await student.getMacauTranscriptScore({student_id: user_id});
+		if (!getScoreResponse.ok) {
+			throw getScoreResponse;
 		}
-	}
+		const macauTranscriptStatus = await getScoreResponse.json();
+		const allScore = macauTranscriptStatus[0];
+		const confirmedStatus = macauTranscriptStatus['confirmed_status'];
+		let weightedScoreString = '';
 
-	//根據傳入的radio_name與radio_value來處理顯示或隱藏的部份
-	function  _handleUploadButton(name,value){
-		if(name == 'radio1'){
-			if(value == 'none_Chinese'){
-				document.getElementById('uploadFileArea_01').style.display = "none";
-			}else if( $chineseScore.val() <= 1000 && $chineseScore.val() >= 350 && typeof($chineseScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_01').style.display = "block";
-			}
-		}else if(name == 'radio3'){
-			if(value == 'none_English'){
-				document.getElementById('uploadFileArea_02').style.display = "none";
-			}else if( $englishScore.val() <= 1000 && $englishScore.val() >= 350 && typeof($englishScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_02').style.display = "block";
-			}
-		}else if(name == 'radio5'){
-			if(value == 'none_Math'){
-				document.getElementById('uploadFileArea_03').style.display = "none";
-			}else if( $MathScore.val() <= 1000 && $MathScore.val() >= 350 && typeof($MathScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_03').style.display = "block";
-			}
-		}else if(name == 'radio7'){
-			if(value == 'none_ViceMath'){
-				document.getElementById('uploadFileArea_04').style.display = "none";
-			}else if( $ViceMathScore.val() <= 1000 && $ViceMathScore.val() >= 350 && typeof($ViceMathScore.val()) != 'undefiend'){
-				document.getElementById('uploadFileArea_04').style.display = "block";
-			}
-		}
-	}
-
-	async function _handleSave() {
-
-		checkIllegalScore = 0;
-		if ( ($chineseScore.val() > 1000 || $chineseScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
-			swal({title:`中文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-		if (($englishScore.val() > 1000 || $englishScore.val() < 350) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
-			swal({title:`英文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-		if (($MathScore.val() > 1000 || $MathScore.val() < 350) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
-			swal({title:`數學成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 350) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
-			swal({title:`數學附加卷成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-
-		if (checkIllegalScore != 1) {
-			let sendData = {};
-
-			var scoreA = ($("input[name='radio1']:checked").val() == 'none_Chinese') ? -1 : document.getElementById('chineseScore').value;
-			var scoreB = ($("input[name='radio3']:checked").val() == 'none_English') ? -1 : document.getElementById('englishScore').value;
-			var scoreC = ($("input[name='radio5']:checked").val() == 'none_Math') ? -1 : document.getElementById('MathScore').value;
-			var scoreD = ($("input[name='radio7']:checked").val() == 'none_ViceMath') ? -1 : document.getElementById('ViceMathScore').value;
-
-
-			sendData["user_id"] = _studentID;
-			sendData["scoreA"] = scoreA;
-			sendData["scoreB"] = scoreB;
-			sendData["scoreC"] = scoreC;
-			sendData["scoreD"] = scoreD;
-			sendData["confirmed_macau_transcript_at"] = 0;
-			// console.log(sendData);
-
-
-			if (1) {
-
-				loading.start();
-				student.storeMacauTranscriptScore(sendData)
-					.then((res) => {
-						if (res.ok) {
-							return res.json();
-						} else {
-							throw res;
-						}
-					})
-					.then((json) => {
-						// console.log(json);
-						swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
-						.then(()=>{
-							window.location.reload();
-						});
-						loading.complete();
-					})
-					.catch((err) => {
-						err.json && err.json().then((data) => {
-							console.error(data);
-							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-						});
-						loading.complete();
-					})
-			} else {
-				console.log('==== validate failed ====');
-				swal({title: `填寫格式錯誤`, html: `請檢查以下表單：<br/>`+_errormsg.join('、'), type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-			}
-		}
-	}
-
-	//檢查成績區間
-	async function _handleConfirm() {
-		checkIllegalScore = 0;
-		if ( ($chineseScore.val() > 1000 || $chineseScore.val() < 350) && $("input[name='radio1']:checked").val() == 'exist_Chinese') {
-			swal({title:`中文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-		if (($englishScore.val() > 1000 || $englishScore.val() < 350) && $("input[name='radio3']:checked").val() == 'exist_English' ) {
-			swal({title:`英文成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-		if (($MathScore.val() > 1000 || $MathScore.val() < 350) && $("input[name='radio5']:checked").val() == 'exist_Math' ) {
-			swal({title:`數學成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-		if ( ($ViceMathScore.val() > 1000 || $ViceMathScore.val() < 350) && $("input[name='radio7']:checked").val() == 'exist_ViceMath') {
-			swal({title:`數學附加卷成績輸入有誤`, confirmButtonText:'確定', type:'warning'});
-			checkIllegalScore = 1;
-		}
-
-		if (checkIllegalScore != 1) {
-			let sendData = {};
-
-			var scoreA = ($("input[name='radio1']:checked").val() == 'none_Chinese') ? -1 : document.getElementById('chineseScore').value;
-			var scoreB = ($("input[name='radio3']:checked").val() == 'none_English') ? -1 : document.getElementById('englishScore').value;
-			var scoreC = ($("input[name='radio5']:checked").val() == 'none_Math') ? -1 : document.getElementById('MathScore').value;
-			var scoreD = ($("input[name='radio7']:checked").val() == 'none_ViceMath') ? -1 : document.getElementById('ViceMathScore').value;
-
-
-			sendData["user_id"] = _studentID;
-			sendData["scoreA"] = scoreA;
-			sendData["scoreB"] = scoreB;
-			sendData["scoreC"] = scoreC;
-			sendData["scoreD"] = scoreD;
-			sendData["confirmed_macau_transcript_at"] = 1;
-			// console.log(sendData);
-
-
-			if (1) {
-				loading.start();
-				student.storeMacauTranscriptScore(sendData)
-					.then((res) => {
-						if (res.ok) {
-							return res.json();
-						} else {
-							throw res;
-						}
-					})
-					.then((json) => {
-						// console.log(json);
-						// alert('已鎖定');
-						// window.location.reload();
-						summarize_page();
-						loading.complete();
-					})
-					.catch((err) => {
-						err.json && err.json().then((data) => {
-							console.error(data);
-							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-						});
-						loading.complete();
-					})
-			} else {
-				console.log('==== validate failed ====');
-				swal({title: `填寫格式錯誤`, html: `請檢查以下表單：<br/>`+_errormsg.join('、'), type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-			}
-		}
-
-	}
-
-	 function _handleSecondConfirmed(){
-		 $("#warningModal").modal();
-		 document.getElementById("warningText").innerHTML = "我確認成績及檔案正確，送出鎖定後不得再更改";
-	}
-
-	async function summarize_page(){
-		var fileHtml=``;
-		var scoreHtml=``;
-
-		const progressResponse2 = await student.getMacauTranscriptScore({student_id: _studentID});
-		if (!progressResponse2.ok) {
-			throw progressResponse2;
-		}
-		const allScore = await progressResponse2.json();
-
-		if (allScore[0].scoreA == '-1') {
-			$ConfirmedChineseScore.html("中文：無此成績");
+		if (allScore.scoreA == '-1') {
+			$confirmedChineseScore.html("中文：無此成績");
 		}else {
+			weightedScoreString = (allScore.weightedScoreA == '-1') ?'未填寫' :allScore.weightedScoreA+' 分';
 			scoreHtml = `
-				中文： ${allScore[0].scoreA} 分 <small>(點此展開已查看成績單)</small>
+				中文： 未加權 ${allScore.scoreA} 分 加權後 ${weightedScoreString} <small>(點此展開查看已上傳成績單檔單，點圖可放大)</small>
 			`;
-			$ConfirmedChineseScore.html(scoreHtml);
-			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: "01"});
+			$confirmedChineseScore.html(scoreHtml);
+			const response = await student.getMacauTranscriptsetItem({student_id: user_id, subject: "01"});
 			if (!response.ok) {
 				throw response;
 			}
 			const fileNameOfSubject = await response.json();
-			_subjectofFileName = fileNameOfSubject.files[0];
-			const subjectId = _subjectofFileName.substr(7,2);
-			const fileType = _getFileType(_subjectofFileName.split('.')[1]);
+			const fileName = fileNameOfSubject.files[0];
+			const subject = '01';
+			const fileType = _getFileType(fileName.split('.')[1]);
+			let dummy_id = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1111111);
+			const url = `${env.baseUrl}/students/${user_id}/macau-transcript/subject/${subject}/file/${fileName}?dummy_id=${dummy_id}`;
 
-			if (fileType === 'img') {
-				 fileHtml =`<img
-							class="img-thumbnail"
-							src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}"
-							data-toggle="modal"
-							data-target=".img-modal"
-							data-filetype="img"
-							/>`;
-				$ConfirmedChineseFile.html(fileHtml);
-			}
-			else if (fileType === 'pdf'){
-				fileHtml = `
-					<embed src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}" 
-							width="500" height="375" type="application/pdf">
-					`;
-				$ConfirmedChineseFile.html(fileHtml);
-			}
+            if(fileType === 'img'){
+                fileHtml = `
+                    <img
+                        class="img-thumbnail"
+                        src="${url}"
+                        data-toggle="modal"
+						data-subject="${subject}"
+                        data-filename="${fileName}"
+						data-target=".img-modal"
+                        data-filetype="img"
+                        data-filelink="${url}"
+                    />
+                `;
+            } else {
+                fileHtml = `
+					<div
+						class="img-thumbnail non-img-file-thumbnail"
+						data-toggle="modal"
+						data-target=".img-modal"
+						data-filelink="${url}"
+						data-subject="${subject}"
+						data-filename="${fileName}"
+                        data-filetype="${fileType}"
+						data-icon="fa-file-${fileType}-o"
+					>
+						<i class="fa fa-file-${fileType}-o" data-filename="${fileName}" data-icon="fa-file-${fileType}-o" aria-hidden="true"></i>
+					</div>
+				`;
+            }
+			$confirmedChineseUploadedFile.html(fileHtml);
 		}
 
-		if (allScore[0].scoreB == '-1') {
-			$ConfirmedEnglishScore.html("英文：無此成績");
-		}else {
+		if (allScore.scoreB == '-1') {
+			$confirmedEnglishScore.html("英文：無此成績");
+		} else {
+			weightedScoreString = (allScore.weightedScoreB == '-1') ?'未填寫' :allScore.weightedScoreB+' 分';
 			scoreHtml = `
-				英文： ${allScore[0].scoreB} 分 <small>(點此展開已查看成績單)</small>
+				英文： 未加權 ${allScore.scoreB} 分 加權後 ${weightedScoreString} <small>(點此展開查看已上傳成績單檔單，點圖可放大)</small>
 			`;
-			$ConfirmedEnglishScore.html(scoreHtml);
-			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: "02"});
+			$confirmedEnglishScore.html(scoreHtml);
+			const response = await student.getMacauTranscriptsetItem({student_id: user_id, subject: "02"});
 			if (!response.ok) {
 				throw response;
 			}
 			const fileNameOfSubject = await response.json();
-			_subjectofFileName = fileNameOfSubject.files[0];
-			const subjectId = _subjectofFileName.substr(7,2);
-			const fileType = _getFileType(_subjectofFileName.split('.')[1]);
+			const fileName = fileNameOfSubject.files[0];
+			const subject = '01';
+			const fileType = _getFileType(fileName.split('.')[1]);
+			let dummy_id = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1111111);
+			const url = `${env.baseUrl}/students/${user_id}/macau-transcript/subject/${subject}/file/${fileName}?dummy_id=${dummy_id}`;
 
-			if (fileType === 'img') {
-				fileHtml =`<img
-							class="img-thumbnail"
-							src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}"
-							data-toggle="modal"
-							data-target=".img-modal"
-							data-filetype="img"
-							/>`;
-				$ConfirmedEnglishFile.html(fileHtml);
-			}
-			else if (fileType === 'pdf'){
-				fileHtml = `
-					<embed src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}" 
-							width="500" height="375" type="application/pdf">
-					`;
-				$ConfirmedEnglishFile.html(fileHtml);
-			}
+            if(fileType === 'img'){
+                fileHtml = `
+                    <img
+                        class="img-thumbnail"
+                        src="${url}"
+                        data-toggle="modal"
+						data-subject="${subject}"
+                        data-filename="${fileName}"
+						data-target=".img-modal"
+                        data-filetype="img"
+                        data-filelink="${url}"
+                    />
+                `;
+            } else {
+                fileHtml = `
+					<div
+						class="img-thumbnail non-img-file-thumbnail"
+						data-toggle="modal"
+						data-target=".img-modal"
+						data-filelink="${url}"
+						data-subject="${subject}"
+						data-filename="${fileName}"
+                        data-filetype="${fileType}"
+						data-icon="fa-file-${fileType}-o"
+					>
+						<i class="fa fa-file-${fileType}-o" data-filename="${fileName}" data-icon="fa-file-${fileType}-o" aria-hidden="true"></i>
+					</div>
+				`;
+            }
+			$confirmedEnglishUploadedFile.html(fileHtml);
 		}
 
-		if (allScore[0].scoreC == '-1') {
-			$ConfirmedMathScore.html("數學：無此成績");
+		if (allScore.scoreC == '-1') {
+			$confirmedMathScore.html("數學：無此成績");
 		}else {
+			weightedScoreString = (allScore.weightedScoreC == '-1') ?'未填寫' :allScore.weightedScoreC+' 分';
 			scoreHtml = `
-				數學： ${allScore[0].scoreC} 分 <small>(點此展開已查看成績單)</small>
+				數學： 未加權 ${allScore.scoreC} 分 加權後 ${weightedScoreString} <small>(點此展開查看已上傳成績單檔單，點圖可放大)</small>
 			`;
-			$ConfirmedMathScore.html(scoreHtml);
-			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: "03"});
+			$confirmedMathScore.html(scoreHtml);
+			const response = await student.getMacauTranscriptsetItem({student_id: user_id, subject: "03"});
 			if (!response.ok) {
 				throw response;
 			}
 			const fileNameOfSubject = await response.json();
-			_subjectofFileName = fileNameOfSubject.files[0];
-			const subjectId = _subjectofFileName.substr(7,2);
-			const fileType = _getFileType(_subjectofFileName.split('.')[1]);
+			const fileName = fileNameOfSubject.files[0];
+			const subject = '01';
+			const fileType = _getFileType(fileName.split('.')[1]);
+			let dummy_id = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1111111);
+			const url = `${env.baseUrl}/students/${user_id}/macau-transcript/subject/${subject}/file/${fileName}?dummy_id=${dummy_id}`;
 
-			if (fileType === 'img') {
-				fileHtml =`<img
-							class="img-thumbnail"
-							src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}"
-							data-toggle="modal"
-							data-target=".img-modal"
-							data-filetype="img"
-							/>`;
-				$ConfirmedMathFile.html(fileHtml);
-			}
-			else if (fileType === 'pdf'){
-				fileHtml = `
-					<embed src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}" 
-							width="500" height="375" type="application/pdf">
-					`;
-				$ConfirmedMathFile.html(fileHtml);
-			}
+            if(fileType === 'img'){
+                fileHtml = `
+                    <img
+                        class="img-thumbnail"
+                        src="${url}"
+                        data-toggle="modal"
+						data-subject="${subject}"
+                        data-filename="${fileName}"
+						data-target=".img-modal"
+                        data-filetype="img"
+                        data-filelink="${url}"
+                    />
+                `;
+            } else {
+                fileHtml = `
+					<div
+						class="img-thumbnail non-img-file-thumbnail"
+						data-toggle="modal"
+						data-target=".img-modal"
+						data-filelink="${url}"
+						data-subject="${subject}"
+						data-filename="${fileName}"
+                        data-filetype="${fileType}"
+						data-icon="fa-file-${fileType}-o"
+					>
+						<i class="fa fa-file-${fileType}-o" data-filename="${fileName}" data-icon="fa-file-${fileType}-o" aria-hidden="true"></i>
+					</div>
+				`;
+            }
+			$confirmedMathUploadedFile.html(fileHtml);
 		}
 
-		if (allScore[0].scoreD == '-1') {
-			$ConfirmedViceMathScore.html("數學(附加卷)：無此成績");
-		}else {
+		if (allScore.scoreD == '-1') {
+			$confirmedAdditionalMathScore.html("數學(附加卷)：無此成績");
+		}else{
+			weightedScoreString = (allScore.weightedScoreD == '-1') ?'未填寫' :allScore.weightedScoreD+' 分';
 			scoreHtml = `
-				數學(附加卷)： ${allScore[0].scoreD} 分 <small>(點此展開已查看成績單)</small>
+				數學(附加卷)： 未加權 ${allScore.scoreD} 分 加權後 ${weightedScoreString} <small>(點此展開查看已上傳成績單檔單，點圖可放大)</small>
 			`;
-			$ConfirmedViceMathScore.html(scoreHtml);
-			const response = await student.getMacauTranscriptsetItem({student_id: _studentID, subject: "04"});
+			$confirmedAdditionalMathScore.html(scoreHtml);
+			const response = await student.getMacauTranscriptsetItem({student_id: user_id, subject: "04"});
 			if (!response.ok) {
 				throw response;
 			}
 			const fileNameOfSubject = await response.json();
-			_subjectofFileName = fileNameOfSubject.files[0];
-			const subjectId = _subjectofFileName.substr(7,2);
-			const fileType = _getFileType(_subjectofFileName.split('.')[1]);
+			const fileName = fileNameOfSubject.files[0];
+			const subject = '01';
+			const fileType = _getFileType(fileName.split('.')[1]);
+			let dummy_id = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1111111);
+			const url = `${env.baseUrl}/students/${user_id}/macau-transcript/subject/${subject}/file/${fileName}?dummy_id=${dummy_id}`;
 
-			if (fileType === 'img') {
-				fileHtml =`<img
-							class="img-thumbnail"
-							src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}"
-							data-toggle="modal"
-							data-target=".img-modal"
-							data-filetype="img"
-							/>`;
-				$ConfirmedViceMathFile.html(fileHtml);
-			}
-			else if (fileType === 'pdf'){
-				fileHtml = `
-					<embed src="${env.baseUrl}/students/${_studentID}/macau-transcript/subject/${subjectId}/file/${_subjectofFileName}" 
-							width="500" height="375" type="application/pdf">
-					`;
-				$ConfirmedViceMathFile.html(fileHtml);
-			}
+            if(fileType === 'img'){
+                fileHtml = `
+                    <img
+                        class="img-thumbnail"
+                        src="${url}"
+                        data-toggle="modal"
+						data-subject="${subject}"
+                        data-filename="${fileName}"
+						data-target=".img-modal"
+                        data-filetype="img"
+                        data-filelink="${url}"
+                    />
+                `;
+            } else {
+                fileHtml = `
+					<div
+						class="img-thumbnail non-img-file-thumbnail"
+						data-toggle="modal"
+						data-target=".img-modal"
+						data-filelink="${url}"
+						data-subject="${subject}"
+						data-filename="${fileName}"
+                        data-filetype="${fileType}"
+						data-icon="fa-file-${fileType}-o"
+					>
+						<i class="fa fa-file-${fileType}-o" data-filename="${fileName}" data-icon="fa-file-${fileType}-o" aria-hidden="true"></i>
+					</div>
+				`;
+            }
+			$confirmedAdditionalMathUploadedFile.html(fileHtml);
 		}
 
-
-
-		$fillTranscriptPage.hide();
-		$haveConfirmedPage.show();
-
-
+		$deleteFileBtn.hide();
+		$transcriptPage.hide();
+		$confirmPage.show();
 	}
 
-	// 在統整頁面時，回到修改頁面
-	function _handleGoBack(){
-		$fillTranscriptPage.show();
-		$haveConfirmedPage.hide();
+	function _handleBack(){
+		$deleteFileBtn.show();
+		$transcriptPage.show();
+		$confirmPage.hide();
 	}
 
-	async function _handleThirdConfirm(){
+	// 確認是否刪除上傳檔案
+    function _handleConfirm(){
+        swal({
+            title: '確定要鎖定登錄的四校聯考成績與已上傳的檔案？',
+            type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#5cb85c',
+            cancelButtonColor: '#d9534f',
+            confirmButtonText: '確定',
+            cancelButtonText: '我還要再檢查一遍',
+        }).then(()=>{
+            _confirm();
+        }).catch(()=>{
+            return;
+        });
+    }
+
+	async function _confirm(){
 		let sendData = {};
-		sendData["confirmed_macau_transcript_at"] = 2;
+		sendData["action"] = 2;
 
 		loading.start();
 		student.storeMacauTranscriptScore(sendData)
@@ -936,28 +914,26 @@
 
 	}
 
-	function _validateForm() {
+	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
+	function _getFileType(fileNameExtension = '') {
+		switch (fileNameExtension) {
+			case 'doc':
+			case 'docx':
+				return 'word';
 
-		/**
-		 *    formValidateList: 格式設定表，由此表決定如何驗證表單，並產出要送給後端的 json object。
-		 *    el: DOM 元素。
-		 *    require: 是否為必填。
-		 *    type: 輸出值的格式，之後會驗證是否符合該格式。
-		 *    value: 預設取值方式為 el.val()，如果有特殊需求(像是 radio 要用 class name 取值)，則填寫在 value 中。
-		 *    dbKey: 資料送往後端的 key，不需送出則不填。
-		 *    dbData: 送往後端的資料，預設為 value，其次為 el.val()。如果有特殊需求（像是電話要和國碼合併），則填寫在 dbData 中。
-		 */
-		let formValidateList = [
-			{
-				el: $backupEmail,
-				require: false,
-				type: 'email',
-				dbKey: 'backup_email',
-				colName: '備用 E-Mail'
-			},
-		];
+			case 'mp3':
+				return 'audio';
 
-		let sendData = {};
+			case 'mp4':
+			case 'avi':
+				return 'video';
+
+			case 'pdf':
+				return 'pdf';
+
+			default:
+				return 'img';
+		}
 	}
 
 })();

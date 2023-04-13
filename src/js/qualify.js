@@ -138,7 +138,7 @@
 		let everTop = (number - nowTop) / spacingInex; // 計算每次動畫的滑動距離
 		let scrollTimer = setInterval(() => {
 			if (spacingInex > 0) {
-				spacingInex--;	
+				spacingInex--;
 				smoothScroll(nowTop += everTop); //在動畫次數結束前要繼續滑動
 			} else {
 				clearInterval(scrollTimer); // 結束計時器
@@ -262,7 +262,7 @@
                 if(data.which_nation_passport){
                     await _initWhichNationPassport(data.which_nation_passport);
                 }
-                
+
                 // 曾分發來台選項
                 let isDistributionRadio;
                 let isDistributionOption;
@@ -297,14 +297,14 @@
 			}
 
 			if(document.body.scrollWidth<768)  // 判別網頁寬度 少於768會進入單欄模式
-			    smoothScroll($systemArea.offset().top,800);  // 用整體長度去做計算  滑動到學制選擇的位置	
+			    smoothScroll($systemArea.offset().top,800);  // 用整體長度去做計算  滑動到學制選擇的位置
 		} catch (error) {
 			console.log(error);
 		}
 
 		loading.complete();
 	}
-    
+
     // 學制選擇事件
     function _handleSystemChoose(){
         // 取得所選的學制 還有身份別
@@ -378,7 +378,7 @@
         // 不同身份別要選染不同的選項文字
         _renderIsDistributionOptions(choosenIdentity);
         _renderHasBeenTaiwanOptions(choosenIdentity);
-        
+
         // 針對在台碩博的改變先還原
         $questionIsDistributionTitle.removeClass('font-weight-bold');
         $questionIsDistribution.find('dt').show();
@@ -488,7 +488,7 @@
 		// reset 國籍列表選單
 		$citizenshipSelect.empty();
 		// 預設選項為 "可選擇" 但設定為不可選且隱藏 讓他不會出現在下拉式選單中
-		
+
 		// 防止有人選取預設選項
 		if (+order === -1) {
             $citizenshipSelect.selectpicker({title: '請先選擇洲別'}); // 修改 未選擇選項時的顯示文字
@@ -790,7 +790,7 @@
                 optionText = optionText.replace('以操行成績不及格或因刑事案件判刑確定致遭退學者','以操行或學業成績不及格、違反法令或校規情節嚴重致遭退學或喪失學籍者');
                 optionText = optionText.replace('因故自願退學，且在臺居留未滿二年','在臺停留未滿二年，因故退學或喪失學籍');
             }
-            
+
             // 文字區域先清空
             optionTextArea.text('');
             // 選項全部先顯示
@@ -863,7 +863,7 @@
     // 是否來台停留超過120天
     function _handleHasBeenTaiwanChange(){
         const choosenRadioValue = $hasBeenTaiwanRadio.filter(":checked").val();
-        
+
         if(choosenRadioValue == "1"){
             $hasBeenTaiwanOptionList.fadeIn();
         } else {
@@ -1032,7 +1032,7 @@
                 if(choosenPortugalPassport === 0 && !choosenPassportCountry){
                     await swal({title: `未選擇「持有護照之國家」選項`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                     return;
-                }   
+                }
             }
             sendData["taiwan_census"] = choosenTaiwanHousehold;
             sendData["portugal_passport"] = choosenPortugalPassport;

@@ -10,60 +10,87 @@
 <div class="alert alert-info">
 	<ul>
 		<li>
-            請登錄 <a class="info-exam-year"></a> 年「澳門四校聯考」科目之<strong class="text-danger">原始成績</strong>（未加權）。
+            請登錄 <a class="info-exam-year"></a> 年「澳門四校聯考」科目之成績
+        </li>
+
+        <li>
+            各科目之<strong class="text-danger">原始成績（未加權）</strong>為<strong> 必填欄位</strong>。
         </li>
 
 		<li>
-            上傳並提交之成績證明：如成績報告或成績查詢網頁截圖需含「<strong class="text-danger">個人基本資料</strong>」（如姓名、身分證號碼等）。
+            上傳並提交之成績證明：如成績報告或成績查詢網頁截圖，需含「<strong class="text-danger">個人基本資料</strong>」（如姓名、身分證號碼等）。
         </li>
+        <li>
+			按下<strong class="text-danger">【確定鎖定並不再更正】</strong>按鍵後，上傳的檔案與登記的成績就無法再做任何變更，請務必在鎖定前檢視各科目上傳之檔案及成績無誤後再鎖定。
+		</li>
 	</ul>
 </div>
 
-<div class="alert alert-danger hide" role="alert" id="have_confirm_text">
+<div class="alert alert-danger hide" role="alert" id="confirmed_text">
     <strong style="font-size: xx-large;">您已上傳並鎖定四校聯考成績資料。</strong>
 </div>
 
-<div id = "fill_transcript_page">
+<div id = "transcript_page">
     <div class="card border-info" style="border-width: thick">
         <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
             中文
         </div>
         <div class="card-body">
-            <div class="column">
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio1" id="radio1" value="none_Chinese"  data-subject="01"
-                               onclick="
-                                        document.getElementById('chineseScore').style.display ='none';
-                                        document.getElementById('chineseScore-tip').style.display ='none';
-                                        document.getElementById('reviewItemsArea_01').style.display ='none';
-                                        document.getElementById('chineseScore-text').innerText = '我有考此科目。' 
-                                    " >
-                        <label for="radio1">
-                            我沒有考此科目。
-                        </label>
-                    </div>
+            <div class="col-md-12">
+				<div class="form-group">
+					<label><strong>請問是否有有考此科目？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-chineseScore" type="radio" name="chineseScore" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-chineseScore" type="radio" name="chineseScore" value="0"> 否
+						</label>
+					</div>
+				</div>
+			</div>
+            <hr class="chineseScoreInputArea hide"/>
+            <div class="col-md-12 chineseScoreInputArea hide">
+                <label><strong>考取的中文成績為?</strong></label>
+                <div class="form-group row">
+                    <label class="offset-md-1 text-danger">未加權：</label>
+                    <input class="form-control col-4" id="chineseScoreInput" style="" data-subject='02' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <hr/>
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio1" id="radio2" value="exist_Chinese"
-                               onclick="
-                                    document.getElementById('chineseScore').style.display ='block';
-                                    document.getElementById('chineseScore-tip').style.display ='block';
-                                    document.getElementById('reviewItemsArea_01').style.display ='block';
-                                    document.getElementById('chineseScore-text').innerText = '我有考此科目，成績為：' 
-                               " >
-                        <label for="radio2" style="margin-top: 5%" id = "chineseScore-text">
-                            我有考此科目，成績為：
-                        </label>
-                    </div>
-                    <div><input type="number" class="form-control" id="chineseScore" data-subject='01' min="350" max="1000"></div>
-                    <div id = "uploadFileArea_01" ></div>
+                <div class="form-group row">
+                    <label class="offset-md-1">加權後：</label>
+                    <input class="form-control col-4" id="weightedChineseScoreInput" style="" data-subject='02' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <div style="padding-left:5%" class="text-muted" id = "chineseScore-tip"> (成績輸入應介於 350 ～ 1000 之間)</div>
             </div>
-            <div id="reviewItemsArea_01">
+            <hr class="chineseScoreInputArea hide"/>
+            <div class="col-md-12 hide" id="chineseScoreUploadArea">
+                <label><strong>上傳文憑成績單或查詢網頁截圖（請確保上傳頁面完整，且含：個人基本資料、科目名稱及成績等…）</strong></label>
+                <div class="alert alert-warning">
+                    可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+                </div>
+
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="col-12">
+                        <input type="file" class="filestyle file-upload" id="chineseScoreFileUpload"
+                        data-subject="01"
+                        data-btnClass="btn-success"
+                        data-input="false"
+                        data-text=" 選取檔案"
+                        data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                        >
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                        <div id="chineseScoreUploadedFileArea">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -75,41 +102,61 @@
             英文
         </div>
         <div class="card-body">
-            <div class="column">
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio3" id="radio3" value="none_English" data-subject="02"
-                               onclick="
-                                        document.getElementById('englishScore').style.display ='none';
-                                        document.getElementById('englishScore-tip').style.display ='none';
-                                        document.getElementById('reviewItemsArea_02').style.display ='none';
-                                        document.getElementById('englishScore-text').innerText = '我有考此科目。' 
-                                    ">
-                        <label for="radio3">
-                            我沒有考此科目。
-                        </label>
-                    </div>
+            <div class="col-md-12">
+				<div class="form-group">
+					<label><strong>請問是否有有考此科目？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-englishScore" type="radio" name="englishScore" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-englishScore" type="radio" name="englishScore" value="0"> 否
+						</label>
+					</div>
+				</div>
+			</div>
+            <hr class="englishScoreInputArea hide"/>
+            <div class="col-md-12 englishScoreInputArea hide">
+                <label><strong>考取的英文成績為?</strong></label>
+                <div class="form-group row">
+                    <label class="offset-md-1 text-danger">未加權：</label>
+                    <input class="form-control col-4" id="englishScoreInput" style="" data-subject='02' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <hr/>
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio3" id="radio4" value="exist_English"
-                               onclick="
-                                    document.getElementById('englishScore').style.display ='block';
-                                    document.getElementById('englishScore-tip').style.display ='block';
-                                    document.getElementById('reviewItemsArea_02').style.display ='block';
-                                    document.getElementById('englishScore-text').innerText = '我有考此科目，成績為：' 
-                                " >
-                        <label for="radio4" style="margin-top: 5%" id = "englishScore-text">
-                            我有考此科目，成績為：
-                        </label>
-                    </div>
-                    <div><input type="number" class="form-control" id="englishScore" style="" data-subject='02' min="350" max="1000"></div>
-                    <div id = "uploadFileArea_02"></div>
+                <div class="form-group row">
+                    <label class="offset-md-1">加權後：</label>
+                    <input class="form-control col-4" id="weightedEnglishScoreInput" style="" data-subject='02' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <div style="padding-left:5%" class="text-muted" id = "englishScore-tip"> (成績輸入應介於 350 ～ 1000 之間)</div>
             </div>
-            <div id="reviewItemsArea_02">
+            <hr class="englishScoreInputArea hide"/>
+            <div class="col-md-12 hide" id="englishScoreUploadArea">
+                <label><strong>上傳文憑成績單或查詢網頁截圖（請確保上傳頁面完整，且含：個人基本資料、科目名稱及成績等…）</strong></label>
+                <div class="alert alert-warning">
+                    可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+                </div>
+
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="col-12">
+                        <input type="file" class="filestyle file-upload" id="englishScoreFileUpload"
+                        data-subject="02"
+                        data-btnClass="btn-success"
+                        data-input="false"
+                        data-text=" 選取檔案"
+                        data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                        >
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                        <div id="englishScoreUploadedFileArea">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -121,41 +168,61 @@
             數學
         </div>
         <div class="card-body">
-            <div class="column">
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio5" id="radio5" value="none_Math" data-subject="03"
-                               onclick="
-                                    document.getElementById('MathScore').style.display ='none';
-                                    document.getElementById('MathScore-tip').style.display ='none';
-                                    document.getElementById('reviewItemsArea_03').style.display ='none';
-                                    document.getElementById('MathScore-text').innerText = '我有考此科目。' 
-                                ">
-                        <label for="radio5">
-                            我沒有考此科目。
-                        </label>
-                    </div>
+            <div class="col-md-12">
+				<div class="form-group">
+					<label><strong>請問是否有有考此科目？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-mathScore" type="radio" name="mathScore" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-mathScore" type="radio" name="mathScore" value="0"> 否
+						</label>
+					</div>
+				</div>
+			</div>
+            <hr class="mathScoreInputArea hide"/>
+            <div class="col-md-12 mathScoreInputArea hide">
+                <label><strong>考取的數學成績為?</strong></label>
+                <div class="form-group row">
+                    <label class="offset-md-1 text-danger">未加權：</label>
+                    <input class="form-control col-4" id="mathScoreInput" style="" data-subject='03' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <hr/>
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio5" id="radio6" value="exist_Math"
-                               onclick="
-                                    document.getElementById('MathScore').style.display ='block';
-                                    document.getElementById('MathScore-tip').style.display ='block';
-                                    document.getElementById('reviewItemsArea_03').style.display ='block';
-                                    document.getElementById('MathScore-text').innerText = '我有考此科目，成績為：' 
-                                ">
-                        <label for="radio6" style="margin-top: 5%" id="MathScore-text">
-                            我有考此科目，成績為：
-                        </label>
-                    </div>
-                    <div><input type="number" class="form-control" id="MathScore" style="" data-subject='03' min="350" max="1000"></div>
-                    <div id = "uploadFileArea_03" style=""></div>
+                <div class="form-group row">
+                    <label class="offset-md-1">加權後：</label>
+                    <input class="form-control col-4" id="weightedMathScoreInput" style="" data-subject='03' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <div style="padding-left:5%" class="text-muted" id="MathScore-tip"> (成績輸入應介於 350 ～ 1000 之間)</div>
             </div>
-            <div id="reviewItemsArea_03">
+            <hr class="mathScoreInputArea hide"/>
+            <div class="col-md-12 hide" id="mathScoreUploadArea">
+                <label><strong>上傳文憑成績單或查詢網頁截圖（請確保上傳頁面完整，且含：個人基本資料、科目名稱及成績等…）</strong></label>
+                <div class="alert alert-warning">
+                    可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+                </div>
+
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="col-12">
+                        <input type="file" class="filestyle file-upload" id="mathScoreFileUpload"
+                        data-subject="03"
+                        data-btnClass="btn-success"
+                        data-input="false"
+                        data-text=" 選取檔案"
+                        data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                        >
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                        <div id="mathScoreUploadedFileArea">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -167,72 +234,106 @@
             數學（附加卷）
         </div>
         <div class="card-body">
-            <div class="column">
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio7" id="radio7" value="none_ViceMath" data-subject="04"
-                               onclick="
-                                    document.getElementById('ViceMathScore').style.display ='none';
-                                    document.getElementById('ViceMathScore-tip').style.display ='none';
-                                    document.getElementById('reviewItemsArea_04').style.display ='none';
-                                    document.getElementById('ViceMathScore-text').innerText = '我有考此科目。' 
-                                ">
-                        <label for="radio7">
-                            我沒有考此科目。
-                        </label>
-                    </div>
+            <div class="col-md-12">
+				<div class="form-group">
+					<label><strong>請問是否有有考此科目？</strong></label><br>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-additionalMathScore" type="radio" name="additionalMathScore" value="1"> 是
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label">
+							<input class="form-check-input radio-additionalMathScore" type="radio" name="additionalMathScore" value="0"> 否
+						</label>
+					</div>
+				</div>
+			</div>
+            <hr class="additionalMathScoreInputArea hide"/>
+            <div class="col-md-12 additionalMathScoreInputArea hide">
+                <label><strong>考取的數學（附加卷）成績為?</strong></label>
+                <div class="form-group row">
+                    <label class="offset-md-1 text-danger">未加權：</label>
+                    <input class="form-control col-4" id="additionalMathScoreInput" style="" data-subject='04' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <hr/>
-                <div class="row" style="padding-left:5%">
-                    <div class="radio radio-primary">
-                        <input type="radio" name="radio7" id="radio8" value="exist_ViceMath"
-                               onclick="
-                                    document.getElementById('ViceMathScore').style.display ='block';
-                                    document.getElementById('ViceMathScore-tip').style.display ='block';
-                                    document.getElementById('reviewItemsArea_04').style.display ='block';
-                                    document.getElementById('ViceMathScore-text').innerText = '我有考此科目，成績為：' 
-                                " >
-                        <label for="radio8" style="margin-top: 5%" id="ViceMathScore-text">
-                            我有考此科目，成績為：
-                        </label>
-                    </div>
-                    <div><input type="number" class="form-control" id="ViceMathScore" style="" data-subject='04' min="350" max="1000"></div>
-                    <div id = "uploadFileArea_04" style=""></div>
+                <div class="form-group row">
+                    <label class="offset-md-1">加權後：</label>
+                    <input class="form-control col-4" id="weightedAdditionalMathScoreInput" style="" data-subject='04' >
+                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 </div>
-                <div style="padding-left:5%" class="text-muted" id="ViceMathScore-tip"> (成績輸入應介於 350 ～ 1000 之間)</div>
             </div>
-            <div id="reviewItemsArea_04">
+            <hr class="additionalMathScoreInputArea hide"/>
+            <div class="col-md-12 hide" id="additionalMathScoreUploadArea">
+                <label><strong>上傳文憑成績單或查詢網頁截圖（請確保上傳頁面完整，且含：個人基本資料、科目名稱及成績等…）</strong></label>
+                <div class="alert alert-warning">
+                    可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+                </div>
+
+                <div class="row" style="margin-bottom: 15px;">
+                    <div class="col-12">
+                        <input type="file" class="filestyle file-upload" id="additionalMathScoreFileUpload"
+                        data-subject="04"
+                        data-btnClass="btn-success"
+                        data-input="false"
+                        data-text=" 選取檔案"
+                        data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                        >
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                        <div id="additionalMathScoreUploadedFileArea">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="row" style="padding-top:3%;">
-        <div class="col-md text-center hide">
-            <button class="btn btn-primary" id="btn-save" role="button">儲存</button>
+        <div class="col-6 text-center">
+            <button class="btn btn-primary" id="btn-save" role="button" data-action="save"><i class="fa fa-save" aria-hidden="true"></i> 儲存</button>
         </div>
 
-        <div class="col-md text-center">
-            <button class="btn btn-danger" id="btn-go-summary" role="button">至確定鎖定頁面</button>
+        <div class="col-6 text-center">
+            <button class="btn btn-warning" id="btn-go-Confirm" role="button" data-action="goConfirm"><i class="fa fa-check" aria-hidden="true"></i> 至確認鎖定頁面</button>
         </div>
     </div>
 </div>
 
+<div class="modal fade img-modal" tabindex="-1" role="dialog" aria-labelledby="imgModal" aria-hidden="true" id="img-modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body text-center" id="img-modal-body">
+				<img src="" class="img-fluid rounded img-ori">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger btn-delFile hide"><i class="fa fa-trash" aria-hidden="true"></i> 刪除</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
-<div class="hide" id="have_confirmed_page">
+
+<div class="hide" id="confirm_page">
     <div id="accordion">
         <!--中文-->
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" id="Confirmed_Chinese_score" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="btn btn-link" id="confirmed_chinese_score" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 
                     </button>
                 </h5>
             </div>
 
             <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body" id="Confirmed_Chinese_file">
+                <div class="card-body" id="confirmed_chinese_uploaded_file">
 
                 </div>
             </div>
@@ -241,14 +342,14 @@
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" id="Confirmed_English_score" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <button class="btn btn-link" id="confirmed_english_score" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 
                     </button>
                 </h5>
             </div>
 
             <div id="collapseTwo" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body" id="Confirmed_English_file">
+                <div class="card-body" id="confirmed_english_uploaded_file">
 
                 </div>
             </div>
@@ -257,14 +358,14 @@
         <div class="card">
             <div class="card-header" id="headingThree">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" id="Confirmed_Math_score" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <button class="btn btn-link" id="confirmed_math_score" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
 
                     </button>
                 </h5>
             </div>
 
             <div id="collapseThree" class="collapse dispose" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body" id="Confirmed_Math_file">
+                <div class="card-body" id="confirmed_math_uploaded_file">
 
                 </div>
             </div>
@@ -273,14 +374,14 @@
         <div class="card">
             <div class="card-header" id="headingFour">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" id="Confirmed_ViceMath_score" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                    <button class="btn btn-link" id="confirmed_additional_math_score" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
 
                     </button>
                 </h5>
             </div>
 
             <div id="collapseFour" class="collapse " aria-labelledby="headingFour" data-parent="#accordion">
-                <div class="card-body" id="Confirmed_ViceMath_file">
+                <div class="card-body" id="confirmed_additional_math_uploaded_file">
 
                 </div>
             </div>
@@ -288,10 +389,10 @@
 
         <div class=" row" style="padding-top:3%;">
             <div class="col-md text-center">
-                <button type="button" class="btn btn-secondary" id="goback" data-dismiss="modal">回上一頁繼續修改</button>
+                <button type="button" class="btn btn-secondary" id="btn-back" data-dismiss="modal"><i class="fa fa-reply" aria-hidden="true"></i> 回上一頁繼續修改</button>
             </div>
             <div class="col-md text-center">
-                <button type="button" id="secondConfirm" class="btn btn-danger" data-dismiss="modal" >確定鎖定並不再更正</button>
+                <button type="button" id="btn-confirm" class="btn btn-danger" data-dismiss="modal" ><i class="fa fa-lock" aria-hidden="true"></i> 確定鎖定並不再更正</button>
                 <!-- <br><small class="text-danger">此按鈕於四校聯考公告成績後始具功能，</small>
                 <br><small class="text-danger">屆時請確實完成鎖定。</small> -->
             </div>
@@ -299,28 +400,6 @@
     </div>
 </div>
 
-<!--準備鎖定前跳提示文字-->
-<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <i class="fa fa-3x fa-exclamation-circle" style="color:crimson; margin: 0 auto;" aria-hidden="true"></i>
-                <br />
-            </div>
-            <div class="modal-body" style="color: royalblue; font-weight:600;" id="warningText">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">我還要再檢查一遍</button>
-                <button type="button" id="thirdConfirm" class="btn btn-danger" data-dismiss="modal">是的</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--conflict with original-->
-<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.umd.min.js"> </script>-->
-<!--Doc：http://flatlogic.github.io/awesome-bootstrap-checkbox/demo/1.0.0/ -->
-<!--Doc：https://github.com/flatlogic/awesome-bootstrap-checkbox/blob/master/demo/index.html-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/1.0.2/awesome-bootstrap-checkbox.min.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.3.0/bootstrap-filestyle.min.js"> </script>
 
