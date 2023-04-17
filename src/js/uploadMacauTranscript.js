@@ -10,91 +10,91 @@
     /**
 	*	cache DOM
 	*/
-	const $transcriptPage = $('#transcript_page');
-	const $confirmPage = $('#confirm_page');
-	const $confiremedText = $('#confirmed_text');
-
-    const $chineseScoreRadio = $('.radio-chineseScore');
-    const $chineseScoreInputArea = $('.chineseScoreInputArea');
-    const $chineseScoreUploadArea = $('#chineseScoreUploadArea');
-    const $chineseScoreInput = $('#chineseScoreInput');
-    const $weightedChineseScoreInput = $('#weightedChineseScoreInput');
-	const $chineseScoreFileUploadButton = $('#chineseScoreFileUpload');
-	const $chineseScoreUploadedFileArea = document.getElementById('chineseScoreUploadedFileArea');
-
-    const $englishScoreRadio = $('.radio-englishScore');
-    const $englishScoreInputArea = $('.englishScoreInputArea');
-    const $englishScoreUploadArea = $('#englishScoreUploadArea');
-    const $englishScoreInput = $('#englishScoreInput');
-    const $weightedEnglishScoreInput = $('#weightedEnglishScoreInput');
-	const $englishScoreFileUploadButton = $('#englishScoreFileUpload');
-	const $englishScoreUploadedFileArea = document.getElementById('englishScoreUploadedFileArea');
-
-	const $mathScoreRadio = $('.radio-mathScore');
-    const $mathScoreInputArea = $('.mathScoreInputArea');
-    const $mathScoreUploadArea = $('#mathScoreUploadArea');
-    const $mathScoreInput = $('#mathScoreInput');
-    const $weightedMathScoreInput = $('#weightedMathScoreInput');
-	const $mathScoreFileUploadButton = $('#mathScoreFileUpload');
-	const $mathScoreUploadedFileArea = document.getElementById('mathScoreUploadedFileArea');
-
-	const $additionalMathScoreRadio = $('.radio-additionalMathScore');
-    const $additionalMathScoreInputArea = $('.additionalMathScoreInputArea');
-    const $additionalMathScoreUploadArea = $('#additionalMathScoreUploadArea');
-    const $additionalMathScoreInput = $('#additionalMathScoreInput');
-    const $weightedAdditionalMathScoreInput = $('#weightedAdditionalMathScoreInput');
-	const $additionalMathScoreFileUploadButton = $('#additionalMathScoreFileUpload');
-	const $additionalMathScoreUploadedFileArea = document.getElementById('additionalMathScoreUploadedFileArea');
-
-	const $confirmedChineseScore = $('#confirmed_chinese_score');
-	const $confirmedChineseUploadedFile = $('#confirmed_chinese_uploaded_file');
-	const $confirmedEnglishScore = $('#confirmed_english_score');
-	const $confirmedEnglishUploadedFile = $('#confirmed_english_uploaded_file');
-	const $confirmedMathScore = $('#confirmed_math_score');
-	const $confirmedMathUploadedFile = $('#confirmed_math_uploaded_file');
-	const $confirmedAdditionalMathScore = $('#confirmed_additional_math_score');
-	const $confirmedAdditionalMathUploadedFile = $('#confirmed_additional_math_uploaded_file');
-
-	const $imgModal = $('#img-modal');
-	const $imgModalBody= $('#img-modal-body');
-	const $deleteFileBtn = $('.btn-delFile');
-    const $saveBtn = $('#btn-save');
-    const $goConfirmBtn = $('#btn-go-Confirm');
-	const $backBtn = $('#btn-back');
-	const $confirmBtn = $('#btn-confirm');
+	const $transcriptPage = $('#transcript_page'); // 上傳成績與檔案頁面
+	const $confirmPage = $('#confirm_page'); // 確認與鎖定頁面
+	const $confiremedText = $('#confirmed_text'); // 已鎖定提示文字
+	// 中文成績相關物件
+    const $chineseScoreRadio = $('.radio-chineseScore'); // 是否考取選項
+    const $chineseScoreInputArea = $('.chineseScoreInputArea'); // 上傳成績區域
+    const $chineseScoreUploadArea = $('#chineseScoreUploadArea'); // 上傳檔案區域
+    const $chineseScoreInput = $('#chineseScoreInput'); // 未加權成績輸入物件
+    const $weightedChineseScoreInput = $('#weightedChineseScoreInput'); // 加權後成績輸入物件
+	const $chineseScoreFileUploadButton = $('#chineseScoreFileUpload'); // 上傳檔案按鈕
+	const $chineseScoreUploadedFileArea = document.getElementById('chineseScoreUploadedFileArea'); // 上傳檔案顯示區域
+	// 英文成績相關物件
+    const $englishScoreRadio = $('.radio-englishScore'); // 是否考取選項
+    const $englishScoreInputArea = $('.englishScoreInputArea'); // 上傳成績區域
+    const $englishScoreUploadArea = $('#englishScoreUploadArea');// 上傳檔案區域
+    const $englishScoreInput = $('#englishScoreInput'); // 未加權成績輸入物件
+    const $weightedEnglishScoreInput = $('#weightedEnglishScoreInput'); // 加權後成績輸入物件
+	const $englishScoreFileUploadButton = $('#englishScoreFileUpload'); // 上傳檔案按鈕
+	const $englishScoreUploadedFileArea = document.getElementById('englishScoreUploadedFileArea'); // 上傳檔案顯示區域
+	// 數學成績相關物件
+	const $mathScoreRadio = $('.radio-mathScore'); // 是否考取選項
+    const $mathScoreInputArea = $('.mathScoreInputArea'); // 上傳成績區域
+    const $mathScoreUploadArea = $('#mathScoreUploadArea');// 上傳檔案區域
+    const $mathScoreInput = $('#mathScoreInput'); // 未加權成績輸入物件
+    const $weightedMathScoreInput = $('#weightedMathScoreInput'); // 加權後成績輸入物件
+	const $mathScoreFileUploadButton = $('#mathScoreFileUpload'); // 上傳檔案按鈕
+	const $mathScoreUploadedFileArea = document.getElementById('mathScoreUploadedFileArea'); // 上傳檔案顯示區域
+	// 數學（附加卷）成績相關物件
+	const $additionalMathScoreRadio = $('.radio-additionalMathScore'); // 是否考取選項
+    const $additionalMathScoreInputArea = $('.additionalMathScoreInputArea'); // 上傳成績區域
+    const $additionalMathScoreUploadArea = $('#additionalMathScoreUploadArea');// 上傳檔案區域
+    const $additionalMathScoreInput = $('#additionalMathScoreInput'); // 未加權成績輸入物件
+    const $weightedAdditionalMathScoreInput = $('#weightedAdditionalMathScoreInput'); // 加權後成績輸入物件
+	const $additionalMathScoreFileUploadButton = $('#additionalMathScoreFileUpload'); // 上傳檔案按鈕
+	const $additionalMathScoreUploadedFileArea = document.getElementById('additionalMathScoreUploadedFileArea'); // 上傳檔案顯示區域
+	// 鎖定頁面相關物件
+	const $confirmedChineseScore = $('#confirmed_chinese_score'); // 上傳的中文成績
+	const $confirmedChineseUploadedFile = $('#confirmed_chinese_uploaded_file'); // 上傳的中文成績檔案
+	const $confirmedEnglishScore = $('#confirmed_english_score'); // 上傳的英文成績
+	const $confirmedEnglishUploadedFile = $('#confirmed_english_uploaded_file'); // 上傳的英文成績檔案
+	const $confirmedMathScore = $('#confirmed_math_score'); // 上傳的數學成績
+	const $confirmedMathUploadedFile = $('#confirmed_math_uploaded_file'); // 上傳的數學成績檔案
+	const $confirmedAdditionalMathScore = $('#confirmed_additional_math_score'); // 上傳的數學（附加卷）成績
+	const $confirmedAdditionalMathUploadedFile = $('#confirmed_additional_math_uploaded_file'); // 上傳的數學（附加卷）成績檔案
+	// 其它物件
+	const $imgModal = $('#img-modal'); // 放大顯示的上傳檔案 Modal
+	const $imgModalBody= $('#img-modal-body'); // 放大顯示的上傳檔案 Modal body
+	const $deleteFileBtn = $('.btn-delFile'); // 放大顯示的上傳檔案 刪除按鈕
+    const $saveBtn = $('#btn-save'); // 儲存成績按鈕
+    const $goConfirmBtn = $('#btn-go-Confirm'); // 切換至鎖定頁面按鈕
+	const $backBtn = $('#btn-back');  // 切換至上傳頁面按鈕
+	const $confirmBtn = $('#btn-confirm'); // 鎖定按鈕
 
     /**
 	*	bind event
 	*/
 
-    $chineseScoreRadio.on('change',_handleChineseScoreRadioChange);
-    $chineseScoreInput.on('change', _validateScoreInput);
-    $weightedChineseScoreInput.on('change', _validateScoreInput);
-	$chineseScoreFileUploadButton.on('change', _handleUpload);
+    $chineseScoreRadio.on('change',_handleChineseScoreRadioChange); // 是否考取中文成績選項切換事件
+    $chineseScoreInput.on('change', _validateScoreInput); // 中文成績輸入檢查事件
+    $weightedChineseScoreInput.on('change', _validateScoreInput); // 中文成績輸入檢查事件
+	$chineseScoreFileUploadButton.on('change', _handleUpload); // 中文成績檔案上傳事件
 
-    $englishScoreRadio.on('change',_handleEnglishScoreRadioChange);
-    $englishScoreInput.on('change', _validateScoreInput);
-    $weightedEnglishScoreInput.on('change', _validateScoreInput);
-	$englishScoreFileUploadButton.on('change', _handleUpload);
+    $englishScoreRadio.on('change',_handleEnglishScoreRadioChange); // 是否考取英文成績選項切換事件
+    $englishScoreInput.on('change', _validateScoreInput); // 英文成績輸入檢查事件
+    $weightedEnglishScoreInput.on('change', _validateScoreInput); // 英文成績輸入檢查事件
+	$englishScoreFileUploadButton.on('change', _handleUpload); // 英文成績檔案上傳事件
 
-	$mathScoreRadio.on('change',_handleMathScoreRadioChange);
-    $mathScoreInput.on('change', _validateScoreInput);
-    $weightedMathScoreInput.on('change', _validateScoreInput);
-	$mathScoreFileUploadButton.on('change', _handleUpload);
+	$mathScoreRadio.on('change',_handleMathScoreRadioChange); // 是否考取數學成績選項切換事件
+    $mathScoreInput.on('change', _validateScoreInput); // 數學成績輸入檢查事件
+    $weightedMathScoreInput.on('change', _validateScoreInput); // 數學成績輸入檢查事件
+	$mathScoreFileUploadButton.on('change', _handleUpload); // 數學成績檔案上傳事件
 
-	$additionalMathScoreRadio.on('change',_handleAdditionalMathScoreRadioChange);
-    $additionalMathScoreInput.on('change', _validateScoreInput);
-    $weightedAdditionalMathScoreInput.on('change', _validateScoreInput);
-	$additionalMathScoreFileUploadButton.on('change', _handleUpload);
+	$additionalMathScoreRadio.on('change',_handleAdditionalMathScoreRadioChange); // 是否考取數學（附加卷）成績選項切換事件
+    $additionalMathScoreInput.on('change', _validateScoreInput); // 數學（附加卷）成績輸入檢查事件
+    $weightedAdditionalMathScoreInput.on('change', _validateScoreInput); // 數學（附加卷）成績輸入檢查事件
+	$additionalMathScoreFileUploadButton.on('change', _handleUpload); // 數學（附加卷）成績檔案上傳事件
 
-    $saveBtn.on('click', _handleSave);
-    $goConfirmBtn.on('click', _handleSave);
+    $saveBtn.on('click', _handleSave); // 儲存成績事件
+    $goConfirmBtn.on('click', _handleSave); // 切換至鎖定頁面事件
 
-	$('body').on('click', '.img-thumbnail', _showUploadedFile);
-	$deleteFileBtn.on('click',_handleDeleteFile);
+	$('body').on('click', '.img-thumbnail', _showUploadedFile); // 放大顯示上傳檔案事件
+	$deleteFileBtn.on('click',_handleDeleteFile); // 刪除上傳檔案事件
 
-	$backBtn.on('click',_handleBack);
-	$confirmBtn.on('click', _handleConfirm);
+	$backBtn.on('click',_handleBack); // 切換至上傳頁面事件
+	$confirmBtn.on('click', _handleConfirm); // 鎖定成績事件
 
     /**
 	* init
@@ -111,7 +111,13 @@
 			user_id= progressJson.id;
 			let titleText = '';
 			//已經錄取了  就不要上傳資料 增加我們的負擔
-			if(progressJson.student_misc_data.stage_of_deptid != null || progressJson.student_misc_data.stage_of_admit != null || progressJson.student_misc_data.distribution_date != null || progressJson.student_misc_data.distribution_no != null){
+			if(progressJson.student_misc_data.stage_of_deptid != null
+				|| progressJson.student_misc_data.stage_of_admit != null
+				|| progressJson.student_misc_data.distribution_date != null
+				|| progressJson.student_misc_data.distribution_no != null
+				|| progressJson.student_misc_data.code_of_ineligible != null
+				|| progressJson.student_misc_data.ineligible_resolution_date != null
+			){
 				titleText = '已有分發結果，不需上傳登錄成績，即將返回志願檢視。';
 			}
 
@@ -130,6 +136,7 @@
 				.then(()=>{
 					location.href  = './result.html';
 				});
+				return ;
 			}
 			// 開始抓取學生上傳成績
 			const getScoreResponse = await student.getMacauTranscriptScore({student_id: user_id});
@@ -139,6 +146,7 @@
 			const macauTranscriptStatus = await getScoreResponse.json();
 			const allScore = macauTranscriptStatus[0];
 			const confirmedStatus = macauTranscriptStatus['confirmed_status'];
+			// 如果已經鎖定 就直接跳到鎖定畫面並顯示已鎖定文字
 			if(confirmedStatus.confirmed_macau_transcript_at != null){
 				$confiremedText.show();
 				summarize_page();
@@ -285,6 +293,7 @@
         }
     }
 
+	// 成績輸入檢查
     function _validateScoreInput(){
 		const scoreRegex = /^(3[5-9][0-9]|[4-9][0-9][0-9]|1[0][0][0])$/g;
         let score = $(this).val().replace(/[\s]/g, "");
@@ -295,6 +304,7 @@
         return;
     }
 
+	// 初始化上傳檔案
     async function _initUploadedFileArea(subject) {
 		// 檔名規則 6碼僑編 + "_" + 2碼科目號 + 副檔名 ex: 011001_01.jpg
 		try {
@@ -313,6 +323,7 @@
 		}
 	}
 
+	// 處理檔案上傳
 	async function _handleUpload(){
 		const subject = $(this).data('subject');
 		const fileList = this.files;
@@ -404,6 +415,7 @@
 		return;
     }
 
+	// 顯示上傳檔案
 	function _showUploadedFile() {
         // 取得點選的檔案名稱、類別及subject
 		const fileName = $(this).data('filename');
@@ -482,6 +494,7 @@
 		}
     }
 
+	// 儲存事件
     function _handleSave() {
 		const action = $(this).data('action');
 		const scoreRegex = /^(3[5-9][0-9]|[4-9][0-9][0-9]|1[0][0][0])$/g;
@@ -638,6 +651,7 @@
         })
     }
 
+	// 切換頁面事件
     async function summarize_page(){
 		let scoreHtml = '';
 		let fileHtml = '';
@@ -860,13 +874,14 @@
 		$confirmPage.show();
 	}
 
+	// 回到成績填寫頁面事件
 	function _handleBack(){
 		$deleteFileBtn.show();
 		$transcriptPage.show();
 		$confirmPage.hide();
 	}
 
-	// 確認是否刪除上傳檔案
+	// 確認是否鎖定
     function _handleConfirm(){
         swal({
             title: '確定要鎖定登錄的四校聯考成績與已上傳的檔案？',
@@ -883,6 +898,7 @@
         });
     }
 
+	// 鎖定事件
 	async function _confirm(){
 		let sendData = {};
 		sendData["action"] = 2;
