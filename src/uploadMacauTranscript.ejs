@@ -14,7 +14,7 @@
         </li>
 
         <li>
-            各科目之<strong class="text-danger">原始成績（未加權）</strong>為<strong> 必填欄位</strong>。
+            各科目之<strong class="text-danger">原始成績（未加權）</strong>為<strong> 必填欄位</strong>；此欄位為簡章分發分數之採計依據。
         </li>
 
 		<li>
@@ -54,15 +54,14 @@
             <hr class="chineseScoreInputArea hide"/>
             <div class="col-md-12 chineseScoreInputArea hide">
                 <label><strong>考取的中文成績為?</strong></label>
+                <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 <div class="form-group row">
-                    <label class="offset-md-1 text-danger">未加權：</label>
-                    <input class="form-control col-4" id="chineseScoreInput" style="" data-subject='02' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1 text-danger">原始成績：</label>
+                    <input class="form-control col-4" id="chineseScoreInput" style="" data-subject='01' placeholder="必填欄位">
                 </div>
                 <div class="form-group row">
-                    <label class="offset-md-1">加權後：</label>
-                    <input class="form-control col-4" id="weightedChineseScoreInput" style="" data-subject='02' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1">&emsp;加權後：</label>
+                    <input class="form-control col-4" id="weightedChineseScoreInput" style="" data-subject='01' placeholder="無則免填">
                 </div>
             </div>
             <hr class="chineseScoreInputArea hide"/>
@@ -120,15 +119,14 @@
             <hr class="englishScoreInputArea hide"/>
             <div class="col-md-12 englishScoreInputArea hide">
                 <label><strong>考取的英文成績為?</strong></label>
+                <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 <div class="form-group row">
-                    <label class="offset-md-1 text-danger">未加權：</label>
-                    <input class="form-control col-4" id="englishScoreInput" style="" data-subject='02' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1 text-danger">原始成績：</label>
+                    <input class="form-control col-4" id="englishScoreInput" style="" data-subject='02' placeholder="必填欄位">
                 </div>
                 <div class="form-group row">
-                    <label class="offset-md-1">加權後：</label>
-                    <input class="form-control col-4" id="weightedEnglishScoreInput" style="" data-subject='02' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1">&emsp;加權後：</label>
+                    <input class="form-control col-4" id="weightedEnglishScoreInput" style="" data-subject='02' placeholder="無則免填">
                 </div>
             </div>
             <hr class="englishScoreInputArea hide"/>
@@ -186,15 +184,14 @@
             <hr class="mathScoreInputArea hide"/>
             <div class="col-md-12 mathScoreInputArea hide">
                 <label><strong>考取的數學成績為?</strong></label>
+                <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 <div class="form-group row">
-                    <label class="offset-md-1 text-danger">未加權：</label>
-                    <input class="form-control col-4" id="mathScoreInput" style="" data-subject='03' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1 text-danger">原始成績：</label>
+                    <input class="form-control col-4" id="mathScoreInput" style="" data-subject='03' placeholder="必填欄位">
                 </div>
                 <div class="form-group row">
-                    <label class="offset-md-1">加權後：</label>
-                    <input class="form-control col-4" id="weightedMathScoreInput" style="" data-subject='03' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1">&emsp;加權後：</label>
+                    <input class="form-control col-4" id="weightedMathScoreInput" style="" data-subject='03' placeholder="無則免填">
                 </div>
             </div>
             <hr class="mathScoreInputArea hide"/>
@@ -252,15 +249,14 @@
             <hr class="additionalMathScoreInputArea hide"/>
             <div class="col-md-12 additionalMathScoreInputArea hide">
                 <label><strong>考取的數學（附加卷）成績為?</strong></label>
+                <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
                 <div class="form-group row">
-                    <label class="offset-md-1 text-danger">未加權：</label>
-                    <input class="form-control col-4" id="additionalMathScoreInput" style="" data-subject='04' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1 text-danger">原始成績：</label>
+                    <input class="form-control col-4" id="additionalMathScoreInput" style="" data-subject='04' placeholder="必填欄位">
                 </div>
                 <div class="form-group row">
-                    <label class="offset-md-1">加權後：</label>
-                    <input class="form-control col-4" id="weightedAdditionalMathScoreInput" style="" data-subject='04' >
-                    <label class="col-5 text-muted">(成績輸入應介於 350 ～ 1000 之間)</label>
+                    <label class="offset-md-1">&emsp;加權後：</label>
+                    <input class="form-control col-4" id="weightedAdditionalMathScoreInput" style="" data-subject='04' placeholder="無則免填">
                 </div>
             </div>
             <hr class="additionalMathScoreInputArea hide"/>
