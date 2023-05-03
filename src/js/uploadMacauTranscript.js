@@ -159,6 +159,9 @@
 				$confirmBtn.hide();
 			} else {
 				$deleteFileBtn.show();
+				if(allScore.resident_id_for_exam){
+					$examResidentIDInput.val(allScore.resident_id_for_exam).trigger('change');
+				}
 				if(allScore.scoreA == -1){
 					$transcriptPage.find(`.radio-chineseScore[value=0]`).prop('checked',true).trigger('change');
 					$chineseScoreInput.val('');
@@ -687,8 +690,6 @@
 		const allScore = macauTranscriptStatus[0];
 		const confirmedStatus = macauTranscriptStatus['confirmed_status'];
 		let weightedScoreString = '';
-
-		console.log(allScore);
 
 		$confiremedID.html("報考「四校聯考」時所使用之身分證字號："+allScore.resident_id_for_exam);
 
