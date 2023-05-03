@@ -33,6 +33,24 @@
 <div id = "transcript_page">
     <div class="card border-info" style="border-width: thick">
         <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
+            身分證字號
+        </div>
+        <div class="card-body">
+            <div class="col-md-12 examResidentIDArea">
+                <label><strong>請填寫報考「四校聯考」時所使用之身分證字號</strong></label>
+                <label class="col-5 text-muted">(格式範例：1234567(8))</label>
+                <div class="form-group row">
+                    <label class="offset-md-1 text-danger">身分證字號：</label>
+                    <input class="form-control col-4" id="examResidentID" style=""  maxlength="100" placeholder="必填欄位">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="card border-info" style="border-width: thick">
+        <div class="card-header bg-info text-white vertical-align:middle;" style="font-size:150%">
             中文
         </div>
         <div class="card-body">
@@ -318,6 +336,14 @@
 
 <div class="hide" id="confirm_page">
     <div id="accordion">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" id="confirmed_exam_resident_ID" data-toggle="collapse" data-target="#" aria-expanded="true" aria-controls="">
+                    </button>
+                </h5>
+            </div>
+        </div>
         <!--中文-->
         <div class="card">
             <div class="card-header" id="headingOne">

@@ -591,16 +591,20 @@
 			$macautranscript.hide();
 			$macauTranscriptAlert.hide();
 		} else if(!json.can_macau_upload_time) { //確認現在時間是否在開放時間內  不是就改變按鈕狀態
-			$macautranscript.show().prop('disabled', true).text('非四校聯考成績登錄開放時間');
+			$macautranscript.show().prop('disabled', true).text('非四校聯考成績登錄開放時間').attr("href", '');
 			$macauTranscriptAlert.show().text('請於四校聯考成績公佈後，5個日曆天內完成登錄及上傳。');
 			//$macauTranscriptAlert.hide();
 		} else if( json.student_misc_data.overseas_student_id == null) { //確認是否有僑生編號 沒有就請學生等待審核
-			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績');
+			$macautranscript.show().prop('disabled', true).text('目前不能登錄上傳四校聯考成績').attr("href", '');
 			$macauTranscriptAlert.show().text('請先繳交報名表件並等待審核完畢');
 		} else {
 			// 都不是 就顯示並讓學生可以上傳
 			$macautranscript.show();
 			$macauTranscriptAlert.show();
+			// 已獲錄取學生就代表不須上傳
+			if (json.student_misc_data.stage_of_admit != null || json.student_misc_data.stage_of_deptid != null){
+				$macautranscript.prop('disabled', true).attr("href", '');
+			}
 		}
 	}
 

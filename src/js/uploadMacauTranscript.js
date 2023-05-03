@@ -13,6 +13,8 @@
 	const $transcriptPage = $('#transcript_page'); // 上傳成績與檔案頁面
 	const $confirmPage = $('#confirm_page'); // 確認與鎖定頁面
 	const $confiremedText = $('#confirmed_text'); // 已鎖定提示文字
+	// 身份證號碼
+	const $examResidentIDInput = $('#examResidentID'); // 身份證號碼輸入欄位
 	// 中文成績相關物件
     const $chineseScoreRadio = $('.radio-chineseScore'); // 是否考取選項
     const $chineseScoreInputArea = $('.chineseScoreInputArea'); // 上傳成績區域
@@ -46,6 +48,7 @@
 	const $additionalMathScoreFileUploadButton = $('#additionalMathScoreFileUpload'); // 上傳檔案按鈕
 	const $additionalMathScoreUploadedFileArea = document.getElementById('additionalMathScoreUploadedFileArea'); // 上傳檔案顯示區域
 	// 鎖定頁面相關物件
+	const $confiremedID = $('#confirmed_exam_resident_ID')
 	const $confirmedChineseScore = $('#confirmed_chinese_score'); // 上傳的中文成績
 	const $confirmedChineseUploadedFile = $('#confirmed_chinese_uploaded_file'); // 上傳的中文成績檔案
 	const $confirmedEnglishScore = $('#confirmed_english_score'); // 上傳的英文成績
@@ -66,6 +69,8 @@
     /**
 	*	bind event
 	*/
+
+	$examResidentIDInput.on('change', _validateIDInput); // 身份證號碼輸入檢查事件
 
     $chineseScoreRadio.on('change',_handleChineseScoreRadioChange); // 是否考取中文成績選項切換事件
     $chineseScoreInput.on('change', _validateScoreInput); // 中文成績輸入檢查事件
@@ -293,6 +298,17 @@
         }
     }
 
+	// 身份證號碼輸入檢查
+	function _validateIDInput(){
+		const IDRegex = /^[0-9A-z().-/]{0,100}$/g;
+        let IDNumber = $(this).val().replace(/[\s]/g, "");
+		if (IDNumber.match(IDRegex) == null) { // 不符合上述的格式就回傳格式錯誤
+			$(this).val('')
+		}
+
+        return;
+	}
+
 	// 成績輸入檢查
     function _validateScoreInput(){
 		const scoreRegex = /^(3[5-9][0-9]|[4-9][0-9][0-9]|1[0][0][0])$/g;
@@ -498,6 +514,7 @@
     function _handleSave() {
 		const action = $(this).data('action');
 		const scoreRegex = /^(3[5-9][0-9]|[4-9][0-9][0-9]|1[0][0][0])$/g;
+		const IDNumber = $examResidentIDInput.val();
         const chineseChoosenRadioValue = $chineseScoreRadio.filter(":checked").val();
         const englishChoosenRadioValue = $englishScoreRadio.filter(":checked").val();
 		const mathChoosenRadioValue = $mathScoreRadio.filter(":checked").val();
@@ -511,6 +528,11 @@
         let weightedScoreC = '';
         let scoreD = '';
         let weightedScoreD = '';
+
+		if(!IDNumber){
+			swal({title: `Warning`, text:`請填寫身分證字號`, confirmButtonText:'確定', type:'warning'});
+			return;
+		}
 
 		if(chineseChoosenRadioValue == undefined){
 			swal({title: `Warning`, text:`請確認是否考取中文科目`, confirmButtonText:'確定', type:'warning'});
@@ -612,6 +634,7 @@
 
 
         let sendData ={}
+		sendData['IDNumber'] = IDNumber;
         sendData['scoreA'] = scoreA;
         sendData['weightedScoreA'] = weightedScoreA;
         sendData['scoreB'] = scoreB;
@@ -664,6 +687,10 @@
 		const allScore = macauTranscriptStatus[0];
 		const confirmedStatus = macauTranscriptStatus['confirmed_status'];
 		let weightedScoreString = '';
+
+		console.log(allScore);
+
+		$confiremedID.html("報考「四校聯考」時所使用之身分證字號："+allScore.resident_id_for_exam);
 
 		if (allScore.scoreA == '-1') {
 			$confirmedChineseScore.html("中文：無此成績");
