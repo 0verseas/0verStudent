@@ -34,7 +34,7 @@
     let $studentGruop = 0;
     let $transcriptAllList = [];
     let $uploadedFiles = [];
-    
+
     /**
      * init
      */
@@ -216,7 +216,7 @@
             } else {
                 if($studentDiplomaHideCode === 1){
                     $('#advancedMathForm').hide();
-                    $('#advancedMath2Form').show();                    
+                    $('#advancedMath2Form').show();
                 } else if($studentDiplomaHideCode == 0){
                     $('#mathForm').show();
                 }
@@ -354,7 +354,7 @@
             'MUET': $('#MUET').val(),
             'SPMChinese': $('#SPMChinese').val()
         };
-        
+
         // 使用者確認
         swal({
             title: '確認是否要儲存文憑成績',
@@ -384,7 +384,7 @@
                         location.reload();
                     }
                 });
-                return ;    
+                return ;
             } else {
                 throw res;
             }
@@ -432,7 +432,7 @@
                 .then(()=>{
                     location.reload();
                 });
-                return ;    
+                return ;
             } else {
                 throw res;
             }
