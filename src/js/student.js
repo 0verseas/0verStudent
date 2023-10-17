@@ -75,6 +75,12 @@ const student = (() => {
 		});
 	}
 
+	function getSchoolType(countryId) {
+		return fetch(baseUrl + `/country-school-type?country_id=` + countryId, {
+			method: 'GET'
+		});
+	}
+
 	function register(data) {
 		return fetch(baseUrl + `/students/register`, {
 			method: 'POST',
@@ -760,6 +766,7 @@ const student = (() => {
 		getAdmissionCountDetail,
 		getCountryList,
 		getSchoolList,
+		getSchoolType,
 		register,
 		isLogin,
 		login,

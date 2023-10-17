@@ -21,13 +21,7 @@
     let _currentSchoolLocate = "";
     let _currentSchoolName = "";
     let _schoolList = [];
-    let _schoolType = { // 有類別的地區
-        "105": ["國際學校", "華校", "參與緬甸師資培育專案之華校", "緬校（僅緬十畢業）", "緬十畢業且在當地大學一年級修業完成", "緬十畢業且在當地大學二年級（含）以上修業完成"], // 緬甸
-        "109": ["印尼當地中學", "海外臺灣學校"], // 印尼
-        "128": ["馬來西亞華文獨立中學", "國民（型）中學、外文中學", "馬來西亞國際學校（International School）", "海外臺灣學校"], // 馬來西亞
-        "133": ["海外臺灣學校", "越南當地中學"], // 越南
-        "130": ["泰北未立案之華文中學", "泰國當地中學"] // 泰國
-    };
+    let _schoolType = [];
     const _disabilityCategoryList = ["視覺障礙", "聽覺障礙", "肢體障礙", "語言障礙", "腦性麻痺", "自閉症", "學習障礙"];
     let _errormsg = [];
     let applicantInfo_errormsg = [];
@@ -789,30 +783,42 @@
     async function _reRenderSchoolType() {
         // 處理該國籍是否需要選擇學校類型，以及學校類型 select bar 渲染工作
         // 學士班才需要學校類別
-        if (_systemId === 1) {
-            if (_schoolCountryId in _schoolType) {
-                let typeHTML = '';
-                if(_currentSchoolType == ""){
-                    typeHTML = '<option value="-1" disabled selected hidden>請選擇</option>';
+        if (!!_schoolCountryId) {
+            if (_systemId === 1) {
+                const getSchoolTyperesponse = await student.getSchoolType(_schoolCountryId);
+                const data = await getSchoolTyperesponse.json();
+                if(getSchoolTyperesponse.ok){
+                    let countryWithType = data;
+                    _schoolType = await countryWithType.reduce(function(obj, item) {
+                        obj[item.country_id] = obj[item.country_id] || [];
+                        obj[item.country_id].push({ type: item.school_type });
+                        return obj;
+                    }, {});
+                    if (_schoolCountryId in _schoolType) {
+                        let typeHTML = '';
+                        if(_currentSchoolType == ""){
+                            typeHTML = '<option value="-1" disabled selected hidden>請選擇</option>';
+                        }
+                        await data.forEach((value, index) => {
+                            typeHTML += `<option value="${value.id}">${value.school_type}</option>`;
+                        });
+                        await $schoolType.html(typeHTML);
+                        if (_currentSchoolType !== "") {
+                            await $schoolType.val(_currentSchoolType);
+                        }
+                        await $schoolTypeForm.fadeIn();
+                        _hasEduType = true;
+                    } else {
+                        await $schoolTypeForm.hide();
+                        _hasEduType = false;
+                    }
                 }
-                await _schoolType[_schoolCountryId].forEach((value, index) => {
-                    typeHTML += `<option value="${value}">${value}</option>`;
-                });
-                await $schoolType.html(typeHTML);
-                if (_currentSchoolType !== "") {
-                    await $schoolType.val(_currentSchoolType);
-                }
-                await $schoolTypeForm.fadeIn();
-                _hasEduType = true;
             } else {
                 await $schoolTypeForm.hide();
                 _hasEduType = false;
-            }
-        } else {
-            await $schoolTypeForm.hide();
-            _hasEduType = false;
+            };
+            await _reRenderSchoolLocation();
         }
-        await _reRenderSchoolLocation();
     }
 
     function _chSchoolType() {
