@@ -45,7 +45,7 @@
 					if (registrationData.student_qualification_verify.system_id < 3) { // 學士、港二技
 						await $('.alert-macau-verification').html(`
 							<strong class="text-danger">身分及學歷證件核驗資訊</strong>：<br/>
-							<a style="color:#0c5460;">
+							<a>
 								地點：澳門國父紀念館（文第士街 1 號）<br/>
 								開放日期：2023 年 01 月 27 日 - 02 月 19 日 <br/>
 								開放時間：每週五的 16:00 - 21:00 及 每週六、日的 10:00 - 13:00 與 14:00 - 16:00 <br/>
@@ -63,14 +63,29 @@
 					} else {  // 碩博
 						await $('.alert-macau-verification').html(`
 							<strong class="text-danger">身分及學歷證件核驗資訊</strong>：<br/>
-							<a style="color:#0c5460;">
-								地點：台北經濟文化辦事處（澳門辦事處）<br/>
-								地址：澳門新口岸宋玉生廣場 411 - 417 號皇朝廣場 5 樓 J - O 座<br/>
-								開放日期：2022 年 11 月 3 日至 12 月 15 日<br/>
-								開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點 30 分<br/>
-								<a href="https://drive.google.com/file/d/1QmvLQ7mx3l918Gsja-_FyLJsDuKZxevQ/view?usp=share_link" target="_blank">
-									查看辦理核驗注意事項（含流程與應備文件）
-								</a>
+							<a>
+								<ul style="list-style-type:none; margin-bottom: 0;">
+									<li>
+										地點：台北經濟文化辦事處（澳門辦事處）
+									</li>
+									<li>
+										開放日期：2023 年 11 月 3 日至 12 月 19 日（無需預約）
+									</li>
+									<li>
+										開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點 30 分
+									</li>
+									<li>
+										地址：澳門新口岸宋玉生廣場 411 - 417 號皇朝廣場 5 樓 J - O 座
+									</li>
+									<li>
+										電話：（+853）2830-6282
+									</li>
+									<li>
+										<a href="https://drive.google.com/file/d/1QmvLQ7mx3l918Gsja-_FyLJsDuKZxevQ/view?usp=share_link" target="_blank">
+											查看辦理核驗注意事項（含流程與應備文件）
+										</a>
+									</li>
+								</ul>
 							</a>
 						`);
 					}
