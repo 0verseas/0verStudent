@@ -1,238 +1,242 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<script src="../env.js"></script>
-	<!-- Google Analytics -->
-	 <!-- <script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-		if (env.isProduction === true) {
-			ga('create', 'UA-108527915-4', 'auto');
-		} else {
-			ga('create', 'UA-108527915-5', 'auto');
-		}
-		ga('send', 'pageview');
-	</script>  -->
-	<!-- End Google Analytics -->
-	<!-- Google Tag Manager  student.overseas-->
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','GTM-NXCCHWB');
-		</script>
-		<!-- End Google Tag Manager -->
-		<!-- Google Tag Manager  website2student.overseas-->
-		<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','websiteCrossDomain','GTM-KS7PPV5');</script> -->
-	<!-- End Google Tag Manager -->
-	<meta charset="utf-8">
-	<title>申請資料填報系統</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="overseas">
-	<meta name="author" content="overseas">
-	<!-- favicons -->
-	<link rel="apple-touch-icon" sizes="180x180" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/favicon-16x16.png">
-	<link rel="icon" type="image/png" sizes="384x384" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/android-chrome-384x384.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/android-chrome-192x192.png">
-	<!-- <link rel="manifest" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/manifest.json"> -->
-	<link rel="mask-icon" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/safari-pinned-tab.svg" color="#5bbad5">
-	<!-- <script src="../js/browser.js"></script> -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CarlosBonetti/jquery-loading/dist/jquery.loading.min.css"> -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.2/sweetalert2.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css"/>
-	<!-- Custom styles for this template -->
-	<link href="css/style.css" rel="stylesheet">
-	<link href="css/<%= current.source %>.css" rel="stylesheet">
-	<link rel="stylesheet" href="./css/loading.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js" integrity="sha256-WRc/eG3R84AverJv0zmqxAmdwQxstUpqkiE+avJ3WSo=" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<!-- <script src="https://cdn.jsdelivr.net/gh/CarlosBonetti/jquery-loading/dist/jquery.loading.min.js"></script> -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.2/sweetalert2.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
-	<script src="./js/student.js"></script>
-	<script>
-		if (env.isProduction === true) {
-			console.log = function() {}
-		}
-	</script>
-	<style>
-		.swal-button{
-			margin: 15px 5px 0px 5px;
-		}
-	</style>
-</head>
-<body>
-	<!-- Google Tag Manager (noscript) student.overseas-->
-	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXCCHWB"
-	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-	<!-- End Google Tag Manager (noscript) -->
-	<!-- Google Tag Manager (noscript) website2student.overseas-->
-	<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS7PPV5"
-	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
-	<!-- End Google Tag Manager (noscript) -->
-	<%
-	const _processPageList = [ // 填寫資料頁面列表
-	'qualify',
-	'personalInfo',
-	'educationInfo',
-	'olympia',
-	'admissionSelection',
-	'grade',
-	'placementSelection',
-	'result',
-	'downloadDocs',
-	'uploadReviewItems',
-	'uploadMacauTranscript',
-	'uploadEducation',
-	'uploadMalaysiaTranscript',
-	'uploadIdentityVerification'
-	];
-	%>
-
-	<%- include ('components/_loading') %>
-
-	<div id="app" class="container">
-		<nav class="navbar header navbar-expand-lg navbar-light">
-			<span class="navbar-brand" style="height: 35px">
-				<a id="logo" href="./">
-					<img
-					src="/img/logo.png"
-					height="30"
-					class="d-inline-block align-top"
-					/>
-					<span class="hidden-sm-down">海外聯合招生委員會 -</span> 申請資料填報系統
-				</a>
-			</span>
-			<% if (_processPageList.indexOf(current.source) > -1 || current.source === 'uploadReviewItems') { %>
-				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto"></ul>
-					<div class="form-inline my-2 my-lg-0">
-						<small class="greet mr-2"></small>
-						<button class="btn btn-danger" id="btn-logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 登出</button>
-					</div>
-				</div>
-			<% } %>
-		</nav>
-		<div class="alert alert-danger mt-2 alert-emailVerify hide" role="alert">
-			<strong>注意！</strong> 您的信箱尚未驗證，請儘速前往填寫信箱開啟驗證信。若您未收到驗證信，請按 <a id="btn-mailResend" href="javascript:;">這裡</a> 重送驗證信。
-		</div>
-
-		<div class="alert alert-success mt-2 alert-helpCenter" role="alert">
-			<strong>小提醒</strong> 如果在填報過程上有遇到任何問題，可以點擊 <a id="btn-mailResend" target="_blank" href="https://overseas-tw.zendesk.com"><strong>這裡</strong></a> 到常見問題中心查詢。
-			（<a href="https://www.timeanddate.com/worldclock/fullscreen.html?n=241" target="_blank">點擊這裡可以查看台灣當地時間</a>）
-		</div>
-
-		<hr>
-
-		<% if (_processPageList.indexOf(current.source) > -1) { %>
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="list-group">
-					<a href="qualify.html" class="nav-item list-group-item list-group-item-action nav-qualify <%= 'qualify'.includes(current.source) ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　資格檢視 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i><div class="overseas-student-tip" style="display:none">&emsp;<small class="text-danger">(僑先部結業生不需填寫)</small></div></a>
-					<a href="personalInfo.html" class="nav-item list-group-item list-group-item-action nav-personalInfo <%= current.source === 'personalInfo' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　個人基本資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
-					<a href="educationInfo.html" class="nav-item list-group-item list-group-item-action nav-educationInfo hide <%= current.source === 'educationInfo' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　入學資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
-					<a href="olympia.html" class="nav-item list-group-item list-group-item-action nav-olympia hide <%= current.source === 'olympia' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　奧林匹亞志願 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i> <div class="olympia-deadline" style="display:none">&emsp;<small class="text-danger">(非開放時間)</small></div></a>
-					<a href="admissionSelection.html" class="nav-item list-group-item list-group-item-action nav-admissionSelection <%= current.source === 'admissionSelection' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　個人申請志願 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i> <div class="tip-personal-info-first">&emsp;<small class="text-danger">(請先填寫個人基本資料)</small></div> <div class="tip-deadline">&emsp;<small class="text-danger">(非開放時間)</small></div> </a>
-					<a href="grade.html" class="nav-item list-group-item list-group-item-action nav-grade hide <%= current.source === 'grade' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　聯合分發成績採計方式 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
-					<a href="placementSelection.html" class="nav-item list-group-item list-group-item-action nav-placementSelection hide <%= current.source === 'placementSelection' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　聯合分發志願 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i> <div class="tip-grade-first">&emsp;<small class="text-danger">(請先選擇聯合分發採計方式)</small></div> <div class="tip-placement-deadline">&emsp;<small class="text-danger" id="placement-deadline-text">(非開放時間)</small></div> <div class="tip-no-qualified">&emsp;<small class="text-danger">(資格不符或已獲錄取)</small></div></a>
-					<a href="uploadIdentityVerification.html" id="uploadIdentityVerification" style="display: none;" class="nav-item list-group-item list-group-item-action nav-uploadIdentityVerification <%= current.source === 'uploadIdentityVerification' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　上傳簡章規定應繳文件 <br/>&emsp;<small class="text-danger">(適用港澳地區)</small></a>
-					<a href="result.html" class="nav-item list-group-item list-group-item-action nav-result <%= current.source === 'result' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　志願檢視<div class="tip-personal-info-first">&emsp;<small class="text-danger">(請先填寫個人基本資料)</small></div></a>
-				</div>
-				<hr>
-				<button type="button" id="btn-all-set" class="btn btn-danger btn-block">確認填報資料</button>
-				<div id="afterConfirmZone" style="display: none;">
-					<hr>
-					<div class="list-group">
-						<a href="downloadDocs.html" class="nav-item list-group-item list-group-item-action nav-lalalalalala <%= current.source === 'downloadDocs' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　下載報名表件 <div class="tip-deadline">&emsp;<small class="text-danger">(請先鎖定聯分志願)</small></div></a>
-						<a href="uploadEducation.html" class="hide nav-item list-group-item list-group-item-action nav-uploadEducation <%= current.source === 'uploadEducation' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　上傳簡章規定文件</a>
-						<a href="uploadReviewItems.html" class="nav-item list-group-item list-group-item-action nav-uploadReviewItems <%= current.source === 'uploadReviewItems' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　上傳備審資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i><div class="admission-doc-identity">&emsp;<small class="text-danger">(僅有參加個人申請者需要)</small></div></a>
-						<a href="uploadMalaysiaTranscript.html" class="hide nav-item list-group-item list-group-item-action nav-uploadMalaysiaTranscript <%= current.source === 'uploadMalaysiaTranscript' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　登錄及上傳文憑成績 <div class="tip-only-placement">&emsp;<small class="text-danger">(僅有參加聯合分發者需要)</small></div></a>
-					</div>
-					<hr>
-					<button type="button" id="btn-uploadAndSubmit" class="btn btn-danger btn-block">確認上傳資料並提交</button>
-					<small id="btn-uploadAndSubmit-hint" class="text-danger">注意：按下確認後，【上傳備審資料】頁面檔案就無法再做變更，請儘早確認推薦函上傳情形後再提交。</small>
-				</div>
-				<hr>
-				<div>
-					<button type="button" id="btn-uploadMacauTranscript" class="btn btn-info btn-block hide" onclick="location.href='uploadMacauTranscript.html'">登錄及上傳四校聯考成績單</button>
-					<small id="macauTranscriptAlert" class="text-danger hide"> 登錄及上傳截止時間：2023年05月09日（星期二）17:00。</br>
-					僅供需聯合分發者，個人申請已獲錄取者，不需要登錄及上傳四校聯考成績。</small>
-				</div>
-				<div>
-					<!--錄取學生下載分發通知書(目前僅開放特定對象)-->
-					<button type="button" class="btn btn-info  text-white btn-block hide" target="_blank" role="button" id="btn-printDistribution">
-						下載分發通知書
-					</button>
-					<small id="printDistributionAlert" class="text-danger hide"> 注意：分發通知書產生後請掃描右下角 QRCode 開啟網頁，確保頁面內容與分發通知書一致。</small>
-					<button type="button" class="btn btn-info btn-noticeForHKMO text-white btn-block hide" target="_blank" role="button">
-						學生入境注意事項
-					</button>
-				</div>
-			</div>
-			<div class="col-lg-9">
-				<%- yield %>
-			</div>
-		</div>
-		<script src="./js/navbar.js"></script>
-		<% } else { %>
-		<%- yield %>
-		<% } %>
-	</div>
-	<a href="javascript:" id="arrow-top"><i class="fa fa-chevron-up"></i></a>
-	<script>
-		var loading = {
-			start: function () {
-				$('#loading-wrapper').show();
-			},
-			complete: function () {
-				$('#loading-wrapper').hide();
-			}
-		};
-		loading.start();
-		// ===== Scroll to Top ====
-		$(window).scroll(function() {
-			if ($(this).scrollTop() >= 50) {
-				$('#arrow-top').fadeIn("fast");
+	<head>
+		<script src="../env.js"></script>
+		<!-- Google Analytics -->
+		<!-- <script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+			if (env.isProduction === true) {
+				ga('create', 'UA-108527915-4', 'auto');
 			} else {
-				$('#arrow-top').fadeOut("fast");
+				ga('create', 'UA-108527915-5', 'auto');
 			}
-		});
-		$('#arrow-top').click(function() {
-			$('body,html').animate({
-				scrollTop : 0
-			}, 500);
-		});
-	</script>
-	<script src="js/<%= current.source %>.js"></script>
-	<footer class="container">
-		<div class="row">
-			<div class="col-12 text-center">
-				<small>海外聯合招生委員會</small><br>
-				<small>University Entrance Committee For Overseas Chinese Students</small><br />
-				<small>地址：臺灣545南投縣埔里鎮大學路一號( 國立暨南國際大學 )</small><br />
-				<small>E-mail：<a href="mailto:overseas@ncnu.edu.tw">overseas@mail.ncnu.edu.tw</a> 電話：+886-49-2910900( 代表號 )   傳真：+886-49-2911182</small>
-			</div>
-		</div>
-	</footer>
+			ga('send', 'pageview');
+		</script>  -->
+		<!-- End Google Analytics -->
+		<!-- Google Tag Manager  student.overseas-->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-NXCCHWB');
+			</script>
+			<!-- End Google Tag Manager -->
+			<!-- Google Tag Manager  website2student.overseas-->
+			<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','websiteCrossDomain','GTM-KS7PPV5');</script> -->
+		<!-- End Google Tag Manager -->
+		<meta charset="utf-8">
+		<title>申請資料填報系統</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="overseas">
+		<meta name="author" content="overseas">
+		<!-- favicons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/favicon-16x16.png">
+		<link rel="icon" type="image/png" sizes="384x384" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/android-chrome-384x384.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/android-chrome-192x192.png">
+		<!-- <link rel="manifest" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/manifest.json"> -->
+		<link rel="mask-icon" href="https://api.overseas.ncnu.edu.tw/0verseas-favicons/safari-pinned-tab.svg" color="#5bbad5">
+		<!-- <script src="../js/browser.js"></script> -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/CarlosBonetti/jquery-loading/dist/jquery.loading.min.css"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.2/sweetalert2.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css"/>
+		<!-- Custom styles for this template -->
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/<%= current.source %>.css" rel="stylesheet">
+		<link rel="stylesheet" href="./css/loading.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js" integrity="sha256-WRc/eG3R84AverJv0zmqxAmdwQxstUpqkiE+avJ3WSo=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/gh/CarlosBonetti/jquery-loading/dist/jquery.loading.min.js"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.2/sweetalert2.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+		<script src="./js/student.js"></script>
+		<script>
+			if (env.isProduction === true) {
+				console.log = function() {}
+			}
+		</script>
+		<style>
+			.swal-button{
+				margin: 15px 5px 0px 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Google Tag Manager (noscript) student.overseas-->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXCCHWB"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<!-- Google Tag Manager (noscript) website2student.overseas-->
+		<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KS7PPV5"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+		<!-- End Google Tag Manager (noscript) -->
+		<%
+		const _processPageList = [ // 填寫資料頁面列表
+		'qualify',
+		'personalInfo',
+		'educationInfo',
+		'olympia',
+		'admissionSelection',
+		'grade',
+		'placementSelection',
+		'result',
+		'downloadDocs',
+		'uploadReviewItems',
+		'uploadMacauTranscript',
+		'uploadEducation',
+		'uploadMalaysiaTranscript',
+		'uploadIdentityVerification'
+		];
+		%>
 
-</body>
+		<%- include ('components/_loading') %>
+
+		<div id="app" class="container">
+			<nav class="navbar header navbar-expand-lg navbar-light">
+				<span class="navbar-brand" style="height: 35px">
+					<a id="logo" href="./">
+						<img
+						src="/img/logo.png"
+						height="30"
+						class="d-inline-block align-top"
+						/>
+						<span class="hidden-sm-down">海外聯合招生委員會 -</span> 申請資料填報系統
+					</a>
+				</span>
+				<% if (_processPageList.indexOf(current.source) > -1 || current.source === 'uploadReviewItems') { %>
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mr-auto"></ul>
+						<div class="form-inline my-2 my-lg-0">
+							<small class="greet mr-2"></small>
+							<button class="btn btn-danger" id="btn-logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 登出</button>
+						</div>
+					</div>
+				<% } %>
+			</nav>
+			<div class="alert alert-danger mt-2 alert-emailVerify hide" role="alert">
+				<strong>注意！</strong> 您的信箱尚未驗證，請儘速前往填寫信箱開啟驗證信。若您未收到驗證信，請按 <a id="btn-mailResend" href="javascript:;">這裡</a> 重送驗證信。
+			</div>
+
+			<div class="alert alert-success mt-2 alert-helpCenter" role="alert">
+				<strong>小提醒</strong> 如果在填報過程上有遇到任何問題，可以點擊 <a id="btn-mailResend" target="_blank" href="https://overseas-tw.zendesk.com"><strong>這裡</strong></a> 到常見問題中心查詢。
+				（<a href="https://www.timeanddate.com/worldclock/fullscreen.html?n=241" target="_blank">點擊這裡可以查看台灣當地時間</a>）
+			</div>
+
+			<hr>
+
+			<% if (_processPageList.indexOf(current.source) > -1) { %>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="list-group">
+						<a href="qualify.html" class="nav-item list-group-item list-group-item-action nav-qualify <%= 'qualify'.includes(current.source) ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　資格檢視 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i><div class="overseas-student-tip" style="display:none">&emsp;<small class="text-danger">(僑先部結業生不需填寫)</small></div></a>
+						<a href="personalInfo.html" class="nav-item list-group-item list-group-item-action nav-personalInfo <%= current.source === 'personalInfo' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　個人基本資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
+						<a href="educationInfo.html" class="nav-item list-group-item list-group-item-action nav-educationInfo hide <%= current.source === 'educationInfo' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　入學資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
+						<a href="olympia.html" class="nav-item list-group-item list-group-item-action nav-olympia hide <%= current.source === 'olympia' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　奧林匹亞志願 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i> <div class="olympia-deadline" style="display:none">&emsp;<small class="text-danger">(非開放時間)</small></div></a>
+						<a href="admissionSelection.html" class="nav-item list-group-item list-group-item-action nav-admissionSelection <%= current.source === 'admissionSelection' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　個人申請志願 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i> <div class="tip-personal-info-first">&emsp;<small class="text-danger">(請先填寫個人基本資料)</small></div> <div class="tip-deadline">&emsp;<small class="text-danger">(非開放時間)</small></div> </a>
+						<a href="grade.html" class="nav-item list-group-item list-group-item-action nav-grade hide <%= current.source === 'grade' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　聯合分發成績採計方式 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i></a>
+						<a href="placementSelection.html" class="nav-item list-group-item list-group-item-action nav-placementSelection hide <%= current.source === 'placementSelection' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　聯合分發志願 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i> <div class="tip-grade-first">&emsp;<small class="text-danger">(請先選擇聯合分發採計方式)</small></div> <div class="tip-placement-deadline">&emsp;<small class="text-danger" id="placement-deadline-text">(非開放時間)</small></div> <div class="tip-no-qualified">&emsp;<small class="text-danger">(資格不符或已獲錄取)</small></div></a>
+						<a href="uploadIdentityVerification.html" id="uploadIdentityVerification" style="display: none;" class="nav-item list-group-item list-group-item-action nav-uploadIdentityVerification <%= current.source === 'uploadIdentityVerification' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　上傳簡章規定應繳文件 <br/>&emsp;<small class="text-danger">(適用港澳地區)</small></a>
+						<a href="result.html" class="nav-item list-group-item list-group-item-action nav-result <%= current.source === 'result' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　志願檢視<div class="tip-personal-info-first">&emsp;<small class="text-danger">(請先填寫個人基本資料)</small></div></a>
+					</div>
+					<hr>
+					<button type="button" id="btn-all-set" class="btn btn-danger btn-block">確認填報資料</button>
+					<div id="afterConfirmZone" style="display: none;">
+						<hr>
+						<div class="list-group">
+							<a href="downloadDocs.html" class="nav-item list-group-item list-group-item-action nav-lalalalalala <%= current.source === 'downloadDocs' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　下載報名表件 <div class="tip-deadline">&emsp;<small class="text-danger">(請先鎖定聯分志願)</small></div></a>
+							<a href="uploadEducation.html" class="hide nav-item list-group-item list-group-item-action nav-uploadEducation <%= current.source === 'uploadEducation' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　上傳簡章規定文件</a>
+							<a href="uploadReviewItems.html" class="nav-item list-group-item list-group-item-action nav-uploadReviewItems <%= current.source === 'uploadReviewItems' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　上傳備審資料 <i class="fa fa-square-o yet pull-right"></i><i class="done fa fa-check-square-o pull-right hide" aria-hidden="true"></i><div class="admission-doc-identity">&emsp;<small class="text-danger">(僅有參加個人申請者需要)</small></div></a>
+							<a href="uploadMalaysiaTranscript.html" class="hide nav-item list-group-item list-group-item-action nav-uploadMalaysiaTranscript <%= current.source === 'uploadMalaysiaTranscript' ? 'active' : ''%>"><i class="fa fa-chevron-right hide icon-arrow" aria-hidden="true"></i> 　登錄及上傳文憑成績 <div class="tip-only-placement">&emsp;<small class="text-danger">(僅有參加聯合分發者需要)</small></div></a>
+						</div>
+						<hr>
+						<button type="button" id="btn-uploadAndSubmit" class="btn btn-danger btn-block">確認上傳資料並提交</button>
+						<small id="btn-uploadAndSubmit-hint" class="text-danger">注意：按下確認後，【上傳備審資料】頁面檔案就無法再做變更，請儘早確認推薦函上傳情形後再提交。</small>
+					</div>
+					<hr>
+					<div>
+						<button type="button" id="btn-uploadMacauTranscript" class="btn btn-info btn-block hide" onclick="location.href='uploadMacauTranscript.html'">登錄及上傳四校聯考成績單</button>
+						<small id="macauTranscriptAlert" class="text-danger hide"> 登錄及上傳截止時間：2023年05月09日（星期二）17:00。</br>
+						僅供需聯合分發者，個人申請已獲錄取者，不需要登錄及上傳四校聯考成績。</small>
+					</div>
+					<div>
+						<!--錄取學生下載分發通知書(目前僅開放特定對象)-->
+						<button type="button" class="btn btn-info  text-white btn-block hide" target="_blank" role="button" id="btn-printDistribution">
+							下載分發通知書
+						</button>
+						<small id="printDistributionAlert" class="text-danger hide"> 注意：分發通知書產生後請掃描右下角 QRCode 開啟網頁，確保頁面內容與分發通知書一致。</small>
+						<button type="button" class="btn btn-info btn-noticeForHKMO text-white btn-block hide" target="_blank" role="button">
+							學生入境注意事項
+						</button>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<%- yield %>
+				</div>
+			</div>
+			<script src="./js/navbar.js"></script>
+			<% } else { %>
+			<%- yield %>
+			<% } %>
+		</div>
+		<a href="javascript:" id="arrow-top"><i class="fa fa-chevron-up"></i></a>
+		<script>
+			var loading = {
+				start: function () {
+					$('#loading-wrapper').show();
+				},
+				complete: function () {
+					$('#loading-wrapper').hide();
+				}
+			};
+			loading.start();
+			// ===== Scroll to Top ====
+			$(window).scroll(function() {
+				if ($(this).scrollTop() >= 50) {
+					$('#arrow-top').fadeIn("fast");
+				} else {
+					$('#arrow-top').fadeOut("fast");
+				}
+			});
+			$('#arrow-top').click(function() {
+				$('body,html').animate({
+					scrollTop : 0
+				}, 500);
+			});
+		</script>
+		<script src="js/<%= current.source %>.js"></script>
+		<footer class="container" style="z-index: 0;">
+			<div class="row">
+				<div class="col-12 text-center">
+					<small><a href="https://cmn-hant.overseas.ncnu.edu.tw/" target="_blank">海外聯合招生委員會</a></small><br>
+					<small><a href="https://cmn-hant.overseas.ncnu.edu.tw/en/" target="_blank">University Entrance Committee For Overseas Chinese Students</a></small><br />
+					<small><a href="https://maps.app.goo.gl/EoyBD8vBcZpQtoY99" target="_blank">地址：臺灣545南投縣埔里鎮大學路一號( 國立暨南國際大學 )</a></small><br />
+					<small>
+						E-mail：<a href="mailto:overseas@ncnu.edu.tw">overseas@mail.ncnu.edu.tw</a>
+						電話：<a href="tel:+886-49-2910900">+886-49-2910900（代表號）</a>
+						傳真：<a href="fax:+886-49-2911182">+886-49-2911182</a>
+					</small>
+				</div>
+			</div>
+		</footer>
+
+	</body>
 </html>
