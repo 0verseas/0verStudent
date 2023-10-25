@@ -9,7 +9,7 @@
 	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
 	let $uploadedFiles = [];// 已上傳檔案名稱陣列
 	const $uploadTranscriptStringArray = ['統考','所持會考文憑'];
-	const dateMap = {0:'2022 年 12 月 15 日（星期四）', 1:'2023 年 1 月 15 日（星期日）', 5:'2023 年 3 月 31 日（星期五）'}
+	const dateMap = {0:'2023 年 12 月 15 日（星期五）', 1:'2024 年 1 月 15 日（星期一）', 5:'2024 年 3 月 31 日（星期日）'}
 
 	/**
 	*	init
@@ -62,7 +62,7 @@
 				$('.selection-notice').show();
 				$('.selection-notice').html(`
 					<br/>
-					並請於 2023 年 1 月 6 日（星期五）台灣時間下午 5 時前，完成步驟③
+					並請於 2024 年 1 月 8 日（星期一）台灣時間下午 5 時前，完成步驟③
 				`);
 				$('.step-3').show();
 				$('.step-3').html(`
@@ -126,7 +126,7 @@
         await loading.start();
         await swal({title: `儲存成功`, html: `<strong style="color:red;">請於報名期限內完成紙本繳件</strong>`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
         await loading.complete();
-		scroll(0,0);
+		location.href = "./downloadDocs.html";
     }
 
 	// 上傳事件
