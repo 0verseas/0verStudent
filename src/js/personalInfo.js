@@ -867,16 +867,11 @@
                             return obj;
                         }, {});
 
-                        // 海外臺校 檳城的好像廢校了
-                        if(_currentSchoolType=='海外臺灣學校' && _currentSchoolLocate == '' && _schoolCountryId == 128){
-                            _currentSchoolLocate = "雪蘭莪";
-                        }
-
                         // group by 學校所在地
                         let groups = await Object.keys(group_to_values).map(function(key) {
                             return { locate: key, school: group_to_values[key] };
                         });
-                        let schoolLocationHTML = '';
+                        let schoolLocationHTML = '<option value="-1" data-continentIndex="-1" hidden disabled selected>請選擇</option>';
                         _schoolList = groups;
                         // 渲染學校所在地、隱藏學校名稱輸入
                         await _schoolList.forEach((value, index) => {
@@ -886,7 +881,9 @@
                         if (_currentSchoolLocate !== "") {
                             await $schoolLocation.val(_currentSchoolLocate);
                         } else {
-                            _currentSchoolLocate = _schoolList[0].locate;
+                            $schoolNameSelect.selectpicker({title: '請先選擇學校所在地'});
+                            $schoolNameSelect.html('');
+                            $schoolNameSelect.selectpicker('refresh');
                         }
                         await $schoolLocationForm.show();
                         await _reRenderSchoolList();
@@ -926,16 +923,19 @@
             // 重新渲染學士班的學校列表
             let locateIndex = _schoolList.findIndex(order => order.locate === _currentSchoolLocate);
 
-            let schoolListHTML = '';
-            _schoolList[locateIndex].school.forEach((value, index) => {
-                schoolListHTML += `<option value="${value.name}">${value.name}</option>`;
-            });
-            $schoolNameSelect.html(schoolListHTML);
-            if (_currentSchoolName !== "") {
-                $schoolNameSelect.val(_currentSchoolName);
+            if(locateIndex !== -1){
+                let schoolListHTML = '';
+                _schoolList[locateIndex].school.forEach((value, index) => {
+                    schoolListHTML += `<option value="${value.name}">${value.name}</option>`;
+                });
+                $schoolNameSelect.html(schoolListHTML);
+                if (_currentSchoolName !== "") {
+                    $schoolNameSelect.val(_currentSchoolName);
+                } else {
+                    $schoolNameSelect.selectpicker({title: '請選擇'});
+                }
+                $schoolNameSelect.selectpicker('refresh');
             }
-
-            $schoolNameSelect.selectpicker('refresh');
             // 香港學士班的話要再問是否曾經有副學士或高級文憑的調查
             if(_schoolCountryId == 113 && _systemId == 1){
                 $('#HK-ADorHD').show();
