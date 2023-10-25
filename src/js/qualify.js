@@ -8,7 +8,7 @@
 	let _citizenshipList = [];
     const isDistributionOptionsString = [
         '未曾辦理報到入學，亦未辦理保留入學資格。',
-        '經輔導來臺就學後，因故自願退學，且在臺居留未滿二年（得重新報名，以一次為限）（須附證明文件）。',
+        '經輔導來臺就學後，因故自願退學，且在臺居留未滿二年（得重新報名，以一次為限）。',
         '辦理保留入學資格在案。',
         '註冊在學。',
         '辦理休學中。',
@@ -110,6 +110,7 @@
     const $isDistributionOptionList = $qualifyForm.find('#distributionMore');
     const $isDistributionOption = $qualifyForm.find('.option-isDistribution');
     const $alertIsDistribution = $qualifyForm.find('.alert-isDistribution');
+    const $alertNeedCertifiedDocuments = $qualifyForm.find('.alert-need-certified-documents');
     const $inputDistributionTime = $qualifyForm.find('.input-distributionTime')
     // 海外居留選項
     const $questionStayLimit = $('.question-stayLimit');
@@ -829,8 +830,14 @@
 
         if(unqualifiedOptionMap.indexOf(choosenOptionValue) !== -1){
             $alertIsDistribution.show();
+            $alertNeedCertifiedDocuments.hide();
         } else {
             $alertIsDistribution.hide();
+            if(choosenOptionValue !== '1'){
+                $alertNeedCertifiedDocuments.show();
+            } else {
+                $alertNeedCertifiedDocuments.hide();
+            }
         }
     }
 
@@ -848,12 +855,16 @@
                 $alertStayLimitUnqualified.show();
                 break;
             case '4':
-                alertStayLimitCertifText += '欲申請醫牙學系者';
+                alertStayLimitCertifText += '欲申請就讀醫學、牙醫及中醫學系者，需填寫切結書。';
+                $alertStayLimitCertif.show();
+                break;
             case '2':
-                alertStayLimitCertifText += '需填寫切結書';
+                alertStayLimitCertifText += '需填寫切結書，可申請就讀的學系不包含醫學、牙醫及中醫學系。';
                 $alertStayLimitCertif.show();
                 break;
             case '3':
+                alertStayLimitCertifText += '可申請就讀的學系不包含醫學、牙醫及中醫學系。';
+                $alertStayLimitCertif.show();
             case '5':
                 break;
         }
