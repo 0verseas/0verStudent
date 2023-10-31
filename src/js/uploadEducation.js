@@ -80,7 +80,7 @@
 			}
 
 			$('.link-pdf').text(`《馬來西亞地區簡章》`);
-			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/sites/default/files/inline-files/03_112%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E%E7%B0%A1%E7%AB%A0%E5%90%AB%E9%99%84%E9%8C%84_0.pdf');
+			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/wp-content/uploads/2023/10/03_113%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
 			$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1wPWXMeUPvGVQbOq285bIJsUT5N4ktqji/view?usp=sharing');
 			$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
 
