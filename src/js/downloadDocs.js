@@ -95,12 +95,19 @@
 									</a>
 								</li>
 							</ul>
-						`);
+						`);		
 					}
 					await $('.alert-macau-verification').show();
 				} else {  // 香港
-					$('#alert-hk-order').show();
+					console.log(registrationData);
 					await $alertCorrect.html(`如需再修改個人基本資料（不含志願），請填寫「<a href="https://www.surveycake.com/s/YDnoK" target="_blank">資料修正表</a>」或是重新註冊新的帳號（惟報名費一經繳交，概不退還）。`);
+					if (registrationData.student_qualification_verify.system_id > 2) { // 學士、港二技
+					    await $('#alert-hk-order').html(`
+						    ● <a href="https://www.surveycake.com/s/m4vna" target="blank">核驗「身分及學歷證件正本」預約系統</a> &nbsp;&nbsp;<br />
+					    	● <a href="https://drive.google.com/file/d/1_R6t-X6Mf90ppAhTEul0z17sZx-7263-/view?usp=sharing" target="blank">【查看辦理核驗注意事項(含流程與應備文件)】</a> &nbsp;&nbsp;
+					    `)
+					}
+					await $('#alert-hk-order').show();
 				}
 			} else {
 				await $alertPrint.html(`完成線上填寫個人資料後，請下載、列印並確認表件資料無誤。`);
