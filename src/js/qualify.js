@@ -1121,6 +1121,9 @@
             if(inputDistributionYear === ""){
                 await swal({title: `請填寫「分發年度」`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
+            } else if(inputDistributionYear.length > 4){
+                await swal({title: `請確認「分發年度」格式`, html:'分發年度只需要填寫年份。', type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return;
             }
             sendData["admission_year"] = inputDistributionYear;
             if(inputDistributionSchool === ""){
