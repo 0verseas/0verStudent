@@ -225,6 +225,18 @@
 				$('#two-year-systen-option').show();
 			}
 
+            // 分發年份 input 初始化設定
+            $qualifyForm.find('.input-distributionYear').datepicker({
+                updateViewDate: true,
+                autoclose: true,
+                startView: 2,
+                maxViewMode: 2,
+                minViewMode:2,
+                format: "yyyy",
+                endDate:'+0y',
+                immediateUpdates: true
+            });
+
             // 有資料的話就渲染
             if (json.student_qualification_verify) {
                 const data = json.student_qualification_verify;
