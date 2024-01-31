@@ -95,7 +95,7 @@
 									</a>
 								</li>
 							</ul>
-						`);		
+						`);
 					}
 					await $('.alert-macau-verification').show();
 				} else {  // 香港
@@ -135,8 +135,8 @@
 				} else {
 					listHtml = `<li>請在簡章規定之期限內列印並繳交至受理報名單位。</li>`;
 				}
-				// 在個人申請時間內只有deadline有差別，分兩種情況：1.港二技學生  2.其他
-				if(registrationData.can_admission_selection){
+				// 在備審資料可以上傳時間內只有deadline有差別，分兩種情況：1.港二技學生  2.其他
+				if(registrationData.can_upload_papers){
 					let deadlineString = '';
 					let weekString = ['日','一','二','三','四','五','六'];
 					if(registrationData.student_qualification_verify.system_id === 2){
@@ -150,8 +150,8 @@
 					listHtml += `<li>所填志願校系之「必繳」項目皆須上傳檔案，於系統按下「確認上傳資料並提交」按鍵後，始能成功提交。</li>`;
 					listHtml += `<li>如欲放棄上傳部分志願校系審查資料時，可於該志願上傳頁面點選「放棄上傳審查資料」按鍵，惟申請人一旦於系統完成「放棄上傳審查資料」作業並確認提交後，一律不得以任何理由要求撤回或修改，請審慎考量。</li>`;
 				}
-				// 非個人申請時間只有一行所以用 ul 個人申請時間內用 ol
-				if(registrationData.can_admission_selection){
+				// 非備審資料可以上傳時間只有一行所以用 ul 個人申請時間內用 ol
+				if(registrationData.can_upload_papers){
 					await $memo.html(`<ol class="text-danger">`+listHtml+`</ol>`);
 				} else {
 					await $memo.html(`<ul class="text-danger">`+listHtml+`</ul>`);
