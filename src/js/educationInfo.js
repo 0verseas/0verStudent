@@ -42,7 +42,9 @@
 		})
 		.then((json) => {
 			// console.log(json);
-			_initForm(json.student_education_background_data);
+			if(json.student_education_background_data != null){
+				_initForm(json.student_education_background_data);
+			}
 			let schoolType =json.student_personal_data.school_type;
 			const needTipSchoolTpyeArray = ['7','11','12'];
 			if(needTipSchoolTpyeArray.includes(schoolType)){
