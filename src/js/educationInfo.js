@@ -44,8 +44,14 @@
 			// console.log(json);
 			_initForm(json.student_education_background_data);
 			let schoolType =json.student_personal_data.school_type;
-			if(schoolType == 11 ||schoolType == 12){
+			const needTipSchoolTpyeArray = ['7','11','12'];
+			if(needTipSchoolTpyeArray.includes(schoolType)){
 				$('#educationHighSchool6NameTitleTip').show()
+				if(schoolType == 11 || schoolType == 12){
+					$('#educationHighSchool6NameTitleTip').text('中五學制畢業生，請填寫中五(Form5/Year11)學校資料。');
+				} else {
+					$('#educationHighSchool6NameTitleTip').text('舊制緬校十年級畢業生，本欄請重複填寫中學 4 - 5 年級（高中）資料即可。');
+				}
 			} else {
 				$('#educationHighSchool6NameTitleTip').hide()
 			}
