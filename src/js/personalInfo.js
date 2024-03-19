@@ -678,14 +678,14 @@
 
     function _reRenderSchoolCountry() {
         const continent = $(this).find(':selected').data('continentindex');
-        // 非在台碩博不能選到臺灣
+        // 所有學制只有身份別是在台碩博的才能夠選到臺灣
         const countryFilterRule = ["134"];
 
         let countryHTML = '';
         if (continent !== -1) {
             $schoolCountry.selectpicker({title: '請選擇國家'}); // 修改 未選擇選項時的顯示文字
             _countryList[continent]['country'].forEach((obj, index) => {
-                if ((_systemId === 2 || _systemId === 3 || _systemId ===4)&&(_identityId !== 4 && _identityId !== 5)) {
+                if ((_identityId !== 4 && _identityId !== 5)) {
                     if (countryFilterRule.indexOf(obj.id) !== -1) { return; }
                 }
                 countryHTML += `<option value="${obj.id}">${obj.country}</option>`;
