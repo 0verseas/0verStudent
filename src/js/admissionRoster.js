@@ -23,6 +23,14 @@
      * init
      */
     _handleStageChange();
+    $birthday.datepicker({
+        updateViewDate: true, // 會自動避免並修正直接輸入錯誤/無效的月/日，例：不是潤年的時候輸入2月29日，設true會自動跳下一天到3月1日
+        autoclose: true, // 選完會自動關閉選擇器
+        startView: 2, // 以個位數年份單位開始瀏覽
+        maxViewMode: 3, // 最高以10年單位瀏覽年份
+        immediateUpdates: true, // 只要選了其中一個項目，立即刷新欄位的年/月/日的數字
+        defaultViewDate: '-18y', // 預設選項是 18 年前開始
+    });
     loading.complete();
 
     // 啟用由網址帶參數功能
