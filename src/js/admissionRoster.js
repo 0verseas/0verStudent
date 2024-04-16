@@ -99,11 +99,12 @@
         //     alert('請填寫姓名');
         //     return;
         // }
-        var $name1 ='';
+        let $name1 ='';
         if ($name.val() === ""){  // 姓名選填
             $name1 = 'NONE';
         }else {
-            $name1 = $name.val();
+            $name1 = $name.val().trim(); // 取得名字並去除前後空白
+            $name.val($name1);
         }
 
         if ($userId.val() === ""){  // 沒填寫報名序號
