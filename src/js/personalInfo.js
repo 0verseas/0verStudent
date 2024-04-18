@@ -1078,7 +1078,8 @@
         const backupEmailText = $backupEmail.parent().find('label').text();
         const inputName = $name.val(); // 中文姓名
         const nameText = $name.parent().find('label').text();
-        const inputEngName = $engName.val(); // 英文姓名
+        const inputEngName = $engName.val().trim(); // 英文姓名 順便去除前後空格
+        $engName.val(inputEngName);// 將去除空格後的字串放回去 顯示給學生看
         const engNameText = $engName.parent().find('label').text();
         const choosenGender = $(".gender:checked").val(); // 性別
         const genderFieldSet = $("#Gender_FieldSet");
