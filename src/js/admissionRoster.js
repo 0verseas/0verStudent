@@ -91,7 +91,7 @@
         $('.result').hide();  // 重新點下查詢按鈕就要把之前的結果藏起來
 
         // 檢查有沒有什麼地方不對的
-        if ($stage.val() === ""){  // 沒選擇「分發類別」
+        if ($stage.val() == null){  // 沒選擇「分發類別」
             swal({title: `請選擇分發類別`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
             return;
         }
