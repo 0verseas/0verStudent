@@ -36,7 +36,7 @@
 	const $confirmedBtn = $('#btn-confirmed');
 	const $secondConfirm = $('#secondConfirm');
 	const $notToFFInfo = $('#not-to-FF');  // 提醒目前是不分發僑先部狀態的 alert
-	const $notToFFLink = $('#not-to-FF-link');// 
+	const $notToFFLink = $('#not-to-FF-link');//
 	const $deptMoreInfoUrl = $('#btn-info'); // 系所資料 連結至名額查詢系統
 
 	/**
@@ -93,7 +93,7 @@
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
 					specialDeptType: value.special_dept_type, // 特殊系所
-					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料					
+					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料
 					birth_limit_after: value.birth_limit_after,
 					birth_limit_before: value.birth_limit_before,
 					gender_limit: value.gender_limit,
@@ -376,7 +376,7 @@
 		const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 		let hasNUPS = false;
 		let invalidBadge = '';
-		
+
 		for(let i in _wishList) {
 			let medicalHTML = '';
 			let badgeNUPS = '';
@@ -539,7 +539,7 @@
 			$('#btn-confirmed').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定志願') && $afterConfirmZone.show();
 		}
 	}
-	
+
 	function _showInfo(){
 		const sortNum = $(this).data("sortnum");
 		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
@@ -553,7 +553,7 @@
 		let birthLimit;
 
 		linktoquotapageUrl = quotaUrl;
-		
+
 		switch(genderLimit){
 			case 'M':
 				genderLimit = '只收男性'
@@ -593,7 +593,7 @@
 				</tr>
 			</div>
 		`;
-		
+
 		$('#modal-body').html(docsHtml);
 		$('#docs-modal').modal('show');
 	}

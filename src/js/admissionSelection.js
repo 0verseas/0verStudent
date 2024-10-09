@@ -85,7 +85,8 @@
 					birth_limit_before: value.birth_limit_before,
 					gender_limit: value.gender_limit,
 					mainGroup: value.main_group_data.title, // 學群名稱
-					type: '<span class="badge badge-light hide">一般系所</span>'
+					type: '<span class="badge badge-light hide">一般系所</span>',
+					has_interview: value.has_interview, //是否需要面試
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
@@ -628,6 +629,7 @@
 		let beforeBirthLimit = _optionalWish[optionalIndex].birth_limit_before;
 		let afterBirthLimit = _optionalWish[optionalIndex].birth_limit_after;
 		let birthLimit;
+		let has_interview = _optionalWish[optionalIndex].has_interview;
 
 		switch(genderLimit){
 			case 'M':
@@ -670,6 +672,18 @@
 		linktoquotapageUrl = quotaUrl;
 
 		let docsHtml = '<h5>個人申請審查項目</h5>';
+
+		if(has_interview){
+			docsHtml+=`
+				<div>
+					<tr class="table-warning">
+						<td></td>
+						<td></td>
+						<td>需要參加面試<br />Required to take an interview</td>
+					</tr>
+				</div>
+				<br/>`;
+		}
 
 		docsList = docsList.sort(function(a,b){return b.required - a.required;});
 
