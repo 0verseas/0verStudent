@@ -345,7 +345,7 @@
 								<div class="card-header bg-primary text-white">
 									${fileListItem.type.name} (${fileListItem.type.eng_name}) ${requiredBadge}
 								</div>
-								<div class="card-block">` + descriptionBlock + `
+								<div class="card-body">` + descriptionBlock + `
 									<div class="card">
 										<div class="card-body">
 											<p>只接受紙本，請於 <span class="text-danger">${fileListItem.paper.deadline}</span> 前逕行寄送到下列地址</p>
