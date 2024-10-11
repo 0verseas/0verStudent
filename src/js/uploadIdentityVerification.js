@@ -119,17 +119,11 @@
 			if (!progressResponse.ok) { throw progressResponse; }
 			const progressJson = await progressResponse.json();
 
-			// 專門只為了取出生地
-			const progressResponse2 = await student.getStudentPersonalData();
-        	if (!progressResponse2.ok) { throw progressResponse2; }
-			const progressJson2 = await progressResponse2.json();
-
 			studentdata = progressJson;
             _userID = progressJson.id;
-			birth_location = progressJson2.student_personal_data.birth_location;
 
 			// 取得學生上傳簡章規定文件的代號
-			const studentItemList = await student.getStudentItemList(_userID, 'all');
+			const studentItemList = await student.getIdentityVerificationItem({user_id: _userID, item: 'all'});
 			if (!studentItemList.ok) { throw studentItemList; }
 			const studentItemListJson = await studentItemList.json();
 
@@ -142,104 +136,12 @@
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
 				progressJson.student_personal_data_detail.resident_location == '澳門'
 			){
-				for (let i=1; i<item_block.length; i++) {
-					// 自願退學證明 (曾分發來台 && 經輔導來台就學後因故退學或喪失國籍返回僑居地)
-					if (i==2 && progressJson.student_qualification_verify.reason_selection_of_come_to_taiwan != 2 ) {
-						continue;
-					}
-					// 海外居留年限：未滿六 or 滿六未滿八
-					if (i==3 && progressJson.student_qualification_verify.overseas_residence_time != 2 &&
-						progressJson.student_qualification_verify.overseas_residence_time != 4){
-						continue;
-					}
-					// 凡在台停留超過 120 天
-					if (i==4 && progressJson.student_qualification_verify.reason_selection_of_stay_over_120_days_in_taiwan == null) {
-						continue;
-					}
-					// (必填)港澳生：聲明書; 港澳具外國國籍：切結書
-					if (i==5 && progressJson.student_qualification_verify.identity != 1 &&
-						progressJson.student_qualification_verify.identity != 2) {
-							continue;
-					}
-					// 回鄉證，出生地為大陸 7
-					if (i==7 && birth_location != 135) {
-						continue;
-					}
-					// 學士班 不去僑先部(code != 16)
-					if (progressJson.student_misc_data.admission_placement_apply_way != null && progressJson.student_misc_data.admission_placement_apply_way_data.code != 16 && progressJson.student_qualification_verify.system_id == 1) {
-						// 國際數理奧林匹亞競賽或美國國際科展獎項證明  12
-						if (i==12 && !progressJson.student_misc_data.has_olympia_aspiration) {
-							continue;
-						}
-						// 不參加聯合分發/去僑先部/僅持 DSE 當年度成績/中學最後三年成績/持澳門學歷，皆不需上傳採計文憑成績證書 13
-						if ( i==13 && (
-							(
-								progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' &&
-								progressJson.student_misc_data.year_of_hk_dse == env.year &&
-								progressJson.student_misc_data.year_of_hk_ale == null &&
-								progressJson.student_misc_data.year_of_hk_cee == null
-							) ||
-							progressJson.student_misc_data.admission_placement_apply_way == "1" ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == "26" ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-						)){
-							continue;
-						}
-						if( i==13
-							&& progressJson.student_misc_data.admission_placement_apply_way_data.code == '23'
-							&& (progressJson.student_misc_data.year_of_hk_dse ? progressJson.student_misc_data.year_of_hk_dse : '').includes(env.year)
-						){
-							item_block[i].description[0] = `
-								<ol>
-									<li>${item_block[i].description[0]}</li>
-									<li>已報考${env.year}年度香港中學文憑考試者，此階段無需上傳${env.year}香港中學文憑考試成績，海聯會將逕向香港考評局提取；除${env.year}香港中學文憑考試成績外，請務必上傳其他年度採計文憑成績證書。</li>
-								</ol>
-							`;
-						}
-
-						// 為DSE ALE CEE/持澳門學歷，不需上傳成績採計參考表  14
-						if (i==14 && (
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' ||
-							progressJson.student_misc_data.admission_placement_apply_way == '1' ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-						)){
-							continue;
-						}
-
-					} else if (i==12 || i==13 || i==14) {
-						continue;
-					}
-					// 符合港澳關係條例切結書 港澳生 + 在台設有戶籍 + 持外國護照（但不限回歸前葡萄牙護照）
-					if (i==15 && !(
-						progressJson.student_qualification_verify.identity == 1 &&
-						progressJson.student_qualification_verify.taiwan_census == 1 &&
-						progressJson.student_qualification_verify.except_HK_Macao_passport == 1 &&
-						(
-							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' ||
-							progressJson.student_qualification_verify.which_nation_passport != null
-						)
-					)){
-						continue;
-					}
-					// 港二技學歷完成地在香港者需要上傳已通過香港資歷架構第四級(含)以上之證明文件
-					if (i==16 && (progressJson.student_qualification_verify.system_id != 2 || progressJson2.student_personal_data.school_country != 113)) {
-						continue;
-					}
-					// 港澳具外國國籍的學生要上傳外國護照
-					if (i==17 && progressJson.student_qualification_verify.identity != 2) {
-						continue;
-					}
-
-					// 根據志願是否有選擇重點產業系所來顯示上傳語言能力證明欄位
-					if (i==18 && !studentItemListJson.includes('18')) {
-						continue;
-					}
-
-					await setBlocks(i);
-				}
+				await studentItemListJson.forEach((value, index) => {
+					setBlocks(parseInt(value));
+				});
 			}
 
-            loading.complete();
+            await loading.complete();
         } catch(e) {
 			if (e.status && e.status === 401) {
 				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})

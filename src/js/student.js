@@ -616,7 +616,7 @@ const student = (() => {
 		})
 	}
 
-	// 撈出學生(香港)傳審查身份文件
+	// 撈出學生(香港)傳審查身份文件 // item 代號是確認檔案是否以上傳 all 是取得哪些檔案需要上傳
 	function getIdentityVerificationItem({user_id, item}) {
 		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${item}/file`, {
 			method: 'GET',
@@ -628,14 +628,6 @@ const student = (() => {
 	function delIdentityVerificationItem({ user_id, itemId }) {
 		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${itemId}/file/none`, {
 			method: 'Delete',
-			credentials: 'include'
-		})
-	}
-
-	// 撈出學生上傳簡章規定文件的代號
-	function getStudentItemList(user_id, item) {
-		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${item}/file`, {
-			method: 'GET',
 			credentials: 'include'
 		})
 	}
@@ -840,7 +832,6 @@ const student = (() => {
 		uploadIdentityVerificationItem,
 		getIdentityVerificationItem,
 		delIdentityVerificationItem,
-		getStudentItemList,
 		setAdmissionSelectionWishGiveUpChange,
 		getOrderList,
 		checkOrderListCanCreate,
