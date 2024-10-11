@@ -143,8 +143,8 @@
 						let dayNumber = new Date(env.year+'/03/31').getDay();
 						deadlineString = `西元 ${env.year} 年 3 月 31 日（星期${weekString[dayNumber]}）`;
 					} else {
-						let dayNumber = new Date(env.year+'/01/08').getDay();
-						deadlineString = `西元 ${env.year} 年 1 月 8 日（星期${weekString[dayNumber]}）`;
+						let dayNumber = new Date(env.year+'/01/06').getDay();
+						deadlineString = `西元 ${env.year} 年 1 月 6 日（星期${weekString[dayNumber]}）`;
 					}
 					listHtml += `<li>報名「個人申請」者，務必於${deadlineString}臺灣時間下午 5 時前完成備審資料上傳作業，按下『確認上傳資料並提交』。逾時系統即關閉上傳功能，請預留資料上傳時間，以免上傳失敗。</li>`;
 					listHtml += `<li>所填志願校系之「必繳」項目皆須上傳檔案，於系統按下「確認上傳資料並提交」按鍵後，始能成功提交。</li>`;
