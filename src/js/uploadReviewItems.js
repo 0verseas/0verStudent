@@ -65,8 +65,8 @@
 			_isDocumentLock = !!orderJson.student_misc_data.admission_selection_document_lock_at;
 			let key = '';
 			let weekString = ['日','一','二','三','四','五','六'];
-			let dayNumber = new Date(env.year+'/01/08').getDay();
-			let admission_doc_upload_time_limit = ' 1 月 8 日';  // 備審資料上傳截止時間（學士班、研究所）
+			let dayNumber = new Date(env.year+'/01/06').getDay();
+			let admission_doc_upload_time_limit = ' 1 月 6 日';  // 備審資料上傳截止時間（學士班、研究所）
 			switch (_system) {
 				case 1:
 					key = 'student_department_admission_selection_order';
