@@ -92,7 +92,7 @@
 		},{
 			element: 'uploadArea_languageProficiency',
 			title: ['語文能力說明或相關證明文件'],
-			description: ['']
+			description: ['選填「重點產業系所」校系志願者，請檢附華語文能力測驗(TOCFL)基礎級A2以上或達該程度之證明文件。']
 		}
 	];
 
