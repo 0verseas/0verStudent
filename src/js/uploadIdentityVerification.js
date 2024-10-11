@@ -89,6 +89,10 @@
 			element: 'uploadArea_passport',
 			title: ['外國護照（香港或澳門以外）'],
 			description: ['']
+		},{
+			element: 'uploadArea_languageProficiency',
+			title: ['語文能力說明或相關證明文件'],
+			description: ['']
 		}
 	];
 
@@ -124,7 +128,10 @@
             _userID = progressJson.id;
 			birth_location = progressJson2.student_personal_data.birth_location;
 
-            //console.log(progressJson);
+			// 取得學生上傳簡章規定文件的代號
+			const studentItemList = await student.getStudentItemList(_userID, 'all');
+			if (!studentItemList.ok) { throw studentItemList; }
+			const studentItemListJson = await studentItemList.json();
 
 			if(progressJson.student_qualification_verify.system_id == 1 && !progressJson.student_misc_data.admission_placement_apply_way_data){
 				await swal({title: "請先選擇成績採計方式！", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
@@ -220,6 +227,11 @@
 					}
 					// 港澳具外國國籍的學生要上傳外國護照
 					if (i==17 && progressJson.student_qualification_verify.identity != 2) {
+						continue;
+					}
+
+					// 根據志願是否有選擇重點產業系所來顯示上傳語言能力證明欄位
+					if (i==18 && !studentItemListJson.includes('18')) {
 						continue;
 					}
 
@@ -377,9 +389,7 @@
 			});
 			loading.complete();
 		} catch(e) {
-			// console.log(e);
 			e.json && e.json().then((data) => {
-				// console.error(data);
 				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			loading.complete();
@@ -410,7 +420,8 @@
             'transcript-reference-table', // 成績採計資料參考表
             'hk-mo-relations-ordinance', // 符合港澳關係條例切結書
             'tech-course-passed-proof', // 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
-            'foreign-passport' // 外國護照（香港或澳門以外）
+            'foreign-passport', // 外國護照（香港或澳門以外）
+			'language-proficiency' // 語文能力說明或相關證明文件
         ];
 		const data_name = _userID+"_"+data_name_map[parseInt(_itemId)];
 

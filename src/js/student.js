@@ -632,6 +632,14 @@ const student = (() => {
 		})
 	}
 
+	// 撈出學生上傳簡章規定文件的代號
+	function getStudentItemList(user_id, item) {
+		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${item}/file`, {
+			method: 'GET',
+			credentials: 'include'
+		})
+	}
+
 	// 取得學生是否願意去僑先部的資料
 	function getStudentGoToFForNot(){
 		return fetch(`${baseUrl}/students/FF-or-not`,{
@@ -832,6 +840,7 @@ const student = (() => {
 		uploadIdentityVerificationItem,
 		getIdentityVerificationItem,
 		delIdentityVerificationItem,
+		getStudentItemList,
 		setAdmissionSelectionWishGiveUpChange,
 		getOrderList,
 		checkOrderListCanCreate,
