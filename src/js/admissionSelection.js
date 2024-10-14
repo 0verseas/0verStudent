@@ -540,6 +540,7 @@
 						});
 					}
 				}
+				// 判斷是否有選到重點產業系所校系志願
 				if (data.hasMI) {
 					swal({
 						title: `一、您已選填【重點產業系所】志願，報名時須另檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件（例如：「中文修課成績或證明」、「中文手寫自傳」等）。<br>二、前開證明文件為分發【重點產業系所】必要文件，請問您是否已瞭解該規定並確定選填【重點產業系所】？`,
@@ -553,6 +554,7 @@
 						allowOutsideClick: false,
 						reverseButtons: true
 					}).then(()=>{
+						loading.start();
 						student.setAdmissionSelectionOrder(data)
 				        .then((res) => {
 				        	if (res.ok) {
@@ -580,6 +582,7 @@
 						loading.complete();
 					});
 				} else {
+					loading.start();
 					student.setAdmissionSelectionOrder(data)
 				    .then((res) => {
 				    	if (res.ok) {
@@ -602,7 +605,7 @@
 				    		swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 				    	})
 				    	loading.complete();
-				    })
+				    });
 				}
 			} else {
 				swal({title: `沒有選擇志願。`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});

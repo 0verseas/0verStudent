@@ -104,6 +104,7 @@
 				} else if(value.is_extended_department == 2){
 					add.type = '<span class="badge table-primary">國際專修部</span>';
 				}
+				add.is_extended_department = value.is_extended_department;
 				_optionalWish.push(add);
 			})
 
@@ -431,37 +432,85 @@
 
 	function _handleSave() {
 		let order = [];
+		let hasMI = false;
 		if (_wishList.length > 0) {
 			_wishList.forEach((value, index) => {
 				order.push(value.id);
+				if (value.is_extended_department == 1) {
+					hasMI = true;
+				}
 			});
 			const data = {
-				order
+				order,
+				hasMI
 			}
-			loading.start();
-			student.setPlacementSelectionOrder(data)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
-				.then(()=>{
-					window.location.reload();
-					scroll(0,0);
+			// 判斷是否有選到重點產業系所校系志願
+			if (data.hasMI) {
+				swal({
+					title: `一、您已選填【重點產業系所】志願，報名時須另檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件（例如：「中文修課成績或證明」、「中文手寫自傳」等）。<br>二、前開證明文件為分發【重點產業系所】必要文件，請問您是否已瞭解該規定並確定選填【重點產業系所】？`,
+					html:`按下確定後，將儲存志願`,
+					type:"question",
+					showCancelButton: true,
+					confirmButtonText: '確定',
+					cancelButtonText: '取消',
+					confirmButtonColor: '#5cb85c',
+					cancelButtonColor: '#d9534f',
+					allowOutsideClick: false,
+					reverseButtons: true
+				}).then(()=>{
+					loading.start();
+			        student.setPlacementSelectionOrder(data)
+			        .then((res) => {
+			        	if (res.ok) {
+			        		return res.json();
+			        	} else {
+			        		throw res;
+			        	}
+			        })
+			        .then((json) => {
+			        	swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+			        	.then(()=>{
+			        		window.location.reload();
+			        		scroll(0,0);
+			        	});
+			        	loading.complete();
+			        })
+			        .catch((err) => {
+			        	err.json && err.json().then((data) => {
+			        		console.error(data);
+			        		swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+			        	})
+				        loading.complete();
+				    })
+				}).catch(()=>{
+				    loading.complete();
 				});
-				loading.complete();
-			})
-			.catch((err) => {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-				})
-				loading.complete();
-			})
+			} else {
+				loading.start();
+			    student.setPlacementSelectionOrder(data)
+			    .then((res) => {
+			    	if (res.ok) {
+			    		return res.json();
+			    	} else {
+			    		throw res;
+			    	}
+			    })
+			    .then((json) => {
+			    	swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+			    	.then(()=>{
+			    		window.location.reload();
+			    		scroll(0,0);
+			    	});
+			    	loading.complete();
+			    })
+			    .catch((err) => {
+			    	err.json && err.json().then((data) => {
+			    		console.error(data);
+			    		swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+			    	})
+				    loading.complete();
+				});
+			}
 		} else {
 			swal({title:`沒有選擇志願。`, confirmButtonText:'確定', type:'warning'});
 		}
