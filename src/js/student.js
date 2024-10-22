@@ -760,6 +760,13 @@ const student = (() => {
 		});
 	}
 
+	function getAdminssionRosterStages() {
+		return fetch(baseUrl + `/students/search-admission-roster-stages`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
 	return {
 		setHeader,
 		getAdmissionCount,
@@ -835,7 +842,8 @@ const student = (() => {
 		setAdmissionSelectionWishGiveUpChange,
 		getOrderList,
 		checkOrderListCanCreate,
-		generateAdminssionPaper
+		generateAdminssionPaper,
+		getAdminssionRosterStages
 	};
 
 })();

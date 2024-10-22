@@ -42,7 +42,7 @@
     if(url_data){
         $('.result').hide();  // 重新點下查詢按鈕就要把之前的結果藏起來
 
-        var data = encodeHtmlCharacters(url_data);
+        let data = encodeHtmlCharacters(url_data);
 
         loading.start();
         student.getAdmissionRoster2(data)
@@ -83,6 +83,29 @@
                 }
                 loading.complete();
             });
+    }
+
+    _init();
+
+    async function _init() {
+        try{
+			const getStagesResponse = await student.getAdminssionRosterStages();
+			if(!getStagesResponse.ok){
+				throw getStagesResponse;
+			}
+			const stagesData = await getStagesResponse.json();
+
+            stagesData.forEach((value) => {
+                console.log(value);
+                $stage.find(`option[value=${value.stage_of_admit}]`).removeAttr('disabled');
+                $stage.find(`option[value=${value.stage_of_admit}]`).text(
+                    $stage.find(`option[value=${value.stage_of_admit}]`).text().replace('（未放榜）','')
+                );
+            });
+		} catch(errorRespone){
+			const data = await errorRespone.json();
+            await swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+		}
     }
 
 
