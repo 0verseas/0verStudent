@@ -1,0 +1,12 @@
+.inline-inputs {
+    display: flex;
+    gap: 10px; /* 設置兩個 input 之間的間距 */
+}
+
+.inline-inputs .form-control {
+    flex: 1; /* 控制每個 input 的寬度 */
+}
+
+.card-body {
+    padding-bottom: 0%;
+}

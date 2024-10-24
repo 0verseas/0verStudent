@@ -746,6 +746,29 @@ const student = (() => {
 		});
 	}
 
+	// 渲染選擇華語文能力證明文件
+	function getStudentCertificationOfChineseOption() {
+		return fetch(baseUrl + `/students/certification-of-chinese-option`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
+	// 儲存選擇華語文能力證明文件
+	function setStudentCertificationOfChineseOption(data) {
+		return fetch(baseUrl + `/students/certification-of-chinese-option`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	function checkOrderListCanCreate() {
 		return fetch(baseUrl + `/students/application-fee/check`, {
 			method: 'GET',
@@ -841,6 +864,8 @@ const student = (() => {
 		delIdentityVerificationItem,
 		setAdmissionSelectionWishGiveUpChange,
 		getOrderList,
+		getStudentCertificationOfChineseOption,
+		setStudentCertificationOfChineseOption,
 		checkOrderListCanCreate,
 		generateAdminssionPaper,
 		getAdminssionRosterStages
