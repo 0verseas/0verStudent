@@ -388,7 +388,7 @@
 		}
 
 		// 選擇華語文能力證明文件
-		if(data.had_MI && data.student_qualification_verify.identity > 2){
+		if(data.had_MI){
 			$('.nav-chineseLanguageProficiencyType').show();
 			!!data.student_misc_data.certification_of_chinese_option && $('.nav-chineseLanguageProficiencyType').addClass('list-group-item-success');
 		}
