@@ -148,12 +148,12 @@
 							allowOutsideClick: false
 						});
 						location.href = "./uploadIdentityVerification.html";
-					}else if(window.history.length>1){
-						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回上一頁', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-						window.history.back();
 					} else if(data.messages[0].includes('採計')){
 						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回聯合分發成績採計方式頁面', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						location.href = './grade.html';
+					} else if(window.history.length>1){
+						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回上一頁', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+						window.history.back();
 					} else {
 						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回志願檢視頁面', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						location.href = './result.html';
