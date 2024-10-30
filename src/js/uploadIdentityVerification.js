@@ -122,15 +122,15 @@
 			studentdata = progressJson;
             _userID = progressJson.id;
 
-			// 取得學生上傳簡章規定文件的代號
-			const studentItemList = await student.getIdentityVerificationItem({user_id: _userID, item: 'all'});
-			if (!studentItemList.ok) { throw studentItemList; }
-			const studentItemListJson = await studentItemList.json();
-
 			if(progressJson.student_qualification_verify.system_id == 1 && !progressJson.student_misc_data.admission_placement_apply_way_data){
 				await swal({title: "請先選擇成績採計方式！", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 				location.href = "./grade.html";
 			}
+
+			// 取得學生上傳簡章規定文件的代號
+			const studentItemList = await student.getIdentityVerificationItem({user_id: _userID, item: 'all'});
+			if (!studentItemList.ok) { throw studentItemList; }
+			const studentItemListJson = await studentItemList.json();
 
             // 僑居地為港澳
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
