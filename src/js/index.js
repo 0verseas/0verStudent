@@ -13,7 +13,7 @@
 	const $email = $('#email');
 	const $pass = $('#password');
 	const $loginBtn = $('#btn-login');
-	const $fbLoginBtn = $('#btn-fb-login');
+	// const $fbLoginBtn = $('#btn-fb-login');
 	const $downloadLinks = $('#download-links');
 
 	/**
@@ -26,8 +26,9 @@
 	*	bind event
 	*/
 	$loginBtn.on('click', _handleLogin);
-	$fbLoginBtn.on('click', _handleFbLogin);
-	$pass.keyup((e) => { e.keyCode == 13 && $pass.blur() && _handleLogin(); }); //原本沒驗證碼 所以就密碼輸入欄位判斷是否有按enter的鍵盤事件
+	// $fbLoginBtn.on('click', _handleFbLogin);
+	$email.keyup((e) => { e.keyCode == 13 && $email.blur() && $pass.focus(); }); // e-mail輸入欄位判斷是否有按enter的鍵盤事件
+	$pass.keyup((e) => { e.keyCode == 13 && $pass.blur() && _handleLogin(); }); // 密碼輸入欄位判斷是否有按enter的鍵盤事件
 
 	/**
 	*	event handlet
@@ -46,9 +47,7 @@
                 '<a href="' + env.baseUrl + '/hk-quit-admission-placement-declaration-form" target="_blank" class="list-group-item list-group-item-action">放棄聯合分發聲明書（香港專用）</a>\n' +
                 '<a href="http://get.adobe.com/tw/reader/" target="_blank" class="list-group-item list-group-item-action">觀看中文PDF軟體</a>\n' +
                 '<a href="http://www.7-zip.org/" target="_blank" class="list-group-item list-group-item-action">解壓縮軟體</a>\n' +
-                '<a href="' + env.baseUrl + '/admission-data-correction-form" target="_blank" class="list-group-item list-group-item-action">報名資料修正表</a>\n' +
-                '<a href="http://www.gov.hk/tc/about/helpdesk/softwarerequirement/hkscs.htm" target="_blank" class="list-group-item list-group-item-action">香港字庫(For win2000/XP OR Linux)</a>\n' +
-                '<a href="http://www.ccli.gov.hk/tc_chi/faq/faq_win7-hkscs.html" target="_blank" class="list-group-item list-group-item-action">香港字庫(FOR Win7)</a>'
+                '<a href="' + env.baseUrl + '/admission-data-correction-form" target="_blank" class="list-group-item list-group-item-action">報名資料修正表</a>'
 			);
 			const response = await student.getAdmissionCount();
 			if (!response.ok) { throw response; }
@@ -133,26 +132,26 @@
         });
 	}
 
-	function _handleFbLogin() {
-		loading.start();
-		student.fbLogin()
-			.then((res) => {
-				if (res.status === 302) {
-					return res.json();
-				} else {
-					throw res.status;
-				}
-			})
-			.then((json) => {
-				location.href = json.target[0];
+	// function _handleFbLogin() {
+	// 	loading.start();
+	// 	student.fbLogin()
+	// 		.then((res) => {
+	// 			if (res.status === 302) {
+	// 				return res.json();
+	// 			} else {
+	// 				throw res.status;
+	// 			}
+	// 		})
+	// 		.then((json) => {
+	// 			location.href = json.target[0];
 
-				loading.complete();
-			})
-			.catch((err) => {
-				err === 401 && swal({title:`帳號或密碼輸入錯誤。`, confirmButtonText:'確定', type:'error'});
-				err === 429 && swal({title:`登入錯誤次數太多，請稍後再試。`, confirmButtonText:'確定', type:'error'});
-				loading.complete();
-			})
-	}
+	// 			loading.complete();
+	// 		})
+	// 		.catch((err) => {
+	// 			err === 401 && swal({title:`帳號或密碼輸入錯誤。`, confirmButtonText:'確定', type:'error'});
+	// 			err === 429 && swal({title:`登入錯誤次數太多，請稍後再試。`, confirmButtonText:'確定', type:'error'});
+	// 			loading.complete();
+	// 		})
+	// }
 
 })();

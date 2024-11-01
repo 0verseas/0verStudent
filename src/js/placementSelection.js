@@ -36,7 +36,7 @@
 	const $confirmedBtn = $('#btn-confirmed');
 	const $secondConfirm = $('#secondConfirm');
 	const $notToFFInfo = $('#not-to-FF');  // 提醒目前是不分發僑先部狀態的 alert
-	const $notToFFLink = $('#not-to-FF-link');// 
+	const $notToFFLink = $('#not-to-FF-link');//
 	const $deptMoreInfoUrl = $('#btn-info'); // 系所資料 連結至名額查詢系統
 
 	/**
@@ -93,7 +93,7 @@
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
 					specialDeptType: value.special_dept_type, // 特殊系所
-					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料					
+					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料
 					birth_limit_after: value.birth_limit_after,
 					birth_limit_before: value.birth_limit_before,
 					gender_limit: value.gender_limit,
@@ -104,6 +104,7 @@
 				} else if(value.is_extended_department == 2){
 					add.type = '<span class="badge table-primary">國際專修部</span>';
 				}
+				add.is_extended_department = value.is_extended_department;
 				_optionalWish.push(add);
 			})
 
@@ -147,12 +148,12 @@
 							allowOutsideClick: false
 						});
 						location.href = "./uploadIdentityVerification.html";
-					}else if(window.history.length>1){
-						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回上一頁', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-						window.history.back();
 					} else if(data.messages[0].includes('採計')){
 						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回聯合分發成績採計方式頁面', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						location.href = './grade.html';
+					} else if(window.history.length>1){
+						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回上一頁', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+						window.history.back();
 					} else {
 						await swal({title: `ERROR`, html: data.messages[0]+ '<br/>即將返回志願檢視頁面', type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						location.href = './result.html';
@@ -376,7 +377,7 @@
 		const medicalList = ["醫學系", "牙醫學系", "中醫學系"];
 		let hasNUPS = false;
 		let invalidBadge = '';
-		
+
 		for(let i in _wishList) {
 			let medicalHTML = '';
 			let badgeNUPS = '';
@@ -431,37 +432,88 @@
 
 	function _handleSave() {
 		let order = [];
+		let hasMI = false;
 		if (_wishList.length > 0) {
 			_wishList.forEach((value, index) => {
 				order.push(value.id);
+				if (value.is_extended_department == 1) {
+					hasMI = true;
+				}
 			});
 			const data = {
-				order
+				order,
+				hasMI
 			}
-			loading.start();
-			student.setPlacementSelectionOrder(data)
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
-				.then(()=>{
-					window.location.reload();
-					scroll(0,0);
+			// 判斷是否有選到重點產業系所校系志願
+			if (data.hasMI) {
+				swal({
+					title: `按下確定後，將儲存志願`,
+					html:`<ol style="list-style:cjk-ideographic">
+								<li>您已選填【重點產業系所】志願，報名時須另檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件<br>（例如:「歷年成績單(含中文科目成績)」、「各類會考之中文成績或證明」、「就讀學校以中文授課證明」、其他足以佐證個人中文能力資料等）。</li>
+								<li>前開證明文件為分發【重點產業系所】必要文件，請問您是否已瞭解該規定並確定選填【重點產業系所】？</li>
+							</ol>`,
+					type:"question",
+					showCancelButton: true,
+					confirmButtonText: '確定',
+					cancelButtonText: '取消',
+					confirmButtonColor: '#5cb85c',
+					cancelButtonColor: '#d9534f',
+					allowOutsideClick: false,
+					reverseButtons: true
+				}).then(()=>{
+					loading.start();
+			        student.setPlacementSelectionOrder(data)
+			        .then((res) => {
+			        	if (res.ok) {
+			        		return res.json();
+			        	} else {
+			        		throw res;
+			        	}
+			        })
+			        .then((json) => {
+			        	swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+			        	.then(()=>{
+			        		window.location.reload();
+			        		scroll(0,0);
+			        	});
+			        	loading.complete();
+			        })
+			        .catch((err) => {
+			        	err.json && err.json().then((data) => {
+			        		console.error(data);
+			        		swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+			        	})
+				        loading.complete();
+				    })
+				}).catch(()=>{
+				    loading.complete();
 				});
-				loading.complete();
-			})
-			.catch((err) => {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-				})
-				loading.complete();
-			})
+			} else {
+				loading.start();
+			    student.setPlacementSelectionOrder(data)
+			    .then((res) => {
+			    	if (res.ok) {
+			    		return res.json();
+			    	} else {
+			    		throw res;
+			    	}
+			    })
+			    .then((json) => {
+			    	swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+			    	.then(()=>{
+			    		window.location.reload();
+			    		scroll(0,0);
+			    	});
+			    	loading.complete();
+			    })
+			    .catch((err) => {
+			    	err.json && err.json().then((data) => {
+			    		console.error(data);
+			    		swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+			    	})
+				    loading.complete();
+				});
+			}
 		} else {
 			swal({title:`沒有選擇志願。`, confirmButtonText:'確定', type:'warning'});
 		}
@@ -539,7 +591,7 @@
 			$('#btn-confirmed').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定志願') && $afterConfirmZone.show();
 		}
 	}
-	
+
 	function _showInfo(){
 		const sortNum = $(this).data("sortnum");
 		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
@@ -553,7 +605,7 @@
 		let birthLimit;
 
 		linktoquotapageUrl = quotaUrl;
-		
+
 		switch(genderLimit){
 			case 'M':
 				genderLimit = '只收男性'
@@ -593,7 +645,7 @@
 				</tr>
 			</div>
 		`;
-		
+
 		$('#modal-body').html(docsHtml);
 		$('#docs-modal').modal('show');
 	}

@@ -47,17 +47,17 @@
 			title: ['高中畢業證書/在學證明/學生證','經驗證之全日制副學士或高級文憑(含)以上學位畢業證書/在學證明/學生證','經驗證之學士或碩士畢業證書/在學證明/學生證','學士或碩士畢業證書/在學證明/學生證'],
 			description: ['<ol><li>請上傳<font color="red">高中</font>畢業證書或修業證明書，如為應屆中六生，可先上傳本學期在學證明書或學生證。</li><li>香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>',
 			'<ol><li>請上傳<font color="red">經驗證之全日制副學士或高級文憑(含)以上學位</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>學歷證件應先經台北經濟文化辦事處（香港灣仔港灣道18號中環廣場49樓4907-4908室）驗證。</li></ol>',
-			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>畢業證書或修業證明書，如為應屆畢業生，可先上傳本學期在學證明書或學生證。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件(畢業證書、學位證書、歷年成績單)須經大陸地區公證處公證，再經行政院設立或指定之機構或委託之民間團體驗證，或經大陸地區指定之認證中心證明屬實（專科以上學歷以教育部公告之認可名冊為限，且不得為醫事人員相關學歷。）</li></ol>',
 			'<ol><li>請上傳<font color="red">高中</font>畢業證書或修業證明書，如為應屆中六生，可先上傳由<strong class="text-danger">教青局核發</strong>之學生證及學生證二維碼掃描查詢結果文件。</li><li>澳門以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>',
-			'請上傳學士或碩士畢業證書或修業證明書（應屆畢業生，請上傳本學期在學證明書或學生證）。<br><br><small>註：<ol><li>持澳門學歷者請逕攜帶學歷證件正本至台北經濟文化辦事處 (澳門辦事處)辦理核驗。</li><li>核驗前，如申請人係持香港、澳門以外之外國學歷證件須先經由學歷完成地之我政府駐外機構驗證；大陸地區之學歷證件（畢業證書、學位證書、歷年成績單），應先經大陸地區指定之機構或委託民間團體辦理認證 (學歷採認流程詳見<a href="https://drive.google.com/file/d/1QFdtOnMxLjeFxsvT5AZFg9kj_Rc0EPKa/view?usp=sharing" target="_blank">附檔</a>)。</li></small>']
+			'請上傳學士或碩士畢業證書或修業證明書（應屆畢業生，請上傳本學期在學證明書或學生證）。<br><br><small>註：<ol><li>持澳門學歷者請逕攜帶學歷證件正本至台北經濟文化辦事處 (澳門辦事處)辦理核驗。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件(畢業證書、學位證書、歷年成績單)須經大陸地區公證處公證，再經行政院設立或指定之機構或委託之民間團體驗證，或經大陸地區指定之認證中心證明屬實（專科以上學歷以教育部公告之認可名冊為限，且不得為醫事人員相關學歷。）</li></small>']
 		},{
 			element: 'uploadArea_schollTranscript',
 			title: ['高中最後三年成績單','經驗證之副學士或高級文憑(含)以上學位之歷年成績單','經驗證之學士或碩士成績單','學士或碩士歷年成績單'],
 			description: ['<ol><li>請上傳<font color="red">高中</font>最後三年成績單，如為應屆中六生，當學期成績尚未取得，免附該學期成績單。</li><li>香港以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>',
 			'<ol><li>請上傳<font color="red">經驗證之全日制副學士或高級文憑(含)以上學位</font>之歷年成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li><li>學歷證件應先經台北經濟文化辦事處（香港灣仔港灣道18號中環廣場49樓4907-4908室）驗證。</li></ol>',
-			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。</li></ol>',
+			'<ol><li>請上傳<font color="red">經驗證之學士或碩士</font>成績單，如為應屆畢業生，當學期成績尚未取得，免附該學期成績單。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件(畢業證書、學位證書、歷年成績單)須經大陸地區公證處公證，再經行政院設立或指定之機構或委託之民間團體驗證，或經大陸地區指定之認證中心證明屬實（專科以上學歷以教育部公告之認可名冊為限，且不得為醫事人員相關學歷。）</li></ol>',
 			'<ol><li>請上傳<font color="red">高中</font>最後三年成績單，如為應屆中六生，當學期成績尚未取得，免附該學期成績單。</li><li>澳門以外學校之學歷證件應先經學歷取得地之我政府駐外機構（各地駐外機構可至<a href="https://www.boca.gov.tw/" target="_blank">外交部領事事務局</a>查詢）驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件，應先經大陸地區公證處公證，並經行政院設立或指定之機構或委託之民間團體驗證。至於大陸地區臺商學校之學歷同我國同級學校學歷，故無須經公證或驗證。</li></ol>',
-			'請上傳學士或碩士歷年成績單（應屆畢業生，當學期成績尚未取得，免附該學期成績單）。<br><br><small>註：<ol><li>持澳門學歷者請逕攜帶學歷證件正本至台北經濟文化辦事處 (澳門辦事處)辦理核驗。</li><li>核驗前，如申請人係持香港、澳門以外之外國學歷證件須先經由學歷完成地之我政府駐外機構驗證；大陸地區之學歷證件（畢業證書、學位證書、歷年成績單），應先經大陸地區指定之機構或委託民間團體辦理認證 (學歷採認流程詳見<a href="https://drive.google.com/file/d/1QFdtOnMxLjeFxsvT5AZFg9kj_Rc0EPKa/view?usp=sharing" target="_blank">附檔</a>)。</li></small>']
+			'請上傳學士或碩士歷年成績單（應屆畢業生，當學期成績尚未取得，免附該學期成績單）。<br><br><small>註：<ol><li>持澳門學歷者請逕攜帶學歷證件正本至台北經濟文化辦事處 (澳門辦事處)辦理核驗。</li><li>經教育部認可之香港、澳門當地大學或研究所學歷證件應經我政府駐港澳機構（台北經濟文化辦事處）驗證；倘為香港、澳門以外之外國學歷證件須經由學歷完成地之我政府駐外機構驗證；大陸地區（含設校或分校於大陸地區之外國學校）學歷證件(畢業證書、學位證書、歷年成績單)須經大陸地區公證處公證，再經行政院設立或指定之機構或委託之民間團體驗證，或經大陸地區指定之認證中心證明屬實（專科以上學歷以教育部公告之認可名冊為限，且不得為醫事人員相關學歷。）</li></small>']
 		},{
 			element: 'uploadArea_authorizeCheckDiploma',
 			title: ['學歷屬實及授權查證切結書'],
@@ -89,6 +89,10 @@
 			element: 'uploadArea_passport',
 			title: ['外國護照（香港或澳門以外）'],
 			description: ['']
+		},{
+			element: 'uploadArea_languageProficiency',
+			title: ['語文能力說明或相關證明文件'],
+			description: ['選填「重點產業系所」校系志願者，請檢附華語文能力測驗(TOCFL)基礎級A2以上或達該程度之證明文件。']
 		}
 	];
 
@@ -115,119 +119,29 @@
 			if (!progressResponse.ok) { throw progressResponse; }
 			const progressJson = await progressResponse.json();
 
-			// 專門只為了取出生地
-			const progressResponse2 = await student.getStudentPersonalData();
-        	if (!progressResponse2.ok) { throw progressResponse2; }
-			const progressJson2 = await progressResponse2.json();
-
 			studentdata = progressJson;
             _userID = progressJson.id;
-			birth_location = progressJson2.student_personal_data.birth_location;
-
-            //console.log(progressJson);
 
 			if(progressJson.student_qualification_verify.system_id == 1 && !progressJson.student_misc_data.admission_placement_apply_way_data){
 				await swal({title: "請先選擇成績採計方式！", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 				location.href = "./grade.html";
 			}
 
+			// 取得學生上傳簡章規定文件的代號
+			const studentItemList = await student.getIdentityVerificationItem({user_id: _userID, item: 'all'});
+			if (!studentItemList.ok) { throw studentItemList; }
+			const studentItemListJson = await studentItemList.json();
+
             // 僑居地為港澳
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
 				progressJson.student_personal_data_detail.resident_location == '澳門'
 			){
-				for (let i=1; i<item_block.length; i++) {
-					// 自願退學證明 (曾分發來台 && 經輔導來台就學後因故退學或喪失國籍返回僑居地)
-					if (i==2 && progressJson.student_qualification_verify.reason_selection_of_come_to_taiwan != 2 ) {
-						continue;
-					}
-					// 海外居留年限：未滿六 or 滿六未滿八
-					if (i==3 && progressJson.student_qualification_verify.overseas_residence_time != 2 &&
-						progressJson.student_qualification_verify.overseas_residence_time != 4){
-						continue;
-					}
-					// 凡在台停留超過 120 天
-					if (i==4 && progressJson.student_qualification_verify.reason_selection_of_stay_over_120_days_in_taiwan == null) {
-						continue;
-					}
-					// (必填)港澳生：聲明書; 港澳具外國國籍：切結書
-					if (i==5 && progressJson.student_qualification_verify.identity != 1 &&
-						progressJson.student_qualification_verify.identity != 2) {
-							continue;
-					}
-					// 回鄉證，出生地為大陸 7
-					if (i==7 && birth_location != 135) {
-						continue;
-					}
-					// 學士班 不去僑先部(code != 16)
-					if (progressJson.student_misc_data.admission_placement_apply_way != null && progressJson.student_misc_data.admission_placement_apply_way_data.code != 16 && progressJson.student_qualification_verify.system_id == 1) {
-						// 國際數理奧林匹亞競賽或美國國際科展獎項證明  12
-						if (i==12 && !progressJson.student_misc_data.has_olympia_aspiration) {
-							continue;
-						}
-						// 不參加聯合分發/去僑先部/僅持 DSE 當年度成績/中學最後三年成績/持澳門學歷，皆不需上傳採計文憑成績證書 13
-						if ( i==13 && (
-							(
-								progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' &&
-								progressJson.student_misc_data.year_of_hk_dse == env.year &&
-								progressJson.student_misc_data.year_of_hk_ale == null &&
-								progressJson.student_misc_data.year_of_hk_cee == null
-							) ||
-							progressJson.student_misc_data.admission_placement_apply_way == "1" ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == "26" ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-						)){
-							continue;
-						}
-						if( i==13
-							&& progressJson.student_misc_data.admission_placement_apply_way_data.code == '23'
-							&& (progressJson.student_misc_data.year_of_hk_dse ? progressJson.student_misc_data.year_of_hk_dse : '').includes(env.year)
-						){
-							item_block[i].description[0] = `
-								<ol>
-									<li>${item_block[i].description[0]}</li>
-									<li>已報考${env.year}年度香港中學文憑考試者，此階段無需上傳${env.year}香港中學文憑考試成績，海聯會將逕向香港考評局提取；除${env.year}香港中學文憑考試成績外，請務必上傳其他年度採計文憑成績證書。</li>
-								</ol>
-							`;
-						}
-
-						// 為DSE ALE CEE/持澳門學歷，不需上傳成績採計參考表  14
-						if (i==14 && (
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '23' ||
-							progressJson.student_misc_data.admission_placement_apply_way == '1' ||
-							progressJson.student_misc_data.admission_placement_apply_way_data.code == '05'
-						)){
-							continue;
-						}
-
-					} else if (i==12 || i==13 || i==14) {
-						continue;
-					}
-					// 符合港澳關係條例切結書 港澳生 + 在台設有戶籍 + 持外國護照（但不限回歸前葡萄牙護照）
-					if (i==15 && !(
-						progressJson.student_qualification_verify.identity == 1 &&
-						progressJson.student_qualification_verify.taiwan_census == 1 &&
-						progressJson.student_qualification_verify.except_HK_Macao_passport == 1 &&
-						(
-							progressJson.student_qualification_verify.first_get_portugal_passport_at > '1999/12/19' ||
-							progressJson.student_qualification_verify.which_nation_passport != null
-						)
-					)){
-						continue;
-					}
-					// 港二技學歷完成地在香港者需要上傳已通過香港資歷架構第四級(含)以上之證明文件
-					if (i==16 && (progressJson.student_qualification_verify.system_id != 2 || progressJson2.student_personal_data.school_country != 113)) {
-						continue;
-					}
-					// 港澳具外國國籍的學生要上傳外國護照
-					if (i==17 && progressJson.student_qualification_verify.identity != 2) {
-						continue;
-					}
-
-					await setBlocks(i);
-				}
+				await studentItemListJson.forEach((value, index) => {
+					setBlocks(parseInt(value));
+				});
 			}
 
-            loading.complete();
+            await loading.complete();
         } catch(e) {
 			if (e.status && e.status === 401) {
 				swal({title: `請重新登入`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false})
@@ -377,9 +291,7 @@
 			});
 			loading.complete();
 		} catch(e) {
-			// console.log(e);
 			e.json && e.json().then((data) => {
-				// console.error(data);
 				swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 			});
 			loading.complete();
@@ -410,7 +322,8 @@
             'transcript-reference-table', // 成績採計資料參考表
             'hk-mo-relations-ordinance', // 符合港澳關係條例切結書
             'tech-course-passed-proof', // 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
-            'foreign-passport' // 外國護照（香港或澳門以外）
+            'foreign-passport', // 外國護照（香港或澳門以外）
+			'language-proficiency' // 語文能力說明或相關證明文件
         ];
 		const data_name = _userID+"_"+data_name_map[parseInt(_itemId)];
 

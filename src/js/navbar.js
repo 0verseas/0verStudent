@@ -291,14 +291,14 @@
 			if(data.student_qualification_verify.identity === 1 || data.student_qualification_verify.identity === 2){
 				document.getElementById('uploadIdentityVerification').style.display = 'block';
 			}
-			// 身份別是 海外僑生（3）緬十畢業且非當地大二畢業者不能參加個人申請
-
-			if( data.student_personal_data_detail.school_country == '緬甸'
+			// 學士班
+			// 身份別是 海外僑生（3）
+			// 學校所在地是緬甸
+			// 學校類型代碼是 6 7 18 19
+			if( data.student_qualification_verify.system_id == 1
+				&& data.student_personal_data_detail.school_country == '緬甸'
 				&& data.student_qualification_verify.identity === 3
-				&& (
-					data.student_personal_data_detail.school_type == 7
-					|| data.student_personal_data_detail.school_type == 6
-				)
+				&& ['6','7','18','19'].includes(data.student_personal_data_detail.school_type)
 			){
 				$('.nav-admissionSelection').hide();
 			}
@@ -385,6 +385,12 @@
 					}
 				}
 			}
+		}
+
+		// 選擇華語文能力證明文件
+		if(data.had_MI){
+			$('.nav-chineseLanguageProficiencyType').show();
+			!!data.student_misc_data.certification_of_chinese_option && $('.nav-chineseLanguageProficiencyType').addClass('list-group-item-success');
 		}
 
 		// 沒有完成提交且不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式

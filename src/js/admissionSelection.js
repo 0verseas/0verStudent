@@ -41,6 +41,7 @@
 	const $notJoinPlacement = $('#notJoinPlacement');  // 是否要流至聯合分發的 checkbox
 	const $deptMoreInfoUrl = $('#btn-info'); // 系所備審資料 連結至名額查詢系統
 	const $IFPDirections = $('.IFP-directions') // 國際專修部說明文字
+	const $MIDirections = $('.MI-directions') // 重點產業系所說明文字
 	const $precautionsText = $('.precautions') // 需要學生確認之注意事項文字
 
 	/**
@@ -85,7 +86,8 @@
 					birth_limit_before: value.birth_limit_before,
 					gender_limit: value.gender_limit,
 					mainGroup: value.main_group_data.title, // 學群名稱
-					type: '<span class="badge badge-light hide">一般系所</span>'
+					type: '<span class="badge badge-light hide">一般系所</span>',
+					has_interview: value.has_interview, //是否需要面試
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
@@ -97,6 +99,7 @@
 					add.dept = '國際專修部（'+add.dept+'）';
 					add.engDept = 'International Foundation Program（'+add.engDept+'）';
 				}
+				add.is_extended_department = value.is_extended_department;
 				_optionalWish.push(add);
 			})
 
@@ -155,11 +158,15 @@
 							華語先修期間不得轉系或轉學，但於正式修讀學士班專業課程1年後，得於製造業、營造業、農業、長期照顧、服務業及電子商務業等相關系所申請轉系或轉學。<br/>
 							During the Chinese preparation program period, students are not allowed to transfer to other departments or schools. However, after one year in the undergraduate program, students may apply for a transfer to related departments or schools in Manufacturing, Construction, Agriculture, Long-Term Care, Service Industries and E-Commerce Industries.
 						</li>
+						<li>
+							若有意報名就讀「國際專修部」，敬請留意需按各校分則規定參加面試！<br/>
+							If you are interested in applying for the International Foundation Program (IFP), please note that you are required to attend an interview according to the rules and regulations of each school!
+						</li>
 					</ol>
 				`);
 				// 非研究所要注意事項出現國際專修部的說明
 				$IFPDirections.html(`
-					<strong>系所類型【國際專修部】重要説明</strong>
+					<span class="badge table-primary">國際專修部</span>
 					<ol>
 						<li>
 							各大學校院設立的<a class="text-danger">「國際專修部（International Foundation Program）」,華語先修課程最長以1年為原則（至少一學期）＋至少修業${IFPStudyYear}年之學士學位學程</a>。
@@ -168,7 +175,16 @@
 							「國際專修部」學生入學後應先進行華語先修課程（最長以1年為原則；至少一學期），華語先修期間不得轉系或轉學，華語先修課程期滿後應達華語文能力測驗（TOCFL）之聽力與閱讀測驗基礎級（A2）標準，始得接續修讀學士班專業課程，未於規定時間內通過標準者，學校逕行退學處分並通報註銷學生居留證，學生須於居留證失效前離境。進入學士班修讀學生升大二時應達華語文能力測驗（TOCFL）之聽力與閱讀測驗進階級（B1）標準
 						</li>
 						<li>
-							若有意報名就讀「國際專修部」，敬請留意，以維護您的權益。
+							若有意報名就讀「國際專修部」，敬請留意需按各校分則規定參加面試！
+						</li>
+					</ol>
+				`);
+				// 注意事項出現重點產業系所的說明
+				$MIDirections.html(`
+					<span class="badge badge-warning">重點產業系所</span>
+					<ol>
+						<li>
+							選填【重點產業系所】校系志願者，請檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件。例如:「歷年成績單(含中文科目成績)」、「各類會考之中文成績或證明」、「就讀學校以中文授課證明」、其他足以佐證個人中文能力資料等。
 						</li>
 					</ol>
 				`);
@@ -469,13 +485,18 @@
 		// console.log(_isJoin);
 		if (_isJoin === true) {
 			let order = [];
+			let hasMI = false;
 			if (_wishList.length > 0) {
 				_wishList.forEach((value, index) => {
 					order.push(value.id);
+					if (value.is_extended_department == 1) {
+						hasMI = true;
+					}
 				});
 				const data = {
 					join_admission_selection: _isJoin,
-					order
+					order,
+					hasMI
 				}
 				loading.start();
 				// 先設定是否參加聯合分發
@@ -533,30 +554,76 @@
 						});
 					}
 				}
-
-				student.setAdmissionSelectionOrder(data)
-				.then((res) => {
-					if (res.ok) {
-						return res.json();
-					} else {
-						throw res;
-					}
-				})
-				.then((json) => {
-					swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
-					.then(()=>{
-						window.location.reload();
-						scroll(0,0);
+				// 判斷是否有選到重點產業系所校系志願
+				if (data.hasMI) {
+					swal({
+						title: `按下確定後，將儲存志願`,
+						html:`<ol style="list-style:cjk-ideographic">
+								<li>您已選填【重點產業系所】志願，報名時須另檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件<br>（例如:「歷年成績單(含中文科目成績)」、「各類會考之中文成績或證明」、「就讀學校以中文授課證明」、其他足以佐證個人中文能力資料等）。</li>
+								<li>前開證明文件為分發【重點產業系所】必要文件，請問您是否已瞭解該規定並確定選填【重點產業系所】？</li>
+							</ol>`,
+						type:"warning",
+						showCancelButton: true,
+						confirmButtonText: '確定',
+						cancelButtonText: '取消',
+						confirmButtonColor: '#5cb85c',
+						cancelButtonColor: '#d9534f',
+						allowOutsideClick: false,
+						reverseButtons: true
+					}).then(()=>{
+						loading.start();
+						student.setAdmissionSelectionOrder(data)
+				        .then((res) => {
+				        	if (res.ok) {
+				        		return res.json();
+				        	} else {
+				        		throw res;
+				        	}
+				        })
+				        .then((json) => {
+				        	swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				        	.then(()=>{
+				        		window.location.reload();
+				        		scroll(0,0);
+				        	});
+				        	loading.complete();
+				        })
+				        .catch((err) => {
+				        	err.json && err.json().then((data) => {
+				        		console.error(data);
+				        		swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				        	})
+				        	loading.complete();
+				        })
+					}).catch(()=>{
+						loading.complete();
 					});
-					loading.complete();
-				})
-				.catch((err) => {
-					err.json && err.json().then((data) => {
-						console.error(data);
-						swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
-					})
-					loading.complete();
-				})
+				} else {
+					loading.start();
+					student.setAdmissionSelectionOrder(data)
+				    .then((res) => {
+				    	if (res.ok) {
+				    		return res.json();
+				    	} else {
+				    		throw res;
+				    	}
+				    })
+				    .then((json) => {
+				    	swal({title: `儲存成功`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+				    	.then(()=>{
+				    		window.location.reload();
+				    		scroll(0,0);
+				    	});
+				    	loading.complete();
+				    })
+				    .catch((err) => {
+				    	err.json && err.json().then((data) => {
+				    		console.error(data);
+				    		swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+				    	})
+				    	loading.complete();
+				    });
+				}
 			} else {
 				swal({title: `沒有選擇志願。`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
 			}
@@ -628,6 +695,7 @@
 		let beforeBirthLimit = _optionalWish[optionalIndex].birth_limit_before;
 		let afterBirthLimit = _optionalWish[optionalIndex].birth_limit_after;
 		let birthLimit;
+		let has_interview = _optionalWish[optionalIndex].has_interview;
 
 		switch(genderLimit){
 			case 'M':
@@ -670,6 +738,18 @@
 		linktoquotapageUrl = quotaUrl;
 
 		let docsHtml = '<h5>個人申請審查項目</h5>';
+
+		if(has_interview){
+			docsHtml+=`
+				<div>
+					<tr class="table-warning">
+						<td></td>
+						<td></td>
+						<td>需要參加面試<br />Required to take an interview</td>
+					</tr>
+				</div>
+				<br/>`;
+		}
 
 		docsList = docsList.sort(function(a,b){return b.required - a.required;});
 

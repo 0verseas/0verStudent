@@ -9,7 +9,7 @@
 	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
 	let $uploadedFiles = [];// 已上傳檔案名稱陣列
 	const $uploadTranscriptStringArray = ['統考','所持會考文憑'];
-	const dateMap = {0:'2023 年 12 月 15 日（星期五）', 1:'2024 年 1 月 15 日（星期一）', 5:'2024 年 3 月 31 日（星期日）'}
+	const dateMap = {0:'2024 年 12 月 15 日（星期日）', 1:'2025 年 1 月 15 日（星期三）', 5:'2025 年 3 月 31 日（星期一）'}
 
 	/**
 	*	init
@@ -62,7 +62,7 @@
 				$('.selection-notice').show();
 				$('.selection-notice').html(`
 					<br/>
-					並請於 2024 年 1 月 8 日（星期一）台灣時間下午 5 時前，完成步驟③
+					並請於 2025 年 1 月 6 日（星期一）台灣時間下午 5 時前，完成步驟③
 				`);
 				$('.step-3').show();
 				$('.step-3').html(`
@@ -80,7 +80,7 @@
 			}
 
 			$('.link-pdf').text(`《馬來西亞地區簡章》`);
-			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/wp-content/uploads/2023/10/03_113%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
+			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/wp-content/uploads/2024/10/01_114%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
 			$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1wPWXMeUPvGVQbOq285bIJsUT5N4ktqji/view?usp=sharing');
 			$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
 

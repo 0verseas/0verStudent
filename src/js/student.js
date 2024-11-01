@@ -616,7 +616,7 @@ const student = (() => {
 		})
 	}
 
-	// 撈出學生(香港)傳審查身份文件
+	// 撈出學生(香港)傳審查身份文件 // item 代號是確認檔案是否以上傳 all 是取得哪些檔案需要上傳
 	function getIdentityVerificationItem({user_id, item}) {
 		return fetch(`${baseUrl}/students/${user_id}/upload-identity-verification/item/${item}/file`, {
 			method: 'GET',
@@ -746,6 +746,29 @@ const student = (() => {
 		});
 	}
 
+	// 渲染選擇華語文能力證明文件
+	function getStudentCertificationOfChineseOption() {
+		return fetch(baseUrl + `/students/certification-of-chinese-option`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		})
+	}
+
+	// 儲存選擇華語文能力證明文件
+	function setStudentCertificationOfChineseOption(data) {
+		return fetch(baseUrl + `/students/certification-of-chinese-option`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		})
+	}
+
 	function checkOrderListCanCreate() {
 		return fetch(baseUrl + `/students/application-fee/check`, {
 			method: 'GET',
@@ -755,6 +778,13 @@ const student = (() => {
 
 	function generateAdminssionPaper() {
 		return fetch(baseUrl + `/students/admission-paper`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
+	function getAdminssionRosterStages() {
+		return fetch(baseUrl + `/students/search-admission-roster-stages`, {
 			method: 'GET',
 			credentials: 'include'
 		});
@@ -834,8 +864,11 @@ const student = (() => {
 		delIdentityVerificationItem,
 		setAdmissionSelectionWishGiveUpChange,
 		getOrderList,
+		getStudentCertificationOfChineseOption,
+		setStudentCertificationOfChineseOption,
 		checkOrderListCanCreate,
-		generateAdminssionPaper
+		generateAdminssionPaper,
+		getAdminssionRosterStages
 	};
 
 })();
