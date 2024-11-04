@@ -27,8 +27,8 @@
     }
     // 不同類組需要隱藏不同的成績欄位
     const $gruopHideArray = {
-        1: ['biologyForm','physicsForm','chemistryForm','basicCircuitTheoryForm','principleElectronicsForm','fundamentalsOfElectricalEngineeringForm','digitalLogicForm'],
-        2: ['historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','introductionToBusineseForm','artForm','artDesignForm','artDesignPracticalForm']
+        1: ['biologyForm','physicsForm','chemistryForm','basicCircuitTheoryForm','principleElectronicsForm','fundamentalsOfElectricalEngineeringForm','digitalLogicForm','computerAndInformationTechnologyForm'],
+        2: ['historyForm','geographyForm','bookkeepingForm','businessForm','accountingForm','economicsForm','artForm','graphicDesignForm','artAppreciationForm','foodAndBeverageForm','culinaryArtsForm']
     }
     // 需要暫存之變數 學生的類組 學生的文憑列表 學生單一文憑的所有已上傳檔案名稱
     let $studentGruop = 0;
@@ -190,10 +190,12 @@
             $('#business').val(transcriptInfo.business);
             $('#accounting').val(transcriptInfo.accounting);
             $('#economics').val(transcriptInfo.economics);
-            $('#introductionToBusinese').val(transcriptInfo.introduction_to_businese);
+            // $('#introductionToBusinese').val(transcriptInfo.introduction_to_businese);
             $('#art').val(transcriptInfo.art);
-            $('#artDesign').val(transcriptInfo.art_design);
-            $('#artDesignPractical').val(transcriptInfo.art_design_practical);
+            $('#graphicDesign').val(transcriptInfo.graphic_design);
+            $('#artAppreciation').val(transcriptInfo.art_appreciation);
+            $('#foodAndBeverage').val(transcriptInfo.food_and_beverage);
+            $('#culinaryArts').val(transcriptInfo.culinary_arts);
             $('#biology').val(transcriptInfo.biology);
             $('#physics').val(transcriptInfo.physics);
             $('#chemistry').val(transcriptInfo.chemistry);
@@ -201,6 +203,7 @@
             $('#principleElectronics').val(transcriptInfo.principle_electronics);
             $('#fundamentalsOfElectricalEngineering').val(transcriptInfo.fundamentals_of_electrical_engineering);
             $('#digitalLogic').val(transcriptInfo.digital_logic);
+            $('#computerAndInformationTechnology').val(transcriptInfo.computer_and_information_technology);
             $('#SATChinese').val(transcriptInfo.SAT_chinese);
             $('#TOCFLChinese').val(transcriptInfo.TOCFL_chinese);
             $('#MUET').val(transcriptInfo.MUET);
@@ -281,10 +284,12 @@
                     'business': null,
                     'accounting': null,
                     'economics': null,
-                    'introductionToBusinese': null,
+                    // 'introductionToBusinese': null,
                     'art': null,
-                    'artDesign': null,
-                    'artDesignPractical': null,
+                    'graphicDesign': null,
+                    'artAppreciation': null,
+                    'foodAndBeverage': null,
+                    'culinaryArts': null,
                     'biology': null,
                     'physics': null,
                     'chemistry': null,
@@ -292,6 +297,7 @@
                     'principleElectronics': null,
                     'fundamentalsOfElectricalEngineering': null,
                     'digitalLogic': null,
+                    'computerAndInformationTechnology': null,
                     'SATChinese': null,
                     'TOCFLChinese': null,
                     'MUET': null,
@@ -338,10 +344,12 @@
             'business': $('#business').val(),
             'accounting': $('#accounting').val(),
             'economics': $('#economics').val(),
-            'introductionToBusinese': $('#introductionToBusinese').val(),
+            // 'introductionToBusinese': $('#introductionToBusinese').val(),
             'art': $('#art').val(),
-            'artDesign': $('#artDesign').val(),
-            'artDesignPractical': $('#artDesignPractical').val(),
+            'graphicDesign': $('#graphicDesign').val(),
+            'artAppreciation': $('#artAppreciation').val(),
+            'foodAndBeverage': $('#foodAndBeverage').val(),
+            'culinaryArts': $('#culinaryArts').val(),
             'biology': $('#biology').val(),
             'physics': $('#physics').val(),
             'chemistry': $('#chemistry').val(),
@@ -349,6 +357,7 @@
             'principleElectronics': $('#principleElectronics').val(),
             'fundamentalsOfElectricalEngineering': $('#fundamentalsOfElectricalEngineering').val(),
             'digitalLogic': $('#digitalLogic').val(),
+            'computerAndInformationTechnology': $('#computerAndInformationTechnology').val(),
             'SATChinese': $('#SATChinese').val(),
             'TOCFLChinese': $('#TOCFLChinese').val(),
             'MUET': $('#MUET').val(),
