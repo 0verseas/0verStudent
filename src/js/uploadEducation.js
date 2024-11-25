@@ -254,7 +254,7 @@
 		} else {
 			$imgModalBody.html(`
 				<div style="margin: 0 auto">
-					<embed src="${this.dataset.filelink}" width="550" height="800" type="application/pdf">
+					<iframe src="${this.dataset.filelink}" width="550" height="800" type="application/pdf">
 				</div>
 			`);
 		}
