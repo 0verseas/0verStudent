@@ -335,7 +335,7 @@
 				<h4 class="card-title"><span>已上傳檔案</span></h4>
 				<hr>
 				<div class="text-center">
-					<embed src="${env.baseUrl}/students/${_userID}/upload-identity-verification/item/${_itemId}/file/${data_name}?dummy=${dummy_id}" width="100%" height="550" type="application/pdf">
+					<iframe src="${env.baseUrl}/students/${_userID}/upload-identity-verification/item/${_itemId}/file/${data_name}?dummy=${dummy_id}" width="100%" height="550" type="application/pdf">
 				</div>
             </div>
 			<hr style="margin:0;">
