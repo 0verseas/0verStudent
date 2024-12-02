@@ -34,9 +34,9 @@
     loading.complete();
 
     // 啟用由網址帶參數功能
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var url_data = url.searchParams.get("data"); // hash
+    let url_string = window.location.href;
+    let url = new URL(url_string);
+    let url_data = url.searchParams.get("data"); // hash
 
     // 驗證單位查詢
     if(url_data){

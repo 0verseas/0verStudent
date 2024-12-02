@@ -88,6 +88,7 @@
 					mainGroup: value.main_group_data.title, // 學群名稱
 					type: '<span class="badge badge-light hide">一般系所</span>',
 					has_interview: value.has_interview, //是否需要面試
+					has_eng_taught: value.has_eng_taught, // 是否為全英語授課系所
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
@@ -489,7 +490,7 @@
 			if (_wishList.length > 0) {
 				_wishList.forEach((value, index) => {
 					order.push(value.id);
-					if (value.is_extended_department == 1) {
+					if (value.is_extended_department == 1 && value.has_eng_taught != 1) {
 						hasMI = true;
 					}
 				});
