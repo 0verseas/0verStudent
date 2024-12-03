@@ -88,7 +88,8 @@
 				})
 				.then((json) => {
 					// console.log(json);
-					if( json.student_qualification_verify === null) {
+					// 沒有資格檢視 就從頭開始 後填的人時間到就讓他們去填志願 完成填報的人去下載表件 剩下的一律都去個人基本資料
+					if(json.student_qualification_verify === null) {
 						location.href = './qualify.html';
 					} else if((
 								json.student_qualification_verify.identity=== 6 &&
@@ -113,12 +114,10 @@
 								json.student_misc_data.qualification_to_distribute === null &&
 								json.student_misc_data.overseas_student_id !== null )) {
 						location.href = './placementSelection.html';
-					} else if (!!json.student_misc_data.confirmed_at) {
+					} else if(!!json.student_misc_data.confirmed_at) {
 						location.href = './downloadDocs.html';
-					} else if(json.student_qualification_verify.identity=== 6){
+					} else {
 						location.href = './personalInfo.html';
-					}else {
-						location.href = './qualify.html';
 					}
 					loading.complete();
 				})
