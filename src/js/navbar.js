@@ -522,7 +522,7 @@
 					} else {
 						err.json && err.json().then((data) => {
 							console.error(data);
-							swal({title: `ERROR`, text: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
+							swal({title: `ERROR`, html: data.messages[0], type:"error", confirmButtonText: '確定', allowOutsideClick: false});
 						})
 					}
 					loading.complete();
