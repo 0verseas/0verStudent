@@ -26,9 +26,9 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls.options=default"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=secure-headers@file,traefik-compress@file"
 #      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=ncnuipwhitelist@file" # 禁止對外連接
-#      - "traefik.http.routers.admission-roster.entrypoints=${ENTRYPOINTS}"
-#      - "traefik.http.routers.admission-roster.tls.certresolver=lets-encr"
-#      - "traefik.http.routers.admission-roster.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/admissionRoster.html`)"
-#      - "traefik.http.routers.admission-roster.tls.options=default"
-#      - "traefik.http.routers.admission-roster.middlewares=secure-headers@file,traefik-compress@file"
-#      - "traefik.http.routers.admission-roster.middlewares=ncnuipwhitelist@file" # 禁止對外連接
+#      - "traefik.http.routers.${LABEL_NAME}.entrypoints=${ENTRYPOINTS}"
+#      - "traefik.http.routers.${LABEL_NAME}.tls.certresolver=lets-encr"
+#      - "traefik.http.routers.${LABEL_NAME}.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/admissionRoster.html`)"
+#      - "traefik.http.routers.${LABEL_NAME}.tls.options=default"
+#      - "traefik.http.routers.${LABEL_NAME}.middlewares=secure-headers@file,traefik-compress@file"
+#      - "traefik.http.routers.${LABEL_NAME}.middlewares=ncnuipwhitelist@file" # 禁止對外連接
