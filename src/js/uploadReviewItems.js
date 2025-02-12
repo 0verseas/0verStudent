@@ -783,7 +783,7 @@
 				}
 			}
 		} else {
-			swal({title: `儲存完成`, type:"success", confirmButtonText: '確定', allowOutsideClick: false})
+			swal({title: `儲存完成`, html:"尚未完成報名<br/>請記得按下【確認上傳資料並提交】按鈕", type:"success", confirmButtonText: '確定', allowOutsideClick: false})
 			.then(()=>{
 				loading.complete();
 				window.location.reload();
