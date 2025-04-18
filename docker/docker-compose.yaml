@@ -20,15 +20,19 @@ services:
       - bridge
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.entrypoints=web"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.service=http-service@file"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.middlewares=check-host@file,redirect-to-https@file"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=${ENTRYPOINTS}"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls.certresolver=lets-encr"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${DOMAIN_NAME}`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls.options=default"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=secure-headers@file,traefik-compress@file"
-#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=ncnuipwhitelist@file" # 禁止對外連接
-#      - "traefik.http.routers.${LABEL_NAME}.entrypoints=${ENTRYPOINTS}"
-#      - "traefik.http.routers.${LABEL_NAME}.tls.certresolver=lets-encr"
-#      - "traefik.http.routers.${LABEL_NAME}.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/admissionRoster.html`)"
-#      - "traefik.http.routers.${LABEL_NAME}.tls.options=default"
-#      - "traefik.http.routers.${LABEL_NAME}.middlewares=secure-headers@file,traefik-compress@file"
-#      - "traefik.http.routers.${LABEL_NAME}.middlewares=ncnuipwhitelist@file" # 禁止對外連接
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=check-host@file,secure-headers@file,traefik-compress@file"
+#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=ncnuipwhitelist@file,check-host@file,secure-headers@file,traefik-compress@file" # 禁止對外連接
+#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-admissionroster.entrypoints=${ENTRYPOINTS}" # 這裏開始是 admissionRoster 的 label
+#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-admissionroster.tls.certresolver=lets-encr"
+#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-admissionroster.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/admissionRoster.html`)"
+#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-admissionroster.tls.options=default"
+#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-admissionroster.middlewares=check-host@file,secure-headers@file,traefik-compress@file"
+#      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-admissionroster.middlewares=ncnuipwhitelist@file,check-host@file,secure-headers@file,traefik-compress@file" # 禁止對外連接
