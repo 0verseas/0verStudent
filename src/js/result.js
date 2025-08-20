@@ -12,7 +12,7 @@
 	/**
 	*	cache DOM
 	*/
-	
+
 	const $olympiaForm = $('#form-olympia');
 	const $olympiaTbody = $('#tbody-olympia');
 	const $admissionForm = $('#form-admission');
@@ -68,7 +68,7 @@
 				"student_graduate_department_admission_selection_order",
 				"student_graduate_department_admission_selection_order"
 				];
-				
+
 				if (_systemId === 1) { // 學士班，三種都有可能
 					if (_hasOlympia) {
 						const url = '/students/olympia-aspiration-order';
@@ -113,17 +113,19 @@
 						$admissionForm.show();
 					}
 
-					if( progressJson.student_misc_data.admission_placement_apply_way.code == '23'){
-						$('#block-previewPlacementList').hide();
-					}
+					$('#block-previewPlacementList').hide();
 					// XXX: id 可能會變動
 					// 如果 apply_way id 是 1, 11 ,79 （以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請、以僑先部結業成績申請），就不顯示分發志願。
 					if (_hasPlacement && ( progressJson.student_misc_data.admission_placement_apply_way != 1 )) {
 						const url = '/students/admission-placement-order';
 						const placementResponse = await student.getOrderResultList(url);
 						if (!placementResponse.ok) {
+							$previewPlacementListBtn.attr('onclick', 'event.preventDefault();');
 							$('#block-previewPlacementList').hide();
 						} else {
+							$previewPlacementListBtn.attr('onclick', '');
+							$('#block-previewPlacementList').show();
+							$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
 							const placementJson = await placementResponse.json();
 							const placementList = placementJson.student_department_admission_placement_order;
 							let placementHTML = '';
@@ -171,17 +173,7 @@
 			} else {
 				$previewPersonalDataBtn.attr('href', env.baseUrl + '/students/admission-paper/department-apply-form');
 			}
-			
-			
-			
-			// XXX: id 可能會變動
-			// 如果 apply_way id 是 1, 11 ,79 （以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請、以僑先部結業成績申請），就不讓按鈕運作。
-			if ((progressJson.student_misc_data.admission_placement_apply_way == 1) ) {
-				$previewPlacementListBtn.attr('onclick', 'event.preventDefault();');
-			} else {
-				$previewPlacementListBtn.attr('href', env.baseUrl + '/students/admission-paper/admission-placement-order-checklist');
-			}
-			
+
 			if (_systemId !== 1) {
 				$previewDataDiv.remove();
 			}

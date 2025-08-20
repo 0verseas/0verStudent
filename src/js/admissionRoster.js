@@ -96,7 +96,7 @@
 			const stagesData = await getStagesResponse.json();
 
             stagesData.forEach((value) => {
-                console.log(value);
+                // console.log(value);
                 $stage.find(`option[value=${value.stage_of_admit}]`).removeAttr('disabled');
                 $stage.find(`option[value=${value.stage_of_admit}]`).text(
                     $stage.find(`option[value=${value.stage_of_admit}]`).text().replace('（未放榜）','')
@@ -217,6 +217,11 @@
         const distribution_list_memo = admissionInfo.student_misc_data.distribution_list_memo;
         if (/特輔班/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
             deptTitle += '（特輔班）';  // 特輔班要在系所名稱上註記
+        } else if (/特別輔導班/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
+            deptTitle += '（特別輔導班）<br/>（首年於暨大就讀）';  // 特別輔導班備取要在系所名稱上註記
+        } else if (/備取/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
+            deptTitle = '';
+            schoolTitle = '備取 <a href="" target="_blank">(請點選查看)</a>';
         }
 
         let roster = '';
