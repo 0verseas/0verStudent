@@ -221,7 +221,7 @@
             deptTitle += '（特別輔導班）<br/>（首年於暨大就讀）';  // 特別輔導班備取要在系所名稱上註記
         } else if (/備取/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
             deptTitle = '';
-            schoolTitle = '備取 <a href="" target="_blank">(請點選查看)</a>';
+            schoolTitle = distribution_list_memo + '<br><a href="" target="_blank">（請點選查看）</a>';
         }
 
         let roster = '';
