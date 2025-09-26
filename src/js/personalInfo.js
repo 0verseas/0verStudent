@@ -666,13 +666,15 @@
     }
 
     function _showResidentIDExample() {
-        document.getElementById("residentHongKongIdExample").style.display = "none";
-        document.getElementById("residentMacauIdExample").style.display = "none";
+        let $example = $('#residentIdExample');
+        $example.hide();
         if ($residentLocation.val() == 113) {
-            document.getElementById("residentHongKongIdExample").style.display = "block";
+            $example.show();
+            $example.text('格式範例：A123456(7)');
         }
         if ($residentLocation.val() == 127) {
-            document.getElementById("residentMacauIdExample").style.display = "block";
+            $example.show();
+            $example.html('格式範例：<br/>澳門 1234567(8)<br/>香港 A123456(7) ');
         }
     }
 
@@ -1256,8 +1258,9 @@
                 }
             } else if (LocateOrIdType == 127) { // 澳門
                 // 澳門身份證號驗證格式，(1位數字爲0/1/5/7)+6位數字+(1位數字效驗碼)
+                const hk_idRegex = /^[A-z]{1,2}\d{6}[(](\d{1}|[A-z])[)]$/;
                 const macau_idRegex = /^[0157]{1}\d{6}[(]\d{1}[)]$/;
-                if (str.match(macau_idRegex) == null) { // 不符合上述的格式就回傳格式錯誤
+                if (str.match(macau_idRegex) == null && str.match(hk_idRegex) == null) { // 不符合上述的格式就回傳格式錯誤
                     return 'formatWrong';
                 } else {
                     return str;
