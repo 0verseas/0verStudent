@@ -239,7 +239,9 @@
 					}
 					break;
 				case 13:
-					if (studentdata.student_personal_data_detail.school_country == '香港') {
+					if (studentdata.student_personal_data_detail.school_country == '香港'
+						|| studentdata.student_misc_data.admission_placement_apply_way_data.code == '23' // 持外國學歷者但採計DSE成績者用
+					) {
 						description = item_block[item_id].description[0];
 					} else {
 						description = item_block[item_id].description[1];
