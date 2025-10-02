@@ -131,6 +131,7 @@
 			const studentItemList = await student.getIdentityVerificationItem({user_id: _userID, item: 'all'});
 			if (!studentItemList.ok) { throw studentItemList; }
 			const studentItemListJson = await studentItemList.json();
+			studentItemListJson.push('08'); // 改名契是選傳 不是必傳 後端只傳遞必傳清單 選傳的要自己加代號到 array
 
             // 僑居地為港澳
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
