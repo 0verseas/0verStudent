@@ -131,12 +131,18 @@
 			const studentItemList = await student.getIdentityVerificationItem({user_id: _userID, item: 'all'});
 			if (!studentItemList.ok) { throw studentItemList; }
 			const studentItemListJson = await studentItemList.json();
-			studentItemListJson.push('08'); // 改名契是選傳 不是必傳 後端只傳遞必傳清單 選傳的要自己加代號到 array
 
+			console.log(progressJson.student_personal_data_detail);
             // 僑居地為港澳
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
 				progressJson.student_personal_data_detail.resident_location == '澳門'
 			){
+				if(
+					progressJson.student_personal_data_detail.resident_location == '香港'
+					|| progressJson.student_personal_data_detail.school_country == '香港'
+				){
+					studentItemListJson.push('08'); // 改名契是選傳 不是必傳 後端只傳遞必傳清單 選傳的要自己加代號到 array only for 香港
+				}
 				await studentItemListJson.forEach((value, index) => {
 					setBlocks(parseInt(value));
 				});
