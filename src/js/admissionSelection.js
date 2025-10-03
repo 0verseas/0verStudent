@@ -32,6 +32,7 @@
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $typeFilterSelector = $('#dept-type-selector');
+	const $mainGroupFilterSelector = $('#dept-mainGroup-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container'); // 分頁區域
@@ -58,6 +59,7 @@
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$typeFilterSelector.on('change', _generateOptionalWish);
+	$mainGroupFilterSelector.on('change', _generateOptionalWish);
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
 	$notJoinPlacement.on('change', joinPlacementChange);  // 監聽是否不參加聯合分發
@@ -396,11 +398,21 @@
 		let filter = '';
 		if(filterSelect == 'type'){
 			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$mainGroupFilterSelector.hide();
 			$typeFilterSelector.show();
 			filter = $typeFilterSelector.val();
+		} else if(filterSelect == 'mainGroup'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.show();
+			filter = $mainGroupFilterSelector.val().toUpperCase();
 		} else {
 			$optionFilterInput.show();
+			$manualSearchBtn.show();
 			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
 			filter = $optionFilterInput.val().toUpperCase();
 		}
 		_filterOptionalWish = _optionalWish.filter(function (obj) {

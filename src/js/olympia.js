@@ -25,6 +25,7 @@
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $typeFilterSelector = $('#dept-type-selector');
+	const $mainGroupFilterSelector = $('#dept-mainGroup-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container');
@@ -46,6 +47,7 @@
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // 監聽「招生校系清單」關鍵字
 	$typeFilterSelector.on('change', _generateOptionalWish); // 監聽「系所類型」selector
+	$mainGroupFilterSelector.on('change', _generateOptionalWish); // 監聽「學群」selector
 	$manualSearchBtn.on('click', _generateOptionalWish); // 手動篩選清單，解決在手機上輸入中文不會觸發 keyup 的問題
 	$saveBtn.on('click', _handleSave);
 
@@ -240,11 +242,21 @@
 		let filter = '';
 		if(filterSelect == 'type'){
 			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$mainGroupFilterSelector.hide();
 			$typeFilterSelector.show();
 			filter = $typeFilterSelector.val();
-		} else {
-			$optionFilterInput.show();
+		} else if(filterSelect == 'mainGroup'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
 			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.show();
+			filter = $mainGroupFilterSelector.val().toUpperCase();
+		}  else {
+			$optionFilterInput.show();
+			$manualSearchBtn.show();
+			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
 			filter = $optionFilterInput.val().toUpperCase();
 		}
 

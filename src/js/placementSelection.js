@@ -27,6 +27,8 @@
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $typeFilterSelector = $('#dept-type-selector');
+	const $groupFilterSelector = $('#dept-group-selector');
+	const $mainGroupFilterSelector = $('#dept-mainGroup-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container'); // 分頁區域
@@ -52,6 +54,8 @@
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$typeFilterSelector.on('change', _generateOptionalWish);
+	$groupFilterSelector.on('change', _generateOptionalWish);
+	$mainGroupFilterSelector.on('change', _generateOptionalWish);
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
 	$confirmedBtn.on('click', _handleConfirmed);
@@ -311,11 +315,31 @@
 		let filter = '';
 		if(filterSelect == 'type'){
 			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$groupFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
 			$typeFilterSelector.show();
 			filter = $typeFilterSelector.val();
+		} else if(filterSelect == 'group'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
+			$groupFilterSelector.show();
+			filter = $groupFilterSelector.val().toUpperCase();
+		} else if(filterSelect == 'mainGroup'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$typeFilterSelector.hide();
+			$groupFilterSelector.hide();
+			$mainGroupFilterSelector.show();
+			filter = $mainGroupFilterSelector.val().toUpperCase();
 		} else {
 			$optionFilterInput.show();
+			$manualSearchBtn.show();
 			$typeFilterSelector.hide();
+			$groupFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
 			filter = $optionFilterInput.val().toUpperCase();
 		}
 
