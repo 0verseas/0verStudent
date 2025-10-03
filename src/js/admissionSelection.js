@@ -94,6 +94,14 @@
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
+					$("#dept-type-selector option[value='重點產業系所']").show();
+					$("#dept-type-selector option[value='國際專修部']").show();
+				} else if(_currentSystem === 2){
+					$("#dept-type-selector option[value='重點產業系所']").hide();
+					$("#dept-type-selector option[value='國際專修部']").show();
+				} else {
+					$("#dept-type-selector option[value='重點產業系所']").show();
+					$("#dept-type-selector option[value='國際專修部']").hide();
 				}
 				if(value.is_extended_department == 1){
 					add.type = '<span class="badge badge-warning">重點產業系所</span>';
