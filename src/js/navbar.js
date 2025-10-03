@@ -363,7 +363,7 @@
 				}
 				// 只有海外僑生學士班在完成填報後並且只有最高學歷完成地在馬來西亞的學生需要上傳簡章規定文件 然後海外臺校的不需要看到
 				if(data.student_personal_data_detail.school_country == '馬來西亞'
-				&& data.student_personal_data_detail.school_type !== 13
+				&& data.student_personal_data_detail.school_type != 13
 				&& !(
 						data.student_personal_data_detail.school_type == 12
 						&& data.student_misc_data.admission_placement_apply_way == 1
@@ -375,7 +375,7 @@
 					// 聯合分發只有部份採計方式需要上傳文憑成績跟簡章規定文件
 					const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,80,83,88];
 					if(
-						data.student_misc_data.join_admission_selection == 1
+						(data.student_misc_data.join_admission_selection == 1 && data.student_misc_data.admission_placement_apply_way == 1)
 						|| malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
 					){
 						$('.nav-uploadEducation').show();
