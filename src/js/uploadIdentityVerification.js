@@ -92,7 +92,7 @@
 		},{
 			element: 'uploadArea_languageProficiency',
 			title: ['就讀「重點產業系所」聲明書'],
-			description: ["選填「重點產業系所」校系志願者，請下載「<a href='https://drive.google.com/file/d/18G7eW7x_m84FTaul6x5RN1fufcbc6ucg/view?usp=sharing' target='_blank'>聲明書</a>」，列印並填寫後，掃描為 PDF 檔上傳。"]
+			description: ["選填「重點產業系所」校系志願者，請下載「<a href='https://drive.google.com/file/d/1wAdwDlezW6S_ucpbz3e6YOHpIo_3ZJn1/view?usp=sharing' target='_blank'>聲明書</a>」，列印並填寫後，掃描為 PDF 檔上傳。"]
 		}
 	];
 
