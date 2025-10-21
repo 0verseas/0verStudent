@@ -349,10 +349,7 @@
 				if(hasMI){
 					let hasMIConfirmed = await swal({
 						title: `按下確定後，將儲存志願`,
-						html:`<ol style="list-style:cjk-ideographic">
-									<li>您已選填【重點產業系所】志願，報名時請填具聲明書。</li>
-									<li>前開證明文件為分發【重點產業系所】必要文件，請問您是否已瞭解該規定並確定選填【重點產業系所】？</li>
-								</ol>`,
+						html:`您已選填【重點產業系所】志願，報名時請填具聲明書。`,
 						type:"question",
 						showCancelButton: true,
 						confirmButtonText: '確定',
