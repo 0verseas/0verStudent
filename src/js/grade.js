@@ -6,7 +6,7 @@
 
 	const $applyWaysFieldSet = $('#apply-ways');
 	const $goToFF = $('#go-to-FF');  // 「可以被分發去僑先部」的核取方塊
-	
+
 	/**
 	*	init
 	*/
@@ -27,9 +27,15 @@
 
 	function _handleChoose() {
 		const school_country = $(this).attr('data-school_country');
+		const id = $(this).attr('data-id');
 		if (+$(this).val() === 23) {
 			// 以香港中學文憑考試成績 (DSE)、以香港高級程度會考成績 (ALE)、以香港中學會考成績 (CEE)申請
 			$('.forCode23').fadeIn();
+			// 如果是持外國或大陸學籍選填，只需要顯示香港中學文憑考試成績 (DSE) 的採計選項
+			if(id === '100' || id === '101') {
+				$('.year_of_hk_ale').hide();
+				$('.year_of_hk_cee').hide();
+			}
 		} else {
 			$('.forCode23').hide();
 		}
