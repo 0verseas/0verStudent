@@ -33,8 +33,8 @@
 			$('.forCode23').fadeIn();
 			// 如果是持外國或大陸學籍選填，只需要顯示香港中學文憑考試成績 (DSE) 的採計選項
 			if(id === '100' || id === '101') {
-				$('.year_of_hk_ale').hide();
-				$('.year_of_hk_cee').hide();
+				$('.hk_ale').hide();
+				$('.hk_cee').hide();
 			}
 		} else {
 			$('.forCode23').hide();
