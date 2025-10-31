@@ -153,10 +153,18 @@
 				orderKey = "student_graduate_department_admission_selection_order";
 			}
 			if(_currentSystem < 3){
+				let mmIFPExDesriction = "";
+
+				// 緬甸學士班國際專修部追加提示
+				if(_currentSystem == 1 && resAdmission.student_personal_data.school_country == 105 && resAdmission.student_qualification_verify.identity == 3){
+					mmIFPExDesriction = '<li class="text-danger">華文零程度者或未具一般生活所需之基本會話能力者，建議於個人申請制優先選填各大學校院設立之「國際專修部（International Foundation Program）」志願。</li>';
+				}
+
 				// 非研究所出現關於國際專修部的重要提醒
 				$precautionsText.html(`
 					<strong>國際專修部 International Foundation Program</strong>
 					<ol>
+						${mmIFPExDesriction}
 						<li>
 							各大學校院設立的「國際專修部（International Foundation Program）」，華語先修課程最長以1年為原則（至少一學期）＋至少修業${IFPStudyYear}年之學士學位學程。<br/>
 							The International Foundation Program (IFP) established by various universities and colleges is a “1+${IFPStudyYear} years degree program”, which includes a maximum 1-year Chinese preparation program (at least one semester), and followed by a minimum ${IFPStudyYear}-year undergraduate degree program.
