@@ -70,8 +70,10 @@
 		},{
 			element: 'uploadArea_placementTranscript',
 			title: ['採計文憑成績證書'],
-			description: ['請上傳「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。',
-			'<ol><li>持外國學歷者，請上傳「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。</li></ol>']
+			description: [
+				'請上傳「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。',
+				'持外國或大陸學歷之港澳生，請上傳「香港中學文憑考試」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。'
+			]
 		},{
 			element: 'uploadArea_transcriptReferenceTable',
 			title: ['成績採計資料參考表'],
@@ -132,7 +134,6 @@
 			if (!studentItemList.ok) { throw studentItemList; }
 			const studentItemListJson = await studentItemList.json();
 
-			console.log(progressJson.student_personal_data_detail);
             // 僑居地為港澳
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
 				progressJson.student_personal_data_detail.resident_location == '澳門'
@@ -246,9 +247,7 @@
 					}
 					break;
 				case 13:
-					if (studentdata.student_personal_data_detail.school_country == '香港'
-						|| studentdata.student_misc_data.admission_placement_apply_way_data.code == '23' // 持外國學歷者但採計DSE成績者用
-					) {
+					if (studentdata.student_personal_data_detail.school_country == '香港') {
 						description = item_block[item_id].description[0];
 					} else {
 						description = item_block[item_id].description[1];
