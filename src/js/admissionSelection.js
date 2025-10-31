@@ -32,6 +32,7 @@
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $typeFilterSelector = $('#dept-type-selector');
+	const $mainGroupFilterSelector = $('#dept-mainGroup-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container'); // 分頁區域
@@ -58,6 +59,7 @@
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$typeFilterSelector.on('change', _generateOptionalWish);
+	$mainGroupFilterSelector.on('change', _generateOptionalWish);
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
 	$notJoinPlacement.on('change', joinPlacementChange);  // 監聽是否不參加聯合分發
@@ -92,6 +94,14 @@
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
+					$("#dept-type-selector option[value='重點產業系所']").show();
+					$("#dept-type-selector option[value='國際專修部']").show();
+				} else if(_currentSystem === 2){
+					$("#dept-type-selector option[value='重點產業系所']").hide();
+					$("#dept-type-selector option[value='國際專修部']").show();
+				} else {
+					$("#dept-type-selector option[value='重點產業系所']").show();
+					$("#dept-type-selector option[value='國際專修部']").hide();
 				}
 				if(value.is_extended_department == 1){
 					add.type = '<span class="badge badge-warning">重點產業系所</span>';
@@ -143,9 +153,17 @@
 				orderKey = "student_graduate_department_admission_selection_order";
 			}
 			if(_currentSystem < 3){
+				let mmIFPExDesriction = "";
+
+				// 緬甸學士班國際專修部追加提示
+				if(_currentSystem == 1 && resAdmission.student_personal_data.school_country == 105 && resAdmission.student_qualification_verify.identity == 3){
+					mmIFPExDesriction = '<br \><br \><span class="text-danger">※華文零程度者或未具一般生活所需之基本會話能力者，建議於個人申請制優先選填各大學校院設立之「國際專修部（International Foundation Program）」志願。</span>';
+				}
+
 				// 非研究所出現關於國際專修部的重要提醒
 				$precautionsText.html(`
 					<strong>國際專修部 International Foundation Program</strong>
+					${mmIFPExDesriction}
 					<ol>
 						<li>
 							各大學校院設立的「國際專修部（International Foundation Program）」，華語先修課程最長以1年為原則（至少一學期）＋至少修業${IFPStudyYear}年之學士學位學程。<br/>
@@ -185,7 +203,10 @@
 					<span class="badge badge-warning">重點產業系所</span>
 					<ol>
 						<li>
-							選填【重點產業系所】校系志願者，請檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件。例如:「歷年成績單(含中文科目成績)」、「各類會考之中文成績或證明」、「就讀學校以中文授課證明」、其他足以佐證個人中文能力資料等。
+							就讀【重點產業系所】者，入學前應具備基本華語文溝通能力。
+						</li>
+						<li>
+							就讀學士班【重點產業系所】者，升大二時應達華語文能力測驗(TOCFL)之聽力與閱讀測驗進階級(B1)。
 						</li>
 					</ol>
 				`);
@@ -396,11 +417,21 @@
 		let filter = '';
 		if(filterSelect == 'type'){
 			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$mainGroupFilterSelector.hide();
 			$typeFilterSelector.show();
 			filter = $typeFilterSelector.val();
+		} else if(filterSelect == 'mainGroup'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.show();
+			filter = $mainGroupFilterSelector.val().toUpperCase();
 		} else {
 			$optionFilterInput.show();
+			$manualSearchBtn.show();
 			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
 			filter = $optionFilterInput.val().toUpperCase();
 		}
 		_filterOptionalWish = _optionalWish.filter(function (obj) {
@@ -559,10 +590,7 @@
 				if (data.hasMI) {
 					swal({
 						title: `按下確定後，將儲存志願`,
-						html:`<ol style="list-style:cjk-ideographic">
-								<li>您已選填【重點產業系所】志願，報名時須另檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件<br>（例如:「歷年成績單(含中文科目成績)」、「各類會考之中文成績或證明」、「就讀學校以中文授課證明」、其他足以佐證個人中文能力資料等）。</li>
-								<li>前開證明文件為分發【重點產業系所】必要文件，請問您是否已瞭解該規定並確定選填【重點產業系所】？</li>
-							</ol>`,
+						html:`您已選填【重點產業系所】志願，報名時請填具聲明書。`,
 						type:"warning",
 						showCancelButton: true,
 						confirmButtonText: '確定',

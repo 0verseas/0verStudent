@@ -44,6 +44,18 @@
 						<p>
 							醫學、牙醫、及中醫學系以 <mark class="bg-medical">黃底</mark> 標註。
 						</p>
+						<div class="MI-directions">
+							<strong>系所類型 重要説明</strong>
+						    <div><span class="badge badge-warning">重點產業系所</span></div>
+							<ol>
+								<li>
+									就讀【重點產業系所】者，入學前應具備基本華語文溝通能力。
+								</li>
+								<li>
+									就讀學士班【重點產業系所】者，升大二時應達華語文能力測驗(TOCFL)之聽力與閱讀測驗進階級(B1)。
+								</li>
+							</ol>
+						</div>
 						<p>
 							<strong>操作說明</strong>
 							<ol>
@@ -77,11 +89,36 @@
 									<option value="mainGroup">學群</option>
 									<option value="school">學校名稱</option>
 									<option value="dept">系所名稱</option>
+									<option value="type">系所類型</option>
 								</select>
 							</div>
 							<div class="col-7">
 								<div class="input-group">
 									<input type="text" id="input-optionFilter" class="form-control" id="" placeholder="關鍵字">
+									<select class="form-control hide" id="dept-mainGroup-selector">
+										<option value="資訊學群">資訊</option>
+										<option value="工程學群">工程</option>
+										<option value="數理化學群">數理化</option>
+										<option value="醫藥衛生學群">醫藥衛生</option>
+										<option value="生命科學學群">生命科學</option>
+										<option value="生物資源學群">生物資源</option>
+										<option value="地球與環境學群">地球與環境</option>
+										<option value="外語學群">外語</option>
+										<option value="文史哲學群">文史哲</option>
+										<option value="教育學群">教育</option>
+										<option value="法政學群">法政</option>
+										<option value="管理學群">管理</option>
+										<option value="財經學群">財經</option>
+										<option value="社會與心理學群">社會與心理</option>
+										<option value="大眾傳播學群">大眾傳播</option>
+										<option value="建築與設計學群">建築與設計</option>
+										<option value="藝術學群">藝術</option>
+										<option value="遊憩與運動學群">遊憩與運動</option>
+									</select>
+									<select class="form-control hide" id="dept-type-selector">
+										<option value="一般系所">一般系所</option>
+										<option value="重點產業系所">重點產業系所</option>
+									</select>
 									<span class="input-group-btn">
 										<button id="btn-manualSearch" class="btn btn-secondary" type="button">
 											<i class="fa fa-search" aria-hidden="true"></i>
@@ -90,7 +127,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<hr>
 
 						<div class="row">
@@ -125,7 +162,7 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 
 <hr>

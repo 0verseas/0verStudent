@@ -210,6 +210,11 @@
 		})
 		.then( async (result)	=>{
 			//console.log(result);
+            if(count == 0){ // 檢查檔案如果爲0，則跳提示說明並不執行確認
+                await swal({title: `您還未上傳任何檔案`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return;
+            }
+
 			if(result){
 				loading.start();
                 const token_bye = await student.teacherBye(_id, _token); //通知後端 delete token
@@ -217,7 +222,7 @@
                     throw token_bye;
                 }
                 const notify_stu = student.notifyStudentRecommendationLetterHadUploaded(_id, _dept_id, _token);  // 寄信通知學生
-                //『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)「你什麼時候產生了點了『上傳』卻沒上傳的錯覺」(O)
+                // 『你什麼時候產生了我沒使用鏡花水月的錯覺』(X)「你什麼時候產生了點了『上傳』卻沒上傳的錯覺」(O)
                 await swal({title: `感謝您的使用！`, type:"success", confirmButtonText: '確定', allowOutsideClick: false});
                 loading.complete();
                 window.location.reload();

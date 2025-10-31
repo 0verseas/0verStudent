@@ -50,7 +50,7 @@
 									地點：澳門國父紀念館（文第士街 1 號）
 								</li>
 								<li>
-									開放日期：2025 年 01 月 17 日 - 02 月 23 日(01 月 31至 02 月 02 日澳門公眾假期休息不開放)
+									開放日期：2025 年 11 月 14 日 - 12 月 21 日( 12 月 20 日不開放)
 								</li>
 								<li>
 									開放時間：每週五的 16:00 - 21:00 及 每週六、日的 10:00 - 13:00 與 14:00 - 16:00
@@ -78,7 +78,7 @@
 									地點：台北經濟文化辦事處（澳門辦事處）
 								</li>
 								<li>
-									開放日期：2024 年 11 月 5 日至 12 月 18 日（無需預約）
+									開放日期：2025 年 11 月 5 日至 12 月 18 日（無需預約，澳門政府假期休假，不辦理核驗）
 								</li>
 								<li>
 									開放時間：週一至週五，上午 9 點至 12 點 30 分；下午 2 點至 5 點
@@ -99,7 +99,6 @@
 					}
 					await $('.alert-macau-verification').show();
 				} else {  // 香港
-					console.log(registrationData);
 					await $alertCorrect.html(`如需再修改個人基本資料（不含志願），請填寫「<a href="https://www.surveycake.com/s/YDnoK" target="_blank">資料修正表</a>」或是重新註冊新的帳號（惟報名費一經繳交，概不退還）。`);
 					if (registrationData.student_qualification_verify.system_id > 2) { // 學士、港二技
 					    await $('#alert-hk-order').html(`

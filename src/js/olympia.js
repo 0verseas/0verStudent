@@ -24,6 +24,8 @@
 	const $olympiaSelectForm = $('#form-olympiaSelect'); // 奧林匹亞志願選擇表單
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
+	const $typeFilterSelector = $('#dept-type-selector');
+	const $mainGroupFilterSelector = $('#dept-mainGroup-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container');
@@ -43,7 +45,9 @@
 
 	$hasOlympia.on('change', _changeHasOlympia); // 監聽是否曾獲得國際數理奧林匹亞競賽或美國國際科展獎項
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
-	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
+	$optionFilterInput.on('keyup', _generateOptionalWish); // 監聽「招生校系清單」關鍵字
+	$typeFilterSelector.on('change', _generateOptionalWish); // 監聽「系所類型」selector
+	$mainGroupFilterSelector.on('change', _generateOptionalWish); // 監聽「學群」selector
 	$manualSearchBtn.on('click', _generateOptionalWish); // 手動篩選清單，解決在手機上輸入中文不會觸發 keyup 的問題
 	$saveBtn.on('click', _handleSave);
 
@@ -64,8 +68,16 @@
 					dept: value.title, // 中文系名
 					engDept: value.eng_title, // 英文系名
 					specialDeptType: value.special_dept_type, // 特殊系所
-					sortNum: index // 根據初始資料流水號，用於排序清單、抓取資料
+					sortNum: index, // 根據初始資料流水號，用於排序清單、抓取資料,
+					is_extended_department: value.is_extended_department, // 系所類型
+					type: '<span class="badge badge-light hide">一般系所</span>', // 系所類型標籤
+					has_eng_taught: value.has_eng_taught, // 是否為全英語授課系所
 				};
+				if(add.is_extended_department == 1){
+					add.type = '<span class="badge badge-warning">重點產業系所</span>';
+				} else if(value.is_extended_department == 2){
+					add.type = '<span class="badge table-primary">國際專修部</span>';
+				}
 				_optionalWish.push(add);
 			})
 
@@ -211,7 +223,7 @@
 			<tr${medicalHTML}>
 			<td>
 			<span>` + item.cardCode + `</span> ｜ <span>` + item.mainGroup + `</span> ｜ <span>` + item.school + `</span> <br>
-			<span>` + item.dept + ` ` + item.engDept + `</span>
+			<span>` + item.dept + ` ` + item.engDept + ` ` + item.type + `</span>
 			</td>
 			<td class="text-right">
 			<button type="button" data-sortNum="` + item.sortNum + `" class="btn btn-info btn-sm add-wish">
@@ -226,8 +238,27 @@
 
 	function _generateOptionalWish(pageNum) { // 渲染「招生校系清單」、含篩選
 		pageNum = (!isNaN(parseFloat(pageNum)) && isFinite(pageNum)) ? pageNum : 1;
-		const filterSelect = $optionFilterSelect.val();
-		const filter = $optionFilterInput.val().toUpperCase();
+		const filterSelect = '' + $optionFilterSelect.val();
+		let filter = '';
+		if(filterSelect == 'type'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$mainGroupFilterSelector.hide();
+			$typeFilterSelector.show();
+			filter = $typeFilterSelector.val();
+		} else if(filterSelect == 'mainGroup'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.show();
+			filter = $mainGroupFilterSelector.val().toUpperCase();
+		}  else {
+			$optionFilterInput.show();
+			$manualSearchBtn.show();
+			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
+			filter = $optionFilterInput.val().toUpperCase();
+		}
 
 		_filterOptionalWish = _optionalWish.filter(function (obj) {
 			if (filterSelect === "dept") {
@@ -304,19 +335,40 @@
 		$downArrow.on("click", _nextWish);
 	}
 
-	function _handleSave() {
+	async function _handleSave() {
+		let hasMI = false;
 		if (_hasOlympia === 1) {
 			let order = [];
 			if (_wishList.length > 0) {
 				_wishList.forEach((value, index) => {
 					order.push(value.id);
+					if (value.is_extended_department == 1 && value.has_eng_taught != 1) {
+						hasMI = true;
+					}
 				});
+				if(hasMI){
+					let hasMIConfirmed = await swal({
+						title: `按下確定後，將儲存志願`,
+						html:`您已選填【重點產業系所】志願，報名時請填具聲明書。`,
+						type:"question",
+						showCancelButton: true,
+						confirmButtonText: '確定',
+						cancelButtonText: '取消',
+						confirmButtonColor: '#5cb85c',
+						cancelButtonColor: '#d9534f',
+						allowOutsideClick: false,
+						reverseButtons: true
+					});
+					if(!hasMIConfirmed){
+						return;
+					}
+				}
 				const data = {
 					has_olympia_aspiration: _hasOlympia,
 					order
 				};
-				loading.start();
-				student.setOlympiaAspirationOrder(data)
+				await loading.start();
+				await student.setOlympiaAspirationOrder(data)
 				.then((res) => {
 					if (res.ok) {
 						return res.json();

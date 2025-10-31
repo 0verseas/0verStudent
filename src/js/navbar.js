@@ -363,7 +363,7 @@
 				}
 				// 只有海外僑生學士班在完成填報後並且只有最高學歷完成地在馬來西亞的學生需要上傳簡章規定文件 然後海外臺校的不需要看到
 				if(data.student_personal_data_detail.school_country == '馬來西亞'
-				&& data.student_personal_data_detail.school_type !== 13
+				&& data.student_personal_data_detail.school_type != 13
 				&& !(
 						data.student_personal_data_detail.school_type == 12
 						&& data.student_misc_data.admission_placement_apply_way == 1
@@ -375,7 +375,7 @@
 					// 聯合分發只有部份採計方式需要上傳文憑成績跟簡章規定文件
 					const malaysiaNeedUploadTranscriptApplyWay = [22,23,24,25,26,80,83,88];
 					if(
-						data.student_misc_data.join_admission_selection == 1
+						(data.student_misc_data.join_admission_selection == 1 && data.student_misc_data.admission_placement_apply_way == 1)
 						|| malaysiaNeedUploadTranscriptApplyWay.indexOf(data.student_misc_data.admission_placement_apply_way)!=-1
 					){
 						$('.nav-uploadEducation').show();
@@ -388,10 +388,10 @@
 		}
 
 		// 選擇華語文能力證明文件
-		if(data.had_MI){
-			$('.nav-chineseLanguageProficiencyType').show();
-			!!data.student_misc_data.certification_of_chinese_option && $('.nav-chineseLanguageProficiencyType').addClass('list-group-item-success');
-		}
+		// if(data.had_MI){
+			// $('.nav-chineseLanguageProficiencyType').show();
+			// !!data.student_misc_data.certification_of_chinese_option && $('.nav-chineseLanguageProficiencyType').addClass('list-group-item-success');
+		// }
 
 		// 沒有完成提交且不在上傳備審資料的時間，「上傳備審資料」呈現 disabled 樣式
 		(!data.can_upload_papers && (data.student_misc_data.admission_selection_document_lock_at == null)) && $('.nav-uploadReviewItems').addClass('disabled') && $('.nav-uploadReviewItems').click(function(e){e.preventDefault();}) && $('.nav-uploadReviewItems').attr("href", '');

@@ -27,6 +27,8 @@
 	const $optionFilterSelect = $('#select-optionFilter'); // 「招生校系清單」篩選類別 selector
 	const $optionFilterInput = $('#input-optionFilter'); // 關鍵字欄位
 	const $typeFilterSelector = $('#dept-type-selector');
+	const $groupFilterSelector = $('#dept-group-selector');
+	const $mainGroupFilterSelector = $('#dept-mainGroup-selector');
 	const $manualSearchBtn = $('#btn-manualSearch'); // 手動搜尋按鈕
 	const $optionalWishList = $('#optionalWish-list'); // 招生校系清單
 	const $paginationContainer = $('#pagination-container'); // 分頁區域
@@ -52,6 +54,8 @@
 	$optionFilterSelect.on('change', _generateOptionalWish); // 監聽「招生校系清單」類別選項
 	$optionFilterInput.on('keyup', _generateOptionalWish); // // 監聽「招生校系清單」關鍵字
 	$typeFilterSelector.on('change', _generateOptionalWish);
+	$groupFilterSelector.on('change', _generateOptionalWish);
+	$mainGroupFilterSelector.on('change', _generateOptionalWish);
 	$manualSearchBtn.on('click', _generateOptionalWish);
 	$saveBtn.on('click', _handleSave);
 	$confirmedBtn.on('click', _handleConfirmed);
@@ -311,11 +315,31 @@
 		let filter = '';
 		if(filterSelect == 'type'){
 			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$groupFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
 			$typeFilterSelector.show();
 			filter = $typeFilterSelector.val();
+		} else if(filterSelect == 'group'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$typeFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
+			$groupFilterSelector.show();
+			filter = $groupFilterSelector.val().toUpperCase();
+		} else if(filterSelect == 'mainGroup'){
+			$optionFilterInput.hide();
+			$manualSearchBtn.hide();
+			$typeFilterSelector.hide();
+			$groupFilterSelector.hide();
+			$mainGroupFilterSelector.show();
+			filter = $mainGroupFilterSelector.val().toUpperCase();
 		} else {
 			$optionFilterInput.show();
+			$manualSearchBtn.show();
 			$typeFilterSelector.hide();
+			$groupFilterSelector.hide();
+			$mainGroupFilterSelector.hide();
 			filter = $optionFilterInput.val().toUpperCase();
 		}
 
@@ -449,10 +473,7 @@
 			if (data.hasMI) {
 				swal({
 					title: `按下確定後，將儲存志願`,
-					html:`<ol style="list-style:cjk-ideographic">
-								<li>您已選填【重點產業系所】志願，報名時須另檢附華語文能力測驗(TOCFL)基礎級(A2)以上之證明，或達前開程度之中文能力證明文件<br>（例如:「歷年成績單(含中文科目成績)」、「各類會考之中文成績或證明」、「就讀學校以中文授課證明」、其他足以佐證個人中文能力資料等）。</li>
-								<li>前開證明文件為分發【重點產業系所】必要文件，請問您是否已瞭解該規定並確定選填【重點產業系所】？</li>
-							</ol>`,
+					html:`您已選填【重點產業系所】志願，報名時請填具聲明書。`,
 					type:"question",
 					showCancelButton: true,
 					confirmButtonText: '確定',

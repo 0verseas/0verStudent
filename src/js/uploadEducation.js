@@ -9,7 +9,7 @@
 	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
 	let $uploadedFiles = [];// 已上傳檔案名稱陣列
 	const $uploadTranscriptStringArray = ['統考','所持會考文憑'];
-	const dateMap = {0:'2024 年 12 月 15 日（星期日）', 1:'2025 年 1 月 15 日（星期三）', 5:'2025 年 3 月 31 日（星期一）'}
+	const dateMap = {0:'2025 年 12 月 15 日（星期一）', 1:'2026 年 1 月 15 日（星期四）', 5:'2026 年 3 月 31 日（星期二）'}
 
 	/**
 	*	init
@@ -62,13 +62,13 @@
 				$('.selection-notice').show();
 				$('.selection-notice').html(`
 					<br/>
-					並請於 2025 年 1 月 6 日（星期一）台灣時間下午 5 時前，完成步驟③
+					並請於 2026 年 1 月 6 日（星期二）台灣時間下午 5 時前，完成步驟③
 				`);
 				$('.step-3').show();
 				$('.step-3').html(`
 					<strong>步驟③ 上傳校系備審資料</strong>：
 					請於本系統『上傳備審資料』頁面上傳「個人申請」各志願校系指定審查項目，並按下『確認上傳資料並提交』按鍵。
-					<br/>※若未在期限内完成步驟③，則「個人申請」資格不符，建議在確認資料無誤後提早完成上傳提交。
+					<br/>※若未在期限內完成步驟③，則「個人申請」資格不符，建議在確認資料無誤後提早完成上傳提交。
 				`);
 			} else if(apply_way != null && apply_way!=1){
 				const apply_way_data = studentData.student_misc_data.admission_placement_apply_way_data;
@@ -80,7 +80,7 @@
 			}
 
 			$('.link-pdf').text(`《馬來西亞地區簡章》`);
-			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/wp-content/uploads/2024/10/01_114%E9%A6%AC%E4%BE%86%E8%A5%BF%E4%BA%9E.pdf');
+			$('.link-pdf').attr('href','https://cmn-hant.overseas.ncnu.edu.tw/wp-content/uploads/2025/10/01_115馬來西亞.pdf');
 			$('.link-pdf-cut').attr('href','https://drive.google.com/file/d/1wPWXMeUPvGVQbOq285bIJsUT5N4ktqji/view?usp=sharing');
 			$('.transcript-info').text(`會考文憑（含成績單）或准考證（若有）`)
 

@@ -12,7 +12,7 @@
 	const $checkBox8 = $('#agreeLawCheck8');
 	const $checkBox9 = $('#agreeLawCheck9');
 	const $checkBox10 = $('#agreeLawCheck10');
-	
+
 	/**
 	*	init
 	*/

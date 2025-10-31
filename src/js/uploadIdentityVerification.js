@@ -70,8 +70,10 @@
 		},{
 			element: 'uploadArea_placementTranscript',
 			title: ['採計文憑成績證書'],
-			description: ['請上傳「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。',
-			'<ol><li>持外國學歷者，請上傳「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。</li></ol>']
+			description: [
+				'請上傳「香港中學文憑考試」或「香港高級程度會考」或「香港中學會考」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。',
+				'持外國或大陸學歷之港澳生，請上傳「香港中學文憑考試」或「SAT Subject Test測驗」或「海外A Level」或「國際文憑預科課程（IBDP）考試」成績文憑證書。'
+			]
 		},{
 			element: 'uploadArea_transcriptReferenceTable',
 			title: ['成績採計資料參考表'],
@@ -91,8 +93,8 @@
 			description: ['']
 		},{
 			element: 'uploadArea_languageProficiency',
-			title: ['語文能力說明或相關證明文件'],
-			description: ['選填「重點產業系所」校系志願者，請檢附華語文能力測驗(TOCFL)基礎級A2以上或達該程度之證明文件。']
+			title: ['就讀「重點產業系所」聲明書'],
+			description: ["選填「重點產業系所」校系志願者，請下載「<a href='https://drive.google.com/file/d/1wAdwDlezW6S_ucpbz3e6YOHpIo_3ZJn1/view?usp=sharing' target='_blank'>聲明書</a>」，列印並填寫後，掃描為 PDF 檔上傳。"]
 		}
 	];
 
@@ -136,6 +138,12 @@
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
 				progressJson.student_personal_data_detail.resident_location == '澳門'
 			){
+				if(
+					progressJson.student_personal_data_detail.resident_location == '香港'
+					|| progressJson.student_personal_data_detail.school_country == '香港'
+				){
+					studentItemListJson.push('08'); // 改名契是選傳 不是必傳 後端只傳遞必傳清單 選傳的要自己加代號到 array only for 香港
+				}
 				await studentItemListJson.forEach((value, index) => {
 					setBlocks(parseInt(value));
 				});
@@ -323,7 +331,7 @@
             'hk-mo-relations-ordinance', // 符合港澳關係條例切結書
             'tech-course-passed-proof', // 就讀全日制副學士或高級文憑課程已通過香港資歷架構第四級之證明文件
             'foreign-passport', // 外國護照（香港或澳門以外）
-			'language-proficiency' // 語文能力說明或相關證明文件
+			'language-proficiency' // 就讀「重點產業系所」聲明書
         ];
 		const data_name = _userID+"_"+data_name_map[parseInt(_itemId)];
 
