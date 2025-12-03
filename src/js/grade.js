@@ -36,8 +36,11 @@
 				$('.hk_ale').hide();
 				$('.hk_cee').hide();
 			}
+			// 同意分發僑先部情況列表，新增「選擇以香港DSE、ALE、CEE作為聯分成績採計方式但未提交志願」
+			$('#hk-DSE-ALE-CEE').show();
 		} else {
 			$('.forCode23').hide();
+			$('#hk-DSE-ALE-CEE').hide();
 		}
 
 		if (school_country === '馬來西亞' && (+$(this).val() === 1 || +$(this).val() === 2 || +$(this).val() === 3 || +$(this).val() === 16)) {
@@ -60,11 +63,6 @@
 			$goToFF.prop('checked', true);  // 把選項勾回來
 		} else {  // 反之則顯示選項
 			$('#go-to-FF-form').show();
-			if(+$(this).val() === 23){  // 只有在選擇以香港DSE、ALE、CEE作為聯分成績採計方式時才會顯示
-				$('#hk-DSE-ALE-CEE').show();
-			} else {
-				$("#hk-DSE-ALE-CEE").hide();
-			}
 		}
 	}
 
