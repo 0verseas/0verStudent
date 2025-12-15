@@ -977,7 +977,7 @@
                 await swal({title: `分發來臺選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
-            const inputIsDistributionTimeRegex = /^(\d{4},?)*$/;
+            const inputIsDistributionTimeRegex = /^\d{4}(,\d{4})*$/;
             if(inputIsDistributionTime == ''){
                 await swal({title: `未填寫分發來臺年份`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
