@@ -977,8 +977,12 @@
                 await swal({title: `分發來臺選項不具報名資格`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
+            const inputIsDistributionTimeRegex = /^\d{4}(,\d{4})*$/;
             if(inputIsDistributionTime == ''){
                 await swal({title: `未填寫分發來臺年份`, type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
+                return;
+            } else if(!inputIsDistributionTimeRegex.test(inputIsDistributionTime)){
+                await swal({title: `分發來臺年份格式錯誤`, html:"只須填寫年份，若多個請以「,」分隔。<br/>例如：「2024」或「2023,2024,2025」", type:"warning", confirmButtonText: '確定', allowOutsideClick: false});
                 return;
             }
             if((choosenIdentity > 3 && choosenIsDistributionOption > 6) || (choosenIdentity < 3 && choosenIsDistributionOption > 7) || !choosenIsDistributionOption){
