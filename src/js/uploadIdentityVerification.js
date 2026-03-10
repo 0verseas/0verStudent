@@ -132,7 +132,6 @@
 			if (!studentItemList.ok) { throw studentItemList; }
 			const studentItemListJson = await studentItemList.json();
 
-			console.log(progressJson.student_personal_data_detail);
             // 僑居地為港澳
 			if(progressJson.student_personal_data_detail.resident_location == '香港' ||
 				progressJson.student_personal_data_detail.resident_location == '澳門'
@@ -251,7 +250,7 @@
 					) {
 						description = item_block[item_id].description[0];
 					} else {
-						description = item_block[item_id].description[1]+array[code];
+						description = item_block[item_id].description[1];
 					}
 					break;
 				default:
