@@ -632,9 +632,9 @@
 				$('.btn-noticeForHKMO').text('澳門學生入境注意事項');
 				let url = '';
 				if(json.student_qualification_verify.identity == 1){
-					url = 'https://drive.google.com/file/d/1s1G2HuyRxZrlIJSzUKcuOICGK1tntjgv/view?usp=sharing';
+					url = 'https://drive.google.com/file/d/1f6JCOVi_LnPnv62oR4bhANwh7iHpfogr/view?usp=sharing';
 				} else {
-					url = 'https://drive.google.com/file/d/1ji6NYaXbI6ewdAxJUarVosS4kBUXQMXr/view?usp=sharing';
+					url = 'https://drive.google.com/file/d/1rBpZPS_3Hxu-HnkmSYJShbHdPpHMoDFm/view?usp=sharing';
 				}
 				$('.btn-noticeForHKMO').on('click', function(){window.open(url)});
 			}
