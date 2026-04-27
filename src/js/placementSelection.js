@@ -15,6 +15,7 @@
 	let _prevWishIndex = -1;
 	let _currentWishIndex = -1;
 	let linktoquotapageUrl = null; // 連結至名額查詢系統系所備審資料 link
+	let identity = 0; // 身分別
 
 	/**
 	*	cache DOM
@@ -182,6 +183,7 @@
 				}
 			})
 			.then((data) => {
+				identity = data.student_qualification_verify.identity;
 				// 後填的人不能修改了 隱藏修改的提示文字與連結
 				if(data.student_misc_data.confirmed_at != null){
 					$notToFFLink.hide();
@@ -543,10 +545,17 @@
 
 	function _handleConfirmed() {
 		var order= _wishList.length;
+		var text = `提醒您 <br />
+						您僅選擇 ${order}  個志願，尚未填滿 70 個志願。 <br/>
+						依簡章規定，`;
+
 		if(_wishList.length < 70 ) {
-			var text= `提醒您 <br />
-				您僅選擇 ${order}  個志願，尚未填滿 70 個志願。 <br/>
-				依簡章規定，屆時如分發分數已達大學最低錄取標準，但所填志願已無名額可供分發，一律分發師大僑先部。填滿 70 個志願但未獲分發者，本會將提供二次分發機會。`;
+			// 如果身分別是僑先部結業生
+			if(identity == 6) {
+				text += `分發分數未達大學最低錄取標準，或分發分數已達大學最低錄取標準因未填滿 70 個志願校系而無名額可供分發者，或二次分發未於期限內回覆暨所填志願仍無名額可供分發者，一律不予分發，不得異議。`;
+			} else {
+				text += `屆時如分發分數已達大學最低錄取標準，但所填志願已無名額可供分發，一律分發師大僑先部。填滿 70 個志願但未獲分發者，本會將提供二次分發機會。`;
+			}
 			$("#warningModal").modal();
 			document.getElementById("warningText").innerHTML = text;
 		}
