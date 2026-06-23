@@ -76,6 +76,7 @@
 			_currentSystem = resAdmission.student_qualification_verify.system_id; // 當前學制
 			// const groupName = ["第一類組", "第二類組", "第三類組"]; // 用於類組 code 轉中文
 			resOrder.forEach((value, index) => { // 志願列表格式整理
+				console.log(value);
 				let add = {
 					id: value.id, // 系所編號
 					school: value.school.title, // 校名
@@ -90,7 +91,8 @@
 					mainGroup: value.main_group_data.title, // 學群名稱
 					type: '<span class="badge badge-light hide">一般系所</span>',
 					has_interview: value.has_interview, //是否需要面試
-					has_eng_taught: value.has_eng_taught, // 是否為全英語授課系所
+					has_eng_taught: value.has_eng_taught, // 是否為全英語授課系所,
+					code: value.school_code, // 學校代碼
 				};
 				if (_currentSystem === 1) {
 					add.cardCode = value.card_code; // 畫卡號碼
@@ -717,8 +719,8 @@
 		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
 		let docsList = _optionalWish[optionalIndex].docs;
 		const title = _optionalWish[optionalIndex].school+_optionalWish[optionalIndex].dept;
-		const departmentID = docsList[0].dept_id;
-		const schoolID = departmentID.substr(1,2);
+		const departmentID = _optionalWish[optionalIndex].id;
+		const schoolID = _optionalWish[optionalIndex].code;
 		let quotaUrl = env.quotaUrl;
 		let genderLimit = _optionalWish[optionalIndex].gender_limit;
 		let beforeBirthLimit = _optionalWish[optionalIndex].birth_limit_before;
