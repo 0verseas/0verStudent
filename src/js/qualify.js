@@ -924,18 +924,13 @@
     }
     // 儲存
     async function _handleSave() {
-        // 處理海外僑生國籍用暫存字串
-        let tmpString = '';
-        _citizenshipList.forEach(object => {
-            tmpString += object.id+',';
-        });
         // 先把學生選取的選項宣告成變數
         const choosenSystem = +$systemChooseOption.val(); // 學制
         const choosenIdentity = +$identityRadio.filter(":checked").val(); // 身份別
         const choosenEthnicChinese = +$ethnicChineseRadio.filter(":checked").val(); // 是否為華裔學生
         const choosenADHDgraduated = +$ADHDgraduatedRadio.filter(":checked").val(); // 是否有副學士學位或高級文憑
         const choosenIdCard = +$idCardRadio.filter(":checked").val(); // 是否有港澳永久身份證
-		const citizenshipString = tmpString.substr(0,tmpString.length-1); // 國籍字串
+		const citizenshipString = _citizenshipList.map(value => value.id).join(','); // 國籍字串 用 map 把 array 存的 object value 用 object 中的 id 來取代 再用 join 在每個值中間加上 , 串接成字串
         const choosenHoldPassport = +$holdpassportRadio.filter(":checked").val(); // 是否持有除港澳之外的護照
         const choosenTaiwanHousehold = +$taiwanHouseholdRadio.filter(":checked").val(); // 是否在台設有戶籍
         const choosenPortugalPassport = +$portugalPassportRadio.filter(":checked").val(); // 是否持有葡萄牙護照

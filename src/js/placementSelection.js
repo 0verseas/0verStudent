@@ -104,6 +104,7 @@
 					gender_limit: value.gender_limit,
 					type: '<span class="badge badge-light hide">一般系所</span>',
 					has_eng_taught: value.has_eng_taught, // 是否為全英語授課系所
+					code: value.school_code, // 學校代碼
 				};
 				if(value.is_extended_department == 1){
 					add.type = '<span class="badge badge-warning">重點產業系所</span>';
@@ -628,7 +629,7 @@
 		const optionalIndex = _optionalWish.findIndex(order => order.sortNum === sortNum);
 		const title = _optionalWish[optionalIndex].school+_optionalWish[optionalIndex].dept;
 		const departmentID = _optionalWish[optionalIndex].id;
-		const schoolID = departmentID.substr(1,2);
+		const schoolID = _optionalWish[optionalIndex].code;
 		let quotaUrl = env.quotaUrl + '/bachelor-detail.html?id='+departmentID+'&school-id='+schoolID+'&tab=nav-deptInfo';
 		let genderLimit = _optionalWish[optionalIndex].gender_limit;
 		let beforeBirthLimit = _optionalWish[optionalIndex].birth_limit_before;
