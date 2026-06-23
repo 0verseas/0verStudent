@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/0verseas/0verStudent",
   "dependencies": {
-    "@babel/cli": "^7.22.5",
-    "@babel/core": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
-    "harp": "^0.47.0",
-    "print-js": "^1.0.45"
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.3",
+    "harp": "^0.47.2",
+    "print-js": "^1.6.0"
   },
   "overrides": {
     "ejs": "^3.1.10",
