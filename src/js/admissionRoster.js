@@ -218,7 +218,8 @@
         if (/特輔班/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
             deptTitle += '（特輔班）';  // 特輔班要在系所名稱上註記
         } else if (/特別輔導班/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
-            deptTitle += '（特別輔導班）<br/>（首年於暨大就讀）';  // 特別輔導班備取要在系所名稱上註記
+            schoolTitle += '特別輔導班';
+            deptTitle += '<br/>（首年於暨大之臺中校區預定地就讀）';  // 特別輔導班備取要在系所名稱上註記
         } else if (/備取/.test(distribution_list_memo) && admissionInfo.student_misc_data.department_data.school.id == 'FF'){
             deptTitle = '';
             schoolTitle = distribution_list_memo + '<br><a href="" target="_blank">（請點選查看）</a>';
