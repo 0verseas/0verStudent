@@ -9,7 +9,7 @@
 	const $deleteFileBtn = $('.btn-delFile');// 檔案編輯模板刪除按鈕
 	let $uploadedFiles = [];// 已上傳檔案名稱陣列
 	const $uploadTranscriptStringArray = ['統考','所持會考文憑'];
-	const dateMap = {0:'2025 年 12 月 15 日（星期一）', 1:'2026 年 1 月 15 日（星期四）', 5:'2026 年 3 月 31 日（星期二）'}
+	const dateMap = {0:'2026 年 12 月 15 日（星期二）', 1:'2027 年 1 月 15 日（星期五）', 5:'2027 年 3 月 31 日（星期三）'}
 
 	/**
 	*	init
@@ -62,7 +62,7 @@
 				$('.selection-notice').show();
 				$('.selection-notice').html(`
 					<br/>
-					並請於 2026 年 1 月 6 日（星期二）台灣時間下午 5 時前，完成步驟③
+					並請於 2027 年 1 月 6 日（星期三）台灣時間下午 5 時前，完成步驟③
 				`);
 				$('.step-3').show();
 				$('.step-3').html(`
